@@ -18,6 +18,20 @@ const compat = new FlatCompat({
 
 export default defineConfig([
   {
+    ignores: [
+      "**/node_modules/**",
+      "**/.next/**",
+      "**/dist/**",
+      "**/out/**",
+      "**/public/**",
+      "**/playwright-report/**",
+      "**/coverage/**",
+      "**/coverage/lcov-report/**",
+      "**/*.min.js",
+      "**/*.bundle.js",
+    ],
+  },
+  {
     extends: fixupConfigRules(
       compat.extends(
         "next/core-web-vitals",
@@ -38,14 +52,6 @@ export default defineConfig([
         ...globals.jest,
       },
     },
-
-    ignores: [
-      "playwright-report/**",
-      "coverage/**",
-      "coverage/lcov-report/**",
-      ".next/**",
-      "node_modules/**",
-    ],
 
     rules: {
       "import/order": [
