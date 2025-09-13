@@ -42,6 +42,7 @@ export default defineConfig([
     ignores: [
       "playwright-report/**",
       "coverage/**",
+      "coverage/lcov-report/**",
       ".next/**",
       "node_modules/**",
     ],
