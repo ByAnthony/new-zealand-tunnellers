@@ -31,6 +31,7 @@ export default defineConfig([
       "**/*.bundle.js",
     ],
   },
+
   {
     extends: fixupConfigRules(
       compat.extends(
