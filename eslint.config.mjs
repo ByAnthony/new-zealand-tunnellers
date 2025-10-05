@@ -40,7 +40,6 @@ export default defineConfig([
         "eslint:recommended",
         "plugin:import/errors",
         "plugin:import/warnings",
-        "plugin:react-hooks/recommended",
       ),
     ),
 
