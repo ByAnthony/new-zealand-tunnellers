@@ -4,7 +4,6 @@ import { fileURLToPath } from "node:url";
 import { fixupConfigRules, fixupPluginRules } from "@eslint/compat";
 import { FlatCompat } from "@eslint/eslintrc";
 import js from "@eslint/js";
-import { defineConfig } from "eslint/config";
 import _import from "eslint-plugin-import";
 import globals from "globals";
 
@@ -16,7 +15,7 @@ const compat = new FlatCompat({
   allConfig: js.configs.all,
 });
 
-export default defineConfig([
+export default [
   {
     ignores: [
       "**/node_modules/**",
@@ -33,16 +32,6 @@ export default defineConfig([
   },
 
   {
-    extends: fixupConfigRules(
-      compat.extends(
-        "next/core-web-vitals",
-        "prettier",
-        "eslint:recommended",
-        "plugin:import/errors",
-        "plugin:import/warnings",
-      ),
-    ),
-
     plugins: {
       import: fixupPluginRules(_import),
     },
@@ -82,4 +71,4 @@ export default defineConfig([
       ],
     },
   },
-]);
+];
