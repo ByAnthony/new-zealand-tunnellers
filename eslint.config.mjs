@@ -1,17 +1,12 @@
-import path from "node:path";
-import { fileURLToPath } from "node:url";
-
-import { fixupConfigRules, fixupPluginRules } from "@eslint/compat";
+import { fixupConfigRules } from "@eslint/compat";
 import { FlatCompat } from "@eslint/eslintrc";
 import js from "@eslint/js";
 import { defineConfig } from "eslint/config";
-import _import from "eslint-plugin-import";
+import prettier from "eslint-config-prettier/flat";
 import globals from "globals";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 const compat = new FlatCompat({
-  baseDirectory: __dirname,
+  baseDirectory: import.meta.dirname,
   recommendedConfig: js.configs.recommended,
   allConfig: js.configs.all,
 });
@@ -31,56 +26,44 @@ export default defineConfig([
       "**/*.bundle.js",
     ],
   },
-
+  // Jest globals for tests only
   {
-    extends: fixupConfigRules(
-      compat.extends(
-        "next/core-web-vitals",
-        "prettier",
-        "eslint:recommended",
-        "plugin:import/errors",
-        "plugin:import/warnings",
-        "plugin:react-hooks/recommended",
-      ),
-    ),
-
-    plugins: {
-      import: fixupPluginRules(_import),
-    },
-
+    files: ["**/__tests__/**"],
     languageOptions: {
       globals: {
         ...globals.jest,
       },
     },
-
+  },
+  // Core ESLint (flat)
+  js.configs.recommended,
+  {
+    extends: fixupConfigRules(
+      compat.extends(
+        "next/core-web-vitals",
+        "plugin:import/errors",
+        "plugin:import/warnings",
+        "plugin:react-hooks/recommended",
+      ),
+    ),
     rules: {
       "import/order": [
         "error",
         {
           groups: ["builtin", "external", "internal", ["unknown"]],
-
           pathGroups: [
             {
               pattern: "@testing-library/react",
               group: "unknown",
               position: "before",
             },
-            {
-              pattern: "STYLES",
-              group: "unknown",
-              position: "after",
-            },
+            { pattern: "STYLES", group: "unknown", position: "after" },
           ],
-
-          alphabetize: {
-            order: "asc",
-            caseInsensitive: true,
-          },
-
+          alphabetize: { order: "asc", caseInsensitive: true },
           "newlines-between": "always",
         },
       ],
     },
   },
+  prettier,
 ]);
