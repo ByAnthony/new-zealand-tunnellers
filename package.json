@@ -23,7 +23,7 @@
     "npm": ">=10"
   },
   "dependencies": {
-    "cross-env": "10.0.0",
+    "cross-env": "10.1.0",
     "eslint-plugin-react-hooks": "5.2.0",
     "lodash": "4.17.21",
     "mysql2": "3.15.1",
@@ -31,8 +31,8 @@
     "nodemon": "3.1.10",
     "prettier": "3.6.2",
     "rc-slider": "11.1.9",
-    "react": "19.1.1",
-    "react-dom": "19.1.1",
+    "react": "19.2.0",
+    "react-dom": "19.2.0",
     "sass": "1.93.2",
     "sharp": "0.34.4",
     "ts-node": "10.9.2"
@@ -47,8 +47,8 @@
     "@types/jest": "30.0.0",
     "@types/lodash": "4.17.20",
     "@types/node": "20.19.9",
-    "@types/react": "19.1.15",
-    "@types/react-dom": "19.1.9",
+    "@types/react": "19.2.0",
+    "@types/react-dom": "19.2.0",
     "eslint": "9.37.0",
     "eslint-config-next": "15.5.4",
     "eslint-config-prettier": "10.1.8",
