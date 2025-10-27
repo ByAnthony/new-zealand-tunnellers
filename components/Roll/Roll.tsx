@@ -65,6 +65,7 @@ export function Roll({ tunnellers }: Props) {
     if (typeof window !== "undefined") {
       const storedFilters = localStorage.getItem("filters");
       if (storedFilters) {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setFilters(JSON.parse(storedFilters));
       }
       const storedPage = localStorage.getItem("page");

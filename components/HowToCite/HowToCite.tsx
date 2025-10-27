@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useMemo, useRef } from "react";
 
 import type { Summary } from "@/types/tunneller";
 import { displayBiographyDates } from "@/utils/helpers/roll";
@@ -93,16 +93,25 @@ function HowToCiteTitle({ tunneller, title, timeline }: HowToCiteTitleProps) {
 export function HowToCite({ id, summary, title, timeline }: Props) {
   const citationRef = useRef<HTMLParagraphElement>(null);
 
-  const [currentDate, setCurrentDate] = useState("");
-
-  useEffect(() => {
-    const date = new Date().toLocaleDateString("en-GB", {
-      day: "numeric",
-      month: "long",
-      year: "numeric",
-    });
-    setCurrentDate(date);
-  }, []);
+  const now = useMemo(() => new Date(), []);
+  const currentDate = useMemo(
+    () =>
+      new Intl.DateTimeFormat("en-GB", {
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+        timeZone: "Europe/London",
+      }).format(now),
+    [now],
+  );
+  const currentYear = useMemo(
+    () =>
+      new Intl.DateTimeFormat("en-GB", {
+        year: "numeric",
+        timeZone: "Europe/London",
+      }).format(now),
+    [now],
+  );
 
   const handleCopy = () => {
     if (citationRef.current) {
@@ -135,10 +144,10 @@ export function HowToCite({ id, summary, title, timeline }: Props) {
       <p ref={citationRef}>
         Anthony Byledbal, &ldquo;
         <HowToCiteTitle tunneller={summary} title={title} timeline={timeline} />
-        &ldquo;,
-        <em> New Zealand Tunnellers Website</em>
-        {`, ${new Date(currentDate).getFullYear()} (2009), Accessed: `}
-        {`${currentDate}. `}
+        &ldquo;, <em>New Zealand Tunnellers Website</em>
+        {`, ${currentYear} (2009), Accessed: `}
+        {currentDate}
+        {". "}
         <HowToCiteUrl id={id} title={title} timeline={timeline} />
       </p>
     </div>

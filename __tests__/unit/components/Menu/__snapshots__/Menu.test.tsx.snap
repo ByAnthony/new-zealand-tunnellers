@@ -32,6 +32,7 @@ exports[`Menu matches the snapshot 1`] = `
           id="search"
           placeholder="Search for a Tunneller"
           type="text"
+          value=""
         />
         <img
           alt="Type a name to search for a Tunneller"

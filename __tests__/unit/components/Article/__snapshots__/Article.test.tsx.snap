@@ -190,7 +190,7 @@ exports[`Article matches the snapshot 1`] = `
             height="16"
             loading="lazy"
             src="/_next/image?url=%2Fcopy.png&w=32&q=75"
-            srcset="/_next/image?url=%2Fcopy.png&w=16&q=75 1x, /_next/image?url=%2Fcopy.png&w=32&q=75 2x"
+            srcset="/_next/image?url=%2Fcopy.png&w=32&q=75 1x"
             style="color: transparent;"
             width="13"
           />
@@ -201,9 +201,9 @@ exports[`Article matches the snapshot 1`] = `
         <span>
           My Awesome Article Title
         </span>
-        “,
+        “, 
         <em>
-           New Zealand Tunnellers Website
+          New Zealand Tunnellers Website
         </em>
         , 2023 (2009), Accessed: 4 May 2023. 
         <span>

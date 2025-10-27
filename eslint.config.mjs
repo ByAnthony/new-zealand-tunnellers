@@ -1,51 +1,21 @@
-import { fixupConfigRules } from "@eslint/compat";
-import { FlatCompat } from "@eslint/eslintrc";
+// eslint.config.mjs
 import js from "@eslint/js";
-import { defineConfig } from "eslint/config";
+import { defineConfig, globalIgnores } from "eslint/config";
+import nextVitals from "eslint-config-next/core-web-vitals";
 import prettier from "eslint-config-prettier/flat";
+import importPlugin from "eslint-plugin-import";
 import globals from "globals";
 
-const compat = new FlatCompat({
-  baseDirectory: import.meta.dirname,
-  recommendedConfig: js.configs.recommended,
-  allConfig: js.configs.all,
-});
-
 export default defineConfig([
-  {
-    ignores: [
-      "**/node_modules/**",
-      "**/.next/**",
-      "**/dist/**",
-      "**/out/**",
-      "**/public/**",
-      "**/playwright-report/**",
-      "**/coverage/**",
-      "**/coverage/lcov-report/**",
-      "**/*.min.js",
-      "**/*.bundle.js",
-    ],
-  },
-  // Jest globals for tests only
-  {
-    files: ["**/__tests__/**"],
-    languageOptions: {
-      globals: {
-        ...globals.jest,
-      },
-    },
-  },
-  // Core ESLint (flat)
+  // Next.js 16 flat config (includes react & react-hooks presets)
+  ...nextVitals,
+
+  // Core ESLint rules
   js.configs.recommended,
+
+  // Your import ordering rule (register the plugin explicitly in flat config)
   {
-    extends: fixupConfigRules(
-      compat.extends(
-        "next/core-web-vitals",
-        "plugin:import/errors",
-        "plugin:import/warnings",
-        "plugin:react-hooks/recommended",
-      ),
-    ),
+    plugins: { import: importPlugin },
     rules: {
       "import/order": [
         "error",
@@ -65,5 +35,29 @@ export default defineConfig([
       ],
     },
   },
+
+  // Jest globals only in tests
+  {
+    files: ["**/__tests__/**"],
+    languageOptions: { globals: { ...globals.jest } },
+  },
+
+  // Keep Prettier last so it can disable conflicting formatting rules
   prettier,
+
+  // Ignores (Next ships some by default; add your extras here)
+  globalIgnores([
+    ".next/**",
+    "out/**",
+    "build/**",
+    "next-env.d.ts",
+    "**/node_modules/**",
+    "**/dist/**",
+    "**/public/**",
+    "**/playwright-report/**",
+    "**/coverage/**",
+    "**/coverage/lcov-report/**",
+    "**/*.min.js",
+    "**/*.bundle.js",
+  ]),
 ]);
