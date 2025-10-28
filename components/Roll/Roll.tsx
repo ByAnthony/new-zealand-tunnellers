@@ -91,6 +91,8 @@ export function Roll({ tunnellers }: Props) {
   const hydratedRef = useRef(false);
 
   /** ---- Read from localStorage ---- */
+  const [ready, setReady] = useState(false);
+
   useEffect(() => {
     if (typeof window === "undefined") return;
     let cancelled = false;
@@ -110,6 +112,7 @@ export function Roll({ tunnellers }: Props) {
       }
 
       hydratedRef.current = true;
+      setReady(true);
     });
 
     return () => {
@@ -364,37 +367,39 @@ export function Roll({ tunnellers }: Props) {
         <div className={STYLES.header}>
           <Title title={"The New Zealand\\Tunnellers"} />
         </div>
-        <div className={STYLES["roll-container"]}>
-          <div className={STYLES.controls}>
-            <div className={STYLES["results-container"]}>
+        {ready && (
+          <div className={STYLES["roll-container"]}>
+            <div className={STYLES.controls}>
+              <div className={STYLES["results-container"]}>
+                <button
+                  className={STYLES["reset-button"]}
+                  onClick={handleResetFilters}
+                >
+                  Reset filters
+                </button>
+                <p className={STYLES.results}>
+                  {`${totalFilteredTunnellers} result${totalFilteredTunnellers > 1 ? "s" : ""}`}
+                </p>
+              </div>
               <button
-                className={STYLES["reset-button"]}
-                onClick={handleResetFilters}
+                className={STYLES["filter-button"]}
+                onClick={handleFilterButton}
               >
-                Reset filters
+                Filters
               </button>
-              <p className={STYLES.results}>
-                {`${totalFilteredTunnellers} result${totalFilteredTunnellers > 1 ? "s" : ""}`}
-              </p>
+              {isDesktop() ? <RollFilter {...rollFiltersProps} /> : null}
             </div>
-            <button
-              className={STYLES["filter-button"]}
-              onClick={handleFilterButton}
-            >
-              Filters
-            </button>
-            {isDesktop() ? <RollFilter {...rollFiltersProps} /> : null}
+            {filteredGroups.length > 0 ? (
+              <RollAlphabet
+                tunnellers={filteredGroups}
+                currentPage={currentPage}
+                onPageChange={setCurrentPage}
+              />
+            ) : (
+              <RollNoResults handleResetFilters={handleResetFilters} />
+            )}
           </div>
-          {filteredGroups.length > 0 ? (
-            <RollAlphabet
-              tunnellers={filteredGroups}
-              currentPage={currentPage}
-              onPageChange={setCurrentPage}
-            />
-          ) : (
-            <RollNoResults handleResetFilters={handleResetFilters} />
-          )}
-        </div>
+        )}
       </div>
     </>
   );
