@@ -9,18 +9,12 @@ import STYLES from "./RollAlphabet.module.scss";
 
 type Props = {
   tunnellers: [string, Tunneller[]][];
-  isLoaded: boolean;
   currentPage: number;
   // eslint-disable-next-line no-unused-vars
   onPageChange: (page: number) => void;
 };
 
-export function RollAlphabet({
-  tunnellers,
-  isLoaded,
-  currentPage,
-  onPageChange,
-}: Props) {
+export function RollAlphabet({ tunnellers, currentPage, onPageChange }: Props) {
   const itemsPerPage = 25;
 
   const flattenedTunnellers = tunnellers.flatMap(([key, listOfTunnellers]) =>
@@ -99,70 +93,60 @@ export function RollAlphabet({
     <div className={STYLES.roll}>
       {Object.entries(groupedTunnellers).map(([key, listOfTunnellers]) => (
         <div id={`letter-${key}`} key={key}>
-          {isLoaded && (
-            <div className={STYLES["letter-container"]}>
-              <h2
-                className={STYLES.title}
-                key={key}
-                aria-label={`Letter ${key}`}
-              >
-                {key}
-              </h2>
-            </div>
-          )}
+          <div className={STYLES["letter-container"]}>
+            <h2 className={STYLES.title} key={key} aria-label={`Letter ${key}`}>
+              {key}
+            </h2>
+          </div>
+
           <div className={STYLES["tunnellers-container"]}>
-            <RollDetails
-              listOfTunnellers={listOfTunnellers}
-              isLoaded={isLoaded}
-            />
+            <RollDetails listOfTunnellers={listOfTunnellers} />
           </div>
         </div>
       ))}
-      {isLoaded && (
-        <div className={STYLES.pagination}>
-          <button
-            onClick={handlePreviousPage}
-            disabled={currentPage === 1}
-            className={STYLES["pagination-main-button"]}
-            aria-label="Go to previous page"
-          >
-            <span className={STYLES["previous-arrow"]}>&#8227;</span>
-          </button>
-          {getPaginationButtons().map((button, index) =>
-            typeof button === "number" ? (
-              <button
-                key={index}
-                disabled={button === currentPage}
-                onClick={() => handlePageClick(button)}
-                className={`${
-                  button === currentPage
-                    ? STYLES.active
-                    : STYLES["pagination-button"]
-                }`}
-                aria-label={`Go to page ${button}`}
-              >
-                {button}
-              </button>
-            ) : (
-              <span
-                key={index}
-                className={STYLES["pagination-ellipsis"]}
-                aria-hidden="true"
-              >
-                {button}
-              </span>
-            ),
-          )}
-          <button
-            onClick={handleNextPage}
-            disabled={currentPage === totalPages}
-            className={STYLES["pagination-main-button"]}
-            aria-label="Go to next page"
-          >
-            &#8227;
-          </button>
-        </div>
-      )}
+      <div className={STYLES.pagination}>
+        <button
+          onClick={handlePreviousPage}
+          disabled={currentPage === 1}
+          className={STYLES["pagination-main-button"]}
+          aria-label="Go to previous page"
+        >
+          <span className={STYLES["previous-arrow"]}>&#8227;</span>
+        </button>
+        {getPaginationButtons().map((button, index) =>
+          typeof button === "number" ? (
+            <button
+              key={index}
+              disabled={button === currentPage}
+              onClick={() => handlePageClick(button)}
+              className={`${
+                button === currentPage
+                  ? STYLES.active
+                  : STYLES["pagination-button"]
+              }`}
+              aria-label={`Go to page ${button}`}
+            >
+              {button}
+            </button>
+          ) : (
+            <span
+              key={index}
+              className={STYLES["pagination-ellipsis"]}
+              aria-hidden="true"
+            >
+              {button}
+            </span>
+          ),
+        )}
+        <button
+          onClick={handleNextPage}
+          disabled={currentPage === totalPages}
+          className={STYLES["pagination-main-button"]}
+          aria-label="Go to next page"
+        >
+          &#8227;
+        </button>
+      </div>
     </div>
   );
 }
