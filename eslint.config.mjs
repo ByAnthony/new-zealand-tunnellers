@@ -1,4 +1,3 @@
-// eslint.config.mjs
 import js from "@eslint/js";
 import { defineConfig, globalIgnores } from "eslint/config";
 import nextVitals from "eslint-config-next/core-web-vitals";
