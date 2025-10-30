@@ -1,7 +1,7 @@
 "use client";
 
 import isEqual from "lodash/isEqual";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { RollAlphabet } from "@/components/Roll/RollAlphabet/RollAlphabet";
 import { RollFilter } from "@/components/Roll/RollFilter/RollFilter";
@@ -38,252 +38,171 @@ type Filters = {
 export function Roll({ tunnellers }: Props) {
   const { width } = useWindowDimensions();
 
-  const tunnellersList = Object.entries(tunnellers);
-  const uniqueDetachments: string[] = getUniqueDetachments(tunnellersList);
-  const uniquecorps: string[] = getUniqueCorps(tunnellersList);
-  const uniqueRanks: string[] = getUniqueRanks(tunnellersList);
-  const sortedRanks: Record<string, string[]> = getSortedRanks(uniqueRanks);
-  const uniqueBirthYears: string[] = getUniqueBirthYears(tunnellersList);
-  const uniqueDeathYears: string[] = getUniqueDeathYears(tunnellersList);
+  /** ---- Derived data ---- */
+  const tunnellersList = useMemo(
+    () => Object.entries(tunnellers),
+    [tunnellers],
+  );
+  const uniqueDetachments = useMemo(
+    () => getUniqueDetachments(tunnellersList),
+    [tunnellersList],
+  );
+  const uniqueCorps = useMemo(
+    () => getUniqueCorps(tunnellersList),
+    [tunnellersList],
+  );
+  const uniqueRanks = useMemo(
+    () => getUniqueRanks(tunnellersList),
+    [tunnellersList],
+  );
+  const sortedRanks = useMemo(() => getSortedRanks(uniqueRanks), [uniqueRanks]);
+  const uniqueBirthYears = useMemo(
+    () => getUniqueBirthYears(tunnellersList),
+    [tunnellersList],
+  );
+  const uniqueDeathYears = useMemo(
+    () => getUniqueDeathYears(tunnellersList),
+    [tunnellersList],
+  );
 
-  const filterList: Filters = {
-    detachment: [],
-    corps: [],
-    ranks: { Officers: [], "Non-Commissioned Officers": [], "Other Ranks": [] },
-    birthYear: uniqueBirthYears,
-    unknownBirthYear: "unknown",
-    deathYear: uniqueDeathYears,
-    unknownDeathYear: "unknown",
-  };
+  /** ---- Defaults ---- */
+  const defaultFilters: Filters = useMemo(
+    () => ({
+      detachment: [],
+      corps: [],
+      ranks: {
+        Officers: [],
+        "Non-Commissioned Officers": [],
+        "Other Ranks": [],
+      },
+      birthYear: uniqueBirthYears,
+      unknownBirthYear: "unknown",
+      deathYear: uniqueDeathYears,
+      unknownDeathYear: "unknown",
+    }),
+    [uniqueBirthYears, uniqueDeathYears],
+  );
 
-  const [filters, setFilters] = useState<Filters>(filterList);
-  const [isOpen, setIsOpen] = useState(false);
-  const [isLoaded, setIsLoaded] = useState(false);
+  /** ---- Initial state ---- */
+  const [filters, setFilters] = useState<Filters>(defaultFilters);
   const [currentPage, setCurrentPage] = useState<number>(1);
 
+  /** ---- Hydration + persistence gating (no extra render) ---- */
+  const hydratedRef = useRef(false);
+
+  /** ---- Read from localStorage ---- */
+  const [ready, setReady] = useState(false);
+
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const storedFilters = localStorage.getItem("filters");
+    if (typeof window === "undefined") return;
+    let cancelled = false;
+
+    const storedFilters = localStorage.getItem("filters");
+    const storedPage = localStorage.getItem("page");
+
+    Promise.resolve().then(() => {
+      if (cancelled) return;
+
       if (storedFilters) {
         setFilters(JSON.parse(storedFilters));
       }
-      const storedPage = localStorage.getItem("page");
       if (storedPage) {
-        setCurrentPage(Number(storedPage));
+        const n = Number(storedPage);
+        if (Number.isFinite(n) && n > 0) setCurrentPage(n);
       }
-      setIsLoaded(true);
-    }
+
+      hydratedRef.current = true;
+      setReady(true);
+    });
+
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
+  /** ---- Persist to localStorage AFTER hydration ---- */
   useEffect(() => {
-    if (isLoaded) {
-      if (typeof window !== "undefined") {
-        localStorage.setItem("filters", JSON.stringify(filters));
-      }
-    }
-  }, [filters, isLoaded]);
+    if (typeof window === "undefined" || !hydratedRef.current) return;
+
+    localStorage.setItem("filters", JSON.stringify(filters));
+  }, [filters]);
 
   useEffect(() => {
-    if (isLoaded) {
-      if (typeof window !== "undefined") {
-        localStorage.setItem("page", currentPage.toString());
-      }
-    }
-  }, [currentPage, isLoaded]);
+    if (typeof window === "undefined" || !hydratedRef.current) return;
 
-  const handleDetachmentFilter = (detachment: string) => {
-    setFilters((prevFilters) => {
-      const newFilters = { ...prevFilters };
+    localStorage.setItem("page", String(currentPage));
+  }, [currentPage]);
 
-      if (!newFilters.detachment) {
-        newFilters.detachment = [];
-      }
-      if (newFilters.detachment.includes(detachment)) {
-        newFilters.detachment = newFilters.detachment.filter(
-          (d) => d !== detachment,
-        );
-      } else {
-        newFilters.detachment.push(detachment);
-      }
-
-      setCurrentPage(1);
-      return newFilters;
-    });
+  /** ---- Helpers ---- */
+  const hasAnyActiveFilter = (f: Filters): boolean => {
+    const ranksActive = Object.values(f.ranks ?? {}).some((arr) => arr.length);
+    const detachmentActive = (f.detachment ?? []).length > 0;
+    const corpsActive = (f.corps ?? []).length > 0;
+    const birthActive =
+      (f.birthYear ?? []).length > 0 || f.unknownBirthYear === "unknown";
+    const deathActive =
+      (f.deathYear ?? []).length > 0 || f.unknownDeathYear === "unknown";
+    return (
+      ranksActive ||
+      detachmentActive ||
+      corpsActive ||
+      birthActive ||
+      deathActive
+    );
   };
 
-  const handleCorpsFilter = (corps: string) => {
-    setFilters((prevFilters) => {
-      const newFilters = { ...prevFilters };
+  /** ---- Filtering ---- */
+  const filteredGroups: [string, Tunneller[]][] = useMemo(() => {
+    if (!hasAnyActiveFilter(filters)) return [];
+    return tunnellersList
+      .map<[string, Tunneller[]]>(([group, list]) => [
+        group,
+        list
+          .filter(
+            (t) =>
+              !filters.detachment?.length ||
+              filters.detachment.includes(t.detachment),
+          )
+          .filter((t) => {
+            if (!filters.corps?.length) return true;
+            if (
+              filters.corps.includes("Tunnelling Corps") &&
+              t.attachedCorps === null
+            )
+              return true;
+            return filters.corps.includes(t.attachedCorps ?? "");
+          })
+          .filter((t) => {
+            const r = filters.ranks;
+            if (!r || Object.values(r).every((arr) => arr.length === 0))
+              return true;
+            return Object.values(r).some((arr) => arr.includes(t.rank));
+          })
+          .filter((t) => {
+            const wantsUnknown = filters.unknownBirthYear === "unknown";
+            const list = filters.birthYear ?? [];
+            if (wantsUnknown && t.birthYear === null) return true;
+            if (list.length && t.birthYear) return list.includes(t.birthYear);
+            return !wantsUnknown && list.length === 0;
+          })
+          .filter((t) => {
+            const wantsUnknown = filters.unknownDeathYear === "unknown";
+            const list = filters.deathYear ?? [];
+            if (wantsUnknown && t.deathYear === null) return true;
+            if (list.length && t.deathYear) return list.includes(t.deathYear);
+            return !wantsUnknown && list.length === 0;
+          }),
+      ])
+      .filter(([, list]) => list.length > 0);
+  }, [filters, tunnellersList]);
 
-      if (!newFilters.corps) {
-        newFilters.corps = [];
-      }
-      if (newFilters.corps.includes(corps)) {
-        newFilters.corps = newFilters.corps.filter((c) => c !== corps);
-      } else {
-        newFilters.corps.push(corps);
-      }
-
-      setCurrentPage(1);
-      return newFilters;
-    });
-  };
-
-  const handleBirthSliderChange = (value: number | number[]) => {
-    if (Array.isArray(value)) {
-      setFilters((prevFilters) => {
-        const newFilters = { ...prevFilters };
-
-        const [startYear, endYear] = value;
-        newFilters.birthYear = uniqueBirthYears.filter(
-          (year) => year >= String(startYear) && year <= String(endYear),
-        );
-
-        setCurrentPage(1);
-        return newFilters;
-      });
-    }
-  };
-
-  const handleUnknwonBirthYear = (unknown: string) => {
-    setFilters((prevFilters) => {
-      const newFilters = { ...prevFilters };
-
-      newFilters.unknownBirthYear = unknown ? "unknown" : "";
-
-      setCurrentPage(1);
-      return newFilters;
-    });
-  };
-
-  const handleDeathSliderChange = (value: number | number[]) => {
-    if (Array.isArray(value)) {
-      setFilters((prevFilters) => {
-        const newFilters = { ...prevFilters };
-
-        const [startYear, endYear] = value;
-        newFilters.deathYear = uniqueDeathYears.filter(
-          (year) => year >= String(startYear) && year <= String(endYear),
-        );
-
-        setCurrentPage(1);
-        return newFilters;
-      });
-    }
-  };
-
-  const handleUnknwonDeathYear = (unknown: string) => {
-    setFilters((prevFilters) => {
-      const newFilters = { ...prevFilters };
-
-      newFilters.unknownDeathYear = unknown ? "unknown" : "";
-
-      setCurrentPage(1);
-      return newFilters;
-    });
-  };
-
-  const handleRankFilter = (ranksFilter: Record<string, string[]>) => {
-    setFilters((prevFilters) => {
-      const newFilters = { ...prevFilters };
-
-      newFilters.ranks = { ...prevFilters.ranks };
-
-      Object.entries(ranksFilter).forEach(([category, ranks]) => {
-        if (ranks.length === 0) {
-          const allSelected = rankCategories[category].every((rank) =>
-            newFilters.ranks[category].includes(rank),
-          );
-
-          newFilters.ranks[category] = allSelected
-            ? []
-            : rankCategories[category];
-        } else {
-          ranks.forEach((rank) => {
-            const categoryRanks = newFilters.ranks[category];
-            if (categoryRanks.includes(rank)) {
-              newFilters.ranks[category] = categoryRanks.filter(
-                (r) => r !== rank,
-              );
-            } else {
-              categoryRanks.push(rank);
-            }
-          });
-        }
-      });
-
-      setCurrentPage(1);
-      return newFilters;
-    });
-  };
-
-  const isFiltered = (filters: Filters): [string, Tunneller[]][] =>
-    Object.values(filters).every((filter) => filter.length === 0)
-      ? []
-      : tunnellersList
-          .map(([group, tunnellers]): [string, Tunneller[]] => [
-            group,
-            tunnellers
-              .filter((tunneller) => {
-                const detachmentMatch =
-                  !filters.detachment ||
-                  filters.detachment.length === 0 ||
-                  filters.detachment.includes(tunneller.detachment);
-                return detachmentMatch;
-              })
-              .filter((tunneller) => {
-                const corpsMatch =
-                  !filters.corps ||
-                  filters.corps.length === 0 ||
-                  (filters.corps &&
-                    filters.corps.includes("Tunnelling Corps") &&
-                    tunneller.attachedCorps === null) ||
-                  filters.corps.includes(tunneller.attachedCorps ?? "");
-                return corpsMatch;
-              })
-              .filter((tunneller) => {
-                if (
-                  !filters.ranks ||
-                  Object.values(filters.ranks).every(
-                    (ranks) => ranks.length === 0,
-                  )
-                ) {
-                  return true;
-                }
-                return Object.entries(filters.ranks).some(([, ranks]) =>
-                  ranks.includes(tunneller.rank),
-                );
-              })
-              .filter((tunneller) => {
-                const birthYearMatch =
-                  (filters.unknownBirthYear === "unknown" &&
-                    tunneller.birthYear === null) ||
-                  (filters.birthYear &&
-                    filters.birthYear.length > 0 &&
-                    tunneller.birthYear &&
-                    filters.birthYear.includes(tunneller.birthYear));
-                return birthYearMatch;
-              })
-              .filter((tunneller) => {
-                const DeathYearMatch =
-                  (filters.unknownDeathYear === "unknown" &&
-                    tunneller.deathYear === null) ||
-                  (filters.deathYear &&
-                    filters.deathYear.length > 0 &&
-                    tunneller.deathYear &&
-                    filters.deathYear.includes(tunneller.deathYear));
-                return DeathYearMatch;
-              }),
-          ])
-          .filter(([, filteredTunnellers]) => filteredTunnellers.length > 0);
-
-  const totalFilteredTunnellers = isFiltered(filters).reduce(
-    (acc, [, tunnellers]) => acc + tunnellers.length,
-    0,
+  const totalFilteredTunnellers = useMemo(
+    () => filteredGroups.reduce((acc, [, list]) => acc + list.length, 0),
+    [filteredGroups],
   );
-  const totalTunnellers = tunnellersList.reduce(
-    (acc, [, tunnellers]) => acc + tunnellers.length,
-    0,
+  const totalTunnellers = useMemo(
+    () => tunnellersList.reduce((acc, [, list]) => acc + list.length, 0),
+    [tunnellersList],
   );
 
   const startBirthYear = filters.birthYear?.[0];
@@ -291,27 +210,126 @@ export function Roll({ tunnellers }: Props) {
   const startDeathYear = filters.deathYear?.[0];
   const endDeathYear = filters.deathYear?.[filters.deathYear.length - 1];
 
-  const handleResetFilters = () => {
-    if (isLoaded) {
-      if (!isEqual(filters, filterList)) {
-        setCurrentPage(1);
-        setFilters(filterList);
-      }
+  /** ---- Handlers ---- */
+  const setPageToFirst = useCallback(() => setCurrentPage(1), []);
+
+  const handleDetachmentFilter = useCallback(
+    (detachment: string) => {
+      setFilters((prev) => {
+        const det = new Set(prev.detachment ?? []);
+        det.has(detachment) ? det.delete(detachment) : det.add(detachment);
+        return { ...prev, detachment: Array.from(det) };
+      });
+      setPageToFirst();
+    },
+    [setPageToFirst],
+  );
+
+  const handleCorpsFilter = useCallback(
+    (corps: string) => {
+      setFilters((prev) => {
+        const set = new Set(prev.corps ?? []);
+        set.has(corps) ? set.delete(corps) : set.add(corps);
+        return { ...prev, corps: Array.from(set) };
+      });
+      setPageToFirst();
+    },
+    [setPageToFirst],
+  );
+
+  const handleBirthSliderChange = useCallback(
+    (value: number | number[]) => {
+      if (!Array.isArray(value)) return;
+      const [start, end] = value;
+      setFilters((prev) => ({
+        ...prev,
+        birthYear: uniqueBirthYears.filter(
+          (y) => y >= String(start) && y <= String(end),
+        ),
+      }));
+      setPageToFirst();
+    },
+    [uniqueBirthYears, setPageToFirst],
+  );
+
+  const handleUnknwonBirthYear = useCallback(
+    (unknown: string) => {
+      setFilters((prev) => ({
+        ...prev,
+        unknownBirthYear: unknown ? "unknown" : "",
+      }));
+      setPageToFirst();
+    },
+    [setPageToFirst],
+  );
+
+  const handleDeathSliderChange = useCallback(
+    (value: number | number[]) => {
+      if (!Array.isArray(value)) return;
+      const [start, end] = value;
+      setFilters((prev) => ({
+        ...prev,
+        deathYear: uniqueDeathYears.filter(
+          (y) => y >= String(start) && y <= String(end),
+        ),
+      }));
+      setPageToFirst();
+    },
+    [uniqueDeathYears, setPageToFirst],
+  );
+
+  const handleUnknwonDeathYear = useCallback(
+    (unknown: string) => {
+      setFilters((prev) => ({
+        ...prev,
+        unknownDeathYear: unknown ? "unknown" : "",
+      }));
+      setPageToFirst();
+    },
+    [setPageToFirst],
+  );
+
+  const handleRankFilter = useCallback(
+    (ranksFilter: Record<string, string[]>) => {
+      setFilters((prev) => {
+        const nextRanks: Record<string, string[]> = { ...prev.ranks };
+        Object.entries(ranksFilter).forEach(([category, ranks]) => {
+          if (ranks.length === 0) {
+            const allSelected = rankCategories[category].every((rank) =>
+              (nextRanks[category] ?? []).includes(rank),
+            );
+            nextRanks[category] = allSelected ? [] : rankCategories[category];
+          } else {
+            const set = new Set(nextRanks[category] ?? []);
+            ranks.forEach((rank) =>
+              set.has(rank) ? set.delete(rank) : set.add(rank),
+            );
+            nextRanks[category] = Array.from(set);
+          }
+        });
+        return { ...prev, ranks: nextRanks };
+      });
+      setPageToFirst();
+    },
+    [setPageToFirst],
+  );
+
+  const handleResetFilters = useCallback(() => {
+    if (!isEqual(filters, defaultFilters)) {
+      setCurrentPage(1);
+      setFilters(defaultFilters);
     }
-  };
+  }, [filters, defaultFilters]);
 
-  const onClose = () => {
-    setIsOpen(false);
-  };
-
-  const HandleFilterButton = () => {
-    setIsOpen(true);
-  };
+  /** ---- Dialog state ---- */
+  const [isOpen, setIsOpen] = useState(false);
+  const onClose = useCallback(() => setIsOpen(false), []);
+  const handleFilterButton = useCallback(() => setIsOpen(true), []);
 
   const rollFiltersProps = {
     className: STYLES["filters-container"],
     uniqueDetachments,
-    uniquecorps,
+    uniquecorps: uniqueCorps,
     uniqueBirthYears,
     uniqueDeathYears,
     sortedRanks,
@@ -329,9 +347,7 @@ export function Roll({ tunnellers }: Props) {
     handleUnknwonDeathYear,
   };
 
-  const isDesktop = () => {
-    return width && width > 896;
-  };
+  const isDesktop = () => (width ? width > 896 : false);
 
   return (
     <>
@@ -351,44 +367,39 @@ export function Roll({ tunnellers }: Props) {
         <div className={STYLES.header}>
           <Title title={"The New Zealand\\Tunnellers"} />
         </div>
-        <div className={STYLES["roll-container"]}>
-          <div className={STYLES.controls}>
-            <div className={STYLES["results-container"]}>
-              {isLoaded && (
+        {ready && (
+          <div className={STYLES["roll-container"]}>
+            <div className={STYLES.controls}>
+              <div className={STYLES["results-container"]}>
                 <button
                   className={STYLES["reset-button"]}
                   onClick={handleResetFilters}
                 >
                   Reset filters
                 </button>
-              )}
-              <p className={STYLES.results}>
-                {isLoaded
-                  ? `${totalFilteredTunnellers} result${totalFilteredTunnellers > 1 ? "s" : ""}`
-                  : ""}
-              </p>
-            </div>
-            {isLoaded && (
+                <p className={STYLES.results}>
+                  {`${totalFilteredTunnellers} result${totalFilteredTunnellers > 1 ? "s" : ""}`}
+                </p>
+              </div>
               <button
                 className={STYLES["filter-button"]}
-                onClick={HandleFilterButton}
+                onClick={handleFilterButton}
               >
                 Filters
               </button>
+              {isDesktop() ? <RollFilter {...rollFiltersProps} /> : null}
+            </div>
+            {filteredGroups.length > 0 ? (
+              <RollAlphabet
+                tunnellers={filteredGroups}
+                currentPage={currentPage}
+                onPageChange={setCurrentPage}
+              />
+            ) : (
+              <RollNoResults handleResetFilters={handleResetFilters} />
             )}
-            {isDesktop() ? <RollFilter {...rollFiltersProps} /> : null}
           </div>
-          {isFiltered(filters).length > 0 ? (
-            <RollAlphabet
-              tunnellers={isFiltered(filters)}
-              isLoaded={isLoaded}
-              currentPage={currentPage}
-              onPageChange={setCurrentPage}
-            />
-          ) : (
-            <RollNoResults handleResetFilters={handleResetFilters} />
-          )}
-        </div>
+        )}
       </div>
     </>
   );

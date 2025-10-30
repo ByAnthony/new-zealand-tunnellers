@@ -1,8 +1,14 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, screen, render } from "@testing-library/react";
 
 import { Roll } from "@/components/Roll/Roll";
 import { AttachedCorpsBadge } from "@/components/Roll/RollDetails/RollDetails";
 import { mockTunnellers } from "__tests__/unit/utils/mocks/mockTunnellers";
+
+async function renderRoll() {
+  const utils = render(<Roll tunnellers={mockTunnellers} />);
+  await screen.findByText("Filters");
+  return utils;
+}
 
 describe("Roll", () => {
   beforeEach(() => {
@@ -10,24 +16,28 @@ describe("Roll", () => {
     window.scrollTo = jest.fn();
   });
 
-  test("matches the snapshot", () => {
-    const { asFragment } = render(<Roll tunnellers={mockTunnellers} />);
+  test("matches the snapshot", async () => {
+    const { asFragment } = await renderRoll();
+
     expect(asFragment()).toMatchSnapshot();
   });
 
-  test("renders the title", () => {
-    render(<Roll tunnellers={mockTunnellers} />);
+  test("renders the title", async () => {
+    await renderRoll();
+
     expect(screen.getByText(/The New Zealand/)).toBeInTheDocument();
     expect(screen.getByText(/Tunnellers/)).toBeInTheDocument();
   });
 
-  test("renders the total filtered results", () => {
-    render(<Roll tunnellers={mockTunnellers} />);
+  test("renders the total filtered results", async () => {
+    await renderRoll();
+
     expect(screen.getByText(/4 results/)).toBeInTheDocument();
   });
 
-  test("renders the RollAlphabet component when there are filtered results", () => {
-    render(<Roll tunnellers={mockTunnellers} />);
+  test("renders the RollAlphabet component when there are filtered results", async () => {
+    await renderRoll();
+
     expect(
       screen.getByRole("link", {
         name: "Sapper Emmett Brown Main Body ?-1935 →",
@@ -50,16 +60,19 @@ describe("Roll", () => {
     ).toBeInTheDocument();
   });
 
-  test("renders the RollNoResults component when there are no filtered results", () => {
+  test("renders the RollNoResults component when there are no filtered results", async () => {
     const emptyTunnellers = {};
     render(<Roll tunnellers={emptyTunnellers} />);
+    await screen.findByText("Filters");
+
     expect(
       screen.getByText("Sorry, no profile matches your filters"),
     ).toBeInTheDocument();
   });
 
-  test("should filter the detachment", () => {
-    render(<Roll tunnellers={mockTunnellers} />);
+  test("should filter the detachment", async () => {
+    await renderRoll();
+
     const checkbox = screen.getByRole("checkbox", {
       name: "2nd Reinforcements",
     });
@@ -86,8 +99,9 @@ describe("Roll", () => {
     ).toBeInTheDocument();
   });
 
-  test("should filter the corps", () => {
-    render(<Roll tunnellers={mockTunnellers} />);
+  test("should filter the corps", async () => {
+    await renderRoll();
+
     const checkbox = screen.getByRole("checkbox", {
       name: "Army Pay Corps",
     });
@@ -114,8 +128,9 @@ describe("Roll", () => {
     ).not.toBeInTheDocument();
   });
 
-  test("should filter Sapper rank", () => {
-    render(<Roll tunnellers={mockTunnellers} />);
+  test("should filter Sapper rank", async () => {
+    await renderRoll();
+
     const checkbox = screen.getByRole("checkbox", {
       name: "Sapper",
     });
@@ -142,8 +157,9 @@ describe("Roll", () => {
     ).toBeInTheDocument();
   });
 
-  test("should filter Other ranks", () => {
-    render(<Roll tunnellers={mockTunnellers} />);
+  test("should filter Other ranks", async () => {
+    await renderRoll();
+
     const checkbox = screen.getByRole("checkbox", {
       name: "Other Ranks",
     });
@@ -171,8 +187,9 @@ describe("Roll", () => {
     ).toBeInTheDocument();
   });
 
-  test("should filter unknown birth years", () => {
-    render(<Roll tunnellers={mockTunnellers} />);
+  test("should filter unknown birth years", async () => {
+    await renderRoll();
+
     const checkbox = screen.getByRole("checkbox", {
       name: "Includes unknown birth year",
     });
@@ -200,8 +217,9 @@ describe("Roll", () => {
     ).toBeInTheDocument();
   });
 
-  test("should filter unknown death years", () => {
-    render(<Roll tunnellers={mockTunnellers} />);
+  test("should filter unknown death years", async () => {
+    await renderRoll();
+
     const checkbox = screen.getByRole("checkbox", {
       name: "Includes unknown death year",
     });
@@ -229,8 +247,9 @@ describe("Roll", () => {
     ).not.toBeInTheDocument();
   });
 
-  test("calls handleResetFilters when the reset filter button is clicked", () => {
-    render(<Roll tunnellers={mockTunnellers} />);
+  test("calls handleResetFilters when the reset filter button is clicked", async () => {
+    await renderRoll();
+
     const checkbox = screen.getByRole("checkbox", {
       name: "2nd Reinforcements",
     });
@@ -241,8 +260,9 @@ describe("Roll", () => {
     expect(screen.getByText("4 results")).toBeInTheDocument();
   });
 
-  test("renders the RollFilter component for desktop view", () => {
-    render(<Roll tunnellers={mockTunnellers} />);
+  test("renders the RollFilter component for desktop view", async () => {
+    await renderRoll();
+
     expect(screen.getByText("Detachments")).toBeInTheDocument();
     expect(screen.getByText("Corps")).toBeInTheDocument();
     expect(screen.getByText("Birth Years")).toBeInTheDocument();
@@ -254,6 +274,7 @@ describe("Roll", () => {
 describe("AttachedCorpsBadge", () => {
   test("renders correctly with given props", () => {
     render(<AttachedCorpsBadge attachedCorps="Engineers" />);
+
     const badgeElement = screen.getByText("Engineers");
     expect(badgeElement).toBeInTheDocument();
   });

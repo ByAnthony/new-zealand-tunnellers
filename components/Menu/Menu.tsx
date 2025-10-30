@@ -28,31 +28,22 @@ export function Menu({ tunnellers }: Props) {
   const [filteredTunnellers, setFilteredTunnellers] = useState<Tunneller[]>([]);
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [dropdownMaxHeight, setDropdownMaxHeight] = useState("auto");
+  const [query, setQuery] = useState("");
 
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollPos = window.scrollY;
-
-      if (prevScrollPos > currentScrollPos) {
-        setMenuVisible(true);
-      } else {
-        setMenuVisible(false);
-      }
-
+      setMenuVisible(prevScrollPos > currentScrollPos);
       setPrevScrollPos(currentScrollPos);
     };
 
     window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
+    return () => window.removeEventListener("scroll", handleScroll);
   }, [prevScrollPos]);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        setDropdownVisible(false);
-      }
+      if (event.key === "Escape") setDropdownVisible(false);
       if (event.key === "Enter") {
         if (!dropdownVisible && filteredTunnellers.length > 0) {
           setDropdownVisible(true);
@@ -61,10 +52,7 @@ export function Menu({ tunnellers }: Props) {
     };
 
     document.addEventListener("keydown", handleKeyDown);
-
-    return () => {
-      document.removeEventListener("keydown", handleKeyDown);
-    };
+    return () => document.removeEventListener("keydown", handleKeyDown);
   }, [dropdownVisible, filteredTunnellers]);
 
   useEffect(() => {
@@ -80,10 +68,7 @@ export function Menu({ tunnellers }: Props) {
     };
 
     document.addEventListener("mousedown", handleClickOutside);
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   useEffect(() => {
@@ -96,10 +81,8 @@ export function Menu({ tunnellers }: Props) {
 
     window.visualViewport?.addEventListener("resize", handleResize);
     handleResize();
-
-    return () => {
+    return () =>
       window.visualViewport?.removeEventListener("resize", handleResize);
-    };
   }, []);
 
   const handleSearch = (search: string) => {
@@ -108,28 +91,26 @@ export function Menu({ tunnellers }: Props) {
     setFilteredTunnellers(
       search.length > 0
         ? tunnellers.filter((tunneller: Tunneller) => {
-            const fullName = tunneller.search.fullName?.toLowerCase();
+            const fullName = tunneller.search.fullName?.toLowerCase() ?? "";
             return searchParts.every((part) => fullName.includes(part));
           })
         : [],
     );
 
-    setDropdownVisible(search.length > 0 ? true : false);
+    setDropdownVisible(search.length > 0);
   };
 
   const handleClickInside = () => {
-    if (dropdownVisible === false) {
-      setDropdownVisible(filteredTunnellers.length > 0 ? true : false);
+    if (!dropdownVisible) {
+      setDropdownVisible(filteredTunnellers.length > 0);
     }
   };
 
   const handleClearSearch = () => {
     setDropdownVisible(false);
     setFilteredTunnellers([]);
-    if (inputRef.current) {
-      inputRef.current.value = "";
-      inputRef.current.focus();
-    }
+    setQuery("");
+    inputRef.current?.focus();
   };
 
   const handleNavigation = () => {
@@ -152,46 +133,41 @@ export function Menu({ tunnellers }: Props) {
           alt="New Zealand Tunnellers Wesbite - Home"
           width={30}
           height={30}
-          priority={true}
+          priority
           placeholder="empty"
         />
       </Link>
+
       <div className={STYLES["search-form-container"]}>
         <div
           className={STYLES["search-form"]}
-          onClick={() => handleClickInside()}
+          onClick={handleClickInside}
           ref={searchFormRef}
         >
           <input
-            disabled={menuVisible ? false : true}
+            disabled={!menuVisible}
             id="search"
-            onChange={(event) => handleSearch(event.target.value)}
+            ref={inputRef}
             type="text"
             placeholder="Search for a Tunneller"
-            ref={inputRef}
+            value={query}
+            onChange={(event) => {
+              const value = event.target.value;
+              setQuery(value);
+              handleSearch(value);
+            }}
           />
-          {inputRef.current ? (
-            inputRef.current.value !== "" ? (
-              <button
-                className={STYLES["clear-search-container"]}
-                onClick={() => handleClearSearch()}
-                aria-label="Clear search input"
-              >
-                <div className={STYLES["clear-search"]} aria-hidden="true">
-                  +
-                </div>
-              </button>
-            ) : (
-              <Image
-                src="/search.png"
-                alt="Type a name to search for a Tunneller"
-                width={20}
-                height={20}
-                className={STYLES["search-form-button"]}
-                priority={true}
-                placeholder="empty"
-              />
-            )
+
+          {query !== "" ? (
+            <button
+              className={STYLES["clear-search-container"]}
+              onClick={handleClearSearch}
+              aria-label="Clear search input"
+            >
+              <div className={STYLES["clear-search"]} aria-hidden="true">
+                +
+              </div>
+            </button>
           ) : (
             <Image
               src="/search.png"
@@ -199,11 +175,12 @@ export function Menu({ tunnellers }: Props) {
               width={20}
               height={20}
               className={STYLES["search-form-button"]}
-              priority={true}
+              priority
               placeholder="empty"
             />
           )}
         </div>
+
         {dropdownVisible && filteredTunnellers.length > 0 && (
           <div
             className={STYLES.dropdown}
@@ -219,7 +196,7 @@ export function Menu({ tunnellers }: Props) {
                   <Link
                     href={`/tunnellers/${tunneller.id}`}
                     aria-label={`See ${tunneller.name.forename} ${tunneller.name.surname} profile`}
-                    onClick={() => handleNavigation()}
+                    onClick={handleNavigation}
                   >
                     <p>
                       {tunneller.name.forename}
@@ -239,10 +216,11 @@ export function Menu({ tunnellers }: Props) {
                 </li>
               ))}
             </ul>
+
             <Link
               href="/tunnellers"
               className={STYLES["tunnellers-link"]}
-              onClick={() => handleNavigation()}
+              onClick={handleNavigation}
             >
               <div className={STYLES["tunnellers-link-display"]}>
                 <div>See all Tunnellers</div>
