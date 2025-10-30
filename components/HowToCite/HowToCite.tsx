@@ -94,23 +94,27 @@ export function HowToCite({ id, summary, title, timeline }: Props) {
   const citationRef = useRef<HTMLParagraphElement>(null);
 
   const now = useMemo(() => new Date(), []);
+  const userTimeZone = useMemo(
+    () => Intl.DateTimeFormat().resolvedOptions().timeZone,
+    [],
+  );
   const currentDate = useMemo(
     () =>
       new Intl.DateTimeFormat("en-GB", {
         day: "numeric",
         month: "long",
         year: "numeric",
-        timeZone: "Europe/London",
+        timeZone: userTimeZone,
       }).format(now),
-    [now],
+    [now, userTimeZone],
   );
   const currentYear = useMemo(
     () =>
       new Intl.DateTimeFormat("en-GB", {
         year: "numeric",
-        timeZone: "Europe/London",
+        timeZone: userTimeZone,
       }).format(now),
-    [now],
+    [now, userTimeZone],
   );
 
   const handleCopy = () => {
