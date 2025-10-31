@@ -110,5 +110,10 @@ This document outlines the dependencies used in the New Zealand Tunnellers proje
 {
   // Setup Husky git hooks
   "prepare": "husky || true"
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint . --fix"
+    ]
+  }
 }
 ```
