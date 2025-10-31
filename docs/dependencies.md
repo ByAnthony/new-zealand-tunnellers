@@ -9,7 +9,6 @@ This document outlines the dependencies used in the New Zealand Tunnellers proje
 - **`next`**: React-based web framework for production applications with server-side rendering;
 - **`react`**: JavaScript library for building user interfaces;
 - **`react-dom`**: React package for working with the DOM;
-- **`typescript`**: TypeScript compiler for static type checking.
 
 ### Server & Database
 
@@ -48,20 +47,22 @@ This document outlines the dependencies used in the New Zealand Tunnellers proje
 - **`eslint-config-next`**: ESLint configuration optimized for Next.js projects;
 - **`eslint-config-prettier`**: Disables ESLint rules that conflict with Prettier;
 - **`eslint-plugin-import`**: ESLint plugin for import/export syntax validation;
-- **`eslint-plugin-react-hooks`**: ESLint rules for React Hooks best practices.
-
-### Git Workflow & Automation
-
-- **`husky`**: Git hooks management for pre-commit validation;
-- **`lint-staged`**: Run linters on staged files only for faster commits.
+- **`eslint-plugin-react-hooks`**: ESLint rules for React Hooks best practices;
+- **@eslint/js, globals@16.4.0**: ESLint base config helpers.
 
 ### TypeScript Type Definitions
 
+- **`typescript`**: TypeScript compiler for static type checking.
 - **`@types/jest`**: Type definitions for Jest testing framework;
 - **`@types/lodash`**: Type definitions for Lodash utility library;
 - **`@types/node`**: Type definitions for Node.js runtime. **Keep in sync with `.nvmrc` version**;
 - **`@types/react`**: Type definitions for React library;
 - **`@types/react-dom`**: Type definitions for React DOM.
+
+### Git Workflow & Automation
+
+- **`husky`**: Git hooks management for pre-commit validation;
+- **`lint-staged`**: Run linters on staged files only for faster commits.
 
 ## Package Scripts
 
@@ -83,7 +84,8 @@ This document outlines the dependencies used in the New Zealand Tunnellers proje
 ```json
 {
   // Run ESLint on codebase
-  "lint": "next lint",
+  "lint": "eslint .",
+  "lint:fix": "eslint . --fix",
   // Format code with Prettier
   "prettier": "npx prettier .:-write"
 }
@@ -108,5 +110,10 @@ This document outlines the dependencies used in the New Zealand Tunnellers proje
 {
   // Setup Husky git hooks
   "prepare": "husky || true"
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint . --fix"
+    ]
+  }
 }
 ```
