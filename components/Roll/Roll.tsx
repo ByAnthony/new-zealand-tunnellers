@@ -83,7 +83,7 @@ export function Roll({ tunnellers }: Props) {
     [uniqueBirthYears, uniqueDeathYears],
   );
 
-  // Optional: normalize any previously stored filters to the current shape
+  // Normalize any previously stored filters to the current shape
   const normalizeFilters = (raw: unknown, defaults: Filters): Filters => {
     try {
       const p = (raw ?? {}) as Partial<Filters>;
@@ -119,7 +119,7 @@ export function Roll({ tunnellers }: Props) {
     }
   };
 
-  /** ---- Initial state (lazy init reads localStorage before first paint) ---- */
+  /** ---- Initial state ---- */
   const [filters, setFilters] = useState<Filters>(() => {
     if (typeof window !== "undefined") {
       try {
