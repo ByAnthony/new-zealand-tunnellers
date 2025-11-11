@@ -28,13 +28,13 @@
     "lodash": "4.17.21",
     "mysql2": "3.15.3",
     "next": "16.0.1",
-    "nodemon": "3.1.10",
+    "nodemon": "3.1.11",
     "prettier": "3.6.2",
     "rc-slider": "11.1.9",
     "react": "19.2.0",
     "react-dom": "19.2.0",
-    "sass": "1.93.3",
-    "sharp": "0.34.4",
+    "sass": "1.94.0",
+    "sharp": "0.34.5",
     "ts-node": "10.9.2"
   },
   "devDependencies": {
