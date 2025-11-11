@@ -1,7 +1,7 @@
 "use client";
 
 import isEqual from "lodash/isEqual";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { RollAlphabet } from "@/components/Roll/RollAlphabet/RollAlphabet";
 import { RollFilter } from "@/components/Roll/RollFilter/RollFilter";
@@ -83,54 +83,95 @@ export function Roll({ tunnellers }: Props) {
     [uniqueBirthYears, uniqueDeathYears],
   );
 
-  /** ---- Initial state ---- */
-  const [filters, setFilters] = useState<Filters>(defaultFilters);
-  const [currentPage, setCurrentPage] = useState<number>(1);
+  // Optional: normalize any previously stored filters to the current shape
+  const normalizeFilters = (raw: unknown, defaults: Filters): Filters => {
+    try {
+      const p = (raw ?? {}) as Partial<Filters>;
+      const ranks = (p.ranks ?? {}) as Record<string, string[]>;
+      const mergedRanks: Filters["ranks"] = {
+        Officers: ranks?.Officers ?? [],
+        "Non-Commissioned Officers": ranks?.["Non-Commissioned Officers"] ?? [],
+        "Other Ranks": ranks?.["Other Ranks"] ?? [],
+      };
+      return {
+        detachment: Array.isArray(p.detachment)
+          ? p.detachment
+          : defaults.detachment,
+        corps: Array.isArray(p.corps) ? p.corps : defaults.corps,
+        ranks: mergedRanks,
+        birthYear: Array.isArray(p.birthYear)
+          ? p.birthYear
+          : defaults.birthYear,
+        unknownBirthYear:
+          typeof p.unknownBirthYear === "string"
+            ? p.unknownBirthYear
+            : defaults.unknownBirthYear,
+        deathYear: Array.isArray(p.deathYear)
+          ? p.deathYear
+          : defaults.deathYear,
+        unknownDeathYear:
+          typeof p.unknownDeathYear === "string"
+            ? p.unknownDeathYear
+            : defaults.unknownDeathYear,
+      };
+    } catch {
+      return defaults;
+    }
+  };
 
-  /** ---- Hydration + persistence gating (no extra render) ---- */
-  const hydratedRef = useRef(false);
+  /** ---- Initial state (lazy init reads localStorage before first paint) ---- */
+  const [filters, setFilters] = useState<Filters>(() => {
+    if (typeof window !== "undefined") {
+      try {
+        const raw = localStorage.getItem("filters");
+        if (raw) {
+          return normalizeFilters(JSON.parse(raw), defaultFilters);
+        }
+      } catch (error) {
+        const errorMessage =
+          error instanceof Error ? error.message : String(error);
+        throw new Error(`Failed to load filters: ${errorMessage}`);
+      }
+    }
+    return defaultFilters;
+  });
 
-  /** ---- Read from localStorage ---- */
-  const [ready, setReady] = useState(false);
+  const [currentPage, setCurrentPage] = useState<number>(() => {
+    if (typeof window !== "undefined") {
+      try {
+        const raw = localStorage.getItem("page");
+        const n = Number(raw);
+        if (Number.isFinite(n) && n > 0) return n;
+      } catch (error) {
+        const errorMessage =
+          error instanceof Error ? error.message : String(error);
+        throw new Error(`Failed to load current page: ${errorMessage}`);
+      }
+    }
+    return 1;
+  });
 
+  /** ---- Persist to localStorage ---- */
   useEffect(() => {
     if (typeof window === "undefined") return;
-    let cancelled = false;
-
-    const storedFilters = localStorage.getItem("filters");
-    const storedPage = localStorage.getItem("page");
-
-    Promise.resolve().then(() => {
-      if (cancelled) return;
-
-      if (storedFilters) {
-        setFilters(JSON.parse(storedFilters));
-      }
-      if (storedPage) {
-        const n = Number(storedPage);
-        if (Number.isFinite(n) && n > 0) setCurrentPage(n);
-      }
-
-      hydratedRef.current = true;
-      setReady(true);
-    });
-
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-
-  /** ---- Persist to localStorage AFTER hydration ---- */
-  useEffect(() => {
-    if (typeof window === "undefined" || !hydratedRef.current) return;
-
-    localStorage.setItem("filters", JSON.stringify(filters));
+    try {
+      localStorage.setItem("filters", JSON.stringify(filters));
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : String(error);
+      throw new Error(`Failed to save filters: ${errorMessage}`);
+    }
   }, [filters]);
 
   useEffect(() => {
-    if (typeof window === "undefined" || !hydratedRef.current) return;
-
-    localStorage.setItem("page", String(currentPage));
+    if (typeof window === "undefined") return;
+    try {
+      localStorage.setItem("page", String(currentPage));
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : String(error);
+      throw new Error(`Failed to save current page: ${errorMessage}`);
+    }
   }, [currentPage]);
 
   /** ---- Helpers ---- */
@@ -367,39 +408,39 @@ export function Roll({ tunnellers }: Props) {
         <div className={STYLES.header}>
           <Title title={"The New Zealand\\Tunnellers"} />
         </div>
-        {ready && (
-          <div className={STYLES["roll-container"]}>
-            <div className={STYLES.controls}>
-              <div className={STYLES["results-container"]}>
-                <button
-                  className={STYLES["reset-button"]}
-                  onClick={handleResetFilters}
-                >
-                  Reset filters
-                </button>
-                <p className={STYLES.results}>
-                  {`${totalFilteredTunnellers} result${totalFilteredTunnellers > 1 ? "s" : ""}`}
-                </p>
-              </div>
+
+        <div className={STYLES["roll-container"]}>
+          <div className={STYLES.controls}>
+            <div className={STYLES["results-container"]}>
               <button
-                className={STYLES["filter-button"]}
-                onClick={handleFilterButton}
+                className={STYLES["reset-button"]}
+                onClick={handleResetFilters}
               >
-                Filters
+                Reset filters
               </button>
-              {isDesktop() ? <RollFilter {...rollFiltersProps} /> : null}
+              <p className={STYLES.results}>
+                {`${totalFilteredTunnellers} result${totalFilteredTunnellers > 1 ? "s" : ""}`}
+              </p>
             </div>
-            {filteredGroups.length > 0 ? (
-              <RollAlphabet
-                tunnellers={filteredGroups}
-                currentPage={currentPage}
-                onPageChange={setCurrentPage}
-              />
-            ) : (
-              <RollNoResults handleResetFilters={handleResetFilters} />
-            )}
+            <button
+              className={STYLES["filter-button"]}
+              onClick={handleFilterButton}
+            >
+              Filters
+            </button>
+            {isDesktop() ? <RollFilter {...rollFiltersProps} /> : null}
           </div>
-        )}
+
+          {filteredGroups.length > 0 ? (
+            <RollAlphabet
+              tunnellers={filteredGroups}
+              currentPage={currentPage}
+              onPageChange={setCurrentPage}
+            />
+          ) : (
+            <RollNoResults handleResetFilters={handleResetFilters} />
+          )}
+        </div>
       </div>
     </>
   );
