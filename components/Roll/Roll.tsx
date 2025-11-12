@@ -174,6 +174,15 @@ export function Roll({ tunnellers }: Props) {
     }
   }, [currentPage]);
 
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const raw = localStorage.getItem("roll:scrollY");
+    const y = raw ? Number(raw) : 0;
+    if (Number.isFinite(y)) {
+      requestAnimationFrame(() => window.scrollTo(0, y));
+    }
+  }, []);
+
   /** ---- Helpers ---- */
   const hasAnyActiveFilter = (f: Filters): boolean => {
     const ranksActive = Object.values(f.ranks ?? {}).some((arr) => arr.length);
