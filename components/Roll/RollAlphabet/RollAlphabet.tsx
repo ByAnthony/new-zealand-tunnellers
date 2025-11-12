@@ -38,7 +38,9 @@ export function RollAlphabet({ tunnellers, currentPage, onPageChange }: Props) {
     {} as Record<string, Tunneller[]>,
   );
 
-  useEffect(() => {}, [currentPage]);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [currentPage]);
 
   const handleNextPage = () => {
     if (currentPage < totalPages) {
