@@ -65,6 +65,7 @@ describe("Roll", () => {
     render(<Roll tunnellers={emptyTunnellers} />);
     await screen.findByText("Filters");
 
+    expect(screen.getByText(/0 result/)).toBeInTheDocument();
     expect(
       screen.getByText("Sorry, no profile matches your filters"),
     ).toBeInTheDocument();
