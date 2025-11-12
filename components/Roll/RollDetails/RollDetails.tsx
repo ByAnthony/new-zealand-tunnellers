@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useCallback } from "react";
 
 import { Tunneller } from "@/types/tunnellers";
 import { displayBiographyDates } from "@/utils/helpers/roll";
@@ -20,10 +21,24 @@ export function AttachedCorpsBadge({
 }
 
 export function RollDetails({ listOfTunnellers }: Props) {
+  const saveScroll = useCallback(() => {
+    try {
+      localStorage.setItem("roll:scrollY", String(window.scrollY || 0));
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : String(error);
+      throw new Error(`Failed to save scroll position: ${errorMessage}`);
+    }
+  }, []);
+
   return (
     <>
       {listOfTunnellers.map((tunneller: Tunneller) => (
-        <Link href={`/tunnellers/${tunneller.id}`} key={tunneller.id}>
+        <Link
+          href={`/tunnellers/${tunneller.id}`}
+          key={tunneller.id}
+          onClick={saveScroll}
+        >
           <div className={STYLES.tunneller}>
             <div>
               <div className={STYLES["rank-wrapper"]}>

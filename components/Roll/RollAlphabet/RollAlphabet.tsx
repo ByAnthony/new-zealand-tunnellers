@@ -1,7 +1,5 @@
 "use client";
 
-import { useEffect } from "react";
-
 import { RollDetails } from "@/components/Roll/RollDetails/RollDetails";
 import { Tunneller } from "@/types/tunnellers";
 
@@ -38,24 +36,25 @@ export function RollAlphabet({ tunnellers, currentPage, onPageChange }: Props) {
     {} as Record<string, Tunneller[]>,
   );
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [currentPage]);
-
   const handleNextPage = () => {
     if (currentPage < totalPages) {
+      window.scrollTo(0, 0);
       onPageChange(currentPage + 1);
     }
   };
 
   const handlePreviousPage = () => {
     if (currentPage > 1) {
+      window.scrollTo(0, 0);
       onPageChange(currentPage - 1);
     }
   };
 
   const handlePageClick = (page: number) => {
     onPageChange(page);
+    setTimeout(() => {
+      window.scrollTo(0, 0);
+    }, 0);
   };
 
   const getPaginationButtons = () => {
