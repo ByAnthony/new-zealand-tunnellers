@@ -38,15 +38,19 @@ export function RollAlphabet({ tunnellers, currentPage, onPageChange }: Props) {
 
   const handleNextPage = () => {
     if (currentPage < totalPages) {
-      window.scrollTo(0, 0);
       onPageChange(currentPage + 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+      }, 0);
     }
   };
 
   const handlePreviousPage = () => {
     if (currentPage > 1) {
-      window.scrollTo(0, 0);
       onPageChange(currentPage - 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+      }, 0);
     }
   };
 
