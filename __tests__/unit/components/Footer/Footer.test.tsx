@@ -17,9 +17,6 @@ describe("Footer", () => {
     render(component);
     fireEvent.click(screen.getByRole("button"));
 
-    expect(global.scrollTo).toHaveBeenCalledWith({
-      behavior: "smooth",
-      top: 0,
-    });
+    expect(global.scrollTo).toHaveBeenCalledWith(0, 0);
   });
 });
