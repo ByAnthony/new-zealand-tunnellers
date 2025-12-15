@@ -38,7 +38,7 @@
     "ts-node": "10.9.2"
   },
   "devDependencies": {
-    "@eslint/js": "9.39.1",
+    "@eslint/js": "9.39.2",
     "@playwright/test": "1.57.0",
     "@testing-library/jest-dom": "6.9.1",
     "@testing-library/react": "16.3.0",
@@ -47,8 +47,8 @@
     "@types/node": "20.19.9",
     "@types/react": "19.2.7",
     "@types/react-dom": "19.2.3",
-    "eslint": "9.39.1",
-    "eslint-config-next": "16.0.6",
+    "eslint": "9.39.2",
+    "eslint-config-next": "16.0.10",
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-import": "2.32.0",
     "eslint-plugin-react-hooks": "5.2.0",
