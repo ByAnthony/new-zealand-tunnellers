@@ -79,7 +79,7 @@ test("renders image when known", () => {
     "Portrait of John Smith",
   );
   expect(screen.getByRole("img").getAttribute("src")).toEqual(
-    "/_next/image?url=%2Fimages%2Froll%2Ftunnellers%2F1-1000.jpg&w=640&q=75",
+    "/images/roll/tunnellers/1-1000.jpg",
   );
 });
 

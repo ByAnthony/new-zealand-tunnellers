@@ -58,13 +58,9 @@ exports[`Profile matches the snapshot 1`] = `
             <img
               alt="Portrait of John Smith"
               class="tunneller-image"
-              data-nimg="1"
-              decoding="async"
               height="475"
-              loading="lazy"
-              src="/_next/image?url=%2Fimages%2Froll%2Ftunnellers%2F1%2F1234.jpg&w=640&q=75"
-              srcset="/_next/image?url=%2Fimages%2Froll%2Ftunnellers%2F1%2F1234.jpg&w=384&q=75 1x, /_next/image?url=%2Fimages%2Froll%2Ftunnellers%2F1%2F1234.jpg&w=640&q=75 2x"
-              style="color: transparent;"
+              placeholder="empty"
+              src="/images/roll/tunnellers/1/1234.jpg"
               width="320"
             />
           </div>
@@ -237,13 +233,9 @@ exports[`Profile matches the snapshot 1`] = `
             <p>
               <img
                 alt="British War Medal ribbon"
-                data-nimg="1"
-                decoding="async"
                 height="11"
-                loading="lazy"
-                src="/_next/image?url=%2Fimages%2Froll%2Fmedals%2Fbritish-war-medal.png&w=96&q=75"
-                srcset="/_next/image?url=%2Fimages%2Froll%2Fmedals%2Fbritish-war-medal.png&w=48&q=75 1x, /_next/image?url=%2Fimages%2Froll%2Fmedals%2Fbritish-war-medal.png&w=96&q=75 2x"
-                style="color: transparent;"
+                placeholder="empty"
+                src="/images/roll/medals/british-war-medal.png"
                 width="40"
               />
             </p>
@@ -257,13 +249,9 @@ exports[`Profile matches the snapshot 1`] = `
             <p>
               <img
                 alt="Victory Medal ribbon"
-                data-nimg="1"
-                decoding="async"
                 height="11"
-                loading="lazy"
-                src="/_next/image?url=%2Fimages%2Froll%2Fmedals%2Fvictory-medal.png&w=96&q=75"
-                srcset="/_next/image?url=%2Fimages%2Froll%2Fmedals%2Fvictory-medal.png&w=48&q=75 1x, /_next/image?url=%2Fimages%2Froll%2Fmedals%2Fvictory-medal.png&w=96&q=75 2x"
-                style="color: transparent;"
+                placeholder="empty"
+                src="/images/roll/medals/victory-medal.png"
                 width="40"
               />
             </p>
@@ -353,13 +341,9 @@ exports[`Profile matches the snapshot 1`] = `
           >
             <img
               alt="Copy to clipboard"
-              data-nimg="1"
-              decoding="async"
               height="16"
-              loading="lazy"
-              src="/_next/image?url=%2Fcopy.png&w=32&q=75"
-              srcset="/_next/image?url=%2Fcopy.png&w=16&q=75 1x, /_next/image?url=%2Fcopy.png&w=32&q=75 2x"
-              style="color: transparent;"
+              placeholder="empty"
+              src="/copy.png"
               width="13"
             />
           </button>

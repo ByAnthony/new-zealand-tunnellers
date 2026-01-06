@@ -47,10 +47,7 @@ test("should render a timeline", () => {
 
   const image = screen.getByRole("img", { name: "Image for The Company" });
   expect(image).toHaveAttribute("alt", "Image for The Company");
-  expect(image).toHaveAttribute(
-    "src",
-    "/_next/image?url=%2Fimages%2Froll%2Fimage.jpg&w=1920&q=75",
-  );
+  expect(image).toHaveAttribute("src", "/images/roll/image.jpg");
   expect(
     screen.getByText("Something happened that day for the Company"),
   ).toBeInTheDocument();

@@ -13,12 +13,9 @@ exports[`Menu matches the snapshot 1`] = `
     >
       <img
         alt="New Zealand Tunnellers Wesbite - Home"
-        data-nimg="1"
-        decoding="async"
         height="30"
-        src="/_next/image?url=%2Fnzt_logo.png&w=64&q=75"
-        srcset="/_next/image?url=%2Fnzt_logo.png&w=32&q=75 1x, /_next/image?url=%2Fnzt_logo.png&w=64&q=75 2x"
-        style="color: transparent;"
+        placeholder="empty"
+        src="/nzt_logo.png"
         width="30"
       />
     </a>
@@ -37,12 +34,9 @@ exports[`Menu matches the snapshot 1`] = `
         <img
           alt="Type a name to search for a Tunneller"
           class="search-form-button"
-          data-nimg="1"
-          decoding="async"
           height="20"
-          src="/_next/image?url=%2Fsearch.png&w=48&q=75"
-          srcset="/_next/image?url=%2Fsearch.png&w=32&q=75 1x, /_next/image?url=%2Fsearch.png&w=48&q=75 2x"
-          style="color: transparent;"
+          placeholder="empty"
+          src="/search.png"
           width="20"
         />
       </div>

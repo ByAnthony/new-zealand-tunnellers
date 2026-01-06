@@ -43,13 +43,9 @@ exports[`AboutUs matches the snapshot 1`] = `
       <img
         alt="Accessible alt text"
         class="image"
-        data-nimg="1"
-        decoding="async"
         height="575"
-        loading="lazy"
-        src="/_next/image?url=%2Fimages%2Fabout-us%2Fimg-123.png&w=1920&q=75"
-        srcset="/_next/image?url=%2Fimages%2Fabout-us%2Fimg-123.png&w=828&q=75 1x, /_next/image?url=%2Fimages%2Fabout-us%2Fimg-123.png&w=1920&q=75 2x"
-        style="color: transparent;"
+        placeholder="empty"
+        src="/images/about-us/img-123.png"
         width="800"
       />
     </div>

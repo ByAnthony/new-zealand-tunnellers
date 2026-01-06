@@ -23,14 +23,14 @@ test("renders British War and Victory Medals correctly", () => {
     "British War Medal ribbon",
   );
   expect(screen.getAllByRole("img")[0].getAttribute("src")).toEqual(
-    "/_next/image?url=%2Fimages%2Froll%2Fmedals%2Fbritish-war-medal.png&w=96&q=75",
+    "/images/roll/medals/british-war-medal.png",
   );
   expect(screen.getByText("Victory Medal")).toBeInTheDocument();
   expect(screen.getAllByRole("img")[1].getAttribute("alt")).toEqual(
     "Victory Medal ribbon",
   );
   expect(screen.getAllByRole("img")[1].getAttribute("src")).toEqual(
-    "/_next/image?url=%2Fimages%2Froll%2Fmedals%2Fvictory-medal.png&w=96&q=75",
+    "/images/roll/medals/victory-medal.png",
   );
 });
 
@@ -59,21 +59,21 @@ test("renders Military Medal correctly", () => {
     "British War Medal ribbon",
   );
   expect(screen.getAllByRole("img")[0].getAttribute("src")).toEqual(
-    "/_next/image?url=%2Fimages%2Froll%2Fmedals%2Fbritish-war-medal.png&w=96&q=75",
+    "/images/roll/medals/british-war-medal.png",
   );
   expect(screen.getByText("Victory Medal")).toBeInTheDocument();
   expect(screen.getAllByRole("img")[1].getAttribute("alt")).toEqual(
     "Victory Medal ribbon",
   );
   expect(screen.getAllByRole("img")[1].getAttribute("src")).toEqual(
-    "/_next/image?url=%2Fimages%2Froll%2Fmedals%2Fvictory-medal.png&w=96&q=75",
+    "/images/roll/medals/victory-medal.png",
   );
   expect(screen.getByText("Military Medal")).toBeInTheDocument();
   expect(screen.getAllByRole("img")[2].getAttribute("alt")).toEqual(
     "Military Medal ribbon",
   );
   expect(screen.getAllByRole("img")[2].getAttribute("src")).toEqual(
-    "/_next/image?url=%2Fimages%2Froll%2Fmedals%2Fmilitary-medal.png&w=96&q=75",
+    "/images/roll/medals/military-medal.png",
   );
   expect(screen.getByText("For bravery in the field.")).toBeInTheDocument();
 });
@@ -106,7 +106,7 @@ test("renders Foreign Medal with country correctly", () => {
     "Medal for Steadfastness and Loyalty ribbon",
   );
   expect(screen.getAllByRole("img")[2].getAttribute("src")).toEqual(
-    "/_next/image?url=%2Fimages%2Froll%2Fmedals%2Fsteadfastness-loyalty-medal.png&w=96&q=75",
+    "/images/roll/medals/steadfastness-loyalty-medal.png",
   );
   expect(
     screen.getByText(

@@ -60,13 +60,9 @@ exports[`Footer matches the snapshot 1`] = `
           <img
             alt="Artois University homepage"
             class="support-logo"
-            data-nimg="1"
-            decoding="async"
             height="67"
-            loading="lazy"
-            src="/_next/image?url=%2Fimages%2Fsupport%2Flogo-univ-artois-blanc_0.png&w=256&q=75"
-            srcset="/_next/image?url=%2Fimages%2Fsupport%2Flogo-univ-artois-blanc_0.png&w=128&q=75 1x, /_next/image?url=%2Fimages%2Fsupport%2Flogo-univ-artois-blanc_0.png&w=256&q=75 2x"
-            style="color: transparent;"
+            placeholder="empty"
+            src="/images/support/logo-univ-artois-blanc_0.png"
             width="125"
           />
         </a>
@@ -81,13 +77,9 @@ exports[`Footer matches the snapshot 1`] = `
           <img
             alt="Institute for Strategic Research homepage"
             class="support-logo"
-            data-nimg="1"
-            decoding="async"
             height="81"
-            loading="lazy"
-            src="/_next/image?url=%2Fimages%2Fsupport%2Firsem-white.png&w=256&q=75"
-            srcset="/_next/image?url=%2Fimages%2Fsupport%2Firsem-white.png&w=128&q=75 1x, /_next/image?url=%2Fimages%2Fsupport%2Firsem-white.png&w=256&q=75 2x"
-            style="color: transparent;"
+            placeholder="empty"
+            src="/images/support/irsem-white.png"
             width="125"
           />
         </a>
