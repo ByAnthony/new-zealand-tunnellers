@@ -45,12 +45,9 @@ exports[`Article matches the snapshot 1`] = `
       <img
         alt="Accessible alt text"
         class="image"
-        data-nimg="1"
-        decoding="async"
         height="575"
-        src="/_next/image?url=%2Fimages%2Fhistory%2Fimg-123.png&w=1920&q=75"
-        srcset="/_next/image?url=%2Fimages%2Fhistory%2Fimg-123.png&w=828&q=75 1x, /_next/image?url=%2Fimages%2Fhistory%2Fimg-123.png&w=1920&q=75 2x"
-        style="color: transparent;"
+        placeholder="empty"
+        src="/images/history/img-123.png"
         width="800"
       />
     </div>
@@ -73,13 +70,9 @@ exports[`Article matches the snapshot 1`] = `
         <img
           alt="Accessible alt text"
           class="image"
-          data-nimg="1"
-          decoding="async"
           height="575"
-          loading="lazy"
-          src="/_next/image?url=%2Fimages%2Fhistory%2Fimg-123.png&w=1920&q=75"
-          srcset="/_next/image?url=%2Fimages%2Fhistory%2Fimg-123.png&w=828&q=75 1x, /_next/image?url=%2Fimages%2Fhistory%2Fimg-123.png&w=1920&q=75 2x"
-          style="color: transparent;"
+          placeholder="empty"
+          src="/images/history/img-123.png"
           width="800"
         />
       </div>
@@ -185,13 +178,9 @@ exports[`Article matches the snapshot 1`] = `
         >
           <img
             alt="Copy to clipboard"
-            data-nimg="1"
-            decoding="async"
             height="16"
-            loading="lazy"
-            src="/_next/image?url=%2Fcopy.png&w=32&q=75"
-            srcset="/_next/image?url=%2Fcopy.png&w=32&q=75 1x"
-            style="color: transparent;"
+            placeholder="empty"
+            src="/copy.png"
             width="13"
           />
         </button>

@@ -126,7 +126,13 @@ export function HowToCite({ id, summary, title, timeline }: Props) {
           alert("How to cite has been copied to clipboard");
         })
         .catch((err) => {
-          console.error("Failed to copy: ", err);
+          alert(
+            "Failed to copy to clipboard. Please try selecting and copying the text manually.",
+          );
+          // Only log errors in development
+          if (process.env.NODE_ENV === "development") {
+            console.error("Failed to copy: ", err);
+          }
         });
     }
   };

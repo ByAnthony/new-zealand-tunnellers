@@ -29,15 +29,9 @@ describe("Article", () => {
     const images = screen.getAllByRole("img");
     expect(images).toHaveLength(3);
     expect(images[0]).toHaveAttribute("alt", "Accessible alt text");
-    expect(images[0]).toHaveAttribute(
-      "src",
-      "/_next/image?url=%2Fimages%2Fhistory%2Fimg-123.png&w=1920&q=75",
-    );
+    expect(images[0]).toHaveAttribute("src", "/images/history/img-123.png");
     expect(images[1]).toHaveAttribute("alt", "Accessible alt text");
-    expect(images[1]).toHaveAttribute(
-      "src",
-      "/_next/image?url=%2Fimages%2Fhistory%2Fimg-123.png&w=1920&q=75",
-    );
+    expect(images[1]).toHaveAttribute("src", "/images/history/img-123.png");
     expect(screen.getByText("An Amazing Photo")).toBeInTheDocument();
     expect(
       screen.getByText("The French Photographer Doisneau"),

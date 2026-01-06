@@ -33,6 +33,31 @@ describe("HowToCite", () => {
       .spyOn(navigator.clipboard, "writeText")
       .mockRejectedValue(new Error("Clipboard error"));
 
+    const alertSpy = jest.spyOn(window, "alert").mockImplementation(() => {});
+
+    render(<HowToCite />);
+
+    fireEvent.click(screen.getByRole("button", { name: "Copy to clipboard" }));
+
+    await waitFor(() => {
+      expect(alertSpy).toHaveBeenCalledWith(
+        "Failed to copy to clipboard. Please try selecting and copying the text manually.",
+      );
+    });
+
+    alertSpy.mockRestore();
+    jest.restoreAllMocks();
+  });
+
+  test("console error is called in development mode when clipboard fails", async () => {
+    const originalEnv = process.env.NODE_ENV;
+    process.env.NODE_ENV = "development";
+
+    jest
+      .spyOn(navigator.clipboard, "writeText")
+      .mockRejectedValue(new Error("Clipboard error"));
+
+    const alertSpy = jest.spyOn(window, "alert").mockImplementation(() => {});
     const consoleErrorSpy = jest
       .spyOn(console, "error")
       .mockImplementation(() => {});
@@ -42,13 +67,18 @@ describe("HowToCite", () => {
     fireEvent.click(screen.getByRole("button", { name: "Copy to clipboard" }));
 
     await waitFor(() => {
+      expect(alertSpy).toHaveBeenCalledWith(
+        "Failed to copy to clipboard. Please try selecting and copying the text manually.",
+      );
       expect(consoleErrorSpy).toHaveBeenCalledWith(
         "Failed to copy: ",
         expect.any(Error),
       );
     });
 
+    alertSpy.mockRestore();
     consoleErrorSpy.mockRestore();
+    process.env.NODE_ENV = originalEnv;
     jest.restoreAllMocks();
   });
 });

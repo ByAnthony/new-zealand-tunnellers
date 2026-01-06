@@ -209,13 +209,9 @@ exports[`Timeline matches the snapshot 1`] = `
                   <img
                     alt="Image for The Company"
                     class="event-image"
-                    data-nimg="1"
-                    decoding="async"
                     height="489"
-                    loading="lazy"
-                    src="/_next/image?url=%2Fimages%2Froll%2Fimage.jpg&w=1920&q=75"
-                    srcset="/_next/image?url=%2Fimages%2Froll%2Fimage.jpg&w=750&q=75 1x, /_next/image?url=%2Fimages%2Froll%2Fimage.jpg&w=1920&q=75 2x"
-                    style="color: transparent;"
+                    placeholder="empty"
+                    src="/images/roll/image.jpg"
                     width="670"
                   />
                   <p>
@@ -268,13 +264,9 @@ exports[`Timeline matches the snapshot 1`] = `
                   <img
                     alt="Image for The Company"
                     class="event-image"
-                    data-nimg="1"
-                    decoding="async"
                     height="489"
-                    loading="lazy"
-                    src="/_next/image?url=%2Fimages%2Froll%2Fimage.jpg&w=1920&q=75"
-                    srcset="/_next/image?url=%2Fimages%2Froll%2Fimage.jpg&w=750&q=75 1x, /_next/image?url=%2Fimages%2Froll%2Fimage.jpg&w=1920&q=75 2x"
-                    style="color: transparent;"
+                    placeholder="empty"
+                    src="/images/roll/image.jpg"
                     width="670"
                   />
                   <p>
@@ -454,13 +446,9 @@ exports[`Timeline matches the snapshot 1`] = `
         >
           <img
             alt="Copy to clipboard"
-            data-nimg="1"
-            decoding="async"
             height="16"
-            loading="lazy"
-            src="/_next/image?url=%2Fcopy.png&w=32&q=75"
-            srcset="/_next/image?url=%2Fcopy.png&w=32&q=75 1x"
-            style="color: transparent;"
+            placeholder="empty"
+            src="/copy.png"
             width="13"
           />
         </button>

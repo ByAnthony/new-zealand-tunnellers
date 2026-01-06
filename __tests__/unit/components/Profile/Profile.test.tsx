@@ -29,7 +29,7 @@ describe("Profile", () => {
     expect(images[0]).toHaveAttribute("alt", "Portrait of John Smith");
     expect(images[0]).toHaveAttribute(
       "src",
-      "/_next/image?url=%2Fimages%2Froll%2Ftunnellers%2F1%2F1234.jpg&w=640&q=75",
+      "/images/roll/tunnellers/1/1234.jpg",
     );
 
     // Summary
@@ -79,14 +79,14 @@ describe("Profile", () => {
     expect(images[1]).toHaveAttribute("alt", "British War Medal ribbon");
     expect(images[1]).toHaveAttribute(
       "src",
-      "/_next/image?url=%2Fimages%2Froll%2Fmedals%2Fbritish-war-medal.png&w=96&q=75",
+      "/images/roll/medals/british-war-medal.png",
     );
     expect(screen.getByText("British War Medal")).toBeInTheDocument();
 
     expect(images[2]).toHaveAttribute("alt", "Victory Medal ribbon");
     expect(images[2]).toHaveAttribute(
       "src",
-      "/_next/image?url=%2Fimages%2Froll%2Fmedals%2Fvictory-medal.png&w=96&q=75",
+      "/images/roll/medals/victory-medal.png",
     );
     expect(screen.getByText("Victory Medal")).toBeInTheDocument();
 
