@@ -33,22 +33,19 @@ describe("HowToCite", () => {
       .spyOn(navigator.clipboard, "writeText")
       .mockRejectedValue(new Error("Clipboard error"));
 
-    const consoleErrorSpy = jest
-      .spyOn(console, "error")
-      .mockImplementation(() => {});
+    const alertSpy = jest.spyOn(window, "alert").mockImplementation(() => {});
 
     render(<HowToCite />);
 
     fireEvent.click(screen.getByRole("button", { name: "Copy to clipboard" }));
 
     await waitFor(() => {
-      expect(consoleErrorSpy).toHaveBeenCalledWith(
-        "Failed to copy: ",
-        expect.any(Error),
+      expect(alertSpy).toHaveBeenCalledWith(
+        "Failed to copy to clipboard. Please try selecting and copying the text manually.",
       );
     });
 
-    consoleErrorSpy.mockRestore();
+    alertSpy.mockRestore();
     jest.restoreAllMocks();
   });
 });

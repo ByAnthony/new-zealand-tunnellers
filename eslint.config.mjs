@@ -1,16 +1,36 @@
 import js from "@eslint/js";
+import nextPlugin from "@next/eslint-plugin-next";
 import { defineConfig, globalIgnores } from "eslint/config";
-import nextVitals from "eslint-config-next/core-web-vitals";
 import prettier from "eslint-config-prettier/flat";
 import importPlugin from "eslint-plugin-import";
+import reactPlugin from "eslint-plugin-react";
+import reactHooksPlugin from "eslint-plugin-react-hooks";
 import globals from "globals";
 
 export default defineConfig([
-  // Next.js 16 flat config (includes react & react-hooks presets)
-  ...nextVitals,
-
   // Core ESLint rules
   js.configs.recommended,
+
+  // React & Next.js rules
+  {
+    plugins: {
+      react: reactPlugin,
+      "react-hooks": reactHooksPlugin,
+      "@next/next": nextPlugin,
+    },
+    rules: {
+      ...reactPlugin.configs.recommended.rules,
+      ...reactHooksPlugin.configs.recommended.rules,
+      ...nextPlugin.configs.recommended.rules,
+      ...nextPlugin.configs["core-web-vitals"].rules,
+      "react/react-in-jsx-scope": "off", // Not needed in React 19
+    },
+    settings: {
+      react: {
+        version: "detect",
+      },
+    },
+  },
 
   // Your import ordering rule (register the plugin explicitly in flat config)
   {
@@ -32,6 +52,8 @@ export default defineConfig([
           "newlines-between": "always",
         },
       ],
+      // Prevent console statements in production code
+      "no-console": ["warn", { allow: ["warn", "error"] }],
     },
   },
 

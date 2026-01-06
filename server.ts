@@ -11,10 +11,12 @@ app.prepare().then(() => {
   createServer((req, res) => {
     const parsedUrl = parse(req.url!, true);
     handle(req, res, parsedUrl);
-  }).listen(port);
-  console.log(
-    `> Server listening at http://localhost:${port} as ${
-      dev ? "development" : process.env.NODE_ENV
-    }`,
-  );
+  }).listen(port, () => {
+    if (dev) {
+      // Only log in development mode
+      process.stdout.write(
+        `> Server listening at http://localhost:${port} as development\n`,
+      );
+    }
+  });
 });
