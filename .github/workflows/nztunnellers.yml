@@ -126,6 +126,6 @@ jobs:
             playwright.config.js
 
       - name: Restart server
-        run: LANG="en_US.UTF-8" ; ssh -T -p 5022 deploy "source nodevenv/$SERVER_DIR/20/bin/activate && cd $SERVER_DIR && npm ci && touch ~/$SERVER_DIR/tmp/restart.txt"
+        run: LANG="en_US.UTF-8" ; ssh -T -p 5022 deploy "source nodevenv/$SERVER_DIR/22/bin/activate && cd $SERVER_DIR && npm ci && touch ~/$SERVER_DIR/tmp/restart.txt"
         env:
           SERVER_DIR: ${{ secrets.SERVER_DIR }}
