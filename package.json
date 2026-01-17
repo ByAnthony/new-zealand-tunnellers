@@ -20,8 +20,8 @@
     ]
   },
   "engines": {
-    "node": "20.18.2",
-    "npm": "10.8.2"
+    "node": "22.9.0",
+    "npm": "10.8.3"
   },
   "dependencies": {
     "cross-env": "10.1.0",
