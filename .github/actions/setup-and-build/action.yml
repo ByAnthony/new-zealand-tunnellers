@@ -58,7 +58,19 @@ runs:
 
     - name: Checkout database
       shell: bash
-      run: mysql -h 127.0.0.1 -u $USERNAME -p$PASSWORD $DATABASE < ~/database/github_actions.sql
+      run: |
+        set -euo pipefail
+        cat > ~/.my.cnf <<'EOF'
+        [client]
+        host=127.0.0.1
+        user=${USERNAME}
+        password=${PASSWORD}
+        EOF
+        chmod 600 ~/.my.cnf
+
+        mysql "$DATABASE" < ~/database/github_actions.sql
+
+        rm -f ~/.my.cnf
       env:
         USERNAME: ${{ inputs.username }}
         PASSWORD: ${{ inputs.password }}
