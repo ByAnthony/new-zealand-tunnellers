@@ -41,7 +41,7 @@ runs:
 
     - name: Export database
       shell: bash
-      run: LANG="en_US.UTF-8" ; ssh -T -p 5022 deploy "mysqldump -P 3306 -u $USERNAME -p$PASSWORD $DATABASE > github_actions.sql"
+      run: LANG="en_US.UTF-8" ; ssh -T -p 5022 deploy "export MYSQL_PWD=$PASSWORD; mysqldump -P 3306 -u $USERNAME $DATABASE > github_actions.sql"
       env:
         USERNAME: ${{ inputs.username }}
         PASSWORD: ${{ inputs.password }}
@@ -51,7 +51,7 @@ runs:
       shell: bash
       run: |
         mkdir -p ~/database
-        LANG="en_US.UTF-8" ; scp -i ~/.ssh/deploy.key -P 5022 $USERNAME@$SERVER:~/github_actions.sql ~/database
+        LANG="en_US.UTF-8" ; scp -P 5022 deploy:~/github_actions.sql ~/database
       env:
         SERVER: ${{ inputs.host }}
         USERNAME: ${{ inputs.username }}
