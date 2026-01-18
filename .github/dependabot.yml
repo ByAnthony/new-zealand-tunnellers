@@ -7,12 +7,12 @@ updates:
     open-pull-requests-limit: 5
     allow:
       - dependency-type: "direct"
-    ignore:
-      - dependency-name: "@types/node"
-      - dependency-name: "eslint-plugin-react-hooks"
-        update-types: ["version-update:semver-major"]
-      - dependency-name: "lint-staged"
-        update-types: ["version-update:semver-major"]
+    # ignore:
+    #   - dependency-name: "@types/node"
+    #   - dependency-name: "eslint-plugin-react-hooks"
+    #     update-types: ["version-update:semver-major"]
+    #   - dependency-name: "lint-staged"
+    #     update-types: ["version-update:semver-major"]
     groups:
       production-dependencies:
         dependency-type: "production"
