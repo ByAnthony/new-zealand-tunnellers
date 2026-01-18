@@ -58,10 +58,10 @@ runs:
 
     - name: Checkout database
       shell: bash
-      run: mysql -h 127.0.0.1 -u $USERNAME -p$PASSWORD $DATABASE < ~/database/github_actions.sql
+      run: mysql -h 127.0.0.1 -u $USERNAME $DATABASE < ~/database/github_actions.sql
       env:
         USERNAME: ${{ inputs.username }}
-        PASSWORD: ${{ inputs.password }}
+        MYSQL_PWD: ${{ inputs.password }}
         DATABASE: ${{ inputs.database }}
 
     - name: Setup node
