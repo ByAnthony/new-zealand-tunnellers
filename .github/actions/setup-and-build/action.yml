@@ -58,22 +58,10 @@ runs:
 
     - name: Checkout database
       shell: bash
-      run: |
-        set -euo pipefail
-        cat > ~/.my.cnf <<'EOF'
-        [client]
-        host=127.0.0.1
-        user=${USERNAME}
-        password=${PASSWORD}
-        EOF
-        chmod 600 ~/.my.cnf
-
-        mysql "$DATABASE" < ~/database/github_actions.sql
-
-        rm -f ~/.my.cnf
+      run: mysql -h 127.0.0.1 -u $USERNAME $DATABASE < ~/database/github_actions.sql
       env:
         USERNAME: ${{ inputs.username }}
-        PASSWORD: ${{ inputs.password }}
+        MYSQL_PWD: ${{ inputs.password }}
         DATABASE: ${{ inputs.database }}
 
     - name: Setup node
