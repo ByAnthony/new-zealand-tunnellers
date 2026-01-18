@@ -49,7 +49,7 @@ jobs:
     timeout-minutes: 60
     services:
       mariadb:
-        image: mariadb:10.2
+        image: mariadb:10.6.21
         ports:
           - 3306:3306
         env:
@@ -83,7 +83,7 @@ jobs:
     needs: run-e2e-tests
     services:
       mariadb:
-        image: mariadb:10.2
+        image: mariadb:10.6.21
         ports:
           - 3306:3306
         env:
@@ -126,6 +126,6 @@ jobs:
             playwright.config.js
 
       - name: Restart server
-        run: LANG="en_US.UTF-8" ; ssh -T -p 5022 deploy "source nodevenv/$SERVER_DIR/20/bin/activate && cd $SERVER_DIR && npm ci && touch ~/$SERVER_DIR/tmp/restart.txt"
+        run: LANG="en_US.UTF-8" ; ssh -T -p 5022 deploy "source nodevenv/$SERVER_DIR/22/bin/activate && cd $SERVER_DIR && npm ci && touch ~/$SERVER_DIR/tmp/restart.txt"
         env:
           SERVER_DIR: ${{ secrets.SERVER_DIR }}

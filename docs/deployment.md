@@ -1,12 +1,12 @@
 # Deployment
 
-This document is a step by step guide on how to deploy a Next.js App to cPanel.
+This document is a step by step guide on how to deploy a Next.js App to [N0C](https://kb.n0c.com/en/what-is-n0c/).
 
 ## Prerequisite
 
 ### Next.js Custom Server
 
-To being able to use your Next.js app with cPanel, you will have to use a [custom server](https://github.com/vercel/next.js/tree/canary/examples/custom-server):
+To being able to use your Next.js app with N0C, you will have to use a [custom server](https://github.com/vercel/next.js/tree/canary/examples/custom-server):
 
 1. Install `cross-env` and `nodemon` packages:
 
@@ -49,16 +49,16 @@ Server entry point is `server.ts` in development and `dist/server.js` in product
    };
    ```
 
-### cPanel Setup
+### N0C Setup
 
-1. Go to **Setup Node.js App** in the Software Section of your cPanel;
-2. Click **Create Application**:
+1. Go to **Node.js** in the Languages Section of your N0C;
+2. Click **Create**:
    1. Choose your **Node.js version**;
    2. Choose your **Application mode** (development or production);
-   3. **Application root**: type a name for the folder where your Next.js app will live;
-   4. **Application url**: this will already be preselected to your domain name by default;
-   5. **Application startup file**: `dist/server.js`.
-3. Click **Create** at the top right.
+   3. **App directory**: type a name for the folder where your Next.js app will live;
+   4. **App url**: this will already be preselected to your domain name by default;
+   5. **Boot file**: `dist/server.js`.
+3. Click **Create**.
 
 This setup creates a folder according to the application root your have mentioned on your server. A few sub folders should be generated like `/tmp/` and `/dist/` folders.
 
@@ -68,7 +68,7 @@ The entire deployment process can easily be automatized through GitHub Actions. 
 
 ### SSH Key
 
-Setup an SSH key (without passphrase) to being able to access your server.
+Setup an SSH key (without passphrase) to being able to access your server. You can add it in **SSH Keys** in the Files section of your N0C.
 
 ### Database
 
@@ -95,13 +95,13 @@ To sync your modified files, the `.next` and `/dist/` folders, use [SamKirkland/
 
 ### Restart Server Automatically
 
-cPanel uses `nodevenv` to set the desired Node.js version for your web application. Therefore, when connecting to your server, run:
+N0C uses `nodevenv` to set the desired Node.js version for your web application. Therefore, when connecting to your server, run:
 
 ```bash
 source nodevenv/${folder-where-your-application-lives}/${node-version}/bin/activate
 ```
 
-**Note**: the Node version should just be `19` if your are using `19.9.0` for example.
+**Note**: the Node version should just be `22` if your are using `22.9.0` for example.
 
 Then:
 
@@ -119,9 +119,8 @@ This will restart your application automatically after a new rollout.
 
 ### Updating Node.js
 
-cPanel only release Long Term Support (LTS) versions of Node.js. To update:
-
-- In **Setup Node.js App**, change the node version to the latest in your already created web application:
-  - Under the hood cPanel will create a new folder with the new node version: `nodevenv/${folder-where-your-application-lives}/${new-node-version}/bin/activate`.
+- In **Node.js**, change the node version to the latest in your already created web application:
+  - Under the hood N0C will create a new folder with the new node version: `nodevenv/${folder-where-your-application-lives}/${new-node-version}/bin/activate`.
+- Raise a PR to update to the new version.
 - Update the `${new-node-version}` in the [GitHub Actions workflow](https://github.com/ByAnthony/new-zealand-tunnellers/blob/7f5556524cc5f7731ed1554f7b1814a5e8580dc6/.github/workflows/nztunnellers.yml#L130);
 - Redeploy.
