@@ -26,7 +26,7 @@
   "dependencies": {
     "cross-env": "10.1.0",
     "lodash": "4.17.23",
-    "mysql2": "3.16.3",
+    "mysql2": "3.17.1",
     "next": "16.1.6",
     "nodemon": "3.1.11",
     "prettier": "3.8.1",
