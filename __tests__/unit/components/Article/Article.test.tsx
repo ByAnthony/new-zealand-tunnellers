@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
+import { mockArticle } from "__tests__/unit/utils/mocks/mockArticle";
 
 import { Article } from "@/components/Article/Article";
-import { mockArticle } from "__tests__/unit/utils/mocks/mockArticle";
 
 jest.useFakeTimers().setSystemTime(new Date("2023-05-04"));
 
