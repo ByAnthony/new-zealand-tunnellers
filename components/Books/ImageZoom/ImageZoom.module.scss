@@ -1,0 +1,28 @@
+.tools {
+  position: absolute;
+  margin-top: 0.625rem;
+  margin-left: 0.625rem;
+  display: grid;
+  place-items: center;
+  z-index: 10000;
+
+  button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.8rem;
+    color: white;
+    background-color: var(--accent-color);
+  }
+
+  .control {
+    height: 2.5rem;
+    width: 2.5rem;
+    border-radius: 1.2rem;
+    transition: all 0.9s ease-in-out;
+  }
+
+  .reset {
+    transform: rotate(45deg);
+  }
+}
