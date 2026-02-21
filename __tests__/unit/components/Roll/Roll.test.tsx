@@ -1,8 +1,8 @@
 import { fireEvent, screen, render } from "@testing-library/react";
+import { mockTunnellers } from "__tests__/unit/utils/mocks/mockTunnellers";
 
 import { Roll } from "@/components/Roll/Roll";
 import { AttachedCorpsBadge } from "@/components/Roll/RollDetails/RollDetails";
-import { mockTunnellers } from "__tests__/unit/utils/mocks/mockTunnellers";
 
 async function renderRoll() {
   const utils = render(<Roll tunnellers={mockTunnellers} />);

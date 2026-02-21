@@ -1,5 +1,6 @@
-import { getUniqueCorps } from "@/components/Roll/utils/corpsUtils";
 import { mockTunnellers } from "__tests__/unit/utils/mocks/mockTunnellers";
+
+import { getUniqueCorps } from "@/components/Roll/utils/corpsUtils";
 
 describe("getUniqueDetachments", () => {
   test("returns unique detachments sorted correctly", () => {

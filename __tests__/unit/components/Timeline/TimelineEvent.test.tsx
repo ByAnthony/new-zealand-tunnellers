@@ -1,6 +1,4 @@
 import { render, screen } from "@testing-library/react";
-
-import { TimelineEvent } from "@/components/Timeline/TimelineEvent/TimelineEvent";
 import {
   mockEventBuried,
   mockEventCompany,
@@ -15,6 +13,8 @@ import {
   mockEventTitleAndDescription,
   mockEventTrained,
 } from "__tests__/unit/utils/mocks/mockFrontEvents";
+
+import { TimelineEvent } from "@/components/Timeline/TimelineEvent/TimelineEvent";
 
 test("should render a timeline", () => {
   render(

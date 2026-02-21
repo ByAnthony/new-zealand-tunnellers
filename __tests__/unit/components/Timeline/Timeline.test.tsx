@@ -1,8 +1,8 @@
 import { render, screen } from "@testing-library/react";
-
-import { Timeline } from "@/components/Timeline/Timeline";
 import { findElementWithText } from "__tests__/unit/utils/findElementWithText";
 import { mockTunnellerProfile } from "__tests__/unit/utils/mocks/mockTunneller";
+
+import { Timeline } from "@/components/Timeline/Timeline";
 
 jest.useFakeTimers().setSystemTime(new Date("2023-05-04"));
 
