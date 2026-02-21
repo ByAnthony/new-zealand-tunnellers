@@ -27,35 +27,6 @@ export const parseChapterHeading = (
   return { number, text };
 };
 
-export const Header: React.FC<{
-  children: ReactNode;
-  className?: string;
-  styles: Record<string, string>;
-  locale: string;
-}> = ({ children, styles, locale }) => {
-  const title = extractText(children).trim();
-  const chapter = parseChapterHeading(title, locale);
-
-  return (
-    <div className={styles.header}>
-      <div className={styles.link}>
-        <Link href="/#history">Resources</Link>
-        <h1>
-          {chapter !== null && (
-            <>
-              <div className={styles["chapitre-number"]}>
-                {locale === "fr" ? "Chapitre" : "Chapter"} {chapter.number}
-              </div>
-              <span>{chapter.text || null}</span>
-            </>
-          )}
-          {chapter === null && title}
-        </h1>
-      </div>
-    </div>
-  );
-};
-
 export const formatHeading = (children: ReactNode) => {
   return children === "Footnotes" ? <h2>Notes</h2> : <h2>{children}</h2>;
 };

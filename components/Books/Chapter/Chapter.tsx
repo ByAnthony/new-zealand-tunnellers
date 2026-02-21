@@ -9,11 +9,11 @@ import remarkRemoveComments from "remark-remove-comments";
 import STYLES from "./Chapter.module.scss";
 import {
   formatHeading,
-  Header,
   rehypeRemoveFootnoteBackrefs,
 } from "@/utils/helpers/books/titleUtil";
 import { ImageZoom } from "../ImageZoom/ImageZoom";
 import React from "react";
+import { Heading1 } from "./Heading1";
 
 type Props = {
   locale: string;
@@ -35,77 +35,77 @@ export const Chapter = (props: Props) => {
   return (
     <div className={STYLES.container}>
       <div className={STYLES.text}>
-        <div className={STYLES["text-content"]}>
-          <ReactMarkdown
-            remarkPlugins={[remarkGfm, remarkRemoveComments]}
-            rehypePlugins={[rehypeRaw, rehypeRemoveFootnoteBackrefs]}
-            components={{
-              h1: ({ children }) => (
-                <Header styles={STYLES} locale={props.locale}>
-                  {children}
-                </Header>
-              ),
-              h2: ({ children }) => formatHeading(children),
-              img: (props) => <ImageZoom {...props} />,
-              a: ({ href, children, ...props }) => {
-                const isFootnoteRef =
-                  typeof href === "string" &&
-                  (href.includes("#user-content-fn-") ||
-                    href.includes("#user-content-fnref-"));
+        <ReactMarkdown
+          remarkPlugins={[remarkGfm, remarkRemoveComments]}
+          rehypePlugins={[rehypeRaw, rehypeRemoveFootnoteBackrefs]}
+          components={{
+            h1: ({ children }) => (
+              <Heading1 styles={STYLES} locale={props.locale}>
+                {children}
+              </Heading1>
+            ),
+            h2: ({ children }) => formatHeading(children),
+            img: (props) => <ImageZoom {...props} />,
+            a: ({ href, children, ...props }) => {
+              const isFootnoteRef =
+                typeof href === "string" &&
+                (href.includes("#user-content-fn-") ||
+                  href.includes("#user-content-fnref-"));
 
-                if (!isFootnoteRef)
-                  return (
-                    <a href={href} {...props}>
-                      {children}
-                    </a>
-                  );
-
+              if (!isFootnoteRef)
                 return (
-                  <a className={STYLES.footnote} href={href} {...props}>
-                    [{children}]
+                  <a href={href} {...props}>
+                    {children}
                   </a>
                 );
-              },
 
-              li: ({ node, children, ...props }: any) => {
-                const id = (node?.properties?.id as string) ?? "";
-                const m = id.match(/(?:user-content-)?fn-(\d+)/);
-                if (!m) return <li {...props}>{children}</li>;
+              return (
+                <a
+                  className={`${STYLES.footnote} anchor-link`}
+                  href={href}
+                  {...props}
+                >
+                  [{children}]
+                </a>
+              );
+            },
+            li: ({ node, children, ...props }: any) => {
+              const id = (node?.properties?.id as string) ?? "";
+              const m = id.match(/(?:user-content-)?fn-(\d+)/);
+              if (!m) return <li {...props}>{children}</li>;
 
-                const number = m[1];
+              const number = m[1];
 
-                // If footnote content is wrapped in <p>, unwrap it so it stays inline
-                const arr = React.Children.toArray(children);
-                const first = arr[0];
+              // children is typically [ <p>...</p> ]
+              const arr = React.Children.toArray(children);
+              const first = arr[0];
 
-                let content = children;
+              let inlineContent = children;
 
-                if (
-                  React.isValidElement(first) &&
-                  (first as any).type === "p"
-                ) {
-                  content = (first as any).props.children; // unwrap <p>...</p>
-                  // If there can be more siblings after <p>, you can append them too:
-                  if (arr.length > 1) content = [content, ...arr.slice(1)];
-                }
+              if (React.isValidElement(first) && (first as any).type === "p") {
+                // unwrap the p so it becomes inline content
+                inlineContent = (first as any).props.children;
+                // include any siblings after the <p> just in case
+                if (arr.length > 1)
+                  inlineContent = [inlineContent, ...arr.slice(1)];
+              }
 
-                return (
-                  <li {...props} className={STYLES.footnoteItem}>
-                    <a
-                      href={`#user-content-fnref-${number}`}
-                      className={STYLES.footnoteNumber}
-                    >
-                      {number}.
-                    </a>{" "}
-                    <span className={STYLES.footnoteText}>{content}</span>
-                  </li>
-                );
-              },
-            }}
-          >
-            {props.content}
-          </ReactMarkdown>
-        </div>
+              return (
+                <li {...props} className={STYLES.footnotes}>
+                  <a
+                    href={`#user-content-fnref-${number}`}
+                    className="anchor-link"
+                  >
+                    {number}.
+                  </a>{" "}
+                  {inlineContent}
+                </li>
+              );
+            },
+          }}
+        >
+          {props.content}
+        </ReactMarkdown>
       </div>
     </div>
   );

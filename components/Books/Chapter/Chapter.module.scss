@@ -16,22 +16,6 @@
   }
 }
 
-.footnoteItem {
-  display: flex;
-  gap: 0.5rem;
-  align-items: baseline;
-}
-
-.footnoteNumber {
-  flex: 0 0 auto;
-  white-space: nowrap;
-}
-
-.footnoteText {
-  flex: 1 1 auto;
-  min-width: 0;
-}
-
 .text {
   @include variables.desktop {
     margin: 0 auto;
@@ -39,61 +23,77 @@
     max-width: variables.$inner-width;
   }
 
-  .text-content {
-    h1 {
-      padding: 8rem 0;
-      line-height: normal;
+  h1 {
+    padding: 8rem 0;
+    line-height: normal;
 
-      .chapitre-number {
-        font-size: 1.5rem;
-        letter-spacing: 0;
-        line-height: 2;
-        text-transform: none;
-      }
+    .chapitre-number {
+      font-size: 1.5rem;
+      letter-spacing: 0;
+      line-height: 2;
+      text-transform: none;
+    }
+  }
+
+  h2 {
+    margin: variables.$l-margin 0 variables.$xxs-margin 0;
+  }
+
+  p {
+    padding: 0.5rem 0;
+    font-size: 1.15rem;
+    font-weight: 200;
+    line-height: 1.8rem;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+
+    @include variables.desktop {
+      font-size: 1.25rem;
+      line-height: 2.25rem;
     }
 
-    h2 {
-      padding-top: 1.4rem;
+    sup {
+      font-size: 0.9rem;
+      vertical-align: super;
+      line-height: 80%;
     }
 
-    p {
-      padding: 0.5rem 0;
-      font-size: 1.15rem;
+    .footnote {
+      font-size: 0.9rem;
+      line-height: 80%;
+      color: variables.$secondary-color;
+    }
+  }
+
+  /* -----------------------------
+    Footnotes list style
+  -------------------------------- */
+  ol {
+    li {
+      font-size: 0.9rem;
       font-weight: 200;
-      line-height: 1.8rem;
-      overflow-wrap: anywhere;
-      word-break: break-word;
+
+      @include variables.tablet {
+        font-size: 1rem;
+      }
 
       @include variables.desktop {
-        font-size: 1.25rem;
-        line-height: 2.25rem;
+        font-size: 1.1rem;
       }
 
-      sup {
-        font-size: 0.9rem;
-        vertical-align: super;
-        line-height: 80%;
+      p {
+        @include variables.notes-paragraph;
+
+        display: inline;
+        margin: 0;
+        padding: 0;
+
+        font-size: inherit;
+        font-weight: inherit;
       }
 
-      .footnote {
-        font-size: 0.9rem;
-        line-height: 80%;
+      a {
         color: variables.$secondary-color;
-      }
-    }
-
-    /* Footnotes list style */
-    ol {
-      margin: variables.$base-margin 0;
-
-      li {
-        p {
-          @include variables.notes-paragraph;
-        }
-
-        a {
-          color: variables.$secondary-color;
-        }
       }
 
       @include variables.desktop {
@@ -103,48 +103,56 @@
       }
     }
 
-    /* Sources and bibliography list style */
-    ul {
-      padding-left: 1rem;
+    @include variables.desktop {
+      margin: 0 auto;
+      padding: 0;
+      width: 42rem;
+    }
+  }
+
+  /* -----------------------------
+    Sources and bibliography list style
+  -------------------------------- */
+  ul {
+    padding-left: 1rem;
+    font-weight: 200;
+    list-style: disc;
+
+    li {
+      padding: 0.4rem 0;
+      font-size: 1.3rem;
+      line-height: 2rem;
+      letter-spacing: -0.025rem;
+    }
+
+    li::marker {
+      font-size: 1.15rem;
+      line-height: 1.5rem;
+    }
+  }
+
+  figcaption {
+    margin: 3rem 0 2rem 0;
+    font-size: 1.2rem;
+    font-weight: 400;
+    line-height: normal;
+    text-align: center;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 3.5rem;
+    border-radius: 0.625rem;
+  }
+
+  blockquote {
+    padding: 1rem 1.5rem;
+
+    p {
+      font-size: 1.15rem;
       font-weight: 200;
-      list-style: disc;
-
-      li {
-        padding: 0.4rem 0;
-        font-size: 1.3rem;
-        line-height: 2rem;
-        letter-spacing: -0.025rem;
-      }
-
-      li::marker {
-        font-size: 1.15rem;
-        line-height: 1.5rem;
-      }
-    }
-
-    figcaption {
-      margin: 3rem 0 2rem 0;
-      font-size: 1.2rem;
-      font-weight: 400;
-      line-height: normal;
-      text-align: center;
-    }
-
-    img {
-      max-width: 100%;
-      height: auto;
-      margin-bottom: 3.5rem;
-      border-radius: 0.625rem;
-    }
-
-    blockquote {
-      padding: 1rem 1.5rem;
-
-      p {
-        font-size: 1.15rem;
-        font-weight: 200;
-        line-height: 1.75rem;
-      }
+      line-height: 1.75rem;
     }
   }
 }
