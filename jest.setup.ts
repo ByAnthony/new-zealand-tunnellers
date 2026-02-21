@@ -5,9 +5,9 @@ import React from "react";
 jest.mock("next/image", () => ({
   __esModule: true,
   default: (props: any) => {
-    const imgProps = { ...props };
-    delete imgProps.priority;
-    delete imgProps.quality;
+    // Use object destructuring with rest syntax to omit `priority` and `quality`
+    // eslint-disable-next-line no-unused-vars
+    const { priority, quality, ...imgProps } = props;
 
     return React.createElement("img", imgProps);
   },
