@@ -6,10 +6,33 @@ import importPlugin from "eslint-plugin-import";
 import reactPlugin from "eslint-plugin-react";
 import reactHooksPlugin from "eslint-plugin-react-hooks";
 import globals from "globals";
+import tseslint from "typescript-eslint";
 
 export default defineConfig([
-  // Core ESLint rules
   js.configs.recommended,
+
+  // TypeScript / TSX support (so files are actually linted)
+  {
+    files: ["**/*.{ts,tsx}"],
+    languageOptions: {
+      parser: tseslint.parser,
+      parserOptions: {
+        ecmaVersion: "latest",
+        sourceType: "module",
+        ecmaFeatures: { jsx: true },
+      },
+      globals: {
+        ...globals.browser,
+        ...globals.node,
+      },
+    },
+    plugins: {
+      "@typescript-eslint": tseslint.plugin,
+    },
+    rules: {
+      ...tseslint.configs.recommended.rules,
+    },
+  },
 
   // React & Next.js rules
   {
@@ -23,16 +46,14 @@ export default defineConfig([
       ...reactHooksPlugin.configs.recommended.rules,
       ...nextPlugin.configs.recommended.rules,
       ...nextPlugin.configs["core-web-vitals"].rules,
-      "react/react-in-jsx-scope": "off", // Not needed in React 19
+      "react/react-in-jsx-scope": "off",
     },
     settings: {
-      react: {
-        version: "detect",
-      },
+      react: { version: "detect" },
     },
   },
 
-  // Your import ordering rule (register the plugin explicitly in flat config)
+  // Import ordering
   {
     plugins: { import: importPlugin },
     rules: {
@@ -46,27 +67,34 @@ export default defineConfig([
               group: "unknown",
               position: "before",
             },
-            { pattern: "STYLES", group: "unknown", position: "after" },
+            {
+              pattern: "**/*.module.{css,scss,sass}",
+              group: "unknown",
+              position: "after",
+            },
           ],
           alphabetize: { order: "asc", caseInsensitive: true },
           "newlines-between": "always",
         },
       ],
-      // Prevent console statements in production code
       "no-console": ["warn", { allow: ["warn", "error"] }],
     },
   },
 
   // Jest globals only in tests
   {
-    files: ["**/__tests__/**"],
+    files: [
+      "**/__tests__/**",
+      "**/*.test.{js,jsx,ts,tsx}",
+      "**/*.spec.{js,jsx,ts,tsx}",
+      "**/jest.setup.{js,ts}",
+      "**/setupTests.{js,ts}",
+    ],
     languageOptions: { globals: { ...globals.jest } },
   },
 
-  // Keep Prettier last so it can disable conflicting formatting rules
   prettier,
 
-  // Ignores (Next ships some by default; add your extras here)
   globalIgnores([
     ".next/**",
     "out/**",
