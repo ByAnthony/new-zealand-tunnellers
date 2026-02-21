@@ -1,23 +1,53 @@
 "use client";
 
-import React from "react";
+import Link from "next/link";
+import React, { ReactNode } from "react";
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import remarkGfm from "remark-gfm";
 import remarkRemoveComments from "remark-remove-comments";
 
 import {
+  extractText,
   formatHeading,
+  parseChapterHeading,
   rehypeRemoveFootnoteBackrefs,
 } from "@/utils/helpers/books/titleUtil";
 
 import STYLES from "./Chapter.module.scss";
-import { Heading1 } from "./Heading1";
 import { ImageZoom } from "../ImageZoom/ImageZoom";
 
 type Props = {
   locale: string;
   content: string;
+};
+
+const MainTitle: React.FC<{
+  children: ReactNode;
+  className?: string;
+  locale: string;
+}> = ({ children, locale }) => {
+  const title = extractText(children).trim();
+  const chapter = parseChapterHeading(title, locale);
+
+  return (
+    <div className={STYLES.header}>
+      <div className={STYLES.link}>
+        <Link href="/#history">Resources</Link> /{" "}
+        {locale === "fr"
+          ? "Les Kiwis aussi creusent des tunnels"
+          : "The Kiwis Dig Tunnels Too"}
+      </div>
+      <div className={STYLES["main-title"]}>
+        <h1>{chapter !== null ? chapter.text : title}</h1>
+      </div>
+      {chapter?.number && (
+        <div className={STYLES["title-line-3"]}>
+          {locale === "fr" ? "Chapitre" : "Chapter"} {chapter?.number}
+        </div>
+      )}
+    </div>
+  );
 };
 
 export const Chapter = (props: Props) => {
@@ -29,9 +59,7 @@ export const Chapter = (props: Props) => {
           rehypePlugins={[rehypeRaw, rehypeRemoveFootnoteBackrefs]}
           components={{
             h1: ({ children }) => (
-              <Heading1 styles={STYLES} locale={props.locale}>
-                {children}
-              </Heading1>
+              <MainTitle locale={props.locale}>{children}</MainTitle>
             ),
             h2: ({ children }) => formatHeading(children),
             img: (props) => <ImageZoom {...props} />,

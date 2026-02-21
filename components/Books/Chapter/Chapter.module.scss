@@ -7,12 +7,50 @@
     margin-top: variables.$l-margin;
   }
 
+  h1 {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  p {
+    margin: variables.$m-margin 0;
+  }
+
   @include variables.tablet {
     margin-top: variables.$xl-margin;
   }
 
   @include variables.desktop {
     margin-top: variables.$xxl-margin;
+  }
+}
+
+.main-title {
+  margin: variables.$m-margin 0;
+
+  @include variables.tablet {
+    margin: variables.$base-margin 0;
+  }
+
+  @include variables.desktop {
+    margin: 0 auto;
+    margin: variables.$l-margin 0;
+    max-width: variables.$inner-width;
+  }
+}
+
+.title-line-3 {
+  margin-top: variables.$s-margin;
+  font-size: 1.25rem;
+  font-weight: 500;
+  text-align: center;
+
+  @include variables.tablet {
+    font-size: 1.35rem;
+  }
+
+  @include variables.desktop {
+    font-size: 2rem;
   }
 }
 
@@ -24,8 +62,8 @@
   }
 
   h1 {
-    padding: 8rem 0;
-    line-height: normal;
+    font-weight: 200;
+    line-height: 5.25rem;
 
     .chapitre-number {
       font-size: 1.5rem;
@@ -69,6 +107,8 @@
     Footnotes list style
   -------------------------------- */
   ol {
+    padding-inline-start: 0;
+
     li {
       font-size: 0.9rem;
       font-weight: 200;
@@ -101,12 +141,6 @@
         padding: variables.$xs-margin 0;
         width: 42rem;
       }
-    }
-
-    @include variables.desktop {
-      margin: 0 auto;
-      padding: 0;
-      width: 42rem;
     }
   }
 
