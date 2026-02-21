@@ -1,11 +1,11 @@
 import { render, screen } from "@testing-library/react";
-
-import { DiaryMedal } from "@/components/Profile/ProfileDiary/DiaryMedal/DiaryMedal";
 import {
   mockBritishWarMedal,
   mockMedals,
   mockVictoryMedal,
 } from "__tests__/unit/utils/mocks/mockTunneller";
+
+import { DiaryMedal } from "@/components/Profile/ProfileDiary/DiaryMedal/DiaryMedal";
 
 const component = <DiaryMedal medals={mockMedals} />;
 

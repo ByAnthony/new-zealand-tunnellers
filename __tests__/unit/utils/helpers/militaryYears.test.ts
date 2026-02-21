@@ -1,4 +1,11 @@
 import {
+  mockFrontEventsWithCompanyEvents,
+  mockFrontEventsWithDeathAfterEndOfService,
+  mockFrontEventsWithTransferred,
+  mockFrontEventsWithTransferToNzAndEndOfService,
+} from "__tests__/unit/utils/mocks/mockFrontEvents";
+
+import {
   DeathData,
   Event,
   JoinEventData,
@@ -21,12 +28,6 @@ import {
   isDeathWar,
   isDeserter,
 } from "@/utils/helpers/militaryYears";
-import {
-  mockFrontEventsWithCompanyEvents,
-  mockFrontEventsWithDeathAfterEndOfService,
-  mockFrontEventsWithTransferred,
-  mockFrontEventsWithTransferToNzAndEndOfService,
-} from "__tests__/unit/utils/mocks/mockFrontEvents";
 
 describe("getTransferred", () => {
   test("returns an object with formatted date and unit when both date and unit are provided", () => {
