@@ -1,5 +1,5 @@
-import { ReactNode } from "react";
 import Link from "next/link";
+import React, { ReactNode } from "react";
 
 import {
   extractText,

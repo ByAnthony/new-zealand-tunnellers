@@ -1,19 +1,19 @@
 "use client";
 
-import { usePathname } from "next/navigation";
+import React from "react";
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import remarkGfm from "remark-gfm";
 import remarkRemoveComments from "remark-remove-comments";
 
-import STYLES from "./Chapter.module.scss";
 import {
   formatHeading,
   rehypeRemoveFootnoteBackrefs,
 } from "@/utils/helpers/books/titleUtil";
-import { ImageZoom } from "../ImageZoom/ImageZoom";
-import React from "react";
+
+import STYLES from "./Chapter.module.scss";
 import { Heading1 } from "./Heading1";
+import { ImageZoom } from "../ImageZoom/ImageZoom";
 
 type Props = {
   locale: string;
@@ -21,17 +21,6 @@ type Props = {
 };
 
 export const Chapter = (props: Props) => {
-  const pathname = usePathname();
-
-  const isEnableProgress =
-    !pathname.includes("sources") &&
-    !pathname.includes("bibliographie") &&
-    !pathname.includes("bibliography") &&
-    !pathname.includes("remerciements") &&
-    !pathname.includes("acknowledgments") &&
-    !pathname.includes("mentions-legales") &&
-    !pathname.includes("legal-notices");
-
   return (
     <div className={STYLES.container}>
       <div className={STYLES.text}>

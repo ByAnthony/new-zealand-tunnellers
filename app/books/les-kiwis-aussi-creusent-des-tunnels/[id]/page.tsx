@@ -1,8 +1,8 @@
 import fs from "fs/promises";
 import path from "path";
 
-import { localePath } from "@/utils/helpers/books/basePathUtil";
 import { Chapter } from "@/components/Books/Chapter/Chapter";
+import { localePath } from "@/utils/helpers/books/basePathUtil";
 
 type Props = {
   params: Promise<{ id: string }>;
