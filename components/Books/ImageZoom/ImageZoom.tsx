@@ -65,7 +65,11 @@ export const ImageZoom: React.FC<MarkdownImgProps> = ({
   const updatedSrc = src.replace(/^(\.\.\/)?public(?=\/|$)/, "");
 
   return (
-    <TransformWrapper initialScale={1} wheel={{ disabled: true }}>
+    <TransformWrapper
+      initialScale={1}
+      wheel={{ disabled: true }}
+      doubleClick={{ disabled: true }}
+    >
       <Controls />
       <TransformComponent>
         <Image

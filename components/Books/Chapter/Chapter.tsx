@@ -34,9 +34,17 @@ const MainTitle: React.FC<{
     <div className={STYLES.header}>
       <div className={STYLES.link}>
         <Link href="/#history">Resources</Link> /{" "}
-        {locale === "fr"
-          ? "Les Kiwis aussi creusent des tunnels"
-          : "The Kiwis Dig Tunnels Too"}
+        <Link
+          href={`/books/${
+            locale === "fr"
+              ? "les-kiwis-aussi-creusent-des-tunnels"
+              : "kiwis-dig-tunnels-too"
+          }`}
+        >
+          {locale === "fr"
+            ? "Les Kiwis aussi creusent des tunnels"
+            : "Kiwis Dig Tunnels Too"}
+        </Link>
       </div>
       <div className={STYLES["main-title"]}>
         <h1>{chapter !== null ? chapter.text : title}</h1>
