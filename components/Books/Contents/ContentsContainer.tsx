@@ -1,18 +1,23 @@
 import fs from "fs/promises";
 import path from "path";
 
-import { Chapter } from "@/components/Books/Chapter/Chapter";
 import { localePath } from "@/utils/helpers/books/basePathUtil";
 
+import { Contents } from "./Contents";
+
 type Props = {
-  params: Promise<{ id: string }>;
+  locale: string;
 };
 
-const getMarkdownFile = async (locale: string, id: string) => {
+const getMarkdownFile = async (locale: string) => {
+  const contents = (locale: string) => {
+    return locale === "fr" ? "sommaire" : "contents";
+  };
+
   const filePath = path.join(
     process.cwd(),
     `./contents/${localePath(locale)}`,
-    `${id}.md`,
+    `${contents(locale)}.md`,
   );
   try {
     const fileContent = await fs.readFile(filePath, "utf-8");
@@ -23,9 +28,8 @@ const getMarkdownFile = async (locale: string, id: string) => {
   }
 };
 
-export default async function Page(props: Props) {
-  const { id } = await props.params;
-  const markdownContent = await getMarkdownFile("fr", id);
+export default async function ContentsContainer({ locale }: Props) {
+  const markdownContent = await getMarkdownFile(locale);
 
-  return <Chapter locale="fr" content={markdownContent} />;
+  return <Contents locale={locale} content={markdownContent} />;
 }

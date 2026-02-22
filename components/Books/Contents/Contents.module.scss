@@ -1,0 +1,71 @@
+@use "app/variables.module.scss";
+
+.container {
+  @include variables.component-margin;
+
+  h1 {
+    padding: 8rem 0;
+    font-family: var(--font-neuton);
+    font-size: 2.5rem;
+    letter-spacing: -0.031em;
+    line-height: 1;
+  }
+
+  ul {
+    li {
+      list-style: none;
+    }
+  }
+
+  a {
+    color: var(--foreground-color);
+    text-decoration: none;
+  }
+
+  .sommaire-content {
+    margin-bottom: 8rem;
+  }
+
+  .titre {
+    margin: 2.5rem 0;
+    font-family: var(--font-neuton);
+    font-size: 2rem;
+    font-weight: 200;
+    letter-spacing: -0.031rem;
+  }
+
+  .titre-container {
+    margin: 2.5rem 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: baseline;
+  }
+
+  .chapitre {
+    font-family: var(--font-neuton);
+    font-size: 1.5rem;
+    font-weight: 200;
+    color: var(--foreground-color);
+  }
+
+  .chapitre-titre {
+    padding-top: 0.3rem;
+    font-family: var(--font-neuton);
+    font-size: 2rem;
+    font-weight: 200;
+    line-height: 1;
+    letter-spacing: -0.031rem;
+  }
+
+  @include variables.tablet {
+    margin-top: variables.$xl-margin;
+  }
+
+  @include variables.desktop {
+    margin-top: variables.$xxl-margin;
+    margin: 0 auto;
+    width: 42rem;
+    max-width: variables.$inner-width;
+  }
+}

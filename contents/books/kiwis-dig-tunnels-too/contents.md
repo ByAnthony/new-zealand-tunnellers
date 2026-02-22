@@ -1,7 +1,11 @@
 <!-- Copyright © Anthony Byledbal, 2017–present. All right reserved.
 Book published on New Zealand Tunnellers website – https://www.nztunnellers.com/books/kiwis-dig-tunnels-too -->
 
-# Contents
+# Kiwis Dig Tunnels Too
+
+A book by Anthony Byledbal
+
+## Contents
 
 - [Prologue](./prologue.md)
 - [Chapter 1: The Tunnellers from the Antipodes](./chapter-1-the-tunnellers-from-the-antipodes.md)
