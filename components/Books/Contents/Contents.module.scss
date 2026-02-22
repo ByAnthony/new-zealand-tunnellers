@@ -4,9 +4,15 @@
   @include variables.component-margin;
 
   h1 {
+    font-weight: 200;
+    line-height: 1;
+
+    @include variables.tablet {
+      margin: variables.$base-margin 0;
+    }
+
     @include variables.desktop {
       margin: variables.$l-margin 0;
-      font-weight: 200;
     }
   }
 
@@ -42,10 +48,6 @@
 
   a {
     @include variables.text-link;
-  }
-
-  .sommaire-content {
-    margin-bottom: 8rem;
   }
 
   .titre {
