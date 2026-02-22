@@ -74,22 +74,33 @@ const SommaireItem: React.FC<{
   );
 };
 
+const MainTitle: React.FC<{
+  children: ReactNode;
+}> = ({ children }) => {
+  return (
+    <div className={STYLES.header}>
+      <div className={STYLES.link}>
+        <Link href="/#history">Resources</Link>
+      </div>
+      <h1>{children}</h1>
+    </div>
+  );
+};
+
 export const Contents: React.FC<Props> = ({ locale, content }) => {
   return (
     <div className={STYLES.container}>
-      <div className={STYLES["sommaire-content"]}>
-        <ReactMarkdown
-          remarkPlugins={[remarkGfm, remarkRemoveComments]}
-          components={{
-            ul: ({ children }) => <ul>{children}</ul>,
-            li: ({ children }) => (
-              <SommaireItem locale={locale}>{children}</SommaireItem>
-            ),
-          }}
-        >
-          {content}
-        </ReactMarkdown>
-      </div>
+      <ReactMarkdown
+        remarkPlugins={[remarkGfm, remarkRemoveComments]}
+        components={{
+          h1: ({ children }) => <MainTitle>{children}</MainTitle>,
+          li: ({ children }) => (
+            <SommaireItem locale={locale}>{children}</SommaireItem>
+          ),
+        }}
+      >
+        {content}
+      </ReactMarkdown>
     </div>
   );
 };

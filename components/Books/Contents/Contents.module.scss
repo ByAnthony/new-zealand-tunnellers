@@ -4,22 +4,44 @@
   @include variables.component-margin;
 
   h1 {
-    padding: 8rem 0;
-    font-family: var(--font-neuton);
-    font-size: 2.5rem;
-    letter-spacing: -0.031em;
-    line-height: 1;
+    @include variables.desktop {
+      margin: variables.$l-margin 0;
+      font-weight: 200;
+    }
+  }
+
+  h2 {
+    @include variables.desktop {
+      margin: variables.$xl-margin 0 variables.$base-margin 0;
+    }
+  }
+
+  p {
+    font-weight: 500;
+    text-align: center;
+
+    @include variables.desktop {
+      font-size: 1.5rem;
+    }
   }
 
   ul {
     li {
       list-style: none;
+
+      a {
+        color: variables.$text-color;
+        text-decoration: none;
+
+        &:hover {
+          color: variables.$secondary-color;
+        }
+      }
     }
   }
 
   a {
-    color: var(--foreground-color);
-    text-decoration: none;
+    @include variables.text-link;
   }
 
   .sommaire-content {
@@ -28,10 +50,12 @@
 
   .titre {
     margin: 2.5rem 0;
-    font-family: var(--font-neuton);
-    font-size: 2rem;
-    font-weight: 200;
-    letter-spacing: -0.031rem;
+    font-size: 1.5rem;
+    font-weight: 400;
+
+    @include variables.desktop {
+      font-size: 1.5rem;
+    }
   }
 
   .titre-container {
@@ -43,19 +67,25 @@
   }
 
   .chapitre {
-    font-family: var(--font-neuton);
-    font-size: 1.5rem;
     font-weight: 200;
-    color: var(--foreground-color);
+    font-size: 1rem;
+
+    @include variables.desktop {
+      font-size: 1.25rem;
+    }
   }
 
   .chapitre-titre {
     padding-top: 0.3rem;
-    font-family: var(--font-neuton);
-    font-size: 2rem;
-    font-weight: 200;
+    padding-bottom: 4px;
+    font-size: 1.5rem;
+    font-weight: 400;
     line-height: 1;
-    letter-spacing: -0.031rem;
+    border-bottom: 1px solid variables.$secondary-color;
+
+    @include variables.desktop {
+      font-size: 1.6rem;
+    }
   }
 
   @include variables.tablet {
@@ -63,7 +93,7 @@
   }
 
   @include variables.desktop {
-    margin-top: variables.$xxl-margin;
+    padding-top: variables.$l-margin;
     margin: 0 auto;
     width: 42rem;
     max-width: variables.$inner-width;

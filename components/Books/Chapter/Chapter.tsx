@@ -24,7 +24,6 @@ type Props = {
 
 const MainTitle: React.FC<{
   children: ReactNode;
-  className?: string;
   locale: string;
 }> = ({ children, locale }) => {
   const title = extractText(children).trim();

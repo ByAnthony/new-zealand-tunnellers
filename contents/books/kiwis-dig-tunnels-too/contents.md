@@ -3,7 +3,7 @@ Book published on New Zealand Tunnellers website – https://www.nztunnellers.co
 
 # Kiwis Dig Tunnels Too
 
-A book by Anthony Byledbal
+Anthony Byledbal
 
 ## Contents
 
