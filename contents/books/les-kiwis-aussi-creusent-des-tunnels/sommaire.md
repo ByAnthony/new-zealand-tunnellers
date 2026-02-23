@@ -3,8 +3,6 @@ Livre publié sur New Zealand Tunnellers – https://www.nztunnellers.com/books/
 
 # Les Kiwis aussi creusent des tunnels
 
-Anthony Byledbal
-
 ## Sommaire
 
 - [Prologue](./prologue.md)

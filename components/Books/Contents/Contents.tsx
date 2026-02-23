@@ -52,23 +52,33 @@ const SommaireItem: React.FC<{
 
   if (!chap) {
     return (
-      <li className={STYLES.titre}>
-        <Link href={`${basePath(locale)}/${slug}`}>{title}</Link>
+      <li>
+        <Link
+          href={`${basePath(locale)}/${slug}`}
+          className={STYLES["button-chapter"]}
+        >
+          <div>
+            <span className={STYLES["titre-container"]}>{title}</span>
+          </div>
+          <div className={STYLES.arrow}>&rarr;</div>
+        </Link>
       </li>
     );
   }
 
   return (
     <li>
-      <Link href={`${basePath(locale)}/${slug}`}>
-        <div className={STYLES["titre-container"]}>
-          <div className={STYLES.chapitre}>
+      <Link
+        href={`${basePath(locale)}/${slug}`}
+        className={STYLES["button-chapter"]}
+      >
+        <div>
+          <p className={STYLES.chapter}>
             {locale === "fr" ? "Chapitre" : "Chapter"} {chap.number}
-          </div>
-          {chap.text && (
-            <div className={STYLES["chapitre-titre"]}>{chap.text}</div>
-          )}
+          </p>
+          {chap.text && <span>{chap.text}</span>}
         </div>
+        <div className={STYLES.arrow}>&rarr;</div>
       </Link>
     </li>
   );
@@ -83,6 +93,7 @@ const MainTitle: React.FC<{
         <Link href="/#history">Resources</Link>
       </div>
       <h1>{children}</h1>
+      <div className={STYLES.author}>Un livre d&apos;Anthony Byledbal</div>
     </div>
   );
 };

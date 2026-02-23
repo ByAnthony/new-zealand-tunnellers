@@ -13,80 +13,19 @@
 
     @include variables.desktop {
       margin: variables.$l-margin 0;
+      font-size: 4.5rem;
     }
   }
 
   h2 {
     @include variables.desktop {
-      margin: variables.$xl-margin 0 variables.$base-margin 0;
-    }
-  }
-
-  p {
-    font-weight: 500;
-    text-align: center;
-
-    @include variables.desktop {
-      font-size: 1.5rem;
+      margin: variables.$xl-margin 0 variables.$m-margin 0;
     }
   }
 
   ul {
     li {
       list-style: none;
-
-      a {
-        color: variables.$text-color;
-        text-decoration: none;
-
-        &:hover {
-          color: variables.$secondary-color;
-        }
-      }
-    }
-  }
-
-  a {
-    @include variables.text-link;
-  }
-
-  .titre {
-    margin: 2.5rem 0;
-    font-size: 1.5rem;
-    font-weight: 400;
-
-    @include variables.desktop {
-      font-size: 1.5rem;
-    }
-  }
-
-  .titre-container {
-    margin: 2.5rem 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: baseline;
-  }
-
-  .chapitre {
-    font-weight: 200;
-    font-size: 1rem;
-
-    @include variables.desktop {
-      font-size: 1.25rem;
-    }
-  }
-
-  .chapitre-titre {
-    padding-top: 0.3rem;
-    padding-bottom: 4px;
-    font-size: 1.5rem;
-    font-weight: 400;
-    line-height: 1;
-    border-bottom: 1px solid variables.$secondary-color;
-
-    @include variables.desktop {
-      font-size: 1.6rem;
     }
   }
 
@@ -99,5 +38,77 @@
     margin: 0 auto;
     width: 42rem;
     max-width: variables.$inner-width;
+  }
+}
+
+.author {
+  font-weight: 500;
+  text-align: center;
+
+  @include variables.desktop {
+    margin-top: variables.$m-margin;
+    font-size: 1.25rem;
+  }
+}
+
+.titre {
+  margin: 2.5rem 0;
+  font-size: 1.5rem;
+  font-weight: 400;
+
+  @include variables.desktop {
+    font-size: 1.5rem;
+  }
+}
+
+.chapitre {
+  font-weight: 200;
+  font-size: 1rem;
+
+  @include variables.desktop {
+    font-size: 1.25rem;
+  }
+}
+
+.chapitre-titre {
+  padding-top: 0.3rem;
+  padding-bottom: 4px;
+  font-size: 1.5rem;
+  font-weight: 400;
+  line-height: 1;
+  border-bottom: 1px solid variables.$secondary-color;
+
+  @include variables.desktop {
+    font-size: 1.6rem;
+  }
+}
+
+.button-chapter {
+  @include variables.featured-button-link;
+  flex: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: variables.$xs-margin 0;
+  padding: 30px variables.$s-margin;
+  font-size: 1.25rem;
+  color: variables.$secondary-color;
+
+  .chapter {
+    margin: 0 0;
+    padding-bottom: variables.$xxs-margin;
+    color: variables.$secondary-color;
+  }
+
+  span {
+    font-weight: 500;
+  }
+
+  .arrow {
+    @include variables.arrow-button;
+  }
+
+  @include variables.desktop {
+    padding: variables.$padding-card;
   }
 }
