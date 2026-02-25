@@ -67,7 +67,15 @@
 
   h1 {
     font-weight: 200;
-    line-height: 5.25rem;
+    line-height: normal;
+
+    @include variables.tablet {
+      line-height: 1;
+    }
+
+    @include variables.desktop {
+      line-height: 1;
+    }
 
     .chapitre-number {
       font-size: 1.5rem;
@@ -82,7 +90,6 @@
   }
 
   p {
-    padding: 0.5rem 0;
     font-size: 1.15rem;
     font-weight: 200;
     line-height: 1.8rem;
