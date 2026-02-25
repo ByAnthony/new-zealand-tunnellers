@@ -7,15 +7,6 @@
     margin-top: variables.$l-margin;
   }
 
-  h1 {
-    margin-top: 0;
-    margin-bottom: 0;
-
-    @include variables.desktop {
-      font-size: 4rem;
-    }
-  }
-
   p {
     margin: variables.$m-margin 0;
   }
@@ -30,30 +21,32 @@
 }
 
 .main-title {
-  margin: variables.$m-margin 0;
+  margin-top: variables.$base-margin;
 
   @include variables.tablet {
-    margin: variables.$base-margin 0;
+    margin-top: variables.$l-margin;
   }
 
   @include variables.desktop {
     margin: 0 auto;
-    margin: variables.$l-margin 0;
+    margin: variables.$xl-margin 0;
     max-width: variables.$inner-width;
   }
 }
 
 .title-line-3 {
-  margin-top: variables.$s-margin;
+  margin-top: variables.$m-margin;
   font-size: 1.25rem;
   font-weight: 500;
   text-align: center;
 
   @include variables.tablet {
+    margin-top: variables.$base-margin;
     font-size: 1.35rem;
   }
 
   @include variables.desktop {
+    margin-top: variables.$l-margin;
     font-size: 2rem;
   }
 }
@@ -66,6 +59,8 @@
   }
 
   h1 {
+    margin-top: 0;
+    margin-bottom: 0;
     font-weight: 200;
     line-height: normal;
 
@@ -74,6 +69,7 @@
     }
 
     @include variables.desktop {
+      font-size: 4rem;
       line-height: 1;
     }
 
@@ -86,7 +82,11 @@
   }
 
   h2 {
-    margin: variables.$l-margin 0 variables.$xxs-margin 0;
+    margin: variables.$base-margin 0 variables.$xxs-margin 0;
+
+    @include variables.desktop {
+      margin: variables.$l-margin 0 variables.$xxs-margin 0;
+    }
   }
 
   p {
@@ -121,6 +121,7 @@
     padding-inline-start: 0;
 
     li {
+      margin: variables.$m-margin 0;
       font-size: 0.9rem;
       font-weight: 200;
 
@@ -164,10 +165,15 @@
 
     li {
       list-style: disc;
-      padding: 0.4rem 0;
-      font-size: 1.3rem;
-      line-height: 2rem;
-      letter-spacing: -0.025rem;
+      margin: variables.$m-margin 0;
+      font-size: 1.15rem;
+      font-weight: 200;
+      line-height: 1.8rem;
+
+      @include variables.desktop {
+        font-size: 1.25rem;
+        line-height: 2.25rem;
+      }
 
       a {
         color: variables.$secondary-color;
@@ -188,10 +194,18 @@
 
   figcaption {
     margin: 3rem 0 2rem 0;
-    font-size: 1.2rem;
+    font-size: 1rem;
     font-weight: 400;
     line-height: normal;
     text-align: center;
+
+    @include variables.tablet {
+      font-size: 1.1rem;
+    }
+
+    @include variables.desktop {
+      font-size: 1.2rem;
+    }
   }
 
   img {

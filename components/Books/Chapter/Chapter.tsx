@@ -47,12 +47,12 @@ const MainTitle: React.FC<{
       </div>
       <div className={STYLES["main-title"]}>
         <h1>{chapter !== null ? chapter.text : title}</h1>
+        {chapter?.number && (
+          <div className={STYLES["title-line-3"]}>
+            {locale === "fr" ? "Chapitre" : "Chapter"} {chapter?.number}
+          </div>
+        )}
       </div>
-      {chapter?.number && (
-        <div className={STYLES["title-line-3"]}>
-          {locale === "fr" ? "Chapitre" : "Chapter"} {chapter?.number}
-        </div>
-      )}
     </div>
   );
 };
