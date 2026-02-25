@@ -3,17 +3,25 @@
 .container {
   @include variables.component-margin;
 
+  & {
+    margin-top: variables.$l-margin;
+  }
+
   h1 {
+    font-size: 2.5rem;
     font-weight: 200;
-    line-height: 1;
+    line-height: normal;
 
     @include variables.tablet {
       margin: variables.$base-margin 0;
+      font-size: 3rem;
+      line-height: 1;
     }
 
     @include variables.desktop {
       margin: variables.$l-margin 0;
       font-size: 4.5rem;
+      line-height: 1;
     }
   }
 
@@ -42,12 +50,17 @@
 }
 
 .author {
+  font-size: 1.25rem;
   font-weight: 500;
   text-align: center;
 
+  @include variables.tablet {
+    font-size: 1.35rem;
+  }
+
   @include variables.desktop {
     margin-top: variables.$m-margin;
-    font-size: 1.25rem;
+    font-size: 2rem;
   }
 }
 
