@@ -37,6 +37,14 @@ Les Néo-Zélandais décidèrent d’une contre-attaque entre Cuthbert et Claren
 
 Dans cette partie d’échec mortel, les mineurs allemands s’étaient montrés plus malins que leur adversaire. Ils avaient su garder l’avantage sous terre grâce à leur discrétion et à d’habiles manœuvres de diversion menées au nord de Chantecler. Par deux fois, ils avaient mis à mal les galeries et les tranchées britanniques. Ils paraissait même avoir deviné la contre-attaque menée sous terre et en surface au soir du 14 septembre. Démuni et impuissant, Jim n’hésita pas à écrire dans son petit carnet de notes que les Allemands en savaient bien plus que ses compagnons sur les opérations de son unité. Fin septembre 1916, le réseau néo-zélandais cessa de se développer. Les mineurs allemands étaient désormais très calmes. Les tunneliers délaissèrent peu à peu le secteur de Chantecler pour un nouveau travail à l’est d’Arras, où l’armée britannique projetait de mener une grande offensive sur les premières lignes allemandes.
 
+<a className="button-chapter-book" href="/books/les-kiwis-aussi-creusent-des-tunnels/chapitre-8-au-nez-et-a-la-barbe-des-allemands">
+  <div>
+    <p className="chapter">Chapitre 8</p>
+    <span>Au nez et à la barbe des Allemands</span>
+  </div>
+    <div className="arrow">&rarr;</div>
+</a>
+
 [^1]: Archives nationales du Royaume-Uni, WO&nbsp;95/407, Journal de guerre de la compagnie de tunneliers néo-zélandais, 19&nbsp;juin 1916, &laquo;&nbsp;Les Allemands firent sauter un autre mystérieux camouflet plus près de leurs lignes que le camouflet d’hier et pour une raison inconnue.&nbsp;&raquo;
 
 [^2]: Grant W. Grieve et Bernard Newman, _Tunnellers: The Story of the Tunnelling Companies, Royal Engineers, during the World War_, Londres, Herbert Jenkins Limited, 1936, p.&nbsp;110, &laquo;&nbsp;… mais le secteur était désigné comme extrêmement calme&nbsp;&raquo;.

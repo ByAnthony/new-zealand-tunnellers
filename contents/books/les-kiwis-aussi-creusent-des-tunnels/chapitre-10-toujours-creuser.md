@@ -39,6 +39,14 @@ La lassitude semblait gagner les tunneliers qui creusaient et aménageaient depu
 
 À la mi-mars, les 1<sup>re</sup> et 3<sup>e</sup>&nbsp;sections échangèrent, sans raison apparente, leurs travaux. Les hommes de la 1<sup>re</sup>&nbsp;section poursuivirent le nettoyage dans le réseau Saint-Sauveur, tandis que ceux de la 3<sup>e</sup>&nbsp;section revinrent sur le front. La 2<sup>e</sup>&nbsp;section se replia dans le centre-ville d’Arras sur ordre des troupes d’infanterie qui préparaient un assaut à l’est de Monchy-le-Preux. Trois jours plus tard, sans réel succès des opérations en surface, elle se réinstalla dans son quartier avancé. Les travaux étaient toujours menés par intermittence le long du front alors que les tranchées britanniques subissaient d’intenses bombardements. Le 21&nbsp;mars, la 2<sup>e</sup>&nbsp;section rejoignit la 1<sup>re</sup>&nbsp;section dans les cavités du réseau Saint-Sauveur. Le lendemain, les 3<sup>e</sup> et 4<sup>e</sup>&nbsp;sections quittèrent précipitamment les tranchées pour la carrière Dunedin, dans le système Ronville. Les Allemands venaient de réaliser une importante offensive sur l’ensemble du front occidental entre la Scarpe et l’Oise. Le manque de soldats du côté britannique et l’incapacité à mettre en place une défense profitèrent aux Allemands qui s’enfoncèrent à travers la plaine d’Arras.
 
+<a className="button-chapter-book" href="/books/les-kiwis-aussi-creusent-des-tunnels/chapitre-11-une-force-tranquille">
+  <div>
+    <p className="chapter">Chapitre 11</p>
+    <span>Une force tranquille</span>
+  </div>
+    <div className="arrow">&rarr;</div>
+</a>
+
 [^1]: Archives nationales du Royaume-Uni, WO&nbsp;95/407, Journal de guerre de la compagnie de tunneliers néo-zélandais, 13&nbsp;juin 1917, &laquo;&nbsp;Le bois sorti des cantonnements souterrains de notre ancienne ligne de front, entre la route de Cambrai et la ligne de chemin de fer, fut récupéré, et le travail dans les nouveaux cantonnements souterrains des lignes de renfort a commencé.&nbsp;&raquo;
 
 [^2]: Ibid., 29&nbsp;juin 1917.

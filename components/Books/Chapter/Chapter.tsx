@@ -100,7 +100,6 @@ export const Chapter = (props: Props) => {
 
               const number = m[1];
 
-              // children is typically [ <p>...</p> ]
               const arr = React.Children.toArray(children);
               const first = arr[0];
 

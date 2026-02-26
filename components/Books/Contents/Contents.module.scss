@@ -8,12 +8,12 @@
   }
 
   h1 {
+    margin: variables.$base-margin 0;
     font-size: 2.5rem;
-    font-weight: 200;
+    font-weight: 500;
     line-height: normal;
 
     @include variables.tablet {
-      margin: variables.$base-margin 0;
       font-size: 3rem;
       line-height: 1;
     }
@@ -50,16 +50,17 @@
 }
 
 .author {
+  padding-bottom: variables.$s-margin;
   font-size: 1.25rem;
-  font-weight: 500;
+  font-weight: 300;
   text-align: center;
 
   @include variables.tablet {
+    padding-bottom: 0;
     font-size: 1.35rem;
   }
 
   @include variables.desktop {
-    margin-top: variables.$m-margin;
     font-size: 2rem;
   }
 }

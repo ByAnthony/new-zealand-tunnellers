@@ -21,6 +21,13 @@ Jim n’avait pas hésité à être présent à la cérémonie. Il se tenait en 
 
 De retour à la maison qu’il occupait depuis sa démobilisation et que sa sœur lui avait légué, Jim s’était laissé tomber, pensif, dans son fauteuil. Comme une évidence, l’écriture s’imposa pour remédier à l’oubli de ses compagnons et de sa compagnie. Mais, le vieil homme ne savait pas manier les mots comme un écrivain. Il avait commencé à tenir un carnet sans toutefois aller au-delà de la première page. Ses phrases étaient simples, parfois maladroites, mais toujours franches. En lisant et relisant les quelques lignes écrites, l’ancien tunnelier hésita à poursuivre sa rédaction. Mais, en replongeant dans les événements de ces derniers jours, il eut le sentiment de devoir témoigner. Il tourna la page, prêt à continuer l’écriture de ses mémoires. Tout devait être raconté pour que jamais les souvenirs de la guerre souterraine et de ses camarades ne s’évanouissent.
 
+<a className="button-chapter-book" href="/books/les-kiwis-aussi-creusent-des-tunnels/sources">
+  <div>
+    <span>Sources</span>
+  </div>
+    <div className="arrow">&rarr;</div>
+</a>
+
 [^1]: Imperial War Museum, Documents.11515, Les mémoires de la Première Guerre mondiale de James Williamson, 2<sup>e</sup>&nbsp;partie, f°&nbsp;44.
 
 [^2]: &laquo;&nbsp;New Zealand Notes&nbsp;&raquo;, _Tunnellers’ Old Comrades Association Bulletin_, n°14, 1939, p.&nbsp;30.

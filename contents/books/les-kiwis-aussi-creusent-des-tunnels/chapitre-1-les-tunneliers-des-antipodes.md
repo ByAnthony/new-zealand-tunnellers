@@ -58,6 +58,14 @@ Fervent défenseur du mouvement ouvrier et engagé en politique depuis quelques 
 
 Ce n’était pourtant pas pour leur courage à se porter volontaire que les habitants d’Avondale se souvinrent des tunneliers. Après quatre semaines d’entraînement, Jim, Lofty, George, Gerald et leurs camarades furent envoyés en permission durant sept jours entre le 8 et le 14&nbsp;novembre. Cette semaine offrit l’opportunité aux tunneliers de faire leurs adieux à leurs proches, signifiant un départ pour l’Europe proche. Cette coupure dans la formation provoqua néanmoins une situation embarrassante pour les autorités militaires. L’allégresse d’une majorité des tunneliers, au retour de la permission, laissa un souvenir impérissable aux habitants de la rue principale d’Avondale, qui menait au champ de courses. Les hommes débarquèrent complètement ivres dans la bourgade, à tel point que les autorités militaires furent dans l’obligation d’aller les chercher et de les transporter au camp[^37]. Le défilé d’hommes titubants, chantant à tue-tête et criant, jeta un froid sur les habitants d’Avondale qui ne s’attendaient pas à accueillir une telle bande d’ivrognes. En quelques heures, les frasques des tunneliers firent le tour de la ville et se propagèrent au-delà. Jim fut navré de cette image qui ternissait la compagnie. Il n’hésita pas à écrire dans ses mémoires que&nbsp;: &laquo;&nbsp;…&nbsp;la population d’Auckland avait franchement honte de nous.&nbsp;&raquo;[^38] Les habitants évitèrent dorénavant de s’approcher de l’hippodrome, tout comme les autorités du <em>Jockey Club</em> et du conseil municipal. Les tunneliers furent abandonnés, vivant pratiquement en autarcie. Ils ne reçurent ni cadeaux, ni autres signes d’intérêt. Les soirées au camp furent plutôt mornes et les hommes durent les animer eux-mêmes. Aucun orchestre ne voulut jouer pour eux. Aucun divertissement ne leur fut accordé[^39]. Les tunneliers ne purent compter que sur eux-mêmes. Ils étaient les seuls artisans pour former une unité digne de leurs compatriotes déjà partis à la guerre.
 
+<a className="button-chapter-book" href="/books/les-kiwis-aussi-creusent-des-tunnels/chapitre-2-en-faire-de-bons-soldats">
+  <div>
+    <p className="chapter">Chapitre 2</p>
+    <span>En faire de bons soldats</span>
+  </div>
+    <div className="arrow">&rarr;</div>
+</a>
+
 [^1]: Imperial War Museum, Documents.11515, Les mémoires de la Première Guerre mondiale de James Williamson, 1<sup>re</sup>&nbsp;partie, f°&nbsp;1.
 
 [^2]: Archives de Nouvelle-Zélande, AD&nbsp;1 Box&nbsp;1348 62/23, Création du corps des tunneliers et formation pour le service à l’étranger, 1914-1915. Lettre du ministre des Mines au ministre de la Défense, 16&nbsp;septembre 1915.

@@ -21,15 +21,10 @@
 }
 
 .main-title {
-  margin-top: variables.$base-margin;
-
-  @include variables.tablet {
-    margin-top: variables.$l-margin;
-  }
+  margin: variables.$base-margin 0;
 
   @include variables.desktop {
-    margin: 0 auto;
-    margin: variables.$xl-margin 0;
+    margin: variables.$l-margin 0;
     max-width: variables.$inner-width;
   }
 }
@@ -37,7 +32,7 @@
 .title-line-3 {
   margin-top: variables.$m-margin;
   font-size: 1.25rem;
-  font-weight: 500;
+  font-weight: 300;
   text-align: center;
 
   @include variables.tablet {
@@ -59,9 +54,8 @@
   }
 
   h1 {
-    margin-top: 0;
-    margin-bottom: 0;
-    font-weight: 200;
+    margin: variables.$base-margin 0;
+    font-weight: 500;
     line-height: normal;
 
     @include variables.tablet {
@@ -69,6 +63,7 @@
     }
 
     @include variables.desktop {
+      margin: variables.$l-margin 0;
       font-size: 4rem;
       line-height: 1;
     }
