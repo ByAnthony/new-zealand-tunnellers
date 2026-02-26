@@ -62,7 +62,8 @@ const MainTitle: React.FC<{
 function isHowToCite(pathname: string): boolean {
   if (
     pathname.includes("/sources") ||
-    pathname.includes("/bibliographie") ||
+    pathname.includes("/bibliograph") ||
+    pathname.includes("/acknowledgments") ||
     pathname.includes("/remerciements")
   )
     return false;
