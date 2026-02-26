@@ -59,6 +59,16 @@ const MainTitle: React.FC<{
   );
 };
 
+function isHowToCite(pathname: string): boolean {
+  if (
+    pathname.includes("/sources") ||
+    pathname.includes("/bibliographie") ||
+    pathname.includes("/remerciements")
+  )
+    return false;
+  return true;
+}
+
 export const Chapter = (props: Props) => {
   const pathname = usePathname();
 
@@ -134,7 +144,9 @@ export const Chapter = (props: Props) => {
           {props.content}
         </ReactMarkdown>
       </div>
-      <HowToCite pathname={pathname} locale={props.locale} />
+      {isHowToCite(pathname) && (
+        <HowToCite pathname={pathname} locale={props.locale} />
+      )}
     </div>
   );
 };
