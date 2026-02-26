@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+// import { usePathname } from "next/navigation";
 import React, { ReactNode } from "react";
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
@@ -58,6 +59,8 @@ const MainTitle: React.FC<{
 };
 
 export const Chapter = (props: Props) => {
+  // const pathname = usePathname();
+
   return (
     <div className={STYLES.container}>
       <div className={STYLES.text}>
