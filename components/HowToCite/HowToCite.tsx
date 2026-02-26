@@ -13,21 +13,45 @@ type Props = {
   summary?: Summary;
   title?: string;
   timeline?: boolean;
+  pathname?: string;
+  locale?: string;
 };
 
 type HowToCiteUrlProps = {
   id?: number;
   title?: string;
   timeline?: boolean;
+  pathname?: string;
 };
 
 type HowToCiteTitleProps = {
   tunneller?: Summary;
   title?: string;
   timeline?: boolean;
+  pathname?: string;
+  locale?: string;
 };
 
-export function HowToCiteUrl({ id, title, timeline }: HowToCiteUrlProps) {
+export function HowToCiteUrl({
+  id,
+  title,
+  timeline,
+  pathname,
+}: HowToCiteUrlProps) {
+  if (pathname) {
+    return (
+      <span>
+        URL:
+        <wbr />
+        www.nztunnellers
+        <wbr />
+        .com
+        <wbr />
+        {pathname}
+      </span>
+    );
+  }
+
   return (
     <span>
       URL: www.
@@ -69,28 +93,91 @@ export function HowToCiteUrl({ id, title, timeline }: HowToCiteUrlProps) {
   );
 }
 
-function HowToCiteTitle({ tunneller, title, timeline }: HowToCiteTitleProps) {
+function sentenceCase(str: string): string {
+  const lower = str.toLowerCase();
+  return lower.charAt(0).toUpperCase() + lower.slice(1);
+}
+
+function formatBookSubpath(pathname: string, locale: string): string {
+  const cleanPath = pathname.replace(/\/$/, "");
+  const segments = cleanPath.split("/");
+  const lastSegment = segments[segments.length - 1];
+
+  if (!lastSegment) return "";
+
+  const chapitreOrChapter = locale === "fr" ? "chapitre" : "chapter";
+
+  const chapterMatch = lastSegment.match(
+    new RegExp(`^${chapitreOrChapter}-(\\d+)(?:-(.*))?$`, "i"),
+  );
+
+  const chapterWord = locale === "fr" ? "Chapitre" : "Chapter";
+
+  if (chapterMatch) {
+    const chapterNumber = chapterMatch[1];
+    const rest = chapterMatch[2];
+
+    if (!rest) {
+      return `${chapterWord} ${chapterNumber}:`;
+    }
+
+    const formattedTitle = sentenceCase(rest.replace(/-/g, " "));
+    return `${chapterWord} ${chapterNumber}: ${formattedTitle}`;
+  }
+
+  return sentenceCase(lastSegment.replace(/-/g, " "));
+}
+
+function HowToCiteTitle({
+  tunneller,
+  title,
+  timeline,
+  pathname,
+  locale,
+}: HowToCiteTitleProps) {
+  if (pathname && locale) {
+    return (
+      <span>
+        &ldquo;{formatBookSubpath(pathname, locale)}&rdquo;, in{" "}
+        {pathname.includes("/books/") && locale === "fr" ? (
+          <em>Les Kiwis aussi creusent des tunnels</em>
+        ) : (
+          <em>Kiwis Dig Tunnels Too</em>
+        )}
+      </span>
+    );
+  }
+
   if (tunneller && !timeline) {
     return (
       <>
-        {`${tunneller.name.forename} ${tunneller.name.surname} `}
-        {`(${displayBiographyDates(tunneller.birth, tunneller.death)})`}
+        &ldquo;{`${tunneller.name.forename} ${tunneller.name.surname} `}
+        {`(${displayBiographyDates(tunneller.birth, tunneller.death)})`}&rdquo;
       </>
     );
   }
+
   if (tunneller && timeline) {
     return (
       <>
-        World War I Timeline of
-        {` ${tunneller.name.forename} ${tunneller.name.surname}`}
+        &ldquo;World War I Timeline of
+        {` ${tunneller.name.forename} ${tunneller.name.surname}`}&rdquo;
       </>
     );
   }
+
   const articleTitle = title?.replace(/\\/g, " ");
-  return <span>{articleTitle}</span>;
+  return <span>&ldquo;{articleTitle}&rdquo;</span>;
 }
 
-export function HowToCite({ id, summary, title, timeline }: Props) {
+export function HowToCite({
+  id,
+  summary,
+  title,
+  timeline,
+  pathname,
+  locale,
+}: Props) {
   const citationRef = useRef<HTMLParagraphElement>(null);
 
   const now = useMemo(() => new Date(), []);
@@ -152,13 +239,24 @@ export function HowToCite({ id, summary, title, timeline }: Props) {
         </button>
       </h3>
       <p ref={citationRef}>
-        Anthony Byledbal, &ldquo;
-        <HowToCiteTitle tunneller={summary} title={title} timeline={timeline} />
-        &ldquo;, <em>New Zealand Tunnellers Website</em>
+        Anthony Byledbal,{" "}
+        <HowToCiteTitle
+          tunneller={summary}
+          title={title}
+          timeline={timeline}
+          pathname={pathname}
+          locale={locale}
+        />
+        , New Zealand Tunnellers Website
         {`, ${currentYear} (2009), Accessed: `}
         {currentDate}
         {". "}
-        <HowToCiteUrl id={id} title={title} timeline={timeline} />
+        <HowToCiteUrl
+          id={id}
+          title={title}
+          timeline={timeline}
+          pathname={pathname}
+        />
       </p>
     </div>
   );

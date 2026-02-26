@@ -3,6 +3,8 @@ import { mockArticle } from "__tests__/unit/utils/mocks/mockArticle";
 
 import { Article } from "@/components/Article/Article";
 
+import { findElementWithText } from "../../utils/findElementWithText";
+
 jest.useFakeTimers().setSystemTime(new Date("2023-05-04"));
 
 describe("Article", () => {
@@ -66,7 +68,7 @@ describe("Article", () => {
         name: "How to cite this page Copy to clipboard",
       }),
     ).toBeInTheDocument();
-    expect(screen.getByText("My Awesome Article Title")).toBeInTheDocument();
+    expect(findElementWithText("My Awesome Article Title")).toBeInTheDocument();
     expect(
       screen.getByText(/history\/my-awesome-article-title/),
     ).toBeInTheDocument();

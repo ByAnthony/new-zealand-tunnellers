@@ -1,13 +1,14 @@
 "use client";
 
 import Link from "next/link";
-// import { usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 import React, { ReactNode } from "react";
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import remarkGfm from "remark-gfm";
 import remarkRemoveComments from "remark-remove-comments";
 
+import { HowToCite } from "@/components/HowToCite/HowToCite";
 import {
   extractText,
   formatHeading,
@@ -59,7 +60,7 @@ const MainTitle: React.FC<{
 };
 
 export const Chapter = (props: Props) => {
-  // const pathname = usePathname();
+  const pathname = usePathname();
 
   return (
     <div className={STYLES.container}>
@@ -133,6 +134,7 @@ export const Chapter = (props: Props) => {
           {props.content}
         </ReactMarkdown>
       </div>
+      <HowToCite pathname={pathname} locale={props.locale} />
     </div>
   );
 };
