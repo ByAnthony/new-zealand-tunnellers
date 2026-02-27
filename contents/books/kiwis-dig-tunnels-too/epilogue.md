@@ -21,7 +21,7 @@ Jim did not hesitate to attend the ceremony. He stood back from the family, rela
 
 Back in the house where he had lived since his demobilisation, which his sister had left him, Jim let himself fall, deep in thought, into his armchair. It now seemed obvious to him that writing was the only way to remedy the forgetting into which his comrades and his company had fallen. But the old man did not know how to handle words like a writer. He had begun a notebook, but had never got beyond the first page. His sentences were simple, sometimes clumsy, but always honest. As he read and reread the few lines he had written, the former tunneller hesitated to continue. Yet, as he went back over the events of the past few days, he felt he had a duty to bear witness. He turned the page, ready to go on with his memoirs. Everything had to be told, so that the memories of the underground war and of his comrades would never fade away.
 
-<a className="button-chapter-book" href="/books/kiwis-dig-tunnels-too/sources">
+<a className="button-chapter-book" href="/books/kiwis-dig-tunnels-too/sources" aria-label="Read: Sources">
   <div>
     <span>Sources</span>
   </div>

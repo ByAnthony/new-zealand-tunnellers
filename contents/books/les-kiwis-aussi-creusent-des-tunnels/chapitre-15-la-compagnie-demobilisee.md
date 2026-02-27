@@ -35,7 +35,7 @@ Un peu plus de trois ans après que la compagnie fût partie pour la guerre, le 
 
 Tandis que le port d’Auckland fêtait l’arrivée des démobilisés, les autorités militaires avaient validé la dissolution de la compagnie de tunneliers. Malgré la reconnaissance des hauts responsables de l’armée britannique pour ses travaux, il n’était pas envisagé d’intégrer la petite unité à l’armée régulière. D’une part, les effectifs ne pouvaient pas être maintenus. De nombreuses industries, prévenues du retour des tunneliers, attendaient avec impatience la remise au travail de leurs anciens employés. D’autre part, l’argent manquait pour non seulement conserver la compagnie, mais aussi pour garantir un niveau d’excellence dans ses rangs. Un simple entrainement des militaires de métier devait donc être suffisant pour perpétuer l’art de la sape et de la mine au sein du génie. Bien que l’unité eut une courte existence, son histoire subsistait en chacun de ses membres. Dispersés comme ils le furent à travers la Nouvelle-Zélande, les hommes refermèrent la parenthèse qui les avait conduits de l’autre côté de la terre.
 
-<a className="button-chapter-book" href="/books/les-kiwis-aussi-creusent-des-tunnels/epilogue">
+<a className="button-chapter-book" href="/books/les-kiwis-aussi-creusent-des-tunnels/epilogue" aria-label="Lire : Épilogue">
   <div>
     <span>Épilogue</span>
   </div>

@@ -37,7 +37,7 @@ On this Sunday, 18&nbsp;August, Lofty and Sharkey were enjoying a fine sunny aft
 
 On Monday, 19&nbsp;August, the weather was still just as fine in the Somme sector, and the heat set in[^16]. Some of the tunnellers were sent to the baths, while, in the underground works still under construction, the teams carried on as usual. The next day, the men were again put at rest. On Wednesday, 21&nbsp;August 1918, the unit’s headquarters gave the order to stop work[^17]. The British Third and Fourth Armies had attacked in the sector between Arras and the Somme. The Germans, driven back, were unable to offer any resistance. The Allied counter-offensive was under way.
 
-<a className="button-chapter-book" href="/books/kiwis-dig-tunnels-too/chapter-12-far-from-the-company">
+<a className="button-chapter-book" href="/books/kiwis-dig-tunnels-too/chapter-12-far-from-the-company" aria-label="Go to chapter 12: Far from the Company">
   <div>    
     <p className="chapter">Chapter 12</p>
     <span>Far from the Company</span>

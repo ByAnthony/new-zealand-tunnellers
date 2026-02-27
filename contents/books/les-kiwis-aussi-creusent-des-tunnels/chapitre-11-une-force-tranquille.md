@@ -37,7 +37,7 @@ En ce dimanche 18&nbsp;août, Lofty et Sharkey profitaient d’un bel après-mid
 
 Le lundi 19&nbsp;août, le temps était toujours aussi beau sur le secteur de la Somme et la chaleur s’installa[^16]. Une partie des tunneliers fut envoyée aux bains tandis que, dans les souterrains en cours de construction, les équipes s’affairèrent normalement. Le lendemain, les hommes furent de nouveau mis au repos. Le mercredi 21&nbsp;août 1918, le quartier-général de l’unité donna l’ordre de cesser le travail[^17]. Les III<sup>e</sup> et IV<sup>e</sup>&nbsp;armées britanniques avaient attaqué dans le secteur situé entre Arras et la Somme. Les Allemands repoussés ne purent opposer aucune résistance. La contre-offensive alliée était en marche.
 
-<a className="button-chapter-book" href="/books/les-kiwis-aussi-creusent-des-tunnels/chapitre-12-loin-de-l-unite">
+<a className="button-chapter-book" href="/books/les-kiwis-aussi-creusent-des-tunnels/chapitre-12-loin-de-l-unite" aria-label="Aller au chapitre 12 : Loin de l'unité">
   <div>
     <p className="chapter">Chapitre 12</p>
     <span>Loin de l'unité</span>

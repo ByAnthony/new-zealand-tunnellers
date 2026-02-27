@@ -41,7 +41,7 @@ Book published on New Zealand Tunnellers website – https://www.nztunnellers.co
 - &ldquo;Cenotaph&rdquo; Database [[Online]](http://www.aucklandmuseum.com/war-memorial/online-cenotaph). Auckland, New Zealand: Auckland War Memorial Museum. World Wide Web Format.
 - New Zealand Tunnellers Prosopographical Database [[Online]](http://www.nztunnellers.com/). Sitges, Espagne: New Zealand Tunnellers Website. World Wide Web Format.
 
-<a className="button-chapter-book" href="/books/kiwis-dig-tunnels-too/acknowledgments">
+<a className="button-chapter-book" href="/books/kiwis-dig-tunnels-too/acknowledgments" aria-label="Read: Acknowledgments">
   <div>
     <span>Acknowledgments</span>
   </div>

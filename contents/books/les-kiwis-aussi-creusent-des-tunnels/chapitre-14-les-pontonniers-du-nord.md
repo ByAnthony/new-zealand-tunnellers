@@ -37,7 +37,7 @@ La section de George ainsi que la 3<sup>e</sup>&nbsp;section avaient en effet te
 
 Presque toute l’unité participait au drainage d’une inondation, suite à la destruction d’un viaduc par les Allemands dans les derniers jours de la guerre, à Spiennes, au sud de Mons. La section de George qui avait terminé les travaux à Malplaquet, partit pour Lourches, dans le nord de la France, entre Douai et Valenciennes, œuvrer sur un dernier pont, une passerelle de chemin de fer, à placer au-dessus du canal de l’Escaut (Carte&nbsp;12). Toutefois, en Belgique, comme en France, les rangs des tunneliers se clairsemaient à nouveau par le départ des hommes mariés début décembre. En un mois, les effectifs de la compagnie passèrent de 437 à 370&nbsp;tunneliers&nbsp;; trop peu pour le gouvernement néo-zélandais qui harcelait, depuis le 18&nbsp;novembre, le ministère de la Guerre à Londres pour accorder la démobilisation immédiate de l’ensemble de l’unité.
 
-<a className="button-chapter-book" href="/books/les-kiwis-aussi-creusent-des-tunnels/chapitre-15-la-compagnie-demobilisee">
+<a className="button-chapter-book" href="/books/les-kiwis-aussi-creusent-des-tunnels/chapitre-15-la-compagnie-demobilisee" aria-label="Aller au chapitre 15 : La compagnie démobilisée">
   <div>
     <p className="chapter">Chapitre 15</p>
     <span>La compagnie démobilisée</span>
