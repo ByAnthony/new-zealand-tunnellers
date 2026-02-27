@@ -9,6 +9,7 @@ import remarkGfm from "remark-gfm";
 import remarkRemoveComments from "remark-remove-comments";
 
 import { HowToCite } from "@/components/HowToCite/HowToCite";
+import { basePath, bookTitle } from "@/utils/helpers/books/basePathUtil";
 import {
   extractText,
   formatHeading,
@@ -35,17 +36,7 @@ const MainTitle: React.FC<{
     <div className={STYLES.header}>
       <div className={STYLES.link}>
         <Link href="/#history">Resources</Link> /{" "}
-        <Link
-          href={`/books/${
-            locale === "fr"
-              ? "les-kiwis-aussi-creusent-des-tunnels"
-              : "kiwis-dig-tunnels-too"
-          }`}
-        >
-          {locale === "fr"
-            ? "Les Kiwis aussi creusent des tunnels"
-            : "Kiwis Dig Tunnels Too"}
-        </Link>
+        <Link href={basePath(locale)}>{bookTitle(locale)}</Link>
       </div>
       <div className={STYLES["main-title"]}>
         <h1>{chapter !== null ? chapter.text : title}</h1>
@@ -59,7 +50,59 @@ const MainTitle: React.FC<{
   );
 };
 
-function isHowToCite(pathname: string): boolean {
+const FootnoteLink: React.FC<
+  React.AnchorHTMLAttributes<HTMLAnchorElement> & { href?: string }
+> = ({ href, children, ...props }) => {
+  const isFootnoteRef =
+    typeof href === "string" &&
+    (href.includes("#user-content-fn-") ||
+      href.includes("#user-content-fnref-"));
+
+  if (!isFootnoteRef)
+    return (
+      <a href={href} {...props}>
+        {children}
+      </a>
+    );
+
+  return (
+    <a className={`${STYLES.footnote} anchor-link`} href={href} {...props}>
+      [{children}]
+    </a>
+  );
+};
+
+const FootnoteItem: React.FC<
+  { node?: any; children?: ReactNode } & React.LiHTMLAttributes<HTMLLIElement>
+> = ({ node, children, ...props }) => {
+  const id = (node?.properties?.id as string) ?? "";
+  const m = id.match(/(?:user-content-)?fn-(\d+)/);
+  if (!m) return <li {...props}>{children}</li>;
+
+  const number = m[1];
+  const arr = React.Children.toArray(children);
+  const first = arr[0];
+
+  let inlineContent = children;
+
+  if (React.isValidElement(first) && (first as any).type === "p") {
+    // unwrap the p so it becomes inline content
+    inlineContent = (first as any).props.children;
+    // include any siblings after the <p> just in case
+    if (arr.length > 1) inlineContent = [inlineContent, ...arr.slice(1)];
+  }
+
+  return (
+    <li {...props} className={STYLES.footnotes}>
+      <a href={`#user-content-fnref-${number}`} className="anchor-link">
+        {number}.
+      </a>{" "}
+      {inlineContent}
+    </li>
+  );
+};
+
+function shouldShowHowToCite(pathname: string): boolean {
   if (
     pathname.includes("/sources") ||
     pathname.includes("/bibliograph") ||
@@ -85,67 +128,14 @@ export const Chapter = (props: Props) => {
             ),
             h2: ({ children }) => formatHeading(children),
             img: (props) => <ImageZoom {...props} />,
-            a: ({ href, children, ...props }) => {
-              const isFootnoteRef =
-                typeof href === "string" &&
-                (href.includes("#user-content-fn-") ||
-                  href.includes("#user-content-fnref-"));
-
-              if (!isFootnoteRef)
-                return (
-                  <a href={href} {...props}>
-                    {children}
-                  </a>
-                );
-
-              return (
-                <a
-                  className={`${STYLES.footnote} anchor-link`}
-                  href={href}
-                  {...props}
-                >
-                  [{children}]
-                </a>
-              );
-            },
-            li: ({ node, children, ...props }: any) => {
-              const id = (node?.properties?.id as string) ?? "";
-              const m = id.match(/(?:user-content-)?fn-(\d+)/);
-              if (!m) return <li {...props}>{children}</li>;
-
-              const number = m[1];
-
-              const arr = React.Children.toArray(children);
-              const first = arr[0];
-
-              let inlineContent = children;
-
-              if (React.isValidElement(first) && (first as any).type === "p") {
-                // unwrap the p so it becomes inline content
-                inlineContent = (first as any).props.children;
-                // include any siblings after the <p> just in case
-                if (arr.length > 1)
-                  inlineContent = [inlineContent, ...arr.slice(1)];
-              }
-
-              return (
-                <li {...props} className={STYLES.footnotes}>
-                  <a
-                    href={`#user-content-fnref-${number}`}
-                    className="anchor-link"
-                  >
-                    {number}.
-                  </a>{" "}
-                  {inlineContent}
-                </li>
-              );
-            },
+            a: (props) => <FootnoteLink {...props} />,
+            li: (props) => <FootnoteItem {...props} />,
           }}
         >
           {props.content}
         </ReactMarkdown>
       </div>
-      {isHowToCite(pathname) && (
+      {shouldShowHowToCite(pathname) && (
         <HowToCite pathname={pathname} locale={props.locale} />
       )}
     </div>

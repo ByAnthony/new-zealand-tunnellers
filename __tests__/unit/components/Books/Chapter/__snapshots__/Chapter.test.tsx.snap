@@ -1,0 +1,100 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`Chapter matches the snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="container"
+  >
+    <div
+      class="text"
+    >
+      <div>
+        <div>
+          <div
+            class="header"
+          >
+            <div
+              class="link"
+            >
+              <a
+                href="/#history"
+              >
+                Resources
+              </a>
+               / 
+              <a
+                href="/books/les-kiwis-aussi-creusent-des-tunnels"
+              >
+                Les Kiwis aussi creusent des tunnels
+              </a>
+            </div>
+            <div
+              class="main-title"
+            >
+              <h1>
+                Les tunneliers des antipodes
+              </h1>
+              <div
+                class="title-line-3"
+              >
+                Chapitre 1
+              </div>
+            </div>
+          </div>
+        </div>
+        <span>
+          Paragraph of text.
+        </span>
+        <span>
+          A link to [an external site](https://example.com).
+        </span>
+        <div>
+          <h2>
+            Notes
+          </h2>
+        </div>
+        <span>
+          [^1]: A footnote.
+        </span>
+      </div>
+    </div>
+    <div
+      class="howtocite"
+    >
+      <h3>
+        How to cite this page
+        <button
+          class="copy-paste"
+        >
+          <img
+            alt="Copy to clipboard"
+            height="16"
+            placeholder="empty"
+            src="/copy.png"
+            width="13"
+          />
+        </button>
+      </h3>
+      <p>
+        Anthony Byledbal, 
+        <span>
+          “Chapitre 1: Les tunneliers des antipodes”, in 
+          <em>
+            Les Kiwis aussi creusent des tunnels
+          </em>
+        </span>
+        , New Zealand Tunnellers Website, 2025 (2009), Accessed: 1 January 2025. 
+        <span>
+          URL:
+          <wbr />
+          www.nztunnellers
+          <wbr />
+          .com
+          <wbr />
+          /books/les-kiwis-aussi-creusent-des-tunnels/chapitre-1-les-tunneliers-des-antipodes
+        </span>
+      </p>
+    </div>
+  </div>
+</DocumentFragment>
+`;

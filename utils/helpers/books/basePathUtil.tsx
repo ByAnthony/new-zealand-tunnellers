@@ -3,7 +3,7 @@ export const basePath = (locale: string) =>
     ? "/books/les-kiwis-aussi-creusent-des-tunnels"
     : "/books/kiwis-dig-tunnels-too";
 
-export const localePath = (locale: string) =>
+export const bookTitle = (locale: string) =>
   locale === "fr"
-    ? "/books/les-kiwis-aussi-creusent-des-tunnels"
-    : "/books/kiwis-dig-tunnels-too";
+    ? "Les Kiwis aussi creusent des tunnels"
+    : "Kiwis Dig Tunnels Too";

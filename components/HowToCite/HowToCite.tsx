@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useMemo, useRef } from "react";
 
 import type { Summary } from "@/types/tunneller";
+import { bookTitle } from "@/utils/helpers/books/basePathUtil";
 import { displayBiographyDates } from "@/utils/helpers/roll";
 
 import STYLES from "./HowToCite.module.scss";
@@ -139,11 +140,7 @@ function HowToCiteTitle({
     return (
       <span>
         &ldquo;{formatBookSubpath(pathname, locale)}&rdquo;, in{" "}
-        {pathname.includes("/books/") && locale === "fr" ? (
-          <em>Les Kiwis aussi creusent des tunnels</em>
-        ) : (
-          <em>Kiwis Dig Tunnels Too</em>
-        )}
+        <em>{bookTitle(locale)}</em>
       </span>
     );
   }

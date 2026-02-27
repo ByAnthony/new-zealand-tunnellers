@@ -1,0 +1,125 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`Contents matches the snapshot (fr) 1`] = `
+<DocumentFragment>
+  <div
+    class="container"
+  >
+    <div>
+      <div>
+        <div
+          class="header"
+        >
+          <div
+            class="link"
+          >
+            <a
+              href="/#history"
+            >
+              Resources
+            </a>
+          </div>
+          <h1>
+            Les Kiwis aussi creusent des tunnels
+          </h1>
+          <div
+            class="author"
+          >
+            Un livre d'Anthony Byledbal
+          </div>
+        </div>
+      </div>
+      <div>
+        <li>
+          <a
+            class="button-chapter"
+            href="/books/les-kiwis-aussi-creusent-des-tunnels/prologue"
+          >
+            <div>
+              <span
+                class="titre-container"
+              >
+                Prologue
+              </span>
+            </div>
+            <div
+              class="arrow"
+            >
+              →
+            </div>
+          </a>
+        </li>
+      </div>
+      <div>
+        <li>
+          <a
+            class="button-chapter"
+            href="/books/les-kiwis-aussi-creusent-des-tunnels/chapitre-1-les-tunneliers-des-antipodes"
+          >
+            <div>
+              <p
+                class="chapter"
+              >
+                Chapitre 1
+              </p>
+              <span>
+                Les tunneliers des antipodes
+              </span>
+            </div>
+            <div
+              class="arrow"
+            >
+              →
+            </div>
+          </a>
+        </li>
+      </div>
+      <div>
+        <li>
+          <a
+            class="button-chapter"
+            href="/books/les-kiwis-aussi-creusent-des-tunnels/chapitre-2-en-faire-de-bons-soldats"
+          >
+            <div>
+              <p
+                class="chapter"
+              >
+                Chapitre 2
+              </p>
+              <span>
+                En faire de bons soldats
+              </span>
+            </div>
+            <div
+              class="arrow"
+            >
+              →
+            </div>
+          </a>
+        </li>
+      </div>
+      <div>
+        <li>
+          <a
+            class="button-chapter"
+            href="/books/les-kiwis-aussi-creusent-des-tunnels/sources"
+          >
+            <div>
+              <span
+                class="titre-container"
+              >
+                Sources
+              </span>
+            </div>
+            <div
+              class="arrow"
+            >
+              →
+            </div>
+          </a>
+        </li>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;

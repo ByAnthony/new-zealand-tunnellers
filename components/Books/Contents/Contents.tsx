@@ -5,27 +5,16 @@ import remarkGfm from "remark-gfm";
 import remarkRemoveComments from "remark-remove-comments";
 
 import { basePath } from "@/utils/helpers/books/basePathUtil";
-import { extractText } from "@/utils/helpers/books/titleUtil";
+import {
+  extractText,
+  parseChapterHeading,
+} from "@/utils/helpers/books/titleUtil";
 
 import STYLES from "./Contents.module.scss";
 
 type Props = {
   locale: string;
   content: string;
-};
-
-const parseChapterHeading = (
-  title: string,
-  locale: string,
-): { number: number; text: string } | null => {
-  const chapterKeyword = locale === "fr" ? "chapitre" : "chapter";
-  const regex = new RegExp(
-    `^\\s*${chapterKeyword}\\s+(\\d+)\\s*[:\\-–—]?\\s*(.*)$`,
-    "i",
-  );
-  const m = title.match(regex);
-  if (!m) return null;
-  return { number: parseInt(m[1], 10), text: (m[2] ?? "").trim() };
 };
 
 const slugifyTitle = (title: string): string => {
