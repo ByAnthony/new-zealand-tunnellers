@@ -42,6 +42,11 @@ exports[`Chapter matches the snapshot 1`] = `
                 Chapitre 1
               </div>
             </div>
+            <div
+              class="reading-time"
+            >
+              1 min de lecture
+            </div>
           </div>
         </div>
         <span>

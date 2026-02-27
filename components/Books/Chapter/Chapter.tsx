@@ -12,6 +12,7 @@ import { ReadingProgress } from "@/components/Books/ReadingProgress/ReadingProgr
 import { HowToCite } from "@/components/HowToCite/HowToCite";
 import { basePath, bookTitle } from "@/utils/helpers/books/basePathUtil";
 import {
+  calculateReadingTime,
   extractText,
   formatHeading,
   parseChapterHeading,
@@ -29,7 +30,8 @@ type Props = {
 const MainTitle: React.FC<{
   children: ReactNode;
   locale: string;
-}> = ({ children, locale }) => {
+  readingTime?: number;
+}> = ({ children, locale, readingTime }) => {
   const title = extractText(children).trim();
   const chapter = parseChapterHeading(title, locale);
 
@@ -66,6 +68,11 @@ const MainTitle: React.FC<{
           </div>
         )}
       </div>
+      {readingTime !== undefined && (
+        <div className={STYLES["reading-time"]}>
+          {readingTime} {locale === "fr" ? "min de lecture" : "min read"}
+        </div>
+      )}
     </div>
   );
 };
@@ -135,6 +142,9 @@ function isReadingPage(pathname: string): boolean {
 
 export const Chapter = (props: Props) => {
   const pathname = usePathname();
+  const readingTime = isReadingPage(pathname)
+    ? calculateReadingTime(props.content)
+    : undefined;
 
   return (
     <div className={STYLES.container}>
@@ -145,7 +155,9 @@ export const Chapter = (props: Props) => {
           rehypePlugins={[rehypeRaw, rehypeRemoveFootnoteBackrefs]}
           components={{
             h1: ({ children }) => (
-              <MainTitle locale={props.locale}>{children}</MainTitle>
+              <MainTitle locale={props.locale} readingTime={readingTime}>
+                {children}
+              </MainTitle>
             ),
             h2: ({ children }) => formatHeading(children),
             img: (props) => <ImageZoom {...props} />,

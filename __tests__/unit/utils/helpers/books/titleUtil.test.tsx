@@ -4,6 +4,7 @@ import React from "react";
 jest.mock("unist-util-visit", () => ({ visit: jest.fn() }));
 
 import {
+  calculateReadingTime,
   extractText,
   formatHeading,
   parseChapterHeading,
@@ -81,6 +82,37 @@ describe("parseChapterHeading", () => {
     { title: "Epilogue", locale: "fr" },
   ])("returns null for non-chapter heading '$title'", ({ title, locale }) => {
     expect(parseChapterHeading(title, locale)).toBeNull();
+  });
+});
+
+describe("calculateReadingTime", () => {
+  test("returns 1 for very short content", () => {
+    expect(calculateReadingTime("Hello world")).toBe(1);
+  });
+
+  test("calculates minutes based on 200 wpm", () => {
+    const words = Array(400).fill("word").join(" ");
+    expect(calculateReadingTime(words)).toBe(2);
+  });
+
+  test("strips HTML comments before counting", () => {
+    const content = "<!-- Copyright notice --> Hello world";
+    expect(calculateReadingTime(content)).toBe(1);
+  });
+
+  test("strips HTML tags before counting", () => {
+    const content = '<a className="button-chapter-book" href="/next">Next</a>';
+    expect(calculateReadingTime(content)).toBe(1);
+  });
+
+  test("strips footnote references before counting", () => {
+    const content = "Some text[^1]\n\n[^1]: A footnote reference.";
+    expect(calculateReadingTime(content)).toBe(1);
+  });
+
+  test("strips markdown link syntax but keeps link text", () => {
+    const content = "[anchor text](https://example.com)";
+    expect(calculateReadingTime(content)).toBe(1);
   });
 });
 

@@ -29,6 +29,19 @@
   }
 }
 
+.reading-time {
+  margin-top: variables.$xs-margin;
+  font-size: 0.85rem;
+  font-weight: 300;
+  text-align: center;
+  color: variables.$secondary-color;
+
+  @include variables.desktop {
+    margin-top: variables.$s-margin;
+    font-size: 0.95rem;
+  }
+}
+
 .title-line-3 {
   margin-top: variables.$m-margin;
   font-size: 1.25rem;

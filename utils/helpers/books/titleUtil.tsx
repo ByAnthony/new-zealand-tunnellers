@@ -30,6 +30,18 @@ export const formatHeading = (children: ReactNode) => {
   return children === "Footnotes" ? <h2>Notes</h2> : <h2>{children}</h2>;
 };
 
+export const calculateReadingTime = (content: string): number => {
+  const stripped = content
+    .replace(/<!--[\s\S]*?-->/g, "")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/\[([^\]]*)\]\([^)]*\)/g, "$1")
+    .replace(/\[\^[^\]]*\](?::[^\n]*)?\n?/g, "")
+    .replace(/[#*_`~>\\|]/g, " ");
+
+  const words = stripped.trim().split(/\s+/).filter(Boolean);
+  return Math.max(1, Math.ceil(words.length / 200));
+};
+
 export function rehypeRemoveFootnoteBackrefs() {
   return (tree: any) => {
     visit(tree, "element", (node: any) => {
