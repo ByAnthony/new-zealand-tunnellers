@@ -8,6 +8,7 @@ import rehypeRaw from "rehype-raw";
 import remarkGfm from "remark-gfm";
 import remarkRemoveComments from "remark-remove-comments";
 
+import { ReadingProgress } from "@/components/Books/ReadingProgress/ReadingProgress";
 import { HowToCite } from "@/components/HowToCite/HowToCite";
 import { basePath, bookTitle } from "@/utils/helpers/books/basePathUtil";
 import {
@@ -121,7 +122,7 @@ const FootnoteItem: React.FC<
   );
 };
 
-function shouldShowHowToCite(pathname: string): boolean {
+function isReadingPage(pathname: string): boolean {
   if (
     pathname.includes("/sources") ||
     pathname.includes("/bibliograph") ||
@@ -137,6 +138,7 @@ export const Chapter = (props: Props) => {
 
   return (
     <div className={STYLES.container}>
+      {isReadingPage(pathname) && <ReadingProgress />}
       <div className={STYLES.text}>
         <ReactMarkdown
           remarkPlugins={[remarkGfm, remarkRemoveComments]}
@@ -154,7 +156,7 @@ export const Chapter = (props: Props) => {
           {props.content}
         </ReactMarkdown>
       </div>
-      {shouldShowHowToCite(pathname) && (
+      {isReadingPage(pathname) && (
         <HowToCite pathname={pathname} locale={props.locale} />
       )}
     </div>
