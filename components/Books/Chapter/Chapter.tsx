@@ -36,44 +36,46 @@ const MainTitle: React.FC<{
   const chapter = parseChapterHeading(title, locale);
 
   return (
-    <div className={STYLES.header}>
-      <div className={STYLES.link}>
-        <Link
-          href="/#history"
-          aria-label={
-            locale === "fr"
-              ? "Aller à la section Ressources"
-              : "Go to the Resources section"
-          }
-        >
-          Resources
-        </Link>{" "}
-        /{" "}
-        <Link
-          href={basePath(locale)}
-          aria-label={
-            locale === "fr"
-              ? "Aller à la table des matières"
-              : "Go to the table of contents"
-          }
-        >
-          {bookTitle(locale)}
-        </Link>
-      </div>
-      <div className={STYLES["main-title"]}>
-        <h1>{chapter !== null ? chapter.text : title}</h1>
-        {chapter?.number && (
-          <div className={STYLES["title-line-3"]}>
-            {locale === "fr" ? "Chapitre" : "Chapter"} {chapter?.number}
-          </div>
-        )}
+    <>
+      <div className={STYLES.header}>
+        <div className={STYLES.link}>
+          <Link
+            href="/#history"
+            aria-label={
+              locale === "fr"
+                ? "Aller à la section Ressources"
+                : "Go to the Resources section"
+            }
+          >
+            Resources
+          </Link>{" "}
+          /{" "}
+          <Link
+            href={basePath(locale)}
+            aria-label={
+              locale === "fr"
+                ? "Aller à la table des matières"
+                : "Go to the table of contents"
+            }
+          >
+            {bookTitle(locale)}
+          </Link>
+        </div>
+        <div className={STYLES["main-title"]}>
+          <h1>{chapter !== null ? chapter.text : title}</h1>
+          {chapter?.number && (
+            <div className={STYLES["title-line-3"]}>
+              {locale === "fr" ? "Chapitre" : "Chapter"} {chapter?.number}
+            </div>
+          )}
+        </div>
       </div>
       {readingTime !== undefined && (
         <div className={STYLES["reading-time"]}>
           {readingTime} {locale === "fr" ? "min de lecture" : "min read"}
         </div>
       )}
-    </div>
+    </>
   );
 };
 

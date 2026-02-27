@@ -7,5 +7,6 @@
   height: 3px;
   background-color: variables.$secondary-color;
   z-index: 1000;
-  transition: width 0.05s linear;
+  transition: width 0.25s linear;
+  will-change: width;
 }

@@ -30,16 +30,16 @@
 }
 
 .reading-time {
+  margin: 0 auto;
   margin-top: variables.$xs-margin;
-  font-size: 0.85rem;
+  padding: variables.$xxxs-margin variables.$xs-margin;
+  font-size: 1rem;
   font-weight: 300;
   text-align: center;
-  color: variables.$secondary-color;
-
-  @include variables.desktop {
-    margin-top: variables.$s-margin;
-    font-size: 0.95rem;
-  }
+  color: variables.$primary-light-color;
+  border: 1px solid variables.$primary-light-color;
+  border-radius: variables.$border-radius;
+  width: fit-content;
 }
 
 .title-line-3 {
