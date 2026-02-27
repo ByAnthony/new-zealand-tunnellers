@@ -15,7 +15,7 @@ exports[`Contents matches the snapshot (fr) 1`] = `
           >
             <a
               aria-label="Aller à la section Ressources"
-              href="/#history"
+              href="/#resources"
             >
               Resources
             </a>

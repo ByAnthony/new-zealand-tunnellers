@@ -40,7 +40,7 @@ const MainTitle: React.FC<{
       <div className={STYLES.header}>
         <div className={STYLES.link}>
           <Link
-            href="/#history"
+            href="/#resources"
             aria-label={
               locale === "fr"
                 ? "Aller à la section Ressources"

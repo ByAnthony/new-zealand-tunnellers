@@ -18,7 +18,7 @@ exports[`Chapter matches the snapshot 1`] = `
             >
               <a
                 aria-label="Aller à la section Ressources"
-                href="/#history"
+                href="/#resources"
               >
                 Resources
               </a>
@@ -79,12 +79,12 @@ exports[`Chapter matches the snapshot 1`] = `
       class="howtocite"
     >
       <h3>
-        How to cite this page
+        Comment citer cette page
         <button
           class="copy-paste"
         >
           <img
-            alt="Copy to clipboard"
+            alt="Copier dans le presse-papiers"
             height="16"
             placeholder="empty"
             src="/copy.png"
@@ -100,7 +100,7 @@ exports[`Chapter matches the snapshot 1`] = `
             Les Kiwis aussi creusent des tunnels
           </em>
         </span>
-        , New Zealand Tunnellers Website, 2025 (2009), Accessed: 1 January 2025. 
+        , New Zealand Tunnellers Website, 2025 (2009), Consulté le: 1 janvier 2025. 
         <span>
           URL:
           <wbr />

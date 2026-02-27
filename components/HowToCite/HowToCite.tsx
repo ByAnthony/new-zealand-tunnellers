@@ -184,21 +184,21 @@ export function HowToCite({
   );
   const currentDate = useMemo(
     () =>
-      new Intl.DateTimeFormat("en-GB", {
+      new Intl.DateTimeFormat(locale === "fr" ? "fr-FR" : "en-GB", {
         day: "numeric",
         month: "long",
         year: "numeric",
         timeZone: userTimeZone,
       }).format(now),
-    [now, userTimeZone],
+    [locale, now, userTimeZone],
   );
   const currentYear = useMemo(
     () =>
-      new Intl.DateTimeFormat("en-GB", {
+      new Intl.DateTimeFormat(locale === "fr" ? "fr-FR" : "en-GB", {
         year: "numeric",
         timeZone: userTimeZone,
       }).format(now),
-    [now, userTimeZone],
+    [locale, now, userTimeZone],
   );
 
   const handleCopy = () => {
@@ -207,11 +207,17 @@ export function HowToCite({
       navigator.clipboard
         .writeText(citationText)
         .then(() => {
-          alert("How to cite has been copied to clipboard");
+          alert(
+            locale === "fr"
+              ? "Comment citer a été copié dans le presse-papiers"
+              : "How to cite has been copied to clipboard",
+          );
         })
         .catch((err) => {
           alert(
-            "Failed to copy to clipboard. Please try selecting and copying the text manually.",
+            locale === "fr"
+              ? "Échec de la copie dans le presse-papiers. Veuillez essayer de sélectionner et de copier le texte manuellement."
+              : "Failed to copy to clipboard. Please try selecting and copying the text manually.",
           );
           // Only log errors in development
           if (process.env.NODE_ENV === "development") {
@@ -224,11 +230,15 @@ export function HowToCite({
   return (
     <div className={STYLES.howtocite}>
       <h3>
-        How to cite this page
+        {locale === "fr" ? "Comment citer cette page" : "How to cite this page"}
         <button className={STYLES["copy-paste"]} onClick={handleCopy}>
           <Image
             src={`/copy.png`}
-            alt="Copy to clipboard"
+            alt={
+              locale === "fr"
+                ? "Copier dans le presse-papiers"
+                : "Copy to clipboard"
+            }
             width={13}
             height={16}
             placeholder="empty"
@@ -245,7 +255,7 @@ export function HowToCite({
           locale={locale}
         />
         , New Zealand Tunnellers Website
-        {`, ${currentYear} (2009), Accessed: `}
+        {`, ${currentYear} (2009), ${locale === "en" ? "Accessed" : "Consulté le"}: `}
         {currentDate}
         {". "}
         <HowToCiteUrl
