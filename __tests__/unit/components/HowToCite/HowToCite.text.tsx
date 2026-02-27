@@ -50,6 +50,50 @@ describe("HowToCite", () => {
     jest.restoreAllMocks();
   });
 
+  test("shows French success alert on clipboard copy", async () => {
+    jest.spyOn(navigator.clipboard, "writeText").mockResolvedValue(undefined);
+
+    const alertSpy = jest.spyOn(window, "alert").mockImplementation(() => {});
+
+    render(<HowToCite locale="fr" />);
+
+    fireEvent.click(
+      screen.getByRole("button", { name: "Copier dans le presse-papiers" }),
+    );
+
+    await waitFor(() => {
+      expect(alertSpy).toHaveBeenCalledWith(
+        "Comment citer a été copié dans le presse-papiers",
+      );
+    });
+
+    alertSpy.mockRestore();
+    jest.restoreAllMocks();
+  });
+
+  test("shows French error alert on clipboard failure", async () => {
+    jest
+      .spyOn(navigator.clipboard, "writeText")
+      .mockRejectedValue(new Error("Clipboard error"));
+
+    const alertSpy = jest.spyOn(window, "alert").mockImplementation(() => {});
+
+    render(<HowToCite locale="fr" />);
+
+    fireEvent.click(
+      screen.getByRole("button", { name: "Copier dans le presse-papiers" }),
+    );
+
+    await waitFor(() => {
+      expect(alertSpy).toHaveBeenCalledWith(
+        "Échec de la copie dans le presse-papiers. Veuillez essayer de sélectionner et de copier le texte manuellement.",
+      );
+    });
+
+    alertSpy.mockRestore();
+    jest.restoreAllMocks();
+  });
+
   test("console error is called in development mode when clipboard fails", async () => {
     const originalEnv = process.env.NODE_ENV;
     process.env.NODE_ENV = "development";
@@ -92,6 +136,32 @@ describe("HowToCite", () => {
     );
 
     expect(screen.getByText(/Chapter 1:/)).toBeInTheDocument();
+  });
+
+  test("renders chapter citation with chapter number and title", () => {
+    render(
+      <HowToCite
+        pathname="/books/kiwis-dig-tunnels-too/chapter-1-the-tunnellers-from-the-antipodes"
+        locale="en"
+      />,
+    );
+
+    expect(
+      screen.getByText(/Chapter 1: The tunnellers from the antipodes/),
+    ).toBeInTheDocument();
+  });
+
+  test("renders tunneller citation without timeline", () => {
+    const tunneller: Summary = {
+      serial: "1/1000",
+      name: { forename: "John", surname: "Smith" },
+      birth: "1886",
+      death: "1966",
+    };
+
+    render(<HowToCite summary={tunneller} id={1} />);
+
+    expect(screen.getByText(/John Smith/)).toBeInTheDocument();
   });
 
   test("renders non-chapter citation for a prologue path", () => {

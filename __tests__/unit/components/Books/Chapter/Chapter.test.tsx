@@ -157,7 +157,7 @@ describe("Chapter", () => {
     render(<Chapter locale="fr" content={chapterContent} />);
 
     expect(
-      screen.getByRole("heading", { name: /How to cite this page/i }),
+      screen.getByRole("heading", { name: /Comment citer cette page/i }),
     ).toBeInTheDocument();
   });
 
@@ -170,7 +170,7 @@ describe("Chapter", () => {
     render(<Chapter locale="fr" content={sourcesContent} />);
 
     expect(
-      screen.queryByRole("heading", { name: /How to cite this page/i }),
+      screen.queryByRole("heading", { name: /Comment citer cette page/i }),
     ).not.toBeInTheDocument();
   });
 

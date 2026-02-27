@@ -173,7 +173,7 @@ export function HowToCite({
   title,
   timeline,
   pathname,
-  locale,
+  locale = "en",
 }: Props) {
   const citationRef = useRef<HTMLParagraphElement>(null);
 
