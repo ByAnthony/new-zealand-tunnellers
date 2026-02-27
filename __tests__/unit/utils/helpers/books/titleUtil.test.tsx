@@ -43,6 +43,10 @@ describe("extractText", () => {
     );
     expect(extractText(element)).toEqual("nested");
   });
+
+  test("returns empty string for non-handled types like boolean", () => {
+    expect(extractText(true as any)).toEqual("");
+  });
 });
 
 describe("parseChapterHeading", () => {

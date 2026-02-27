@@ -26,7 +26,8 @@ Les officiers de l’unité possédaient une haute opinion de leurs hommes sur l
 
 De nouveaux combattants souterrains prenaient encore position le long de la ligne chaque semaine, alors que l’équipement et l’administration des compagnies s’amélioraient de jour en jour. Depuis l’annonce de la formation de l’unité de tunneliers néo-zélandais, la Grande-Bretagne avait réussi à lever encore neuf compagnies supplémentaires. Le Canada forma même une unité directement dans les tranchées en attendant l’arrivée des deux autres corps formés au Dominion. Le personnel fut repéré dans les deux divisions canadiennes déployées en France et transféré dans la 3<sup>e</sup>&nbsp;compagnie de tunneliers canadiens, devenant la première unité des Dominions en action sur le front occidental, à Sainte-Marie-Cappel, au sud de Cassel (Nord), à la fin de l’année 1915. Des systèmes souterrains défensifs n’avaient été construits qu’à quelques endroits stratégiques. Sur le reste de la ligne, les tunneliers étaient pris dans des opérations locales décousues où l’ennemi avait bien souvent le dessus, mais sans portée stratégique[^16].
 
-<a className="button-chapter-book" href="/books/les-kiwis-aussi-creusent-des-tunnels/chapitre-5-retour-a-l-ecole">
+<a className="button-chapter-book" href="/books/les-kiwis-aussi-creusent-des-tunnels/chapitre-5-retour-a-l-ecole aria-label="Aller au chapitre 5 : Retour à l'école">
+
   <div>
     <p className="chapter">Chapitre 5</p>
     <span>Retour à l'école</span>

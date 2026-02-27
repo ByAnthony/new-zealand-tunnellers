@@ -35,8 +35,27 @@ const MainTitle: React.FC<{
   return (
     <div className={STYLES.header}>
       <div className={STYLES.link}>
-        <Link href="/#history">Resources</Link> /{" "}
-        <Link href={basePath(locale)}>{bookTitle(locale)}</Link>
+        <Link
+          href="/#history"
+          aria-label={
+            locale === "fr"
+              ? "Aller à la section Ressources"
+              : "Go to the Resources section"
+          }
+        >
+          Resources
+        </Link>{" "}
+        /{" "}
+        <Link
+          href={basePath(locale)}
+          aria-label={
+            locale === "fr"
+              ? "Aller à la table des matières"
+              : "Go to the table of contents"
+          }
+        >
+          {bookTitle(locale)}
+        </Link>
       </div>
       <div className={STYLES["main-title"]}>
         <h1>{chapter !== null ? chapter.text : title}</h1>

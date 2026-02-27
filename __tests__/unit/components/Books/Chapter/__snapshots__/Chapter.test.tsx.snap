@@ -17,12 +17,14 @@ exports[`Chapter matches the snapshot 1`] = `
               class="link"
             >
               <a
+                aria-label="Aller à la section Ressources"
                 href="/#history"
               >
                 Resources
               </a>
                / 
               <a
+                aria-label="Aller à la table des matières"
                 href="/books/les-kiwis-aussi-creusent-des-tunnels"
               >
                 Les Kiwis aussi creusent des tunnels
@@ -53,9 +55,19 @@ exports[`Chapter matches the snapshot 1`] = `
             Notes
           </h2>
         </div>
-        <span>
-          [^1]: A footnote.
-        </span>
+        <div>
+          <li
+            class="footnotes"
+          >
+            <a
+              class="anchor-link"
+              href="#user-content-fnref-1"
+            >
+              1.
+            </a>
+             A footnote.
+          </li>
+        </div>
       </div>
     </div>
     <div

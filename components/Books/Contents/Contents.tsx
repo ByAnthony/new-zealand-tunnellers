@@ -45,6 +45,7 @@ const SommaireItem: React.FC<{
         <Link
           href={`${basePath(locale)}/${slug}`}
           className={STYLES["button-chapter"]}
+          aria-label={locale === "fr" ? `Lire : ${title}` : `Read: ${title}`}
         >
           <div>
             <span className={STYLES["titre-container"]}>{title}</span>
@@ -60,6 +61,11 @@ const SommaireItem: React.FC<{
       <Link
         href={`${basePath(locale)}/${slug}`}
         className={STYLES["button-chapter"]}
+        aria-label={
+          locale === "fr"
+            ? `Aller au chapitre ${chap.number} : ${chap.text}`
+            : `Go to chapter ${chap.number}: ${chap.text}`
+        }
       >
         <div>
           <p className={STYLES.chapter}>
@@ -80,7 +86,16 @@ const MainTitle: React.FC<{
   return (
     <div className={STYLES.header}>
       <div className={STYLES.link}>
-        <Link href="/#history">Resources</Link>
+        <Link
+          href="/#history"
+          aria-label={
+            locale === "fr"
+              ? "Aller à la section Ressources"
+              : "Go to the Resources section"
+          }
+        >
+          Resources
+        </Link>
       </div>
       <h1>{children}</h1>
       <div className={STYLES.author}>

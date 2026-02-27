@@ -1,6 +1,7 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 
 import { HowToCite } from "@/components/HowToCite/HowToCite";
+import type { Summary } from "@/types/tunneller";
 
 Object.assign(navigator, {
   clipboard: {
@@ -80,5 +81,42 @@ describe("HowToCite", () => {
     consoleErrorSpy.mockRestore();
     process.env.NODE_ENV = originalEnv;
     jest.restoreAllMocks();
+  });
+
+  test("renders chapter citation with only a chapter number when path has no title", () => {
+    render(
+      <HowToCite
+        pathname="/books/kiwis-dig-tunnels-too/chapter-1"
+        locale="en"
+      />,
+    );
+
+    expect(screen.getByText(/Chapter 1:/)).toBeInTheDocument();
+  });
+
+  test("renders non-chapter citation for a prologue path", () => {
+    render(
+      <HowToCite
+        pathname="/books/les-kiwis-aussi-creusent-des-tunnels/prologue"
+        locale="fr"
+      />,
+    );
+
+    expect(screen.getByText(/Prologue/)).toBeInTheDocument();
+  });
+
+  test("renders timeline citation for a tunneller", () => {
+    const tunneller: Summary = {
+      serial: "1/1000",
+      name: { forename: "John", surname: "Smith" },
+      birth: "1886",
+      death: "1966",
+    };
+
+    render(<HowToCite summary={tunneller} timeline={true} id={1} />);
+
+    expect(
+      screen.getByText(/World War I Timeline of John Smith/),
+    ).toBeInTheDocument();
   });
 });

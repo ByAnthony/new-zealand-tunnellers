@@ -58,4 +58,21 @@ describe("ImageZoom", () => {
 
     expect(zoomIn).toHaveBeenCalledWith(1);
   });
+
+  test("calls resetTransform when clicking reset button after zooming in", () => {
+    const zoomIn = jest.fn();
+    const resetTransform = jest.fn();
+
+    jest.requireMock("react-zoom-pan-pinch").useControls = () => ({
+      zoomIn,
+      resetTransform,
+    });
+
+    render(<ImageZoom src="/images/photo.jpg" alt="photo" />);
+
+    fireEvent.click(screen.getByRole("button"));
+    fireEvent.click(screen.getByRole("button"));
+
+    expect(resetTransform).toHaveBeenCalled();
+  });
 });
