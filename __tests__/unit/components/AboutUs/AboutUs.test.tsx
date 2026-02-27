@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from "@testing-library/react";
+import { mockAboutUs } from "__tests__/unit/utils/mocks/mockAboutUs";
 
 import { AboutUs } from "@/components/AboutUs/AboutUs";
-import { mockAboutUs } from "__tests__/unit/utils/mocks/mockAboutUs";
 
 describe("AboutUs", () => {
   test("matches the snapshot", () => {

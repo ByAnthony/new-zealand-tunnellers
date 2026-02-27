@@ -1,5 +1,6 @@
-import { getUniqueDetachments } from "@/components/Roll/utils/detachmentUtils";
 import { mockTunnellers } from "__tests__/unit/utils/mocks/mockTunnellers";
+
+import { getUniqueDetachments } from "@/components/Roll/utils/detachmentUtils";
 
 describe("getUniqueDetachments", () => {
   test("returns unique detachments sorted correctly", () => {

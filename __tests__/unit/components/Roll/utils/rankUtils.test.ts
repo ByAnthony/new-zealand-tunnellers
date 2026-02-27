@@ -1,8 +1,9 @@
+import { mockTunnellers } from "__tests__/unit/utils/mocks/mockTunnellers";
+
 import {
   getSortedRanks,
   getUniqueRanks,
 } from "@/components/Roll/utils/rankUtils";
-import { mockTunnellers } from "__tests__/unit/utils/mocks/mockTunnellers";
 
 describe("getUniqueDetachments", () => {
   test("returns unique detachments sorted correctly", () => {
