@@ -58,6 +58,14 @@ A fervent defender of the labour movement and politically active for several yea
 
 It was not, however, for their courage in volunteering that the people of Avondale would remember the tunnellers. After four weeks of training, Jim, Lofty, George, Gerald and their comrades were granted seven days’ leave, from 8 to 14&nbsp;November. The week gave the tunnellers a chance to say goodbye to their loved ones, signalling that their departure for Europe was close. Yet this interruption in training created an embarrassing situation for the military authorities. The exuberance of many tunnellers on their return from leave left an unforgettable impression on the residents of Avondale’s main street leading to the racecourse. The men arrived in the township utterly drunk—so much so that the military authorities were obliged to fetch them and transport them back to camp.[^37] The parade of staggering men, bawling songs and shouting at the top of their lungs, chilled the townspeople, who had not expected to find themselves hosting such a gang of drunkards. Within hours, the tunnellers’ antics were the talk of the town and soon spread beyond it. Jim was mortified by the damage this image did to the company. He did not hesitate to write in his memoirs: &ldquo;…the people of Auckland were truly ashamed of us.&rdquo;[^38] From then on, locals avoided going anywhere near the racecourse—along with the Jockey Club authorities and the town council. The tunnellers were left to themselves, living almost in isolation. They received neither gifts nor any other sign of interest. Evenings in camp were bleak, and the men had to provide their own entertainment. No band played for them; no diversions were arranged.[^39] The tunnellers could rely only on one another. They alone were responsible for forging a unit worthy of their countrymen who had already gone to war.
 
+<a className="button-chapter-book" href="/books/kiwis-dig-tunnels-too/chapter-2-forging-good-soldiers">
+  <div>    
+    <p className="chapter">Chapter 2</p>
+    <span>Forging Good Soldiers</span>
+  </div>
+    <div className="arrow">&rarr;</div>
+</a>
+
 [^1]: Imperial War Museum, Documents.11515, The First World War Memoirs of James Williamson, Part&nbsp;1, f°&nbsp;1.
 
 [^2]: Te Rua Mahara o te Kāwanatanga Archives New Zealand, AD&nbsp;1 Box&nbsp;1348 62/23, Formation of Corps&nbsp;- Tunnelling Company&nbsp;- Formation of for service abroad, 1914-1915. Letter from the Minister of Mines to the Minister of Defence, 16&nbsp;September 1915.

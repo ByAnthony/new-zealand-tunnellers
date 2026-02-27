@@ -21,11 +21,7 @@ The German miners were the first to go on the offensive; perhaps they had notice
   <figcaption>
     Map&nbsp;2&nbsp;— Underground operations at Chantecler, 31&nbsp;March–7&nbsp;April 1916
   </figcaption>
-<<<<<<< HEAD
   <img src="../public/images/books/kiwis-dig-tunnels-too/1-underground-operations.jpg" alt="Plan of the German lines (top) and the British lines (bottom), with no man’s land in between. The German galleries are shown in red, running out from the German trenches; the New Zealand galleries are shown in blue, starting from the British trenches and numbered J1 to J6. A circle marks an underground explosion near J4." width="1170" height="827">
-=======
-  <img src="../public/map/1-operations-souterraines.jpg" alt="Plan of the German lines (top) and the British lines (bottom), with no man’s land in between. The German galleries are shown in red, running out from the German trenches; the New Zealand galleries are shown in blue, starting from the British trenches and numbered J1 to J6. A circle marks an underground explosion near J4." width="1170" height="827">
->>>>>>> refs/remotes/origin/main
 </figure>
 
 A number of the men found it difficult to remain crouched or kneeling for hours in the narrow tunnels.[^9] Jim even began to feel his old back pain returning. Sapper John McManus—a committed politician in civilian life and a staunch advocate for workers—drafted and sent Major Duigan a petition signed by members of his team and other sappers. The letter asked for permission to experiment with tunnel dimensions larger than those taught at the mining school, so that the men could dig standing up and work more efficiently.[^10] The major agreed to let them try, but warned that the mining inspectors would only accept it if the work was carried out faster. John McManus fully intended to deliver. The small dimensions recommended by the British were hampering the New Zealanders’ progress, and they were scarcely managing more than a hundred metres a week. By adopting their own method of working upright, the tunnellers increased that figure by half by the end of April. Better still, they set a digging record the following month, cutting more than 210&nbsp;metres in a single week. After two successive inspections, the mining inspectors finally approved their method.[^11] The New Zealanders were thus driving galleries a third larger than those of the British, increasing the height from 1.30&nbsp;metres to 1.90&nbsp;metres and the width from 0.69&nbsp;metres to 1.06&nbsp;metres!
@@ -38,11 +34,7 @@ George and Gerald, who in turn had just returned from the mining school, were th
   <figcaption>
     Map&nbsp;3&nbsp;— Underground operations at Chantecler, 8&nbsp;April–5&nbsp;May 1916
   </figcaption>
-<<<<<<< HEAD
   <img src="../public/images/books/kiwis-dig-tunnels-too/2-underground-operations.jpg" alt="Plan showing the German lines (top) and British lines (bottom). German saps (in red) run out from the German trenches; New Zealand saps (in blue), numbered J1–J14, run out from the British trenches along the front (J10–J11 on the left, J1–J9 in the centre, J12–J14 on the right). The “No man’s land” area is marked towards the centre-right. Several blue circles indicate underground explosions." width="1170" height="827">
-=======
-  <img src="../public/map/2-operations-souterraines.jpg" alt="Plan showing the German lines (top) and British lines (bottom). German saps (in red) run out from the German trenches; New Zealand saps (in blue), numbered J1–J14, run out from the British trenches along the front (J10–J11 on the left, J1–J9 in the centre, J12–J14 on the right). The “No man’s land” area is marked towards the centre-right. Several blue circles indicate underground explosions." width="1170" height="827">
->>>>>>> refs/remotes/origin/main
 </figure>
 
 The attack seemed to have caused damage on the German side, because enemy activity could be heard clearly near the destroyed galleries. The miners were perhaps trying to rescue men trapped underground, unless they were quickly clearing their system in order to counter-attack. However, no action was taken below ground in the days that followed; only an intense bombardment was unleashed on 7&nbsp;May against the British trenches for three hours.[^14] No New Zealanders were reported wounded, and their tunnels suffered no damage. Underground, the Germans were still making just as much noise near J4. The New Zealanders could not be certain whether it was men actually digging or a simple decoy, since underground fighters did not hesitate to deceive enemy listening posts by imitating the sound of a pick. The tunnellers took no risks and planned a new attack: on 11&nbsp;May, four camouflets were prepared around J4, and the next day they were fired (Map&nbsp;4). Once again, the officers had miscalculated the weight of the charges, three of which disturbed the surface. In the days that followed, no further sound came from that area. The officers assumed the enemy galleries had been put out of action, because listening now revealed the enemy’s presence in the centre of the sector, on either side of the old Bailleul road.[^15] When they detonated, the charges completely neutralised any possibility of action in that zone by the German miners, who continued their operations where their network was still close to the British lines.
@@ -62,14 +54,18 @@ The New Zealand unit lost nearly 80&nbsp;men, and its work no longer progressed 
   <figcaption>
     Map&nbsp;5&nbsp;— Underground operations at Chantecler, 13&nbsp;May – 16&nbsp;June 1916
   </figcaption>
-<<<<<<< HEAD
   <img src="../public/images/books/kiwis-dig-tunnels-too/4-underground-operations.jpg" alt="Map of the front line labeled “German trenches” (top) and “British trenches” (bottom). German saps (red) advance toward No Man’s Land; New Zealand saps (blue), J1 to J14, start from the British trenches. Three red circles aligned in the center of the sector indicate German underground explosions (roughly opposite J3–J5 and toward J1)." width="1170" height="827">
-=======
-  <img src="../public/map/4-operations-souterraines.jpg" alt="Map of the front line labeled “German trenches” (top) and “British trenches” (bottom). German saps (red) advance toward No Man’s Land; New Zealand saps (blue), J1 to J14, start from the British trenches. Three red circles aligned in the center of the sector indicate German underground explosions (roughly opposite J3–J5 and toward J1)." width="1170" height="827">
->>>>>>> refs/remotes/origin/main
 </figure>
 
 The officers examined the three craters and christened them Cuthbert, Clarence, and Claude, after the humorous popular song by Arnold Blake, composed in 1912.[^22] Cuthbert was the name given to the southernmost crater, which measured more than 43&nbsp;meters across and reached a depth of over 7.5&nbsp;meters; according to the officers, the mine had probably been laid at a depth of more than 16&nbsp;meters. Clarence, the smallest of the three, lay close to the old Bailleul road; it formed an oval more than 41&nbsp;meters wide and over 9&nbsp;meters deep, a shape suggesting that the explosive charge had been placed along the line of the gallery. Claude, the northernmost and the largest, reached a diameter of nearly 45&nbsp;meters and a depth of more than 11.5&nbsp;meters; the officers assumed the mine had been installed more than 24&nbsp;meters underground. At Chantecler, the New Zealand company suffered its second setback and found it very difficult to conduct an effective underground fight. As a precaution, on 16&nbsp;June at 2:00&nbsp;p.m., a camouflet was fired in one of the branches of J1, south of Clarence, to prevent a further enemy attack on the front line (Map&nbsp;5). Nevertheless, at no point had the New Zealanders managed to pinpoint the enemy workings: the German miners had simply drawn their attention to the northern part of the sector throughout April and early May. That period gave them enough time to edge as close as possible to the British front line and to plan an attack in coordination with the troops on the surface.
+
+<a className="button-chapter-book" href="/books/kiwis-dig-tunnels-too/chapter-7-trapped">
+  <div>    
+    <p className="chapter">Chapter 7</p>
+    <span>Trapped</span>
+  </div>
+    <div className="arrow">&rarr;</div>
+</a>
 
 [^1]: Herbert W. Graham, _The Life of a Tunnelling Companies, Being an intimate Story of the Life of the 185th Tunnelling Company Royal Engineers, in France, during the Great War, 1914-1918_, Hexham, J. Catherall & Co., 1927, p.&nbsp;22.
 

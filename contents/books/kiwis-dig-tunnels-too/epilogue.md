@@ -21,6 +21,13 @@ Jim did not hesitate to attend the ceremony. He stood back from the family, rela
 
 Back in the house where he had lived since his demobilisation, which his sister had left him, Jim let himself fall, deep in thought, into his armchair. It now seemed obvious to him that writing was the only way to remedy the forgetting into which his comrades and his company had fallen. But the old man did not know how to handle words like a writer. He had begun a notebook, but had never got beyond the first page. His sentences were simple, sometimes clumsy, but always honest. As he read and reread the few lines he had written, the former tunneller hesitated to continue. Yet, as he went back over the events of the past few days, he felt he had a duty to bear witness. He turned the page, ready to go on with his memoirs. Everything had to be told, so that the memories of the underground war and of his comrades would never fade away.
 
+<a className="button-chapter-book" href="/books/kiwis-dig-tunnels-too/sources">
+  <div>
+    <span>Sources</span>
+  </div>
+    <div className="arrow">&rarr;</div>
+</a>
+
 [^1]: Imperial War Museum, Documents.11515, The First World War Memoirs of James Williamson, Part&nbsp;2, f°&nbsp;44.
 
 [^2]: &ldquo;New Zealand Notes&rdquo;, _Tunnellers’ Old Comrades Association Bulletin_, n°14, 1939, p.&nbsp;30.

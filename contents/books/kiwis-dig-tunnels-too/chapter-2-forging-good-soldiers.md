@@ -33,6 +33,14 @@ Before taking part in the departure ceremonies, the men left their kit aboard th
 
 On the way to the port, the public and friends warmly cheered the tunnellers on. As the company drew closer to the waterfront, the crowd grew ever denser. Onlookers pressed forward to shake the tunnellers’ hands as they passed, or simply to give them a friendly slap on the shoulder. Smiles were everywhere as the men received more and more encouragement—and gifts: cigars and, above all, beers, quickly slipped into pockets and difficult to conceal.[^30] The tunnellers’ appearance made a strong impression on a public that had been so ashamed of them only a few weeks earlier.[^31] On the wharf, some of the tunnellers’ relatives had come along. Jim spotted his sister’s familiar face in the crowd and hurried to her for a last embrace, while his comrades gradually boarded the <em>Ruapehu</em> and quickly took their places on deck to wave a final farewell to the throng. On board, the cooks’ strike had ended. The manager of the New Zealand Shipping Company, G. B. Bullock, promptly granted his employees a pay rise so as not to delay departure. Yet he did not seem able to honour that commitment. The <em>Ruapehu</em> had barely cast off when he asked the government to cover the wage increase. James Allen, the Minister of Defence, refused outright—especially since he had already agreed to a bonus for Captain Clifford, the <em>Ruapehu</em>'s master, in view of the dangers of such a crossing. Bullock would not back down and, in return, sought a higher rate for transporting the third-class men. The Minister of Defence’s office appealed to the Prime Minister to judge the validity of the proposal. In the end, the offer was accepted.
 
+<a className="button-chapter-book" href="/books/kiwis-dig-tunnels-too/chapter-3-the-way-to-war">
+  <div>    
+    <p className="chapter">Chapter 3</p>
+    <span>The Way to War</span>
+  </div>
+    <div className="arrow">&rarr;</div>
+</a>
+
 [^1]: Stéphane Audoin-Rouzeau, &ldquo;L’équipement des soldats&rdquo;, in _Encyclopédie de la Grande Guerre 1914-1918. Histoire et culture_, edited by Stéphane Audoin-Rouzeau and Jean-Jacques Becker, Paris, Bayard, 2004, p.&nbsp;282.
 
 [^2]: _Infantry Training 1914_, Londres, General Staff, War Office, 1914, p.&nbsp;48-49.

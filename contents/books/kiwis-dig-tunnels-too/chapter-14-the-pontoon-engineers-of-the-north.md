@@ -37,6 +37,14 @@ George’s section and Section&nbsp;3 had in fact completed their work at Pont-s
 
 Almost the entire unit took part in draining floodwaters, following the destruction of a viaduct by the Germans in the final days of the war, at Spiennes, south of Mons. George’s section, having finished the work at Malplaquet, left for Lourches in northern France, between Douai and Valenciennes, to work on one last bridge: a railway footbridge to be installed over the Scheldt Canal (Map&nbsp;12). However, in Belgium as in France, the tunnellers’ ranks were thinning once again with the departure of married men in early December. In a month, the company’s strength fell from 437 to 370&nbsp;tunnellers—too few for the New Zealand government, which, since 18&nbsp;November, had been pressing the War Office in London to grant the immediate demobilisation of the entire unit.
 
+<a className="button-chapter-book" href="/books/kiwis-dig-tunnels-too/chapter-15-the-company-demobilised">
+  <div>    
+    <p className="chapter">Chapter 15</p>
+    <span>The Company Demobilised</span>
+  </div>
+    <div className="arrow">&rarr;</div>
+</a>
+
 [^1]: The National Archives United Kingdom, WO&nbsp;95/407, New Zealand Tunnelling Company War Diary, Notes from the Chief Engineer of the Third Army regarding the construction of the Noyelles-sur-Escaut bridge, October 1918 annex, p.&nbsp;7, &ldquo;A party of the 565 A.T.Co.R.E. were attached for duty more for experience than anything else&rdquo;.
 
 [^2]: _Ibid._, Weekly Reports from 10 to 16&nbsp;October 1918.

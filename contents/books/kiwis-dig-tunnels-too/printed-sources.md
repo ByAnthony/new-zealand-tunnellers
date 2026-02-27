@@ -33,3 +33,10 @@ Book published on New Zealand Tunnellers website – https://www.nztunnellers.co
 ## Journal
 
 - _Tunnellers’ Old Comrades Association_, Bulletins n°1-14, London, Mining Publications Limited, 1927-1939.
+
+<a className="button-chapter-book" href="/books/kiwis-dig-tunnels-too/bibliography">
+  <div>
+    <span>Bibliography</span>
+  </div>
+    <div className="arrow">&rarr;</div>
+</a>

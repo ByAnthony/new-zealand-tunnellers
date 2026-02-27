@@ -37,6 +37,14 @@ At the beginning of September 1918, the sapper finally told him that he would so
 
 By late October, Jim had regained his strength. He was able to leave the hospital and rejoin the military camp at Torquay, where he was ordered to prepare his kit for the return journey. In early November, he was crammed with other New Zealand soldiers into a train for Plymouth, then embarked aboard the Ayrshire. This troopship was far from matching the Ruapehu, the vessel that had brought Jim and his companions to Great Britain three years earlier. The beds were poor, the food was too, and the voyage across the Atlantic and Pacific Oceans was a dreary one[^27]. Although overjoyed at the news of the Armistice, Jim was frustrated that he could not take part in the peace celebrations. He and his companions nevertheless received, during their stopover at Cristobal, a port on Panama’s Pacific coast, a very warm welcome—patriotic songs, cigarettes and bananas handed out, and crowds thronging around them. This landing undoubtedly contrasted with their arrival in New Zealand on Christmas Eve[^28]. And for good reason: the Dominion was only just recovering from the second wave of the Spanish flu, which had struck severely for the past two months. Although the epidemic was contained, the number of infected people was still significant. The atmosphere in the city shocked Jim so deeply that he felt as if he were returning to a morgue[^29]. He was all the more shaken because a pastor had come to see him shortly before he set foot on land. The man told him of his sister’s death, carried off by the terrible virus a month earlier. It was a devastating shock for the tunneller, who could not imagine a worse homecoming.
 
+<a className="button-chapter-book" href="/books/kiwis-dig-tunnels-too/chapter-13-a-spectacular-achievement">
+  <div>    
+    <p className="chapter">Chapter 13</p>
+    <span>A Spectacular Achievement</span>
+  </div>
+    <div className="arrow">&rarr;</div>
+</a>
+
 [^1]: Imperial War Museum, Documents.11515, The First World War Memoirs of James Williamson, Part&nbsp;2, f°&nbsp;7.
 
 [^2]: _Ibid._, &ldquo;… we should accidently get at the same table after coming from places such a long way apart.&rdquo;

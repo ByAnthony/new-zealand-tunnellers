@@ -40,6 +40,14 @@ The immense underground shelter created by the New Zealanders was only the first
 
 At the beginning of May 1917, part of Section&nbsp;4 began converting newly uncovered cavities into billets: at the Feuchy chapel, beneath the crossroads of the Cambrai and Feuchy roads, and at the place known as Les Fosses, beneath the ruins of a farm along the Cambrai road, near Monchy-le-Preux. The men no longer returned to Arras and were housed close to the front in shelters abandoned by the Germans, while the rest of the company completed the repair of the Cambrai road. The tunnellers had already rebuilt more than 12&nbsp;kilometres of roadway, including nearly eight suitable for light vehicles and five for heavy vehicles. The final work was carried out during May, as little by little all the men were transferred to the front to begin various underground works. Although restoring this major communication route to the front had not been intended primarily to benefit the tunnellers, it was nonetheless important. This straight road would facilitate the transport of equipment to the different construction sites of the tunnellers’ future underground works. The company was in fact preparing to take over a sector of almost 10&nbsp;square kilometres, stretching between the villages of Gavrelle to the north and Guémappe to the south, from Monchy-le-Preux to the east and Tilloy-lès-Mofflaines to the west; the Scarpe dividing the work zone in two at the level of the village of Fampoux. Given the extent of the work area and the rapid multiplication of underground installations, the officers chose logistics that were as precise as they were efficient.
 
+<a className="button-chapter-book" href="/books/kiwis-dig-tunnels-too/chapter-10-still-digging">
+  <div>    
+    <p className="chapter">Chapter 10</p>
+    <span>Still Digging</span>
+  </div>
+    <div className="arrow">&rarr;</div>
+</a>
+
 [^1]: The National Archives United Kingdom, WO&nbsp;95/407, New Zealand Tunnelling Company War Diary, 19&nbsp;March 1917, &ldquo;In front line a small tunnell has been made by the French under the Cambrai Road. Started to-day opening this out and re-timbering.&rdquo;
 
 [^2]: _Ibid._, 20&nbsp;March 1917, &ldquo;2&nbsp;entrances to I.56 were blown in during Artillery strafe today and had to be repaired.&rdquo;
