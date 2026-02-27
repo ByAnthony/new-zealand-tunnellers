@@ -74,15 +74,20 @@ const SommaireItem: React.FC<{
 };
 
 const MainTitle: React.FC<{
+  locale: string;
   children: ReactNode;
-}> = ({ children }) => {
+}> = ({ locale, children }) => {
   return (
     <div className={STYLES.header}>
       <div className={STYLES.link}>
         <Link href="/#history">Resources</Link>
       </div>
       <h1>{children}</h1>
-      <div className={STYLES.author}>Un livre d&apos;Anthony Byledbal</div>
+      <div className={STYLES.author}>
+        {locale === "fr"
+          ? "Un livre d'Anthony Byledbal"
+          : "A book by Anthony Byledbal"}
+      </div>
     </div>
   );
 };
@@ -93,7 +98,9 @@ export const Contents: React.FC<Props> = ({ locale, content }) => {
       <ReactMarkdown
         remarkPlugins={[remarkGfm, remarkRemoveComments]}
         components={{
-          h1: ({ children }) => <MainTitle>{children}</MainTitle>,
+          h1: ({ children }) => (
+            <MainTitle locale={locale}>{children}</MainTitle>
+          ),
           li: ({ children }) => (
             <SommaireItem locale={locale}>{children}</SommaireItem>
           ),
