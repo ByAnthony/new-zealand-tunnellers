@@ -33,13 +33,17 @@
   margin: 0 auto;
   margin-top: variables.$xs-margin;
   padding: variables.$xxxs-margin variables.$xs-margin;
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: 300;
   text-align: center;
   color: variables.$primary-light-color;
   border: 1px solid variables.$primary-light-color;
   border-radius: variables.$border-radius;
   width: fit-content;
+
+  @include variables.desktop {
+    font-size: 1rem;
+  }
 }
 
 .title-line-3 {
