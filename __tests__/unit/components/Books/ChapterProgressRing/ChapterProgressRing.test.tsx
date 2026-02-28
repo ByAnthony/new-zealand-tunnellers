@@ -52,14 +52,15 @@ describe("ChapterProgressRing", () => {
     );
   });
 
-  test("renders the SVG ring element", () => {
+  test("renders the CSS ring element", () => {
     mockGetChapterProgress.mockReturnValue(0);
 
     const { container } = render(
       <ChapterProgressRing pathname="/books/my-book/chapter-1" />,
     );
 
-    expect(container.querySelector("svg")).toBeInTheDocument();
-    expect(container.querySelectorAll("circle")).toHaveLength(3);
+    expect(container.querySelector(".ring")).toBeInTheDocument();
+    expect(container.querySelector(".inner")).toBeInTheDocument();
+    expect(container.querySelector("svg")).not.toBeInTheDocument();
   });
 });
