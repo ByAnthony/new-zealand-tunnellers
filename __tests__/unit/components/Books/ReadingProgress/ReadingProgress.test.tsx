@@ -132,4 +132,23 @@ describe("ReadingProgress", () => {
 
     expect(window.scrollTo).not.toHaveBeenCalled();
   });
+
+  test("dispatches chapter progress event on unmount to update cached contents page", () => {
+    const mockButton = {
+      getBoundingClientRect: () => ({ top: 500 }),
+    } as unknown as Element;
+    jest.spyOn(document, "querySelector").mockReturnValue(mockButton);
+    const dispatchSpy = jest.spyOn(window, "dispatchEvent");
+
+    const { unmount } = render(<ReadingProgress />);
+
+    // Clear events dispatched during mount/scroll
+    dispatchSpy.mockClear();
+
+    unmount();
+
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      expect.objectContaining({ type: "chapter-progress-update" }),
+    );
+  });
 });

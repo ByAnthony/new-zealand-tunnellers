@@ -50,7 +50,10 @@ export const ReadingProgress = () => {
     window.addEventListener("scroll", updateProgress, { passive: true });
     updateProgress();
 
-    return () => window.removeEventListener("scroll", updateProgress);
+    return () => {
+      window.removeEventListener("scroll", updateProgress);
+      window.dispatchEvent(new CustomEvent(CHAPTER_PROGRESS_EVENT));
+    };
   }, [pathname]);
 
   if (progress === null) return null;
