@@ -55,7 +55,7 @@ const MainTitle: React.FC<{
             href={basePath(locale)}
             aria-label={
               locale === "fr"
-                ? "Aller à la table des matières"
+                ? "Aller au sommaire"
                 : "Go to the table of contents"
             }
           >

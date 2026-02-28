@@ -24,7 +24,7 @@ exports[`Chapter matches the snapshot 1`] = `
               </a>
                / 
               <a
-                aria-label="Aller à la table des matières"
+                aria-label="Aller au sommaire"
                 href="/books/les-kiwis-aussi-creusent-des-tunnels"
               >
                 Les Kiwis aussi creusent des tunnels

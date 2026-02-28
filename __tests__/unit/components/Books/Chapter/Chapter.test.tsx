@@ -133,7 +133,7 @@ describe("Chapter", () => {
     render(<Chapter locale="fr" content={chapterContent} />);
 
     const bookLink = screen.getByRole("link", {
-      name: "Aller à la table des matières",
+      name: "Aller au sommaire",
     });
     expect(bookLink).toHaveAttribute(
       "href",
