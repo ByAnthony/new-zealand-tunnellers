@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 
 import {
   CHAPTER_PROGRESS_EVENT,
+  getChapterProgress,
   saveChapterProgress,
 } from "@/utils/helpers/books/chapterProgressUtil";
 
@@ -19,9 +20,17 @@ export const ReadingProgress = () => {
     if (!button) return;
 
     const buttonDocTop = button.getBoundingClientRect().top + window.scrollY;
+    const totalScrollable = buttonDocTop - window.innerHeight;
+
+    const savedProgress = getChapterProgress(pathname);
+    if (savedProgress > 0 && totalScrollable > 0) {
+      window.scrollTo({
+        top: (savedProgress / 100) * totalScrollable,
+        behavior: "instant",
+      });
+    }
 
     const updateProgress = () => {
-      const totalScrollable = buttonDocTop - window.innerHeight;
       let newProgress: number;
 
       if (totalScrollable <= 0) {
