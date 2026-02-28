@@ -1,6 +1,6 @@
 "use client";
 
-import { useSyncExternalStore } from "react";
+import { useEffect, useState } from "react";
 
 import {
   CHAPTER_PROGRESS_EVENT,
@@ -16,17 +16,16 @@ type Props = {
 const RING_RADIUS = 27.5;
 const CIRCUMFERENCE = 2 * Math.PI * RING_RADIUS;
 
-function subscribeToProgressUpdates(callback: () => void): () => void {
-  window.addEventListener(CHAPTER_PROGRESS_EVENT, callback);
-  return () => window.removeEventListener(CHAPTER_PROGRESS_EVENT, callback);
-}
-
 export const ChapterProgressRing = ({ pathname }: Props) => {
-  const progress = useSyncExternalStore(
-    subscribeToProgressUpdates,
-    () => getChapterProgress(pathname),
-    () => 0,
-  );
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    const handleUpdate = () => setProgress(getChapterProgress(pathname));
+    handleUpdate();
+    window.addEventListener(CHAPTER_PROGRESS_EVENT, handleUpdate);
+    return () =>
+      window.removeEventListener(CHAPTER_PROGRESS_EVENT, handleUpdate);
+  }, [pathname]);
 
   const offset = CIRCUMFERENCE * (1 - progress / 100);
   const isComplete = progress === 100;
