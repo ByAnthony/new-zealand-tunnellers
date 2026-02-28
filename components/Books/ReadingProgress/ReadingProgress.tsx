@@ -15,7 +15,7 @@ export const ReadingProgress = () => {
   const pathname = usePathname();
 
   useEffect(() => {
-    const button = document.querySelector(".button-chapter-book");
+    const button = document.querySelector(".footnotes");
     if (!button) return;
 
     const buttonDocTop = button.getBoundingClientRect().top + window.scrollY;
