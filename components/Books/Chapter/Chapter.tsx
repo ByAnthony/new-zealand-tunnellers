@@ -8,6 +8,7 @@ import rehypeRaw from "rehype-raw";
 import remarkGfm from "remark-gfm";
 import remarkRemoveComments from "remark-remove-comments";
 
+import { BookMenu } from "@/components/Books/BookMenu/BookMenu";
 import { ReadingProgress } from "@/components/Books/ReadingProgress/ReadingProgress";
 import { HowToCite } from "@/components/HowToCite/HowToCite";
 import { basePath, bookTitle } from "@/utils/helpers/books/basePathUtil";
@@ -173,6 +174,7 @@ export const Chapter = (props: Props) => {
       {isReadingPage(pathname) && (
         <HowToCite pathname={pathname} locale={props.locale} />
       )}
+      {isReadingPage(pathname) && <BookMenu locale={props.locale} />}
     </div>
   );
 };
