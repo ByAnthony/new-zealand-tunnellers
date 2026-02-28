@@ -3,7 +3,7 @@ Livre publié sur New Zealand Tunnellers – https://www.nztunnellers.com/books/
 
 # Les Kiwis aussi creusent des tunnels
 
-## Table des matières
+## Sommaire
 
 - [Prologue](./prologue.md)
 - [Chapitre 1: Les tunneliers des antipodes](./chapitre-1-les-tunneliers-des-antipodes.md)

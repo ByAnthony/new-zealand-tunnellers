@@ -7,7 +7,7 @@ type Props = {
 };
 
 export default async function ContentsContainer({ locale }: Props) {
-  const filename = locale === "fr" ? "table-des-matieres" : "contents";
+  const filename = locale === "fr" ? "sommaire" : "contents";
   const markdownContent = await readBookMarkdown(locale, filename);
 
   return <Contents locale={locale} content={markdownContent} />;
