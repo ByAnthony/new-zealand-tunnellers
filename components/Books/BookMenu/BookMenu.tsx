@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
 import { basePath } from "@/utils/helpers/books/basePathUtil";
+import { CHAPTER_PROGRESS_EVENT } from "@/utils/helpers/books/chapterProgressUtil";
 
 import STYLES from "./BookMenu.module.scss";
 
@@ -50,6 +51,9 @@ export const BookMenu = ({ locale }: Props) => {
           locale === "fr"
             ? "Retour à la table des matières"
             : "Back to contents"
+        }
+        onClick={() =>
+          window.dispatchEvent(new CustomEvent(CHAPTER_PROGRESS_EVENT))
         }
       >
         {locale === "fr" ? "Sommaire" : "Contents"}

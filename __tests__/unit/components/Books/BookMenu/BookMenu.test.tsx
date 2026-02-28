@@ -1,4 +1,4 @@
-import { act, render, screen } from "@testing-library/react";
+import { act, fireEvent, render, screen } from "@testing-library/react";
 import React from "react";
 
 import { BookMenu } from "@/components/Books/BookMenu/BookMenu";
@@ -172,5 +172,17 @@ describe("BookMenu", () => {
 
     // footer.top=1200 > innerHeight=800 → no overlap
     expect(container.querySelector(".menu")).toHaveStyle("bottom: 0px");
+  });
+
+  test("dispatches chapter progress event when link is clicked", () => {
+    const dispatchSpy = jest.spyOn(window, "dispatchEvent");
+
+    render(<BookMenu locale="en" />);
+
+    fireEvent.click(screen.getByRole("link"));
+
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      expect.objectContaining({ type: "chapter-progress-update" }),
+    );
   });
 });
