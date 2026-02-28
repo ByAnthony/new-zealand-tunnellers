@@ -9,9 +9,9 @@
   height: 44px;
   border-radius: 50%;
   background: conic-gradient(
-    from -90deg,
-    variables.$primary-light-color calc(var(--progress) * 1%),
-    rgba(variables.$primary-light-color, 0.2) 0
+    from 0deg,
+    variables.$secondary-color calc(var(--progress) * 1%),
+    rgba(variables.$primary-light-color, 0) 0
   );
 
   @include variables.tablet {
@@ -25,9 +25,22 @@
   }
 }
 
+.checkmark {
+  font-weight: 400;
+  font-size: 1.25rem;
+
+  @include variables.tablet {
+    font-size: 1.75rem;
+  }
+
+  @include variables.desktop {
+    font-size: 2.25rem;
+  }
+}
+
 .inner {
   position: absolute;
-  inset: 4px;
+  inset: 3px;
   border-radius: 50%;
   background: variables.$primary-dark-color;
   border: 1px solid variables.$secondary-color;
@@ -35,6 +48,14 @@
   align-items: center;
   justify-content: center;
   color: variables.$secondary-color;
-  font-size: 14px;
+  font-size: 2rem;
   font-family: inherit;
+
+  @include variables.tablet {
+    font-size: 2.5rem;
+  }
+
+  @include variables.desktop {
+    font-size: 3rem;
+  }
 }

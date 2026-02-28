@@ -32,7 +32,9 @@ export const ChapterProgressRing = ({ pathname }: Props) => {
       style={{ "--progress": progress } as React.CSSProperties}
       aria-hidden="true"
     >
-      <div className={STYLES.inner}>{isComplete ? "✓" : "→"}</div>
+      <div className={STYLES.inner}>
+        {isComplete ? <div className={STYLES.checkmark}>✓</div> : "→"}
+      </div>
     </div>
   );
 };
