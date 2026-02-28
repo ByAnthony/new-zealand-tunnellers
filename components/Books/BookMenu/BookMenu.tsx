@@ -1,10 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { basePath } from "@/utils/helpers/books/basePathUtil";
-import { CHAPTER_PROGRESS_EVENT } from "@/utils/helpers/books/chapterProgressUtil";
 
 import STYLES from "./BookMenu.module.scss";
 
@@ -12,52 +11,33 @@ type Props = {
   locale: string;
 };
 
-export const BookMenu = ({ locale }: Props) => {
-  const [visible, setVisible] = useState(false);
-  const [bottomOffset, setBottomOffset] = useState(0);
-  const lastScrollY = useRef(0);
+export function BookMenu({ locale }: Props) {
+  const [prevBookScrollPos, setPrevBookScrollPos] = useState(0);
+  const [bookMenuVisible, setBookMenuVisible] = useState(true);
 
   useEffect(() => {
     const handleScroll = () => {
-      const currentY = window.scrollY;
-
-      if (currentY > lastScrollY.current && currentY > 150) {
-        setVisible(true);
-      } else if (currentY < lastScrollY.current) {
-        setVisible(false);
-      }
-      lastScrollY.current = currentY;
-
-      const footer = document.querySelector("footer");
-      if (footer) {
-        const rect = footer.getBoundingClientRect();
-        setBottomOffset(Math.max(0, window.innerHeight - rect.top));
-      }
+      const currentScrollPos = window.scrollY;
+      setBookMenuVisible(prevBookScrollPos > currentScrollPos);
+      setPrevBookScrollPos(currentScrollPos);
     };
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [prevBookScrollPos]);
 
   return (
-    <div
-      className={`${STYLES.menu} ${visible ? STYLES.visible : ""}`}
-      style={{ bottom: `${bottomOffset}px` }}
+    <Link
+      className={`${STYLES["book-menu"]} ${!bookMenuVisible ? "" : STYLES.hidden}`}
+      href={basePath(locale)}
+      aria-label={locale === "fr" ? "Retour au sommaire" : "Back to contents"}
     >
-      <Link
-        className={STYLES.link}
-        href={basePath(locale)}
-        aria-label={
-          locale === "fr"
-            ? "Retour à la table des matières"
-            : "Back to contents"
-        }
-        onClick={() =>
-          window.dispatchEvent(new CustomEvent(CHAPTER_PROGRESS_EVENT))
-        }
-      >
+      <span className={STYLES.link}>
         {locale === "fr" ? "Sommaire" : "Contents"}
-      </Link>
-    </div>
+      </span>
+      <span className={STYLES.arrow} aria-hidden="true">
+        &rarr;
+      </span>
+    </Link>
   );
-};
+}

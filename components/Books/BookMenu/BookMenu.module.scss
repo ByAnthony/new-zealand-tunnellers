@@ -1,30 +1,53 @@
 @use "app/variables.module.scss";
 
-.menu {
-  position: fixed;
-  left: 0;
-  right: 0;
+.book-menu {
+  padding: variables.$xs-margin variables.$s-margin;
+  position: -webkit-sticky;
+  position: sticky;
+  bottom: variables.$m-margin;
   display: flex;
-  justify-content: center;
-  padding: 0.75rem 1rem;
-  background: variables.$primary-dark-color;
-  border-top: 1px solid variables.$secondary-color;
-  transform: translateY(100%);
-  transition: transform 0.3s ease;
-  z-index: 900;
-}
-
-.menu.visible {
-  transform: translateY(0);
-}
-
-.link {
-  color: variables.$secondary-color;
-  font-family: inherit;
-  font-size: 1rem;
+  justify-content: space-between;
+  align-items: center;
+  background-color: variables.$primary-medium-color;
+  border-radius: variables.$border-radius;
+  border: 1px solid variables.$primary-light-color;
+  transition: all 0.9s ease-in-out;
+  cursor: pointer;
+  z-index: 1000;
   text-decoration: none;
 
   &:hover {
-    text-decoration: underline;
+    border: 1px solid variables.$secondary-color;
+    background-color: variables.$primary-dark-color;
   }
+
+  @include variables.tablet {
+    margin: 0 auto;
+    width: fit-content;
+    gap: variables.$l-margin;
+    bottom: variables.$m-margin;
+  }
+
+  @include variables.desktop {
+    margin: 0 auto;
+    width: fit-content;
+    padding: variables.$xs-margin variables.$m-margin;
+    gap: variables.$l-margin;
+    bottom: variables.$base-margin;
+  }
+
+  .link {
+    margin: 0;
+    color: variables.$secondary-color;
+  }
+
+  .arrow {
+    @include variables.arrow-button;
+  }
+}
+
+.hidden {
+  opacity: 0;
+  transition: opacity 0.9s ease-in-out;
+  pointer-events: none;
 }

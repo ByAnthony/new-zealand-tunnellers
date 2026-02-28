@@ -112,18 +112,23 @@ exports[`Chapter matches the snapshot 1`] = `
         </span>
       </p>
     </div>
-    <div
-      class="menu "
-      style="bottom: 0px;"
+    <a
+      aria-label="Retour au sommaire"
+      class="book-menu hidden"
+      href="/books/les-kiwis-aussi-creusent-des-tunnels"
     >
-      <a
-        aria-label="Retour à la table des matières"
+      <span
         class="link"
-        href="/books/les-kiwis-aussi-creusent-des-tunnels"
       >
         Sommaire
-      </a>
-    </div>
+      </span>
+      <span
+        aria-hidden="true"
+        class="arrow"
+      >
+        →
+      </span>
+    </a>
   </div>
 </DocumentFragment>
 `;
