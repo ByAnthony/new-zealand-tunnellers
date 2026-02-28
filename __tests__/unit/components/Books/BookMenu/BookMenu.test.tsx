@@ -3,58 +3,17 @@ import React from "react";
 
 import { BookMenu } from "@/components/Books/BookMenu/BookMenu";
 
-import STYLES from "@/components/Books/BookMenu/BookMenu.module.scss";
-
-type EventListener = (event: Event) => void;
-
-jest.mock("next/link", () => {
-  const MockLink = ({
-    href,
-    children,
-    ...props
-  }: {
-    href: string;
-    children: React.ReactNode;
-    [key: string]: unknown;
-  }) => (
-    <a href={href} {...props}>
-      {children}
-    </a>
-  );
-  MockLink.displayName = "MockLink";
-  return MockLink;
-});
-
 describe("BookMenu", () => {
-  const scrollListeners: Array<(event: Event) => void> = [];
-
-  const triggerScroll = () => {
-    scrollListeners.forEach((listener) => listener(new Event("scroll")));
-  };
+  const scrollListeners: Function[] = [];
 
   beforeEach(() => {
     scrollListeners.length = 0;
     jest
       .spyOn(window, "addEventListener")
-      .mockImplementation(
-        (event: string, listener: EventListener | EventListenerObject) => {
-          if (event === "scroll") {
-            scrollListeners.push(listener as EventListener);
-          }
-        },
-      );
-    jest
-      .spyOn(window, "removeEventListener")
-      .mockImplementation(
-        (event: string, listener: EventListener | EventListenerObject) => {
-          if (event === "scroll") {
-            const index = scrollListeners.indexOf(listener as EventListener);
-            if (index >= 0) {
-              scrollListeners.splice(index, 1);
-            }
-          }
-        },
-      );
+      .mockImplementation((event, listener) => {
+        if (event === "scroll") scrollListeners.push(listener as Function);
+      });
+    jest.spyOn(window, "removeEventListener").mockImplementation(() => {});
     Object.defineProperty(window, "scrollY", {
       writable: true,
       configurable: true,
@@ -66,64 +25,85 @@ describe("BookMenu", () => {
     jest.restoreAllMocks();
   });
 
-  test("renders the contents link in English", () => {
-    render(<BookMenu locale="en" />);
-
-    expect(screen.getByText("Contents")).toBeInTheDocument();
-    expect(screen.getByRole("link")).toHaveAttribute(
-      "href",
-      "/books/kiwis-dig-tunnels-too",
-    );
-    expect(screen.getByText("→")).toBeInTheDocument();
-  });
-
-  test("renders the sommaire link in French", () => {
+  test("renders a link with French text and href for fr locale", () => {
     render(<BookMenu locale="fr" />);
 
-    expect(screen.getByText("Sommaire")).toBeInTheDocument();
-    expect(screen.getByRole("link")).toHaveAttribute(
+    const link = screen.getByRole("link", { name: "Retour au sommaire" });
+    expect(link).toBeInTheDocument();
+    expect(link).toHaveAttribute(
       "href",
       "/books/les-kiwis-aussi-creusent-des-tunnels",
     );
+    expect(screen.getByText("Sommaire")).toBeInTheDocument();
   });
 
-  test("applies the hidden class on initial render", () => {
+  test("renders a link with English text and href for en locale", () => {
     render(<BookMenu locale="en" />);
 
-    const menuLink = screen.getByRole("link");
-
-    expect(menuLink.classList).toContain(STYLES.hidden);
+    const link = screen.getByRole("link", { name: "Back to contents" });
+    expect(link).toBeInTheDocument();
+    expect(link).toHaveAttribute("href", "/books/kiwis-dig-tunnels-too");
+    expect(screen.getByText("Contents")).toBeInTheDocument();
   });
 
-  test("removes the hidden class when scrolling down", () => {
-    render(<BookMenu locale="en" />);
+  test("is hidden on initial render", () => {
+    render(<BookMenu locale="fr" />);
 
-    const menuLink = screen.getByRole("link");
-
-    act(() => {
-      window.scrollY = 200;
-      triggerScroll();
-    });
-
-    expect(menuLink.classList).not.toContain(STYLES.hidden);
+    const link = screen.getByRole("link", { name: "Retour au sommaire" });
+    expect(link).toHaveClass("hidden");
   });
 
-  test("re-applies the hidden class when scrolling back up", () => {
-    render(<BookMenu locale="en" />);
-
-    const menuLink = screen.getByRole("link");
+  test("becomes visible when scrolling down", () => {
+    render(<BookMenu locale="fr" />);
 
     act(() => {
-      window.scrollY = 200;
-      triggerScroll();
+      Object.defineProperty(window, "scrollY", {
+        writable: true,
+        configurable: true,
+        value: 200,
+      });
+      scrollListeners.forEach((listener) => listener(new Event("scroll")));
     });
-    expect(menuLink.classList).not.toContain(STYLES.hidden);
 
+    const link = screen.getByRole("link", { name: "Retour au sommaire" });
+    expect(link).not.toHaveClass("hidden");
+  });
+
+  test("becomes hidden again when scrolling back up", () => {
+    render(<BookMenu locale="fr" />);
+
+    // Scroll down first
     act(() => {
-      window.scrollY = 50;
-      triggerScroll();
+      Object.defineProperty(window, "scrollY", {
+        writable: true,
+        configurable: true,
+        value: 200,
+      });
+      scrollListeners.forEach((listener) => listener(new Event("scroll")));
     });
 
-    expect(menuLink.classList).toContain(STYLES.hidden);
+    // Then scroll back up
+    act(() => {
+      Object.defineProperty(window, "scrollY", {
+        writable: true,
+        configurable: true,
+        value: 100,
+      });
+      scrollListeners.forEach((listener) => listener(new Event("scroll")));
+    });
+
+    const link = screen.getByRole("link", { name: "Retour au sommaire" });
+    expect(link).toHaveClass("hidden");
+  });
+
+  test("removes scroll listener on unmount", () => {
+    const { unmount } = render(<BookMenu locale="fr" />);
+
+    unmount();
+
+    expect(window.removeEventListener).toHaveBeenCalledWith(
+      "scroll",
+      expect.any(Function),
+    );
   });
 });

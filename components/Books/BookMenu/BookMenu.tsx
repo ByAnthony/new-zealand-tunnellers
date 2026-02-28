@@ -35,9 +35,6 @@ export function BookMenu({ locale }: Props) {
       <span className={STYLES.link}>
         {locale === "fr" ? "Sommaire" : "Contents"}
       </span>
-      <span className={STYLES.arrow} aria-hidden="true">
-        &rarr;
-      </span>
     </Link>
   );
 }

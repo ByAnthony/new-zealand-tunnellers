@@ -40,10 +40,6 @@
     margin: 0;
     color: variables.$secondary-color;
   }
-
-  .arrow {
-    @include variables.arrow-button;
-  }
 }
 
 .hidden {
