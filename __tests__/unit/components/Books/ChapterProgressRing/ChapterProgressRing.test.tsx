@@ -6,6 +6,7 @@ import { ChapterProgressRing } from "@/components/Books/ChapterProgressRing/Chap
 const mockGetChapterProgress = jest.fn();
 
 jest.mock("@/utils/helpers/books/chapterProgressUtil", () => ({
+  CHAPTER_PROGRESS_EVENT: "chapter-progress-update",
   getChapterProgress: (...args: unknown[]) => mockGetChapterProgress(...args),
 }));
 

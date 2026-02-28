@@ -8,6 +8,7 @@ jest.mock("next/navigation", () => ({
 }));
 
 jest.mock("@/utils/helpers/books/chapterProgressUtil", () => ({
+  CHAPTER_PROGRESS_EVENT: "chapter-progress-update",
   saveChapterProgress: jest.fn(),
 }));
 

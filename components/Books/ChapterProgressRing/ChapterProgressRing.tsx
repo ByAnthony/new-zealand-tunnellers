@@ -1,8 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
 
-import { getChapterProgress } from "@/utils/helpers/books/chapterProgressUtil";
+import {
+  CHAPTER_PROGRESS_EVENT,
+  getChapterProgress,
+} from "@/utils/helpers/books/chapterProgressUtil";
 
 import STYLES from "./ChapterProgressRing.module.scss";
 
@@ -13,12 +16,17 @@ type Props = {
 const RING_RADIUS = 27.5;
 const CIRCUMFERENCE = 2 * Math.PI * RING_RADIUS;
 
-export const ChapterProgressRing = ({ pathname }: Props) => {
-  const [progress, setProgress] = useState(0);
+function subscribeToProgressUpdates(callback: () => void): () => void {
+  window.addEventListener(CHAPTER_PROGRESS_EVENT, callback);
+  return () => window.removeEventListener(CHAPTER_PROGRESS_EVENT, callback);
+}
 
-  useEffect(() => {
-    setProgress(getChapterProgress(pathname));
-  }, [pathname]);
+export const ChapterProgressRing = ({ pathname }: Props) => {
+  const progress = useSyncExternalStore(
+    subscribeToProgressUpdates,
+    () => getChapterProgress(pathname),
+    () => 0,
+  );
 
   const offset = CIRCUMFERENCE * (1 - progress / 100);
   const isComplete = progress === 100;

@@ -3,7 +3,10 @@
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
-import { saveChapterProgress } from "@/utils/helpers/books/chapterProgressUtil";
+import {
+  CHAPTER_PROGRESS_EVENT,
+  saveChapterProgress,
+} from "@/utils/helpers/books/chapterProgressUtil";
 
 import STYLES from "./ReadingProgress.module.scss";
 
@@ -32,6 +35,7 @@ export const ReadingProgress = () => {
 
       setProgress(newProgress);
       saveChapterProgress(pathname, newProgress);
+      window.dispatchEvent(new CustomEvent(CHAPTER_PROGRESS_EVENT));
     };
 
     window.addEventListener("scroll", updateProgress, { passive: true });
