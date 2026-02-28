@@ -1,6 +1,8 @@
 @use "app/variables.module.scss";
 
 .book-menu {
+  margin: 0 auto;
+  width: fit-content;
   padding: variables.$xs-margin variables.$s-margin;
   position: -webkit-sticky;
   position: sticky;
