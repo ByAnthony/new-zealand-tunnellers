@@ -4,7 +4,6 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import {
-  CHAPTER_PROGRESS_EVENT,
   getChapterProgress,
   saveChapterProgress,
 } from "@/utils/helpers/books/chapterProgressUtil";
@@ -44,7 +43,6 @@ export const ReadingProgress = () => {
 
       setProgress(newProgress);
       saveChapterProgress(pathname, newProgress);
-      window.dispatchEvent(new CustomEvent(CHAPTER_PROGRESS_EVENT));
     };
 
     window.addEventListener("scroll", updateProgress, { passive: true });
@@ -52,7 +50,6 @@ export const ReadingProgress = () => {
 
     return () => {
       window.removeEventListener("scroll", updateProgress);
-      window.dispatchEvent(new CustomEvent(CHAPTER_PROGRESS_EVENT));
     };
   }, [pathname]);
 

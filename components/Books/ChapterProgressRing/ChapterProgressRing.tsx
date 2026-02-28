@@ -2,10 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 
-import {
-  CHAPTER_PROGRESS_EVENT,
-  getChapterProgress,
-} from "@/utils/helpers/books/chapterProgressUtil";
+import { getChapterProgress } from "@/utils/helpers/books/chapterProgressUtil";
 
 import STYLES from "./ChapterProgressRing.module.scss";
 
@@ -19,9 +16,6 @@ export const ChapterProgressRing = ({ pathname }: Props) => {
   useEffect(() => {
     const handleUpdate = () => setProgress(getChapterProgress(pathname));
     handleUpdate();
-    window.addEventListener(CHAPTER_PROGRESS_EVENT, handleUpdate);
-    return () =>
-      window.removeEventListener(CHAPTER_PROGRESS_EVENT, handleUpdate);
   }, [pathname]);
 
   const isComplete = progress === 100;

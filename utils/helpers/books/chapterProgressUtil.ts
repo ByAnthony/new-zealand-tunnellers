@@ -1,5 +1,4 @@
 const STORAGE_KEY = "book-reading-progress";
-export const CHAPTER_PROGRESS_EVENT = "chapter-progress-update";
 
 const normalize = (pathname: string) => pathname.replace(/\/$/, "");
 
