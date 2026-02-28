@@ -70,6 +70,18 @@ describe("chapterProgressUtil", () => {
       expect(getChapterProgress("/books/my-book/chapter-1")).toBe(42);
     });
 
+    test("matches when save has trailing slash and read does not", () => {
+      saveChapterProgress("/books/my-book/chapter-1/", 70);
+
+      expect(getChapterProgress("/books/my-book/chapter-1")).toBe(70);
+    });
+
+    test("matches when read has trailing slash and save does not", () => {
+      saveChapterProgress("/books/my-book/chapter-1", 70);
+
+      expect(getChapterProgress("/books/my-book/chapter-1/")).toBe(70);
+    });
+
     test("does not throw when localStorage is unavailable", () => {
       jest.spyOn(Storage.prototype, "getItem").mockImplementation(() => {
         throw new Error("Storage unavailable");
