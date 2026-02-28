@@ -118,6 +118,11 @@ exports[`Chapter matches the snapshot 1`] = `
       href="/books/les-kiwis-aussi-creusent-des-tunnels"
     >
       <span
+        class="icon"
+      >
+        ☰
+      </span>
+      <span
         class="link"
       >
         Sommaire

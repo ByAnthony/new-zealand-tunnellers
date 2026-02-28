@@ -38,6 +38,19 @@
     bottom: variables.$base-margin;
   }
 
+  .icon {
+    font-size: 1.5rem;
+    color: variables.$secondary-color;
+
+    @include variables.tablet {
+      font-size: 1.75rem;
+    }
+
+    @include variables.desktop {
+      font-size: 2rem;
+    }
+  }
+
   .link {
     margin: 0;
     color: variables.$secondary-color;

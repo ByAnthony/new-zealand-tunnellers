@@ -32,6 +32,7 @@ export function BookMenu({ locale }: Props) {
       href={basePath(locale)}
       aria-label={locale === "fr" ? "Retour au sommaire" : "Back to contents"}
     >
+      <span className={STYLES.icon}>&#9776;</span>
       <span className={STYLES.link}>
         {locale === "fr" ? "Sommaire" : "Contents"}
       </span>

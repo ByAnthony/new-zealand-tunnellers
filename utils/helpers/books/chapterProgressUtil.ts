@@ -1,27 +1,35 @@
 const STORAGE_KEY = "book-reading-progress";
 
-const normalize = (pathname: string) => pathname.replace(/\/$/, "");
+const normalize = (pathname: string): string => {
+  return pathname.replace(/^\/+|\/+$/g, "").toLowerCase();
+};
 
 export const saveChapterProgress = (
   pathname: string,
   progress: number,
 ): void => {
   try {
+    const normalizedPath = normalize(pathname);
+
+    if (!normalizedPath || progress < 1) {
+      return;
+    }
+
     const stored = localStorage.getItem(STORAGE_KEY);
     const data: Record<string, number> = stored ? JSON.parse(stored) : {};
-    data[normalize(pathname)] = Math.round(progress);
+    data[normalizedPath] = Math.round(progress);
     localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-  } catch {
-    // localStorage unavailable
+  } catch (error) {
+    console.error("[saveChapterProgress] Error:", error);
   }
 };
 
 export const getChapterProgress = (pathname: string): number => {
   try {
+    const normalizedPath = normalize(pathname);
     const stored = localStorage.getItem(STORAGE_KEY);
-    if (!stored) return 0;
-    const data: Record<string, number> = JSON.parse(stored);
-    return data[normalize(pathname)] ?? 0;
+    const data: Record<string, number> = stored ? JSON.parse(stored) : {};
+    return data[normalizedPath] ?? 0;
   } catch {
     return 0;
   }
