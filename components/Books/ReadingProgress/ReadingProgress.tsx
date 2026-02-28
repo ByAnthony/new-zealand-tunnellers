@@ -1,11 +1,15 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+
+import { saveChapterProgress } from "@/utils/helpers/books/chapterProgressUtil";
 
 import STYLES from "./ReadingProgress.module.scss";
 
 export const ReadingProgress = () => {
   const [progress, setProgress] = useState<number | null>(null);
+  const pathname = usePathname();
 
   useEffect(() => {
     const button = document.querySelector(".button-chapter-book");
@@ -15,22 +19,26 @@ export const ReadingProgress = () => {
 
     const updateProgress = () => {
       const totalScrollable = buttonDocTop - window.innerHeight;
+      let newProgress: number;
 
       if (totalScrollable <= 0) {
-        setProgress(100);
-        return;
+        newProgress = 100;
+      } else {
+        newProgress = Math.min(
+          100,
+          Math.max(0, (window.scrollY / totalScrollable) * 100),
+        );
       }
 
-      setProgress(
-        Math.min(100, Math.max(0, (window.scrollY / totalScrollable) * 100)),
-      );
+      setProgress(newProgress);
+      saveChapterProgress(pathname, newProgress);
     };
 
     window.addEventListener("scroll", updateProgress, { passive: true });
     updateProgress();
 
     return () => window.removeEventListener("scroll", updateProgress);
-  }, []);
+  }, [pathname]);
 
   if (progress === null) return null;
 

@@ -45,9 +45,44 @@ exports[`Contents matches the snapshot (fr) 1`] = `
               </span>
             </div>
             <div
-              class="arrow"
+              aria-hidden="true"
+              class="ring"
             >
-              →
+              <svg
+                viewBox="0 0 60 60"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <circle
+                  class="track"
+                  cx="30"
+                  cy="30"
+                  r="27.5"
+                />
+                <circle
+                  class="progress"
+                  cx="30"
+                  cy="30"
+                  r="27.5"
+                  stroke-dasharray="172.78759594743863"
+                  stroke-dashoffset="172.78759594743863"
+                  transform="rotate(-90 30 30)"
+                />
+                <circle
+                  class="inner"
+                  cx="30"
+                  cy="30"
+                  r="21"
+                />
+                <text
+                  class="icon"
+                  dominant-baseline="central"
+                  text-anchor="middle"
+                  x="30"
+                  y="30"
+                >
+                  →
+                </text>
+              </svg>
             </div>
           </a>
         </li>
@@ -70,9 +105,44 @@ exports[`Contents matches the snapshot (fr) 1`] = `
               </span>
             </div>
             <div
-              class="arrow"
+              aria-hidden="true"
+              class="ring"
             >
-              →
+              <svg
+                viewBox="0 0 60 60"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <circle
+                  class="track"
+                  cx="30"
+                  cy="30"
+                  r="27.5"
+                />
+                <circle
+                  class="progress"
+                  cx="30"
+                  cy="30"
+                  r="27.5"
+                  stroke-dasharray="172.78759594743863"
+                  stroke-dashoffset="172.78759594743863"
+                  transform="rotate(-90 30 30)"
+                />
+                <circle
+                  class="inner"
+                  cx="30"
+                  cy="30"
+                  r="21"
+                />
+                <text
+                  class="icon"
+                  dominant-baseline="central"
+                  text-anchor="middle"
+                  x="30"
+                  y="30"
+                >
+                  →
+                </text>
+              </svg>
             </div>
           </a>
         </li>
@@ -95,9 +165,44 @@ exports[`Contents matches the snapshot (fr) 1`] = `
               </span>
             </div>
             <div
-              class="arrow"
+              aria-hidden="true"
+              class="ring"
             >
-              →
+              <svg
+                viewBox="0 0 60 60"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <circle
+                  class="track"
+                  cx="30"
+                  cy="30"
+                  r="27.5"
+                />
+                <circle
+                  class="progress"
+                  cx="30"
+                  cy="30"
+                  r="27.5"
+                  stroke-dasharray="172.78759594743863"
+                  stroke-dashoffset="172.78759594743863"
+                  transform="rotate(-90 30 30)"
+                />
+                <circle
+                  class="inner"
+                  cx="30"
+                  cy="30"
+                  r="21"
+                />
+                <text
+                  class="icon"
+                  dominant-baseline="central"
+                  text-anchor="middle"
+                  x="30"
+                  y="30"
+                >
+                  →
+                </text>
+              </svg>
             </div>
           </a>
         </li>
@@ -117,9 +222,44 @@ exports[`Contents matches the snapshot (fr) 1`] = `
               </span>
             </div>
             <div
-              class="arrow"
+              aria-hidden="true"
+              class="ring"
             >
-              →
+              <svg
+                viewBox="0 0 60 60"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <circle
+                  class="track"
+                  cx="30"
+                  cy="30"
+                  r="27.5"
+                />
+                <circle
+                  class="progress"
+                  cx="30"
+                  cy="30"
+                  r="27.5"
+                  stroke-dasharray="172.78759594743863"
+                  stroke-dashoffset="172.78759594743863"
+                  transform="rotate(-90 30 30)"
+                />
+                <circle
+                  class="inner"
+                  cx="30"
+                  cy="30"
+                  r="21"
+                />
+                <text
+                  class="icon"
+                  dominant-baseline="central"
+                  text-anchor="middle"
+                  x="30"
+                  y="30"
+                >
+                  →
+                </text>
+              </svg>
             </div>
           </a>
         </li>

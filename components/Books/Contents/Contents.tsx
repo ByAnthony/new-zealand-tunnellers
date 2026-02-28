@@ -4,6 +4,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkRemoveComments from "remark-remove-comments";
 
+import { ChapterProgressRing } from "@/components/Books/ChapterProgressRing/ChapterProgressRing";
 import { basePath } from "@/utils/helpers/books/basePathUtil";
 import {
   extractText,
@@ -50,7 +51,7 @@ const SommaireItem: React.FC<{
           <div>
             <span className={STYLES["titre-container"]}>{title}</span>
           </div>
-          <div className={STYLES.arrow}>&rarr;</div>
+          <ChapterProgressRing pathname={`${basePath(locale)}/${slug}`} />
         </Link>
       </li>
     );
@@ -73,7 +74,7 @@ const SommaireItem: React.FC<{
           </p>
           {chap.text && <span>{chap.text}</span>}
         </div>
-        <div className={STYLES.arrow}>&rarr;</div>
+        <ChapterProgressRing pathname={`${basePath(locale)}/${slug}`} />
       </Link>
     </li>
   );

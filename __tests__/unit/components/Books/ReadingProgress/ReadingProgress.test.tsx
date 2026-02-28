@@ -3,6 +3,14 @@ import React from "react";
 
 import { ReadingProgress } from "@/components/Books/ReadingProgress/ReadingProgress";
 
+jest.mock("next/navigation", () => ({
+  usePathname: jest.fn().mockReturnValue("/books/my-book/chapter-1"),
+}));
+
+jest.mock("@/utils/helpers/books/chapterProgressUtil", () => ({
+  saveChapterProgress: jest.fn(),
+}));
+
 describe("ReadingProgress", () => {
   const scrollListeners: Function[] = [];
 
