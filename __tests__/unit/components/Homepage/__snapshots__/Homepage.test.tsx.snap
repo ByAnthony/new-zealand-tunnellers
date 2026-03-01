@@ -403,6 +403,9 @@ exports[`Homepage matches the snapshot for mobile viewport 1`] = `
         </div>
       </div>
     </div>
+    <h2>
+      Resources to Explore
+    </h2>
   </div>
 </DocumentFragment>
 `;
@@ -792,6 +795,9 @@ exports[`Homepage matches the snapshot for tablet/desktop viewports 1`] = `
         </div>
       </div>
     </div>
+    <h2>
+      Resources to Explore
+    </h2>
   </div>
 </DocumentFragment>
 `;
