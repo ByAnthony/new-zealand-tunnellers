@@ -114,10 +114,10 @@ exports[`Homepage matches the snapshot for mobile viewport 1`] = `
     </div>
     <div
       class="history-chapter"
+      id="history"
     >
       <div
         class="chapter-cards-wrapper"
-        id="history"
       >
         <div
           class="chapter-cards-menu"
@@ -403,9 +403,14 @@ exports[`Homepage matches the snapshot for mobile viewport 1`] = `
         </div>
       </div>
     </div>
-    <h2>
-      Resources to Explore
-    </h2>
+    <div
+      class="resources"
+      id="resources"
+    >
+      <h2>
+        Resources to Explore
+      </h2>
+    </div>
   </div>
 </DocumentFragment>
 `;
@@ -506,10 +511,10 @@ exports[`Homepage matches the snapshot for tablet/desktop viewports 1`] = `
     </div>
     <div
       class="history-chapter"
+      id="history"
     >
       <div
         class="chapter-cards-wrapper"
-        id="history"
       >
         <div
           class="chapter-cards-menu"
@@ -795,9 +800,14 @@ exports[`Homepage matches the snapshot for tablet/desktop viewports 1`] = `
         </div>
       </div>
     </div>
-    <h2>
-      Resources to Explore
-    </h2>
+    <div
+      class="resources"
+      id="resources"
+    >
+      <h2>
+        Resources to Explore
+      </h2>
+    </div>
   </div>
 </DocumentFragment>
 `;
