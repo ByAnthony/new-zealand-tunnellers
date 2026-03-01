@@ -59,6 +59,21 @@ describe("ImageZoom", () => {
     expect(zoomIn).toHaveBeenCalledWith(1);
   });
 
+  test("converts numeric string width and height to numbers", () => {
+    render(
+      <ImageZoom
+        src="/images/photo.jpg"
+        alt="photo"
+        width="600"
+        height="400"
+      />,
+    );
+
+    const img = screen.getByRole("img", { name: "photo" });
+    expect(img).toHaveAttribute("width", "600");
+    expect(img).toHaveAttribute("height", "400");
+  });
+
   test("calls resetTransform when clicking reset button after zooming in", () => {
     const zoomIn = jest.fn();
     const resetTransform = jest.fn();

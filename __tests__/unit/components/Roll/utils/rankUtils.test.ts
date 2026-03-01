@@ -5,7 +5,7 @@ import {
   getUniqueRanks,
 } from "@/components/Roll/utils/rankUtils";
 
-describe("getUniqueDetachments", () => {
+describe("getUniqueRanks", () => {
   test("returns unique detachments sorted correctly", () => {
     const result = getUniqueRanks(Object.entries(mockTunnellers));
     expect(result).toEqual(["Sapper", "Driver"]);
@@ -28,5 +28,14 @@ describe("getSortedRanks", () => {
   test("handles empty list", () => {
     const result = getSortedRanks([]);
     expect(result).toEqual({});
+  });
+
+  test("sorts categories in the correct order when ranks span multiple categories", () => {
+    const result = getSortedRanks(["Sapper", "Major"]);
+
+    expect(result).toEqual({
+      Officers: ["Major"],
+      "Other Ranks": ["Sapper"],
+    });
   });
 });
