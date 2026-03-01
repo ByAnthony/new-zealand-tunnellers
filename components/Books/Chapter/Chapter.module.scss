@@ -122,6 +122,7 @@
     .footnote {
       font-size: 0.9rem;
       line-height: 80%;
+      white-space: nowrap;
       color: variables.$secondary-color;
     }
   }
