@@ -50,6 +50,7 @@ test("EN contents: clicking a chapter navigates to the correct URL", async ({
     .getByLabel("Go to chapter 1: The Tunnellers from the Antipodes")
     .click();
 
+  await page.waitForLoadState("domcontentloaded");
   await expect(page).toHaveURL(
     /books\/kiwis-dig-tunnels-too\/chapter-1-the-tunnellers-from-the-antipodes/,
   );
@@ -64,6 +65,7 @@ test("FR contents: clicking a chapter navigates to the correct URL", async ({
     .getByLabel("Aller au chapitre 1 : Les tunneliers des antipodes")
     .click();
 
+  await page.waitForLoadState("domcontentloaded");
   await expect(page).toHaveURL(
     /books\/les-kiwis-aussi-creusent-des-tunnels\/chapitre-1-les-tunneliers-des-antipodes/,
   );
@@ -106,8 +108,9 @@ test("EN chapter: breadcrumb navigates to Resources and table of contents", asyn
   await expect(resourcesLink).toBeVisible();
   await expect(resourcesLink).toHaveAttribute("href", "/#resources");
 
-  await resourcesLink.click();
+  await page.getByRole("link", { name: "Go to the table of contents" }).click();
 
+  await page.waitForLoadState("domcontentloaded");
   await expect(page).toHaveURL(/books\/kiwis-dig-tunnels-too/);
 });
 
@@ -120,8 +123,9 @@ test("FR chapter: breadcrumb navigates to Resources and table of contents", asyn
   await expect(resourcesLink).toBeVisible();
   await expect(resourcesLink).toHaveAttribute("href", "/#resources");
 
-  await resourcesLink.click();
+  await page.getByRole("link", { name: "Aller au sommaire" }).click();
 
+  await page.waitForLoadState("domcontentloaded");
   await expect(page).toHaveURL(/books\/les-kiwis-aussi-creusent-des-tunnels/);
 });
 
@@ -164,6 +168,7 @@ test("EN: next chapter button navigates to chapter 2", async ({ page }) => {
 
   await page.getByLabel("Go to chapter 2: Forging Good Soldiers").click();
 
+  await page.waitForLoadState("domcontentloaded");
   await expect(page).toHaveURL(
     /books\/kiwis-dig-tunnels-too\/chapter-2-forging-good-soldiers/,
   );
@@ -176,6 +181,7 @@ test("FR: next chapter button navigates to chapitre 2", async ({ page }) => {
     .getByLabel("Aller au chapitre 2 : En faire de bons soldats")
     .click();
 
+  await page.waitForLoadState("domcontentloaded");
   await expect(page).toHaveURL(
     /books\/les-kiwis-aussi-creusent-des-tunnels\/chapitre-2-en-faire-de-bons-soldats/,
   );
@@ -189,6 +195,7 @@ test("progress ring shows arrow after partial scroll", async ({ page }) => {
   await page.waitForTimeout(100);
 
   await page.getByLabel("Back to contents").click();
+  await page.waitForLoadState("domcontentloaded");
 
   const chapter1Link = page.getByLabel(
     "Go to chapter 1: The Tunnellers from the Antipodes",
