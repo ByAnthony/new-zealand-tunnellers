@@ -133,6 +133,39 @@ describe("ReadingProgress", () => {
     });
   });
 
+  test("attaches via MutationObserver when footnotes element appears later", () => {
+    let observerCallback: (() => void) | null = null;
+    const mockObserver = { observe: jest.fn(), disconnect: jest.fn() };
+    const MockMutationObserver = jest.fn((cb: () => void) => {
+      observerCallback = cb;
+      return mockObserver;
+    });
+
+    const OriginalMO = global.MutationObserver;
+    global.MutationObserver =
+      MockMutationObserver as unknown as typeof MutationObserver;
+
+    const mockButton = {
+      getBoundingClientRect: () => ({ top: 500 }),
+    } as unknown as Element;
+
+    jest
+      .spyOn(document, "querySelector")
+      .mockReturnValueOnce(null)
+      .mockReturnValue(mockButton);
+
+    render(<ReadingProgress />);
+
+    act(() => {
+      observerCallback?.();
+    });
+
+    expect(screen.getByRole("progressbar")).toBeInTheDocument();
+    expect(mockObserver.disconnect).toHaveBeenCalled();
+
+    global.MutationObserver = OriginalMO;
+  });
+
   test("does not restore scroll when no progress is saved", () => {
     mockGetChapterProgress.mockReturnValue(0);
     const mockButton = {

@@ -83,6 +83,34 @@ describe("Menu", () => {
     expect(screen.getByTestId("menu")).toHaveClass("menu");
   });
 
+  describe("Keyboard", () => {
+    test("closes dropdown with Escape key", () => {
+      render(<Menu tunnellers={mockTunnellersData} />);
+
+      const search = screen.getByRole("textbox");
+      fireEvent.change(search, { target: { value: "John Doe" } });
+      expect(screen.getByTestId("dropdown")).toBeInTheDocument();
+
+      fireEvent.keyDown(document, { key: "Escape" });
+
+      expect(screen.queryByTestId("dropdown")).not.toBeInTheDocument();
+    });
+
+    test("re-opens dropdown with Enter key when results are available", () => {
+      render(<Menu tunnellers={mockTunnellersData} />);
+
+      const search = screen.getByRole("textbox");
+      fireEvent.change(search, { target: { value: "John Doe" } });
+
+      fireEvent.mouseDown(document.body);
+      expect(screen.queryByTestId("dropdown")).not.toBeInTheDocument();
+
+      fireEvent.keyDown(document, { key: "Enter" });
+
+      expect(screen.getByTestId("dropdown")).toBeInTheDocument();
+    });
+  });
+
   describe("Dropdown", () => {
     test("can close the dropdown with outside click", () => {
       render(<Menu tunnellers={mockTunnellersData} />);
@@ -188,6 +216,35 @@ describe("Menu", () => {
       });
 
       expect(screen.queryByTestId("dropdown")).not.toBeInTheDocument();
+    });
+  });
+
+  describe("Visual viewport", () => {
+    test("sets dropdown max height from visualViewport on mount", () => {
+      const mockViewport = {
+        height: 600,
+        addEventListener: jest.fn(),
+        removeEventListener: jest.fn(),
+      };
+
+      Object.defineProperty(window, "visualViewport", {
+        value: mockViewport,
+        configurable: true,
+        writable: true,
+      });
+
+      render(<Menu tunnellers={mockTunnellersData} />);
+
+      expect(mockViewport.addEventListener).toHaveBeenCalledWith(
+        "resize",
+        expect.any(Function),
+      );
+
+      Object.defineProperty(window, "visualViewport", {
+        value: null,
+        configurable: true,
+        writable: true,
+      });
     });
   });
 

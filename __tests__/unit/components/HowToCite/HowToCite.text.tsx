@@ -175,6 +175,12 @@ describe("HowToCite", () => {
     expect(screen.getByText(/Prologue/)).toBeInTheDocument();
   });
 
+  test("renders empty citation title when pathname resolves to no segment", () => {
+    render(<HowToCite pathname="/" locale="en" />);
+
+    expect(screen.getByText(/Anthony Byledbal/)).toBeInTheDocument();
+  });
+
   test("renders timeline citation for a tunneller", () => {
     const tunneller: Summary = {
       serial: "1/1000",

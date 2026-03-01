@@ -29,4 +29,13 @@ describe("getSortedRanks", () => {
     const result = getSortedRanks([]);
     expect(result).toEqual({});
   });
+
+  test("sorts categories in the correct order when ranks span multiple categories", () => {
+    const result = getSortedRanks(["Sapper", "Major"]);
+
+    expect(result).toEqual({
+      Officers: ["Major"],
+      "Other Ranks": ["Sapper"],
+    });
+  });
 });
