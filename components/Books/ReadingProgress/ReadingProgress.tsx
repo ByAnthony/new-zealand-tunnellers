@@ -41,9 +41,14 @@ export const ReadingProgress = () => {
       };
 
       window.addEventListener("scroll", update, { passive: true });
+      window.addEventListener("resize", update);
       update();
 
       cleanup = () => window.removeEventListener("scroll", update);
+      cleanup = () => {
+        window.removeEventListener("scroll", update);
+        window.removeEventListener("resize", update);
+      };
     };
 
     const existing = document.querySelector(".footnotes");
