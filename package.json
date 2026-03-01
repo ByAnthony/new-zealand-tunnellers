@@ -33,9 +33,15 @@
     "rc-slider": "11.1.9",
     "react": "19.2.4",
     "react-dom": "19.2.4",
+    "react-markdown": "10.1.0",
+    "react-zoom-pan-pinch": "3.7.0",
+    "rehype-raw": "^7.0.0",
+    "remark-gfm": "4.0.1",
+    "remark-remove-comments": "1.1.1",
     "sass": "1.97.3",
     "sharp": "0.34.5",
-    "ts-node": "10.9.2"
+    "ts-node": "10.9.2",
+    "unist-util-visit": "5.1.0"
   },
   "devDependencies": {
     "@eslint/js": "9.39.2",

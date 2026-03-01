@@ -39,6 +39,14 @@ Weariness seemed to be taking hold of the tunnellers, who had been digging and f
 
 In mid-March, the 1st and 3rd&nbsp;sections swapped their work, for no apparent reason. The men of Section&nbsp;1 continued the clearing work in the Saint-Sauveur network, while those of the Section&nbsp;3 returned to the front. The Section&nbsp;2 withdrew into the city centre of Arras on the orders of the infantry troops who were preparing an assault east of Monchy-le-Preux. Three days later, with no real success from the operations on the surface, it moved back into its forward quarters. Work along the front was still being carried out intermittently, while the British trenches were subjected to intense bombardment. On 21&nbsp;March, the Section&nbsp;2 joined the Section&nbsp;1 in the caverns of the Saint-Sauveur network. The next day, the 3rd and 4th&nbsp;sections hurriedly left the trenches for the Dunedin quarry, in the Ronville system. The Germans had just launched a major offensive along the entire Western Front between the Scarpe and the Oise. The lack of soldiers on the British side and the inability to establish a defence benefited the Germans, who pushed through the Arras plain.
 
+<a className="button-chapter-book" href="/books/kiwis-dig-tunnels-too/chapter-11-a-quiet-force" aria-label="Go to chapter 11: A Quiet Force">
+  <div>    
+    <p className="chapter">Chapter 11</p>
+    <span>A Quiet Force</span>
+  </div>
+    <div className="arrow">&rarr;</div>
+</a>
+
 [^1]: The National Archives United Kingdom, WO&nbsp;95/407, New Zealand Tunnelling Company War Diary, 13&nbsp;June 1917, &ldquo;The timber out of the dugouts in our old front line between the Arras-Cambrai Roads and Railway has been salved and work started on the support line dugouts.&rdquo;
 
 [^2]: Ibid., 29&nbsp;June 1917.

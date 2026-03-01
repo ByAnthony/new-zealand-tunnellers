@@ -40,6 +40,14 @@ L’immense abri souterrain créé par les Néo-Zélandais ne fut que le premier
 
 Début mai 1917, une partie de la 4<sup>e</sup>&nbsp;section commença à transformer en cantonnement des cavités qui venaient d’être mises au jour à la chapelle de Feuchy, sous le croisement des routes de Cambrai et de Feuchy, ainsi qu’au lieu-dit Les Fosses, sous les ruines d’une ferme située le long de la chaussée de Cambrai, à proximité de Monchy-le-Preux. Les hommes ne retournèrent plus à Arras et furent logés, à proximité du front, dans des abris abandonnés par les Allemands, tandis que le reste de la compagnie achevait la réfection de la route de Cambrai. Les tunneliers avaient déjà reconstitué plus de 12&nbsp;kilomètres de chaussée dont près de huit permettant le passage de véhicules légers et cinq pour les véhicules lourds. Les derniers travaux furent effectués durant le mois de mai, alors que peu à peu tous les hommes étaient transférés sur le front pour commencer divers aménagements souterrains. Bien que la remise en état de cet axe de communication majeur vers le front n’ait pas été destinée à profiter en premier aux tunneliers, il avait néanmoins son importance. Cette voie rectiligne allait faciliter le transport du matériel vers les différents sites de construction des futurs ouvrages souterrains des tunneliers. La compagnie s’apprêtait en effet à prendre possession d’un secteur de près de 10&nbsp;kilomètres carrés, s’étendant entre les villages de Gavrelle au nord et de Guémappe au sud, de Monchy-le-Preux à l’est et de Tilloy-lès-Mofflaines à l’ouest&nbsp;; la Scarpe séparant la zone de travail en deux au niveau du village de Fampoux. Devant l’étendue de la zone de travail et la multiplication rapide des aménagements souterrains, les officiers choisirent une logistique aussi précise qu’efficace.
 
+<a className="button-chapter-book" href="/books/les-kiwis-aussi-creusent-des-tunnels/chapitre-10-toujours-creuser" aria-label="Aller au chapitre 10 : Toujours creuser">
+  <div>
+    <p className="chapter">Chapitre 10</p>
+    <span>Toujours creuser</span>
+  </div>
+    <div className="arrow">&rarr;</div>
+</a>
+
 [^1]: Archives nationales du Royaume-Uni, WO&nbsp;95/407, Journal de guerre de la compagnie de tunneliers néo-zélandais, 19&nbsp;mars 1917, &laquo;&nbsp;Sur la ligne de front, un petit tunnel avait été creusé par les Français sous la route de Cambrai. L’ouvrons et l’étayons de nouveau.&nbsp;&raquo;
 
 [^2]: _Ibid._, 20&nbsp;mars 1917, &laquo;&nbsp;2&nbsp;entrées furent détruites durant un bombardement d’artillerie et devront être réparées.&nbsp;&raquo;

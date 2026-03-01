@@ -98,6 +98,47 @@ a {
   scroll-margin-top: calc(50vh);
 }
 
+.button-chapter-book {
+  @include variables.featured-button-link;
+
+  flex: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: variables.$base-margin 0;
+  padding: 30px variables.$s-margin;
+  font-size: 1.35rem;
+  color: variables.$secondary-color;
+
+  @include variables.tablet {
+    margin: variables.$l-margin 0;
+  }
+
+  @include variables.desktop {
+    margin: variables.$l-margin 0;
+  }
+
+  .chapter {
+    margin: 0;
+    font-size: 1.1rem;
+    line-height: normal;
+    padding-bottom: variables.$xxs-margin;
+    color: variables.$secondary-color;
+  }
+
+  span {
+    font-weight: 500;
+  }
+
+  .arrow {
+    @include variables.arrow-button;
+  }
+
+  @include variables.desktop {
+    padding: variables.$padding-card;
+  }
+}
+
 // List
 ul {
   margin-block-start: 0;

@@ -181,6 +181,8 @@ $border-radius: 8px;
 }
 
 @mixin arrow-button {
+  flex: 0 0 auto;
+  flex-shrink: 0;
   height: 38px;
   width: 38px;
   text-align: center;

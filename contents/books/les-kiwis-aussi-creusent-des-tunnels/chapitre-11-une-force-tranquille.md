@@ -37,6 +37,14 @@ En ce dimanche 18&nbsp;août, Lofty et Sharkey profitaient d’un bel après-mid
 
 Le lundi 19&nbsp;août, le temps était toujours aussi beau sur le secteur de la Somme et la chaleur s’installa[^16]. Une partie des tunneliers fut envoyée aux bains tandis que, dans les souterrains en cours de construction, les équipes s’affairèrent normalement. Le lendemain, les hommes furent de nouveau mis au repos. Le mercredi 21&nbsp;août 1918, le quartier-général de l’unité donna l’ordre de cesser le travail[^17]. Les III<sup>e</sup> et IV<sup>e</sup>&nbsp;armées britanniques avaient attaqué dans le secteur situé entre Arras et la Somme. Les Allemands repoussés ne purent opposer aucune résistance. La contre-offensive alliée était en marche.
 
+<a className="button-chapter-book" href="/books/les-kiwis-aussi-creusent-des-tunnels/chapitre-12-loin-de-l-unite" aria-label="Aller au chapitre 12 : Loin de l'unité">
+  <div>
+    <p className="chapter">Chapitre 12</p>
+    <span>Loin de l'unité</span>
+  </div>
+    <div className="arrow">&rarr;</div>
+</a>
+
 [^1]: James Campbell Neill, _The New Zealand Tunnelling Company, 1915-1919_, Auckland, Whitcombe & Tombs, 1922, p.&nbsp;109, &laquo;&nbsp;Depuis le départ d’Auckland, la compagnie dans son ensemble, avait toujours été cantonnée dans des baraquements, des maisons ou des abris souterrains ainsi que des caves. Le changement de vie […] associé à la vie dans les tranchées fit merveille en matière de santé et de bien-être.&nbsp;&raquo;
 
 [^2]: _Ibid._, p.&nbsp;108, &laquo;&nbsp;… beaucoup de terrains avaient été cédés à l’ennemi ainsi que la splendide série de souterrains et de positions de mitrailleuse construites par la compagnie sur le front de Monchy.&nbsp;&raquo;

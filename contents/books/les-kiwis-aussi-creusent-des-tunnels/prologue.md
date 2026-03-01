@@ -23,6 +23,14 @@ Avec la relève britannique, au nord de la Somme, qui débuta à la fin du mois 
 
 Les autorités militaires n’eurent pas beaucoup de solutions pour combler les rangs des différentes compagnies de tunneliers. Les soldats d’infanterie furent même mis à contribution pour assister les équipes sous terre[^18]. Près de 1&nbsp;000 soldats pouvaient ainsi être attachés à une seule compagnie. Ces hommes ne remplacèrent toutefois pas les tunneliers au creusement ; ce travail devait rester dans les mains de spécialistes. De nouvelles unités étaient toujours en cours d’organisation durant le mois de septembre, mais les opérations souterraines sur le front nécessitaient toujours plus de tunneliers. Londres trouva rapidement une solution évidente en se tournant vers ses Dominions, ces états indépendants au sein de l’Empire britannique, dont l’activité minière occupait une part importante de la population, représentant une force combattante en sommeil. Le 10&nbsp;septembre 1915, le ministère de la Guerre, à Londres, lança un appel aux gouvernements du Canada, d’Australie, de Nouvelle-Zélande et d’Afrique du Sud pour demander la formation de compagnies de tunneliers d’outre-mer[^19]. Le Dominion de Nouvelle-Zélande y répondit le premier.
 
+<a className="button-chapter-book" href="/books/les-kiwis-aussi-creusent-des-tunnels/chapitre-1-les-tunneliers-des-antipodes" aria-label="Aller au chapitre 1 : Les tunneliers des antipodes">
+  <div>
+    <p className="chapter">Chapitre 1</p>
+    <span>Les tunneliers des antipodes</span>
+  </div>
+    <div className="arrow">&rarr;</div>
+</a>
+
 [^1]: Alexander Barrie, _War Underground_, Londres, Frederick Muller Limited, 1962, p.&nbsp;94.
 
 [^2]: Grant W. Grieve et Bernard Newman, _Tunnellers: The Story of the Tunnelling Companies_, Royal Engineers, during the World War, Londres, Herbert Jenkins Limited, 1936, p.&nbsp;65.

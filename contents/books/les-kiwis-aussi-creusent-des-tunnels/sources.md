@@ -30,3 +30,10 @@ Livre publié sur New Zealand Tunnellers – https://www.nztunnellers.com/books/
 
 - Rapports des mines&nbsp;– III<sup>e</sup>&nbsp;armée britannique, 27&nbsp;février au 29&nbsp;décembre 1916.
 - Journal de guerre de la 184<sup>e</sup>&nbsp;compagnie de tunneliers.
+
+<a className="button-chapter-book" href="/books/les-kiwis-aussi-creusent-des-tunnels/sources-imprimees" aria-label="Lire : Sources imprimées">
+  <div>
+    <span>Sources imprimées</span>
+  </div>
+    <div className="arrow">&rarr;</div>
+</a>

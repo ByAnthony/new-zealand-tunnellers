@@ -11,6 +11,7 @@ test("can navigate to the history section on the homepage", async ({
   await history.click();
 
   await expect(page.getByText(/History of the Company/)).toBeInViewport();
+  await page.waitForLoadState("domcontentloaded");
   await expect(page).toHaveURL(/#history/);
 });
 
@@ -22,6 +23,7 @@ test("can navigate to the tunnellers page", async ({ page }) => {
   await expect(tunnellers).toBeVisible();
   await tunnellers.click();
 
+  await page.waitForLoadState("domcontentloaded");
   await expect(page).toHaveURL(/tunnellers/);
 });
 
@@ -33,6 +35,7 @@ test("can navigate to the about us page", async ({ page }) => {
   await expect(aboutUs).toBeVisible();
   await aboutUs.click();
 
+  await page.waitForLoadState("domcontentloaded");
   await expect(page).toHaveURL(/about-us/);
 });
 

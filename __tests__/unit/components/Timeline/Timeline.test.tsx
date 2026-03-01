@@ -52,7 +52,7 @@ describe("Timeline", () => {
     ).toBeInTheDocument();
 
     expect(
-      findElementWithText("“World War I Timeline of John Smith“"),
+      findElementWithText("World War I Timeline of John Smith"),
     ).toBeInTheDocument();
     expect(screen.getByText(/Accessed: 4 May 2023/)).toBeInTheDocument();
     expect(

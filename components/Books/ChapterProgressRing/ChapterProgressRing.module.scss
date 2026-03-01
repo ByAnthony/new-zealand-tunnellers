@@ -1,0 +1,61 @@
+@use "app/variables.module.scss";
+
+.ring {
+  --progress: 0;
+  flex: 0 0 auto;
+  flex-shrink: 0;
+  position: relative;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 0deg,
+    variables.$secondary-color calc(var(--progress) * 1%),
+    rgba(variables.$primary-light-color, 0) 0
+  );
+
+  @include variables.tablet {
+    width: 56px;
+    height: 56px;
+  }
+
+  @include variables.desktop {
+    width: 68px;
+    height: 68px;
+  }
+}
+
+.checkmark {
+  font-weight: 400;
+  font-size: 1.2rem;
+
+  @include variables.tablet {
+    font-size: 1.7rem;
+  }
+
+  @include variables.desktop {
+    font-size: 2.2rem;
+  }
+}
+
+.inner {
+  position: absolute;
+  inset: 3px;
+  border-radius: 50%;
+  background: variables.$primary-dark-color;
+  border: 1px solid variables.$secondary-color;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: variables.$secondary-color;
+  font-size: 2rem;
+  font-family: inherit;
+
+  @include variables.tablet {
+    font-size: 2.5rem;
+  }
+
+  @include variables.desktop {
+    font-size: 3rem;
+  }
+}

@@ -30,3 +30,10 @@ Book published on New Zealand Tunnellers website – https://www.nztunnellers.co
 
 - Weekly Reports&nbsp;– Third British Army, from 27&nbsp;February to 29&nbsp;December 1916.
 - 184th&nbsp;Tunnelling Company War Diary.
+
+<a className="button-chapter-book" href="/books/kiwis-dig-tunnels-too/printed-sources" aria-label="Read: Printed Sources">
+  <div>
+    <span>Printed Sources</span>
+  </div>
+    <div className="arrow">&rarr;</div>
+</a>

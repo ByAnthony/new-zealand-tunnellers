@@ -25,6 +25,14 @@ On their return to the trenches, Jim and Lofty found their comrades in a dire si
 
 The mine inspectors, responsible for directing underground military operations on the front, did not wait for the trenches to be destroyed on the surface before taking action. They decided to take the Labyrinth sector away from the New Zealanders. To replace them, they called in the more experienced men of the 185th&nbsp;Tunnelling Company. Formed in October 1915, this unit had fought alongside the 179th&nbsp;Company at La Boisselle, then received orders to strengthen the new positions in Artois, settling in early March 1916 at Chantecler—a sector located one kilometre south of the one held by the New Zealand tunnellers. Between 29&nbsp;March and 2&nbsp;April 1916, the two companies organised the handover of their combat area. Everything necessary was prepared at Chantecler so that the New Zealanders’ work could begin under good conditions. The enemy was quieter there, and the New Zealanders would have the freedom to build up experience gradually. At the Labyrinth, the situation was critical for the 185th&nbsp;Company. The surveys carried out by their counterparts from the Antipodes had to be redone quickly, as the British did not consider them reliable.[^15] The first listening sessions conducted in the former New Zealand galleries revealed that the front line was in danger in several places.[^16] The German miners were no longer under No Man’s Land, but directly beneath the British trenches. Until the underground situation could be made safer, the unit recommended evacuating some troops from various parts of the line.[^17]
 
+<a className="button-chapter-book" href="/books/kiwis-dig-tunnels-too/chapter-6-in-the-heart-of-battle" aria-label="Go to chapter 6: In the Heart of Battle">
+  <div>    
+    <p className="chapter">Chapter 6</p>
+    <span>In the Heart of Battle</span>
+  </div>
+    <div className="arrow">&rarr;</div>
+</a>
+
 [^1]: James Campbell Neill, _The New Zealand Tunnelling Company, 1915-1919_, Auckland, Whitcombe & Tombs, 1922, p.&nbsp;23, &ldquo;… the trenches were feet deep in liquid mud.&rdquo;
 
 [^2]: Library of the British Royal Engineers, Weekly Reportss&nbsp;– Third British Army, from 27&nbsp;February to 29&nbsp;December 1916. Weekly Reports of the New Zealand Tunnelling Company.

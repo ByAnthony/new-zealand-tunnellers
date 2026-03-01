@@ -25,6 +25,14 @@ Les hommes se lièrent d’amitié avec les membres de l’équipage qu’ils ai
 
 En quittant Dakar, le <em>Ruapehu</em> entra en zone de guerre. Désormais, l’équipage et tous les tunneliers furent en alerte ; les artilleurs aussi. Les Allemands avaient été repérés le long des côtes marocaines et portugaises. Ils avaient déjà capturé et coulé plusieurs navires alliés. La surface de l’océan fut méticuleusement scrutée pour tenter d’apercevoir un périscope qui trahirait la présence d’un sous-marin adverse, mais aussi la présence suspecte de mines ou de bateaux. L’ennemi n’hésitait pas à camoufler ses navires de guerre en simples bateaux de transport, dont la plupart déployaient des mines marines. Une nuit, Jim et Lofty furent réveillés par leur sergent. Un des membres de l’équipage semblait avoir distingué une mine flottant à proximité du navire. Le capitaine Clifford réagit immédiatement et envoya un signal de détresse. L’équipage était en alerte, suivi par les artilleurs et les tunneliers, tous prêts à quitter le bateau. Tout semblait pourtant calme. Après 30&nbsp;longues et interminables minutes, un navire de guerre britannique surgit à proximité du <em>Ruapehu</em>, alors que la voix d’un Anglais se fit entendre à la radio de bord. Le capitaine Clifford répondit immédiatement que tout allait bien et qu’il s’agissait certainement d’une fausse alerte. Le navire de guerre repartit aussi silencieusement qu’il était venu[^25]. Jim et Lofty furent soulagés, comme le reste des hommes, de savoir qu’ils n’étaient pas seuls en mer et qu’ils pouvaient compter sur la marine royale britannique. Surtout, ils savaient que le capitaine et ses marins veillaient sur eux. Les tunneliers furent néanmoins chanceux car le navire allemand <em>Moewe</em> était bien en opération dans le sillage du <em>Ruapehu</em>. Ce bateau de transport, reconverti en navire de guerre, captura le H.M.S.&nbsp;<em>Appam</em>, un bateau de la marine royale britannique, alors qu’il naviguait à quelques miles seulement de l’embarcation néo-zélandaise[^26].
 
+<a className="button-chapter-book" href="/books/les-kiwis-aussi-creusent-des-tunnels/chapitre-4-interlude-en-cornouailles" aria-label="Aller au chapitre 4 : Interlude en Cornouailles">
+  <div>
+    <p className="chapter">Chapitre 4</p>
+    <span>Interlude en Cornouailles</span>
+  </div>
+    <div className="arrow">&rarr;</div>
+</a>
+
 [^1]: Imperial War Museum, Documents.11515, Les mémoires de la Première Guerre mondiale de James Williamson, 1<sup>re</sup>&nbsp;partie, f°&nbsp;10, &laquo;&nbsp;La vie sur le bateau était très calme, mais pas monotone.&nbsp;&raquo;
 
 [^2]: _Ibid._, 1<sup>re</sup>&nbsp;partie, f°&nbsp;10-11.

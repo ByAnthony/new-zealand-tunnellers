@@ -16,7 +16,9 @@ type Props = {
 
 export function HomePage({ homepage }: Props) {
   useEffect(() => {
-    localStorage.clear();
+    localStorage.removeItem("filters");
+    localStorage.removeItem("page");
+    localStorage.removeItem("roll:scrollY");
   }, []);
 
   return (

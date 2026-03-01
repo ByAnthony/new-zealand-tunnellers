@@ -1,0 +1,128 @@
+@use "app/variables.module.scss";
+
+.container {
+  @include variables.component-margin;
+
+  & {
+    margin-top: variables.$l-margin;
+  }
+
+  h1 {
+    margin: variables.$base-margin 0;
+    font-size: 2.5rem;
+    font-weight: 500;
+    line-height: normal;
+
+    @include variables.tablet {
+      font-size: 3rem;
+      line-height: 1;
+    }
+
+    @include variables.desktop {
+      margin: variables.$l-margin 0;
+      font-size: 4.5rem;
+      line-height: 1;
+    }
+  }
+
+  h2 {
+    @include variables.desktop {
+      margin: variables.$xl-margin 0 variables.$m-margin 0;
+    }
+  }
+
+  ul {
+    li {
+      list-style: none;
+    }
+  }
+
+  @include variables.tablet {
+    margin-top: variables.$xl-margin;
+  }
+
+  @include variables.desktop {
+    padding-top: variables.$l-margin;
+    margin: 0 auto;
+    width: 42rem;
+    max-width: variables.$inner-width;
+  }
+}
+
+.author {
+  padding-bottom: variables.$s-margin;
+  font-size: 1.25rem;
+  font-weight: 300;
+  text-align: center;
+
+  @include variables.tablet {
+    padding-bottom: 0;
+    font-size: 1.35rem;
+  }
+
+  @include variables.desktop {
+    font-size: 2rem;
+  }
+}
+
+.titre {
+  margin: 2.5rem 0;
+  font-size: 1.5rem;
+  font-weight: 400;
+
+  @include variables.desktop {
+    font-size: 1.5rem;
+  }
+}
+
+.chapitre {
+  font-weight: 200;
+  font-size: 1rem;
+
+  @include variables.desktop {
+    font-size: 1.25rem;
+  }
+}
+
+.chapitre-titre {
+  padding-top: 0.3rem;
+  padding-bottom: 4px;
+  font-size: 1.5rem;
+  font-weight: 400;
+  line-height: 1;
+  border-bottom: 1px solid variables.$secondary-color;
+
+  @include variables.desktop {
+    font-size: 1.6rem;
+  }
+}
+
+.button-chapter {
+  @include variables.featured-button-link;
+  flex: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: variables.$xs-margin 0;
+  padding: 30px variables.$s-margin;
+  font-size: 1.25rem;
+  color: variables.$secondary-color;
+
+  .chapter {
+    margin: 0 0;
+    padding-bottom: variables.$xxs-margin;
+    color: variables.$secondary-color;
+  }
+
+  span {
+    font-weight: 500;
+  }
+
+  .arrow {
+    @include variables.arrow-button;
+  }
+
+  @include variables.desktop {
+    padding: variables.$padding-card;
+  }
+}
