@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { act, fireEvent, render, screen } from "@testing-library/react";
 import { mockTunnellers } from "__tests__/unit/utils/mocks/mockTunnellers";
 
 import { RollAlphabet } from "@/components/Roll/RollAlphabet/RollAlphabet";
@@ -87,7 +87,7 @@ describe("RollAlphabet", () => {
       );
 
       fireEvent.click(screen.getByRole("button", { name: "Go to next page" }));
-      jest.runAllTimers();
+      act(() => jest.runAllTimers());
 
       expect(onPageChange).toHaveBeenCalledWith(2);
       expect(window.scrollTo).toHaveBeenCalledWith(0, 0);
@@ -106,7 +106,7 @@ describe("RollAlphabet", () => {
       fireEvent.click(
         screen.getByRole("button", { name: "Go to previous page" }),
       );
-      jest.runAllTimers();
+      act(() => jest.runAllTimers());
 
       expect(onPageChange).toHaveBeenCalledWith(1);
       expect(window.scrollTo).toHaveBeenCalledWith(0, 0);
@@ -123,7 +123,7 @@ describe("RollAlphabet", () => {
       );
 
       fireEvent.click(screen.getByRole("button", { name: "Go to page 2" }));
-      jest.runAllTimers();
+      act(() => jest.runAllTimers());
 
       expect(onPageChange).toHaveBeenCalledWith(2);
       expect(window.scrollTo).toHaveBeenCalledWith(0, 0);
