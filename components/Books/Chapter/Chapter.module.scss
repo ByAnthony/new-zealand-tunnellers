@@ -105,8 +105,6 @@
     font-size: 1.15rem;
     font-weight: 200;
     line-height: 1.8rem;
-    overflow-wrap: anywhere;
-    word-break: break-word;
 
     @include variables.desktop {
       font-size: 1.25rem;
@@ -117,12 +115,15 @@
       font-size: 0.9rem;
       vertical-align: super;
       line-height: 80%;
+
+      &::before {
+        content: "\2060";
+      }
     }
 
     .footnote {
       font-size: 0.9rem;
       line-height: 80%;
-      white-space: nowrap;
       color: variables.$secondary-color;
     }
   }
