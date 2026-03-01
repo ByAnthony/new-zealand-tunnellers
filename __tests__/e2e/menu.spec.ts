@@ -16,10 +16,14 @@ test("can search for a name", async ({ page }) => {
   expect(search).toHaveAttribute("placeholder", "Search for a Tunneller");
 
   const input = "james williamson";
-
   expect(search.inputValue()).toBeNull;
+
   await search.fill(input);
-  expect(await search.inputValue()).toEqual(input);
+  expect(
+    await page
+      .getByRole("textbox", { name: "Search for a Tunneller" })
+      .inputValue(),
+  ).toEqual(input);
 
   await expect(
     page.locator("a").filter({ hasText: "James Williamson (1877-1956)" }),
