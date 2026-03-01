@@ -270,6 +270,79 @@ describe("Roll", () => {
     expect(screen.getByText("Death Years")).toBeInTheDocument();
     expect(screen.getByText("Ranks")).toBeInTheDocument();
   });
+
+  test("should filter Tunnelling Corps shows only tunnellers without attached corps", async () => {
+    await renderRoll();
+
+    const checkbox = screen.getByRole("checkbox", { name: "Tunnelling Corps" });
+    fireEvent.click(checkbox);
+
+    expect(screen.getByText("3 results")).toBeInTheDocument();
+    expect(
+      screen.queryByRole("link", {
+        name: "Driver Army Pay Corps Marty McFly 5th Reinforcements ?-†? →",
+      }),
+    ).not.toBeInTheDocument();
+  });
+
+  describe("localStorage", () => {
+    test("restores valid detachment filter from localStorage on mount", async () => {
+      localStorage.setItem(
+        "filters",
+        JSON.stringify({
+          detachment: ["2nd Reinforcements"],
+          corps: [],
+          ranks: {
+            Officers: [],
+            "Non-Commissioned Officers": [],
+            "Other Ranks": [],
+          },
+          birthYear: ["1886", "1897"],
+          unknownBirthYear: "unknown",
+          deathYear: ["1935", "1952"],
+          unknownDeathYear: "unknown",
+        }),
+      );
+
+      await renderRoll();
+
+      expect(screen.getByText("1 result")).toBeInTheDocument();
+    });
+
+    test("falls back to default filters when localStorage has invalid field types", async () => {
+      localStorage.setItem(
+        "filters",
+        JSON.stringify({
+          detachment: "not-an-array",
+          corps: 42,
+          birthYear: null,
+          unknownBirthYear: 999,
+          deathYear: "wrong-type",
+          unknownDeathYear: true,
+        }),
+      );
+
+      await renderRoll();
+
+      expect(screen.getByText("4 results")).toBeInTheDocument();
+    });
+
+    test("restores current page from localStorage", async () => {
+      localStorage.setItem("page", "1");
+
+      await renderRoll();
+
+      expect(screen.getByText("4 results")).toBeInTheDocument();
+    });
+
+    test("ignores NaN page from localStorage", async () => {
+      localStorage.setItem("page", "abc");
+
+      await renderRoll();
+
+      expect(screen.getByText("4 results")).toBeInTheDocument();
+    });
+  });
 });
 
 describe("AttachedCorpsBadge", () => {
