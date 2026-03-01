@@ -134,10 +134,10 @@ const FootnoteItem: React.FC<
 
 function isReadingPage(pathname: string): boolean {
   if (
-    pathname.includes("/sources") ||
-    pathname.includes("/bibliograph") ||
-    pathname.includes("/acknowledgments") ||
-    pathname.includes("/remerciements")
+    pathname.includes("sources") ||
+    pathname.includes("bibliograph") ||
+    pathname.includes("acknowledgments") ||
+    pathname.includes("remerciements")
   )
     return false;
   return true;
