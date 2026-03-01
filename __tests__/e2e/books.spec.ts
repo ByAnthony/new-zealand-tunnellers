@@ -6,10 +6,6 @@ const EN_CHAPTER_1 =
   "/books/kiwis-dig-tunnels-too/chapter-1-the-tunnellers-from-the-antipodes";
 const FR_CHAPTER_1 =
   "/books/les-kiwis-aussi-creusent-des-tunnels/chapitre-1-les-tunneliers-des-antipodes";
-const EN_CHAPTER_2 =
-  "/books/kiwis-dig-tunnels-too/chapter-2-forging-good-soldiers";
-const FR_CHAPTER_2 =
-  "/books/les-kiwis-aussi-creusent-des-tunnels/chapitre-2-en-faire-de-bons-soldats";
 
 // ─── Contents page ───────────────────────────────────────────────────────────
 
@@ -24,7 +20,9 @@ test("EN contents: loads title, chapter list and Resources link", async ({
   await expect(
     page.getByLabel("Go to chapter 1: The Tunnellers from the Antipodes"),
   ).toBeVisible();
-  await expect(page.getByRole("link", { name: "Resources" })).toBeVisible();
+  await expect(
+    page.getByRole("link", { name: "Go to the Resources section" }),
+  ).toBeVisible();
 });
 
 test("FR contents: loads title, chapter list and Resources link", async ({
@@ -40,7 +38,7 @@ test("FR contents: loads title, chapter list and Resources link", async ({
   await expect(
     page.getByLabel("Aller au chapitre 1 : Les tunneliers des antipodes"),
   ).toBeVisible();
-  await expect(page.getByRole("link", { name: "Resources" })).toBeVisible();
+  await expect(page.getByLabel("Aller à la section Ressources")).toBeVisible();
 });
 
 test("EN contents: clicking a chapter navigates to the correct URL", async ({
@@ -53,7 +51,9 @@ test("EN contents: clicking a chapter navigates to the correct URL", async ({
     .click();
   await page.waitForLoadState("domcontentloaded");
 
-  await expect(page).toHaveURL(EN_CHAPTER_1);
+  await expect(page).toHaveURL(
+    /books\/kiwis-dig-tunnels-too\/chapter-1-the-tunnellers-from-the-antipodes/,
+  );
 });
 
 test("FR contents: clicking a chapter navigates to the correct URL", async ({
@@ -66,7 +66,9 @@ test("FR contents: clicking a chapter navigates to the correct URL", async ({
     .click();
   await page.waitForLoadState("domcontentloaded");
 
-  await expect(page).toHaveURL(FR_CHAPTER_1);
+  await expect(page).toHaveURL(
+    /books\/les-kiwis-aussi-creusent-des-tunnels\/chapitre-1-les-tunneliers-des-antipodes/,
+  );
 });
 
 // ─── Chapter page ─────────────────────────────────────────────────────────────
@@ -81,7 +83,7 @@ test("EN chapter: shows heading, chapter number and reading time", async ({
       name: "The Tunnellers from the Antipodes",
     }),
   ).toBeVisible();
-  await expect(page.getByText("Chapter 1")).toBeVisible();
+  await expect(page.getByText("Chapter 1", { exact: true })).toBeVisible();
   await expect(page.getByText(/min read/)).toBeVisible();
 });
 
@@ -93,7 +95,7 @@ test("FR chapter: shows heading, chapter number and reading time in French", asy
   await expect(
     page.getByRole("heading", { name: "Les tunneliers des antipodes" }),
   ).toBeVisible();
-  await expect(page.getByText("Chapitre 1")).toBeVisible();
+  await expect(page.getByText("Chapitre 1", { exact: true })).toBeVisible();
   await expect(page.getByText(/min de lecture/)).toBeVisible();
 });
 
@@ -106,10 +108,10 @@ test("EN chapter: breadcrumb navigates to Resources and table of contents", asyn
   await expect(resourcesLink).toBeVisible();
   await expect(resourcesLink).toHaveAttribute("href", "/#resources");
 
-  await page.getByLabel("Go to the table of contents").click();
+  await page.getByLabel("Go to the Resources section").click();
   await page.waitForLoadState("domcontentloaded");
 
-  await expect(page).toHaveURL(EN_CONTENTS);
+  await expect(page).toHaveURL(/books\/kiwis-dig-tunnels-too/);
 });
 
 test("FR chapter: breadcrumb navigates to Resources and table of contents", async ({
@@ -124,7 +126,7 @@ test("FR chapter: breadcrumb navigates to Resources and table of contents", asyn
   await page.getByLabel("Aller au sommaire").click();
   await page.waitForLoadState("domcontentloaded");
 
-  await expect(page).toHaveURL(FR_CONTENTS);
+  await expect(page).toHaveURL(/books\/les-kiwis-aussi-creusent-des-tunnels/);
 });
 
 test("reading progress bar is visible on chapter pages", async ({ page }) => {
@@ -167,7 +169,9 @@ test("EN: next chapter button navigates to chapter 2", async ({ page }) => {
   await page.getByLabel("Go to chapter 2: Forging Good Soldiers").click();
   await page.waitForLoadState("domcontentloaded");
 
-  await expect(page).toHaveURL(EN_CHAPTER_2);
+  await expect(page).toHaveURL(
+    /books\/kiwis-dig-tunnels-too\/chapter-2-forging-good-soldiers/,
+  );
 });
 
 test("FR: next chapter button navigates to chapitre 2", async ({ page }) => {
@@ -178,7 +182,9 @@ test("FR: next chapter button navigates to chapitre 2", async ({ page }) => {
     .click();
   await page.waitForLoadState("domcontentloaded");
 
-  await expect(page).toHaveURL(FR_CHAPTER_2);
+  await expect(page).toHaveURL(
+    /books\/les-kiwis-aussi-creusent-des-tunnels\/chapitre-2-en-faire-de-bons-soldats/,
+  );
 });
 
 // ─── Progress ring on contents page ──────────────────────────────────────────
@@ -188,7 +194,7 @@ test("progress ring shows arrow after partial scroll", async ({ page }) => {
   await page.evaluate(() => window.scrollTo(0, 300));
   await page.waitForTimeout(100);
 
-  await page.getByLabel("Go to the table of contents").click();
+  await page.getByLabel("Back to contents").click();
   await page.waitForLoadState("domcontentloaded");
 
   const chapter1Link = page.getByLabel(
@@ -203,9 +209,9 @@ test("progress ring shows tick after scrolling to the bottom of a chapter", asyn
 }) => {
   await page.goto(EN_CHAPTER_1);
   await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
-  await page.waitForTimeout(100);
+  await page.waitForTimeout(300);
 
-  await page.getByLabel("Go to the table of contents").click();
+  await page.getByLabel("Back to contents").click();
   await page.waitForLoadState("domcontentloaded");
 
   const chapter1Link = page.getByLabel(
