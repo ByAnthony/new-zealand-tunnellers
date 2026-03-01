@@ -5,10 +5,12 @@ on:
     branches:
       - main
     paths-ignore:
-      - "**/*.md"
+      - "README.md"
+      - "docs/**"
   pull_request:
     paths-ignore:
-      - "**/*.md"
+      - "README.md"
+      - "docs/**"
   workflow_dispatch:
 
 concurrency:
