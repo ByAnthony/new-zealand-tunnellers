@@ -41,6 +41,14 @@ Lofty, Sharkey, George and the rest of the men had been brought together to fini
 
 The next day, all the equipment that had been used to assemble and position the bridge was packed away and sent back by lorry to Bapaume. On 7&nbsp;October, George and more than fifty other men remained on site to begin camouflaging the structure, while Lofty and Sharkey’s company enjoyed a period of rest and baths at Royaulcourt, a village a few kilometres south-west of Havrincourt. From the following morning, additional tunnellers arrived to reinforce George’s group. As a safety measure, they built, on each side, a pier braced against the bank to support and strengthen the first metres of the bridge[^33]. This was intended to relieve the central section, which bore the greatest load and had a tendency to sag. The bridge built by the New Zealand company, which had not been designed to reach such a great length, therefore represented a risk in use. The span over open space was thus reduced from 55 to 36&nbsp;metres. Above all, the bridge had to remain in place, since no other bridge allowed heavy transports to cross between the two sides of the canal under construction. The other footbridges had been built temporarily for the offensive and were mainly intended for troops on foot. Camouflage painting continued at Havrincourt while two sections, including Lofty and Sharkey’s, left for Noyelles-sur-Escaut to build a new bridge.
 
+<a className="button-chapter-book" href="/books/kiwis-dig-tunnels-too/chapter-14-the-pontoon-engineers-of-the-north" aria-label="Go to chapter 14: The Pontoon Engineers of the North">
+  <div>    
+    <p className="chapter">Chapter 14</p>
+    <span>The Pontoon Engineers of the North</span>
+  </div>
+    <div className="arrow">&rarr;</div>
+</a>
+
 [^1]: Grant W. Grieve and Bernard Newman, _Tunnellers: The Story of the Tunnelling Companies, Royal Engineers, during the World War_, Londres, Herbert Jenkins Limited, 1936, p.&nbsp;65.
 
 [^2]: _Ibid._, p.&nbsp;298.

@@ -35,6 +35,13 @@ Un peu plus de trois ans après que la compagnie fût partie pour la guerre, le 
 
 Tandis que le port d’Auckland fêtait l’arrivée des démobilisés, les autorités militaires avaient validé la dissolution de la compagnie de tunneliers. Malgré la reconnaissance des hauts responsables de l’armée britannique pour ses travaux, il n’était pas envisagé d’intégrer la petite unité à l’armée régulière. D’une part, les effectifs ne pouvaient pas être maintenus. De nombreuses industries, prévenues du retour des tunneliers, attendaient avec impatience la remise au travail de leurs anciens employés. D’autre part, l’argent manquait pour non seulement conserver la compagnie, mais aussi pour garantir un niveau d’excellence dans ses rangs. Un simple entrainement des militaires de métier devait donc être suffisant pour perpétuer l’art de la sape et de la mine au sein du génie. Bien que l’unité eut une courte existence, son histoire subsistait en chacun de ses membres. Dispersés comme ils le furent à travers la Nouvelle-Zélande, les hommes refermèrent la parenthèse qui les avait conduits de l’autre côté de la terre.
 
+<a className="button-chapter-book" href="/books/les-kiwis-aussi-creusent-des-tunnels/epilogue" aria-label="Lire : Épilogue">
+  <div>
+    <span>Épilogue</span>
+  </div>
+    <div className="arrow">&rarr;</div>
+</a>
+
 [^1]: Archives nationales du Royaume-Uni, WO&nbsp;95/407, Journal de guerre de la compagnie de tunneliers néo-zélandais, 15&nbsp;décembre 1918.
 
 [^2]: Archives de Nouvelle-Zélande, WA&nbsp;1 Box&nbsp;1/3/18 8/2, Démobilisation du corps des tunneliers, février 1919. Lettre de l’administration de la force expéditionnaire néo-zélandaise au secrétaire du ministre de la Guerre à Londres, 18&nbsp;novembre 1918, &laquo;&nbsp;En raison du fait que les compagnies mentionnées ci-dessus soient largement composées d’ingénieurs miniers et d’autres personnels faisant partie de catégories clefs, fortement exigées en Nouvelle-Zélande, je me permets de vous demander l’approbation de leur démobilisation immédiate&nbsp;&raquo;.

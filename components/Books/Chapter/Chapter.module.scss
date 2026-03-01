@@ -1,0 +1,254 @@
+@use "app/variables.module.scss";
+
+.container {
+  @include variables.component-margin;
+
+  & {
+    margin-top: variables.$l-margin;
+  }
+
+  p {
+    margin: variables.$m-margin 0;
+  }
+
+  @include variables.tablet {
+    margin-top: variables.$xl-margin;
+  }
+
+  @include variables.desktop {
+    margin-top: variables.$xxl-margin;
+  }
+}
+
+.main-title {
+  margin: variables.$base-margin 0;
+
+  @include variables.desktop {
+    margin: variables.$l-margin 0;
+    max-width: variables.$inner-width;
+  }
+}
+
+.reading-time {
+  margin: 0 auto;
+  margin-top: variables.$xs-margin;
+  padding: variables.$xxxs-margin variables.$xs-margin;
+  font-size: 0.9rem;
+  font-weight: 300;
+  text-align: center;
+  color: variables.$primary-light-color;
+  border: 1px solid variables.$primary-light-color;
+  border-radius: variables.$border-radius;
+  width: fit-content;
+
+  @include variables.desktop {
+    font-size: 1rem;
+  }
+}
+
+.title-line-3 {
+  margin-top: variables.$m-margin;
+  font-size: 1.25rem;
+  font-weight: 300;
+  text-align: center;
+
+  @include variables.tablet {
+    margin-top: variables.$base-margin;
+    font-size: 1.35rem;
+  }
+
+  @include variables.desktop {
+    margin-top: variables.$l-margin;
+    font-size: 2rem;
+  }
+}
+
+.text {
+  @include variables.desktop {
+    margin: 0 auto;
+    width: 42rem;
+    max-width: variables.$inner-width;
+  }
+
+  h1 {
+    margin: variables.$base-margin 0;
+    font-weight: 500;
+    line-height: normal;
+
+    @include variables.tablet {
+      line-height: 1;
+    }
+
+    @include variables.desktop {
+      margin: variables.$l-margin 0;
+      font-size: 4rem;
+      line-height: 1;
+    }
+
+    .chapitre-number {
+      font-size: 1.5rem;
+      letter-spacing: 0;
+      line-height: 2;
+      text-transform: none;
+    }
+  }
+
+  h2 {
+    margin: variables.$base-margin 0 variables.$xxs-margin 0;
+
+    @include variables.desktop {
+      margin: variables.$l-margin 0 variables.$xxs-margin 0;
+    }
+  }
+
+  p {
+    font-size: 1.15rem;
+    font-weight: 200;
+    line-height: 1.8rem;
+
+    @include variables.desktop {
+      font-size: 1.25rem;
+      line-height: 2.25rem;
+    }
+
+    sup {
+      font-size: 0.9rem;
+      vertical-align: super;
+      line-height: 80%;
+
+      &::before {
+        content: "\2060";
+      }
+    }
+
+    .footnote {
+      font-size: 0.9rem;
+      line-height: 80%;
+      color: variables.$secondary-color;
+    }
+  }
+
+  /* -----------------------------
+    Footnotes list style
+  -------------------------------- */
+  ol {
+    padding-inline-start: 0;
+
+    li {
+      margin: variables.$m-margin 0;
+      font-size: 0.9rem;
+      font-weight: 200;
+
+      @include variables.tablet {
+        font-size: 1rem;
+      }
+
+      @include variables.desktop {
+        font-size: 1.1rem;
+      }
+
+      p {
+        @include variables.notes-paragraph;
+
+        display: inline;
+        margin: 0;
+        padding: 0;
+
+        font-size: inherit;
+        font-weight: inherit;
+      }
+
+      a {
+        color: variables.$secondary-color;
+      }
+
+      @include variables.desktop {
+        margin: 0 auto;
+        padding: variables.$xs-margin 0;
+        width: 42rem;
+      }
+    }
+  }
+
+  /* -----------------------------
+    Sources and bibliography list style
+  -------------------------------- */
+  ul {
+    padding-left: 1rem;
+    font-weight: 200;
+
+    li {
+      list-style: disc;
+      margin: variables.$m-margin 0;
+      font-size: 1.15rem;
+      font-weight: 200;
+      line-height: 1.8rem;
+
+      @include variables.desktop {
+        font-size: 1.25rem;
+        line-height: 2.25rem;
+      }
+
+      a {
+        color: variables.$secondary-color;
+      }
+
+      sup {
+        font-size: 0.9rem;
+        vertical-align: super;
+        line-height: 80%;
+      }
+    }
+
+    li::marker {
+      font-size: 1.15rem;
+      line-height: 1.5rem;
+    }
+  }
+
+  figcaption {
+    margin: 3rem 0 2rem 0;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: normal;
+    text-align: center;
+
+    @include variables.tablet {
+      font-size: 1.1rem;
+    }
+
+    @include variables.desktop {
+      font-size: 1.2rem;
+    }
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 3.5rem;
+    border-radius: 0.625rem;
+  }
+
+  blockquote {
+    padding: 1rem 1.5rem;
+
+    p {
+      font-size: 1.15rem;
+      font-weight: 200;
+      line-height: 1.75rem;
+    }
+  }
+
+  button {
+    img {
+      margin: 0;
+      border-radius: 0;
+    }
+  }
+
+  .howtocite {
+    p {
+      font-size: 1.1rem;
+    }
+  }
+}

@@ -43,6 +43,14 @@ At the far end of the Saint-Sauveur network, several galleries were being driven
 
 However, between 14 and 16&nbsp;March 1917, the German army carried out a strategic withdrawal to the Hindenburg Line, a fortified trench system located behind the existing front. This pullback jeopardized British plans. The idea for this strong line had emerged during the Battle of the Somme (1&nbsp;July–18&nbsp;November 1916). Initially conceived as a security measure, the Hindenburg Line quickly became a strategic fallback position. At that time, German troops were in difficulty on the Somme front. They were no longer in a position to hold their trenches. Although British pressure was less intense and more scattered, the situation remained precarious for the Germans. Rumours of a French offensive in the Aisne grew stronger. The German high command took no chances and ordered the withdrawal. The front line remained unchanged north of Arras, but from the Cambrai road onward it moved farther and farther away from the British trenches.[^26] The Germans did not realise they had just disrupted the British plan to launch an attack from beneath Arras. Only one underground network was still usable. With barely a month to go before the offensive, it was a serious blow for the British, who could now advance as far as the former German trenches. The Ronville system no longer allowed troops to emerge in front of enemy trenches, but instead to surface in the new British rear lines.
 
+<a className="button-chapter-book" href="/books/kiwis-dig-tunnels-too/chapter-9-the-battle-of-arras" aria-label="Go to chapter 9: The Battle of Arras">
+  <div>    
+    <p className="chapter">Chapter 9</p>
+    <span>The Battle of Arras</span>
+  </div>
+    <div className="arrow">&rarr;</div>
+</a>
+
 [^1]: Imperial War Museum, Documents.11515, The First World War Memoirs of James Williamson, Part&nbsp;2, f° 4, &ldquo;One date I remember was 1314. I thought of some thing that had happened in our own history on that date.&rdquo;
 
 [^2]: The National Archives United Kingdom, WO&nbsp;95/407, New Zealand Tunnelling Company War Diary, 9&nbsp;October 1916, &ldquo;All going well attack to take place at the end of month.&rdquo;

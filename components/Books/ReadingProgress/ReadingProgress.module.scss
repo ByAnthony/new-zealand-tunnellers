@@ -1,0 +1,12 @@
+@use "app/variables.module.scss";
+
+.progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background-color: variables.$secondary-color;
+  z-index: 1000;
+  transition: width 0.25s linear;
+  will-change: width;
+}

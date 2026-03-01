@@ -10,6 +10,7 @@ Book published on New Zealand Tunnellers website – https://www.nztunnellers.co
 - BARTON Peter, DOYLE Peter and VANDEWALLE Johan, _Beneath Flanders Fields: The Tunnellers’ War 1914-18_, Gloucestershire, Spellmount Publishers, 2007 (orig. ed. 2004), 304&nbsp;p.
 - BARTON Peter and BANNING Jeremy, _Arras, The Spring 1917 Offensive in Panoramas including Vimy Ridge and Bullecourt_, Londres, Constable, 2010, 312&nbsp;p.
 - BRIDGLAND Tony and MORGAN Anne, _Tunnel-master & Arsonist of the Great War: The Norton-Griffiths Story_, Barnsley, Pen & Swords Books, 2003, 242&nbsp;p.
+- BYLEDBAL Anthony (dir.), _Les Taupes de la Grande Guerre. Combats et combattants souterrains_, Arras, Artois Presses Université, 2015, 176&nbsp;p.
 - COQUEREL Paul, _L’Afrique du Sud des Afrikaners_, Bruxelles, Complexe, 1992, 303&nbsp;p.
 - GUSTAFSON Barry, _Labour’s Path to Political independence: The Origins and Establishment of the New Zealand Labour Party 1900-19_, Auckland, Auckland University Press, 1980, 199&nbsp;p.
 - JONES Simon, _Underground Warfare 1914-1918_, Barnsley, Pen & Sword Military, 2010, 288&nbsp;p.
@@ -26,11 +27,17 @@ Book published on New Zealand Tunnellers website – https://www.nztunnellers.co
 
 - [Anonyme], &ldquo;Obituary Hugh Vickerman, 1880-1960&rdquo;, _ICE Proceedings_, vol.&nbsp;22, n°2, 1962, p.&nbsp;255.
 - [Anonyme], &ldquo;Mr J.O.C. Neill, BSc. (First President of NZMS)&rdquo; [[Online]](http://www.nzms.org.nz/Honorary_Members/JOC%20Neill.html). _New Zealand Microbiological Society_ [Accessed on 29&nbsp;August 2011].
+- BYLEDBAL Anthony, &ldquo;Atypical Birth of the NZ Tunnelling Company&rdquo;, _The Volunteers, The Journal of the New Zealand Military Historical Society_, vol. 35, 1, July 2009, p.&nbsp;15-24.
+- ———, &ldquo;Tunnelling under Arras&rdquo;, in Christopher Pugsley, John Crawford, Nathalie Philippe and Matthias Strohn, _The Great Adventure Ends: New Zealand and France on the Western Front_, Christchurch, John Douglas Publishing, 2013, p.&nbsp;189-209.
+- ———, &ldquo;Un patrimoine caché : l’héritage de la guerre des mines à Arras&rdquo; [[Online]](https://journals.openedition.org/insitu/11466). _In Situ_, 25 | 2014 [réf. du 1<sup>er</sup>&nbsp;mars 2026].
+- ———, &ldquo;Sous l’uniforme, les fédérés rouges. L’exemple des militants et tunneliers néo-zélandais&rdquo;, in Jean-Louis Robert (ed.), _Le Syndicalisme à l’épreuve de la Premiere Guerre mondiale_, Rennes, Presses Universitaires de Rennes, 2017, p.&nbsp;65-76.
+- ———, &ldquo;Un Effort nécessaire : les quotas pour le corps des tunneliers néo-zélandais&rdquo;, in Viviane Fayaud (ed.), _Les Océaniens dans la Grande Guerre. Nation, nationalisme et sentiment d’appartenance_, Amiens, Encrage éditions, 2018, p.&nbsp;208-219.
 - McGIBBON Ian, &ldquo;Duigan, John Evelyn 1883-1950&rdquo; [[Online]](http://ww.teara.govt.nz/en/biographies/4d24/1). _Dictionary of New Zealand Biography_ [Accessed on 1&nbsp;September 2010].
 
 ## Unpublished Thesis
 
-- LANNIAUX Karine, _Les Néo-Zélandais dans la Grande Guerre, l’expérience française&nbsp;: une étude des lettres, diaries et réminiscences des soldats néo-zélandais en France pendant la Première Guerre mondiale_, mémoire de maîtrise, sous la direction d’Annette BECKER, Université Charles de Gaulle – Lille III, 1997, 102&nbsp;p.
+- BYLEDBAL Anthony, _Les Soldats fantômes de la Grande Guerre souterraine, 1915-1919. De l’Immigrant pākehā au vétéran oublié : les hommes de la New Zealand Engineers Tunnelling Company_, Doctoral thesis supervised by Sophie-Anne Leterrier (University of Artois) with the collaboration of Nathalie Philippe (University of Waikato), University of Artois, 2012, 5 vols.
+- LANNIAUX Karine, _Les Néo-Zélandais dans la Grande Guerre, l’expérience française&nbsp;: une étude des lettres, diaries et réminiscences des soldats néo-zélandais en France pendant la Première Guerre mondiale_, Master thesis supervised by Annette BECKER, University Charles de Gaulle – Lille III, 1997, 102&nbsp;p.
 
 ## Map
 
@@ -40,3 +47,10 @@ Book published on New Zealand Tunnellers website – https://www.nztunnellers.co
 
 - &ldquo;Cenotaph&rdquo; Database [[Online]](http://www.aucklandmuseum.com/war-memorial/online-cenotaph). Auckland, New Zealand: Auckland War Memorial Museum. World Wide Web Format.
 - New Zealand Tunnellers Prosopographical Database [[Online]](http://www.nztunnellers.com/). Sitges, Espagne: New Zealand Tunnellers Website. World Wide Web Format.
+
+<a className="button-chapter-book" href="/books/kiwis-dig-tunnels-too/acknowledgments" aria-label="Read: Acknowledgments">
+  <div>
+    <span>Acknowledgments</span>
+  </div>
+    <div className="arrow">&rarr;</div>
+</a>

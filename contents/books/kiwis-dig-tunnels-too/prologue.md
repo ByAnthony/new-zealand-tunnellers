@@ -23,6 +23,14 @@ With the British relief north of the Somme, which began at the end of July, the 
 
 The military authorities had few options for filling the ranks of the various tunnelling companies. Infantry soldiers were even called upon to assist the teams underground.[^18] Nearly a thousand men could be attached to a single company. These men did not, however, replace the tunnellers at the working face; that task had to remain in the hands of specialists. New units were still being organised during September, but underground operations at the front required an ever-greater number of tunnellers. London quickly found an obvious solution by turning to its Dominions, the self-governing states within the British Empire where mining employed a significant share of the population—a dormant fighting force. On 10&nbsp;September 1915, the War Office in London issued an appeal to the governments of Canada, Australia, New Zealand and South Africa for the formation of overseas tunnelling companies.[^19] The Dominion of New Zealand was the first to respond.
 
+<a className="button-chapter-book" href="/books/kiwis-dig-tunnels-too/chapter-1-the-tunnellers-from-the-antipodes" aria-label="Go to chapter 1: The Tunnellers from the Antipodes">
+  <div>    
+    <p className="chapter">Chapter 1</p>
+    <span>The Tunnellers from the Antipodes</span>
+  </div>
+    <div className="arrow">&rarr;</div>
+</a>
+
 [^1]: Alexander Barrie, _War Underground_, Londres, Frederick Muller Limited, 1962, p.&nbsp;94.
 
 [^2]: Grant W. Grieve and Bernard Newman, _Tunnellers: The Story of the Tunnelling Companies_, Royal Engineers, during the World War, Londres, Herbert Jenkins Limited, 1936, p.&nbsp;65.

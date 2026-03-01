@@ -1,0 +1,128 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`Chapter matches the snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="container"
+  >
+    <div
+      class="text"
+    >
+      <div>
+        <div>
+          <div
+            class="header"
+          >
+            <div
+              class="link"
+            >
+              <a
+                aria-label="Aller à la section Ressources"
+                href="/#resources"
+              >
+                Resources
+              </a>
+               / 
+              <a
+                aria-label="Aller au sommaire"
+                href="/books/les-kiwis-aussi-creusent-des-tunnels"
+              >
+                Les Kiwis aussi creusent des tunnels
+              </a>
+            </div>
+            <div
+              class="main-title"
+            >
+              <h1>
+                Les tunneliers des antipodes
+              </h1>
+              <div
+                class="title-line-3"
+              >
+                Chapitre 1
+              </div>
+            </div>
+          </div>
+          <div
+            class="reading-time"
+          >
+            1 min de lecture
+          </div>
+        </div>
+        <span>
+          Paragraph of text.
+        </span>
+        <span>
+          A link to [an external site](https://example.com).
+        </span>
+        <div>
+          <h2>
+            Notes
+          </h2>
+        </div>
+        <div>
+          <li
+            class="footnotes"
+          >
+            <a
+              class="anchor-link"
+              href="#user-content-fnref-1"
+            >
+              1.
+            </a>
+             A footnote.
+          </li>
+        </div>
+      </div>
+    </div>
+    <div
+      class="howtocite"
+    >
+      <h3>
+        Comment citer cette page
+        <button
+          class="copy-paste"
+        >
+          <img
+            alt="Copier dans le presse-papiers"
+            height="16"
+            placeholder="empty"
+            src="/copy.png"
+            width="13"
+          />
+        </button>
+      </h3>
+      <p>
+        Anthony Byledbal, 
+        <span>
+          “Chapitre 1: Les tunneliers des antipodes”, in 
+          <em>
+            Les Kiwis aussi creusent des tunnels
+          </em>
+        </span>
+        , New Zealand Tunnellers Website, 2025 (2009), Consulté le: 1 janvier 2025. 
+        <span>
+          URL:
+          <wbr />
+          www.nztunnellers
+          <wbr />
+          .com
+          <wbr />
+          /books/les-kiwis-aussi-creusent-des-tunnels/chapitre-1-les-tunneliers-des-antipodes
+        </span>
+      </p>
+    </div>
+    <a
+      aria-label="Retour au sommaire"
+      class="book-menu hidden"
+      href="/books/les-kiwis-aussi-creusent-des-tunnels"
+    >
+      <span
+        class="link"
+      >
+        Sommaire
+      </span>
+    </a>
+  </div>
+</DocumentFragment>
+`;

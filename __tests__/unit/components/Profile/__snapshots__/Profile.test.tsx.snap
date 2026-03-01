@@ -349,11 +349,7 @@ exports[`Profile matches the snapshot 1`] = `
           </button>
         </h3>
         <p>
-          Anthony Byledbal, “John Smith (1886-1966)“, 
-          <em>
-            New Zealand Tunnellers Website
-          </em>
-          , 2023 (2009), Accessed: 4 May 2023. 
+          Anthony Byledbal, “John Smith (1886-1966)”, New Zealand Tunnellers Website, 2023 (2009), Accessed: 4 May 2023. 
           <span>
             URL: www.
             <wbr />

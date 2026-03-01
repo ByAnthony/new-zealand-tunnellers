@@ -38,6 +38,14 @@ The New Zealanders decided on a counter-attack between Cuthbert and Clarence in 
 
 In this deadly game of chess, the German miners proved cleverer than their opponent. They managed to keep the upper hand underground through secrecy and through skilful diversionary manoeuvres carried out to the north of Chantecler. Twice, they dealt serious damage to British galleries and trenches. They even seemed to have anticipated the counter-attack launched underground and on the surface on the evening of 14 September. Deprived of any means and powerless, Jim did not hesitate to write in his small notebook that the Germans knew far more than his comrades about his unit’s operations. By the end of September 1916, the New Zealand network stopped expanding. The German miners were now very quiet. The tunnellers gradually abandoned the Chantecler sector for new work east of Arras, where the British Army was planning a major offensive against the German front lines.
 
+<a className="button-chapter-book" href="/books/kiwis-dig-tunnels-too/chapter-8-right-under-the-germans-noses" aria-label="Go to chapter 8: Right Under the German's Noses">
+  <div>    
+    <p className="chapter">Chapter 8</p>
+    <span>Right Under the German’s Noses</span>
+  </div>
+    <div className="arrow">&rarr;</div>
+</a>
+
 [^1]: The National Archives United Kingdom, WO&nbsp;95/407, New Zealand Tunnelling Company War Diary, 19&nbsp;June 1916, &ldquo;Germans blew another mysterious mine nearer their lines than Camouflet of yesterday and for no apparent reason.&rdquo;
 
 [^2]: Grant W. Grieve and Bernard Newman, _Tunnellers: The Story of the Tunnelling Companies, Royal Engineers, during the World War_, Londres, Herbert Jenkins Limited, 1936, p.&nbsp;110, &ldquo;… but the sector was reported to be very quiet&rdquo;.

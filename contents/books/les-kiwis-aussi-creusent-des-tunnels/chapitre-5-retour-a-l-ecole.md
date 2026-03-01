@@ -25,6 +25,14 @@ Le programme de l’école des mines débouchait sur l’obtention d’un diplô
 
 Les inspecteurs des mines, en charge de la direction des opérations militaires souterraines sur le front, n’attendirent pas de voir en surface les tranchées détruites pour agir. Ils décidèrent de retirer le secteur du Labyrinthe aux Néo-Zélandais. Pour les remplacer, ils firent appel aux hommes plus expérimentés de la 185<sup>e</sup>&nbsp;compagnie de tunneliers. Formée en octobre 1915, cette unité avait combattu au côté de la 179<sup>e</sup>&nbsp;compagnie à La Boisselle, puis reçu l’ordre de renforcer les nouvelles positions en Artois en s’installant début mars 1916 à Chantecler, un secteur situé à un kilomètre au sud de celui tenu par les tunneliers néo-zélandais. Entre le 29&nbsp;mars et le 2&nbsp;avril 1916, les deux compagnies organisèrent l’échange de leur zone de combat. Tout le nécessaire fut préparé à Chantecler pour que le travail des Néo-Zélandais puissent débuter dans de bonnes conditions. L’adversaire était plus calme à cet endroit. Les Néo-Zélandais auraient toute liberté de gagner peu à peu en expérience. Au Labyrinthe, la situation était critique pour la 185<sup>e</sup>&nbsp;compagnie. Les relevés effectués par leurs homologues des antipodes durent être refaits rapidement tant les Britanniques ne les jugèrent pas dignes de confiance[^15]. Les premières écoutes réalisées dans les anciennes galeries néo-zélandaises révélèrent que la ligne de front était en danger en plusieurs endroits[^16]. Les mineurs allemands n’étaient plus sous le no man’s land, mais bel et bien sous les tranchées britanniques. L’unité recommanda, le temps de rendre le sous-sol plus sûr, l’évacuation de certaines troupes dans différentes parties de la ligne[^17].
 
+<a className="button-chapter-book" href="/books/les-kiwis-aussi-creusent-des-tunnels/chapitre-6-au-coeur-du-combat" aria-label="Aller au chapitre 6 : Au cœur du combat">
+  <div>
+    <p className="chapter">Chapitre 6</p>
+    <span>Au cœur du combat</span>
+  </div>
+    <div className="arrow">&rarr;</div>
+</a>
+
 [^1]: James Campbell Neill, _The New Zealand Tunnelling Company, 1915-1919_, Auckland, Whitcombe & Tombs, 1922, p.&nbsp;23, &laquo;&nbsp;… les tranchées étaient creusées profondément dans la boue liquide.&nbsp;&raquo;
 
 [^2]: Bibliothèque du musée du génie britannique, Rapports des mines – III<sup>e</sup>&nbsp;armée britannique, 27&nbsp;février au 29&nbsp;décembre 1916. Rapport d’activité de la compagnie de tunneliers néo-zélandais.

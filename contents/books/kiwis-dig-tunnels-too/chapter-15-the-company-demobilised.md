@@ -35,6 +35,13 @@ A little more than three years after the company had left for the war, the <em>I
 
 While the port of Auckland celebrated the arrival of the demobilised men, the military authorities had approved the dissolution of the Tunnelling Company. Despite the recognition it had earned from senior British commanders for its work, there were no plans to incorporate the small unit into the regular army. On the one hand, its numbers could not be sustained. Many industries, alerted to the tunnellers’ return, were eagerly awaiting their former employees’ return to work. On the other hand, funds were lacking—not only to keep the company in being, but also to maintain the level of excellence within its ranks. Training regular professional soldiers was therefore deemed sufficient to preserve the arts of sapping and mining within the engineer corps. Although the unit had existed only briefly, its story lived on in each of its members. Scattered as they were across New Zealand, the men closed the parenthesis that had carried them to the other side of the world.
 
+<a className="button-chapter-book" href="/books/kiwis-dig-tunnels-too/epilogue" aria-label="Read: Epilogue">
+  <div>
+    <span>Epilogue</span>
+  </div>
+    <div className="arrow">&rarr;</div>
+</a>
+
 [^1]: The National Archives United Kingdom, WO&nbsp;95/407, New Zealand Tunnelling Company War Diary, 15&nbsp;December 1918.
 
 [^2]: Te Rua Mahara o te Kāwanatanga Archives New Zealand, WA&nbsp;1 Box&nbsp;1/3/18 8/2, Demobilisation&nbsp;- Tunnelling Corps [New Zealand Tunnelling Company] & No.&nbsp;5 (New Zealand) Light Railways Operating Company, 11-27&nbsp;February 1919. Letter from the administration of the New Zealand Expeditionary Force to the secretary to the Minister of War in London, 18&nbsp;November 1918, &ldquo;I have the honour to ask wether, in view of the fact that the above Companies [New Zealand Tunnelling Company and New Zealand Light Railways Operating Company] are largely composed of mining engineers and others personnel of pivotal categories who are urgently required in New Zealand&rdquo;.

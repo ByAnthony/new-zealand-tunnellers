@@ -19,7 +19,9 @@ type Props = {
 
 export function Article({ article }: Props) {
   useEffect(() => {
-    localStorage.clear();
+    localStorage.removeItem("filters");
+    localStorage.removeItem("page");
+    localStorage.removeItem("roll:scrollY");
   }, []);
 
   return (

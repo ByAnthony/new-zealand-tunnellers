@@ -1,0 +1,64 @@
+@use "app/variables.module.scss";
+
+.book-menu {
+  margin: 0 auto;
+  width: fit-content;
+  padding: variables.$xs-margin variables.$s-margin;
+  position: -webkit-sticky;
+  position: sticky;
+  bottom: variables.$m-margin;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: variables.$primary-medium-color;
+  border-radius: variables.$border-radius;
+  border: 1px solid variables.$primary-light-color;
+  transition: all 0.9s ease-in-out;
+  cursor: pointer;
+  z-index: 1000;
+  text-decoration: none;
+
+  &:hover {
+    border: 1px solid variables.$secondary-color;
+    background-color: variables.$primary-dark-color;
+  }
+
+  @include variables.tablet {
+    margin: 0 auto;
+    width: fit-content;
+    gap: variables.$l-margin;
+    bottom: variables.$m-margin;
+  }
+
+  @include variables.desktop {
+    margin: 0 auto;
+    width: fit-content;
+    padding: variables.$xs-margin variables.$m-margin;
+    gap: variables.$l-margin;
+    bottom: variables.$base-margin;
+  }
+
+  .icon {
+    font-size: 1.5rem;
+    color: variables.$secondary-color;
+
+    @include variables.tablet {
+      font-size: 1.75rem;
+    }
+
+    @include variables.desktop {
+      font-size: 2rem;
+    }
+  }
+
+  .link {
+    margin: 0;
+    color: variables.$secondary-color;
+  }
+}
+
+.hidden {
+  opacity: 0;
+  transition: opacity 0.9s ease-in-out;
+  pointer-events: none;
+}

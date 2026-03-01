@@ -10,6 +10,7 @@ Livre publié sur New Zealand Tunnellers – https://www.nztunnellers.com/books/
 - BARTON Peter, DOYLE Peter et VANDEWALLE Johan, _Beneath Flanders Fields: The Tunnellers’ War 1914-18_, Gloucestershire, Spellmount Publishers, 2007 (éd. orig. 2004), 304&nbsp;p.
 - BARTON Peter et BANNING Jeremy, _Arras, The Spring 1917 Offensive in Panoramas including Vimy Ridge and Bullecourt_, Londres, Constable, 2010, 312&nbsp;p.
 - BRIDGLAND Tony et MORGAN Anne, _Tunnel-master & Arsonist of the Great War: The Norton-Griffiths Story_, Barnsley, Pen & Swords Books, 2003, 242&nbsp;p.
+- BYLEDBAL Anthony (dir.), _Les Taupes de la Grande Guerre. Combats et combattants souterrains_, Arras, Artois Presses Université, 2015, 176&nbsp;p.
 - COQUEREL Paul, _L’Afrique du Sud des Afrikaners_, Bruxelles, Complexe, 1992, 303&nbsp;p.
 - GUSTAFSON Barry, _Labour’s Path to Political independence: The Origins and Establishment of the New Zealand Labour Party 1900-19_, Auckland, Auckland University Press, 1980, 199&nbsp;p.
 - JONES Simon, _Underground Warfare 1914-1918_, Barnsley, Pen & Sword Military, 2010, 288&nbsp;p.
@@ -26,10 +27,16 @@ Livre publié sur New Zealand Tunnellers – https://www.nztunnellers.com/books/
 
 - [Anonyme], &laquo;&nbsp;Obituary Hugh Vickerman, 1880-1960&nbsp;&raquo;, _ICE Proceedings_, vol.&nbsp;22, n°2, 1962, p.&nbsp;255.
 - [Anonyme], &laquo;&nbsp;Mr J.O.C. Neill, BSc. (First President of NZMS)&nbsp;&raquo; [[En ligne]](http://www.nzms.org.nz/Honorary_Members/JOC%20Neill.html). _New Zealand Microbiological Society_ [réf. du 29&nbsp;août 2011].
+- BYLEDBAL Anthony, &laquo;&nbsp;Atypical Birth of the NZ Tunnelling Company&nbsp;&raquo;, _The Volunteers, The Journal of the New Zealand Military Historical Society_, vol. 35, 1, July 2009, p.&nbsp;15-24.
+- ———, &laquo;&nbsp;Tunnelling under Arras&nbsp;&raquo;, in Christopher Pugsley, John Crawford, Nathalie Philippe and Matthias Strohn, _The Great Adventure Ends: New Zealand and France on the Western Front_, Christchurch, John Douglas Publishing, 2013, p.&nbsp;189-209.
+- ———, &laquo;&nbsp;Un patrimoine caché : l’héritage de la guerre des mines à Arras&nbsp;&raquo; [[En ligne]](https://journals.openedition.org/insitu/11466). _In Situ_, 25 | 2014 [réf. du 1<sup>er</sup>&nbsp;mars 2026].
+- ———, &laquo;&nbsp;Sous l’uniforme, les fédérés rouges. L’exemple des militants et tunneliers néo-zélandais&nbsp;&raquo;, in Jean-Louis Robert (ed.), _Le Syndicalisme à l’épreuve de la Premiere Guerre mondiale_, Rennes, Presses Universitaires de Rennes, 2017, p.&nbsp;65-76.
+- ———, &laquo;&nbsp;Un Effort nécessaire : les quotas pour le corps des tunneliers néo-zélandais&nbsp;&raquo;, in Viviane Fayaud (ed.), _Les Océaniens dans la Grande Guerre. Nation, nationalisme et sentiment d’appartenance_, Amiens, Encrage éditions, 2018, p.&nbsp;208-219.
 - McGIBBON Ian, &laquo;&nbsp;Duigan, John Evelyn 1883-1950&nbsp;&raquo; [[En ligne]](http://ww.teara.govt.nz/en/biographies/4d24/1). _Dictionary of New Zealand Biography_ [réf. du 1<sup>er</sup>&nbsp;septembre 2010].
 
 ## Mémoire non publié
 
+- BYLEDBAL Anthony, _Les Soldats fantômes de la Grande Guerre souterraine, 1915-1919. De l’Immigrant pākehā au vétéran oublié : les hommes de la New Zealand Engineers Tunnelling Company_, thèse de doctorat, sous la direction de Sophie-Anne Leterrier (Université d'Artois) et avec la collaboration de Nathalie Philippe (Université du Waikato), Université d'Artois, 2012, 5 vols.
 - LANNIAUX Karine, _Les Néo-Zélandais dans la Grande Guerre, l’expérience française&nbsp;: une étude des lettres, diaries et réminiscences des soldats néo-zélandais en France pendant la Première Guerre mondiale_, mémoire de maîtrise, sous la direction d’Annette BECKER, Université Charles de Gaulle – Lille III, 1997, 102&nbsp;p.
 
 ## Carte
@@ -40,3 +47,10 @@ Livre publié sur New Zealand Tunnellers – https://www.nztunnellers.com/books/
 
 - Base de données &laquo;&nbsp;Cenotaph&nbsp;&raquo; [[En ligne]](http://www.aucklandmuseum.com/war-memorial/online-cenotaph). Auckland, Nouvelle-Zélande&nbsp;: Musée du mémorial de guerre d’Auckland. Format World Wide Web.
 - Base de données prosopographique des tunneliers néo-zélandais [[En ligne]](http://www.nztunnellers.com/). Sitges, Espagne&nbsp;: Site Internet des tunneliers néo-zélandais. Format World Wide Web.
+
+<a className="button-chapter-book" href="/books/les-kiwis-aussi-creusent-des-tunnels/remerciements" aria-label="Lire : Remerciements">
+  <div>
+    <span>Remerciements</span>
+  </div>
+    <div className="arrow">&rarr;</div>
+</a>

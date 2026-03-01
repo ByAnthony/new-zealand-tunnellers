@@ -1,0 +1,30 @@
+@use "app/variables.module.scss";
+
+.tools {
+  position: absolute;
+  margin-top: 0.625rem;
+  margin-left: 0.625rem;
+  display: grid;
+  place-items: center;
+  z-index: 999;
+
+  button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.8rem;
+    color: white;
+    background-color: variables.$secondary-color;
+  }
+
+  .control {
+    height: 2.5rem;
+    width: 2.5rem;
+    border-radius: 1.2rem;
+    transition: all 0.9s ease-in-out;
+  }
+
+  .reset {
+    transform: rotate(45deg);
+  }
+}

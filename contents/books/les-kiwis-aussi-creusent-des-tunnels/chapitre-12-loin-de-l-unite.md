@@ -37,6 +37,14 @@ Au début du mois de septembre 1918, le sapeur lui annonça enfin qu’il allait
 
 Fin octobre, Jim avait repris des forces. Il put sortir de l’hôpital pour rejoindre le camp militaire de Torquay où il reçut l’ordre de préparer son paquetage pour le voyage de retour. Début novembre, il fut entassé avec d’autres soldats néo-zélandais dans un train pour Plymouth, puis embarqua à bord du Ayrshire. Ce navire de troupes était loin d’être à la hauteur du Ruapehu, le bateau qui avait amené Jim et ses compagnons en Grande-Bretagne trois ans plus tôt. Les lits étaient mauvais, la nourriture aussi et le voyage à travers les océans Atlantique et Pacifique bien terne[^27]. Bien que fou de joie à l’annonce de l’Armistice, Jim fut frustré de ne pas pouvoir assister aux célébrations de paix. Lui et ses compagnons reçurent néanmoins, lors de leur escale à Cristobal, port de la côte Pacifique du Panama, un accueil très chaleureux fait de chansons patriotiques, de distribution de cigarettes et de bananes, de bain de foules. Ce débarquement contrasta sans aucun doute avec l’arrivée en Nouvelle-Zélande la veille de Noël[^28]. Et pour cause, le Dominion se remettait à peine de la seconde vague de la grippe espagnole qui avait gravement sévi depuis deux mois. Bien que l’épidémie était circonscrite, le nombre de personnes infectées restait encore important. L’atmosphère qui régnait en ville choqua tellement Jim qu’il eut l’impression de rentrer dans une morgue[^29]. Il était d’autant plus déconcerté qu’un pasteur était venu le trouver peu avant de regagner la terre ferme. Celui-ci lui avait annoncé le décès de sa sœur, emportée par le terrible virus un mois plutôt. Ce fut un choc terrible pour le tunnelier qui ne pouvait imaginer pire retour.
 
+<a className="button-chapter-book" href="/books/les-kiwis-aussi-creusent-des-tunnels/chapitre-13-un-ouvrage-spectaculaire" aria-label="Aller au chapitre 13 : Un ouvrage spectaculaire">
+  <div>
+    <p className="chapter">Chapitre 13</p>
+    <span>Un ouvrage spectaculaire</span>
+  </div>
+    <div className="arrow">&rarr;</div>
+</a>
+
 [^1]: Imperial War Museum, Documents.11515, Les mémoires de la Première Guerre mondiale de James Williamson, 2<sup>e</sup>&nbsp;partie, f°&nbsp;7.
 
 [^2]: _Ibid._, &laquo;&nbsp;… nous nous sommes retrouvés par hasard à la même table après être venus de pays si éloignés.&nbsp;&raquo;
