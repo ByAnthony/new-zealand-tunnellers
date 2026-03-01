@@ -16,6 +16,19 @@ import {
 
 import { TimelineEvent } from "@/components/Timeline/TimelineEvent/TimelineEvent";
 
+test("uses explicit imageAlt when provided for a Company event", () => {
+  render(
+    <TimelineEvent
+      event={[{ ...mockEventCompany, imageAlt: "Custom company photo" }]}
+      ageAtEnlistment={null}
+    />,
+  );
+
+  expect(
+    screen.getByRole("img", { name: "Custom company photo" }),
+  ).toBeInTheDocument();
+});
+
 test("should render a timeline", () => {
   render(
     <TimelineEvent

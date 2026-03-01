@@ -160,6 +160,17 @@ describe("rehypeRemoveFootnoteBackrefs", () => {
     expect(node.children).toEqual([span]);
   });
 
+  test("keeps anchor with null properties (not a backref)", () => {
+    const anchor = {
+      type: "element",
+      tagName: "a",
+      properties: null,
+      children: [],
+    };
+    const node = applyTransformer([anchor]);
+    expect(node.children).toEqual([anchor]);
+  });
+
   test("keeps regular anchor without backref properties", () => {
     const anchor = {
       type: "element",
