@@ -27,14 +27,14 @@
 
 .checkmark {
   font-weight: 400;
-  font-size: 1.25rem;
+  font-size: 1.2rem;
 
   @include variables.tablet {
-    font-size: 1.75rem;
+    font-size: 1.7rem;
   }
 
   @include variables.desktop {
-    font-size: 2.25rem;
+    font-size: 2.2rem;
   }
 }
 

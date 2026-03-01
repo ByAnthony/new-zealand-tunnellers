@@ -47,6 +47,7 @@ exports[`Contents matches the snapshot (fr) 1`] = `
             <div
               aria-hidden="true"
               class="ring"
+              style="--progress: 0;"
             >
               <div
                 class="inner"
@@ -77,6 +78,7 @@ exports[`Contents matches the snapshot (fr) 1`] = `
             <div
               aria-hidden="true"
               class="ring"
+              style="--progress: 0;"
             >
               <div
                 class="inner"
@@ -107,6 +109,7 @@ exports[`Contents matches the snapshot (fr) 1`] = `
             <div
               aria-hidden="true"
               class="ring"
+              style="--progress: 0;"
             >
               <div
                 class="inner"
@@ -134,6 +137,7 @@ exports[`Contents matches the snapshot (fr) 1`] = `
             <div
               aria-hidden="true"
               class="ring"
+              style="--progress: 0;"
             >
               <div
                 class="inner"

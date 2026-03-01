@@ -23,11 +23,7 @@ export const ChapterProgressRing = ({ pathname }: Props) => {
   return (
     <div
       className={STYLES.ring}
-      style={
-        {
-          ...(progress > 2 && { "--progress": progress }),
-        } as React.CSSProperties
-      }
+      style={{ "--progress": progress } as React.CSSProperties}
       aria-hidden="true"
     >
       <div className={STYLES.inner}>

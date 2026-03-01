@@ -10,11 +10,6 @@ export const saveChapterProgress = (
 ): void => {
   try {
     const normalizedPath = normalize(pathname);
-
-    if (!normalizedPath || progress < 1) {
-      return;
-    }
-
     const stored = localStorage.getItem(STORAGE_KEY);
     const data: Record<string, number> = stored ? JSON.parse(stored) : {};
     data[normalizedPath] = Math.round(progress);
