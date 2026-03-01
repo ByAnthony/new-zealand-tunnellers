@@ -15,42 +15,55 @@ export const ReadingProgress = () => {
   const pathname = usePathname();
 
   useEffect(() => {
-    const button = document.querySelector(".footnotes");
-    if (!button) return;
+    let cleanup: (() => void) | null = null;
 
-    const buttonDocTop = button.getBoundingClientRect().top + window.scrollY;
-    const totalScrollable = buttonDocTop - window.innerHeight;
+    const attach = (button: Element) => {
+      const getTotalScrollable = () => {
+        const buttonDocTop =
+          button.getBoundingClientRect().top + window.scrollY;
+        return buttonDocTop - window.innerHeight;
+      };
 
-    const savedProgress = getChapterProgress(pathname);
-    if (savedProgress > 0 && totalScrollable > 0) {
-      window.scrollTo({
-        top: (savedProgress / 100) * totalScrollable,
-        behavior: "instant",
-      });
-    }
+      const saved = getChapterProgress(pathname);
+      const total0 = getTotalScrollable();
 
-    const updateProgress = () => {
-      let newProgress: number;
-
-      if (totalScrollable <= 0) {
-        newProgress = 100;
-      } else {
-        newProgress = Math.min(
-          100,
-          Math.max(0, (window.scrollY / totalScrollable) * 100),
-        );
+      if (saved > 0 && total0 > 0) {
+        window.scrollTo({ top: (saved / 100) * total0, behavior: "auto" });
       }
 
-      setProgress(newProgress);
-      saveChapterProgress(pathname, newProgress);
+      const update = () => {
+        const total = getTotalScrollable();
+        if (total <= 0) return; // IMPORTANT: don’t save 100/0 from a bad measurement
+
+        const p = Math.min(100, Math.max(0, (window.scrollY / total) * 100));
+        setProgress(p);
+        saveChapterProgress(pathname, p);
+      };
+
+      window.addEventListener("scroll", update, { passive: true });
+      update();
+
+      cleanup = () => window.removeEventListener("scroll", update);
     };
 
-    window.addEventListener("scroll", updateProgress, { passive: true });
-    updateProgress();
+    const existing = document.querySelector(".footnotes");
+    if (existing) {
+      attach(existing);
+    } else {
+      // Wait until it appears
+      const mo = new MutationObserver(() => {
+        const btn = document.querySelector(".footnotes");
+        if (btn) {
+          mo.disconnect();
+          attach(btn);
+        }
+      });
+      mo.observe(document.documentElement, { childList: true, subtree: true });
 
-    return () => {
-      window.removeEventListener("scroll", updateProgress);
-    };
+      cleanup = () => mo.disconnect();
+    }
+
+    return () => cleanup?.();
   }, [pathname]);
 
   if (progress === null) return null;

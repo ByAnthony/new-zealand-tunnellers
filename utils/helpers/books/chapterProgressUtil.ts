@@ -1,7 +1,8 @@
 const STORAGE_KEY = "book-reading-progress";
 
 const normalize = (pathname: string): string => {
-  return pathname.replace(/^\/+|\/+$/g, "").toLowerCase();
+  const noQueryOrHash = pathname.split("#")[0].split("?")[0];
+  return noQueryOrHash.replace(/^\/+|\/+$/g, "").toLowerCase();
 };
 
 export const saveChapterProgress = (

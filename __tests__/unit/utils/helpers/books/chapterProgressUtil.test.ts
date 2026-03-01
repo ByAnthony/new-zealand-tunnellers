@@ -20,14 +20,14 @@ describe("chapterProgressUtil", () => {
     );
   });
 
-  // test("does not overwrite existing progress when new progress is 0", () => {
-  //   saveChapterProgress("/books/kiwis-dig-tunnels-too/prologue/", 15.2);
-  //   saveChapterProgress("/books/kiwis-dig-tunnels-too/prologue/", 0);
+  test("does overwrite existing progress when new progress is 0", () => {
+    saveChapterProgress("/books/kiwis-dig-tunnels-too/prologue/", 15.2);
+    saveChapterProgress("/books/kiwis-dig-tunnels-too/prologue/", 0);
 
-  //   expect(getChapterProgress("/books/kiwis-dig-tunnels-too/prologue/")).toBe(
-  //     15,
-  //   );
-  // });
+    expect(getChapterProgress("/books/kiwis-dig-tunnels-too/prologue/")).toBe(
+      0,
+    );
+  });
 
   test("returns 0 when chapter is not found", () => {
     expect(getChapterProgress("/books/kiwis-dig-tunnels-too/chapter-1/")).toBe(
