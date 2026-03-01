@@ -37,7 +37,7 @@ Book published on New Zealand Tunnellers website – https://www.nztunnellers.co
 ## Unpublished Thesis
 
 - BYLEDBAL Anthony, _Les Soldats fantômes de la Grande Guerre souterraine, 1915-1919. De l’Immigrant pākehā au vétéran oublié : les hommes de la New Zealand Engineers Tunnelling Company_, Doctoral thesis supervised by Sophie-Anne Leterrier (University of Artois) with the collaboration of Nathalie Philippe (University of Waikato), University of Artois, 2012, 5 vols.
-- LANNIAUX Karine, _Les Néo-Zélandais dans la Grande Guerre, l’expérience française&nbsp;: une étude des lettres, diaries et réminiscences des soldats néo-zélandais en France pendant la Première Guerre mondiale_, mémoire de maîtrise, sous la direction d’Annette BECKER, Université Charles de Gaulle – Lille III, 1997, 102&nbsp;p.
+- LANNIAUX Karine, _Les Néo-Zélandais dans la Grande Guerre, l’expérience française&nbsp;: une étude des lettres, diaries et réminiscences des soldats néo-zélandais en France pendant la Première Guerre mondiale_, Master thesis supervised by Annette BECKER, University Charles de Gaulle – Lille III, 1997, 102&nbsp;p.
 
 ## Map
 
