@@ -41,4 +41,14 @@ describe("chapterProgressUtil", () => {
       0,
     );
   });
+
+  test("does not throw when localStorage.setItem throws in saveChapterProgress", () => {
+    jest.spyOn(Storage.prototype, "setItem").mockImplementation(() => {
+      throw new Error("Storage quota exceeded");
+    });
+    jest.spyOn(console, "error").mockImplementation(() => {});
+    expect(() =>
+      saveChapterProgress("/books/kiwis-dig-tunnels-too/prologue/", 50),
+    ).not.toThrow();
+  });
 });

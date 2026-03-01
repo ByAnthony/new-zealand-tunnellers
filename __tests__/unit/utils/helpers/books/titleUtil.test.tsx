@@ -1,5 +1,6 @@
 import { render } from "@testing-library/react";
 import React from "react";
+import { visit } from "unist-util-visit";
 
 jest.mock("unist-util-visit", () => ({ visit: jest.fn() }));
 
@@ -8,7 +9,10 @@ import {
   extractText,
   formatHeading,
   parseChapterHeading,
+  rehypeRemoveFootnoteBackrefs,
 } from "@/utils/helpers/books/titleUtil";
+
+const mockedVisit = visit as jest.Mock;
 
 describe("extractText", () => {
   test("returns empty string for null", () => {
@@ -113,6 +117,103 @@ describe("calculateReadingTime", () => {
   test("strips markdown link syntax but keeps link text", () => {
     const content = "[anchor text](https://example.com)";
     expect(calculateReadingTime(content)).toBe(1);
+  });
+});
+
+describe("rehypeRemoveFootnoteBackrefs", () => {
+  const applyTransformer = (nodeChildren: any[]) => {
+    const node = { children: nodeChildren };
+    mockedVisit.mockImplementation((_tree: any, _type: any, visitor: any) => {
+      visitor(node);
+    });
+    rehypeRemoveFootnoteBackrefs()({});
+    return node;
+  };
+
+  afterEach(() => {
+    mockedVisit.mockReset();
+  });
+
+  test("does nothing if node has no children", () => {
+    const node: any = {};
+    mockedVisit.mockImplementation((_tree: any, _type: any, visitor: any) => {
+      visitor(node);
+    });
+    rehypeRemoveFootnoteBackrefs()({});
+    expect(node.children).toBeUndefined();
+  });
+
+  test("keeps non-element children", () => {
+    const textNode = { type: "text", value: "hello" };
+    const node = applyTransformer([textNode]);
+    expect(node.children).toEqual([textNode]);
+  });
+
+  test("keeps element children that are not anchors", () => {
+    const span = {
+      type: "element",
+      tagName: "span",
+      properties: {},
+      children: [],
+    };
+    const node = applyTransformer([span]);
+    expect(node.children).toEqual([span]);
+  });
+
+  test("keeps regular anchor without backref properties", () => {
+    const anchor = {
+      type: "element",
+      tagName: "a",
+      properties: { href: "/next" },
+      children: [],
+    };
+    const node = applyTransformer([anchor]);
+    expect(node.children).toEqual([anchor]);
+  });
+
+  test("removes anchor with data-footnote-backref property", () => {
+    const backref = {
+      type: "element",
+      tagName: "a",
+      properties: { "data-footnote-backref": true },
+      children: [],
+    };
+    const keep = { type: "text", value: "text" };
+    const node = applyTransformer([keep, backref]);
+    expect(node.children).toEqual([keep]);
+  });
+
+  test("removes anchor with dataFootnoteBackref property", () => {
+    const backref = {
+      type: "element",
+      tagName: "a",
+      properties: { dataFootnoteBackref: true },
+      children: [],
+    };
+    const node = applyTransformer([backref]);
+    expect(node.children).toEqual([]);
+  });
+
+  test("removes anchor with rel string containing footnote-backref", () => {
+    const backref = {
+      type: "element",
+      tagName: "a",
+      properties: { rel: "footnote-backref" },
+      children: [],
+    };
+    const node = applyTransformer([backref]);
+    expect(node.children).toEqual([]);
+  });
+
+  test("removes anchor with rel array containing footnote-backref", () => {
+    const backref = {
+      type: "element",
+      tagName: "a",
+      properties: { rel: ["footnote-backref", "nofollow"] },
+      children: [],
+    };
+    const node = applyTransformer([backref]);
+    expect(node.children).toEqual([]);
   });
 });
 
