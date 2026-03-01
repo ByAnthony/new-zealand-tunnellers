@@ -10,7 +10,6 @@ jest.mock("next/navigation", () => ({
 const mockGetChapterProgress = jest.fn();
 
 jest.mock("@/utils/helpers/books/chapterProgressUtil", () => ({
-  CHAPTER_PROGRESS_EVENT: "chapter-progress-update",
   getChapterProgress: (...args: unknown[]) => mockGetChapterProgress(...args),
   saveChapterProgress: jest.fn(),
 }));
@@ -84,20 +83,33 @@ describe("ReadingProgress", () => {
       scrollListeners.forEach((listener) => listener(new Event("scroll")));
     });
 
+    // getBoundingClientRect.top (500) is fixed, so buttonDocTop = 500 + 200 = 700
+    // total = 700 - 100 = 600, progress = 200 / 600 * 100 ≈ 33
     expect(screen.getByRole("progressbar")).toHaveAttribute(
       "aria-valuenow",
-      "50",
+      "33",
     );
   });
 
   test("clamps progress to 100% when scrolled past the button", () => {
     const mockButton = {
-      getBoundingClientRect: () => ({ top: -1000 }),
+      getBoundingClientRect: () => ({ top: -500 }),
     } as unknown as Element;
     jest.spyOn(document, "querySelector").mockReturnValue(mockButton);
 
     render(<ReadingProgress />);
 
+    act(() => {
+      Object.defineProperty(window, "scrollY", {
+        writable: true,
+        configurable: true,
+        value: 1000,
+      });
+      scrollListeners.forEach((listener) => listener(new Event("scroll")));
+    });
+
+    // buttonDocTop = -500 + 1000 = 500, total = 500 - 100 = 400
+    // progress = 1000 / 400 * 100 = 250 → clamped to 100
     expect(screen.getByRole("progressbar")).toHaveAttribute(
       "aria-valuenow",
       "100",
@@ -117,7 +129,7 @@ describe("ReadingProgress", () => {
     // targetScrollY = (50 / 100) * 400 = 200
     expect(window.scrollTo).toHaveBeenCalledWith({
       top: 200,
-      behavior: "instant",
+      behavior: "auto",
     });
   });
 
