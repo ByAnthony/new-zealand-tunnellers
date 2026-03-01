@@ -5,7 +5,7 @@ import {
   getUniqueRanks,
 } from "@/components/Roll/utils/rankUtils";
 
-describe("getUniqueDetachments", () => {
+describe("getUniqueRanks", () => {
   test("returns unique detachments sorted correctly", () => {
     const result = getUniqueRanks(Object.entries(mockTunnellers));
     expect(result).toEqual(["Sapper", "Driver"]);

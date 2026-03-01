@@ -13,20 +13,23 @@ Object.assign(navigator, {
 global.alert = jest.fn();
 
 describe("HowToCite", () => {
-  test("clipboard copy", async () => {
+  test("shows English success alert on clipboard copy", async () => {
+    jest.spyOn(navigator.clipboard, "writeText").mockResolvedValue(undefined);
+
+    const alertSpy = jest.spyOn(window, "alert").mockImplementation(() => {});
+
     render(<HowToCite />);
 
     fireEvent.click(screen.getByRole("button", { name: "Copy to clipboard" }));
-    await navigator.clipboard.writeText("Test text");
-    expect(navigator.clipboard.writeText).toHaveBeenCalledWith("Test text");
-  });
 
-  test("clipboard read", async () => {
-    render(<HowToCite />);
+    await waitFor(() => {
+      expect(alertSpy).toHaveBeenCalledWith(
+        "How to cite has been copied to clipboard",
+      );
+    });
 
-    fireEvent.click(screen.getByRole("button", { name: "Copy to clipboard" }));
-    const text = await navigator.clipboard.readText();
-    expect(text).toBe("Mocked clipboard text");
+    alertSpy.mockRestore();
+    jest.restoreAllMocks();
   });
 
   test("clipboard error", async () => {
