@@ -10,6 +10,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: variables.$m-margin;
   background-color: variables.$primary-medium-color;
   border-radius: variables.$border-radius;
   border: 1px solid variables.$primary-light-color;
@@ -26,7 +27,7 @@
   @include variables.tablet {
     margin: 0 auto;
     width: fit-content;
-    gap: variables.$l-margin;
+    gap: variables.$base-margin;
     bottom: variables.$m-margin;
   }
 
@@ -38,17 +39,8 @@
     bottom: variables.$base-margin;
   }
 
-  .icon {
-    font-size: 1.5rem;
-    color: variables.$secondary-color;
-
-    @include variables.tablet {
-      font-size: 1.75rem;
-    }
-
-    @include variables.desktop {
-      font-size: 2rem;
-    }
+  .arrow {
+    @include variables.arrow-button;
   }
 
   .link {

@@ -35,6 +35,7 @@ export function BookMenu({ locale }: Props) {
       <span className={STYLES.link}>
         {locale === "fr" ? "Sommaire" : "Contents"}
       </span>
+      <div className={STYLES.arrow}>&rarr;</div>
     </Link>
   );
 }

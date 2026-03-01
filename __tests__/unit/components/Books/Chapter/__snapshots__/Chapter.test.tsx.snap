@@ -122,6 +122,11 @@ exports[`Chapter matches the snapshot 1`] = `
       >
         Sommaire
       </span>
+      <div
+        class="arrow"
+      >
+        →
+      </div>
     </a>
   </div>
 </DocumentFragment>
