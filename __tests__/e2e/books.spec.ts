@@ -108,7 +108,7 @@ test("EN chapter: breadcrumb navigates to Resources and table of contents", asyn
   await expect(resourcesLink).toBeVisible();
   await expect(resourcesLink).toHaveAttribute("href", "/#resources");
 
-  await page.getByLabel("Go to the Resources section").click();
+  await resourcesLink.click();
   await page.waitForLoadState("domcontentloaded");
 
   await expect(page).toHaveURL(/books\/kiwis-dig-tunnels-too/);
@@ -123,7 +123,7 @@ test("FR chapter: breadcrumb navigates to Resources and table of contents", asyn
   await expect(resourcesLink).toBeVisible();
   await expect(resourcesLink).toHaveAttribute("href", "/#resources");
 
-  await page.getByLabel("Aller au sommaire").click();
+  await resourcesLink.click();
   await page.waitForLoadState("domcontentloaded");
 
   await expect(page).toHaveURL(/books\/les-kiwis-aussi-creusent-des-tunnels/);
