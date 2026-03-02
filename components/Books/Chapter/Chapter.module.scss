@@ -230,7 +230,16 @@
   }
 
   blockquote {
-    padding: 1rem 1.5rem;
+    padding: 0.5rem 0.5rem;
+    font-style: italic;
+
+    @include variables.tablet {
+      padding: 0.5rem 1.5rem;
+    }
+
+    @include variables.desktop {
+      padding: 0.5rem 1.5rem;
+    }
 
     p {
       font-size: 1.15rem;
