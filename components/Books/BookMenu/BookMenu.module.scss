@@ -41,6 +41,8 @@
 
   .arrow {
     @include variables.arrow-button;
+
+    margin-top: 0;
   }
 
   .link {
