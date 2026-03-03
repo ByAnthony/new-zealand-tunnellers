@@ -4,13 +4,43 @@
   @include variables.component-margin;
 
   margin-top: variables.$l-margin;
-  padding: variables.$s-margin variables.$m-margin;
-  border-radius: variables.$border-radius;
-  border: 1px solid variables.$primary-light-color;
 
   @include variables.desktop {
     margin-left: 0;
     margin-right: 0;
-    padding: variables.$m-margin variables.$base-margin;
+  }
+}
+
+.resources-links {
+  display: flex;
+  flex-direction: column;
+  gap: variables.$s-margin;
+}
+
+.resource {
+  @include variables.fullwidth-main-card;
+
+  padding: variables.$s-margin;
+
+  @include variables.desktop {
+    padding: variables.$base-margin variables.$base-margin variables.$m-margin
+      variables.$base-margin;
+  }
+
+  label {
+    margin: 0 auto;
+    margin: variables.$m-margin 0;
+    padding: variables.$xxxs-margin variables.$xs-margin;
+    font-size: 0.9rem;
+    font-weight: 300;
+    text-align: center;
+    color: variables.$text-color;
+    border: 1px solid variables.$text-color;
+    border-radius: variables.$border-radius;
+    width: fit-content;
+
+    @include variables.desktop {
+      font-size: 1rem;
+    }
   }
 }
