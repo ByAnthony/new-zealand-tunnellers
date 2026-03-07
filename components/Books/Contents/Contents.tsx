@@ -100,9 +100,15 @@ const MainTitle: React.FC<{
       </div>
       <h1>{children}</h1>
       <div className={STYLES.author}>
-        {locale === "fr"
-          ? "Un livre d'Anthony Byledbal"
-          : "A book by Anthony Byledbal"}
+        {locale === "fr" ? (
+          <div>
+            <span className={STYLES.by}>Par</span> Anthony Byledbal
+          </div>
+        ) : (
+          <div>
+            <span className={STYLES.by}>By</span> Anthony Byledbal
+          </div>
+        )}
       </div>
     </div>
   );

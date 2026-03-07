@@ -49,10 +49,23 @@
   }
 }
 
+.by {
+  font-size: 0.9rem;
+  font-weight: 200;
+
+  @include variables.tablet {
+    font-size: 1rem;
+  }
+
+  @include variables.desktop {
+    font-size: 1.4rem;
+  }
+}
+
 .author {
   padding-bottom: variables.$s-margin;
   font-size: 1.25rem;
-  font-weight: 300;
+  font-weight: 400;
   text-align: center;
 
   @include variables.tablet {

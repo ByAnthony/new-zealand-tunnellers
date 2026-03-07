@@ -62,8 +62,8 @@ export function Resources() {
           title="Les Kiwis aussi creusent des tunnels"
           badge="Livre"
           description="Recrutés pour leurs aptitudes à creuser, James Williamson, Harold
-              Howard, George Race et Gerald Punch, quatre engagés volontaires
-              néo-zélandais, s'apprêtent à traverser les océans avec leur
+              Howard, George Race et Gerald Punch — quatre engagés volontaires
+              néo-zélandais — s'apprêtent à traverser les océans avec leur
               unité spéciale pour prendre part à cette guerre secrète. Mais, de
               l'autre côté de la terre, ce jeu mortel est déjà à
               l'avantage des mineurs allemands."

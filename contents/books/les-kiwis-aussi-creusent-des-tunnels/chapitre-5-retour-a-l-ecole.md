@@ -1,7 +1,7 @@
 <!-- Copyright © Anthony Byledbal, 2017–aujourd’hui. Tous droits réservés.
 Livre publié sur New Zealand Tunnellers – https://www.nztunnellers.com/books/les-kiwis-aussi-creusent-des-tunnels -->
 
-# Chapitre 5: Retour à l'école
+# Chapitre 5: Retour à l'École
 
 Les tranchées françaises dans lesquelles s’aventura l’équipe de Jim le 16&nbsp;mars 1916 fourmillaient dans un secteur plutôt réduit. Elles formaient par endroit une multitude d’intersections où aucun panneau de direction ne guidait les soldats à travers ce dédale de fossés. Ce secteur fut baptisé, non sans humour, le &laquo;&nbsp;Labyrinthe&nbsp;&raquo;. Ces tranchées s’étendaient au nord d’Arras, le chef-lieu du Pas-de-Calais, de la crête de Vimy au nord, au village de Roclincourt au sud. Elles étaient les vestiges des combats sanglants de l’automne 1915 entre Français et Allemands. L’ennemi dominait le secteur qui encerclait Roclincourt du nord au sud et descendait jusque Saint-Laurent-Blangy, aux portes d’Arras.
 
