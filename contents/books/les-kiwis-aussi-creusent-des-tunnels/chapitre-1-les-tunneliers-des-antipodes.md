@@ -1,7 +1,7 @@
 <!-- Copyright © Anthony Byledbal, 2017–aujourd’hui. Tous droits réservés.
 Livre publié sur New Zealand Tunnellers – https://www.nztunnellers.com/books/les-kiwis-aussi-creusent-des-tunnels -->
 
-# Chapitre 1: Les tunneliers des antipodes
+# Chapitre 1: Les Tunneliers des antipodes
 
 Le vendredi 17&nbsp;septembre 1915, une dépêche de l’association de la presse néo-zélandaise tomba. Elle annonça la formation d’une compagnie du génie militaire pour des travaux de creusement de galeries. L’information fut imprimée le jour même dans les colonnes des pages intérieures des journaux néo-zélandais pour ceux dont le bouclage n’était pas encore fait, et le lendemain, pour les autres. Les volontaires, de préférence mineurs ou ouvriers des travaux publics, et âgés entre 21 et 40&nbsp;ans, étaient invités à se présenter sans attendre dans l’un des bureaux de recrutement le plus proche de chez eux. Les mineurs de charbon étaient prévenus que seul un petit nombre d’entre eux serait accepté pour ne pas soustraire de la main d’œuvre à l’activité charbonnière. Au total, entre 300 et 400&nbsp;hommes devaient être trouvés pour constituer, au plus vite, la nouvelle unité de tunneliers.
 

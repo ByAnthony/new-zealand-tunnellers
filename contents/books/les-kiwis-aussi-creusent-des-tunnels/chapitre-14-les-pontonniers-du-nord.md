@@ -1,7 +1,7 @@
 <!-- Copyright © Anthony Byledbal, 2017–aujourd’hui. Tous droits réservés.
 Livre publié sur New Zealand Tunnellers – https://www.nztunnellers.com/books/les-kiwis-aussi-creusent-des-tunnels -->
 
-# Chapitre 14: Les pontonniers du Nord
+# Chapitre 14: Les Pontonniers du Nord
 
 Alors que sous leurs pieds, coulaient lentement les eaux sombres du canal, Lofty et Sharkey s’attelaient aux dernières opérations de sécurisation du pont de Noyelles-sur-Escaut dont la construction fut achevée en seulement 25&nbsp;heures. À leurs côtés, le groupe d’hommes de la 565<sup>e</sup>&nbsp;compagnie de troupes d’armée, qui avait déjà participé à l’érection du pont d’Havrincourt, poursuivait la formation sur le tas des tunneliers[^1]. Par une nuit plutôt froide obligeant les hommes à remonter le col de leur veste, Lofty et Sharkey, comme leurs compagnons, œuvraient au milieu d’un incessant va-et-vient de véhicules dont le bruit des moteurs résonnait. En ouvrant le pont à la circulation, dans la soirée du 11&nbsp;octobre 1918, les troupes des XVII<sup>e</sup> et VI<sup>e</sup>&nbsp;corps tentaient de combler leur retard par rapport à leurs homologues du reste de la III<sup>e</sup>&nbsp;armée, déjà positionnés le long de la rivière Selle, située quelques kilomètres plus à l’est. Si des passerelles temporaires avaient bien été placées le long du canal pour faire passer les hommes à pied, elles ne permettaient toutefois pas le passage d’engins lourds. Le pont de Noyelles-sur-Escaut faisait ainsi partie d’un ensemble de plusieurs passerelles dites à grande circulation qui devait rendre la poursuite de l’attaque possible (Carte&nbsp;11). À Masnières, un village situé en aval, le génie britannique, assisté d’un petit groupe de Néo-Zélandais, ouvrit l’un de ces autres accès le 12 octobre[^2]. Les XVII<sup>e</sup> et VI<sup>e</sup>&nbsp;corps atteignirent finalement la Selle le lendemain.
 
@@ -37,10 +37,10 @@ La section de George ainsi que la 3<sup>e</sup>&nbsp;section avaient en effet te
 
 Presque toute l’unité participait au drainage d’une inondation, suite à la destruction d’un viaduc par les Allemands dans les derniers jours de la guerre, à Spiennes, au sud de Mons. La section de George qui avait terminé les travaux à Malplaquet, partit pour Lourches, dans le nord de la France, entre Douai et Valenciennes, œuvrer sur un dernier pont, une passerelle de chemin de fer, à placer au-dessus du canal de l’Escaut (Carte&nbsp;12). Toutefois, en Belgique, comme en France, les rangs des tunneliers se clairsemaient à nouveau par le départ des hommes mariés début décembre. En un mois, les effectifs de la compagnie passèrent de 437 à 370&nbsp;tunneliers&nbsp;; trop peu pour le gouvernement néo-zélandais qui harcelait, depuis le 18&nbsp;novembre, le ministère de la Guerre à Londres pour accorder la démobilisation immédiate de l’ensemble de l’unité.
 
-<a className="button-chapter-book" href="/books/les-kiwis-aussi-creusent-des-tunnels/chapitre-15-la-compagnie-demobilisee" aria-label="Aller au chapitre 15 : La compagnie démobilisée">
+<a className="button-chapter-book" href="/books/les-kiwis-aussi-creusent-des-tunnels/chapitre-15-la-compagnie-demobilisee" aria-label="Aller au chapitre 15 : La Compagnie démobilisée">
   <div>
     <p className="chapter">Chapitre 15</p>
-    <span>La compagnie démobilisée</span>
+    <span>La Compagnie démobilisée</span>
   </div>
     <div className="arrow">&rarr;</div>
 </a>
