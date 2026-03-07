@@ -1,7 +1,7 @@
 <!-- Copyright © Anthony Byledbal, 2017–aujourd’hui. Tous droits réservés.
 Livre publié sur New Zealand Tunnellers – https://www.nztunnellers.com/books/les-kiwis-aussi-creusent-des-tunnels -->
 
-# Chapitre 11: Une force tranquille
+# Chapitre 11: Une Force tranquille
 
 Ironie du sort, Lofty et Sharkey œuvraient désormais en surface bénéficiant enfin d’un air de meilleure qualité[^1]. Repliés sur Arras, ils se trouvaient au cœur des combats et participaient activement à la défense de la ville en creusant des tranchées. L’offensive allemande avait en effet percé les positions où travaillaient les Néo-Zélandais depuis près d’un an. Les lignes arrières britanniques, devenues en peu de temps le nouveau front, n’étaient pas assez fortifiées pour parer aux attaques de l’ennemi. L’insuffisance de communication entre les tranchées poussa toutes les forces du génie, et pas seulement les tunneliers, dans la création rapide de nouvelles lignes.
 
@@ -37,10 +37,10 @@ En ce dimanche 18&nbsp;août, Lofty et Sharkey profitaient d’un bel après-mid
 
 Le lundi 19&nbsp;août, le temps était toujours aussi beau sur le secteur de la Somme et la chaleur s’installa[^16]. Une partie des tunneliers fut envoyée aux bains tandis que, dans les souterrains en cours de construction, les équipes s’affairèrent normalement. Le lendemain, les hommes furent de nouveau mis au repos. Le mercredi 21&nbsp;août 1918, le quartier-général de l’unité donna l’ordre de cesser le travail[^17]. Les III<sup>e</sup> et IV<sup>e</sup>&nbsp;armées britanniques avaient attaqué dans le secteur situé entre Arras et la Somme. Les Allemands repoussés ne purent opposer aucune résistance. La contre-offensive alliée était en marche.
 
-<a className="button-chapter-book" href="/books/les-kiwis-aussi-creusent-des-tunnels/chapitre-12-loin-de-l-unite" aria-label="Aller au chapitre 12 : Loin de l'unité">
+<a className="button-chapter-book" href="/books/les-kiwis-aussi-creusent-des-tunnels/chapitre-12-loin-de-l-unite" aria-label="Aller au chapitre 12 : Loin de l'Unité">
   <div>
     <p className="chapter">Chapitre 12</p>
-    <span>Loin de l'unité</span>
+    <span>Loin de l'Unité</span>
   </div>
     <div className="arrow">&rarr;</div>
 </a>

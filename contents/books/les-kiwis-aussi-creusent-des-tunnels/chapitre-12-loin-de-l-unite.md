@@ -1,7 +1,7 @@
 <!-- Copyright © Anthony Byledbal, 2017–aujourd’hui. Tous droits réservés.
 Livre publié sur New Zealand Tunnellers – https://www.nztunnellers.com/books/les-kiwis-aussi-creusent-des-tunnels -->
 
-# Chapitre 12: Loin de l'unité
+# Chapitre 12: Loin de l'Unité
 
 Au début de l’année 1917, Jim avait été transporté à l’hôpital militaire de Frévent, à une quarantaine de kilomètres à l’ouest d’Arras. Avant son départ, il avait consciencieusement lavé l’ensemble des vêtements de son paquetage et avait pris un bain afin d’éviter la propagation de poux et d’autres vermines[^1]. Ces précautions furent pourtant peu efficaces. Jim se réveilla le premier matin couvert de poux. Les draps n’avaient pas été désinfectés correctement. Le tunnelier n’eut pas d’autres choix que de revêtir ses affaires propres qui furent aussitôt infestés. Hormis ce problème, l’hôpital était un lieu paisible. Jim eut la chance de profiter de belles journées ensoleillées. La campagne alentour était idéale pour envisager quelques promenades. À l’heure du thé, Jim s’asseyait à une table pour discuter avec d’autres patients à l’ombre de grands arbres. À sa grande surprise, le Néo-Zélandais se trouva entouré d’hommes venus des quatre coins de l’Empire. À sa droite se tenait un Canadien, à sa gauche un Australien et en face un Sud-Africain[^2].
 
@@ -37,10 +37,10 @@ Au début du mois de septembre 1918, le sapeur lui annonça enfin qu’il allait
 
 Fin octobre, Jim avait repris des forces. Il put sortir de l’hôpital pour rejoindre le camp militaire de Torquay où il reçut l’ordre de préparer son paquetage pour le voyage de retour. Début novembre, il fut entassé avec d’autres soldats néo-zélandais dans un train pour Plymouth, puis embarqua à bord du Ayrshire. Ce navire de troupes était loin d’être à la hauteur du Ruapehu, le bateau qui avait amené Jim et ses compagnons en Grande-Bretagne trois ans plus tôt. Les lits étaient mauvais, la nourriture aussi et le voyage à travers les océans Atlantique et Pacifique bien terne[^27]. Bien que fou de joie à l’annonce de l’Armistice, Jim fut frustré de ne pas pouvoir assister aux célébrations de paix. Lui et ses compagnons reçurent néanmoins, lors de leur escale à Cristobal, port de la côte Pacifique du Panama, un accueil très chaleureux fait de chansons patriotiques, de distribution de cigarettes et de bananes, de bain de foules. Ce débarquement contrasta sans aucun doute avec l’arrivée en Nouvelle-Zélande la veille de Noël[^28]. Et pour cause, le Dominion se remettait à peine de la seconde vague de la grippe espagnole qui avait gravement sévi depuis deux mois. Bien que l’épidémie était circonscrite, le nombre de personnes infectées restait encore important. L’atmosphère qui régnait en ville choqua tellement Jim qu’il eut l’impression de rentrer dans une morgue[^29]. Il était d’autant plus déconcerté qu’un pasteur était venu le trouver peu avant de regagner la terre ferme. Celui-ci lui avait annoncé le décès de sa sœur, emportée par le terrible virus un mois plutôt. Ce fut un choc terrible pour le tunnelier qui ne pouvait imaginer pire retour.
 
-<a className="button-chapter-book" href="/books/les-kiwis-aussi-creusent-des-tunnels/chapitre-13-un-ouvrage-spectaculaire" aria-label="Aller au chapitre 13 : Un ouvrage spectaculaire">
+<a className="button-chapter-book" href="/books/les-kiwis-aussi-creusent-des-tunnels/chapitre-13-un-ouvrage-spectaculaire" aria-label="Aller au chapitre 13 : Un Ouvrage spectaculaire">
   <div>
     <p className="chapter">Chapitre 13</p>
-    <span>Un ouvrage spectaculaire</span>
+    <span>Un Ouvrage spectaculaire</span>
   </div>
     <div className="arrow">&rarr;</div>
 </a>
