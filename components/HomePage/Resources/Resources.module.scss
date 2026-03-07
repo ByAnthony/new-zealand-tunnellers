@@ -1,0 +1,127 @@
+@use "app/variables.module.scss";
+
+.container {
+  @include variables.component-margin;
+
+  margin-top: variables.$l-margin;
+
+  @include variables.desktop {
+    margin-top: variables.$xl-margin;
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-radius: variables.$border-radius;
+  background-color: variables.$primary-medium-dark-color;
+  border: 1px solid variables.$primary-light-dark-color;
+  transition: all 0.9s ease-in-out;
+
+  &:hover {
+    border: 1px solid variables.$secondary-color;
+    background-color: variables.$primary-dark-color;
+  }
+}
+
+.card-header {
+  padding: variables.$s-margin 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: variables.$base-margin;
+
+  @include variables.desktop {
+    height: variables.$l-margin;
+    gap: variables.$l-margin;
+    padding: variables.$padding-card 0;
+  }
+}
+
+.card-content {
+  padding: variables.$s-margin variables.$s-margin 0 variables.$s-margin;
+
+  @include variables.desktop {
+    padding: variables.$padding-card variables.$padding-card 0
+      variables.$padding-card;
+  }
+}
+
+.badge {
+  width: fit-content;
+  padding: variables.$xxxs-margin variables.$xs-margin;
+  border-radius: variables.$border-radius;
+  border: 1px solid variables.$primary-light-color;
+  font-size: 0.95rem;
+  font-weight: 400;
+  color: variables.$text-color;
+}
+
+.title {
+  margin: 0;
+  color: variables.$secondary-color;
+}
+
+.description {
+  margin: 0;
+  font-size: 1.05rem;
+  line-height: 1.5;
+
+  @include variables.desktop {
+    font-size: 1.1rem;
+  }
+}
+
+.actions {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: variables.$xs-margin;
+
+  @include variables.desktop {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.button-base {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: variables.$s-margin;
+  text-decoration: none;
+  font-size: 1.25rem;
+  font-weight: 400;
+  color: variables.$secondary-color;
+
+  @include variables.desktop {
+    padding: variables.$padding-card;
+  }
+}
+
+.by {
+  font-size: 0.8rem;
+  font-weight: 200;
+  color: variables.$text-color;
+
+  @include variables.desktop {
+    font-size: 0.9rem;
+  }
+}
+
+.author {
+  font-size: 1rem;
+  font-weight: 400;
+  color: variables.$text-color;
+
+  @include variables.desktop {
+    font-size: 1.1rem;
+  }
+}
+
+.arrow {
+  color: variables.$secondary-color;
+}

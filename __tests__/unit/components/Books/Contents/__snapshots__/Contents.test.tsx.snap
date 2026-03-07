@@ -26,7 +26,14 @@ exports[`Contents matches the snapshot (fr) 1`] = `
           <div
             class="author"
           >
-            Un livre d'Anthony Byledbal
+            <div>
+              <span
+                class="by"
+              >
+                Par
+              </span>
+               Anthony Byledbal
+            </div>
           </div>
         </div>
       </div>

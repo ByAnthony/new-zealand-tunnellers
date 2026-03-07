@@ -21,6 +21,9 @@ export function Footer() {
             <Link href="/tunnellers">Tunnellers</Link>
           </div>
           <div className={STYLES["map-link"]}>
+            <Link href="/#resources">Resources</Link>
+          </div>
+          <div className={STYLES["map-link"]}>
             <Link href="/about-us">About Us</Link>
           </div>
         </div>

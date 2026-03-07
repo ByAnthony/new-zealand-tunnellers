@@ -4,10 +4,10 @@ exports[`History matches the snapshot 1`] = `
 <DocumentFragment>
   <div
     class="history-chapter"
+    id="history"
   >
     <div
       class="chapter-cards-wrapper"
-      id="history"
     >
       <div
         class="chapter-cards-menu"

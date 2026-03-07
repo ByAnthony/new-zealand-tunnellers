@@ -63,8 +63,8 @@ export function History({ articles }: Props) {
   const buttonLastCard = isLastCard ? buttonDisabledStyle : {};
 
   return (
-    <div className={STYLES["history-chapter"]}>
-      <div id="history" className={STYLES["chapter-cards-wrapper"]}>
+    <div id="history" className={STYLES["history-chapter"]}>
+      <div className={STYLES["chapter-cards-wrapper"]}>
         <div className={STYLES["chapter-cards-menu"]}>
           <h2>History of the Company</h2>
           <div className={STYLES["chapter-cards-nav"]}>
