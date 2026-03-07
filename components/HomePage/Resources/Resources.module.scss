@@ -68,7 +68,12 @@
 
 .description {
   margin: 0;
+  font-size: 1.05rem;
   line-height: 1.5;
+
+  @include variables.desktop {
+    font-size: 1.1rem;
+  }
 }
 
 .actions {
