@@ -1,46 +1,104 @@
 @use "app/variables.module.scss";
 
-.resources {
-  @include variables.component-margin;
-
+.container {
   margin-top: variables.$l-margin;
-
-  @include variables.desktop {
-    margin-left: 0;
-    margin-right: 0;
-  }
 }
 
-.resources-links {
+.card {
   display: flex;
   flex-direction: column;
-  gap: variables.$s-margin;
+  justify-content: space-between;
+  border-radius: variables.$border-radius;
+  background-color: variables.$primary-medium-dark-color;
+  border: 1px solid variables.$primary-light-dark-color;
+  transition: all 0.9s ease-in-out;
+
+  &:hover {
+    border: 1px solid variables.$secondary-color;
+    background-color: variables.$primary-dark-color;
+  }
 }
 
-.resource {
-  @include variables.fullwidth-main-card;
-
-  padding: variables.$s-margin;
+.card-header {
+  height: variables.$base-margin;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: variables.$l-margin;
 
   @include variables.desktop {
-    padding: variables.$base-margin variables.$base-margin variables.$m-margin
-      variables.$base-margin;
+    padding: variables.$padding-card 0 variables.$padding-card 0;
   }
+}
 
-  label {
-    margin: 0 auto;
-    margin: variables.$m-margin 0;
-    padding: variables.$xxxs-margin variables.$xs-margin;
-    font-size: 0.9rem;
-    font-weight: 300;
-    text-align: center;
-    color: variables.$text-color;
-    border: 1px solid variables.$text-color;
-    border-radius: variables.$border-radius;
-    width: fit-content;
-
-    @include variables.desktop {
-      font-size: 1rem;
-    }
+.card-content {
+  @include variables.desktop {
+    padding: 30px 30px 0 30px;
   }
+}
+
+.badge {
+  width: fit-content;
+  padding: variables.$xxxs-margin variables.$xs-margin;
+  border-radius: variables.$border-radius;
+  border: 1px solid variables.$primary-light-color;
+  font-size: 0.95rem;
+  font-weight: 400;
+  color: variables.$text-color;
+}
+
+.title {
+  margin: 0;
+  color: variables.$secondary-color;
+}
+
+.description {
+  margin-bottom: variables.$s-margin;
+  line-height: 1.5;
+}
+
+.actions {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: variables.$xs-margin;
+
+  @include variables.desktop {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.button-base {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: variables.$s-margin;
+  text-decoration: none;
+  font-size: 1.25rem;
+  font-weight: 400;
+  color: variables.$secondary-color;
+
+  @include variables.desktop {
+    padding: variables.$padding-card;
+  }
+}
+
+.by {
+  font-weight: 200;
+  font-size: 0.9rem;
+  color: variables.$text-color;
+
+  @include variables.desktop {
+    font-size: 1rem;
+  }
+}
+
+.author {
+  font-weight: 400;
+  color: variables.$text-color;
+}
+
+.arrow {
+  color: variables.$secondary-color;
 }
