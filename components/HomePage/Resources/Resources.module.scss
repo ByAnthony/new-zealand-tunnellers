@@ -3,9 +3,10 @@
 .container {
   @include variables.component-margin;
 
-  margin-top: variables.$xl-margin;
+  margin-top: variables.$l-margin;
 
   @include variables.desktop {
+    margin-top: variables.$xl-margin;
     margin-left: 0;
     margin-right: 0;
   }
