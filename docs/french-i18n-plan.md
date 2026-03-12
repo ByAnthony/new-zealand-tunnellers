@@ -6,14 +6,46 @@ This document outlines everything needed to add a French (`/fr`) version of the 
 
 ## Overview
 
-The work splits into four areas:
+The work splits into four areas across four PRs:
 
-1. **Database** — add `_fr` columns to all translatable lookup tables and article content tables
-2. **Query layer** — pass `locale` into every query function and select the right column dynamically
-3. **App routing** — restructure `app/` with a `[locale]` segment using `next-intl`
-4. **UI strings** — extract ~30 hardcoded English labels into translation JSON files
+1. **App routing + EN translations** (PR 1) — restructure `app/` with `[locale]`, wire up `next-intl` with `messages/en.json`; English URLs unchanged, full translation pipeline validated
+2. **Query layer** (PR 2) — pass `locale` into every query function; hardcoded to `'en'`, pure refactor
+3. **French data** (PR 3a) — add `_fr` DB columns, fill translations, enable `/fr/` routes
+4. **French UI strings** (PR 3b) — add `messages/fr.json` and a language switcher; no other code changes
 
-URLs will become `/en/...` and `/fr/...`. The default locale (`en`) can optionally redirect from `/`.
+URLs for French will become `/fr/...`. English URLs stay exactly as they are today (no `/en/` prefix). `next-intl` handles this via `localePrefix: 'as-needed'`.
+
+---
+
+## Recommended PR split
+
+Split the work into three independent, reviewable PRs:
+
+**PR 1 — Routing restructure + EN translations (no URL changes)**
+
+- Install `next-intl`
+- Add `middleware.ts` with `locales: ['en']` only
+- Move `app/*` → `app/[locale]/*`
+- Update `next.config.mjs`
+- Create `messages/en.json` and replace all hardcoded UI labels with `useTranslations`
+- English URLs are completely unchanged; validates the full translation pipeline before any French work
+
+**PR 2 — Thread `locale` through the query layer**
+
+- Add `Locale` type
+- Add `locale` param to all query functions (receives `'en'` from `params.locale`)
+- Pure refactor: no DB changes, no UI changes, identical output
+
+**PR 3a — French data**
+
+- Add `_fr` DB columns and fill translations
+- Add `fr` to middleware locales
+- French pages render at `/fr/...` with French data values; UI labels remain in English for now
+
+**PR 3b — French UI strings + language switcher**
+
+- Create `messages/fr.json` (pure content file, no code changes)
+- Add language switcher to `Menu`
 
 ---
 
@@ -127,12 +159,22 @@ Page (params.locale)
 Three event titles are hardcoded in `utils/database/getTunneller.ts` and need to become locale-aware:
 
 ```ts
-title: "Transfer to England"; // → t('transferToEngland')
-title: "Transfer to New Zealand"; // → t('transferToNewZealand')
-title: "Transferred"; // → t('transferred')
+title: "Transfer to England";
+title: "Transfer to New Zealand";
+title: "Transferred";
 ```
 
-These should be moved into the translation JSON files (see Phase 4).
+Since `getTunneller.ts` is a plain async data function (not a React component), avoid pulling `next-intl` into the data layer. Use a simple locale conditional directly:
+
+```ts
+title: locale === "fr" ? "Transfert en Angleterre" : "Transfer to England";
+title: locale === "fr"
+  ? "Transfert en Nouvelle-Zélande"
+  : "Transfer to New Zealand";
+title: locale === "fr" ? "Transféré" : "Transferred";
+```
+
+This keeps `next-intl` confined to the component layer where it belongs. These strings do **not** need to go into `messages/*.json`.
 
 ---
 
@@ -152,12 +194,20 @@ import createMiddleware from "next-intl/middleware";
 export default createMiddleware({
   locales: ["en", "fr"],
   defaultLocale: "en",
+  localePrefix: "as-needed", // English keeps existing URLs, French gets /fr/ prefix
 });
 
 export const config = {
   matcher: ["/((?!api|_next|.*\\..*).*)"],
 };
 ```
+
+With this configuration:
+
+- `/tunnellers/123` → English (unchanged)
+- `/fr/tunnellers/123` → French
+
+The `[locale]` segment in `app/` is an internal Next.js detail — it never appears in English URLs.
 
 ### 3.3 Restructure `app/`
 
@@ -176,12 +226,20 @@ app/
       [id]/
         page.tsx
     books/
+      kiwis-dig-tunnels-too/
+        [id]/
+          page.tsx            ← keep as-is for now
+      les-kiwis-aussi-creusent-des-tunnels/
+        [id]/
+          page.tsx            ← keep as-is for now
       page.tsx
     about-us/
       page.tsx
 ```
 
 The `[locale]/layout.tsx` reads the locale and sets `<html lang={locale}>`.
+
+> The two book routes can eventually be unified into `[slug]/[id]`, but this is not required for i18n to work. Defer that cleanup to a later PR.
 
 ### 3.4 Update `next.config.mjs`
 
@@ -205,7 +263,7 @@ export default withNextIntl(nextConfig);
 
 ### 3.5 Add a language switcher to the menu
 
-Add a link in the `Menu` component that toggles between `/en/[current-path]` and `/fr/[current-path]`.
+Add a link in the `Menu` component that toggles between the current path and `/fr/[current-path]` (or back to the unprefixed English path).
 
 ---
 
@@ -249,10 +307,7 @@ messages/
     "sources": "Sources",
     "death": "Death",
     "notes": "Notes",
-    "seeAllTunnellers": "See all Tunnellers",
-    "transferToEngland": "Transfer to England",
-    "transferToNewZealand": "Transfer to New Zealand",
-    "transferred": "Transferred"
+    "seeAllTunnellers": "See all Tunnellers"
   },
   "roll": {
     "birthYears": "Birth Years",
@@ -282,13 +337,6 @@ export function Footer() {
 
 ## Checklist
 
-### Database
-
-- [ ] Add `_fr` columns to all 19 lookup tables listed in Phase 1.1
-- [ ] Add `_fr` columns to article/about-us content tables (Phase 1.2)
-- [ ] Fill in French translations for all lookup data
-- [ ] Fill in French translations for all article and about-us content
-
 ### Query layer
 
 - [ ] Add `Locale` type (`'en' | 'fr'`) to shared types
@@ -304,21 +352,30 @@ export function Footer() {
 - [ ] Update `getTunneller.ts` to accept and thread `locale`
 - [ ] Thread `locale` from `params` in all page files
 
-### App routing
+### App routing + EN translations (PR 1)
 
 - [ ] Install `next-intl`
 - [ ] Add `middleware.ts`
 - [ ] Restructure `app/` with `[locale]` segment
 - [ ] Update `next.config.mjs`
-- [ ] Add language switcher to `Menu`
 - [ ] Update `<html lang>` attribute to use locale
-
-### UI strings
-
 - [ ] Create `messages/en.json`
-- [ ] Create `messages/fr.json`
 - [ ] Replace hardcoded strings in `Footer.tsx`
 - [ ] Replace hardcoded strings in `Menu` components
 - [ ] Replace hardcoded strings in `Profile` and sub-components
 - [ ] Replace hardcoded strings in `Roll.tsx` and filter components
 - [ ] Replace hardcoded strings in `Article` components
+
+### French data (PR 3a)
+
+- [ ] Add `_fr` columns to all 19 lookup tables listed in Phase 1.1
+- [ ] Add `_fr` columns to article/about-us content tables (Phase 1.2)
+- [ ] Fill in French translations for all lookup data
+- [ ] Fill in French translations for all article and about-us content
+- [ ] Add `fr` to middleware locales
+- [ ] Update the 3 hardcoded event titles in `getTunneller.ts` with locale conditional
+
+### French UI strings + language switcher (PR 3b)
+
+- [ ] Create `messages/fr.json`
+- [ ] Add language switcher to `Menu`
