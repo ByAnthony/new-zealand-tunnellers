@@ -1,0 +1,85 @@
+{
+  "nav": {
+    "history": "History",
+    "tunnellers": "Tunnellers",
+    "aboutUs": "About Us",
+    "goToHomepage": "Go to the Homepage",
+    "logoAlt": "New Zealand Tunnellers Wesbite - Home"
+  },
+  "footer": {
+    "scrollToTop": "Go back to the top of the page",
+    "artoisUniversityAria": "Go to The Artois University website",
+    "artoisUniversityAlt": "Artois University homepage",
+    "irsemAria": "Go to The Institute for Strategic Research website",
+    "irsemAlt": "Institute for Strategic Research homepage"
+  },
+  "menu": {
+    "searchPlaceholder": "Search for a Tunneller",
+    "clearSearch": "Clear search input",
+    "searchAlt": "Type a name to search for a Tunneller",
+    "seeAllTunnellers": "See all Tunnellers",
+    "seeTunnellerProfile": "See {forename} {surname} profile"
+  },
+  "roll": {
+    "title": "The New Zealand\\Tunnellers",
+    "filters": "Filters",
+    "resetFilters": "Reset filters",
+    "results": "{count} result",
+    "resultsPlural": "{count} results",
+    "detachments": "Detachments",
+    "corps": "Corps",
+    "birthYears": "Birth Years",
+    "deathYears": "Death Years",
+    "ranks": "Ranks",
+    "includesUnknownBirthYear": "Includes unknown birth year",
+    "includesUnknownDeathYear": "Includes unknown death year",
+    "noResults": "Sorry, no profile matches your filters",
+    "clearFilters": "Clear Filters"
+  },
+  "dialog": {
+    "done": "Done",
+    "resetFilters": "Reset filters"
+  },
+  "article": {
+    "history": "History",
+    "chapter": "Chapter {chapter}",
+    "goToChapter": "Go to Chapter {chapter}: {title}"
+  },
+  "profile": {
+    "tunnellers": "Tunnellers",
+    "about": "About",
+    "serial": "Serial",
+    "rank": "Rank",
+    "unit": "Unit",
+    "corps": "Corps",
+    "bornInCountry": "Born in {country}",
+    "born": "Born",
+    "settledInNz": "Settled in New Zealand",
+    "personalLife": "Personal Life",
+    "maritalStatus": "Marital Status",
+    "wife": "Wife",
+    "work": "Work",
+    "occupation": "Occupation",
+    "employer": "Employer",
+    "residence": "Residence",
+    "hometown": "Hometown",
+    "parents": "Parents",
+    "parent": "Parent",
+    "mother": "Mother",
+    "father": "Father",
+    "armyExperience": "Army Experience",
+    "openTimeline": "Open the World War I timeline",
+    "wwiTitle": "World War I (1914-1918)",
+    "nzTunnellers": "New Zealand Tunnellers",
+    "death": "Death",
+    "died": "Died",
+    "diedAtAge": "Died at the age of {age}",
+    "sources": "Sources",
+    "awmmPrefix": "Auckland War Memorial Museum Tāmaki Paenga Hira: ",
+    "awmmLink": "Online Cenotaph He Toa Taumata Rau",
+    "nzArchivesPrefix": "New Zealand Archives Te Rua Mahara o te Kāwanatanga, ",
+    "ibid": "Ibid., ",
+    "militaryPersonnelFile": "Military Personnel File",
+    "londonGazette": "London Gazette, "
+  }
+}

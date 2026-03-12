@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import type { ReactNode } from "react";
 import { useRef, useEffect } from "react";
 
@@ -34,6 +35,7 @@ const setPageProperties = ({ isDialogOpen }: DialogProps) => {
 };
 
 export function Dialog(props: Props) {
+  const t = useTranslations("dialog");
   const {
     children,
     id,
@@ -84,7 +86,7 @@ export function Dialog(props: Props) {
               <div className={STYLES["dialog-header"]}>
                 <h2>{title}</h2>
                 <button onClick={onClose} className={STYLES["close-button"]}>
-                  Done
+                  {t("done")}
                 </button>
               </div>
             </div>
@@ -96,7 +98,7 @@ export function Dialog(props: Props) {
                     className={STYLES["dialog-cancel-button"]}
                     onClick={handleResetFilters}
                   >
-                    Reset filters
+                    {t("resetFilters")}
                   </button>
                   <div className={STYLES["total-filters"]}>
                     {totalFiltered}/{total}

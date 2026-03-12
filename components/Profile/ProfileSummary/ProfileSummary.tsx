@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 
 import type {
   EmbarkationUnit,
@@ -42,13 +43,15 @@ function RenderImage({
 function RenderUnit({
   unit,
   section,
+  label,
 }: {
   unit: string;
   section: string | null;
+  label: string;
 }) {
   return (
     <div className={STYLES["fullwidth-main-card"]}>
-      <p>Unit</p>
+      <p>{label}</p>
       <span>{section ? `${unit} (${section})` : `${unit}`}</span>
     </div>
   );
@@ -60,26 +63,29 @@ export function ProfileSummary({
   enlistment,
   image,
 }: Props) {
+  const t = useTranslations("profile");
+
   return (
     <div className={STYLES.overview}>
       <RenderImage imageUrl={image?.url} tunneller={summary} />
       <RenderUnit
         unit={embarkationUnit.detachment}
         section={embarkationUnit.section}
+        label={t("unit")}
       />
       <div className={STYLES["halfwidth-cards-container"]}>
         <div className={STYLES["halfwidth-secondary-card"]}>
-          <p>Rank</p>
+          <p>{t("rank")}</p>
           <span>{enlistment.rank}</span>
         </div>
         <div className={STYLES["halfwidth-secondary-card"]}>
-          <p>Serial</p>
+          <p>{t("serial")}</p>
           <span>{enlistment.serial}</span>
         </div>
       </div>
       {embarkationUnit.attachedCorps && (
         <div className={STYLES["fullwidth-main-card"]}>
-          <p>Corps</p>
+          <p>{t("corps")}</p>
           <span>{embarkationUnit.attachedCorps}</span>
         </div>
       )}
