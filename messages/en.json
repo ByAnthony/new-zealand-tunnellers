@@ -104,7 +104,11 @@
   },
   "timeline": {
     "tunnellers": "Tunnellers",
-    "title": "World War I\\Timeline"
+    "title": "World War I\\Timeline",
+    "year": "Year {year}",
+    "enlistedAtAge": "{title} at the age of {age}",
+    "companyEventAlt": "Image for {title}",
+    "companyEventAltFallback": "Company event"
   },
   "books": {
     "readingProgress": "Reading progress"

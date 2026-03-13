@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 
 import { EventDetail } from "@/types/tunneller";
 
@@ -12,6 +13,8 @@ type Props = {
 };
 
 export function TimelineEvent({ event, ageAtEnlistment }: Props) {
+  const t = useTranslations("timeline");
+
   return (
     <>
       {event.map((eventDetail: EventDetail) => {
@@ -30,7 +33,7 @@ export function TimelineEvent({ event, ageAtEnlistment }: Props) {
 
         const titleWithAgeAtEnlistment = (age: number | null) => {
           if (age) {
-            return `${title} at the age of ${age}`;
+            return t("enlistedAtAge", { title, age });
           }
           return title;
         };
@@ -44,7 +47,10 @@ export function TimelineEvent({ event, ageAtEnlistment }: Props) {
                     src={`/images/roll/${eventDetail.image}`}
                     alt={
                       eventDetail.imageAlt ??
-                      `Image for ${eventDetail.title || "Company event"}`
+                      t("companyEventAlt", {
+                        title:
+                          eventDetail.title || t("companyEventAltFallback"),
+                      })
                     }
                     width={670}
                     height={489}
