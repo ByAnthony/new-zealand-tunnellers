@@ -1,5 +1,7 @@
 "use client";
 
+import { useTranslations } from "next-intl";
+
 import { Name } from "@/types/tunnellers";
 
 import STYLES from "./Title.module.scss";
@@ -43,10 +45,14 @@ function TwoLineTitle({ title, name }: TwoLineTitleProps) {
 }
 
 function SubTitle({ subTitle }: SubTitleProps) {
+  const t = useTranslations("article");
+
   if (subTitle) {
     return (
       <h2 className={STYLES["title-line-3"]}>
-        {typeof subTitle === "string" ? subTitle : `Chapter ${subTitle}`}
+        {typeof subTitle === "string"
+          ? subTitle
+          : t("chapter", { chapter: subTitle })}
       </h2>
     );
   }
