@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 import { ImageSource, Author } from "@/types/tunneller";
 
@@ -15,7 +16,8 @@ function SourceImage({
 }: {
   imageSource: ImageSource | undefined;
 }) {
-  const title = <h3>Photograph</h3>;
+  const t = useTranslations("profile");
+  const title = <h3>{t("photograph")}</h3>;
   if (imageSource?.archives) {
     return (
       <div className={STYLES.sources}>

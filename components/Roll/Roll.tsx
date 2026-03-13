@@ -1,6 +1,7 @@
 "use client";
 
 import isEqual from "lodash/isEqual";
+import { useTranslations } from "next-intl";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { RollAlphabet } from "@/components/Roll/RollAlphabet/RollAlphabet";
@@ -36,6 +37,7 @@ type Filters = {
 };
 
 export function Roll({ tunnellers }: Props) {
+  const t = useTranslations("roll");
   const { width } = useWindowDimensions();
 
   /** ---- Derived data ---- */
@@ -407,7 +409,7 @@ export function Roll({ tunnellers }: Props) {
         isOpen={isOpen}
         handleResetFilters={handleResetFilters}
         onClose={onClose}
-        title="Filters"
+        title={t("filters")}
         totalFiltered={totalFilteredTunnellers}
         total={totalTunnellers}
       >
@@ -415,7 +417,7 @@ export function Roll({ tunnellers }: Props) {
       </Dialog>
       <div className={STYLES.container}>
         <div className={STYLES.header}>
-          <Title title={"The New Zealand\\Tunnellers"} />
+          <Title title={t("title")} />
         </div>
 
         <div className={STYLES["roll-container"]}>
@@ -425,17 +427,19 @@ export function Roll({ tunnellers }: Props) {
                 className={STYLES["reset-button"]}
                 onClick={handleResetFilters}
               >
-                Reset filters
+                {t("resetFilters")}
               </button>
               <p className={STYLES.results}>
-                {`${totalFilteredTunnellers} result${totalFilteredTunnellers > 1 ? "s" : ""}`}
+                {totalFilteredTunnellers > 1
+                  ? t("resultsPlural", { count: totalFilteredTunnellers })
+                  : t("results", { count: totalFilteredTunnellers })}
               </p>
             </div>
             <button
               className={STYLES["filter-button"]}
               onClick={handleFilterButton}
             >
-              Filters
+              {t("filters")}
             </button>
             {isDesktop() ? <RollFilter {...rollFiltersProps} /> : null}
           </div>

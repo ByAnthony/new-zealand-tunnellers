@@ -1,5 +1,7 @@
 "use client";
 
+import { useTranslations } from "next-intl";
+
 import STYLES from "../ProfileDiary.module.scss";
 
 type Props = {
@@ -8,14 +10,16 @@ type Props = {
 };
 
 export function DiaryLife({ maritalStatus, wife }: Props) {
+  const t = useTranslations("profile");
+
   if (maritalStatus && wife) {
     return (
       <>
-        <div className={STYLES["fullwidth-main-card"]}>Personal Life</div>
+        <div className={STYLES["fullwidth-main-card"]}>{t("personalLife")}</div>
         <div className={STYLES["halfwidth-cards-container"]}>
           <div className={STYLES["halfwidth-secondary-card"]}>
             <div className={STYLES["halfwidth-secondary-card-title"]}>
-              <p>Marital Status</p>
+              <p>{t("maritalStatus")}</p>
             </div>
             <div>
               <span>{maritalStatus}</span>
@@ -23,7 +27,7 @@ export function DiaryLife({ maritalStatus, wife }: Props) {
           </div>
           <div className={STYLES["halfwidth-secondary-card"]}>
             <div className={STYLES["halfwidth-secondary-card-title"]}>
-              <p>Wife</p>
+              <p>{t("wife")}</p>
             </div>
             <div>
               <span>{wife}</span>
@@ -38,11 +42,11 @@ export function DiaryLife({ maritalStatus, wife }: Props) {
     return (
       <div className={STYLES["halfwidth-cards-container"]}>
         <div className={STYLES["halfwidth-main-card"]}>
-          <span>Personal Life</span>
+          <span>{t("personalLife")}</span>
         </div>
         <div className={STYLES["halfwidth-secondary-card"]}>
           <div className={STYLES["halfwidth-secondary-card-title"]}>
-            <p>Marital Status</p>
+            <p>{t("maritalStatus")}</p>
           </div>
           <div>
             <span>{maritalStatus}</span>

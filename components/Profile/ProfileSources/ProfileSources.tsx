@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 import type {
   LondonGazette,
@@ -25,13 +26,21 @@ function addIbid<T extends Record<string, string>>(
   return array.slice(index).map((obj) => ({ ...obj, ibid }));
 }
 
-function AwmmSource({ awmmCenotaph }: { awmmCenotaph: string | null }) {
+function AwmmSource({
+  awmmCenotaph,
+  prefix,
+  linkLabel,
+}: {
+  awmmCenotaph: string | null;
+  prefix: string;
+  linkLabel: string;
+}) {
   if (awmmCenotaph) {
     return (
       <p>
-        {"Auckland War Memorial Museum Tāmaki Paenga Hira: "}
+        {prefix}
         <Link href={awmmCenotaph} target="_blank" rel="noopener noreferrer">
-          Online Cenotaph He Toa Taumata Rau
+          {linkLabel}
         </Link>
         .
       </p>
@@ -40,17 +49,23 @@ function AwmmSource({ awmmCenotaph }: { awmmCenotaph: string | null }) {
   return null;
 }
 
-function NzArchivesSource({ nzArchives }: { nzArchives: NzArchives[] }) {
+function NzArchivesSource({
+  nzArchives,
+  prefix,
+  ibidLabel,
+  fileLabel,
+}: {
+  nzArchives: NzArchives[];
+  prefix: string;
+  ibidLabel: string;
+  fileLabel: string;
+}) {
   const nzArchivesList = [
-    ...addIbid(
-      [nzArchives[0]],
-      0,
-      "New Zealand Archives Te Rua Mahara o te Kāwanatanga, ",
-    ),
-    ...addIbid(nzArchives, 1, "Ibid., "),
+    ...addIbid([nzArchives[0]], 0, prefix),
+    ...addIbid(nzArchives, 1, ibidLabel),
   ];
   const italicIbid = (ibid: string) =>
-    ibid === "Ibid., " ? <em>{ibid}</em> : ibid;
+    ibid === ibidLabel ? <em>{ibid}</em> : ibid;
   return (
     <>
       {nzArchivesList.map((archives) => (
@@ -58,7 +73,7 @@ function NzArchivesSource({ nzArchives }: { nzArchives: NzArchives[] }) {
           {italicIbid(archives.ibid)}
           {`${archives.reference}, `}
           <Link href={archives.url} target="_blank" rel="noopener noreferrer">
-            Military Personnel File
+            {fileLabel}
           </Link>
           .
         </p>
@@ -69,13 +84,17 @@ function NzArchivesSource({ nzArchives }: { nzArchives: NzArchives[] }) {
 
 function LondonGazetteSource({
   londonGazette,
+  prefix,
+  ibidLabel,
 }: {
   londonGazette: LondonGazette[];
+  prefix: string;
+  ibidLabel: string;
 }) {
   if (londonGazette.length !== 0) {
     const LondonGazetteList = [
-      ...addIbid([londonGazette[0]], 0, "London Gazette, "),
-      ...addIbid(londonGazette, 1, "Ibid., "),
+      ...addIbid([londonGazette[0]], 0, prefix),
+      ...addIbid(londonGazette, 1, ibidLabel),
     ];
     return (
       <>
@@ -112,12 +131,27 @@ function NominalRollSource({ nominalRoll }: { nominalRoll: NominalRoll }) {
 }
 
 export function ProfileSources({ sources }: Props) {
+  const t = useTranslations("profile");
+
   return (
     <div className={STYLES.sources}>
-      <h2>Sources</h2>
-      <AwmmSource awmmCenotaph={sources.awmmCenotaph} />
-      <NzArchivesSource nzArchives={sources.nzArchives} />
-      <LondonGazetteSource londonGazette={sources.londonGazette} />
+      <h2>{t("sources")}</h2>
+      <AwmmSource
+        awmmCenotaph={sources.awmmCenotaph}
+        prefix={t("awmmPrefix")}
+        linkLabel={t("awmmLink")}
+      />
+      <NzArchivesSource
+        nzArchives={sources.nzArchives}
+        prefix={t("nzArchivesPrefix")}
+        ibidLabel={t("ibid")}
+        fileLabel={t("militaryPersonnelFile")}
+      />
+      <LondonGazetteSource
+        londonGazette={sources.londonGazette}
+        prefix={t("londonGazette")}
+        ibidLabel={t("ibid")}
+      />
       <NominalRollSource nominalRoll={sources.nominalRoll} />
     </div>
   );

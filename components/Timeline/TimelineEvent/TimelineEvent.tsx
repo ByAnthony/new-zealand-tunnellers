@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 
 import { EventDetail } from "@/types/tunneller";
 
@@ -12,6 +13,8 @@ type Props = {
 };
 
 export function TimelineEvent({ event, ageAtEnlistment }: Props) {
+  const t = useTranslations("timeline");
+
   return (
     <>
       {event.map((eventDetail: EventDetail) => {
@@ -28,9 +31,12 @@ export function TimelineEvent({ event, ageAtEnlistment }: Props) {
         const isTitleBuried = title === "Buried";
         const isTitleGraveReference = title === "Grave reference";
 
-        const titleWithAgeAtEnlistment = (age: number | null) => {
+        const titleWithAgeAtEnlistment = (
+          title: string,
+          age: number | null,
+        ) => {
           if (age) {
-            return `${title} at the age of ${age}`;
+            return t("enlistedAtAge", { title, age });
           }
           return title;
         };
@@ -44,7 +50,10 @@ export function TimelineEvent({ event, ageAtEnlistment }: Props) {
                     src={`/images/roll/${eventDetail.image}`}
                     alt={
                       eventDetail.imageAlt ??
-                      `Image for ${eventDetail.title || "Company event"}`
+                      t("companyEventAlt", {
+                        title:
+                          eventDetail.title || t("companyEventAltFallback"),
+                      })
                     }
                     width={670}
                     height={489}
@@ -63,7 +72,7 @@ export function TimelineEvent({ event, ageAtEnlistment }: Props) {
                 key={event.indexOf(eventDetail)}
                 className={STYLES["main-event"]}
               >
-                <p>{titleWithAgeAtEnlistment(ageAtEnlistment)}</p>
+                <p>{titleWithAgeAtEnlistment(title, ageAtEnlistment)}</p>
                 <span>{eventDetail.description}</span>
               </div>
             );

@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 
@@ -65,10 +66,12 @@ export function RollFilter({
   handleUnknwonBirthYear,
   handleUnknwonDeathYear,
 }: Props) {
+  const t = useTranslations("roll");
+
   return (
     <div className={className}>
       <div className={STYLES.filters}>
-        <h3>Detachments</h3>
+        <h3>{t("detachments")}</h3>
         {uniqueDetachments.map((detachment) => (
           <div key={detachment}>
             <label>
@@ -90,7 +93,7 @@ export function RollFilter({
         ))}
       </div>
       <div className={STYLES.filters}>
-        <h3>Corps</h3>
+        <h3>{t("corps")}</h3>
         {uniquecorps.map((corps) => (
           <div key={corps}>
             <label>
@@ -110,7 +113,7 @@ export function RollFilter({
         ))}
       </div>
       <div className={STYLES.filters}>
-        <h3>Birth Years</h3>
+        <h3>{t("birthYears")}</h3>
         <p>
           {startBirthYear}
           {endBirthYear && endBirthYear !== startBirthYear
@@ -151,12 +154,12 @@ export function RollFilter({
               }
               checked={filters.unknownBirthYear === "unknown" ? true : false}
             />
-            Includes unknown birth year
+            {t("includesUnknownBirthYear")}
           </label>
         </div>
       </div>
       <div className={STYLES.filters}>
-        <h3>Death Years</h3>
+        <h3>{t("deathYears")}</h3>
         <p>
           {startDeathYear}
           {endDeathYear && endDeathYear !== startDeathYear
@@ -197,11 +200,11 @@ export function RollFilter({
               }
               checked={filters.unknownDeathYear === "unknown" ? true : false}
             />
-            Includes unknown death year
+            {t("includesUnknownDeathYear")}
           </label>
         </div>
         <div className={STYLES.filters}>
-          <h3>Ranks</h3>
+          <h3>{t("ranks")}</h3>
           {Object.entries(sortedRanks).map(([category, ranks]) => (
             <div key={category} style={{ marginBottom: "15px" }}>
               <label className={STYLES["rank-category"]}>

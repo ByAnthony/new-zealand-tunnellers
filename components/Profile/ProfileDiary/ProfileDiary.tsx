@@ -1,5 +1,7 @@
 "use client";
 
+import { useTranslations } from "next-intl";
+
 import { DiaryBirth } from "@/components/Profile/ProfileDiary//DiaryBirthInfo/DiaryBirthInfo";
 import { DiaryDied } from "@/components/Profile/ProfileDiary//DiaryDied/DiaryDied";
 import { DiaryHometown } from "@/components/Profile/ProfileDiary//DiaryHometown/DiaryHometown";
@@ -28,9 +30,11 @@ export function ProfileDiary({
   militaryYears,
   death,
 }: Props) {
+  const t = useTranslations("profile");
+
   return (
     <div className={STYLES.diary}>
-      <h2>About</h2>
+      <h2>{t("about")}</h2>
       <DiaryBirth birth={origins.birth} />
       <DiaryParents parents={origins.parents} />
       <DiaryArrivedInNz inNzLength={origins.inNzLength} />
