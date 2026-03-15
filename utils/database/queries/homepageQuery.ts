@@ -19,7 +19,7 @@ export const historyImageChaptersQuery = async (connection: PoolConnection) => {
     article_image.file
     FROM article_image
     JOIN article_image_join ON article_image_join.image_id=article_image.id
-    WHERE title IS NULL`;
+    WHERE title_en IS NULL`;
 
   const [results] =
     await connection.execute<(HistoryImageChapters & RowDataPacket)[]>(query);
