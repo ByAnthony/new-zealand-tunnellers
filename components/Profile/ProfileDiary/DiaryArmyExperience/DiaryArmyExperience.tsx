@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 import { ArmyExperience } from "@/types/tunneller";
 
@@ -104,13 +104,15 @@ function ArmyExperienceList({
 
 export function DiaryArmyExperience({ tunnellerId, armyExperience }: Props) {
   const t = useTranslations("profile");
+  const locale = useLocale();
+  const localePrefix = locale === "en" ? "" : `/${locale}`;
 
   return (
     <>
       <h3>{t("armyExperience")}</h3>
       <ArmyExperienceList militaryExperience={armyExperience} />
       <Link
-        href={`/tunnellers/${tunnellerId}/wwi-timeline`}
+        href={`${localePrefix}/tunnellers/${tunnellerId}/wwi-timeline`}
         className={STYLES_WWI["war-service"]}
         aria-label={t("openTimeline")}
       >

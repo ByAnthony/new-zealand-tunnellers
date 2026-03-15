@@ -13,9 +13,12 @@ jest.mock("react-markdown", () => ({
             return (
               <div key={i}>{components.h1({ children: line.slice(2) })}</div>
             );
-          if (line.startsWith("- ") && components?.li)
+          const linkMatch = line.match(/^- \[(.+?)\]\((.+?)\)$/);
+          if (linkMatch && components?.a)
             return (
-              <div key={i}>{components.li({ children: line.slice(2) })}</div>
+              <div key={i}>
+                {components.a({ href: linkMatch[2], children: linkMatch[1] })}
+              </div>
             );
           return <span key={i}>{line}</span>;
         })}
@@ -30,17 +33,17 @@ jest.mock("unist-util-visit", () => ({ visit: jest.fn() }));
 
 const frContent = `# Les Kiwis aussi creusent des tunnels
 
-- Prologue
-- Chapitre 1 : Les tunneliers des antipodes
-- Chapitre 2 : En faire de bons soldats
-- Sources
+- [Prologue](./prologue.md)
+- [Chapitre 1 : Les tunneliers des antipodes](./chapter-1-the-tunnellers-from-the-antipodes.md)
+- [Chapitre 2 : En faire de bons soldats](./chapter-2-forging-good-soldiers.md)
+- [Sources](./sources.md)
 `;
 
 const enContent = `# Kiwis Dig Tunnels Too
 
-- Prologue
-- Chapter 1: The tunnellers
-- Sources
+- [Prologue](./prologue.md)
+- [Chapter 1: The tunnellers](./chapter-1-the-tunnellers.md)
+- [Sources](./sources.md)
 `;
 
 describe("Contents", () => {
@@ -78,12 +81,23 @@ describe("Contents", () => {
     expect(screen.queryByText("Chapitre 0")).not.toBeInTheDocument();
   });
 
-  test("links point to the correct locale path", () => {
+  test("links point to the correct locale path using href slug", () => {
     render(<Contents locale="fr" content={frContent} />);
     const prologueLink = screen.getByRole("link", { name: /Prologue/i });
     expect(prologueLink).toHaveAttribute(
       "href",
-      "/books/les-kiwis-aussi-creusent-des-tunnels/prologue",
+      "/fr/books/kiwis-dig-tunnels-too/prologue",
+    );
+  });
+
+  test("fr chapter links use English slug from href", () => {
+    render(<Contents locale="fr" content={frContent} />);
+    const chapterLink = screen.getByRole("link", {
+      name: /Les tunneliers des antipodes/i,
+    });
+    expect(chapterLink).toHaveAttribute(
+      "href",
+      "/fr/books/kiwis-dig-tunnels-too/chapter-1-the-tunnellers-from-the-antipodes",
     );
   });
 });

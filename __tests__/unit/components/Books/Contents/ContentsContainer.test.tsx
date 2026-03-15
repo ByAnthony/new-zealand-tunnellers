@@ -40,7 +40,7 @@ describe("ContentsContainer", () => {
     jest.clearAllMocks();
   });
 
-  test("renders contents for French locale using sommaire file", async () => {
+  test("renders contents for French locale using contents file", async () => {
     mockedReadBookMarkdown.mockResolvedValue(
       "# Les Kiwis aussi creusent des tunnels\n\n- Prologue\n",
     );
@@ -48,7 +48,7 @@ describe("ContentsContainer", () => {
     const component = await ContentsContainer({ locale: "fr" });
     render(component);
 
-    expect(mockedReadBookMarkdown).toHaveBeenCalledWith("fr", "sommaire");
+    expect(mockedReadBookMarkdown).toHaveBeenCalledWith("fr", "contents");
     expect(
       screen.getByRole("heading", {
         name: "Les Kiwis aussi creusent des tunnels",

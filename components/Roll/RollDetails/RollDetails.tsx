@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useLocale } from "next-intl";
 import { useCallback } from "react";
 
 import { Tunneller } from "@/types/tunnellers";
@@ -22,6 +23,9 @@ export function AttachedCorpsBadge({
 }
 
 export function RollDetails({ listOfTunnellers }: Props) {
+  const locale = useLocale();
+  const localePrefix = locale === "en" ? "" : `/${locale}`;
+
   const saveScroll = useCallback(() => {
     try {
       localStorage.setItem("roll:scrollY", String(window.scrollY || 0));
@@ -36,7 +40,7 @@ export function RollDetails({ listOfTunnellers }: Props) {
     <>
       {listOfTunnellers.map((tunneller: Tunneller) => (
         <Link
-          href={`/tunnellers/${tunneller.id}`}
+          href={`${localePrefix}/tunnellers/${tunneller.id}`}
           key={tunneller.id}
           onClick={saveScroll}
         >

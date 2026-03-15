@@ -1,11 +1,11 @@
 import { test, expect } from "@playwright/test";
 
 const EN_CONTENTS = "/books/kiwis-dig-tunnels-too";
-const FR_CONTENTS = "/books/les-kiwis-aussi-creusent-des-tunnels";
+const FR_CONTENTS = "/fr/books/kiwis-dig-tunnels-too";
 const EN_CHAPTER_1 =
   "/books/kiwis-dig-tunnels-too/chapter-1-the-tunnellers-from-the-antipodes";
 const FR_CHAPTER_1 =
-  "/books/les-kiwis-aussi-creusent-des-tunnels/chapitre-1-les-tunneliers-des-antipodes";
+  "/fr/books/kiwis-dig-tunnels-too/chapitre-1-les-tunneliers-des-antipodes";
 
 // ─── Contents page ───────────────────────────────────────────────────────────
 
@@ -260,6 +260,6 @@ test("FR HowToCite: shows correct citation for a book chapter", async ({
   await expect(citation).toContainText("Les Kiwis aussi creusent des tunnels");
   await expect(citation).toContainText("Consulté le");
   await expect(citation).toContainText(
-    "www.nztunnellers.com/fr/books/les-kiwis-aussi-creusent-des-tunnels/chapitre-1-les-tunneliers-des-antipodes",
+    "www.nztunnellers.com/fr/fr/books/kiwis-dig-tunnels-too/chapitre-1-les-tunneliers-des-antipodes",
   );
 });

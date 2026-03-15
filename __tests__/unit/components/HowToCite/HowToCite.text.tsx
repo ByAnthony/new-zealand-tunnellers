@@ -170,7 +170,7 @@ describe("HowToCite", () => {
   test("renders non-chapter citation for a prologue path", () => {
     render(
       <HowToCite
-        pathname="/books/les-kiwis-aussi-creusent-des-tunnels/prologue"
+        pathname="/fr/books/kiwis-dig-tunnels-too/prologue"
         locale="fr"
       />,
     );
@@ -236,7 +236,7 @@ describe("HowToCite", () => {
   test("French URL includes /fr/ prefix for pathname", () => {
     render(
       <HowToCite
-        pathname="/books/les-kiwis-aussi-creusent-des-tunnels/chapter-1"
+        pathname="/fr/books/kiwis-dig-tunnels-too/chapter-1"
         locale="fr"
       />,
     );

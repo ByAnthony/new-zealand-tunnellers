@@ -14,6 +14,8 @@ type Props = {
   id?: number;
   summary?: Summary;
   title?: string;
+  slug?: string;
+  chapterTitle?: string;
   timeline?: boolean;
   pathname?: string;
   locale?: string;
@@ -22,6 +24,7 @@ type Props = {
 type HowToCiteUrlProps = {
   id?: number;
   title?: string;
+  slug?: string;
   timeline?: boolean;
   pathname?: string;
   locale?: string;
@@ -30,6 +33,7 @@ type HowToCiteUrlProps = {
 type HowToCiteTitleProps = {
   tunneller?: Summary;
   title?: string;
+  chapterTitle?: string;
   timeline?: boolean;
   pathname?: string;
   locale?: string;
@@ -38,6 +42,7 @@ type HowToCiteTitleProps = {
 export function HowToCiteUrl({
   id,
   title,
+  slug,
   timeline,
   pathname,
   locale = "en",
@@ -53,7 +58,6 @@ export function HowToCiteUrl({
         <wbr />
         .com
         <wbr />
-        {localePrefix}
         {pathname}
       </span>
     );
@@ -86,14 +90,15 @@ export function HowToCiteUrl({
           timeline
         </>
       )}
-      {!id && title && (
+      {!id && (slug ?? title) && (
         <>
           history/
           <wbr />
-          {title
-            ?.replace(/\s+|\\/g, "-")
-            .replace(/&/g, "and")
-            .toLowerCase()}
+          {slug ??
+            title
+              ?.replace(/\s+|\\/g, "-")
+              .replace(/&/g, "and")
+              .toLowerCase()}
         </>
       )}
     </span>
@@ -119,17 +124,18 @@ function formatBookSubpath(pathname: string, locale: string): string {
   );
 
   const chapterWord = locale === "en" ? "Chapter" : "Chapitre";
+  const colon = locale === "en" ? ":" : "\u00A0:";
 
   if (chapterMatch) {
     const chapterNumber = chapterMatch[1];
     const rest = chapterMatch[2];
 
     if (!rest) {
-      return `${chapterWord} ${chapterNumber}:`;
+      return `${chapterWord} ${chapterNumber}${colon}`;
     }
 
     const formattedTitle = sentenceCase(rest.replace(/-/g, " "));
-    return `${chapterWord} ${chapterNumber}: ${formattedTitle}`;
+    return `${chapterWord} ${chapterNumber}${colon} ${formattedTitle}`;
   }
 
   return sentenceCase(lastSegment.replace(/-/g, " "));
@@ -138,6 +144,7 @@ function formatBookSubpath(pathname: string, locale: string): string {
 function HowToCiteTitle({
   tunneller,
   title,
+  chapterTitle,
   timeline,
   pathname,
   locale,
@@ -146,10 +153,13 @@ function HowToCiteTitle({
   const closeQuote = locale === "en" ? "\u201D" : "\u00A0»";
 
   if (pathname && locale) {
+    const rawTitle = chapterTitle ?? formatBookSubpath(pathname, locale);
+    const displayTitle =
+      locale === "fr" ? rawTitle.replace(/: /g, "\u00A0: ") : rawTitle;
     return (
       <span>
         {openQuote}
-        {formatBookSubpath(pathname, locale)}
+        {displayTitle}
         {closeQuote}, in <em>{bookTitle(locale)}</em>
       </span>
     );
@@ -177,13 +187,21 @@ function HowToCiteTitle({
   }
 
   const articleTitle = title?.replace(/\\/g, " ");
-  return <span>&ldquo;{articleTitle}&rdquo;</span>;
+  return (
+    <span>
+      {openQuote}
+      {articleTitle}
+      {closeQuote}
+    </span>
+  );
 }
 
 export function HowToCite({
   id,
   summary,
   title,
+  slug,
+  chapterTitle,
   timeline,
   pathname,
   locale: localeProp,
@@ -265,6 +283,7 @@ export function HowToCite({
         <HowToCiteTitle
           tunneller={summary}
           title={title}
+          chapterTitle={chapterTitle}
           timeline={timeline}
           pathname={pathname}
           locale={locale}
@@ -276,6 +295,7 @@ export function HowToCite({
         <HowToCiteUrl
           id={id}
           title={title}
+          slug={slug}
           timeline={timeline}
           pathname={pathname}
           locale={locale}

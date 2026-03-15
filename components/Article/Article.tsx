@@ -44,7 +44,7 @@ export function Article({ article }: Props) {
       />
       <ArticleNextChapterButton chapter={article.next} />
       <ArticleNotes notes={article.notes} />
-      <HowToCite title={article.title} />
+      <HowToCite title={article.title} slug={article.id} />
     </div>
   );
 }

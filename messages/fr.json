@@ -59,7 +59,7 @@
   },
   "dialog": {
     "done": "Fermer",
-    "resetFilters": "Réinitialiser les filtres"
+    "resetFilters": "Supprimer les filtres"
   },
   "article": {
     "history": "Histoire",
@@ -92,7 +92,7 @@
     "armyExperience": "Expérience militaire",
     "openTimeline": "Ouvrir la chronologie de la Première Guerre mondiale",
     "wwiTitle": "Première Guerre mondiale (1914-1918)",
-    "nzTunnellers": "Tunneliers Néo-Zélandais",
+    "nzTunnellers": "Tunneliers néo-zélandais",
     "death": "Décès",
     "died": "Décédé",
     "diedAtAge": "Décédé à l'âge de {age} ans",
