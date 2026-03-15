@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { useRef, useState } from "react";
 
 import { HistoryChapter } from "@/types/homepage";
@@ -12,6 +13,8 @@ type Props = {
 };
 
 export function History({ articles }: Props) {
+  const t = useTranslations("homepage");
+  const tArticle = useTranslations("article");
   const [currentIndex, setCurrentIndex] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -66,14 +69,14 @@ export function History({ articles }: Props) {
     <div className={STYLES["history-chapter"]}>
       <div id="history" className={STYLES["chapter-cards-wrapper"]}>
         <div className={STYLES["chapter-cards-menu"]}>
-          <h2>History of the Company</h2>
+          <h2>{t("historyOfTheCompany")}</h2>
           <div className={STYLES["chapter-cards-nav"]}>
             <button
               type="button"
               onClick={handleScrollLeft}
               disabled={isFirstCard}
               style={buttonFirstCard}
-              aria-label="See previous chapters"
+              aria-label={t("seePreviousChapters")}
             >
               &larr;
             </button>
@@ -82,7 +85,7 @@ export function History({ articles }: Props) {
               onClick={handleScrollRight}
               disabled={isLastCard}
               style={buttonLastCard}
-              aria-label="See next chapters"
+              aria-label={t("seeNextChapters")}
             >
               &rarr;
             </button>
@@ -114,7 +117,10 @@ export function History({ articles }: Props) {
                 <Link
                   href={`/history/${article.id}`}
                   className={STYLES["link-button"]}
-                  aria-label={`Go to Chapter ${article.chapter}: ${article.title.replace(/\\/g, " ")}`}
+                  aria-label={tArticle("goToChapter", {
+                    chapter: article.chapter,
+                    title: article.title.replace(/\\/g, " "),
+                  })}
                 >
                   <div className={STYLES["chapter-card-dimmer"]}>
                     <div className={STYLES["chapter-card-content"]}>
@@ -125,9 +131,9 @@ export function History({ articles }: Props) {
                         <span className={STYLES["title-line-2"]}>
                           {splitTitle(article.title)[1]}
                         </span>
-                        <span
-                          className={STYLES["title-line-3"]}
-                        >{`Chapter ${article.chapter}`}</span>
+                        <span className={STYLES["title-line-3"]}>
+                          {tArticle("chapter", { chapter: article.chapter })}
+                        </span>
                       </div>
                     </div>
                   </div>

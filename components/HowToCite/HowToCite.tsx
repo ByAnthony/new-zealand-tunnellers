@@ -106,13 +106,13 @@ function formatBookSubpath(pathname: string, locale: string): string {
 
   if (!lastSegment) return "";
 
-  const chapitreOrChapter = locale === "fr" ? "chapitre" : "chapter";
+  const chapitreOrChapter = locale === "en" ? "chapter" : "chapitre";
 
   const chapterMatch = lastSegment.match(
     new RegExp(`^${chapitreOrChapter}-(\\d+)(?:-(.*))?$`, "i"),
   );
 
-  const chapterWord = locale === "fr" ? "Chapitre" : "Chapter";
+  const chapterWord = locale === "en" ? "Chapter" : "Chapitre";
 
   if (chapterMatch) {
     const chapterNumber = chapterMatch[1];
@@ -136,11 +136,15 @@ function HowToCiteTitle({
   pathname,
   locale,
 }: HowToCiteTitleProps) {
+  const openQuote = locale === "en" ? "\u201C" : "«\u00A0";
+  const closeQuote = locale === "en" ? "\u201D" : "\u00A0»";
+
   if (pathname && locale) {
     return (
       <span>
-        &ldquo;{formatBookSubpath(pathname, locale)}&rdquo;, in{" "}
-        <em>{bookTitle(locale)}</em>
+        {openQuote}
+        {formatBookSubpath(pathname, locale)}
+        {closeQuote}, in <em>{bookTitle(locale)}</em>
       </span>
     );
   }
@@ -148,8 +152,10 @@ function HowToCiteTitle({
   if (tunneller && !timeline) {
     return (
       <>
-        &ldquo;{`${tunneller.name.forename} ${tunneller.name.surname} `}
-        {`(${displayBiographyDates(tunneller.birth, tunneller.death)})`}&rdquo;
+        {openQuote}
+        {`${tunneller.name.forename} ${tunneller.name.surname} `}
+        {`(${displayBiographyDates(tunneller.birth, tunneller.death)})`}
+        {closeQuote}
       </>
     );
   }
@@ -157,8 +163,9 @@ function HowToCiteTitle({
   if (tunneller && timeline) {
     return (
       <>
-        &ldquo;World War I Timeline of
-        {` ${tunneller.name.forename} ${tunneller.name.surname}`}&rdquo;
+        {openQuote}World War I Timeline of
+        {` ${tunneller.name.forename} ${tunneller.name.surname}`}
+        {closeQuote}
       </>
     );
   }
@@ -184,7 +191,7 @@ export function HowToCite({
   );
   const currentDate = useMemo(
     () =>
-      new Intl.DateTimeFormat(locale === "fr" ? "fr-FR" : "en-GB", {
+      new Intl.DateTimeFormat(locale === "en" ? "en-GB" : "fr-FR", {
         day: "numeric",
         month: "long",
         year: "numeric",
@@ -194,7 +201,7 @@ export function HowToCite({
   );
   const currentYear = useMemo(
     () =>
-      new Intl.DateTimeFormat(locale === "fr" ? "fr-FR" : "en-GB", {
+      new Intl.DateTimeFormat(locale === "en" ? "en-GB" : "fr-FR", {
         year: "numeric",
         timeZone: userTimeZone,
       }).format(now),
@@ -208,16 +215,16 @@ export function HowToCite({
         .writeText(citationText)
         .then(() => {
           alert(
-            locale === "fr"
-              ? "Comment citer a été copié dans le presse-papiers"
-              : "How to cite has been copied to clipboard",
+            locale === "en"
+              ? "How to cite has been copied to clipboard"
+              : "Comment citer a été copié dans le presse-papiers",
           );
         })
         .catch((err) => {
           alert(
-            locale === "fr"
-              ? "Échec de la copie dans le presse-papiers. Veuillez essayer de sélectionner et de copier le texte manuellement."
-              : "Failed to copy to clipboard. Please try selecting and copying the text manually.",
+            locale === "en"
+              ? "Failed to copy to clipboard. Please try selecting and copying the text manually."
+              : "Échec de la copie dans le presse-papiers. Veuillez essayer de sélectionner et de copier le texte manuellement.",
           );
           // Only log errors in development
           if (process.env.NODE_ENV === "development") {
@@ -230,14 +237,14 @@ export function HowToCite({
   return (
     <div className={STYLES.howtocite}>
       <h3>
-        {locale === "fr" ? "Comment citer cette page" : "How to cite this page"}
+        {locale === "en" ? "How to cite this page" : "Comment citer cette page"}
         <button className={STYLES["copy-paste"]} onClick={handleCopy}>
           <Image
             src={`/copy.png`}
             alt={
-              locale === "fr"
-                ? "Copier dans le presse-papiers"
-                : "Copy to clipboard"
+              locale === "en"
+                ? "Copy to clipboard"
+                : "Copier dans le presse-papiers"
             }
             width={13}
             height={16}

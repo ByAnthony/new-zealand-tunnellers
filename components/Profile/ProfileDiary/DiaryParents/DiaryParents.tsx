@@ -1,5 +1,7 @@
 "use client";
 
+import { useTranslations } from "next-intl";
+
 import { Parent, Parents } from "@/types/tunneller";
 
 import STYLES from "../ProfileDiary.module.scss";
@@ -9,17 +11,19 @@ type Props = {
 };
 
 export function DiaryParents({ parents }: Props) {
+  const t = useTranslations("profile");
+
   if (parents.mother && parents.father) {
     return (
       <>
-        <div className={STYLES["fullwidth-main-card"]}>Parents</div>
+        <div className={STYLES["fullwidth-main-card"]}>{t("parents")}</div>
         <div className={STYLES["halfwidth-cards-container"]}>
           <div className={STYLES["halfwidth-secondary-card"]}>
-            <p>Mother</p>
+            <p>{t("mother")}</p>
             <span>{parents.mother.name}</span>
           </div>
           <div className={STYLES["halfwidth-secondary-card"]}>
-            <p>Father</p>
+            <p>{t("father")}</p>
             <span>{parents.father.name}</span>
           </div>
         </div>
@@ -27,12 +31,12 @@ export function DiaryParents({ parents }: Props) {
     );
   }
 
-  const isMotherOrFather = parents.mother ? "Mother" : "Father";
+  const isMotherOrFather = parents.mother ? t("mother") : t("father");
 
   const displayParent = (parent: Parent) => (
     <div className={STYLES["halfwidth-cards-container"]}>
       <div className={STYLES["halfwidth-main-card"]}>
-        <span>Parent</span>
+        <span>{t("parent")}</span>
       </div>
       <div className={STYLES["halfwidth-secondary-card"]}>
         <p>{isMotherOrFather}</p>

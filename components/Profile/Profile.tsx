@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 import { HowToCite } from "@/components/HowToCite/HowToCite";
 import { ProfileDiary } from "@/components/Profile/ProfileDiary/ProfileDiary";
@@ -18,12 +19,14 @@ type Props = {
 };
 
 export function Profile({ tunneller }: Props) {
+  const t = useTranslations("profile");
+
   return (
     <>
       <div className={STYLES.container}>
         <div className={STYLES.header}>
           <div className={STYLES.link}>
-            <Link href="/tunnellers">Tunnellers</Link>
+            <Link href="/tunnellers">{t("tunnellers")}</Link>
           </div>
           <Title
             name={tunneller.summary.name}

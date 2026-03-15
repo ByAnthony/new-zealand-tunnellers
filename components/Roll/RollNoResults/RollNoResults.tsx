@@ -1,5 +1,7 @@
 "use client";
 
+import { useTranslations } from "next-intl";
+
 import STYLES from "./RollNoResults.module.scss";
 
 type Props = {
@@ -7,10 +9,12 @@ type Props = {
 };
 
 export function RollNoResults({ handleResetFilters }: Props) {
+  const t = useTranslations("roll");
+
   return (
     <div className={STYLES["no-results"]}>
-      <p>Sorry, no profile matches your filters</p>
-      <button onClick={handleResetFilters}>Clear Filters</button>
+      <p>{t("noResults")}</p>
+      <button onClick={handleResetFilters}>{t("clearFilters")}</button>
     </div>
   );
 }

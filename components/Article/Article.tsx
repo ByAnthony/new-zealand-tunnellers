@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { useEffect } from "react";
 
 import { ArticleNextChapterButton } from "@/components/Article/ArticleNextChapterButton/ArticleNextChapterButton";
@@ -18,6 +19,8 @@ type Props = {
 };
 
 export function Article({ article }: Props) {
+  const t = useTranslations("article");
+
   useEffect(() => {
     localStorage.removeItem("filters");
     localStorage.removeItem("page");
@@ -28,7 +31,7 @@ export function Article({ article }: Props) {
     <div className={STYLES.container}>
       <div className={STYLES.header}>
         <div className={STYLES.link}>
-          <Link href="/#history">History</Link>
+          <Link href="/#history">{t("history")}</Link>
         </div>
         <Title title={article.title} subTitle={article.chapter} />
       </div>

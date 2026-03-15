@@ -1,5 +1,7 @@
 "use client";
 
+import { useTranslations } from "next-intl";
+
 import { TimelineEvent } from "@/components/Timeline/TimelineEvent/TimelineEvent";
 import { Event, MilitaryYears } from "@/types/tunneller";
 
@@ -10,6 +12,7 @@ type Props = {
 };
 
 export function TimelineEvents({ militaryYears }: Props) {
+  const t = useTranslations("timeline");
   const { frontEvents } = militaryYears;
   const { ageAtEnlistment } = militaryYears.enlistment;
   const frontEventsByYear = Object.entries(frontEvents);
@@ -21,7 +24,7 @@ export function TimelineEvents({ militaryYears }: Props) {
           <h2
             className={STYLES["year-title"]}
             key={key}
-            aria-label={`Year ${key}`}
+            aria-label={t("year", { year: key })}
           >
             {key}
           </h2>
