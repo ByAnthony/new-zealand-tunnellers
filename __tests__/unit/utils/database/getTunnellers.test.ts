@@ -40,7 +40,7 @@ describe("getTunnellers", () => {
 
     (rollQuery as jest.Mock).mockResolvedValue(mockResults);
 
-    const response = await getTunnellers(mockConnection);
+    const response = await getTunnellers("en", mockConnection);
 
     const expectedTunnellers: Tunneller[] = [
       {

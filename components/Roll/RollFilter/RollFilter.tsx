@@ -4,7 +4,10 @@ import { useTranslations } from "next-intl";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 
+import { renderSuperscript } from "@/utils/helpers/article";
+
 import STYLES from "./RollFilter.module.scss";
+import { rankCategoryTranslationKey } from "../utils/rankUtils";
 
 type Props = {
   className: string;
@@ -87,7 +90,7 @@ export function RollFilter({
                     : false
                 }
               />
-              {detachment}
+              {renderSuperscript(detachment)}
             </label>
           </div>
         ))}
@@ -226,7 +229,7 @@ export function RollFilter({
                       : false
                   }
                 />
-                {category}
+                {t(rankCategoryTranslationKey[category] ?? category)}
               </label>
               {ranks.map((rank) => (
                 <div key={rank} style={{ marginLeft: "15px" }}>

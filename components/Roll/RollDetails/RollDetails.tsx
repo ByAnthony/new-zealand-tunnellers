@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useCallback } from "react";
 
 import { Tunneller } from "@/types/tunnellers";
+import { renderSuperscript } from "@/utils/helpers/article";
 import { displayBiographyDates } from "@/utils/helpers/roll";
 
 import STYLES from "./RollDetails.module.scss";
@@ -17,7 +18,7 @@ export function AttachedCorpsBadge({
 }: {
   attachedCorps: string;
 }) {
-  return <div className={STYLES.badge}>{attachedCorps}</div>;
+  return <div className={STYLES.badge}>{renderSuperscript(attachedCorps)}</div>;
 }
 
 export function RollDetails({ listOfTunnellers }: Props) {
@@ -42,14 +43,18 @@ export function RollDetails({ listOfTunnellers }: Props) {
           <div className={STYLES.tunneller}>
             <div>
               <div className={STYLES["rank-wrapper"]}>
-                <div className={STYLES.rank}>{tunneller.rank}</div>
+                <div className={STYLES.rank}>
+                  {renderSuperscript(tunneller.rank)}
+                </div>
                 {tunneller.attachedCorps ? (
                   <AttachedCorpsBadge attachedCorps={tunneller.attachedCorps} />
                 ) : null}
               </div>
               <p className={STYLES.forename}>{tunneller.name.forename}</p>
               <p className={STYLES.surname}>{tunneller.name.surname}</p>
-              <p className={STYLES.detachment}>{tunneller.detachment}</p>
+              <p className={STYLES.detachment}>
+                {renderSuperscript(tunneller.detachment)}
+              </p>
               <p className={STYLES.dates}>
                 {displayBiographyDates(
                   tunneller.birthYear,

@@ -1,6 +1,7 @@
 import { PoolConnection } from "mysql2/promise";
 import { NextResponse } from "next/server";
 
+import { Locale } from "@/types/locale";
 import {
   ProfileData,
   ArmyExperience,
@@ -65,18 +66,27 @@ import {
   getLondonGazette,
 } from "../helpers/sources";
 
-export async function getTunneller(id: string, connection: PoolConnection) {
-  const profile: ProfileData = await tunnellerQuery(id, connection);
+export async function getTunneller(
+  id: string,
+  locale: Locale,
+  connection: PoolConnection,
+) {
+  const profile: ProfileData = await tunnellerQuery(id, locale, connection);
   const armyExperience: ArmyExperience[] = await armyExperienceQuery(
     id,
+    locale,
     connection,
   );
-  const companyEvents: SingleEventData[] = await companyEventsQuery(connection);
+  const companyEvents: SingleEventData[] = await companyEventsQuery(
+    locale,
+    connection,
+  );
   const tunnellerEvents: SingleEventData[] = await tunnellerEventsQuery(
     id,
+    locale,
     connection,
   );
-  const medals: Medal[] = await medalsQuery(id, connection);
+  const medals: Medal[] = await medalsQuery(id, locale, connection);
   const nzArchives: NzArchives[] = await nzArchivesQuery(id, connection);
   const londonGazette: LondonGazette[] = await londonGazetteQuery(
     id,
@@ -91,7 +101,8 @@ export async function getTunneller(id: string, connection: PoolConnection) {
     ? {
         date: profile.transport_uk_start,
         event: `${profile.transport_uk_ref} ${profile.transport_uk_vessel}`,
-        title: "Transfer to England",
+        title:
+          locale === "en" ? "Transfer to England" : "Transfert en Angleterre",
         image: null,
       }
     : null;
@@ -100,7 +111,10 @@ export async function getTunneller(id: string, connection: PoolConnection) {
     ? {
         date: profile.transport_nz_start,
         event: `${profile.transport_nz_ref} ${profile.transport_nz_vessel}`,
-        title: "Transfer to New Zealand",
+        title:
+          locale === "en"
+            ? "Transfer to New Zealand"
+            : "Transfert en Nouvelle-Zélande",
         image: null,
       }
     : null;
@@ -110,7 +124,7 @@ export async function getTunneller(id: string, connection: PoolConnection) {
       ? {
           date: profile.transferred_to_date,
           event: profile.transferred_to_unit,
-          title: "Transferred",
+          title: locale === "en" ? "Transferred" : "Transféré",
           image: null,
         }
       : null;

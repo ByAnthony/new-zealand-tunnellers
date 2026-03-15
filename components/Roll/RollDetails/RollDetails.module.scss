@@ -90,6 +90,19 @@
     @include variables.desktop {
       font-size: 1rem;
     }
+
+    sup {
+      font-size: 0.6rem;
+      vertical-align: super;
+
+      @include variables.tablet {
+        font-size: 0.7rem;
+      }
+
+      @include variables.desktop {
+        font-size: 0.7rem;
+      }
+    }
   }
 
   .arrow {

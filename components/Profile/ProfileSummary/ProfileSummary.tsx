@@ -9,6 +9,7 @@ import type {
   ImageTunneller,
   Summary,
 } from "@/types/tunneller";
+import { renderSuperscript } from "@/utils/helpers/article";
 
 import STYLES from "./ProfileSummary.module.scss";
 
@@ -52,7 +53,10 @@ function RenderUnit({
   return (
     <div className={STYLES["fullwidth-main-card"]}>
       <p>{label}</p>
-      <span>{section ? `${unit} (${section})` : `${unit}`}</span>
+      <span>
+        {renderSuperscript(unit)}
+        {section && <> ({renderSuperscript(section)})</>}
+      </span>
     </div>
   );
 }
@@ -76,7 +80,7 @@ export function ProfileSummary({
       <div className={STYLES["halfwidth-cards-container"]}>
         <div className={STYLES["halfwidth-secondary-card"]}>
           <p>{t("rank")}</p>
-          <span>{enlistment.rank}</span>
+          <span>{renderSuperscript(enlistment.rank)}</span>
         </div>
         <div className={STYLES["halfwidth-secondary-card"]}>
           <p>{t("serial")}</p>
@@ -86,7 +90,7 @@ export function ProfileSummary({
       {embarkationUnit.attachedCorps && (
         <div className={STYLES["fullwidth-main-card"]}>
           <p>{t("corps")}</p>
-          <span>{embarkationUnit.attachedCorps}</span>
+          <span>{renderSuperscript(embarkationUnit.attachedCorps)}</span>
         </div>
       )}
     </div>

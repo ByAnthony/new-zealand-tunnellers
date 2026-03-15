@@ -1,7 +1,7 @@
 "use client";
 
 import isEqual from "lodash/isEqual";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { RollAlphabet } from "@/components/Roll/RollAlphabet/RollAlphabet";
@@ -38,6 +38,7 @@ type Filters = {
 
 export function Roll({ tunnellers }: Props) {
   const t = useTranslations("roll");
+  const locale = useLocale();
   const { width } = useWindowDimensions();
 
   /** ---- Derived data ---- */
@@ -57,7 +58,10 @@ export function Roll({ tunnellers }: Props) {
     () => getUniqueRanks(tunnellersList),
     [tunnellersList],
   );
-  const sortedRanks = useMemo(() => getSortedRanks(uniqueRanks), [uniqueRanks]);
+  const sortedRanks = useMemo(
+    () => getSortedRanks(uniqueRanks, locale as "en" | "fr"),
+    [uniqueRanks, locale],
+  );
   const uniqueBirthYears = useMemo(
     () => getUniqueBirthYears(tunnellersList),
     [tunnellersList],

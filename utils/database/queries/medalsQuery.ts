@@ -1,12 +1,17 @@
 import { PoolConnection, RowDataPacket } from "mysql2/promise";
 
+import { Locale } from "@/types/locale";
 import { Medal } from "@/types/tunneller";
 
-export const medalsQuery = async (id: string, connection: PoolConnection) => {
+export const medalsQuery = async (
+  id: string,
+  locale: Locale,
+  connection: PoolConnection,
+) => {
   const query = `SELECT
-    medal.medal_name_en AS name
-    , country.country_en AS country
-    , medal_citation.medal_citation_en AS citation
+    medal.medal_name_${locale} AS name
+    , country.country_${locale} AS country
+    , medal_citation.medal_citation_${locale} AS citation
     , medal_image AS image
     FROM medal
     JOIN medal_join ON medal_join.medal_m_id=medal.medal_id

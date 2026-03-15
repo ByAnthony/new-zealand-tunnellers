@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useEffect } from "react";
 
 import { ArticleNextChapterButton } from "@/components/Article/ArticleNextChapterButton/ArticleNextChapterButton";
@@ -20,6 +20,8 @@ type Props = {
 
 export function Article({ article }: Props) {
   const t = useTranslations("article");
+  const locale = useLocale();
+  const localePrefix = locale === "en" ? "" : `/${locale}`;
 
   useEffect(() => {
     localStorage.removeItem("filters");
@@ -31,7 +33,7 @@ export function Article({ article }: Props) {
     <div className={STYLES.container}>
       <div className={STYLES.header}>
         <div className={STYLES.link}>
-          <Link href="/#history">{t("history")}</Link>
+          <Link href={`${localePrefix}/#history`}>{t("history")}</Link>
         </div>
         <Title title={article.title} subTitle={article.chapter} />
       </div>

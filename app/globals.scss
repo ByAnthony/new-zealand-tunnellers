@@ -89,6 +89,21 @@ p {
   }
 }
 
+// Superscript
+sup {
+  font-size: 0.7rem;
+  vertical-align: super;
+  color: variables.$text-color;
+
+  @include variables.tablet {
+    font-size: 0.8rem;
+  }
+
+  @include variables.desktop {
+    font-size: 0.9rem;
+  }
+}
+
 // Link
 a {
   text-decoration: none;

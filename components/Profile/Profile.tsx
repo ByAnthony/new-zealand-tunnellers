@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 import { HowToCite } from "@/components/HowToCite/HowToCite";
 import { ProfileDiary } from "@/components/Profile/ProfileDiary/ProfileDiary";
@@ -20,13 +20,15 @@ type Props = {
 
 export function Profile({ tunneller }: Props) {
   const t = useTranslations("profile");
+  const locale = useLocale();
+  const localePrefix = locale === "en" ? "" : `/${locale}`;
 
   return (
     <>
       <div className={STYLES.container}>
         <div className={STYLES.header}>
           <div className={STYLES.link}>
-            <Link href="/tunnellers">{t("tunnellers")}</Link>
+            <Link href={`${localePrefix}/tunnellers`}>{t("tunnellers")}</Link>
           </div>
           <Title
             name={tunneller.summary.name}

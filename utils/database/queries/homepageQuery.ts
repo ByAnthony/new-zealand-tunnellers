@@ -1,12 +1,16 @@
 import { PoolConnection, RowDataPacket } from "mysql2/promise";
 
 import { HistoryChapterData, HistoryImageChapters } from "@/types/homepage";
+import { Locale } from "@/types/locale";
 
-export const historyChaptersQuery = async (connection: PoolConnection) => {
+export const historyChaptersQuery = async (
+  locale: Locale,
+  connection: PoolConnection,
+) => {
   const query = `SELECT
     article.string_id AS id
     , article.id AS chapter
-    , article.title_en AS title
+    , article.title_${locale} AS title
     FROM article`;
 
   const [results] =

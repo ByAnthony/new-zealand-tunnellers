@@ -1,0 +1,119 @@
+{
+  "nav": {
+    "history": "Histoire",
+    "tunnellers": "Tunneliers",
+    "aboutUs": "À propos",
+    "goToHomepage": "Aller à la page d'accueil",
+    "logoAlt": "Site des Tunneliers Néo-Zélandais - Accueil"
+  },
+  "footer": {
+    "scrollToTop": "Retourner en haut de la page",
+    "artoisUniversityAria": "Aller sur le site de l'Université d'Artois",
+    "artoisUniversityAlt": "Page d'accueil de l'Université d'Artois",
+    "irsemAria": "Aller sur le site de l'Institut de Recherche Stratégique de l'École Militaire",
+    "irsemAlt": "Page d'accueil de l'Institut de Recherche Stratégique de l'École Militaire"
+  },
+  "menu": {
+    "searchPlaceholder": "Rechercher un tunnelier",
+    "clearSearch": "Effacer la recherche",
+    "searchAlt": "Tapez un nom pour rechercher un tunnelier",
+    "seeAllTunnellers": "Voir tous les tunneliers",
+    "seeTunnellerProfile": "Voir le profil de {forename} {surname}"
+  },
+  "homepage": {
+    "historyOfTheCompany": "Histoire de la Compagnie",
+    "seePreviousChapters": "Voir les chapitres précédents",
+    "seeNextChapters": "Voir les chapitres suivants",
+    "svgLabel": "Les Kiwis qui ont lutté sous le no man\u2019s land",
+    "discover": "Découvrir",
+    "nzTunnellers": "Les Tunneliers Néo-Zélandais"
+  },
+  "aboutUs": {
+    "contactByEmail": "Nous contacter par e-mail",
+    "email": "E-mail",
+    "contactOnLinkedIn": "Nous contacter sur LinkedIn",
+    "linkedIn": "LinkedIn"
+  },
+  "roll": {
+    "title": "Les Tunneliers\\Néo-Zélandais",
+    "filters": "Filtres",
+    "resetFilters": "Supprimer les filtres",
+    "results": "{count} résultat",
+    "resultsPlural": "{count} résultats",
+    "detachments": "Détachements",
+    "corps": "Corps",
+    "birthYears": "Naissance",
+    "deathYears": "Décès",
+    "ranks": "Grades",
+    "rankOfficers": "Officiers",
+    "rankNco": "Sous-officiers",
+    "rankOtherRanks": "Autres grades",
+    "includesUnknownBirthYear": "Années de naissance inconnues",
+    "includesUnknownDeathYear": "Années de décès inconnues",
+    "noResults": "Aucun profil ne correspond à vos filtres",
+    "clearFilters": "Supprimer les filtres",
+    "letter": "Lettre {letter}",
+    "goToPreviousPage": "Aller à la page précédente",
+    "goToPage": "Aller à la page {page}",
+    "goToNextPage": "Aller à la page suivante"
+  },
+  "dialog": {
+    "done": "Fermer",
+    "resetFilters": "Réinitialiser les filtres"
+  },
+  "article": {
+    "history": "Histoire",
+    "notes": "Notes",
+    "chapter": "Chapitre {chapter}",
+    "goToChapter": "Aller au Chapitre {chapter}\u00A0: {title}"
+  },
+  "profile": {
+    "tunnellers": "Tunneliers",
+    "about": "À propos",
+    "serial": "Matricule",
+    "rank": "Grade",
+    "unit": "Unité",
+    "corps": "Corps",
+    "bornInCountry": "Né en {country}",
+    "born": "Naissance",
+    "settledInNz": "Installé en Nouvelle-Zélande",
+    "personalLife": "Vie personnelle",
+    "maritalStatus": "Situation matrimoniale",
+    "wife": "Épouse",
+    "work": "Travail",
+    "occupation": "Profession",
+    "employer": "Employeur",
+    "residence": "Résidence",
+    "hometown": "Ville natale",
+    "parents": "Parents",
+    "parent": "Parent",
+    "mother": "Mère",
+    "father": "Père",
+    "armyExperience": "Expérience militaire",
+    "openTimeline": "Ouvrir la chronologie de la Première Guerre mondiale",
+    "wwiTitle": "Première Guerre mondiale (1914-1918)",
+    "nzTunnellers": "Tunneliers Néo-Zélandais",
+    "death": "Décès",
+    "died": "Décédé",
+    "diedAtAge": "Décédé à l'âge de {age} ans",
+    "sources": "Sources",
+    "photograph": "Photographie",
+    "awmmPrefix": "Musée du mémorial de guerre d’Auckland\u00A0: ",
+    "awmmLink": "Cénotaphe en ligne",
+    "nzArchivesPrefix": "Archives de Nouvelle-Zélande, ",
+    "ibid": "Ibid., ",
+    "militaryPersonnelFile": "Dossier militaire",
+    "londonGazette": "London Gazette, "
+  },
+  "timeline": {
+    "tunnellers": "Tunneliers",
+    "title": "Chronologie de la\\Première Guerre mondiale",
+    "year": "Année {year}",
+    "enlistedAtAge": "{title} à l'âge de {age} ans",
+    "companyEventAlt": "Image pour {title}",
+    "companyEventAltFallback": "Événement de la compagnie"
+  },
+  "books": {
+    "readingProgress": "Progression de la lecture"
+  }
+}

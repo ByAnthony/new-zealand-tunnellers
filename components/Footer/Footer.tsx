@@ -2,13 +2,15 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 import STYLES from "./Footer.module.scss";
 
 export function Footer() {
   const t = useTranslations("footer");
   const tNav = useTranslations("nav");
+  const locale = useLocale();
+  const localePrefix = locale === "en" ? "" : `/${locale}`;
 
   const handleClick = () => {
     window.scrollTo(0, 0);
@@ -19,13 +21,15 @@ export function Footer() {
       <div className={STYLES.map}>
         <div className={STYLES.links}>
           <div className={STYLES["map-link"]}>
-            <Link href="/#history">{tNav("history")}</Link>
+            <Link href={`${localePrefix}/#history`}>{tNav("history")}</Link>
           </div>
           <div className={STYLES["map-link"]}>
-            <Link href="/tunnellers">{tNav("tunnellers")}</Link>
+            <Link href={`${localePrefix}/tunnellers`}>
+              {tNav("tunnellers")}
+            </Link>
           </div>
           <div className={STYLES["map-link"]}>
-            <Link href="/about-us">{tNav("aboutUs")}</Link>
+            <Link href={`${localePrefix}/about-us`}>{tNav("aboutUs")}</Link>
           </div>
         </div>
         <button

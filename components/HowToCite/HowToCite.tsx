@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useLocale } from "next-intl";
 import { useMemo, useRef } from "react";
 
 import type { Summary } from "@/types/tunneller";
@@ -23,6 +24,7 @@ type HowToCiteUrlProps = {
   title?: string;
   timeline?: boolean;
   pathname?: string;
+  locale?: string;
 };
 
 type HowToCiteTitleProps = {
@@ -38,7 +40,10 @@ export function HowToCiteUrl({
   title,
   timeline,
   pathname,
+  locale = "en",
 }: HowToCiteUrlProps) {
+  const localePrefix = locale === "en" ? "" : `/${locale}`;
+
   if (pathname) {
     return (
       <span>
@@ -48,6 +53,7 @@ export function HowToCiteUrl({
         <wbr />
         .com
         <wbr />
+        {localePrefix}
         {pathname}
       </span>
     );
@@ -59,7 +65,7 @@ export function HowToCiteUrl({
       <wbr />
       nztunnellers
       <wbr />
-      .com/
+      .com{localePrefix}/
       <wbr />
       {id && !timeline && (
         <>
@@ -180,8 +186,10 @@ export function HowToCite({
   title,
   timeline,
   pathname,
-  locale = "en",
+  locale: localeProp,
 }: Props) {
+  const localeFromContext = useLocale();
+  const locale = localeProp ?? localeFromContext;
   const citationRef = useRef<HTMLParagraphElement>(null);
 
   const now = useMemo(() => new Date(), []);
@@ -270,6 +278,7 @@ export function HowToCite({
           title={title}
           timeline={timeline}
           pathname={pathname}
+          locale={locale}
         />
       </p>
     </div>

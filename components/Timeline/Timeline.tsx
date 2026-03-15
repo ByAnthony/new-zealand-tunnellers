@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 import { HowToCite } from "@/components/HowToCite/HowToCite";
 import { TimelineEvents } from "@/components/Timeline/TimelineEvents/TimelineEvents";
@@ -16,12 +16,14 @@ type Props = {
 
 export function Timeline({ tunneller }: Props) {
   const t = useTranslations("timeline");
+  const locale = useLocale();
+  const localePrefix = locale === "en" ? "" : `/${locale}`;
 
   return (
     <div className={STYLES.timeline}>
       <div className={STYLES.header}>
         <div className={STYLES.link}>
-          <Link href="/tunnellers">{t("tunnellers")}</Link>
+          <Link href={`${localePrefix}/tunnellers`}>{t("tunnellers")}</Link>
           <span>/</span>
           <Link
             href={`/tunnellers/${tunneller.id}`}

@@ -17,6 +17,7 @@ jest.mock("next-intl", () => ({
       return text;
     };
   },
+  useLocale: () => "en",
 }));
 
 // Mock Next.js Image component to ensure consistent snapshots across environments
