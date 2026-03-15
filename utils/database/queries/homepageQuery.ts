@@ -6,7 +6,7 @@ export const historyChaptersQuery = async (connection: PoolConnection) => {
   const query = `SELECT
     article.string_id AS id
     , article.id AS chapter
-    , article.title AS title
+    , article.title_en AS title
     FROM article`;
 
   const [results] =
