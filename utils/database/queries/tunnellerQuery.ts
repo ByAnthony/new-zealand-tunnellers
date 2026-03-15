@@ -63,7 +63,7 @@ export const tunnellerQuery = async (
     , nominal_roll.nominal_roll_page
     , image
     , image_source_auckland_libraries
-    , archives_name.archives_name
+    , archives_name.archives_name_en
     , archives.archives_ref
     , family.family_name
     , newspaper_name.newspaper_name
