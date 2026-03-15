@@ -121,7 +121,7 @@ test("FR chapter: breadcrumb navigates to Resources and table of contents", asyn
 
   const resourcesLink = page.getByLabel("Aller à la section Ressources");
   await expect(resourcesLink).toBeVisible();
-  await expect(resourcesLink).toHaveAttribute("href", "/#resources");
+  await expect(resourcesLink).toHaveAttribute("href", "/fr/#resources");
 
   await page.getByRole("link", { name: "Aller au sommaire" }).click();
 
@@ -260,6 +260,6 @@ test("FR HowToCite: shows correct citation for a book chapter", async ({
   await expect(citation).toContainText("Les Kiwis aussi creusent des tunnels");
   await expect(citation).toContainText("Consulté le");
   await expect(citation).toContainText(
-    "www.nztunnellers.com/books/les-kiwis-aussi-creusent-des-tunnels/chapitre-1-les-tunneliers-des-antipodes",
+    "www.nztunnellers.com/fr/books/les-kiwis-aussi-creusent-des-tunnels/chapitre-1-les-tunneliers-des-antipodes",
   );
 });
