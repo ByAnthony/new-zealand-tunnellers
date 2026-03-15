@@ -11,6 +11,7 @@ export const companyEventsQuery = async (
     DATE_FORMAT(company_events.company_events_date, '%Y-%m-%d') AS date
     , company_events.company_events_event_${locale} AS event
     , company_events.company_events_title_${locale} AS title
+    , company_events.company_events_title_en AS titleKey
     , company_events.company_events_img AS image
     , company_events.company_events_img_alt_en AS imageAlt
     FROM company_events

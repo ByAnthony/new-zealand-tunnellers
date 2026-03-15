@@ -103,6 +103,7 @@ export async function getTunneller(
         event: `${profile.transport_uk_ref} ${profile.transport_uk_vessel}`,
         title:
           locale === "en" ? "Transfer to England" : "Transfert en Angleterre",
+        titleKey: "Transfer to England",
         image: null,
       }
     : null;
@@ -115,6 +116,7 @@ export async function getTunneller(
           locale === "en"
             ? "Transfer to New Zealand"
             : "Transfert en Nouvelle-Zélande",
+        titleKey: "Transfer to New Zealand",
         image: null,
       }
     : null;
@@ -125,6 +127,7 @@ export async function getTunneller(
           date: profile.transferred_to_date,
           event: profile.transferred_to_unit,
           title: locale === "en" ? "Transferred" : "Transféré",
+          titleKey: "Transferred",
           image: null,
         }
       : null;

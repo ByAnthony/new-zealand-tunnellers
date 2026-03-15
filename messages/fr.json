@@ -107,7 +107,7 @@
   },
   "timeline": {
     "tunnellers": "Tunneliers",
-    "title": "Chronologie de la\\Première Guerre mondiale",
+    "title": "Chronologie\\de la Guerre",
     "year": "Année {year}",
     "enlistedAtAge": "{title} à l'âge de {age} ans",
     "companyEventAlt": "Image pour {title}",

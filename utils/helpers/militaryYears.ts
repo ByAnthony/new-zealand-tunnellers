@@ -213,24 +213,26 @@ export const getFrontEvents = (
     .concat(enlistmentEvents, postedEvents, companyEvents)
     .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
+  const key = (e: SingleEventData) => e.titleKey ?? e.title;
+
   const transferredIndex: number = fullTunnellerEvents.findIndex(
-    (e) => e.title === "Transferred",
+    (e) => key(e) === "Transferred",
   );
 
   const graveReferenceIndex: number = fullTunnellerEvents.findIndex(
-    (e) => e.title === "Grave reference",
+    (e) => key(e) === "Grave reference",
   );
 
   const transferredToNzIndex: number = fullTunnellerEvents.findIndex(
-    (e) => e.title === "Transfer to New Zealand",
+    (e) => key(e) === "Transfer to New Zealand",
   );
 
   const endOfServiceIndex: number = fullTunnellerEvents.findIndex(
-    (e) => e.title === "End of Service",
+    (e) => key(e) === "End of Service",
   );
 
   const diedOfDiseaseAfterServiceEnd: number = fullTunnellerEvents.findIndex(
-    (e) => e.title === "Died of disease",
+    (e) => key(e) === "Died of disease",
   );
 
   const filteredAfterTransferredEvents: SingleEventData[] =
@@ -266,11 +268,11 @@ export const getFrontEvents = (
           ((index < endOfServiceIndex && endOfServiceIndex !== -1) ||
             (index < diedOfDiseaseAfterServiceEnd &&
               diedOfDiseaseAfterServiceEnd !== -1)) &&
-          event.title !== "The Company" &&
-          event.title !== "Allied Attacks" &&
-          event.title !== "British Offensive" &&
-          event.title !== "Cessation of Hostilities" &&
-          event.title !== "German Attacks")
+          key(event) !== "The Company" &&
+          key(event) !== "Allied Attacks" &&
+          key(event) !== "British Offensive" &&
+          key(event) !== "Cessation of Hostilities" &&
+          key(event) !== "German Attacks")
       );
     });
 
@@ -284,6 +286,7 @@ export const getFrontEvents = (
       const eventDetail: EventDetail = {
         description: event.event,
         title: event.title,
+        titleKey: event.titleKey,
         image: event.image,
         imageAlt: event.imageAlt,
         extraDescription: event.extraDescription,

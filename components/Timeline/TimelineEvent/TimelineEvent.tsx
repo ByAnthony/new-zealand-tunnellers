@@ -19,17 +19,18 @@ export function TimelineEvent({ event, ageAtEnlistment }: Props) {
     <>
       {event.map((eventDetail: EventDetail) => {
         const { title } = eventDetail;
+        const key = eventDetail.titleKey ?? title;
 
-        const isTitleCompany = title === "The Company";
-        const isTitleEnlisted = title === "Enlisted";
-        const isTitlePosted = title === "Posted";
-        const isTitleTrained = title === "Trained";
-        const isTitleKilledInAction = title === "Killed in action";
-        const isTitleDiedOfWounds = title === "Died of wounds";
-        const isTitleDiedOfDisease = title === "Died of disease";
-        const isTitleDiedOfAccident = title === "Died of accident";
-        const isTitleBuried = title === "Buried";
-        const isTitleGraveReference = title === "Grave reference";
+        const isTitleCompany = key === "The Company";
+        const isTitleEnlisted = key === "Enlisted";
+        const isTitlePosted = key === "Posted";
+        const isTitleTrained = key === "Trained";
+        const isTitleKilledInAction = key === "Killed in action";
+        const isTitleDiedOfWounds = key === "Died of wounds";
+        const isTitleDiedOfDisease = key === "Died of disease";
+        const isTitleDiedOfAccident = key === "Died of accident";
+        const isTitleBuried = key === "Buried";
+        const isTitleGraveReference = key === "Grave reference";
 
         const titleWithAgeAtEnlistment = (
           title: string,

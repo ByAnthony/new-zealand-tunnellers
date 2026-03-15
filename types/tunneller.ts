@@ -88,6 +88,7 @@ export type SingleEventData = {
   date: string;
   event: string;
   title: string | null;
+  titleKey?: string | null;
   image: string | null;
   imageAlt?: string | null;
   extraDescription?: string | null;
@@ -201,6 +202,7 @@ export type Transport = {
 export type EventDetail = {
   description: string;
   title: string | null;
+  titleKey?: string | null;
   image: string | null;
   imageAlt?: string | null;
   extraDescription?: string | null;
