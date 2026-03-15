@@ -1,7 +1,17 @@
+import { getLocale } from "next-intl/server";
 import { ReactNode } from "react";
 
-// Root layout — intentionally minimal.
-// The [locale] nested layout provides the full <html>/<body> structure.
-export default function RootLayout({ children }: { children: ReactNode }) {
-  return children;
+import "./globals.scss";
+
+type Props = {
+  children: ReactNode;
+};
+
+export default async function RootLayout({ children }: Props) {
+  const locale = await getLocale();
+  return (
+    <html lang={locale} data-scroll-behavior="smooth">
+      <body>{children}</body>
+    </html>
+  );
 }

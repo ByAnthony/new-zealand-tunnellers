@@ -6,8 +6,6 @@ import { ReactNode } from "react";
 import { Footer } from "@/components/Footer/Footer";
 import { MenuContainer } from "@/components/Menu/MenuContainer";
 
-import "../globals.scss";
-
 export const metadata: Metadata = {
   title: "New Zealand Tunnellers",
   description:
@@ -16,22 +14,16 @@ export const metadata: Metadata = {
 
 type Props = {
   children: ReactNode;
-  params: Promise<{ locale: string }>;
 };
 
-export default async function LocaleLayout({ children, params }: Props) {
-  const { locale } = await params;
+export default async function LocaleLayout({ children }: Props) {
   const messages = await getMessages();
 
   return (
-    <html lang={locale} data-scroll-behavior="smooth">
-      <body>
-        <NextIntlClientProvider messages={messages}>
-          <MenuContainer />
-          {children}
-          <Footer />
-        </NextIntlClientProvider>
-      </body>
-    </html>
+    <NextIntlClientProvider messages={messages}>
+      <MenuContainer />
+      {children}
+      <Footer />
+    </NextIntlClientProvider>
   );
 }
