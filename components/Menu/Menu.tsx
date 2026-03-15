@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
 
@@ -21,6 +21,9 @@ export function Menu({ tunnellers }: Props) {
   const tNav = useTranslations("nav");
   const locale = useLocale();
   const localePrefix = locale === "en" ? "" : `/${locale}`;
+  const pathname = usePathname();
+  const switchLocalePath =
+    locale === "en" ? `/fr${pathname}` : pathname.replace(/^\/fr/, "") || "/";
 
   const { width } = useWindowDimensions();
   const divRef = useRef<HTMLDivElement>(null);
@@ -243,6 +246,10 @@ export function Menu({ tunnellers }: Props) {
           </div>
         )}
       </div>
+
+      <Link href={switchLocalePath} className={STYLES["language-switcher"]}>
+        {locale === "en" ? "Français" : "English"}
+      </Link>
     </div>
   );
 }

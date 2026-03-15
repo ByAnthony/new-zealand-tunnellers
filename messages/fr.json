@@ -4,7 +4,7 @@
     "tunnellers": "Tunneliers",
     "aboutUs": "À propos",
     "goToHomepage": "Aller à la page d'accueil",
-    "logoAlt": "Site des Tunneliers Néo-Zélandais - Accueil"
+    "logoAlt": "Site des Tunneliers néo-zélandais - Accueil"
   },
   "footer": {
     "scrollToTop": "Retourner en haut de la page",
@@ -26,7 +26,7 @@
     "seeNextChapters": "Voir les chapitres suivants",
     "svgLabel": "Les Kiwis qui ont lutté sous le no man\u2019s land",
     "discover": "Découvrir",
-    "nzTunnellers": "Les Tunneliers Néo-Zélandais"
+    "nzTunnellers": "Les Tunneliers néo-zélandais"
   },
   "aboutUs": {
     "contactByEmail": "Nous contacter par e-mail",
@@ -35,7 +35,7 @@
     "linkedIn": "LinkedIn"
   },
   "roll": {
-    "title": "Les Tunneliers\\Néo-Zélandais",
+    "title": "Les Tunneliers\\néo-zélandais",
     "filters": "Filtres",
     "resetFilters": "Supprimer les filtres",
     "results": "{count} résultat",

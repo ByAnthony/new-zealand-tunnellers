@@ -126,7 +126,7 @@ exports[`Roll matches the snapshot 1`] = `
             class="filters"
           >
             <h3>
-              Birth Years
+              Birth
             </h3>
             <p>
               1886-1897
@@ -183,7 +183,7 @@ exports[`Roll matches the snapshot 1`] = `
                   type="checkbox"
                   value="unknownBirthYear"
                 />
-                Includes unknown birth year
+                Unknown birth year
               </label>
             </div>
           </div>
@@ -191,7 +191,7 @@ exports[`Roll matches the snapshot 1`] = `
             class="filters"
           >
             <h3>
-              Death Years
+              Death
             </h3>
             <p>
               1935-1952
@@ -248,7 +248,7 @@ exports[`Roll matches the snapshot 1`] = `
                   type="checkbox"
                   value="unknownDeathYear"
                 />
-                Includes unknown death year
+                Unknown death year
               </label>
             </div>
             <div
