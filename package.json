@@ -26,7 +26,7 @@
   "dependencies": {
     "cross-env": "10.1.0",
     "lodash": "4.17.23",
-    "mysql2": "3.19.0",
+    "mysql2": "3.19.1",
     "next": "16.1.6",
     "next-intl": "4.8.3",
     "nodemon": "3.1.14",
@@ -39,7 +39,7 @@
     "rehype-raw": "^7.0.0",
     "remark-gfm": "4.0.1",
     "remark-remove-comments": "1.1.1",
-    "sass": "1.97.3",
+    "sass": "1.98.0",
     "sharp": "0.34.5",
     "ts-node": "10.9.2",
     "unist-util-visit": "5.1.0"
