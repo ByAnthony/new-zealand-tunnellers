@@ -41,6 +41,7 @@
     sup {
       font-size: 0.6rem;
       vertical-align: super;
+      line-height: 0;
 
       @include variables.tablet {
         font-size: 0.7rem;

@@ -93,6 +93,7 @@ p {
 sup {
   font-size: 0.7rem;
   vertical-align: super;
+  line-height: 0;
   color: variables.$text-color;
 
   @include variables.tablet {
@@ -100,7 +101,7 @@ sup {
   }
 
   @include variables.desktop {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
   }
 }
 

@@ -94,6 +94,7 @@
     sup {
       font-size: 0.6rem;
       vertical-align: super;
+      line-height: 0;
       color: variables.$secondary-color;
 
       @include variables.tablet {
