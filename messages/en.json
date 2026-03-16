@@ -109,6 +109,11 @@
     "tunnellers": "Tunnellers",
     "title": "World War I\\Timeline",
     "year": "Year {year}",
+    "enlisted": "Enlisted",
+    "posted": "Posted",
+    "trained": "Trained",
+    "buried": "Buried",
+    "graveReference": "Grave reference",
     "enlistedAtAge": "{title} at the age of {age}",
     "companyEventAlt": "Image for {title}",
     "companyEventAltFallback": "Company event"

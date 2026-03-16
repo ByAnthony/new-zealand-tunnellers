@@ -109,6 +109,11 @@
     "tunnellers": "Tunneliers",
     "title": "Chronologie\\de la Guerre",
     "year": "Année {year}",
+    "enlisted": "Enrôlé",
+    "posted": "Affecté",
+    "trained": "Entraînement",
+    "buried": "Inhumé",
+    "graveReference": "Référence de tombe",
     "enlistedAtAge": "{title} à l'âge de {age} ans",
     "companyEventAlt": "Image pour {title}",
     "companyEventAltFallback": "Événement de la compagnie"

@@ -150,11 +150,13 @@ export async function getTunneller(
 
   const death: DeathData = {
     deathType: profile.death_type,
+    deathTypeKey: profile.death_type_key,
     deathDate: profile.death_date,
     deathLocation: profile.death_location,
     deathTown: profile.death_town,
     deathCountry: profile.death_country,
     deathCause: profile.death_cause,
+    deathCauseKey: profile.death_cause_key,
     deathCircumstances: profile.death_circumstances,
     cemetery: profile.cemetery,
     cemteryTown: profile.cemetery_town,
@@ -279,7 +281,7 @@ export async function getTunneller(
           profile.transferred_to_date,
           profile.transferred_to_unit,
         ),
-        deathWar: isDeathWar(profile.death_type),
+        deathWar: isDeathWar(profile.death_type_key),
         transportNz: getTransport(
           profile.transport_nz_ref,
           profile.transport_nz_vessel,
@@ -297,8 +299,8 @@ export async function getTunneller(
       medals: medals,
     },
     death: getDeath(
-      isWarInjuriesDeathAfterWar(profile.death_type),
-      profile.death_type,
+      isWarInjuriesDeathAfterWar(profile.death_type_key),
+      profile.death_type_key,
       profile.death_date ? getDate(profile.death_date) : null,
       getDeathPlace(
         profile.death_location,

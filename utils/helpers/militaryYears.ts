@@ -83,12 +83,16 @@ export const getWarDeathEvents = (death: DeathData) => {
   const deathEvents: SingleEventData[] = [];
 
   if (death.deathDate) {
-    if (death.deathType === "War") {
-      if (death.deathCause === "Killed in action" && death.deathCircumstances) {
+    if (death.deathTypeKey === "War") {
+      if (
+        death.deathCauseKey === "Killed in action" &&
+        death.deathCircumstances
+      ) {
         deathEvents.push({
           date: death.deathDate,
           event: death.deathCircumstances,
           title: death.deathCause,
+          titleKey: death.deathCauseKey,
           image: null,
           extraDescription: getDeathPlaceWithoutCountry(
             death.deathLocation,
@@ -97,20 +101,22 @@ export const getWarDeathEvents = (death: DeathData) => {
         });
       }
 
-      if (death.deathCause === "Died of wounds") {
+      if (death.deathCauseKey === "Died of wounds") {
         deathEvents.push({
           date: death.deathDate,
           event: `${death.deathLocation}${death.deathTown ? `, ${death.deathTown}` : ""}`,
           title: death.deathCause,
+          titleKey: death.deathCauseKey,
           image: null,
         });
       }
 
-      if (death.deathCause === "Died of disease") {
+      if (death.deathCauseKey === "Died of disease") {
         deathEvents.push({
           date: death.deathDate,
           event: `${death.deathLocation}${death.deathTown ? `, ${death.deathTown}` : ""}`,
           title: death.deathCause,
+          titleKey: death.deathCauseKey,
           image: null,
           extraDescription: death.deathCircumstances
             ? death.deathCircumstances
@@ -118,11 +124,12 @@ export const getWarDeathEvents = (death: DeathData) => {
         });
       }
 
-      if (death.deathCause === "Died of accident" && death.deathLocation) {
+      if (death.deathCauseKey === "Died of accident" && death.deathLocation) {
         deathEvents.push({
           date: death.deathDate,
           event: `${death.deathLocation}${death.deathTown ? `, ${death.deathTown}` : ""}`,
           title: death.deathCause,
+          titleKey: death.deathCauseKey,
           image: null,
         });
       }
@@ -133,12 +140,14 @@ export const getWarDeathEvents = (death: DeathData) => {
             date: death.deathDate,
             event: `${death.cemetery}, ${death.cemteryTown}`,
             title: "Buried",
+            titleKey: "Buried",
             image: null,
           },
           {
             date: death.deathDate,
             event: death.grave,
             title: "Grave reference",
+            titleKey: "Grave reference",
             image: null,
           },
         );
@@ -146,14 +155,15 @@ export const getWarDeathEvents = (death: DeathData) => {
     }
 
     if (
-      death.deathType === "War injuries" &&
-      death.deathCause === "Died of disease" &&
+      death.deathTypeKey === "War injuries" &&
+      death.deathCauseKey === "Died of disease" &&
       death.deathCircumstances
     ) {
       deathEvents.push({
         date: death.deathDate,
         event: death.deathCircumstances,
         title: death.deathCause,
+        titleKey: death.deathCauseKey,
         image: null,
       });
     }
@@ -308,8 +318,8 @@ export const isDeserter = (isDeserter: number | null) => {
   return isDeserter === 1 ? true : false;
 };
 
-export const isDeathWar = (isDeathWar: string | null) => {
-  return isDeathWar === "War" ? true : false;
+export const isDeathWar = (deathTypeKey: string | null) => {
+  return deathTypeKey === "War" ? true : false;
 };
 
 export const getTransport = (

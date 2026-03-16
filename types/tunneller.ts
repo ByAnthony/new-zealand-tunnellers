@@ -38,6 +38,7 @@ export type ProfileData = {
   transferred_to_date: string | null;
   transferred_to_unit: string | null;
   death_type: string | null;
+  death_type_key: string | null;
   transport_nz_ref: string | null;
   transport_nz_vessel: string | null;
   transport_nz_start: string | null;
@@ -47,6 +48,7 @@ export type ProfileData = {
   death_town: string | null;
   death_country: string | null;
   death_cause: string | null;
+  death_cause_key: string | null;
   death_circumstances: string | null;
   cemetery: string | null;
   cemetery_town: string | null;
@@ -72,11 +74,13 @@ export type ProfileData = {
 
 export type DeathData = {
   deathType: string | null;
+  deathTypeKey: string | null;
   deathDate: string | null;
   deathLocation: string | null;
   deathTown: string | null;
   deathCountry: string | null;
   deathCause: string | null;
+  deathCauseKey: string | null;
   deathCircumstances: string | null;
   cemetery: string | null;
   cemteryTown: string | null;

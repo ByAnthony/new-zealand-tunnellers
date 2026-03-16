@@ -53,7 +53,7 @@ export const isWarInjuriesDeathAfterWar = (type: string | null) => {
 
 export const getDeath = (
   warInjuriesDeathAfterWar: boolean,
-  deathType: string | null,
+  deathTypeKey: string | null,
   date: DateObj | null,
   place: DeathPlace | null,
   cause: DeathCause | null,
@@ -62,8 +62,8 @@ export const getDeath = (
 ) => {
   const validDeathTypes = ["War", "War injuries", "After war"];
   if (
-    (deathType && validDeathTypes.includes(deathType)) ||
-    (!deathType && date)
+    (deathTypeKey && validDeathTypes.includes(deathTypeKey)) ||
+    (!deathTypeKey && date)
   ) {
     return {
       warInjuriesDeathAfterWar,

@@ -44,6 +44,7 @@ export const tunnellerQuery = async (
     , DATE_FORMAT(transferred.transferred_date, '%Y-%m-%d') AS transferred_to_date
     , transferred_to.transferred_to_${locale} AS transferred_to_unit
     , death_type.death_type_${locale} AS death_type
+    , death_type.death_type_en AS death_type_key
     , transport_nz_ref.transport_ref_name AS transport_nz_ref
     , transport_nz_vessel.transport_vessel_name AS transport_nz_vessel
     , DATE_FORMAT(transport_nz.transport_start, '%Y-%m-%d') AS transport_nz_start
@@ -54,6 +55,7 @@ export const tunnellerQuery = async (
     , death_town.town_name AS death_town
     , death_country.country_${locale} AS death_country
     , death_cause.death_cause_${locale} AS death_cause
+    , death_cause.death_cause_en AS death_cause_key
     , death_circumstances.death_circumstances_${locale} AS death_circumstances
     , cemetery.cemetery_name_${locale} AS cemetery
     , cemetery_town.town_name AS cemetery_town

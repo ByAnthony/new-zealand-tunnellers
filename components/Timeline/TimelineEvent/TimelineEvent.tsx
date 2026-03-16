@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useTranslations } from "next-intl";
 
 import { EventDetail } from "@/types/tunneller";
+import { renderSuperscript } from "@/utils/helpers/article";
 
 import STYLES from "../Timeline.module.scss";
 
@@ -36,10 +37,11 @@ export function TimelineEvent({ event, ageAtEnlistment }: Props) {
           title: string,
           age: number | null,
         ) => {
+          const translatedTitle = isTitleEnlisted ? t("enlisted") : t("posted");
           if (age) {
-            return t("enlistedAtAge", { title, age });
+            return t("enlistedAtAge", { title: translatedTitle, age });
           }
-          return title;
+          return translatedTitle;
         };
 
         if (title) {
@@ -61,7 +63,7 @@ export function TimelineEvent({ event, ageAtEnlistment }: Props) {
                     className={STYLES["event-image"]}
                     placeholder="empty"
                   />
-                  <p>{eventDetail.description}</p>
+                  <p>{renderSuperscript(eventDetail.description)}</p>
                 </div>
               </div>
             );
@@ -74,7 +76,7 @@ export function TimelineEvent({ event, ageAtEnlistment }: Props) {
                 className={STYLES["main-event"]}
               >
                 <p>{titleWithAgeAtEnlistment(title, ageAtEnlistment)}</p>
-                <span>{eventDetail.description}</span>
+                <span>{renderSuperscript(eventDetail.description)}</span>
               </div>
             );
           }
@@ -85,8 +87,8 @@ export function TimelineEvent({ event, ageAtEnlistment }: Props) {
                 key={event.indexOf(eventDetail)}
                 className={STYLES["tunneller-event-with-title"]}
               >
-                <p>{title}</p>
-                <span>{eventDetail.description}</span>
+                <p>{t("trained")}</p>
+                <span>{renderSuperscript(eventDetail.description)}</span>
               </div>
             );
           }
@@ -109,7 +111,7 @@ export function TimelineEvent({ event, ageAtEnlistment }: Props) {
                   >{` (${eventDetail.extraDescription})`}</span>
                 ) : null}
                 <span className={STYLES["info-block-with-description"]}>
-                  {eventDetail.description}
+                  {renderSuperscript(eventDetail.description)}
                 </span>
               </div>
             );
@@ -121,8 +123,8 @@ export function TimelineEvent({ event, ageAtEnlistment }: Props) {
                 key={event.indexOf(eventDetail)}
                 className={STYLES["tunneller-event-with-title"]}
               >
-                <p>{title}</p>
-                <span>{eventDetail.description}</span>
+                <p>{isTitleBuried ? t("buried") : t("graveReference")}</p>
+                <span>{renderSuperscript(eventDetail.description)}</span>
               </div>
             );
           }
@@ -133,7 +135,7 @@ export function TimelineEvent({ event, ageAtEnlistment }: Props) {
               className={STYLES["main-event"]}
             >
               <p>{title}</p>
-              <span>{eventDetail.description}</span>
+              <span>{renderSuperscript(eventDetail.description)}</span>
             </div>
           );
         }
@@ -143,7 +145,7 @@ export function TimelineEvent({ event, ageAtEnlistment }: Props) {
             key={event.indexOf(eventDetail)}
             className={STYLES["tunneller-event"]}
           >
-            <p>{eventDetail.description}</p>
+            <p>{renderSuperscript(eventDetail.description)}</p>
           </div>
         );
       })}
