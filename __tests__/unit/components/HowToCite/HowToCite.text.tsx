@@ -199,6 +199,23 @@ describe("HowToCite", () => {
     ).toBeInTheDocument();
   });
 
+  test("renders French timeline citation with French prefix", () => {
+    const tunneller: Summary = {
+      serial: "1/1000",
+      name: { forename: "John", surname: "Smith" },
+      birth: "1886",
+      death: "1966",
+    };
+
+    render(
+      <HowToCite summary={tunneller} timeline={true} id={1} locale="fr" />,
+    );
+
+    expect(
+      screen.getByText(/Chronologie de la guerre de John Smith/),
+    ).toBeInTheDocument();
+  });
+
   test("English URL has no locale prefix for tunneller profile", () => {
     render(<HowToCite id={1} locale="en" />);
 
