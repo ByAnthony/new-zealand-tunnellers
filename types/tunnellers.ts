@@ -20,22 +20,7 @@ type Search = {
   fullName: string;
 };
 
-export type Rank =
-  | "Sapper"
-  | "Second Corporal"
-  | "Sergeant"
-  | "Company Quartermaster Sergeant"
-  | "Second Lieutenant"
-  | "Corporal"
-  | "Lance Corporal"
-  | "Captain"
-  | "Company Sergeant Major"
-  | "Lieutenant"
-  | "Major"
-  | "Sergeant Major"
-  | "Quartermaster Sergeant"
-  | "Driver"
-  | "Motor Mechanic";
+export type Rank = string;
 
 export type Detachment = string;
 

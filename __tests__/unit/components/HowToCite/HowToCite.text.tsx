@@ -99,7 +99,11 @@ describe("HowToCite", () => {
 
   test("console error is called in development mode when clipboard fails", async () => {
     const originalEnv = process.env.NODE_ENV;
-    process.env.NODE_ENV = "development";
+    Object.defineProperty(process.env, "NODE_ENV", {
+      value: "development",
+      writable: true,
+      configurable: true,
+    });
 
     jest
       .spyOn(navigator.clipboard, "writeText")
@@ -126,7 +130,11 @@ describe("HowToCite", () => {
 
     alertSpy.mockRestore();
     consoleErrorSpy.mockRestore();
-    process.env.NODE_ENV = originalEnv;
+    Object.defineProperty(process.env, "NODE_ENV", {
+      value: originalEnv,
+      writable: true,
+      configurable: true,
+    });
     jest.restoreAllMocks();
   });
 
