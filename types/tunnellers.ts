@@ -37,15 +37,7 @@ export type Rank =
   | "Driver"
   | "Motor Mechanic";
 
-export type Detachment =
-  | "Main Body"
-  | "1st Reinforcements"
-  | "2nd Reinforcements"
-  | "3rd Reinforcements"
-  | "4th Reinforcements"
-  | "5th Reinforcements"
-  | "6th Reinforcements"
-  | "7th Reinforcements";
+export type Detachment = string;
 
 export type Tunneller = {
   id: number;
