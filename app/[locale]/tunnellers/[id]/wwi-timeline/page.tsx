@@ -1,3 +1,5 @@
+import { getTranslations } from "next-intl/server";
+
 import { Timeline } from "@/components/Timeline/Timeline";
 import { Locale } from "@/types/locale";
 import { TunnellerProfile } from "@/types/tunneller";
@@ -29,8 +31,9 @@ export async function generateMetadata(props: Props) {
   const surname = tunneller.summary.name.surname;
   const forename = tunneller.summary.name.forename;
 
+  const t = await getTranslations({ locale, namespace: "site" });
   return {
-    title: `Timeline of ${forename} ${surname} - New Zealand Tunnellers`,
+    title: `${t("timelineOf", { forename, surname })} - New Zealand Tunnellers`,
   };
 }
 

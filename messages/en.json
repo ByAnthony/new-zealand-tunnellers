@@ -1,4 +1,11 @@
 {
+  "site": {
+    "description": "Discover the history of the New Zealand Tunnellers from the formation of their company to the underground warfare during the First World War",
+    "aboutUs": "About Us",
+    "tunnellers": "List of Tunnellers",
+    "book": "Kiwis Dig Tunnels Too",
+    "timelineOf": "Timeline of {forename} {surname}"
+  },
   "nav": {
     "history": "History",
     "tunnellers": "Tunnellers",

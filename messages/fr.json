@@ -1,4 +1,11 @@
 {
+  "site": {
+    "description": "Découvrez l'histoire des tunneliers néo-zélandais, de la formation de leur compagnie à la guerre souterraine durant la Première Guerre mondiale",
+    "aboutUs": "À propos",
+    "tunnellers": "Liste des tunneliers",
+    "book": "Les Kiwis aussi creusent des tunnels",
+    "timelineOf": "Chronologie de {forename} {surname}"
+  },
   "nav": {
     "history": "Histoire",
     "tunnellers": "Tunneliers",

@@ -1,5 +1,5 @@
-import type { Metadata } from "next";
 import { NextResponse } from "next/server";
+import { getTranslations } from "next-intl/server";
 
 import { AboutUs } from "@/components/AboutUs/AboutUs";
 import {
@@ -44,9 +44,11 @@ async function getData(locale: Locale) {
   }
 }
 
-export const metadata: Metadata = {
-  title: "About Us - New Zealand Tunnellers",
-};
+export async function generateMetadata(props: Props) {
+  const { locale } = await props.params;
+  const t = await getTranslations({ locale, namespace: "site" });
+  return { title: `${t("aboutUs")} - New Zealand Tunnellers` };
+}
 
 export default async function Page(props: Props) {
   const { locale } = await props.params;

@@ -1,5 +1,5 @@
-import { Metadata } from "next";
 import { NextResponse } from "next/server";
+import { getTranslations } from "next-intl/server";
 
 import { Roll } from "@/components/Roll/Roll";
 import { Locale } from "@/types/locale";
@@ -43,9 +43,11 @@ async function getData(locale: Locale) {
   }
 }
 
-export const metadata: Metadata = {
-  title: "List of Tunnellers - New Zealand Tunnellers",
-};
+export async function generateMetadata(props: Props) {
+  const { locale } = await props.params;
+  const t = await getTranslations({ locale, namespace: "site" });
+  return { title: `${t("tunnellers")} - New Zealand Tunnellers` };
+}
 
 export default async function Page(props: Props) {
   const { locale } = await props.params;
