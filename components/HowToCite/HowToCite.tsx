@@ -177,9 +177,14 @@ function HowToCiteTitle({
   }
 
   if (tunneller && timeline) {
+    const timelineOf =
+      locale === "en"
+        ? "World War I Timeline of"
+        : "Chronologie de la guerre de";
     return (
       <>
-        {openQuote}World War I Timeline of
+        {openQuote}
+        {timelineOf}
         {` ${tunneller.name.forename} ${tunneller.name.surname}`}
         {closeQuote}
       </>
