@@ -40,8 +40,11 @@
 
     sup {
       font-size: 0.6rem;
-      vertical-align: super;
+      vertical-align: baseline;
+      position: relative;
+      top: 0.5em;
       line-height: 0;
+      margin-right: 3px;
 
       @include variables.tablet {
         font-size: 0.7rem;
