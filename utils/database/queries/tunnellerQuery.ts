@@ -32,6 +32,7 @@ export const tunnellerQuery = async (
     , t.aka
     , posted_from_corps.corps_${locale} AS posted_from_corps
     , embarkation_unit.embarkation_unit_${locale} AS embarkation_unit
+    , embarkation_unit.embarkation_unit_en AS embarkation_unit_key
     , DATE_FORMAT(training.training_start, '%Y-%m-%d') AS training_start
     , training.training_location
     , training_location_type.training_location_type_${locale} AS training_location_type

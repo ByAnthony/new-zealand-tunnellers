@@ -26,6 +26,7 @@ export type ProfileData = {
   aka: string | null;
   posted_from_corps: string | null;
   embarkation_unit: Detachment;
+  embarkation_unit_key: string;
   training_start: string;
   training_location: string;
   training_location_type: string;
@@ -91,6 +92,7 @@ export type DeathData = {
 export type SingleEventData = {
   date: string;
   event: string;
+  eventKey?: string | null;
   title: string | null;
   titleKey?: string | null;
   image: string | null;

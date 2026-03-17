@@ -182,8 +182,9 @@ export async function getTunneller(
 
   const selectedCompanyEvents: SingleEventData[] = companyEvents.filter(
     (event) => {
+      const eventKey = event.eventKey ?? event.event;
       if (
-        event.event !== "Marched in to the Company Training Camp, Falmouth" &&
+        eventKey !== "Marched in to the Company Training Camp, Falmouth" &&
         getEventStartDate(additionalTunnellerEvents) <= event.date &&
         event.date < getEventEndDate(additionalTunnellerEvents)
       ) {
@@ -191,9 +192,9 @@ export async function getTunneller(
       }
 
       if (
-        event.event === "Marched in to the Company Training Camp, Falmouth" &&
-        (profile.embarkation_unit === "Main Body" ||
-          profile.embarkation_unit === "1st Reinforcements")
+        eventKey === "Marched in to the Company Training Camp, Falmouth" &&
+        (profile.embarkation_unit_key === "Main Body" ||
+          profile.embarkation_unit_key === "1st Reinforcements")
       ) {
         return true;
       }
