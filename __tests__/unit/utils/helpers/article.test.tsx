@@ -84,6 +84,12 @@ describe("renderSuperscript", () => {
     expect(renderSuperscript("Main Body")).toBe("Main Body");
   });
 
+  test("preserves surrounding text around superscript", () => {
+    const { container } = render(<>{renderSuperscript("1^re armée")}</>);
+    expect(container.textContent).toBe("1re armée");
+    expect(container.querySelector("sup")?.textContent).toBe("re");
+  });
+
   test("renders superscript for ^ notation", () => {
     const { container } = render(<>{renderSuperscript("1^re Renforts")}</>);
     const sup = container.querySelector("sup");

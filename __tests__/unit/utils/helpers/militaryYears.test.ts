@@ -898,6 +898,39 @@ describe("getDemobilization", () => {
     const result = getDemobilization(null, null, null);
     expect(result).toBeNull();
   });
+
+  test("returns French UK discharge event with fr locale", () => {
+    const result = getDemobilization("2023-01-01", 1, null, "fr");
+    expect(result).toEqual({
+      date: "2023-01-01",
+      event: "Fin de service au Royaume-Uni",
+      title: "Démobilisation",
+      titleKey: "Demobilization",
+      image: null,
+    });
+  });
+
+  test("returns French deserter event with fr locale", () => {
+    const result = getDemobilization("2023-01-01", null, 1, "fr");
+    expect(result).toEqual({
+      date: "2023-01-01",
+      event: "Fin de service en tant que déserteur",
+      title: "Démobilisation",
+      titleKey: "Demobilization",
+      image: null,
+    });
+  });
+
+  test("returns French general demobilization event with fr locale", () => {
+    const result = getDemobilization("2023-01-01", null, null, "fr");
+    expect(result).toEqual({
+      date: "2023-01-01",
+      event: "Démobilisation",
+      title: "Fin de service",
+      titleKey: "End of Service",
+      image: null,
+    });
+  });
 });
 
 describe("getDischargedCountry", () => {
