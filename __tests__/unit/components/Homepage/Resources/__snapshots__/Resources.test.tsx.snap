@@ -1,0 +1,70 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`Resources matches the snapshot 1`] = `
+<DocumentFragment>
+  <section
+    aria-labelledby="resources-title"
+    class="container"
+    id="resources"
+  >
+    <h2
+      id="resources-title"
+    >
+      Resources to Explore
+    </h2>
+    <div
+      class="actions"
+    >
+      <a
+        class="card"
+        href="/books/kiwis-dig-tunnels-too"
+      >
+        <div
+          class="card-content"
+        >
+          <div
+            class="card-header"
+          >
+            <h3
+              class="title"
+            >
+              Kiwis Dig Tunnels Too
+            </h3>
+            <div
+              class="badge"
+            >
+              Book
+            </div>
+          </div>
+          <p
+            class="description"
+          >
+            Recruited for their digging skills, James Williamson, Harold Howard, George Race, and Gerald Punch—four New Zealand volunteers—are preparing to cross the oceans with their special unit to take part in this secret war. But on the other side of the world, this deadly game is already tipping in favor of the German miners.
+          </p>
+        </div>
+        <div
+          class="button-base"
+        >
+          <div>
+            <span
+              class="by"
+            >
+              By 
+            </span>
+            <span
+              class="author"
+            >
+              Anthony Byledbal
+            </span>
+          </div>
+          <div
+            class="arrow"
+          >
+            →
+          </div>
+        </div>
+      </a>
+    </div>
+  </section>
+</DocumentFragment>
+`;
