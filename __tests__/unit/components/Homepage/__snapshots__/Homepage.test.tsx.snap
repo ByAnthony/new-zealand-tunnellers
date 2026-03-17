@@ -465,55 +465,6 @@ exports[`Homepage matches the snapshot for mobile viewport 1`] = `
             </div>
           </div>
         </a>
-        <a
-          class="card"
-          href="/books/les-kiwis-aussi-creusent-des-tunnels"
-        >
-          <div
-            class="card-content"
-          >
-            <div
-              class="card-header"
-            >
-              <h3
-                class="title"
-              >
-                Les Kiwis aussi creusent des tunnels
-              </h3>
-              <div
-                class="badge"
-              >
-                Livre
-              </div>
-            </div>
-            <p
-              class="description"
-            >
-              Recrutés pour leurs aptitudes à creuser, James Williamson, Harold Howard, George Race et Gerald Punch — quatre engagés volontaires néo-zélandais — s'apprêtent à traverser les océans avec leur unité spéciale pour prendre part à cette guerre secrète. Mais, de l'autre côté de la terre, ce jeu mortel est déjà à l'avantage des mineurs allemands.
-            </p>
-          </div>
-          <div
-            class="button-base"
-          >
-            <div>
-              <span
-                class="by"
-              >
-                Par 
-              </span>
-              <span
-                class="author"
-              >
-                Anthony Byledbal
-              </span>
-            </div>
-            <div
-              class="arrow"
-            >
-              →
-            </div>
-          </div>
-        </a>
       </div>
     </section>
   </div>
@@ -953,55 +904,6 @@ exports[`Homepage matches the snapshot for tablet/desktop viewports 1`] = `
                 class="by"
               >
                 By 
-              </span>
-              <span
-                class="author"
-              >
-                Anthony Byledbal
-              </span>
-            </div>
-            <div
-              class="arrow"
-            >
-              →
-            </div>
-          </div>
-        </a>
-        <a
-          class="card"
-          href="/books/les-kiwis-aussi-creusent-des-tunnels"
-        >
-          <div
-            class="card-content"
-          >
-            <div
-              class="card-header"
-            >
-              <h3
-                class="title"
-              >
-                Les Kiwis aussi creusent des tunnels
-              </h3>
-              <div
-                class="badge"
-              >
-                Livre
-              </div>
-            </div>
-            <p
-              class="description"
-            >
-              Recrutés pour leurs aptitudes à creuser, James Williamson, Harold Howard, George Race et Gerald Punch — quatre engagés volontaires néo-zélandais — s'apprêtent à traverser les océans avec leur unité spéciale pour prendre part à cette guerre secrète. Mais, de l'autre côté de la terre, ce jeu mortel est déjà à l'avantage des mineurs allemands.
-            </p>
-          </div>
-          <div
-            class="button-base"
-          >
-            <div>
-              <span
-                class="by"
-              >
-                Par 
               </span>
               <span
                 class="author"

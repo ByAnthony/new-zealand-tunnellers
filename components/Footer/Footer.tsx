@@ -29,6 +29,9 @@ export function Footer() {
             </Link>
           </div>
           <div className={STYLES["map-link"]}>
+            <Link href={`${localePrefix}/#resources`}>{tNav("resources")}</Link>
+          </div>
+          <div className={STYLES["map-link"]}>
             <Link href={`${localePrefix}/about-us`}>{tNav("aboutUs")}</Link>
           </div>
         </div>
