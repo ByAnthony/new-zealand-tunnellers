@@ -58,7 +58,7 @@ function OtherMedals({ medalsList }: { medalsList: Medal[] | [] }) {
     <>
       {filteredMedals.map((medal) => {
         const displayCountry =
-          medal.country !== "United Kingdom" ? `(${medal.country})` : "";
+          medal.country_key !== "United Kingdom" ? `(${medal.country})` : "";
         return (
           <div
             key={filteredMedals.indexOf(medal)}

@@ -94,6 +94,7 @@ const mockPreWarYears: PreWayYears = {
 export const mockBritishWarMedal: Medal = {
   name: "British War Medal",
   country: "United Kingdom",
+  country_key: "United Kingdom",
   image: "british-war-medal.png",
   citation: null,
 };
@@ -101,6 +102,7 @@ export const mockBritishWarMedal: Medal = {
 export const mockVictoryMedal: Medal = {
   name: "Victory Medal",
   country: "United Kingdom",
+  country_key: "United Kingdom",
   image: "victory-medal.png",
   citation: null,
 };

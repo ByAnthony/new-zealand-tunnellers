@@ -11,6 +11,7 @@ export const armyExperienceQuery = async (
   const query = `SELECT
     army_experience.army_experience_name AS unit
     , country.country_${locale} AS country
+    , country.country_en AS country_key
     , conflict.conflict_name_${locale} AS conflict
     , army_experience_join.army_experience_in_month AS duration
     FROM army_experience

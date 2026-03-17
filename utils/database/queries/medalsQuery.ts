@@ -11,6 +11,7 @@ export const medalsQuery = async (
   const query = `SELECT
     medal.medal_name_${locale} AS name
     , country.country_${locale} AS country
+    , country.country_en AS country_key
     , medal_citation.medal_citation_${locale} AS citation
     , medal_image AS image
     FROM medal

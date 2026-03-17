@@ -36,6 +36,7 @@ test("renders army experience when country is United Kingdom", () => {
         {
           ...mockArmyExperience,
           country: "United Kingdom",
+          country_key: "United Kingdom",
         },
       ]}
     />
@@ -77,6 +78,7 @@ test("renders army experience when duration unknown and country is United Kingdo
           ...mockArmyExperience,
           duration: null,
           country: "United Kingdom",
+          country_key: "United Kingdom",
         },
       ]}
     />
@@ -97,6 +99,7 @@ test("renders army experience when country unknown", () => {
         {
           ...mockArmyExperience,
           country: null,
+          country_key: null,
         },
       ]}
     />
@@ -116,6 +119,7 @@ test("renders army experience when country and duration unknown", () => {
         {
           ...mockArmyExperience,
           country: null,
+          country_key: null,
           duration: null,
         },
       ]}
@@ -138,6 +142,7 @@ test("renders conflict experience", () => {
           ...mockArmyExperience,
           unit: "Other",
           country: null,
+          country_key: null,
           conflict: "South Africa War",
           duration: "2 years",
         },
@@ -160,6 +165,7 @@ test("renders conflict experience when duration unknown", () => {
           ...mockArmyExperience,
           unit: "Other",
           country: null,
+          country_key: null,
           conflict: "South Africa War",
           duration: null,
         },
@@ -182,6 +188,7 @@ test("renders conflict experience when unit known", () => {
           ...mockArmyExperience,
           unit: "NZ Infantry",
           country: null,
+          country_key: null,
           conflict: "South Africa War",
           duration: null,
         },

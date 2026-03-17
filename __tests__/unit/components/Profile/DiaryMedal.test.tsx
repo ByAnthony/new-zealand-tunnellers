@@ -38,6 +38,7 @@ test("renders Military Medal correctly", () => {
   const mockMilitaryMedal = {
     name: "Military Medal",
     country: "United Kingdom",
+    country_key: "United Kingdom",
     image: "military-medal.png",
     citation: "For bravery in the field",
   };

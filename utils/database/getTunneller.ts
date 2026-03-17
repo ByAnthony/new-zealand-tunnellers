@@ -229,7 +229,7 @@ export async function getTunneller(
       ),
     },
     preWarYears: {
-      armyExperience: getArmyExperience(armyExperience),
+      armyExperience: getArmyExperience(armyExperience, locale),
       employment: {
         occupation: profile.occupation,
         employer: profile.employer,

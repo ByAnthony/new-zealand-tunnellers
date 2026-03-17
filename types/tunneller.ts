@@ -152,6 +152,7 @@ export type Origins = {
 export type ArmyExperience = {
   unit: string;
   country: string | null;
+  country_key: string | null;
   conflict: string | null;
   duration: string | null;
 };
@@ -225,6 +226,7 @@ export type TransferredTo = {
 export type Medal = {
   name: string;
   country: string;
+  country_key: string;
   image: string;
   citation: string | null;
 };
