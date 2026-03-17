@@ -43,10 +43,13 @@ export function Tunnellers() {
                       lutté
                     </tspan>
                     <tspan x="0" dy="0.8em">
-                      sous le
+                      sous
                     </tspan>
                     <tspan x="0" dy="0.8em">
-                      no man’s
+                      le no
+                    </tspan>
+                    <tspan x="0" dy="0.8em">
+                      man’s
                     </tspan>
                     <tspan x="0" dy="0.8em">
                       land

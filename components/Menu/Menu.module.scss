@@ -178,15 +178,6 @@
   }
 }
 
-.language-switcher {
-  flex-shrink: 0;
-  margin-left: variables.$xs-margin;
-  font-size: 1rem;
-  font-weight: 500;
-  color: variables.$secondary-color;
-  white-space: nowrap;
-}
-
 .hidden {
   opacity: 0;
   transition: opacity 0.9s ease-in-out;
