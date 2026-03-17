@@ -236,7 +236,7 @@ export const mockImageArchives: ImageArchives = {
   reference: "MS-93/157",
 };
 
-export const mockImageFamily: string = "Courtesy of John Doe family";
+export const mockImageFamily: string = "John Doe";
 
 export const mockImageNewspaper: ImageNewspaper = {
   name: "Auckland Star",
