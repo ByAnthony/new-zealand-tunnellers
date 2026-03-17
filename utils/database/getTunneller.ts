@@ -172,6 +172,7 @@ export async function getTunneller(
       profile.demobilization_date,
       profile.discharge_uk,
       profile.has_deserted,
+      locale,
     ),
   ]
     .concat(tunnellerEvents, getWarDeathEvents(death))

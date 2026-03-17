@@ -32,6 +32,8 @@ export function TimelineEvent({ event, ageAtEnlistment }: Props) {
         const isTitleDiedOfAccident = key === "Died of accident";
         const isTitleBuried = key === "Buried";
         const isTitleGraveReference = key === "Grave reference";
+        const isTitleDemobilization = key === "Demobilization";
+        const isTitleEndOfService = key === "End of Service";
 
         const titleWithAgeAtEnlistment = (
           title: string,
@@ -124,6 +126,30 @@ export function TimelineEvent({ event, ageAtEnlistment }: Props) {
                 className={STYLES["tunneller-event-with-title"]}
               >
                 <p>{isTitleBuried ? t("buried") : t("graveReference")}</p>
+                <span>{renderSuperscript(eventDetail.description)}</span>
+              </div>
+            );
+          }
+
+          if (isTitleDemobilization) {
+            return (
+              <div
+                key={event.indexOf(eventDetail)}
+                className={STYLES["main-event"]}
+              >
+                <p>{t("demobilization")}</p>
+                <span>{renderSuperscript(eventDetail.description)}</span>
+              </div>
+            );
+          }
+
+          if (isTitleEndOfService) {
+            return (
+              <div
+                key={event.indexOf(eventDetail)}
+                className={STYLES["main-event"]}
+              >
+                <p>{t("endOfService")}</p>
                 <span>{renderSuperscript(eventDetail.description)}</span>
               </div>
             );

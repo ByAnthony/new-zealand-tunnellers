@@ -867,6 +867,7 @@ describe("getDemobilization", () => {
       date: "2023-01-01",
       event: "End of Service in the United Kingdom",
       title: "Demobilization",
+      titleKey: "Demobilization",
       image: null,
     });
   });
@@ -877,6 +878,7 @@ describe("getDemobilization", () => {
       date: "2023-01-01",
       event: "End of Service as deserter",
       title: "Demobilization",
+      titleKey: "Demobilization",
       image: null,
     });
   });
@@ -887,6 +889,7 @@ describe("getDemobilization", () => {
       date: "2023-01-01",
       event: "Demobilization",
       title: "End of Service",
+      titleKey: "End of Service",
       image: null,
     });
   });

@@ -124,6 +124,10 @@
     "trained": "Trained",
     "buried": "Buried",
     "graveReference": "Grave reference",
+    "demobilization": "Demobilization",
+    "endOfService": "End of Service",
+    "endOfServiceUK": "End of Service in the United Kingdom",
+    "endOfServiceDeserter": "End of Service as deserter",
     "enlistedAtAge": "{title} at the age of {age}",
     "companyEventAlt": "Image for {title}",
     "companyEventAltFallback": "Company event"

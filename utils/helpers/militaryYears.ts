@@ -343,12 +343,18 @@ export const getDemobilization = (
   date: string | null,
   dischargeUk: number | null,
   deserted: number | null,
+  locale: string = "en",
 ) => {
+  const isEn = locale === "en";
+
   if (date && dischargeUk === 1) {
     return {
       date: date,
-      event: "End of Service in the United Kingdom",
-      title: "Demobilization",
+      event: isEn
+        ? "End of Service in the United Kingdom"
+        : "Fin de service au Royaume-Uni",
+      title: isEn ? "Demobilization" : "Démobilisation",
+      titleKey: "Demobilization",
       image: null,
     };
   }
@@ -356,8 +362,11 @@ export const getDemobilization = (
   if (date && deserted === 1) {
     return {
       date: date,
-      event: "End of Service as deserter",
-      title: "Demobilization",
+      event: isEn
+        ? "End of Service as deserter"
+        : "Fin de service en tant que déserteur",
+      title: isEn ? "Demobilization" : "Démobilisation",
+      titleKey: "Demobilization",
       image: null,
     };
   }
@@ -365,8 +374,9 @@ export const getDemobilization = (
   if (date) {
     return {
       date: date,
-      event: "Demobilization",
-      title: "End of Service",
+      event: isEn ? "Demobilization" : "Démobilisation",
+      title: isEn ? "End of Service" : "Fin de service",
+      titleKey: "End of Service",
       image: null,
     };
   }
