@@ -99,7 +99,11 @@ describe("HowToCite", () => {
 
   test("console error is called in development mode when clipboard fails", async () => {
     const originalEnv = process.env.NODE_ENV;
-    process.env.NODE_ENV = "development";
+    Object.defineProperty(process.env, "NODE_ENV", {
+      value: "development",
+      writable: true,
+      configurable: true,
+    });
 
     jest
       .spyOn(navigator.clipboard, "writeText")
@@ -126,7 +130,11 @@ describe("HowToCite", () => {
 
     alertSpy.mockRestore();
     consoleErrorSpy.mockRestore();
-    process.env.NODE_ENV = originalEnv;
+    Object.defineProperty(process.env, "NODE_ENV", {
+      value: originalEnv,
+      writable: true,
+      configurable: true,
+    });
     jest.restoreAllMocks();
   });
 
@@ -170,7 +178,7 @@ describe("HowToCite", () => {
   test("renders non-chapter citation for a prologue path", () => {
     render(
       <HowToCite
-        pathname="/books/les-kiwis-aussi-creusent-des-tunnels/prologue"
+        pathname="/fr/books/kiwis-dig-tunnels-too/prologue"
         locale="fr"
       />,
     );
@@ -197,5 +205,67 @@ describe("HowToCite", () => {
     expect(
       screen.getByText(/World War I Timeline of John Smith/),
     ).toBeInTheDocument();
+  });
+
+  test("renders French timeline citation with French prefix", () => {
+    const tunneller: Summary = {
+      serial: "1/1000",
+      name: { forename: "John", surname: "Smith" },
+      birth: "1886",
+      death: "1966",
+    };
+
+    render(
+      <HowToCite summary={tunneller} timeline={true} id={1} locale="fr" />,
+    );
+
+    expect(
+      screen.getByText(/Chronologie de la guerre de John Smith/),
+    ).toBeInTheDocument();
+  });
+
+  test("English URL has no locale prefix for tunneller profile", () => {
+    render(<HowToCite id={1} locale="en" />);
+
+    expect(screen.getByText(/nztunnellers/)).toBeInTheDocument();
+    expect(screen.queryByText(/\/en\//)).not.toBeInTheDocument();
+  });
+
+  test("French URL includes /fr/ prefix for tunneller profile", () => {
+    render(<HowToCite id={1} locale="fr" />);
+
+    expect(screen.getByText(/\/fr\//)).toBeInTheDocument();
+  });
+
+  test("French URL includes /fr/ prefix for timeline", () => {
+    const tunneller: Summary = {
+      serial: "1/1000",
+      name: { forename: "John", surname: "Smith" },
+      birth: "1886",
+      death: "1966",
+    };
+
+    render(
+      <HowToCite summary={tunneller} timeline={true} id={1} locale="fr" />,
+    );
+
+    expect(screen.getByText(/\/fr\//)).toBeInTheDocument();
+  });
+
+  test("French URL includes /fr/ prefix for history chapter", () => {
+    render(<HowToCite title="The Tunnellers" locale="fr" />);
+
+    expect(screen.getByText(/\/fr\//)).toBeInTheDocument();
+  });
+
+  test("French URL includes /fr/ prefix for pathname", () => {
+    render(
+      <HowToCite
+        pathname="/fr/books/kiwis-dig-tunnels-too/chapter-1"
+        locale="fr"
+      />,
+    );
+
+    expect(screen.getByText(/\/fr\//)).toBeInTheDocument();
   });
 });

@@ -56,13 +56,13 @@ describe("RollFilter", () => {
 
   test("renders the birth year slider", () => {
     render(<RollFilter {...defaultProps} />);
-    expect(screen.getByText("Birth Years")).toBeInTheDocument();
+    expect(screen.getByText("Birth")).toBeInTheDocument();
     expect(screen.getByText("1880-1900")).toBeInTheDocument();
   });
 
   test("renders the death year slider", () => {
     render(<RollFilter {...defaultProps} />);
-    expect(screen.getByText("Death Years")).toBeInTheDocument();
+    expect(screen.getByText("Death")).toBeInTheDocument();
     expect(screen.getByText("1915-1930")).toBeInTheDocument();
   });
 
@@ -105,14 +105,14 @@ describe("RollFilter", () => {
 
   test("calls handleUnknwonBirthYear when the unknown birth year checkbox is clicked", () => {
     render(<RollFilter {...defaultProps} />);
-    const checkbox = screen.getByLabelText("Includes unknown birth year");
+    const checkbox = screen.getByLabelText("Unknown birth year");
     fireEvent.click(checkbox);
     expect(defaultProps.handleUnknwonBirthYear).toHaveBeenCalledWith("unknown");
   });
 
   test("calls handleUnknwonDeathYear when the unknown death year checkbox is clicked", () => {
     render(<RollFilter {...defaultProps} />);
-    const checkbox = screen.getByLabelText("Includes unknown death year");
+    const checkbox = screen.getByLabelText("Unknown death year");
     fireEvent.click(checkbox);
     expect(defaultProps.handleUnknwonDeathYear).toHaveBeenCalledWith("unknown");
   });

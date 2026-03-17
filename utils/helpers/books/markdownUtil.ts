@@ -1,7 +1,7 @@
 import fs from "fs/promises";
 import path from "path";
 
-import { basePath } from "./basePathUtil";
+import { bookFilePath } from "./basePathUtil";
 
 export const readBookMarkdown = async (
   locale: string,
@@ -9,7 +9,7 @@ export const readBookMarkdown = async (
 ): Promise<string> => {
   const filePath = path.join(
     process.cwd(),
-    `./contents/${basePath(locale)}`,
+    `./contents/${bookFilePath(locale)}`,
     `${filename}.md`,
   );
   try {

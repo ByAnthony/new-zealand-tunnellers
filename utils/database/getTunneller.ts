@@ -1,6 +1,7 @@
 import { PoolConnection } from "mysql2/promise";
 import { NextResponse } from "next/server";
 
+import { Locale } from "@/types/locale";
 import {
   ProfileData,
   ArmyExperience,
@@ -65,18 +66,27 @@ import {
   getLondonGazette,
 } from "../helpers/sources";
 
-export async function getTunneller(id: string, connection: PoolConnection) {
-  const profile: ProfileData = await tunnellerQuery(id, connection);
+export async function getTunneller(
+  id: string,
+  locale: Locale,
+  connection: PoolConnection,
+) {
+  const profile: ProfileData = await tunnellerQuery(id, locale, connection);
   const armyExperience: ArmyExperience[] = await armyExperienceQuery(
     id,
+    locale,
     connection,
   );
-  const companyEvents: SingleEventData[] = await companyEventsQuery(connection);
+  const companyEvents: SingleEventData[] = await companyEventsQuery(
+    locale,
+    connection,
+  );
   const tunnellerEvents: SingleEventData[] = await tunnellerEventsQuery(
     id,
+    locale,
     connection,
   );
-  const medals: Medal[] = await medalsQuery(id, connection);
+  const medals: Medal[] = await medalsQuery(id, locale, connection);
   const nzArchives: NzArchives[] = await nzArchivesQuery(id, connection);
   const londonGazette: LondonGazette[] = await londonGazetteQuery(
     id,
@@ -91,7 +101,9 @@ export async function getTunneller(id: string, connection: PoolConnection) {
     ? {
         date: profile.transport_uk_start,
         event: `${profile.transport_uk_ref} ${profile.transport_uk_vessel}`,
-        title: "Transfer to England",
+        title:
+          locale === "en" ? "Transfer to England" : "Transfert en Angleterre",
+        titleKey: "Transfer to England",
         image: null,
       }
     : null;
@@ -100,7 +112,11 @@ export async function getTunneller(id: string, connection: PoolConnection) {
     ? {
         date: profile.transport_nz_start,
         event: `${profile.transport_nz_ref} ${profile.transport_nz_vessel}`,
-        title: "Transfer to New Zealand",
+        title:
+          locale === "en"
+            ? "Transfer to New Zealand"
+            : "Transfert en Nouvelle-Zélande",
+        titleKey: "Transfer to New Zealand",
         image: null,
       }
     : null;
@@ -110,7 +126,8 @@ export async function getTunneller(id: string, connection: PoolConnection) {
       ? {
           date: profile.transferred_to_date,
           event: profile.transferred_to_unit,
-          title: "Transferred",
+          title: locale === "en" ? "Transferred" : "Transféré",
+          titleKey: "Transferred",
           image: null,
         }
       : null;
@@ -133,11 +150,13 @@ export async function getTunneller(id: string, connection: PoolConnection) {
 
   const death: DeathData = {
     deathType: profile.death_type,
+    deathTypeKey: profile.death_type_key,
     deathDate: profile.death_date,
     deathLocation: profile.death_location,
     deathTown: profile.death_town,
     deathCountry: profile.death_country,
     deathCause: profile.death_cause,
+    deathCauseKey: profile.death_cause_key,
     deathCircumstances: profile.death_circumstances,
     cemetery: profile.cemetery,
     cemteryTown: profile.cemetery_town,
@@ -153,6 +172,7 @@ export async function getTunneller(id: string, connection: PoolConnection) {
       profile.demobilization_date,
       profile.discharge_uk,
       profile.has_deserted,
+      locale,
     ),
   ]
     .concat(tunnellerEvents, getWarDeathEvents(death))
@@ -162,8 +182,9 @@ export async function getTunneller(id: string, connection: PoolConnection) {
 
   const selectedCompanyEvents: SingleEventData[] = companyEvents.filter(
     (event) => {
+      const eventKey = event.eventKey ?? event.event;
       if (
-        event.event !== "Marched in to the Company Training Camp, Falmouth" &&
+        eventKey !== "Marched in to the Company Training Camp, Falmouth" &&
         getEventStartDate(additionalTunnellerEvents) <= event.date &&
         event.date < getEventEndDate(additionalTunnellerEvents)
       ) {
@@ -171,9 +192,9 @@ export async function getTunneller(id: string, connection: PoolConnection) {
       }
 
       if (
-        event.event === "Marched in to the Company Training Camp, Falmouth" &&
-        (profile.embarkation_unit === "Main Body" ||
-          profile.embarkation_unit === "1st Reinforcements")
+        eventKey === "Marched in to the Company Training Camp, Falmouth" &&
+        (profile.embarkation_unit_key === "Main Body" ||
+          profile.embarkation_unit_key === "1st Reinforcements")
       ) {
         return true;
       }
@@ -209,7 +230,7 @@ export async function getTunneller(id: string, connection: PoolConnection) {
       ),
     },
     preWarYears: {
-      armyExperience: getArmyExperience(armyExperience),
+      armyExperience: getArmyExperience(armyExperience, locale),
       employment: {
         occupation: profile.occupation,
         employer: profile.employer,
@@ -262,7 +283,7 @@ export async function getTunneller(id: string, connection: PoolConnection) {
           profile.transferred_to_date,
           profile.transferred_to_unit,
         ),
-        deathWar: isDeathWar(profile.death_type),
+        deathWar: isDeathWar(profile.death_type_key),
         transportNz: getTransport(
           profile.transport_nz_ref,
           profile.transport_nz_vessel,
@@ -280,8 +301,8 @@ export async function getTunneller(id: string, connection: PoolConnection) {
       medals: medals,
     },
     death: getDeath(
-      isWarInjuriesDeathAfterWar(profile.death_type),
-      profile.death_type,
+      isWarInjuriesDeathAfterWar(profile.death_type_key),
+      profile.death_type_key,
       profile.death_date ? getDate(profile.death_date) : null,
       getDeathPlace(
         profile.death_location,

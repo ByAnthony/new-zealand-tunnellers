@@ -14,7 +14,7 @@ test("renders residence when known", () => {
   render(component);
 
   expect(screen.getByText("Residence")).toBeInTheDocument();
-  expect(screen.getByText("Hometown")).toBeInTheDocument();
+  expect(screen.getByText("Town")).toBeInTheDocument();
   expect(screen.getByText("Wellington")).toBeInTheDocument();
 });
 

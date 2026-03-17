@@ -1,8 +1,9 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 import { Birth } from "@/types/tunneller";
+import { getFrenchCountryWithPrep } from "@/utils/helpers/country";
 
 import STYLES from "../ProfileDiary.module.scss";
 
@@ -12,11 +13,14 @@ type Props = {
 
 export function DiaryBirth({ birth }: Props) {
   const t = useTranslations("profile");
+  const locale = useLocale();
+  const formatCountry = (country: string) =>
+    locale === "fr" ? getFrenchCountryWithPrep(country) : country;
 
   if (birth.date && birth.country) {
     return (
       <div className={STYLES["fullwidth-main-card"]}>
-        <p>{t("bornInCountry", { country: birth.country })}</p>
+        <p>{t("bornInCountry", { country: formatCountry(birth.country) })}</p>
         <span>{`${birth.date?.dayMonth} ${birth.date?.year}`}</span>
       </div>
     );
@@ -32,7 +36,9 @@ export function DiaryBirth({ birth }: Props) {
   if (!birth.date && birth.country) {
     return (
       <div className={STYLES["fullwidth-main-card"]}>
-        <span>{t("bornInCountry", { country: birth.country })}</span>
+        <span>
+          {t("bornInCountry", { country: formatCountry(birth.country) })}
+        </span>
       </div>
     );
   }

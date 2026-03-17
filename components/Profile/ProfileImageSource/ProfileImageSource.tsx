@@ -33,8 +33,7 @@ function SourceImage({
       <div className={STYLES.sources}>
         {title}
         <p>
-          Auckland Libraries Ngā Pātaka Kōrero o Tāmaki Makaurau, Sir George
-          Grey Special Collections:{" "}
+          {t("imageSourceAucklandLibraries")}{" "}
           <Link href={`${imageSource.aucklandLibraries}`}>
             {displayReference(imageSource.aucklandLibraries)}
           </Link>
@@ -47,7 +46,7 @@ function SourceImage({
     return (
       <div className={STYLES.sources}>
         {title}
-        <p>{`${imageSource.family}.`}</p>
+        <p>{t("imageSourceFamily", { name: imageSource.family })}.</p>
       </div>
     );
   }
@@ -66,7 +65,7 @@ function SourceImage({
     const displayAuthors = (authors: Author[] | null) => {
       if (authors) {
         if (authors.length === 2) {
-          return `${authors[0].forename} ${authors[0].surname} and ${authors[1].forename} ${authors[1].surname}, `;
+          return `${authors[0].forename} ${authors[0].surname} ${t("and")} ${authors[1].forename} ${authors[1].surname}, `;
         }
         return `${authors[0].forename} ${authors[0].surname}, `;
       }

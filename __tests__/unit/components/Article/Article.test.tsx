@@ -69,9 +69,7 @@ describe("Article", () => {
       }),
     ).toBeInTheDocument();
     expect(findElementWithText("My Awesome Article Title")).toBeInTheDocument();
-    expect(
-      screen.getByText(/history\/my-awesome-article-title/),
-    ).toBeInTheDocument();
+    expect(screen.getByText(/history\/my-awesome-article/)).toBeInTheDocument();
     expect(screen.getByText(/Accessed: 4 May 2023/)).toBeInTheDocument();
   });
 

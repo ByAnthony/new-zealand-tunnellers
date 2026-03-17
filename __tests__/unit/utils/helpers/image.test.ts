@@ -54,11 +54,10 @@ describe("getImageSourceArchives", () => {
 });
 
 describe("getImageSourceFamily", () => {
-  test("returns the correct string when provided with a name", () => {
+  test("returns the name when provided", () => {
     const name = "Smith";
-    const expectedResult = "Courtesy of Smith family";
     const result = getImageSourceFamily(name);
-    expect(result).toBe(expectedResult);
+    expect(result).toBe("Smith");
   });
 
   test("returns null when the name is null", () => {

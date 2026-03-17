@@ -1,3 +1,4 @@
+import { Locale } from "@/types/locale";
 import { Tunneller } from "@/types/tunnellers";
 
 export const rankCategories: Record<string, string[]> = {
@@ -14,18 +15,45 @@ export const rankCategories: Record<string, string[]> = {
   "Other Ranks": ["Lance Corporal", "Motor Mechanic", "Sapper", "Driver"],
 };
 
+const rankCategoriesFr: Record<string, string[]> = {
+  Officers: ["Major", "Capitaine", "Lieutenant", "Sous-lieutenant"],
+  "Non-Commissioned Officers": [
+    "Sergent-major",
+    "Sergent-major de compagnie",
+    "Sergent quartier-maître",
+    "Sergent quartier-maître de compagnie",
+    "Sergent",
+    "Caporal",
+    "Sous-caporal",
+  ],
+  "Other Ranks": [
+    "Caporal suppléant",
+    "Mécanicien automobile",
+    "Sapeur",
+    "Conducteur",
+  ],
+};
+
+export const rankCategoryTranslationKey: Record<string, string> = {
+  Officers: "rankOfficers",
+  "Non-Commissioned Officers": "rankNco",
+  "Other Ranks": "rankOtherRanks",
+};
+
 export const getUniqueRanks = (list: [string, Tunneller[]][]) => {
   return Array.from(
     new Set(list.flatMap(([, lists]) => lists.map((item) => item.rank))),
   );
 };
 
-export const getSortedRanks = (list: string[]) => {
+export const getSortedRanks = (list: string[], locale: Locale = "en") => {
+  const categories = locale === "en" ? rankCategories : rankCategoriesFr;
+
   return Object.fromEntries(
     Object.entries(
       list.reduce((acc: Record<string, string[]>, rank) => {
-        const category: string | undefined = Object.keys(rankCategories).find(
-          (category) => rankCategories[category].includes(rank),
+        const category: string | undefined = Object.keys(categories).find(
+          (category) => categories[category].includes(rank),
         );
 
         if (category) {
@@ -40,14 +68,13 @@ export const getSortedRanks = (list: string[]) => {
     )
       .sort(
         ([keyA], [keyB]) =>
-          Object.keys(rankCategories).indexOf(keyA) -
-          Object.keys(rankCategories).indexOf(keyB),
+          Object.keys(categories).indexOf(keyA) -
+          Object.keys(categories).indexOf(keyB),
       )
       .map(([key, value]) => [
         key,
         value.sort(
-          (a, b) =>
-            rankCategories[key].indexOf(a) - rankCategories[key].indexOf(b),
+          (a, b) => categories[key].indexOf(a) - categories[key].indexOf(b),
         ),
       ]),
   );

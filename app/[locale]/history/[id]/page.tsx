@@ -8,6 +8,7 @@ import {
   Chapter,
   ImageData,
 } from "@/types/article";
+import { Locale } from "@/types/locale";
 import { mysqlConnection } from "@/utils/database/mysqlConnection";
 import {
   chapterQuery,
@@ -18,18 +19,20 @@ import {
 import { getNextChapter } from "@/utils/helpers/article";
 
 type Props = {
-  params: Promise<{ id: string }>;
+  params: Promise<{ id: string; locale: Locale }>;
 };
 
-async function getData(id: string) {
+async function getData(id: string, locale: Locale) {
   const connection = await mysqlConnection.getConnection();
 
   try {
-    const data: ArticleData = await chapterQuery(id, connection);
-    const section: SectionData[] = await sectionsQuery(id, connection);
-    const images: ImageData[] = await imagesQuery(id, connection);
-    const nextArticle: ArticleReferenceData[] =
-      await nextArticleQuery(connection);
+    const data: ArticleData = await chapterQuery(id, locale, connection);
+    const section: SectionData[] = await sectionsQuery(id, locale, connection);
+    const images: ImageData[] = await imagesQuery(id, locale, connection);
+    const nextArticle: ArticleReferenceData[] = await nextArticleQuery(
+      locale,
+      connection,
+    );
 
     const article: Chapter = {
       id: data.id,
@@ -51,8 +54,8 @@ async function getData(id: string) {
 }
 
 export async function generateMetadata(props: Props) {
-  const { id } = await props.params;
-  const response = await getData(id);
+  const { id, locale } = await props.params;
+  const response = await getData(id, locale);
   const article: Chapter = await response.json();
 
   const title = article.title.replace(/\\/g, " ");
@@ -63,8 +66,8 @@ export async function generateMetadata(props: Props) {
 }
 
 export default async function Page(props: Props) {
-  const { id } = await props.params;
-  const response = await getData(id);
+  const { id, locale } = await props.params;
+  const response = await getData(id, locale);
   const article: Chapter = await response.json();
 
   return <Article article={article} />;

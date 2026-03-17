@@ -30,10 +30,7 @@ describe("BookMenu", () => {
 
     const link = screen.getByRole("link", { name: "Retour au sommaire" });
     expect(link).toBeInTheDocument();
-    expect(link).toHaveAttribute(
-      "href",
-      "/books/les-kiwis-aussi-creusent-des-tunnels",
-    );
+    expect(link).toHaveAttribute("href", "/fr/books/kiwis-dig-tunnels-too");
     expect(screen.getByText("Sommaire")).toBeInTheDocument();
   });
 

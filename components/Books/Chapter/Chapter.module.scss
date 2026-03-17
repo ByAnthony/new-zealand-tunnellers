@@ -114,6 +114,7 @@
     sup {
       font-size: 0.9rem;
       vertical-align: super;
+      line-height: 0;
       line-height: 80%;
 
       &::before {
@@ -196,6 +197,7 @@
       sup {
         font-size: 0.9rem;
         vertical-align: super;
+        line-height: 0;
         line-height: 80%;
       }
     }

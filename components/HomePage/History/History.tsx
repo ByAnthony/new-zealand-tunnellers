@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useRef, useState } from "react";
 
 import { HistoryChapter } from "@/types/homepage";
@@ -15,6 +15,8 @@ type Props = {
 export function History({ articles }: Props) {
   const t = useTranslations("homepage");
   const tArticle = useTranslations("article");
+  const locale = useLocale();
+  const localePrefix = locale === "en" ? "" : `/${locale}`;
   const [currentIndex, setCurrentIndex] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -115,7 +117,7 @@ export function History({ articles }: Props) {
                 style={divStyle}
               >
                 <Link
-                  href={`/history/${article.id}`}
+                  href={`${localePrefix}/history/${article.id}`}
                   className={STYLES["link-button"]}
                   aria-label={tArticle("goToChapter", {
                     chapter: article.chapter,

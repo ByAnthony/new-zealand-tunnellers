@@ -1,5 +1,5 @@
-import type { Metadata } from "next";
 import { NextResponse } from "next/server";
+import { getTranslations } from "next-intl/server";
 
 import { AboutUs } from "@/components/AboutUs/AboutUs";
 import {
@@ -8,6 +8,7 @@ import {
   AboutUsArticle,
   ImageData,
 } from "@/types/article";
+import { Locale } from "@/types/locale";
 import { mysqlConnection } from "@/utils/database/mysqlConnection";
 import {
   aboutUsTitle,
@@ -15,13 +16,17 @@ import {
   aboutUsImage,
 } from "@/utils/database/queries/aboutUsQuery";
 
-async function getData() {
+type Props = {
+  params: Promise<{ locale: Locale }>;
+};
+
+async function getData(locale: Locale) {
   const connection = await mysqlConnection.getConnection();
 
   try {
-    const data: AboutUsData = await aboutUsTitle(connection);
-    const sections: SectionData[] = await aboutUsSections(connection);
-    const images: ImageData[] = await aboutUsImage(connection);
+    const data: AboutUsData = await aboutUsTitle(locale, connection);
+    const sections: SectionData[] = await aboutUsSections(locale, connection);
+    const images: ImageData[] = await aboutUsImage(locale, connection);
 
     const article: AboutUsArticle = {
       id: data.id,
@@ -39,12 +44,15 @@ async function getData() {
   }
 }
 
-export const metadata: Metadata = {
-  title: "About Us - New Zealand Tunnellers",
-};
+export async function generateMetadata(props: Props) {
+  const { locale } = await props.params;
+  const t = await getTranslations({ locale, namespace: "site" });
+  return { title: `${t("aboutUs")} - New Zealand Tunnellers` };
+}
 
-export default async function Page() {
-  const response = await getData();
+export default async function Page(props: Props) {
+  const { locale } = await props.params;
+  const response = await getData(locale);
   const article: AboutUsArticle = await response.json();
 
   return <AboutUs article={article} />;

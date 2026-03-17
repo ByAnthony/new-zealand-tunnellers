@@ -2,6 +2,14 @@ import Link from "next/link";
 
 import { ArticleReferenceData } from "@/types/article";
 
+export const renderSuperscript = (text: string) => {
+  const parts = text.split(/(\^\w+)/g);
+  if (parts.length === 1) return text;
+  return parts.map((part, i) =>
+    part.startsWith("^") ? <sup key={i}>{part.slice(1)}</sup> : part,
+  );
+};
+
 export const getNextChapter = (
   chapter: number,
   articles: ArticleReferenceData[],
@@ -30,7 +38,7 @@ export const formatText = (text: string) => {
   return paragraphs.map((paragraph) => {
     const segments = paragraph
       .replace(/--/g, "\u00A0")
-      .split(/(\*.+?\*)|(\[.+?\))/g);
+      .split(/(\*.+?\*)|(\[.+?\))|(\^\w+)/g);
 
     const formattedSegments = segments
       .filter((segment) => segment)
@@ -40,6 +48,10 @@ export const formatText = (text: string) => {
         if (segment && segment.startsWith("*") && segment.endsWith("*")) {
           const italicText = segment.slice(1, -1);
           return <em key={segmentKey}>{italicText}</em>;
+        }
+
+        if (segment && segment.startsWith("^")) {
+          return <sup key={segmentKey}>{segment.slice(1)}</sup>;
         }
 
         if (segment && segment.startsWith("[") && segment.endsWith(")")) {

@@ -192,7 +192,7 @@ describe("Roll", () => {
     await renderRoll();
 
     const checkbox = screen.getByRole("checkbox", {
-      name: "Includes unknown birth year",
+      name: "Unknown birth year",
     });
     fireEvent.click(checkbox);
     expect(screen.getByText("2 results")).toBeInTheDocument();
@@ -222,7 +222,7 @@ describe("Roll", () => {
     await renderRoll();
 
     const checkbox = screen.getByRole("checkbox", {
-      name: "Includes unknown death year",
+      name: "Unknown death year",
     });
     fireEvent.click(checkbox);
     expect(screen.getByText("2 results")).toBeInTheDocument();
@@ -266,8 +266,8 @@ describe("Roll", () => {
 
     expect(screen.getByText("Detachments")).toBeInTheDocument();
     expect(screen.getByText("Corps")).toBeInTheDocument();
-    expect(screen.getByText("Birth Years")).toBeInTheDocument();
-    expect(screen.getByText("Death Years")).toBeInTheDocument();
+    expect(screen.getByText("Birth")).toBeInTheDocument();
+    expect(screen.getByText("Death")).toBeInTheDocument();
     expect(screen.getByText("Ranks")).toBeInTheDocument();
   });
 

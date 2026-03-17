@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
 
 import { Tunneller } from "@/types/tunnellers";
@@ -19,6 +19,8 @@ type Props = {
 export function Menu({ tunnellers }: Props) {
   const t = useTranslations("menu");
   const tNav = useTranslations("nav");
+  const locale = useLocale();
+  const localePrefix = locale === "en" ? "" : `/${locale}`;
 
   const { width } = useWindowDimensions();
   const divRef = useRef<HTMLDivElement>(null);
@@ -131,7 +133,11 @@ export function Menu({ tunnellers }: Props) {
       data-testid="menu"
       className={`${STYLES.menu} ${menuVisible ? "" : STYLES.hidden}`}
     >
-      <Link href="/" className={STYLES.logo} aria-label={tNav("goToHomepage")}>
+      <Link
+        href={`${localePrefix}/`}
+        className={STYLES.logo}
+        aria-label={tNav("goToHomepage")}
+      >
         <Image
           src="/nzt_logo.png"
           alt={tNav("logoAlt")}
@@ -198,7 +204,7 @@ export function Menu({ tunnellers }: Props) {
               {filteredTunnellers.map((tunneller, index) => (
                 <li key={index}>
                   <Link
-                    href={`/tunnellers/${tunneller.id}`}
+                    href={`${localePrefix}/tunnellers/${tunneller.id}`}
                     aria-label={t("seeTunnellerProfile", {
                       forename: tunneller.name.forename,
                       surname: tunneller.name.surname,
@@ -225,7 +231,7 @@ export function Menu({ tunnellers }: Props) {
             </ul>
 
             <Link
-              href="/tunnellers"
+              href={`${localePrefix}/tunnellers`}
               className={STYLES["tunnellers-link"]}
               onClick={handleNavigation}
             >

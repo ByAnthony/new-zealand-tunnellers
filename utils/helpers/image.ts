@@ -21,7 +21,7 @@ export const getImageSourceArchives = (
 };
 
 export const getImageSourceFamily = (name: string | null) => {
-  return name ? `Courtesy of ${name} family` : null;
+  return name ?? null;
 };
 
 export const getImageSourceNewspaper = (

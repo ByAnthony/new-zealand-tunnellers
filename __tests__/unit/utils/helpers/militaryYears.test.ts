@@ -234,7 +234,9 @@ describe("getJoinEvents", () => {
 describe("getWarDeathEvents", () => {
   const kia: DeathData = {
     deathType: "War",
+    deathTypeKey: "War",
     deathCause: "Killed in action",
+    deathCauseKey: "Killed in action",
     deathDate: "1916-07-01",
     deathCircumstances: "Battle of the Somme",
     deathLocation: "Telegraph Wood",
@@ -250,6 +252,7 @@ describe("getWarDeathEvents", () => {
     date: "1916-07-01",
     event: "Thiepval Memorial, Ovilliers",
     title: "Buried",
+    titleKey: "Buried",
     image: null,
   };
 
@@ -257,6 +260,7 @@ describe("getWarDeathEvents", () => {
     date: "1916-07-01",
     event: "B2",
     title: "Grave reference",
+    titleKey: "Grave reference",
     image: null,
   };
 
@@ -266,6 +270,7 @@ describe("getWarDeathEvents", () => {
         date: "1916-07-01",
         event: "Battle of the Somme",
         title: "Killed in action",
+        titleKey: "Killed in action",
         image: null,
         extraDescription: "Telegraph Wood, La Boisselle",
       },
@@ -279,6 +284,7 @@ describe("getWarDeathEvents", () => {
     const deathWar: DeathData = {
       ...kia,
       deathCause: "Died of wounds",
+      deathCauseKey: "Died of wounds",
       deathLocation: "NZEF Hospital",
       deathTown: "Arras",
     };
@@ -288,6 +294,7 @@ describe("getWarDeathEvents", () => {
         date: "1916-07-01",
         event: "NZEF Hospital, Arras",
         title: "Died of wounds",
+        titleKey: "Died of wounds",
         image: null,
       },
       buried,
@@ -300,6 +307,7 @@ describe("getWarDeathEvents", () => {
     const deathWar: DeathData = {
       ...kia,
       deathCause: "Died of wounds",
+      deathCauseKey: "Died of wounds",
       deathLocation: "NZEF Hospital",
       deathTown: null,
     };
@@ -309,6 +317,7 @@ describe("getWarDeathEvents", () => {
         date: "1916-07-01",
         event: "NZEF Hospital",
         title: "Died of wounds",
+        titleKey: "Died of wounds",
         image: null,
       },
       buried,
@@ -321,6 +330,7 @@ describe("getWarDeathEvents", () => {
     const deathWar: DeathData = {
       ...kia,
       deathCause: "Died of disease",
+      deathCauseKey: "Died of disease",
       deathLocation: "NZEF Hospital",
       deathTown: "Arras",
       deathCircumstances: "Spanish Flu",
@@ -330,6 +340,7 @@ describe("getWarDeathEvents", () => {
         date: "1916-07-01",
         event: "NZEF Hospital, Arras",
         title: "Died of disease",
+        titleKey: "Died of disease",
         image: null,
         extraDescription: "Spanish Flu",
       },
@@ -343,6 +354,7 @@ describe("getWarDeathEvents", () => {
     const deathWar: DeathData = {
       ...kia,
       deathCause: "Died of disease",
+      deathCauseKey: "Died of disease",
       deathLocation: "NZEF Hospital",
       deathTown: null,
       deathCircumstances: "Spanish Flu",
@@ -352,6 +364,7 @@ describe("getWarDeathEvents", () => {
         date: "1916-07-01",
         event: "NZEF Hospital",
         title: "Died of disease",
+        titleKey: "Died of disease",
         image: null,
         extraDescription: "Spanish Flu",
       },
@@ -365,6 +378,7 @@ describe("getWarDeathEvents", () => {
     const deathWar: DeathData = {
       ...kia,
       deathCause: "Died of disease",
+      deathCauseKey: "Died of disease",
       deathLocation: "NZEF Hospital",
       deathTown: "Arras",
       deathCircumstances: null,
@@ -374,6 +388,7 @@ describe("getWarDeathEvents", () => {
         date: "1916-07-01",
         event: "NZEF Hospital, Arras",
         title: "Died of disease",
+        titleKey: "Died of disease",
         image: null,
         extraDescription: null,
       },
@@ -387,6 +402,7 @@ describe("getWarDeathEvents", () => {
     const deathWar: DeathData = {
       ...kia,
       deathCause: "Died of accident",
+      deathCauseKey: "Died of accident",
       deathDate: "1916-07-01",
       deathLocation: "Drowned in the harbour",
       deathTown: "Boulogne",
@@ -396,6 +412,7 @@ describe("getWarDeathEvents", () => {
         date: "1916-07-01",
         event: "Drowned in the harbour, Boulogne",
         title: "Died of accident",
+        titleKey: "Died of accident",
         image: null,
       },
       buried,
@@ -408,6 +425,7 @@ describe("getWarDeathEvents", () => {
     const deathWar: DeathData = {
       ...kia,
       deathCause: "Died of accident",
+      deathCauseKey: "Died of accident",
       deathDate: "1916-07-01",
       deathLocation: "Drowned in the harbour",
       deathTown: null,
@@ -417,6 +435,7 @@ describe("getWarDeathEvents", () => {
         date: "1916-07-01",
         event: "Drowned in the harbour",
         title: "Died of accident",
+        titleKey: "Died of accident",
         image: null,
       },
       buried,
@@ -429,7 +448,9 @@ describe("getWarDeathEvents", () => {
     const deathWar: DeathData = {
       ...kia,
       deathType: "War injuries",
+      deathTypeKey: "War injuries",
       deathCause: "Died of disease",
+      deathCauseKey: "Died of disease",
       deathDate: "1916-07-01",
       deathCircumstances: "Flu",
     };
@@ -438,6 +459,7 @@ describe("getWarDeathEvents", () => {
         date: "1916-07-01",
         event: "Flu",
         title: "Died of disease",
+        titleKey: "Died of disease",
         image: null,
       },
     ];
@@ -845,6 +867,7 @@ describe("getDemobilization", () => {
       date: "2023-01-01",
       event: "End of Service in the United Kingdom",
       title: "Demobilization",
+      titleKey: "Demobilization",
       image: null,
     });
   });
@@ -855,6 +878,7 @@ describe("getDemobilization", () => {
       date: "2023-01-01",
       event: "End of Service as deserter",
       title: "Demobilization",
+      titleKey: "Demobilization",
       image: null,
     });
   });
@@ -865,6 +889,7 @@ describe("getDemobilization", () => {
       date: "2023-01-01",
       event: "Demobilization",
       title: "End of Service",
+      titleKey: "End of Service",
       image: null,
     });
   });
@@ -872,6 +897,39 @@ describe("getDemobilization", () => {
   test("returns null when date is null", () => {
     const result = getDemobilization(null, null, null);
     expect(result).toBeNull();
+  });
+
+  test("returns French UK discharge event with fr locale", () => {
+    const result = getDemobilization("2023-01-01", 1, null, "fr");
+    expect(result).toEqual({
+      date: "2023-01-01",
+      event: "Fin de service au Royaume-Uni",
+      title: "Démobilisation",
+      titleKey: "Demobilization",
+      image: null,
+    });
+  });
+
+  test("returns French deserter event with fr locale", () => {
+    const result = getDemobilization("2023-01-01", null, 1, "fr");
+    expect(result).toEqual({
+      date: "2023-01-01",
+      event: "Fin de service en tant que déserteur",
+      title: "Démobilisation",
+      titleKey: "Demobilization",
+      image: null,
+    });
+  });
+
+  test("returns French general demobilization event with fr locale", () => {
+    const result = getDemobilization("2023-01-01", null, null, "fr");
+    expect(result).toEqual({
+      date: "2023-01-01",
+      event: "Démobilisation",
+      title: "Fin de service",
+      titleKey: "End of Service",
+      image: null,
+    });
   });
 });
 

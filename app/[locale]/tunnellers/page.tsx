@@ -1,16 +1,21 @@
-import { Metadata } from "next";
 import { NextResponse } from "next/server";
+import { getTranslations } from "next-intl/server";
 
 import { Roll } from "@/components/Roll/Roll";
+import { Locale } from "@/types/locale";
 import { Tunneller } from "@/types/tunnellers";
 import { getTunnellers } from "@/utils/database/getTunnellers";
 import { mysqlConnection } from "@/utils/database/mysqlConnection";
 
-async function getData() {
+type Props = {
+  params: Promise<{ locale: Locale }>;
+};
+
+async function getData(locale: Locale) {
   const connection = await mysqlConnection.getConnection();
 
   try {
-    const response = await getTunnellers(connection);
+    const response = await getTunnellers(locale, connection);
     const data = await response.json();
 
     const tunnellers: Record<string, Tunneller[]> = data.reduce(
@@ -38,12 +43,15 @@ async function getData() {
   }
 }
 
-export const metadata: Metadata = {
-  title: "List of Tunnellers - New Zealand Tunnellers",
-};
+export async function generateMetadata(props: Props) {
+  const { locale } = await props.params;
+  const t = await getTranslations({ locale, namespace: "site" });
+  return { title: `${t("tunnellers")} - New Zealand Tunnellers` };
+}
 
-export default async function Page() {
-  const response = await getData();
+export default async function Page(props: Props) {
+  const { locale } = await props.params;
+  const response = await getData(locale);
   const tunnellers: Record<string, Tunneller[]> = await response.json();
 
   return <Roll tunnellers={tunnellers} />;

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useState, useEffect } from "react";
 
 import { useWindowDimensions } from "@/utils/helpers/useWindowDimensions";
@@ -10,6 +10,8 @@ import STYLES from "./Tunnellers.module.scss";
 
 export function Tunnellers() {
   const t = useTranslations("homepage");
+  const locale = useLocale();
+  const localePrefix = locale === "en" ? "" : `/${locale}`;
   const { width } = useWindowDimensions();
   const [isSvgRendered, setIsSvgRendered] = useState(false);
 
@@ -28,7 +30,48 @@ export function Tunnellers() {
           <mask id="mask" x="0" y="0" width="100" height={height}>
             <rect x="0" y="0" width="100" height={height} fill="white" />
             <text x="0" y="10" textAnchor="start">
-              {width <= 512 ? (
+              {locale === "fr" ? (
+                width <= 512 ? (
+                  <>
+                    <tspan x="0" dy="0.8em">
+                      Les Kiwis
+                    </tspan>
+                    <tspan x="0" dy="0.8em">
+                      qui ont
+                    </tspan>
+                    <tspan x="0" dy="0.8em">
+                      lutté
+                    </tspan>
+                    <tspan x="0" dy="0.8em">
+                      sous
+                    </tspan>
+                    <tspan x="0" dy="0.8em">
+                      le no
+                    </tspan>
+                    <tspan x="0" dy="0.8em">
+                      man’s
+                    </tspan>
+                    <tspan x="0" dy="0.8em">
+                      land
+                    </tspan>
+                  </>
+                ) : (
+                  <>
+                    <tspan x="0" dy="0.8em">
+                      Les Kiwis qui
+                    </tspan>
+                    <tspan x="0" dy="0.8em">
+                      ont lutté
+                    </tspan>
+                    <tspan x="0" dy="0.8em">
+                      sous le
+                    </tspan>
+                    <tspan x="0" dy="0.8em">
+                      no man’s land
+                    </tspan>
+                  </>
+                )
+              ) : width <= 512 ? (
                 <>
                   <tspan x="0" dy="0.8em">
                     The Kiwis
@@ -99,7 +142,7 @@ export function Tunnellers() {
       </div>
       <div className={STYLES["roll-wrapper"]}>
         <div className={STYLES["roll-container"]}>
-          <Link href="/tunnellers/" className={STYLES.roll}>
+          <Link href={`${localePrefix}/tunnellers/`} className={STYLES.roll}>
             <span className={STYLES.discover}>{t("discover")}</span>
             {t("nzTunnellers")}
           </Link>

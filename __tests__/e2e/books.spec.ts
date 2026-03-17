@@ -1,11 +1,11 @@
 import { test, expect } from "@playwright/test";
 
 const EN_CONTENTS = "/books/kiwis-dig-tunnels-too";
-const FR_CONTENTS = "/books/les-kiwis-aussi-creusent-des-tunnels";
+const FR_CONTENTS = "/fr/books/kiwis-dig-tunnels-too";
 const EN_CHAPTER_1 =
   "/books/kiwis-dig-tunnels-too/chapter-1-the-tunnellers-from-the-antipodes";
 const FR_CHAPTER_1 =
-  "/books/les-kiwis-aussi-creusent-des-tunnels/chapitre-1-les-tunneliers-des-antipodes";
+  "/fr/books/kiwis-dig-tunnels-too/chapter-1-the-tunnellers-from-the-antipodes";
 
 // ─── Contents page ───────────────────────────────────────────────────────────
 
@@ -36,7 +36,7 @@ test("FR contents: loads title, chapter list and Resources link", async ({
     }),
   ).toBeVisible();
   await expect(
-    page.getByLabel("Aller au chapitre 1 : Les tunneliers des antipodes"),
+    page.getByLabel("Aller au chapitre 1 : Les Tunneliers des antipodes"),
   ).toBeVisible();
   await expect(page.getByLabel("Aller à la section Ressources")).toBeVisible();
 });
@@ -62,12 +62,12 @@ test("FR contents: clicking a chapter navigates to the correct URL", async ({
   await page.goto(FR_CONTENTS);
 
   await page
-    .getByLabel("Aller au chapitre 1 : Les tunneliers des antipodes")
+    .getByLabel("Aller au chapitre 1 : Les Tunneliers des antipodes")
     .click();
 
   await page.waitForLoadState("domcontentloaded");
   await expect(page).toHaveURL(
-    /books\/les-kiwis-aussi-creusent-des-tunnels\/chapitre-1-les-tunneliers-des-antipodes/,
+    /fr\/books\/kiwis-dig-tunnels-too\/chapter-1-the-tunnellers-from-the-antipodes/,
   );
 });
 
@@ -93,7 +93,7 @@ test("FR chapter: shows heading, chapter number and reading time in French", asy
   await page.goto(FR_CHAPTER_1);
 
   await expect(
-    page.getByRole("heading", { name: "Les tunneliers des antipodes" }),
+    page.getByRole("heading", { name: "Les Tunneliers des antipodes" }),
   ).toBeVisible();
   await expect(page.getByText("Chapitre 1", { exact: true })).toBeVisible();
   await expect(page.getByText(/min de lecture/)).toBeVisible();
@@ -121,12 +121,12 @@ test("FR chapter: breadcrumb navigates to Resources and table of contents", asyn
 
   const resourcesLink = page.getByLabel("Aller à la section Ressources");
   await expect(resourcesLink).toBeVisible();
-  await expect(resourcesLink).toHaveAttribute("href", "/#resources");
+  await expect(resourcesLink).toHaveAttribute("href", "/fr/#resources");
 
   await page.getByRole("link", { name: "Aller au sommaire" }).click();
 
   await page.waitForLoadState("domcontentloaded");
-  await expect(page).toHaveURL(/books\/les-kiwis-aussi-creusent-des-tunnels/);
+  await expect(page).toHaveURL(/fr\/books\/kiwis-dig-tunnels-too/);
 });
 
 test("reading progress bar is visible on chapter pages", async ({ page }) => {
@@ -174,7 +174,7 @@ test("EN: next chapter button navigates to chapter 2", async ({ page }) => {
   );
 });
 
-test("FR: next chapter button navigates to chapitre 2", async ({ page }) => {
+test("FR: next chapter button navigates to chapter 2", async ({ page }) => {
   await page.goto(FR_CHAPTER_1);
 
   await page
@@ -183,7 +183,7 @@ test("FR: next chapter button navigates to chapitre 2", async ({ page }) => {
 
   await page.waitForLoadState("domcontentloaded");
   await expect(page).toHaveURL(
-    /books\/les-kiwis-aussi-creusent-des-tunnels\/chapitre-2-en-faire-de-bons-soldats/,
+    /fr\/books\/kiwis-dig-tunnels-too\/chapter-2-forging-good-soldiers/,
   );
 });
 
@@ -234,7 +234,7 @@ test("EN HowToCite: shows correct citation for a book chapter", async ({
   const citation = page.locator("[class*='howtocite'] p");
   await expect(citation).toContainText("Anthony Byledbal");
   await expect(citation).toContainText(
-    "Chapter 1: The tunnellers from the antipodes",
+    "Chapter 1: The Tunnellers from the Antipodes",
   );
   await expect(citation).toContainText("Kiwis Dig Tunnels Too");
   await expect(citation).toContainText("Accessed");
@@ -254,12 +254,10 @@ test("FR HowToCite: shows correct citation for a book chapter", async ({
 
   const citation = page.locator("[class*='howtocite'] p");
   await expect(citation).toContainText("Anthony Byledbal");
-  await expect(citation).toContainText(
-    "Chapitre 1: Les tunneliers des antipodes",
-  );
+  await expect(citation).toContainText("Les Tunneliers des antipodes");
   await expect(citation).toContainText("Les Kiwis aussi creusent des tunnels");
   await expect(citation).toContainText("Consulté le");
   await expect(citation).toContainText(
-    "www.nztunnellers.com/books/les-kiwis-aussi-creusent-des-tunnels/chapitre-1-les-tunneliers-des-antipodes",
+    "www.nztunnellers.com/fr/books/kiwis-dig-tunnels-too/chapter-1-the-tunnellers-from-the-antipodes",
   );
 });

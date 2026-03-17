@@ -106,7 +106,7 @@ Some sources here.
 describe("Chapter", () => {
   beforeEach(() => {
     mockedUsePathname.mockReturnValue(
-      "/books/les-kiwis-aussi-creusent-des-tunnels/chapitre-1-les-tunneliers-des-antipodes",
+      "/fr/books/kiwis-dig-tunnels-too/chapitre-1-les-tunneliers-des-antipodes",
     );
   });
 
@@ -135,10 +135,7 @@ describe("Chapter", () => {
     const bookLink = screen.getByRole("link", {
       name: "Aller au sommaire",
     });
-    expect(bookLink).toHaveAttribute(
-      "href",
-      "/books/les-kiwis-aussi-creusent-des-tunnels",
-    );
+    expect(bookLink).toHaveAttribute("href", "/fr/books/kiwis-dig-tunnels-too");
   });
 
   test("renames 'Footnotes' heading to 'Notes'", () => {
@@ -152,7 +149,7 @@ describe("Chapter", () => {
 
   test("shows HowToCite on a regular chapter page", () => {
     mockedUsePathname.mockReturnValue(
-      "/books/les-kiwis-aussi-creusent-des-tunnels/chapitre-1-les-tunneliers-des-antipodes",
+      "/fr/books/kiwis-dig-tunnels-too/chapitre-1-les-tunneliers-des-antipodes",
     );
     render(<Chapter locale="fr" content={chapterContent} />);
 
@@ -162,9 +159,9 @@ describe("Chapter", () => {
   });
 
   test.each([
-    "/books/les-kiwis-aussi-creusent-des-tunnels/sources",
-    "/books/les-kiwis-aussi-creusent-des-tunnels/bibliographie",
-    "/books/les-kiwis-aussi-creusent-des-tunnels/remerciements",
+    "/fr/books/kiwis-dig-tunnels-too/sources",
+    "/fr/books/kiwis-dig-tunnels-too/bibliographie",
+    "/fr/books/kiwis-dig-tunnels-too/remerciements",
   ])("hides HowToCite on '%s'", (pathname) => {
     mockedUsePathname.mockReturnValue(pathname);
     render(<Chapter locale="fr" content={sourcesContent} />);
