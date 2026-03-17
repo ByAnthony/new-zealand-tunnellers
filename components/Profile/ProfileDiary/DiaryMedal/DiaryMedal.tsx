@@ -18,7 +18,8 @@ function BritishWarAndVictoryMedals({
 }) {
   const filteredMedals = medalsList.filter(
     (medal) =>
-      medal.name === "British War Medal" || medal.name === "Victory Medal",
+      medal.image === "british-war-medal.png" ||
+      medal.image === "victory-medal.png",
   );
 
   if (filteredMedals.length > 0) {
@@ -50,13 +51,14 @@ function BritishWarAndVictoryMedals({
 function OtherMedals({ medalsList }: { medalsList: Medal[] | [] }) {
   const filteredMedals = medalsList.filter(
     (medal) =>
-      medal.name !== "British War Medal" && medal.name !== "Victory Medal",
+      medal.image !== "british-war-medal.png" &&
+      medal.image !== "victory-medal.png",
   );
   return (
     <>
       {filteredMedals.map((medal) => {
         const displayCountry =
-          medal.country !== "United Kingdom" ? `(${medal.country})` : "";
+          medal.country_key !== "United Kingdom" ? `(${medal.country})` : "";
         return (
           <div
             key={filteredMedals.indexOf(medal)}

@@ -200,7 +200,7 @@ exports[`Article matches the snapshot 1`] = `
           <wbr />
           history/
           <wbr />
-          my-awesome-article-title
+          my-awesome-article
         </span>
       </p>
     </div>

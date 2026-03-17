@@ -2,7 +2,8 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
 
 import { Tunneller } from "@/types/tunnellers";
@@ -16,6 +17,14 @@ type Props = {
 };
 
 export function Menu({ tunnellers }: Props) {
+  const t = useTranslations("menu");
+  const tNav = useTranslations("nav");
+  const locale = useLocale();
+  const localePrefix = locale === "en" ? "" : `/${locale}`;
+  const pathname = usePathname();
+  const switchLocalePath =
+    locale === "en" ? `/fr${pathname}` : pathname.replace(/^\/fr/, "") || "/";
+
   const { width } = useWindowDimensions();
   const divRef = useRef<HTMLDivElement>(null);
   const searchFormRef = useRef<HTMLDivElement>(null);
@@ -127,10 +136,14 @@ export function Menu({ tunnellers }: Props) {
       data-testid="menu"
       className={`${STYLES.menu} ${menuVisible ? "" : STYLES.hidden}`}
     >
-      <Link href="/" className={STYLES.logo} aria-label="Go to the Homepage">
+      <Link
+        href={`${localePrefix}/`}
+        className={STYLES.logo}
+        aria-label={tNav("goToHomepage")}
+      >
         <Image
           src="/nzt_logo.png"
-          alt="New Zealand Tunnellers Wesbite - Home"
+          alt={tNav("logoAlt")}
           width={30}
           height={30}
           priority
@@ -149,7 +162,7 @@ export function Menu({ tunnellers }: Props) {
             id="search"
             ref={inputRef}
             type="text"
-            placeholder="Search for a Tunneller"
+            placeholder={t("searchPlaceholder")}
             value={query}
             onChange={(event) => {
               const value = event.target.value;
@@ -162,7 +175,7 @@ export function Menu({ tunnellers }: Props) {
             <button
               className={STYLES["clear-search-container"]}
               onClick={handleClearSearch}
-              aria-label="Clear search input"
+              aria-label={t("clearSearch")}
             >
               <div className={STYLES["clear-search"]} aria-hidden="true">
                 +
@@ -171,7 +184,7 @@ export function Menu({ tunnellers }: Props) {
           ) : (
             <Image
               src="/search.png"
-              alt="Type a name to search for a Tunneller"
+              alt={t("searchAlt")}
               width={20}
               height={20}
               className={STYLES["search-form-button"]}
@@ -194,8 +207,11 @@ export function Menu({ tunnellers }: Props) {
               {filteredTunnellers.map((tunneller, index) => (
                 <li key={index}>
                   <Link
-                    href={`/tunnellers/${tunneller.id}`}
-                    aria-label={`See ${tunneller.name.forename} ${tunneller.name.surname} profile`}
+                    href={`${localePrefix}/tunnellers/${tunneller.id}`}
+                    aria-label={t("seeTunnellerProfile", {
+                      forename: tunneller.name.forename,
+                      surname: tunneller.name.surname,
+                    })}
                     onClick={handleNavigation}
                   >
                     <p>
@@ -218,18 +234,22 @@ export function Menu({ tunnellers }: Props) {
             </ul>
 
             <Link
-              href="/tunnellers"
+              href={`${localePrefix}/tunnellers`}
               className={STYLES["tunnellers-link"]}
               onClick={handleNavigation}
             >
               <div className={STYLES["tunnellers-link-display"]}>
-                <div>See all Tunnellers</div>
+                <div>{t("seeAllTunnellers")}</div>
                 <div className={STYLES.arrow}>&rarr;</div>
               </div>
             </Link>
           </div>
         )}
       </div>
+
+      <Link href={switchLocalePath} className={STYLES["language-switcher"]}>
+        {locale === "en" ? "Français" : "English"}
+      </Link>
     </div>
   );
 }

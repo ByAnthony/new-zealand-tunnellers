@@ -1,6 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 
 import {
@@ -11,6 +12,7 @@ import {
 import STYLES from "./ReadingProgress.module.scss";
 
 export const ReadingProgress = () => {
+  const t = useTranslations("books");
   const [progress, setProgress] = useState<number | null>(null);
   const pathname = usePathname();
 
@@ -81,7 +83,7 @@ export const ReadingProgress = () => {
       aria-valuenow={Math.round(progress)}
       aria-valuemin={0}
       aria-valuemax={100}
-      aria-label="Reading progress"
+      aria-label={t("readingProgress")}
     />
   );
 };

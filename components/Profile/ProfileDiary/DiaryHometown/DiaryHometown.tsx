@@ -1,5 +1,7 @@
 "use client";
 
+import { useTranslations } from "next-intl";
+
 import STYLES from "../ProfileDiary.module.scss";
 
 type Props = {
@@ -7,14 +9,16 @@ type Props = {
 };
 
 export function DiaryHometown({ residence }: Props) {
+  const t = useTranslations("profile");
+
   return residence ? (
     <div className={STYLES["halfwidth-cards-container"]}>
       <div className={STYLES["halfwidth-main-card"]}>
-        <span>Residence</span>
+        <span>{t("residence")}</span>
       </div>
       <div className={STYLES["halfwidth-secondary-card"]}>
         <div className={STYLES["halfwidth-secondary-card-title"]}>
-          <p>Hometown</p>
+          <p>{t("hometown")}</p>
         </div>
         <div>
           <span>{residence}</span>

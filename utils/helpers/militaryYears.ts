@@ -83,12 +83,16 @@ export const getWarDeathEvents = (death: DeathData) => {
   const deathEvents: SingleEventData[] = [];
 
   if (death.deathDate) {
-    if (death.deathType === "War") {
-      if (death.deathCause === "Killed in action" && death.deathCircumstances) {
+    if (death.deathTypeKey === "War") {
+      if (
+        death.deathCauseKey === "Killed in action" &&
+        death.deathCircumstances
+      ) {
         deathEvents.push({
           date: death.deathDate,
           event: death.deathCircumstances,
           title: death.deathCause,
+          titleKey: death.deathCauseKey,
           image: null,
           extraDescription: getDeathPlaceWithoutCountry(
             death.deathLocation,
@@ -97,20 +101,22 @@ export const getWarDeathEvents = (death: DeathData) => {
         });
       }
 
-      if (death.deathCause === "Died of wounds") {
+      if (death.deathCauseKey === "Died of wounds") {
         deathEvents.push({
           date: death.deathDate,
           event: `${death.deathLocation}${death.deathTown ? `, ${death.deathTown}` : ""}`,
           title: death.deathCause,
+          titleKey: death.deathCauseKey,
           image: null,
         });
       }
 
-      if (death.deathCause === "Died of disease") {
+      if (death.deathCauseKey === "Died of disease") {
         deathEvents.push({
           date: death.deathDate,
           event: `${death.deathLocation}${death.deathTown ? `, ${death.deathTown}` : ""}`,
           title: death.deathCause,
+          titleKey: death.deathCauseKey,
           image: null,
           extraDescription: death.deathCircumstances
             ? death.deathCircumstances
@@ -118,11 +124,12 @@ export const getWarDeathEvents = (death: DeathData) => {
         });
       }
 
-      if (death.deathCause === "Died of accident" && death.deathLocation) {
+      if (death.deathCauseKey === "Died of accident" && death.deathLocation) {
         deathEvents.push({
           date: death.deathDate,
           event: `${death.deathLocation}${death.deathTown ? `, ${death.deathTown}` : ""}`,
           title: death.deathCause,
+          titleKey: death.deathCauseKey,
           image: null,
         });
       }
@@ -133,12 +140,14 @@ export const getWarDeathEvents = (death: DeathData) => {
             date: death.deathDate,
             event: `${death.cemetery}, ${death.cemteryTown}`,
             title: "Buried",
+            titleKey: "Buried",
             image: null,
           },
           {
             date: death.deathDate,
             event: death.grave,
             title: "Grave reference",
+            titleKey: "Grave reference",
             image: null,
           },
         );
@@ -146,14 +155,15 @@ export const getWarDeathEvents = (death: DeathData) => {
     }
 
     if (
-      death.deathType === "War injuries" &&
-      death.deathCause === "Died of disease" &&
+      death.deathTypeKey === "War injuries" &&
+      death.deathCauseKey === "Died of disease" &&
       death.deathCircumstances
     ) {
       deathEvents.push({
         date: death.deathDate,
         event: death.deathCircumstances,
         title: death.deathCause,
+        titleKey: death.deathCauseKey,
         image: null,
       });
     }
@@ -213,24 +223,26 @@ export const getFrontEvents = (
     .concat(enlistmentEvents, postedEvents, companyEvents)
     .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
+  const key = (e: SingleEventData) => e.titleKey ?? e.title;
+
   const transferredIndex: number = fullTunnellerEvents.findIndex(
-    (e) => e.title === "Transferred",
+    (e) => key(e) === "Transferred",
   );
 
   const graveReferenceIndex: number = fullTunnellerEvents.findIndex(
-    (e) => e.title === "Grave reference",
+    (e) => key(e) === "Grave reference",
   );
 
   const transferredToNzIndex: number = fullTunnellerEvents.findIndex(
-    (e) => e.title === "Transfer to New Zealand",
+    (e) => key(e) === "Transfer to New Zealand",
   );
 
   const endOfServiceIndex: number = fullTunnellerEvents.findIndex(
-    (e) => e.title === "End of Service",
+    (e) => key(e) === "End of Service",
   );
 
   const diedOfDiseaseAfterServiceEnd: number = fullTunnellerEvents.findIndex(
-    (e) => e.title === "Died of disease",
+    (e) => key(e) === "Died of disease",
   );
 
   const filteredAfterTransferredEvents: SingleEventData[] =
@@ -266,11 +278,11 @@ export const getFrontEvents = (
           ((index < endOfServiceIndex && endOfServiceIndex !== -1) ||
             (index < diedOfDiseaseAfterServiceEnd &&
               diedOfDiseaseAfterServiceEnd !== -1)) &&
-          event.title !== "The Company" &&
-          event.title !== "Allied Attacks" &&
-          event.title !== "British Offensive" &&
-          event.title !== "Cessation of Hostilities" &&
-          event.title !== "German Attacks")
+          key(event) !== "The Company" &&
+          key(event) !== "Allied Attacks" &&
+          key(event) !== "British Offensive" &&
+          key(event) !== "Cessation of Hostilities" &&
+          key(event) !== "German Attacks")
       );
     });
 
@@ -284,6 +296,7 @@ export const getFrontEvents = (
       const eventDetail: EventDetail = {
         description: event.event,
         title: event.title,
+        titleKey: event.titleKey,
         image: event.image,
         imageAlt: event.imageAlt,
         extraDescription: event.extraDescription,
@@ -305,8 +318,8 @@ export const isDeserter = (isDeserter: number | null) => {
   return isDeserter === 1 ? true : false;
 };
 
-export const isDeathWar = (isDeathWar: string | null) => {
-  return isDeathWar === "War" ? true : false;
+export const isDeathWar = (deathTypeKey: string | null) => {
+  return deathTypeKey === "War" ? true : false;
 };
 
 export const getTransport = (
@@ -330,12 +343,18 @@ export const getDemobilization = (
   date: string | null,
   dischargeUk: number | null,
   deserted: number | null,
+  locale: string = "en",
 ) => {
+  const isEn = locale === "en";
+
   if (date && dischargeUk === 1) {
     return {
       date: date,
-      event: "End of Service in the United Kingdom",
-      title: "Demobilization",
+      event: isEn
+        ? "End of Service in the United Kingdom"
+        : "Fin de service au Royaume-Uni",
+      title: isEn ? "Demobilization" : "Démobilisation",
+      titleKey: "Demobilization",
       image: null,
     };
   }
@@ -343,8 +362,11 @@ export const getDemobilization = (
   if (date && deserted === 1) {
     return {
       date: date,
-      event: "End of Service as deserter",
-      title: "Demobilization",
+      event: isEn
+        ? "End of Service as deserter"
+        : "Fin de service en tant que déserteur",
+      title: isEn ? "Demobilization" : "Démobilisation",
+      titleKey: "Demobilization",
       image: null,
     };
   }
@@ -352,8 +374,9 @@ export const getDemobilization = (
   if (date) {
     return {
       date: date,
-      event: "Demobilization",
-      title: "End of Service",
+      event: isEn ? "Demobilization" : "Démobilisation",
+      title: isEn ? "End of Service" : "Fin de service",
+      titleKey: "End of Service",
       image: null,
     };
   }

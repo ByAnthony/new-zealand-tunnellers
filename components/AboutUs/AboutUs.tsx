@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import { useEffect } from "react";
 
 import { Paragraph } from "@/components/Article/Paragraph/Paragraph";
@@ -14,6 +15,8 @@ type Props = {
 };
 
 export function AboutUs({ article }: Props) {
+  const t = useTranslations("aboutUs");
+
   useEffect(() => {
     localStorage.removeItem("filters");
     localStorage.removeItem("page");
@@ -43,9 +46,9 @@ export function AboutUs({ article }: Props) {
             type="button"
             className={STYLES.email}
             onClick={() => window.open("mailto:info@nztunnellers.com")}
-            aria-label="Contact us by email"
+            aria-label={t("contactByEmail")}
           >
-            Email
+            {t("email")}
           </button>
           <button
             type="button"
@@ -53,9 +56,9 @@ export function AboutUs({ article }: Props) {
             onClick={() =>
               window.open("https://www.linkedin.com/in/anthony-byledbal/")
             }
-            aria-label="Contact us on LinkedIn"
+            aria-label={t("contactOnLinkedIn")}
           >
-            LinkedIn
+            {t("linkedIn")}
           </button>
         </div>
       </div>

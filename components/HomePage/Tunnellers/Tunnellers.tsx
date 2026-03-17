@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useLocale, useTranslations } from "next-intl";
 import { useState, useEffect } from "react";
 
 import { useWindowDimensions } from "@/utils/helpers/useWindowDimensions";
@@ -8,9 +9,11 @@ import { useWindowDimensions } from "@/utils/helpers/useWindowDimensions";
 import STYLES from "./Tunnellers.module.scss";
 
 export function Tunnellers() {
+  const t = useTranslations("homepage");
+  const locale = useLocale();
+  const localePrefix = locale === "en" ? "" : `/${locale}`;
   const { width } = useWindowDimensions();
   const [isSvgRendered, setIsSvgRendered] = useState(false);
-  const SVG_LABEL = "The Kiwis who fought beneath the no man’s land";
 
   useEffect(() => {
     const raf = requestAnimationFrame(() => {
@@ -27,7 +30,48 @@ export function Tunnellers() {
           <mask id="mask" x="0" y="0" width="100" height={height}>
             <rect x="0" y="0" width="100" height={height} fill="white" />
             <text x="0" y="10" textAnchor="start">
-              {width <= 512 ? (
+              {locale === "fr" ? (
+                width <= 512 ? (
+                  <>
+                    <tspan x="0" dy="0.8em">
+                      Les Kiwis
+                    </tspan>
+                    <tspan x="0" dy="0.8em">
+                      qui ont
+                    </tspan>
+                    <tspan x="0" dy="0.8em">
+                      lutté
+                    </tspan>
+                    <tspan x="0" dy="0.8em">
+                      sous
+                    </tspan>
+                    <tspan x="0" dy="0.8em">
+                      le no
+                    </tspan>
+                    <tspan x="0" dy="0.8em">
+                      man’s
+                    </tspan>
+                    <tspan x="0" dy="0.8em">
+                      land
+                    </tspan>
+                  </>
+                ) : (
+                  <>
+                    <tspan x="0" dy="0.8em">
+                      Les Kiwis qui
+                    </tspan>
+                    <tspan x="0" dy="0.8em">
+                      ont lutté
+                    </tspan>
+                    <tspan x="0" dy="0.8em">
+                      sous le
+                    </tspan>
+                    <tspan x="0" dy="0.8em">
+                      no man’s land
+                    </tspan>
+                  </>
+                )
+              ) : width <= 512 ? (
                 <>
                   <tspan x="0" dy="0.8em">
                     The Kiwis
@@ -92,15 +136,15 @@ export function Tunnellers() {
             : "none",
         }}
       >
-        <h1 className={STYLES["intro-text"]} aria-label={SVG_LABEL}>
+        <h1 className={STYLES["intro-text"]} aria-label={t("svgLabel")}>
           {width && svgElement(width <= 512 ? 125 : 60, width)}
         </h1>
       </div>
       <div className={STYLES["roll-wrapper"]}>
         <div className={STYLES["roll-container"]}>
-          <Link href="/tunnellers/" className={STYLES.roll}>
-            <span className={STYLES.discover}>Discover</span>
-            The New Zealand Tunnellers
+          <Link href={`${localePrefix}/tunnellers/`} className={STYLES.roll}>
+            <span className={STYLES.discover}>{t("discover")}</span>
+            {t("nzTunnellers")}
           </Link>
         </div>
       </div>

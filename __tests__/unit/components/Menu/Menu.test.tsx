@@ -6,9 +6,11 @@ import { Menu } from "@/components/Menu/Menu";
 jest.mock("next/navigation", () => ({
   ...jest.requireActual("next/navigation"),
   useRouter: jest.fn(),
+  usePathname: jest.fn(() => "/"),
 }));
 
 const mockedUseRouter = require("next/navigation").useRouter;
+const mockedUsePathname = require("next/navigation").usePathname;
 
 mockedUseRouter.mockReturnValue({
   refresh: jest.fn(),
@@ -318,6 +320,39 @@ describe("Menu", () => {
 
       expect(input.value).toBe("");
       expect(input).toHaveFocus();
+    });
+  });
+
+  describe("Language switcher", () => {
+    const mockedUseLocale = require("next-intl").useLocale;
+
+    test("renders Français link on English locale", () => {
+      mockedUseLocale.mockReturnValue("en");
+      mockedUsePathname.mockReturnValue("/tunnellers");
+      render(<Menu tunnellers={mockTunnellersData} />);
+
+      const link = screen.getByRole("link", { name: "Français" });
+      expect(link).toBeInTheDocument();
+      expect(link).toHaveAttribute("href", "/fr/tunnellers");
+    });
+
+    test("renders English link on French locale", () => {
+      mockedUseLocale.mockReturnValue("fr");
+      mockedUsePathname.mockReturnValue("/fr/tunnellers");
+      render(<Menu tunnellers={mockTunnellersData} />);
+
+      const link = screen.getByRole("link", { name: "English" });
+      expect(link).toBeInTheDocument();
+      expect(link).toHaveAttribute("href", "/tunnellers");
+    });
+
+    test("French switcher falls back to / when path is only /fr", () => {
+      mockedUseLocale.mockReturnValue("fr");
+      mockedUsePathname.mockReturnValue("/fr");
+      render(<Menu tunnellers={mockTunnellersData} />);
+
+      const link = screen.getByRole("link", { name: "English" });
+      expect(link).toHaveAttribute("href", "/");
     });
   });
 });

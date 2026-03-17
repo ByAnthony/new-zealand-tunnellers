@@ -1,13 +1,29 @@
-import { basePath, bookTitle } from "@/utils/helpers/books/basePathUtil";
+import {
+  basePath,
+  bookFilePath,
+  bookTitle,
+} from "@/utils/helpers/books/basePathUtil";
 
 describe("basePath", () => {
   test.each([
-    { locale: "fr", expected: "/books/les-kiwis-aussi-creusent-des-tunnels" },
+    { locale: "fr", expected: "/fr/books/kiwis-dig-tunnels-too" },
     { locale: "en", expected: "/books/kiwis-dig-tunnels-too" },
   ])(
-    "returns the correct path for locale '$locale'",
+    "returns the correct URL path for locale '$locale'",
     ({ locale, expected }) => {
       expect(basePath(locale)).toEqual(expected);
+    },
+  );
+});
+
+describe("bookFilePath", () => {
+  test.each([
+    { locale: "fr", expected: "books/les-kiwis-aussi-creusent-des-tunnels" },
+    { locale: "en", expected: "books/kiwis-dig-tunnels-too" },
+  ])(
+    "returns the correct file path for locale '$locale'",
+    ({ locale, expected }) => {
+      expect(bookFilePath(locale)).toEqual(expected);
     },
   );
 });

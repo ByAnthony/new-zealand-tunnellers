@@ -1,6 +1,10 @@
 import { render } from "@testing-library/react";
 
-import { formatText, getNextChapter } from "@/utils/helpers/article";
+import {
+  formatText,
+  getNextChapter,
+  renderSuperscript,
+} from "@/utils/helpers/article";
 
 describe("getNextChapter", () => {
   const articles = [
@@ -64,5 +68,41 @@ describe("formatText", () => {
   test("handles text with no special formatting", () => {
     const { container } = render(formatText("Just plain text."));
     expect(container.textContent).toBe("Just plain text.");
+  });
+
+  test("renders superscript with ^ notation", () => {
+    const { container } = render(formatText("1^re Convention."));
+    const sup = container.querySelector("sup");
+    expect(sup).toBeInTheDocument();
+    expect(sup?.textContent).toBe("re");
+    expect(container.textContent).toBe("1re Convention.");
+  });
+});
+
+describe("renderSuperscript", () => {
+  test("returns plain string when no ^ present", () => {
+    expect(renderSuperscript("Main Body")).toBe("Main Body");
+  });
+
+  test("preserves surrounding text around superscript", () => {
+    const { container } = render(<>{renderSuperscript("1^re armée")}</>);
+    expect(container.textContent).toBe("1re armée");
+    expect(container.querySelector("sup")?.textContent).toBe("re");
+  });
+
+  test("renders superscript for ^ notation", () => {
+    const { container } = render(<>{renderSuperscript("1^re Renforts")}</>);
+    const sup = container.querySelector("sup");
+    expect(sup).toBeInTheDocument();
+    expect(sup?.textContent).toBe("re");
+    expect(container.textContent).toBe("1re Renforts");
+  });
+
+  test("renders multiple superscripts", () => {
+    const { container } = render(<>{renderSuperscript("2^e et 3^e")}</>);
+    const sups = container.querySelectorAll("sup");
+    expect(sups).toHaveLength(2);
+    expect(sups[0].textContent).toBe("e");
+    expect(sups[1].textContent).toBe("e");
   });
 });

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 import { ImageSource, Author } from "@/types/tunneller";
 
@@ -15,7 +16,8 @@ function SourceImage({
 }: {
   imageSource: ImageSource | undefined;
 }) {
-  const title = <h3>Photograph</h3>;
+  const t = useTranslations("profile");
+  const title = <h3>{t("photograph")}</h3>;
   if (imageSource?.archives) {
     return (
       <div className={STYLES.sources}>
@@ -31,8 +33,7 @@ function SourceImage({
       <div className={STYLES.sources}>
         {title}
         <p>
-          Auckland Libraries Ngā Pātaka Kōrero o Tāmaki Makaurau, Sir George
-          Grey Special Collections:{" "}
+          {t("imageSourceAucklandLibraries")}{" "}
           <Link href={`${imageSource.aucklandLibraries}`}>
             {displayReference(imageSource.aucklandLibraries)}
           </Link>
@@ -45,7 +46,7 @@ function SourceImage({
     return (
       <div className={STYLES.sources}>
         {title}
-        <p>{`${imageSource.family}.`}</p>
+        <p>{t("imageSourceFamily", { name: imageSource.family })}.</p>
       </div>
     );
   }
@@ -64,7 +65,7 @@ function SourceImage({
     const displayAuthors = (authors: Author[] | null) => {
       if (authors) {
         if (authors.length === 2) {
-          return `${authors[0].forename} ${authors[0].surname} and ${authors[1].forename} ${authors[1].surname}, `;
+          return `${authors[0].forename} ${authors[0].surname} ${t("and")} ${authors[1].forename} ${authors[1].surname}, `;
         }
         return `${authors[0].forename} ${authors[0].surname}, `;
       }

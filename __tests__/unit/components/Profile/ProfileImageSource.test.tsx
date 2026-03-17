@@ -339,3 +339,89 @@ test("does not render component when unknown", () => {
 
   expect(container).toBeEmptyDOMElement();
 });
+
+describe("French translations", () => {
+  const { useTranslations, useLocale } = require("next-intl");
+  const frMessages = require("../../../../messages/fr.json");
+
+  beforeEach(() => {
+    (useLocale as jest.Mock).mockReturnValue("fr");
+    (useTranslations as jest.Mock).mockImplementation((namespace: string) => {
+      const ns = frMessages[namespace] || {};
+      return (key: string, values?: Record<string, string>) => {
+        let text = ns[key] ?? `${namespace}.${key}`;
+        if (values) {
+          Object.entries(values).forEach(([k, v]) => {
+            text = text.replace(`{${k}}`, String(v));
+          });
+        }
+        return text;
+      };
+    });
+  });
+
+  afterEach(() => {
+    (useLocale as jest.Mock).mockReturnValue("en");
+    (useTranslations as jest.Mock).mockReset();
+  });
+
+  test("renders French family source", () => {
+    render(
+      <ProfileImageSource
+        source={{
+          ...mockImageTunneller,
+          aucklandLibraries: null,
+          archives: null,
+          family: mockImageFamily,
+          newspaper: null,
+          book: null,
+        }}
+      />,
+    );
+    expect(
+      findElementWithText("Avec l'aimable autorisation de la famille John Doe"),
+    ).toBeInTheDocument();
+  });
+
+  test("renders French Auckland Libraries source", () => {
+    render(
+      <ProfileImageSource
+        source={{
+          ...mockImageTunneller,
+          aucklandLibraries: mockImageAucklandLibraries,
+          archives: null,
+          family: null,
+          newspaper: null,
+          book: null,
+        }}
+      />,
+    );
+    expect(
+      findElementWithText(
+        "Bibliothèques municipales d'Auckland, Collections spéciales de Sir George Grey",
+      ),
+    ).toBeInTheDocument();
+  });
+
+  test("renders French 'et' between two book authors", () => {
+    render(
+      <ProfileImageSource
+        source={{
+          ...mockImageTunneller,
+          aucklandLibraries: null,
+          archives: null,
+          family: null,
+          newspaper: null,
+          book: {
+            ...mockImageBook,
+            authors: [
+              { forename: "Jane", surname: "Doe" },
+              { forename: "John", surname: "Doe" },
+            ],
+          },
+        }}
+      />,
+    );
+    expect(findElementWithText("Jane Doe et John Doe,")).toBeInTheDocument();
+  });
+});

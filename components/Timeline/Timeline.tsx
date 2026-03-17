@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useLocale, useTranslations } from "next-intl";
 
 import { HowToCite } from "@/components/HowToCite/HowToCite";
 import { TimelineEvents } from "@/components/Timeline/TimelineEvents/TimelineEvents";
@@ -14,18 +15,22 @@ type Props = {
 };
 
 export function Timeline({ tunneller }: Props) {
+  const t = useTranslations("timeline");
+  const locale = useLocale();
+  const localePrefix = locale === "en" ? "" : `/${locale}`;
+
   return (
     <div className={STYLES.timeline}>
       <div className={STYLES.header}>
         <div className={STYLES.link}>
-          <Link href="/tunnellers">Tunnellers</Link>
+          <Link href={`${localePrefix}/tunnellers`}>{t("tunnellers")}</Link>
           <span>/</span>
           <Link
-            href={`/tunnellers/${tunneller.id}`}
+            href={`${localePrefix}/tunnellers/${tunneller.id}`}
           >{`${tunneller.summary.name.forename} ${tunneller.summary.name.surname}`}</Link>
         </div>
         <div className={STYLES["main-title"]}>
-          <Title title={"World War I\\Timeline"} />
+          <Title title={t("title")} />
         </div>
       </div>
       <div className={STYLES.events}>

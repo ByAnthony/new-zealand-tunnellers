@@ -18,14 +18,14 @@ exports[`Chapter matches the snapshot 1`] = `
             >
               <a
                 aria-label="Aller à la section Ressources"
-                href="/#resources"
+                href="/fr#resources"
               >
                 Resources
               </a>
                / 
               <a
                 aria-label="Aller au sommaire"
-                href="/books/les-kiwis-aussi-creusent-des-tunnels"
+                href="/fr/books/kiwis-dig-tunnels-too"
               >
                 Les Kiwis aussi creusent des tunnels
               </a>
@@ -95,7 +95,7 @@ exports[`Chapter matches the snapshot 1`] = `
       <p>
         Anthony Byledbal, 
         <span>
-          “Chapitre 1: Les tunneliers des antipodes”, in 
+          « Chapitre 1  : Les tunneliers des antipodes », in 
           <em>
             Les Kiwis aussi creusent des tunnels
           </em>
@@ -108,14 +108,14 @@ exports[`Chapter matches the snapshot 1`] = `
           <wbr />
           .com
           <wbr />
-          /books/les-kiwis-aussi-creusent-des-tunnels/chapitre-1-les-tunneliers-des-antipodes
+          /fr/books/kiwis-dig-tunnels-too/chapitre-1-les-tunneliers-des-antipodes
         </span>
       </p>
     </div>
     <a
       aria-label="Retour au sommaire"
       class="book-menu hidden"
-      href="/books/les-kiwis-aussi-creusent-des-tunnels"
+      href="/fr/books/kiwis-dig-tunnels-too"
     >
       <span
         class="link"

@@ -26,6 +26,7 @@ export type ProfileData = {
   aka: string | null;
   posted_from_corps: string | null;
   embarkation_unit: Detachment;
+  embarkation_unit_key: string;
   training_start: string;
   training_location: string;
   training_location_type: string;
@@ -38,6 +39,7 @@ export type ProfileData = {
   transferred_to_date: string | null;
   transferred_to_unit: string | null;
   death_type: string | null;
+  death_type_key: string | null;
   transport_nz_ref: string | null;
   transport_nz_vessel: string | null;
   transport_nz_start: string | null;
@@ -47,6 +49,7 @@ export type ProfileData = {
   death_town: string | null;
   death_country: string | null;
   death_cause: string | null;
+  death_cause_key: string | null;
   death_circumstances: string | null;
   cemetery: string | null;
   cemetery_town: string | null;
@@ -72,11 +75,13 @@ export type ProfileData = {
 
 export type DeathData = {
   deathType: string | null;
+  deathTypeKey: string | null;
   deathDate: string | null;
   deathLocation: string | null;
   deathTown: string | null;
   deathCountry: string | null;
   deathCause: string | null;
+  deathCauseKey: string | null;
   deathCircumstances: string | null;
   cemetery: string | null;
   cemteryTown: string | null;
@@ -87,7 +92,9 @@ export type DeathData = {
 export type SingleEventData = {
   date: string;
   event: string;
+  eventKey?: string | null;
   title: string | null;
+  titleKey?: string | null;
   image: string | null;
   imageAlt?: string | null;
   extraDescription?: string | null;
@@ -147,6 +154,7 @@ export type Origins = {
 export type ArmyExperience = {
   unit: string;
   country: string | null;
+  country_key: string | null;
   conflict: string | null;
   duration: string | null;
 };
@@ -201,6 +209,7 @@ export type Transport = {
 export type EventDetail = {
   description: string;
   title: string | null;
+  titleKey?: string | null;
   image: string | null;
   imageAlt?: string | null;
   extraDescription?: string | null;
@@ -219,6 +228,7 @@ export type TransferredTo = {
 export type Medal = {
   name: string;
   country: string;
+  country_key: string;
   image: string;
   citation: string | null;
 };

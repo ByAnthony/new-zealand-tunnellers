@@ -41,7 +41,7 @@ const MainTitle: React.FC<{
       <div className={STYLES.header}>
         <div className={STYLES.link}>
           <Link
-            href="/#resources"
+            href={`${locale === "en" ? "" : `/${locale}`}/#resources`}
             aria-label={
               locale === "fr"
                 ? "Aller à la section Ressources"
@@ -148,6 +148,10 @@ export const Chapter = (props: Props) => {
   const readingTime = isReadingPage(pathname)
     ? calculateReadingTime(props.content)
     : undefined;
+  const chapterTitleMatch = props.content.match(/^#\s+(.+)$/m);
+  const chapterTitle = chapterTitleMatch
+    ? chapterTitleMatch[1].trim()
+    : undefined;
 
   return (
     <div className={STYLES.container}>
@@ -172,7 +176,11 @@ export const Chapter = (props: Props) => {
         </ReactMarkdown>
       </div>
       {isReadingPage(pathname) && (
-        <HowToCite pathname={pathname} locale={props.locale} />
+        <HowToCite
+          pathname={pathname}
+          locale={props.locale}
+          chapterTitle={chapterTitle}
+        />
       )}
       {isReadingPage(pathname) && <BookMenu locale={props.locale} />}
     </div>

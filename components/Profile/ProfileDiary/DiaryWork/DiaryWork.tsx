@@ -1,5 +1,7 @@
 "use client";
 
+import { useTranslations } from "next-intl";
+
 import { Employment } from "@/types/tunneller";
 
 import STYLES from "../ProfileDiary.module.scss";
@@ -9,14 +11,16 @@ type Props = {
 };
 
 export function DiaryWork({ employment }: Props) {
+  const t = useTranslations("profile");
+
   if (employment.occupation && employment.employer) {
     return (
       <>
-        <div className={STYLES["fullwidth-main-card"]}>Work</div>
+        <div className={STYLES["fullwidth-main-card"]}>{t("work")}</div>
         <div className={STYLES["halfwidth-cards-container"]}>
           <div className={STYLES["halfwidth-secondary-card"]}>
             <div className={STYLES["halfwidth-secondary-card-title"]}>
-              <p>Occupation</p>
+              <p>{t("occupation")}</p>
             </div>
             <div>
               <span>{employment.occupation}</span>
@@ -24,7 +28,7 @@ export function DiaryWork({ employment }: Props) {
           </div>
           <div className={STYLES["halfwidth-secondary-card"]}>
             <div className={STYLES["halfwidth-secondary-card-title"]}>
-              <p>Employer</p>
+              <p>{t("employer")}</p>
             </div>
             <div>
               <span>{employment.employer}</span>
@@ -38,11 +42,11 @@ export function DiaryWork({ employment }: Props) {
   const displayOccupation = (occupation: string | null) => (
     <div className={STYLES["halfwidth-cards-container"]}>
       <div className={STYLES["halfwidth-main-card"]}>
-        <span>Work</span>
+        <span>{t("work")}</span>
       </div>
       <div className={STYLES["halfwidth-secondary-card"]}>
         <div className={STYLES["halfwidth-secondary-card-title"]}>
-          <p>Occupation</p>
+          <p>{t("occupation")}</p>
         </div>
         <div>
           <span>{occupation}</span>

@@ -30,11 +30,29 @@
   }
 
   label {
-    display: inline-block;
+    display: flex;
+    align-items: flex-start;
     padding-bottom: 9px;
 
     @include variables.desktop {
       padding-bottom: 7px;
+    }
+
+    sup {
+      font-size: 0.6rem;
+      vertical-align: baseline;
+      position: relative;
+      top: 0.5em;
+      line-height: 0;
+      margin-right: 3px;
+
+      @include variables.tablet {
+        font-size: 0.7rem;
+      }
+
+      @include variables.desktop {
+        font-size: 0.7rem;
+      }
     }
   }
 

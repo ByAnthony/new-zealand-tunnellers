@@ -18,65 +18,49 @@ type Props = {
   content: string;
 };
 
-const slugifyTitle = (title: string): string => {
-  return title
-    .trim()
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/\p{Diacritic}/gu, "")
-    .replace(/[’‘']/g, "-")
-    .replace(/œ/g, "oe")
-    .replace(/[^a-z0-9\s-]/g, "")
-    .replace(/\s+/g, "-")
-    .replace(/-+/g, "-")
-    .replace(/^-|-$/g, "");
-};
-
 const SommaireItem: React.FC<{
   locale: string;
+  href: string;
   children: ReactNode;
-}> = ({ locale, children }) => {
+}> = ({ locale, href, children }) => {
+  const slug = href.replace(/^\.\//, "").replace(/\.md$/, "");
   const title = extractText(children).trim();
-  const slug = slugifyTitle(title);
   const chap = parseChapterHeading(title, locale);
+  const fullPath = `${basePath(locale)}/${slug}`;
 
   if (!chap) {
     return (
-      <li>
-        <Link
-          href={`${basePath(locale)}/${slug}`}
-          className={STYLES["button-chapter"]}
-          aria-label={locale === "fr" ? `Lire : ${title}` : `Read: ${title}`}
-        >
-          <div>
-            <span className={STYLES["titre-container"]}>{title}</span>
-          </div>
-          <ChapterProgressRing pathname={`${basePath(locale)}/${slug}`} />
-        </Link>
-      </li>
+      <Link
+        href={fullPath}
+        className={STYLES["button-chapter"]}
+        aria-label={locale === "fr" ? `Lire : ${title}` : `Read: ${title}`}
+      >
+        <div>
+          <span className={STYLES["titre-container"]}>{title}</span>
+        </div>
+        <ChapterProgressRing pathname={fullPath} />
+      </Link>
     );
   }
 
   return (
-    <li>
-      <Link
-        href={`${basePath(locale)}/${slug}`}
-        className={STYLES["button-chapter"]}
-        aria-label={
-          locale === "fr"
-            ? `Aller au chapitre ${chap.number} : ${chap.text}`
-            : `Go to chapter ${chap.number}: ${chap.text}`
-        }
-      >
-        <div>
-          <p className={STYLES.chapter}>
-            {locale === "fr" ? "Chapitre" : "Chapter"} {chap.number}
-          </p>
-          {chap.text && <span>{chap.text}</span>}
-        </div>
-        <ChapterProgressRing pathname={`${basePath(locale)}/${slug}`} />
-      </Link>
-    </li>
+    <Link
+      href={fullPath}
+      className={STYLES["button-chapter"]}
+      aria-label={
+        locale === "fr"
+          ? `Aller au chapitre ${chap.number} : ${chap.text}`
+          : `Go to chapter ${chap.number}: ${chap.text}`
+      }
+    >
+      <div>
+        <p className={STYLES.chapter}>
+          {locale === "fr" ? "Chapitre" : "Chapter"} {chap.number}
+        </p>
+        {chap.text && <span>{chap.text}</span>}
+      </div>
+      <ChapterProgressRing pathname={fullPath} />
+    </Link>
   );
 };
 
@@ -88,7 +72,7 @@ const MainTitle: React.FC<{
     <div className={STYLES.header}>
       <div className={STYLES.link}>
         <Link
-          href="/#resources"
+          href={`${locale === "en" ? "" : `/${locale}`}/#resources`}
           aria-label={
             locale === "fr"
               ? "Aller à la section Ressources"
@@ -123,8 +107,10 @@ export const Contents: React.FC<Props> = ({ locale, content }) => {
           h1: ({ children }) => (
             <MainTitle locale={locale}>{children}</MainTitle>
           ),
-          li: ({ children }) => (
-            <SommaireItem locale={locale}>{children}</SommaireItem>
+          a: ({ href, children }) => (
+            <SommaireItem locale={locale} href={href ?? ""}>
+              {children}
+            </SommaireItem>
           ),
         }}
       >

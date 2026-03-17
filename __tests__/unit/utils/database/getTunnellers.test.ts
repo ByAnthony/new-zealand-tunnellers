@@ -40,7 +40,8 @@ describe("getTunnellers", () => {
 
     (rollQuery as jest.Mock).mockResolvedValue(mockResults);
 
-    const response = await getTunnellers(mockConnection);
+    // @ts-expect-error: connection is unused as rollQuery is mocked
+    const response = await getTunnellers("en", mockConnection);
 
     const expectedTunnellers: Tunneller[] = [
       {

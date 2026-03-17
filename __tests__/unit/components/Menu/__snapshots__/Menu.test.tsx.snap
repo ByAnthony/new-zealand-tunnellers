@@ -41,6 +41,12 @@ exports[`Menu matches the snapshot 1`] = `
         />
       </div>
     </div>
+    <a
+      class="language-switcher"
+      href="/fr"
+    >
+      Français
+    </a>
   </div>
 </DocumentFragment>
 `;

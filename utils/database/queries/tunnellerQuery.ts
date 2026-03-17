@@ -1,9 +1,11 @@
 import { PoolConnection, RowDataPacket } from "mysql2/promise";
 
+import { Locale } from "@/types/locale";
 import { ProfileData } from "@/types/tunneller";
 
 export const tunnellerQuery = async (
   id: string,
+  locale: Locale,
   connection: PoolConnection,
 ) => {
   const query = `SELECT t.id
@@ -11,51 +13,54 @@ export const tunnellerQuery = async (
     , t.forename
     , DATE_FORMAT(t.birth_date, '%Y-%m-%d') AS birth_date
     , DATE_FORMAT(t.death_date, '%Y-%m-%d') AS death_date
-    , birth_country.country_en AS birth_country
+    , birth_country.country_${locale} AS birth_country
     , t.mother_name
-    , mother_origin.country_en AS mother_origin
+    , mother_origin.country_${locale} AS mother_origin
     , t.father_name
-    , father_origin.country_en AS father_origin
+    , father_origin.country_${locale} AS father_origin
     , t.nz_resident_in_month AS nz_resident_in_month
     , DATE_FORMAT(t.enlistment_date, '%Y-%m-%d') AS enlistment_date
     , DATE_FORMAT(t.posted_date, '%Y-%m-%d') AS posted_date
-    , occupation.occupation_en AS occupation
+    , occupation.occupation_${locale} AS occupation
     , employer.last_employer_name AS employer
     , residence.town_name AS residence
-    , marital_status.marital_status_en AS marital_status
+    , marital_status.marital_status_${locale} AS marital_status
     , t.wife_name
     , t.serial
-    , rank.rank_en AS rank
+    , rank.rank_${locale} AS rank
     , military_district.military_district_name AS district
     , t.aka
-    , posted_from_corps.corps_en AS posted_from_corps
-    , embarkation_unit.embarkation_unit_en AS embarkation_unit
+    , posted_from_corps.corps_${locale} AS posted_from_corps
+    , embarkation_unit.embarkation_unit_${locale} AS embarkation_unit
+    , embarkation_unit.embarkation_unit_en AS embarkation_unit_key
     , DATE_FORMAT(training.training_start, '%Y-%m-%d') AS training_start
     , training.training_location
-    , training_location_type.training_location_type_en AS training_location_type
-    , section.section_en AS section
-    , attached_corps.corps_en AS attached_corps
+    , training_location_type.training_location_type_${locale} AS training_location_type
+    , section.section_${locale} AS section
+    , attached_corps.corps_${locale} AS attached_corps
     , transport_uk_ref.transport_ref_name AS transport_uk_ref
     , transport_uk_vessel.transport_vessel_name AS transport_uk_vessel
     , DATE_FORMAT(transport_uk.transport_start, '%Y-%m-%d') AS transport_uk_start
     , t.has_deserted
     , DATE_FORMAT(transferred.transferred_date, '%Y-%m-%d') AS transferred_to_date
-    , transferred_to.transferred_to_en AS transferred_to_unit
-    , death_type.death_type_en AS death_type
+    , transferred_to.transferred_to_${locale} AS transferred_to_unit
+    , death_type.death_type_${locale} AS death_type
+    , death_type.death_type_en AS death_type_key
     , transport_nz_ref.transport_ref_name AS transport_nz_ref
     , transport_nz_vessel.transport_vessel_name AS transport_nz_vessel
     , DATE_FORMAT(transport_nz.transport_start, '%Y-%m-%d') AS transport_nz_start
     , DATE_FORMAT(t.service_end, '%Y-%m-%d') AS demobilization_date
     , t.discharge_uk
     , DATE_FORMAT(t.death_date, '%Y-%m-%d') AS death_date
-    , death_location.death_location_en AS death_location
+    , death_location.death_location_${locale} AS death_location
     , death_town.town_name AS death_town
-    , death_country.country_en AS death_country
-    , death_cause.death_cause_en AS death_cause
-    , death_circumstances.death_circumstances_en AS death_circumstances
-    , cemetery.cemetery_name_en AS cemetery
+    , death_country.country_${locale} AS death_country
+    , death_cause.death_cause_${locale} AS death_cause
+    , death_cause.death_cause_en AS death_cause_key
+    , death_circumstances.death_circumstances_${locale} AS death_circumstances
+    , cemetery.cemetery_name_${locale} AS cemetery
     , cemetery_town.town_name AS cemetery_town
-    , cemetery_country.country_en AS cemetery_country
+    , cemetery_country.country_${locale} AS cemetery_country
     , t.grave_reference AS grave
     , awmm_cenotaph
     , nominal_roll.nominal_roll_volume
@@ -63,7 +68,7 @@ export const tunnellerQuery = async (
     , nominal_roll.nominal_roll_page
     , image
     , image_source_auckland_libraries
-    , archives_name.archives_name
+    , archives_name.archives_name_${locale} AS archives_name
     , archives.archives_ref
     , family.family_name
     , newspaper_name.newspaper_name
@@ -73,9 +78,9 @@ export const tunnellerQuery = async (
     , book.book_publisher
     , book.book_year
     , book.book_page
-    
+
     FROM tunneller t
-    
+
     LEFT JOIN country birth_country ON t.birth_country_fk=birth_country.country_id
     LEFT JOIN country mother_origin ON t.mother_origin_fk=mother_origin.country_id
     LEFT JOIN country father_origin ON t.father_origin_fk=father_origin.country_id
@@ -115,7 +120,7 @@ export const tunnellerQuery = async (
     LEFT JOIN newspaper ON newspaper.newspaper_id=t.image_source_newspaper_fk
     LEFT JOIN newspaper_name ON newspaper_name.newspaper_name_id=newspaper.newspaper_name_fk
     LEFT JOIN book ON book.book_id=t.image_source_book_fk
-    
+
     WHERE t.id=${id}`;
 
   const [results] = await connection.execute<(ProfileData & RowDataPacket)[]>(

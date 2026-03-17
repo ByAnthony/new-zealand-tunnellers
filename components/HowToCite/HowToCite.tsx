@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useLocale } from "next-intl";
 import { useMemo, useRef } from "react";
 
 import type { Summary } from "@/types/tunneller";
@@ -13,6 +14,8 @@ type Props = {
   id?: number;
   summary?: Summary;
   title?: string;
+  slug?: string;
+  chapterTitle?: string;
   timeline?: boolean;
   pathname?: string;
   locale?: string;
@@ -21,13 +24,16 @@ type Props = {
 type HowToCiteUrlProps = {
   id?: number;
   title?: string;
+  slug?: string;
   timeline?: boolean;
   pathname?: string;
+  locale?: string;
 };
 
 type HowToCiteTitleProps = {
   tunneller?: Summary;
   title?: string;
+  chapterTitle?: string;
   timeline?: boolean;
   pathname?: string;
   locale?: string;
@@ -36,9 +42,13 @@ type HowToCiteTitleProps = {
 export function HowToCiteUrl({
   id,
   title,
+  slug,
   timeline,
   pathname,
+  locale = "en",
 }: HowToCiteUrlProps) {
+  const localePrefix = locale === "en" ? "" : `/${locale}`;
+
   if (pathname) {
     return (
       <span>
@@ -59,7 +69,7 @@ export function HowToCiteUrl({
       <wbr />
       nztunnellers
       <wbr />
-      .com/
+      .com{localePrefix}/
       <wbr />
       {id && !timeline && (
         <>
@@ -80,14 +90,15 @@ export function HowToCiteUrl({
           timeline
         </>
       )}
-      {!id && title && (
+      {!id && (slug ?? title) && (
         <>
           history/
           <wbr />
-          {title
-            ?.replace(/\s+|\\/g, "-")
-            .replace(/&/g, "and")
-            .toLowerCase()}
+          {slug ??
+            title
+              ?.replace(/\s+|\\/g, "-")
+              .replace(/&/g, "and")
+              .toLowerCase()}
         </>
       )}
     </span>
@@ -106,24 +117,25 @@ function formatBookSubpath(pathname: string, locale: string): string {
 
   if (!lastSegment) return "";
 
-  const chapitreOrChapter = locale === "fr" ? "chapitre" : "chapter";
+  const chapitreOrChapter = locale === "en" ? "chapter" : "chapitre";
 
   const chapterMatch = lastSegment.match(
     new RegExp(`^${chapitreOrChapter}-(\\d+)(?:-(.*))?$`, "i"),
   );
 
-  const chapterWord = locale === "fr" ? "Chapitre" : "Chapter";
+  const chapterWord = locale === "en" ? "Chapter" : "Chapitre";
+  const colon = locale === "en" ? ":" : "\u00A0:";
 
   if (chapterMatch) {
     const chapterNumber = chapterMatch[1];
     const rest = chapterMatch[2];
 
     if (!rest) {
-      return `${chapterWord} ${chapterNumber}:`;
+      return `${chapterWord} ${chapterNumber}${colon}`;
     }
 
     const formattedTitle = sentenceCase(rest.replace(/-/g, " "));
-    return `${chapterWord} ${chapterNumber}: ${formattedTitle}`;
+    return `${chapterWord} ${chapterNumber}${colon} ${formattedTitle}`;
   }
 
   return sentenceCase(lastSegment.replace(/-/g, " "));
@@ -132,15 +144,23 @@ function formatBookSubpath(pathname: string, locale: string): string {
 function HowToCiteTitle({
   tunneller,
   title,
+  chapterTitle,
   timeline,
   pathname,
   locale,
 }: HowToCiteTitleProps) {
+  const openQuote = locale === "en" ? "\u201C" : "«\u00A0";
+  const closeQuote = locale === "en" ? "\u201D" : "\u00A0»";
+
   if (pathname && locale) {
+    const rawTitle = chapterTitle ?? formatBookSubpath(pathname, locale);
+    const displayTitle =
+      locale === "fr" ? rawTitle.replace(/: /g, "\u00A0: ") : rawTitle;
     return (
       <span>
-        &ldquo;{formatBookSubpath(pathname, locale)}&rdquo;, in{" "}
-        <em>{bookTitle(locale)}</em>
+        {openQuote}
+        {displayTitle}
+        {closeQuote}, in <em>{bookTitle(locale)}</em>
       </span>
     );
   }
@@ -148,33 +168,51 @@ function HowToCiteTitle({
   if (tunneller && !timeline) {
     return (
       <>
-        &ldquo;{`${tunneller.name.forename} ${tunneller.name.surname} `}
-        {`(${displayBiographyDates(tunneller.birth, tunneller.death)})`}&rdquo;
+        {openQuote}
+        {`${tunneller.name.forename} ${tunneller.name.surname} `}
+        {`(${displayBiographyDates(tunneller.birth, tunneller.death)})`}
+        {closeQuote}
       </>
     );
   }
 
   if (tunneller && timeline) {
+    const timelineOf =
+      locale === "en"
+        ? "World War I Timeline of"
+        : "Chronologie de la guerre de";
     return (
       <>
-        &ldquo;World War I Timeline of
-        {` ${tunneller.name.forename} ${tunneller.name.surname}`}&rdquo;
+        {openQuote}
+        {timelineOf}
+        {` ${tunneller.name.forename} ${tunneller.name.surname}`}
+        {closeQuote}
       </>
     );
   }
 
   const articleTitle = title?.replace(/\\/g, " ");
-  return <span>&ldquo;{articleTitle}&rdquo;</span>;
+  return (
+    <span>
+      {openQuote}
+      {articleTitle}
+      {closeQuote}
+    </span>
+  );
 }
 
 export function HowToCite({
   id,
   summary,
   title,
+  slug,
+  chapterTitle,
   timeline,
   pathname,
-  locale = "en",
+  locale: localeProp,
 }: Props) {
+  const localeFromContext = useLocale();
+  const locale = localeProp ?? localeFromContext;
   const citationRef = useRef<HTMLParagraphElement>(null);
 
   const now = useMemo(() => new Date(), []);
@@ -184,7 +222,7 @@ export function HowToCite({
   );
   const currentDate = useMemo(
     () =>
-      new Intl.DateTimeFormat(locale === "fr" ? "fr-FR" : "en-GB", {
+      new Intl.DateTimeFormat(locale === "en" ? "en-GB" : "fr-FR", {
         day: "numeric",
         month: "long",
         year: "numeric",
@@ -194,7 +232,7 @@ export function HowToCite({
   );
   const currentYear = useMemo(
     () =>
-      new Intl.DateTimeFormat(locale === "fr" ? "fr-FR" : "en-GB", {
+      new Intl.DateTimeFormat(locale === "en" ? "en-GB" : "fr-FR", {
         year: "numeric",
         timeZone: userTimeZone,
       }).format(now),
@@ -208,16 +246,16 @@ export function HowToCite({
         .writeText(citationText)
         .then(() => {
           alert(
-            locale === "fr"
-              ? "Comment citer a été copié dans le presse-papiers"
-              : "How to cite has been copied to clipboard",
+            locale === "en"
+              ? "How to cite has been copied to clipboard"
+              : "Comment citer a été copié dans le presse-papiers",
           );
         })
         .catch((err) => {
           alert(
-            locale === "fr"
-              ? "Échec de la copie dans le presse-papiers. Veuillez essayer de sélectionner et de copier le texte manuellement."
-              : "Failed to copy to clipboard. Please try selecting and copying the text manually.",
+            locale === "en"
+              ? "Failed to copy to clipboard. Please try selecting and copying the text manually."
+              : "Échec de la copie dans le presse-papiers. Veuillez essayer de sélectionner et de copier le texte manuellement.",
           );
           // Only log errors in development
           if (process.env.NODE_ENV === "development") {
@@ -230,14 +268,14 @@ export function HowToCite({
   return (
     <div className={STYLES.howtocite}>
       <h3>
-        {locale === "fr" ? "Comment citer cette page" : "How to cite this page"}
+        {locale === "en" ? "How to cite this page" : "Comment citer cette page"}
         <button className={STYLES["copy-paste"]} onClick={handleCopy}>
           <Image
             src={`/copy.png`}
             alt={
-              locale === "fr"
-                ? "Copier dans le presse-papiers"
-                : "Copy to clipboard"
+              locale === "en"
+                ? "Copy to clipboard"
+                : "Copier dans le presse-papiers"
             }
             width={13}
             height={16}
@@ -250,6 +288,7 @@ export function HowToCite({
         <HowToCiteTitle
           tunneller={summary}
           title={title}
+          chapterTitle={chapterTitle}
           timeline={timeline}
           pathname={pathname}
           locale={locale}
@@ -261,8 +300,10 @@ export function HowToCite({
         <HowToCiteUrl
           id={id}
           title={title}
+          slug={slug}
           timeline={timeline}
           pathname={pathname}
+          locale={locale}
         />
       </p>
     </div>

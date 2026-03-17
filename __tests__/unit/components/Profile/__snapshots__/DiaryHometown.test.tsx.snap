@@ -19,7 +19,7 @@ exports[`renders the component correctly 1`] = `
         class="halfwidth-secondary-card-title"
       >
         <p>
-          Hometown
+          Town
         </p>
       </div>
       <div>

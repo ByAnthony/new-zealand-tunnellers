@@ -94,6 +94,7 @@ const mockPreWarYears: PreWayYears = {
 export const mockBritishWarMedal: Medal = {
   name: "British War Medal",
   country: "United Kingdom",
+  country_key: "United Kingdom",
   image: "british-war-medal.png",
   citation: null,
 };
@@ -101,6 +102,7 @@ export const mockBritishWarMedal: Medal = {
 export const mockVictoryMedal: Medal = {
   name: "Victory Medal",
   country: "United Kingdom",
+  country_key: "United Kingdom",
   image: "victory-medal.png",
   citation: null,
 };
@@ -236,7 +238,7 @@ export const mockImageArchives: ImageArchives = {
   reference: "MS-93/157",
 };
 
-export const mockImageFamily: string = "Courtesy of John Doe family";
+export const mockImageFamily: string = "John Doe";
 
 export const mockImageNewspaper: ImageNewspaper = {
   name: "Auckland Star",

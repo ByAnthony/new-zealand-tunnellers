@@ -6,13 +6,18 @@ import {
   ImageData,
   SectionData,
 } from "@/types/article";
+import { Locale } from "@/types/locale";
 
-export const chapterQuery = async (id: string, connection: PoolConnection) => {
+export const chapterQuery = async (
+  id: string,
+  locale: Locale,
+  connection: PoolConnection,
+) => {
   const query = `SELECT
     article.string_id AS id
     , article.id AS chapter
-    , article.title AS title
-    , article.notes AS notes
+    , article.title_${locale} AS title
+    , article.notes_${locale} AS notes
     FROM article
     WHERE article.string_id="${id}"`;
 
@@ -23,10 +28,14 @@ export const chapterQuery = async (id: string, connection: PoolConnection) => {
   return results[0];
 };
 
-export const sectionsQuery = async (id: string, connection: PoolConnection) => {
+export const sectionsQuery = async (
+  id: string,
+  locale: Locale,
+  connection: PoolConnection,
+) => {
   const query = `SELECT
-    article_section.title AS title
-    , article_section.text AS text
+    article_section.title_${locale} AS title
+    , article_section.text_${locale} AS text
     FROM article_section
     JOIN article_section_join ON article_section_join.section_id=article_section.id
     WHERE article_section_join.article_id="${id}"`;
@@ -38,13 +47,17 @@ export const sectionsQuery = async (id: string, connection: PoolConnection) => {
   return results;
 };
 
-export const imagesQuery = async (id: string, connection: PoolConnection) => {
+export const imagesQuery = async (
+  id: string,
+  locale: Locale,
+  connection: PoolConnection,
+) => {
   const query = `SELECT
     article_image.file AS file
-    , article_image.title AS title
-    , article_image.photographer AS photographer
-    , article_image.reference AS reference
-    , article_image.alt AS alt
+    , article_image.title_${locale} AS title
+    , article_image.photographer_${locale} AS photographer
+    , article_image.reference_${locale} AS reference
+    , article_image.alt_${locale} AS alt
     FROM article_image
     JOIN article_image_join ON article_image_join.image_id=article_image.id
     WHERE article_image_join.article_id="${id}"`;
@@ -56,11 +69,14 @@ export const imagesQuery = async (id: string, connection: PoolConnection) => {
   return results;
 };
 
-export const nextArticleQuery = async (connection: PoolConnection) => {
+export const nextArticleQuery = async (
+  locale: Locale,
+  connection: PoolConnection,
+) => {
   const query = `SELECT
     article.string_id AS id
     , article.id AS chapter
-    , article.title AS title
+    , article.title_${locale} AS title
     FROM article`;
 
   const [results] =

@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 
 import type {
   EmbarkationUnit,
@@ -8,6 +9,7 @@ import type {
   ImageTunneller,
   Summary,
 } from "@/types/tunneller";
+import { renderSuperscript } from "@/utils/helpers/article";
 
 import STYLES from "./ProfileSummary.module.scss";
 
@@ -42,14 +44,19 @@ function RenderImage({
 function RenderUnit({
   unit,
   section,
+  label,
 }: {
   unit: string;
   section: string | null;
+  label: string;
 }) {
   return (
     <div className={STYLES["fullwidth-main-card"]}>
-      <p>Unit</p>
-      <span>{section ? `${unit} (${section})` : `${unit}`}</span>
+      <p>{label}</p>
+      <span>
+        {renderSuperscript(unit)}
+        {section && <> ({renderSuperscript(section)})</>}
+      </span>
     </div>
   );
 }
@@ -60,27 +67,30 @@ export function ProfileSummary({
   enlistment,
   image,
 }: Props) {
+  const t = useTranslations("profile");
+
   return (
     <div className={STYLES.overview}>
       <RenderImage imageUrl={image?.url} tunneller={summary} />
       <RenderUnit
         unit={embarkationUnit.detachment}
         section={embarkationUnit.section}
+        label={t("unit")}
       />
       <div className={STYLES["halfwidth-cards-container"]}>
         <div className={STYLES["halfwidth-secondary-card"]}>
-          <p>Rank</p>
-          <span>{enlistment.rank}</span>
+          <p>{t("rank")}</p>
+          <span>{renderSuperscript(enlistment.rank)}</span>
         </div>
         <div className={STYLES["halfwidth-secondary-card"]}>
-          <p>Serial</p>
+          <p>{t("serial")}</p>
           <span>{enlistment.serial}</span>
         </div>
       </div>
       {embarkationUnit.attachedCorps && (
         <div className={STYLES["fullwidth-main-card"]}>
-          <p>Corps</p>
-          <span>{embarkationUnit.attachedCorps}</span>
+          <p>{t("corps")}</p>
+          <span>{renderSuperscript(embarkationUnit.attachedCorps)}</span>
         </div>
       )}
     </div>

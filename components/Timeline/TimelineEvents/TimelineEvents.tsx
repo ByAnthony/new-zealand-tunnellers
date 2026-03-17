@@ -1,5 +1,7 @@
 "use client";
 
+import { useLocale, useTranslations } from "next-intl";
+
 import { TimelineEvent } from "@/components/Timeline/TimelineEvent/TimelineEvent";
 import { Event, MilitaryYears } from "@/types/tunneller";
 
@@ -10,6 +12,30 @@ type Props = {
 };
 
 export function TimelineEvents({ militaryYears }: Props) {
+  const t = useTranslations("timeline");
+  const locale = useLocale();
+
+  const frMonths: Record<string, string> = {
+    January: "janvier",
+    February: "février",
+    March: "mars",
+    April: "avril",
+    May: "mai",
+    June: "juin",
+    July: "juillet",
+    August: "août",
+    September: "septembre",
+    October: "octobre",
+    November: "novembre",
+    December: "décembre",
+  };
+
+  const formatDayMonth = (dayMonth: string) => {
+    if (locale === "en") return dayMonth;
+    const [day, month] = dayMonth.split(" ");
+    return `${day} ${frMonths[month] ?? month}`;
+  };
+
   const { frontEvents } = militaryYears;
   const { ageAtEnlistment } = militaryYears.enlistment;
   const frontEventsByYear = Object.entries(frontEvents);
@@ -21,7 +47,7 @@ export function TimelineEvents({ militaryYears }: Props) {
           <h2
             className={STYLES["year-title"]}
             key={key}
-            aria-label={`Year ${key}`}
+            aria-label={t("year", { year: key })}
           >
             {key}
           </h2>
@@ -29,9 +55,9 @@ export function TimelineEvents({ militaryYears }: Props) {
             <div key={events.indexOf(event)}>
               <div className={STYLES.date}>
                 <div className={STYLES.year}>{`${event.date.year}`}</div>
-                <div
-                  className={STYLES["day-month"]}
-                >{`${event.date.dayMonth}`}</div>
+                <div className={STYLES["day-month"]}>
+                  {formatDayMonth(event.date.dayMonth)}
+                </div>
               </div>
               <div className={STYLES["event-wrapper"]}>
                 <TimelineEvent

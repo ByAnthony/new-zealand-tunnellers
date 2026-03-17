@@ -1,5 +1,7 @@
 "use client";
 
+import { useTranslations } from "next-intl";
+
 import { RollDetails } from "@/components/Roll/RollDetails/RollDetails";
 import { Tunneller } from "@/types/tunnellers";
 
@@ -13,6 +15,7 @@ type Props = {
 };
 
 export function RollAlphabet({ tunnellers, currentPage, onPageChange }: Props) {
+  const t = useTranslations("roll");
   const itemsPerPage = 25;
 
   const flattenedTunnellers = tunnellers.flatMap(([key, listOfTunnellers]) =>
@@ -97,7 +100,11 @@ export function RollAlphabet({ tunnellers, currentPage, onPageChange }: Props) {
       {Object.entries(groupedTunnellers).map(([key, listOfTunnellers]) => (
         <div id={`letter-${key}`} key={key}>
           <div className={STYLES["letter-container"]}>
-            <h2 className={STYLES.title} key={key} aria-label={`Letter ${key}`}>
+            <h2
+              className={STYLES.title}
+              key={key}
+              aria-label={t("letter", { letter: key })}
+            >
               {key}
             </h2>
           </div>
@@ -112,7 +119,7 @@ export function RollAlphabet({ tunnellers, currentPage, onPageChange }: Props) {
           onClick={handlePreviousPage}
           disabled={currentPage === 1}
           className={STYLES["pagination-main-button"]}
-          aria-label="Go to previous page"
+          aria-label={t("goToPreviousPage")}
         >
           <span className={STYLES["previous-arrow"]}>&#8227;</span>
         </button>
@@ -127,7 +134,7 @@ export function RollAlphabet({ tunnellers, currentPage, onPageChange }: Props) {
                   ? STYLES.active
                   : STYLES["pagination-button"]
               }`}
-              aria-label={`Go to page ${button}`}
+              aria-label={t("goToPage", { page: button })}
             >
               {button}
             </button>
@@ -145,7 +152,7 @@ export function RollAlphabet({ tunnellers, currentPage, onPageChange }: Props) {
           onClick={handleNextPage}
           disabled={currentPage === totalPages}
           className={STYLES["pagination-main-button"]}
-          aria-label="Go to next page"
+          aria-label={t("goToNextPage")}
         >
           &#8227;
         </button>

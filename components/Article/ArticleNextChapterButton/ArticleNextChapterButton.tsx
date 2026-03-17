@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useLocale, useTranslations } from "next-intl";
 
 import { Next } from "@/types/article";
 
@@ -11,16 +12,25 @@ type Props = {
 };
 
 export function ArticleNextChapterButton({ chapter }: Props) {
+  const t = useTranslations("article");
+  const locale = useLocale();
+  const localePrefix = locale === "en" ? "" : `/${locale}`;
+
   if (chapter) {
     return (
       <div className={STYLES["button-chapter-container"]}>
         <Link
-          href={`/history/${chapter.url}`}
+          href={`${localePrefix}/history/${chapter.url}`}
           className={STYLES["button-chapter"]}
-          aria-label={`Go to Chapter ${chapter.chapter}: ${chapter.title.replace(/\\/g, " ")}`}
+          aria-label={t("goToChapter", {
+            chapter: chapter.chapter,
+            title: chapter.title.replace(/\\/g, " "),
+          })}
         >
           <div>
-            <p className={STYLES.chapter}>{`Chapter ${chapter.chapter}`}</p>
+            <p className={STYLES.chapter}>
+              {t("chapter", { chapter: chapter.chapter })}
+            </p>
             <span>{chapter.title.replace(/\\/g, " ")}</span>
           </div>
           <div className={STYLES.arrow}>&rarr;</div>

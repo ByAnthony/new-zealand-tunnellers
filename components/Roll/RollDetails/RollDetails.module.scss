@@ -90,6 +90,21 @@
     @include variables.desktop {
       font-size: 1rem;
     }
+
+    sup {
+      font-size: 0.6rem;
+      vertical-align: super;
+      line-height: 0;
+      color: variables.$secondary-color;
+
+      @include variables.tablet {
+        font-size: 0.7rem;
+      }
+
+      @include variables.desktop {
+        font-size: 0.7rem;
+      }
+    }
   }
 
   .arrow {
