@@ -96,6 +96,26 @@ test("can clear a name", async ({ page }) => {
   await expect(search).toHaveAttribute("placeholder", "Search for a Tunneller");
 });
 
+test("can switch from English to French", async ({ page }) => {
+  await page.goto("/");
+
+  await page.getByRole("link", { name: "Français" }).click();
+  await page.waitForURL("/fr/", { waitUntil: "load" });
+
+  await expect(page).toHaveURL("/fr/");
+  await expect(page.getByRole("link", { name: "English" })).toBeVisible();
+});
+
+test("can switch from French to English", async ({ page }) => {
+  await page.goto("/fr/");
+
+  await page.getByRole("link", { name: "English" }).click();
+  await page.waitForURL("/", { waitUntil: "load" });
+
+  await expect(page).toHaveURL("/");
+  await expect(page.getByRole("link", { name: "Français" })).toBeVisible();
+});
+
 test("can go to the tunnellers page", async ({ page }) => {
   await page.goto("/");
 
