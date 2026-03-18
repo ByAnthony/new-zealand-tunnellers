@@ -12,7 +12,7 @@
     "resources": "Resources",
     "aboutUs": "About Us",
     "goToHomepage": "Go to the Homepage",
-    "logoAlt": "New Zealand Tunnellers Wesbite - Home"
+    "logoAlt": "New Zealand Tunnellers Website - Home"
   },
   "footer": {
     "scrollToTop": "Go back to the top of the page",
@@ -130,7 +130,7 @@
     "trained": "Trained",
     "buried": "Buried",
     "graveReference": "Grave reference",
-    "demobilization": "Demobilization",
+    "demobilization": "Demobilisation",
     "endOfService": "End of Service",
     "endOfServiceUK": "End of Service in the United Kingdom",
     "endOfServiceDeserter": "End of Service as deserter",

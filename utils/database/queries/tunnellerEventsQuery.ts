@@ -10,10 +10,11 @@ export const tunnellerEventsQuery = async (
 ) => {
   const query = `SELECT
     DATE_FORMAT(event_join.event_date, '%Y-%m-%d') AS date
-    , event_join.event_${locale} AS event
+    , event.event_${locale} AS event
     , event_join.event_title AS title
     , event_join.event_img AS image
     FROM event_join
+    JOIN event ON event_join.event_fk = event.event_id
     WHERE event_join.event_t_id=${id} ORDER BY date ASC, event_join.event_sequence`;
 
   const [results] =
