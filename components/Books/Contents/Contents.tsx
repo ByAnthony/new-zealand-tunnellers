@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import React, { ReactNode } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -23,6 +24,7 @@ const SommaireItem: React.FC<{
   href: string;
   children: ReactNode;
 }> = ({ locale, href, children }) => {
+  const t = useTranslations("books");
   const slug = href.replace(/^\.\//, "").replace(/\.md$/, "");
   const title = extractText(children).trim();
   const chap = parseChapterHeading(title, locale);
@@ -33,7 +35,7 @@ const SommaireItem: React.FC<{
       <Link
         href={fullPath}
         className={STYLES["button-chapter"]}
-        aria-label={locale === "fr" ? `Lire : ${title}` : `Read: ${title}`}
+        aria-label={t("read", { title })}
       >
         <div>
           <span className={STYLES["titre-container"]}>{title}</span>
@@ -47,15 +49,11 @@ const SommaireItem: React.FC<{
     <Link
       href={fullPath}
       className={STYLES["button-chapter"]}
-      aria-label={
-        locale === "fr"
-          ? `Aller au chapitre ${chap.number} : ${chap.text}`
-          : `Go to chapter ${chap.number}: ${chap.text}`
-      }
+      aria-label={t("goToChapter", { chapter: chap.number, title: chap.text })}
     >
       <div>
         <p className={STYLES.chapter}>
-          {locale === "fr" ? "Chapitre" : "Chapter"} {chap.number}
+          {t("chapter")} {chap.number}
         </p>
         {chap.text && <span>{chap.text}</span>}
       </div>
@@ -68,25 +66,24 @@ const MainTitle: React.FC<{
   locale: string;
   children: ReactNode;
 }> = ({ locale, children }) => {
+  const t = useTranslations("books");
+  const localePrefix = locale === "en" ? "" : `/${locale}`;
+
   return (
     <div className={STYLES.header}>
       <div className={STYLES.link}>
         <Link
-          href={`${locale === "en" ? "" : `/${locale}`}/#resources`}
-          aria-label={
-            locale === "fr"
-              ? "Aller à la section Ressources"
-              : "Go to the Resources section"
-          }
+          href={`${localePrefix}/#resources`}
+          aria-label={t("goToResources")}
         >
-          Resources
+          {t("resources")}
         </Link>
       </div>
       <h1>{children}</h1>
       <div className={STYLES.author}>
-        {locale === "fr"
-          ? "Un livre d'Anthony Byledbal"
-          : "A book by Anthony Byledbal"}
+        <div>
+          <span className={STYLES.by}>{t("by")}</span> Anthony Byledbal
+        </div>
       </div>
     </div>
   );

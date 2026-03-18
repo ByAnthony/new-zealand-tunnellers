@@ -63,7 +63,7 @@ describe("Contents", () => {
 
   test("renders chapter links with chapter number for fr", () => {
     render(<Contents locale="fr" content={frContent} />);
-    expect(screen.getByText("Chapitre 1")).toBeInTheDocument();
+    expect(screen.getByText("Chapter 1")).toBeInTheDocument();
     expect(
       screen.getByText("Les tunneliers des antipodes"),
     ).toBeInTheDocument();

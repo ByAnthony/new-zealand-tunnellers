@@ -1,4 +1,4 @@
-<!-- Copyright © Anthony Byledbal, 2017–present. All right reserved.
+<!-- Copyright © Anthony Byledbal, 2017–present. All rights reserved.
 Book published on New Zealand Tunnellers website – https://www.nztunnellers.com/books/kiwis-dig-tunnels-too -->
 
 # Chapter 4: Interlude in Cornwall
@@ -38,7 +38,7 @@ New underground fighters were still taking up positions along the line each week
 
 [^2]: _Ibid._, &ldquo;Opposite the station was a factory and dozens of girls came to the windows and gave us a great hand.&rdquo;
 
-[^3]: James Campbell Neill, _The New Zealand Tunnelling Company, 1915-1919_, Auckland, Whitcombe & Tombs, 1922, p.&nbsp;14, &ldquo;… a tryly sumptuous repast […] served by all the youth and beauty of that ancient town.&rdquo;
+[^3]: James Campbell Neill, _The New Zealand Tunnelling Company, 1915-1919_, Auckland, Whitcombe & Tombs, 1922, p.&nbsp;14, &ldquo;… a truly sumptuous repast […] served by all the youth and beauty of that ancient town.&rdquo;
 
 [^4]: Imperial War Museum, Documents.11515, The Memoirs of James Williamson…, _op. cit._, Part&nbsp;1, f°&nbsp;18-19, &ldquo;… the others had all been pinched for being drunk and disorderly, and using obscene language. The Sergeant Police said he had never heard anything like it before and I can quite believe it.&rdquo;
 
@@ -62,4 +62,4 @@ New underground fighters were still taking up positions along the line each week
 
 [^14]: The National Archives United Kingdom, WO&nbsp;95/407, New Zealand Tunnelling Company War Diary, 9&nbsp;March 1916.
 
-[^15]: Grant W. Grieve and Bernard Newman, _Tunnellers: The Story of the Tunnelling Companies_, Royal Engineers, during the World War, Londres, Herbert Jenkins Limited, 1936, p.&nbsp;107.
+[^15]: Grant W. Grieve and Bernard Newman, _Tunnellers: The Story of the Tunnelling Companies_, Royal Engineers, during the World War, London, Herbert Jenkins Limited, 1936, p.&nbsp;107.

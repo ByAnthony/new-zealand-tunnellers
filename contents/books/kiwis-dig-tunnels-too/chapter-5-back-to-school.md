@@ -1,4 +1,4 @@
-<!-- Copyright © Anthony Byledbal, 2017–present. All right reserved.
+<!-- Copyright © Anthony Byledbal, 2017–present. All rights reserved.
 Book published on New Zealand Tunnellers website – https://www.nztunnellers.com/books/kiwis-dig-tunnels-too -->
 
 # Chapter 5: Back to School
@@ -35,17 +35,17 @@ The mine inspectors, responsible for directing underground military operations o
 
 [^1]: James Campbell Neill, _The New Zealand Tunnelling Company, 1915-1919_, Auckland, Whitcombe & Tombs, 1922, p.&nbsp;23, &ldquo;… the trenches were feet deep in liquid mud.&rdquo;
 
-[^2]: Library of the British Royal Engineers, Weekly Reportss&nbsp;– Third British Army, from 27&nbsp;February to 29&nbsp;December 1916. Weekly Reports of the New Zealand Tunnelling Company.
+[^2]: Library of the British Royal Engineers, Weekly Reports&nbsp;– Third British Army, from 27&nbsp;February to 29&nbsp;December 1916. Weekly Reports of the New Zealand Tunnelling Company.
 
 [^3]: _Ibid._
 
-[^4]: Library of the British Royal Engineers, Weekly Reportss&nbsp;– Third British Army, from 27&nbsp;February to 29&nbsp;December 1916. Weekly Reports of the Company 7/1&nbsp;T.
+[^4]: Library of the British Royal Engineers, Weekly Reports&nbsp;– Third British Army, from 27&nbsp;February to 29&nbsp;December 1916. Weekly Reports of the Company 7/1&nbsp;T.
 
 [^5]: _Extrait de l’aide-mémoire de l’officier du génie en campagne (à l’usage des sous-officiers)_, Paris, Imprimerie Nationale, 1915, Chapitre&nbsp;IX, p.&nbsp;5.
 
 [^6]: Imperial War Museum, Documents.11515, The First World War Memoirs of James Williamson, Part&nbsp;1, f°&nbsp;29A.
 
-[^7]: _The Work of the Royal Engineers in the European War, 1914-19, Military Mining_, Uckfield, The Naval & Military Press Limited, 2004 (éd. orig. 1922), p.&nbsp;104.
+[^7]: _The Work of the Royal Engineers in the European War, 1914-19, Military Mining_, Uckfield, The Naval & Military Press Limited, 2004 (orig. ed. 1922), p.&nbsp;104.
 
 [^8]: H. Standish Ball, _The Work of the Miner on the Western Front, 1915-1918_, London, Crowther & Goodman, 1919, p.&nbsp;18-19.
 
@@ -63,6 +63,6 @@ The mine inspectors, responsible for directing underground military operations o
 
 [^15]: Herbert W. Graham, _The Life of a Tunnelling Companies, Being an intimate Story of the Life of the 185th Tunnelling Company Royal Engineers, in France, during the Great War, 1914-1918_, Hexham, J. Catherall & Co., 1927, p.&nbsp;21.
 
-[^16]: _Ibid._, &ldquo;n officer fully trained with the use of the geophone paid frequent visits to all the posts […] and very soon enough information was collected to show that the front line was threatened in several places.&rdquo;
+[^16]: _Ibid._, &ldquo;An officer fully trained with the use of the geophone paid frequent visits to all the posts […] and very soon enough information was collected to show that the front line was threatened in several places.&rdquo;
 
 [^17]: _Ibid._, &ldquo;Our desperate straits needed desperate energy in counter-mining, in order to force the enemy to blow prematurely to save our troops. […] The suggestion of evacuating small portions of the line which were in immediate peril, as advised by our O.C., was viewed with displeasure.&rdquo;

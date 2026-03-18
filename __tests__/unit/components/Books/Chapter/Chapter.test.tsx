@@ -126,14 +126,14 @@ describe("Chapter", () => {
         level: 1,
       }),
     ).toBeInTheDocument();
-    expect(screen.getByText("Chapitre 1")).toBeInTheDocument();
+    expect(screen.getByText("Chapter 1")).toBeInTheDocument();
   });
 
   test("renders the breadcrumb link back to the book contents", () => {
     render(<Chapter locale="fr" content={chapterContent} />);
 
     const bookLink = screen.getByRole("link", {
-      name: "Aller au sommaire",
+      name: "Go to the table of contents",
     });
     expect(bookLink).toHaveAttribute("href", "/fr/books/kiwis-dig-tunnels-too");
   });

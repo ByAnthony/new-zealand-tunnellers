@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 import React, { ReactNode } from "react";
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
@@ -11,7 +12,7 @@ import remarkRemoveComments from "remark-remove-comments";
 import { BookMenu } from "@/components/Books/BookMenu/BookMenu";
 import { ReadingProgress } from "@/components/Books/ReadingProgress/ReadingProgress";
 import { HowToCite } from "@/components/HowToCite/HowToCite";
-import { basePath, bookTitle } from "@/utils/helpers/books/basePathUtil";
+import { basePath } from "@/utils/helpers/books/basePathUtil";
 import {
   calculateReadingTime,
   extractText,
@@ -33,47 +34,38 @@ const MainTitle: React.FC<{
   locale: string;
   readingTime?: number;
 }> = ({ children, locale, readingTime }) => {
+  const t = useTranslations("books");
   const title = extractText(children).trim();
   const chapter = parseChapterHeading(title, locale);
+  const localePrefix = locale === "en" ? "" : `/${locale}`;
 
   return (
     <>
       <div className={STYLES.header}>
         <div className={STYLES.link}>
           <Link
-            href={`${locale === "en" ? "" : `/${locale}`}/#resources`}
-            aria-label={
-              locale === "fr"
-                ? "Aller à la section Ressources"
-                : "Go to the Resources section"
-            }
+            href={`${localePrefix}/#resources`}
+            aria-label={t("goToResources")}
           >
-            Resources
+            {t("resources")}
           </Link>{" "}
           /{" "}
-          <Link
-            href={basePath(locale)}
-            aria-label={
-              locale === "fr"
-                ? "Aller au sommaire"
-                : "Go to the table of contents"
-            }
-          >
-            {bookTitle(locale)}
+          <Link href={basePath(locale)} aria-label={t("goToTableOfContents")}>
+            {t("title")}
           </Link>
         </div>
         <div className={STYLES["main-title"]}>
           <h1>{chapter !== null ? chapter.text : title}</h1>
           {chapter?.number && (
             <div className={STYLES["title-line-3"]}>
-              {locale === "fr" ? "Chapitre" : "Chapter"} {chapter?.number}
+              {t("chapter")} {chapter?.number}
             </div>
           )}
         </div>
       </div>
       {readingTime !== undefined && (
         <div className={STYLES["reading-time"]}>
-          {readingTime} {locale === "fr" ? "min de lecture" : "min read"}
+          {readingTime} {t("minRead")}
         </div>
       )}
     </>

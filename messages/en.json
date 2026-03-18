@@ -9,6 +9,7 @@
   "nav": {
     "history": "History",
     "tunnellers": "Tunnellers",
+    "resources": "Resources",
     "aboutUs": "About Us",
     "goToHomepage": "Go to the Homepage",
     "logoAlt": "New Zealand Tunnellers Website - Home"
@@ -33,7 +34,12 @@
     "seeNextChapters": "See next chapters",
     "svgLabel": "The Kiwis who fought beneath the no man\u2019s land",
     "discover": "Discover",
-    "nzTunnellers": "The New Zealand Tunnellers"
+    "nzTunnellers": "The New Zealand Tunnellers",
+    "resources": "Resources to Explore",
+    "resourceTitle": "Kiwis Dig Tunnels Too",
+    "resourceBadge": "Book",
+    "resourceDescription": "Recruited for their digging skills, James Williamson, Harold Howard, George Race, and Gerald Punch—four New Zealand volunteers—are preparing to cross the oceans with their special unit to take part in this secret war. But on the other side of the world, this deadly game is already tipping in favor of the German miners.",
+    "resourceBy": "By "
   },
   "aboutUs": {
     "contactByEmail": "Contact us by email",
@@ -133,6 +139,15 @@
     "companyEventAltFallback": "Company event"
   },
   "books": {
-    "readingProgress": "Reading progress"
+    "readingProgress": "Reading progress",
+    "title": "Kiwis Dig Tunnels Too",
+    "resources": "Resources",
+    "goToResources": "Go to the Resources section",
+    "goToTableOfContents": "Go to the table of contents",
+    "chapter": "Chapter",
+    "minRead": "min read",
+    "by": "By",
+    "read": "Read: {title}",
+    "goToChapter": "Go to chapter {chapter}: {title}"
   }
 }

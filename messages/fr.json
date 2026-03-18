@@ -9,6 +9,7 @@
   "nav": {
     "history": "Histoire",
     "tunnellers": "Tunneliers",
+    "resources": "Ressources",
     "aboutUs": "À propos",
     "goToHomepage": "Aller à la page d'accueil",
     "logoAlt": "Site des Tunneliers néo-zélandais - Accueil"
@@ -33,7 +34,12 @@
     "seeNextChapters": "Voir les chapitres suivants",
     "svgLabel": "Les Kiwis qui ont lutté sous le no man\u2019s land",
     "discover": "Découvrir",
-    "nzTunnellers": "Les Tunneliers néo-zélandais"
+    "nzTunnellers": "Les Tunneliers néo-zélandais",
+    "resources": "Ressources à explorer",
+    "resourceTitle": "Les Kiwis aussi creusent des tunnels",
+    "resourceBadge": "Livre",
+    "resourceDescription": "Recrutés pour leurs aptitudes à creuser, James Williamson, Harold Howard, George Race et Gerald Punch — quatre engagés volontaires néo-zélandais — s'apprêtent à traverser les océans avec leur unité spéciale pour prendre part à cette guerre secrète. Mais, de l'autre côté de la terre, ce jeu mortel est déjà à l'avantage des mineurs allemands.",
+    "resourceBy": "Par "
   },
   "aboutUs": {
     "contactByEmail": "Nous contacter par e-mail",
@@ -133,6 +139,15 @@
     "companyEventAltFallback": "Événement de la compagnie"
   },
   "books": {
-    "readingProgress": "Progression de la lecture"
+    "readingProgress": "Progression de la lecture",
+    "title": "Les Kiwis aussi creusent des tunnels",
+    "resources": "Ressources",
+    "goToResources": "Aller à la section Ressources",
+    "goToTableOfContents": "Aller au sommaire",
+    "chapter": "Chapitre",
+    "minRead": "min de lecture",
+    "by": "Par",
+    "read": "Lire : {title}",
+    "goToChapter": "Aller au chapitre {chapter} : {title}"
   }
 }

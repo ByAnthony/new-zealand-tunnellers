@@ -14,7 +14,7 @@ exports[`Contents matches the snapshot (fr) 1`] = `
             class="link"
           >
             <a
-              aria-label="Aller à la section Ressources"
+              aria-label="Go to the Resources section"
               href="/fr#resources"
             >
               Resources
@@ -26,13 +26,20 @@ exports[`Contents matches the snapshot (fr) 1`] = `
           <div
             class="author"
           >
-            Un livre d'Anthony Byledbal
+            <div>
+              <span
+                class="by"
+              >
+                By
+              </span>
+               Anthony Byledbal
+            </div>
           </div>
         </div>
       </div>
       <div>
         <a
-          aria-label="Lire : Prologue"
+          aria-label="Read: Prologue"
           class="button-chapter"
           href="/fr/books/kiwis-dig-tunnels-too/prologue"
         >
@@ -58,7 +65,7 @@ exports[`Contents matches the snapshot (fr) 1`] = `
       </div>
       <div>
         <a
-          aria-label="Aller au chapitre 1 : Les tunneliers des antipodes"
+          aria-label="Go to chapter 1: Les tunneliers des antipodes"
           class="button-chapter"
           href="/fr/books/kiwis-dig-tunnels-too/chapter-1-the-tunnellers-from-the-antipodes"
         >
@@ -66,7 +73,7 @@ exports[`Contents matches the snapshot (fr) 1`] = `
             <p
               class="chapter"
             >
-              Chapitre 1
+              Chapter 1
             </p>
             <span>
               Les tunneliers des antipodes
@@ -87,7 +94,7 @@ exports[`Contents matches the snapshot (fr) 1`] = `
       </div>
       <div>
         <a
-          aria-label="Aller au chapitre 2 : En faire de bons soldats"
+          aria-label="Go to chapter 2: En faire de bons soldats"
           class="button-chapter"
           href="/fr/books/kiwis-dig-tunnels-too/chapter-2-forging-good-soldiers"
         >
@@ -95,7 +102,7 @@ exports[`Contents matches the snapshot (fr) 1`] = `
             <p
               class="chapter"
             >
-              Chapitre 2
+              Chapter 2
             </p>
             <span>
               En faire de bons soldats
@@ -116,7 +123,7 @@ exports[`Contents matches the snapshot (fr) 1`] = `
       </div>
       <div>
         <a
-          aria-label="Lire : Sources"
+          aria-label="Read: Sources"
           class="button-chapter"
           href="/fr/books/kiwis-dig-tunnels-too/sources"
         >

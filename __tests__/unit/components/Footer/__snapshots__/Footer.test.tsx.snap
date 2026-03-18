@@ -33,6 +33,15 @@ exports[`Footer matches the snapshot 1`] = `
           class="map-link"
         >
           <a
+            href="/#resources"
+          >
+            Resources
+          </a>
+        </div>
+        <div
+          class="map-link"
+        >
+          <a
             href="/about-us"
           >
             About Us

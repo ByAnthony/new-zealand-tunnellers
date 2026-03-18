@@ -1,4 +1,4 @@
-<!-- Copyright © Anthony Byledbal, 2017–present. All right reserved.
+<!-- Copyright © Anthony Byledbal, 2017–present. All rights reserved.
 Book published on New Zealand Tunnellers website – https://www.nztunnellers.com/books/kiwis-dig-tunnels-too -->
 
 # Chapter 7: Trapped
@@ -41,22 +41,22 @@ In this deadly game of chess, the German miners proved cleverer than their oppon
 <a className="button-chapter-book" href="/books/kiwis-dig-tunnels-too/chapter-8-right-under-the-germans-noses" aria-label="Go to chapter 8: Right Under the Germans' Noses">
   <div>    
     <p className="chapter">Chapter 8</p>
-    <span>Right Under the German’s Noses</span>
+    <span>Right Under the Germans’ Noses</span>
   </div>
     <div className="arrow">&rarr;</div>
 </a>
 
 [^1]: The National Archives United Kingdom, WO&nbsp;95/407, New Zealand Tunnelling Company War Diary, 19&nbsp;June 1916, &ldquo;Germans blew another mysterious mine nearer their lines than Camouflet of yesterday and for no apparent reason.&rdquo;
 
-[^2]: Grant W. Grieve and Bernard Newman, _Tunnellers: The Story of the Tunnelling Companies, Royal Engineers, during the World War_, Londres, Herbert Jenkins Limited, 1936, p.&nbsp;110, &ldquo;… but the sector was reported to be very quiet&rdquo;.
+[^2]: Grant W. Grieve and Bernard Newman, _Tunnellers: The Story of the Tunnelling Companies, Royal Engineers, during the World War_, London, Herbert Jenkins Limited, 1936, p.&nbsp;110, &ldquo;… but the sector was reported to be very quiet&rdquo;.
 
-[^3]: Library of the British Royal Engineers, Weekly Reportss&nbsp;– Third British Army, from 27&nbsp;February to 29&nbsp;December 1916. Weekly Reports 7-14&nbsp;July 1916, &ldquo;Now however that a concerted Mining offensive is indicated here this will have to be done.&rdquo;
+[^3]: Library of the British Royal Engineers, Weekly Reports&nbsp;– Third British Army, from 27&nbsp;February to 29&nbsp;December 1916. Weekly Reports 7-14&nbsp;July 1916, &ldquo;Now however that a concerted Mining offensive is indicated here this will have to be done.&rdquo;
 
 [^4]: Grant W. Grieve and Bernard Newman, _Tunnellers…_, _op. cit._, p.&nbsp;110.
 
 [^5]: The National Archives United Kingdom, WO&nbsp;95/407, War Diary…, _op. cit._, 5&nbsp;August 1916, &ldquo;Our footage rather small on account of cleaning up trenches and making dugout in K [Sector].&rdquo;
 
-[^6]: _The Work of the Royal Engineers in the European War, 1914-19, Military Mining_, Uckfield, The Naval & Military Press Limited, 2004 (éd. orig. 1922), p.&nbsp;82.
+[^6]: _The Work of the Royal Engineers in the European War, 1914-19, Military Mining_, Uckfield, The Naval & Military Press Limited, 2004 (orig. ed. 1922), p.&nbsp;82.
 
 [^7]: _Ibid._, p.&nbsp;83.
 
