@@ -1,4 +1,4 @@
-<!-- Copyright © Anthony Byledbal, 2017–present. All right reserved.
+<!-- Copyright © Anthony Byledbal, 2017–present. All rights reserved.
 Book published on New Zealand Tunnellers website – https://www.nztunnellers.com/books/kiwis-dig-tunnels-too -->
 
 # Chapter 6: In the Heart of Battle
@@ -57,7 +57,7 @@ The New Zealand unit lost nearly 80&nbsp;men, and its work no longer progressed 
   <img src="../public/images/books/kiwis-dig-tunnels-too/4-underground-operations.jpg" alt="Map of the front line labeled “German trenches” (top) and “British trenches” (bottom). German saps (red) advance toward No Man’s Land; New Zealand saps (blue), J1 to J14, start from the British trenches. Three red circles aligned in the center of the sector indicate German underground explosions (roughly opposite J3–J5 and toward J1)." width="1170" height="827">
 </figure>
 
-The officers examined the three craters and christened them Cuthbert, Clarence, and Claude, after the humorous popular song by Arnold Blake, composed in 1912.[^22] Cuthbert was the name given to the southernmost crater, which measured more than 43&nbsp;meters across and reached a depth of over 7.5&nbsp;meters; according to the officers, the mine had probably been laid at a depth of more than 16&nbsp;meters. Clarence, the smallest of the three, lay close to the old Bailleul road; it formed an oval more than 41&nbsp;meters wide and over 9&nbsp;meters deep, a shape suggesting that the explosive charge had been placed along the line of the gallery. Claude, the northernmost and the largest, reached a diameter of nearly 45&nbsp;meters and a depth of more than 11.5&nbsp;meters; the officers assumed the mine had been installed more than 24&nbsp;meters underground. At Chantecler, the New Zealand company suffered its second setback and found it very difficult to conduct an effective underground fight. As a precaution, on 16&nbsp;June at 2:00&nbsp;p.m., a camouflet was fired in one of the branches of J1, south of Clarence, to prevent a further enemy attack on the front line (Map&nbsp;5). Nevertheless, at no point had the New Zealanders managed to pinpoint the enemy workings: the German miners had simply drawn their attention to the northern part of the sector throughout April and early May. That period gave them enough time to edge as close as possible to the British front line and to plan an attack in coordination with the troops on the surface.
+The officers examined the three craters and christened them Cuthbert, Clarence, and Claude, after the humorous popular song by Arnold Blake, composed in 1912.[^22] Cuthbert was the name given to the southernmost crater, which measured more than 43&nbsp;metres across and reached a depth of over 7.5&nbsp;metres; according to the officers, the mine had probably been laid at a depth of more than 16&nbsp;metres. Clarence, the smallest of the three, lay close to the old Bailleul road; it formed an oval more than 41&nbsp;metres wide and over 9&nbsp;metres deep, a shape suggesting that the explosive charge had been placed along the line of the gallery. Claude, the northernmost and the largest, reached a diameter of nearly 45&nbsp;metres and a depth of more than 11.5&nbsp;metres; the officers assumed the mine had been installed more than 24&nbsp;metres underground. At Chantecler, the New Zealand company suffered its second setback and found it very difficult to conduct an effective underground fight. As a precaution, on 16&nbsp;June at 2:00&nbsp;p.m., a camouflet was fired in one of the branches of J1, south of Clarence, to prevent a further enemy attack on the front line (Map&nbsp;5). Nevertheless, at no point had the New Zealanders managed to pinpoint the enemy workings: the German miners had simply drawn their attention to the northern part of the sector throughout April and early May. That period gave them enough time to edge as close as possible to the British front line and to plan an attack in coordination with the troops on the surface.
 
 <a className="button-chapter-book" href="/books/kiwis-dig-tunnels-too/chapter-7-trapped" aria-label="Go to chapter 7: Trapped">
   <div>    
@@ -71,13 +71,13 @@ The officers examined the three craters and christened them Cuthbert, Clarence, 
 
 [^2]: Imperial War Museum, Documents.11515, The First World War Memoirs of James Williamson, Part&nbsp;1, f°&nbsp;31.
 
-[^3]: _The Work of the Royal Engineers in the European War, 1914-19, Military Mining_, Uckfield, The Naval & Military Press Limited, 2004 (éd. orig. 1922), p.&nbsp;5.
+[^3]: _The Work of the Royal Engineers in the European War, 1914-19, Military Mining_, Uckfield, The Naval & Military Press Limited, 2004 (orig. ed. 1922), p.&nbsp;5.
 
-[^4]: Grant W. Grieve and Bernard Newman, _Tunnellers: The Story of the Tunnelling Companies_, Royal Engineers, during the World War, Londres, Herbert Jenkins Limited, 1936, p.&nbsp;311.
+[^4]: Grant W. Grieve and Bernard Newman, _Tunnellers: The Story of the Tunnelling Companies_, Royal Engineers, during the World War, London, Herbert Jenkins Limited, 1936, p.&nbsp;311.
 
 [^5]: Imperial War Museum, Documents.11515, The Memoirs of James Williamson…, _op. cit._, Part&nbsp;1, f°&nbsp;32.
 
-[^6]: The National Archives United Kingdom, WO&nbsp;95/407, New Zealand Tunnelling Company War Diary, 20&nbsp;April 1916, &ldquo;Received word to-day of first death among members of Coy. No.4/1639, sapeur M. Tobin.&rdquo;
+[^6]: The National Archives United Kingdom, WO&nbsp;95/407, New Zealand Tunnelling Company War Diary, 20&nbsp;April 1916, &ldquo;Received word to-day of first death among members of Coy. No.4/1639, Sapper M. Tobin.&rdquo;
 
 [^7]: _Ibid._, 7&nbsp;April 1916, &ldquo;Enemy blew at J4. at 10.30.p.m. evidently against our left branch.&rdquo;
 

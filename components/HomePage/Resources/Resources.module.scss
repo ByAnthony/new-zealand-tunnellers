@@ -36,7 +36,6 @@
   gap: variables.$base-margin;
 
   @include variables.desktop {
-    height: variables.$l-margin;
     gap: variables.$l-margin;
     padding: variables.$padding-card 0;
   }

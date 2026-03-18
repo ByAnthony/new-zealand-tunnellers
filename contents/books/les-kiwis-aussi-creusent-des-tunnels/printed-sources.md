@@ -28,11 +28,11 @@ Livre publié sur New Zealand Tunnellers – https://www.nztunnellers.com/fr/boo
 - GRAHAM Herbert W., _The Life of a Tunnelling Company: Being an Intimate Story of the Life of the 185th Tunnelling Company, Royal Engineers, in France, During the Great War, 1914-1918_, Hexham, J. Catherall & Co., 1927, 180&nbsp;p.
 - GRIEVE Grant W. et NEWMAN Bernard, _Tunnellers: The Story of the Tunnelling Companies, Royal Engineers, during the World War_, Londres, Herbert Jenkins Limited, 1936, 334&nbsp;p.
 - NEILL James Campbell, _The New Zealand Tunnelling Company, 1915-1919_, Auckland, Whitcombe & Tombs, 1922, 159&nbsp;p.
-- STANDISH BALL H., _The Work of the Miner on the Western Front, 1915-1918_, London, Crowther & Goodman, 1919, 58&nbsp;p.
+- STANDISH BALL H., _The Work of the Miner on the Western Front, 1915-1918_, Londres, Crowther & Goodman, 1919, 58&nbsp;p.
 
 ## Revue
 
-- _Tunnellers’ Old Comrades Association_, Bulletins n°1-14, London, Mining Publications Limited, 1927-1939.
+- _Tunnellers’ Old Comrades Association_, Bulletins n°1-14, Londres, Mining Publications Limited, 1927-1939.
 
 <a className="button-chapter-book" href="/fr/books/kiwis-dig-tunnels-too/bibliography" aria-label="Lire : Bibliographie">
   <div>

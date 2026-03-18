@@ -1,4 +1,4 @@
-<!-- Copyright © Anthony Byledbal, 2017–present. All right reserved.
+<!-- Copyright © Anthony Byledbal, 2017–present. All rights reserved.
 Book published on New Zealand Tunnellers website – https://www.nztunnellers.com/books/kiwis-dig-tunnels-too -->
 
 # Chapter 1: The Tunnellers from the Antipodes
@@ -84,7 +84,7 @@ It was not, however, for their courage in volunteering that the people of Avonda
 
 [^9]: Christopher Pugsley, _On the Fringe of Hell, New Zealanders and Military Discipline in the First World War_, Auckland, Hodder & Stoughton, 1991, p.&nbsp;224.
 
-[^10]: [Anonyme], &ldquo;Obituary Hugh Vickerman, 1880-1960&rdquo;, _ICE Proceedings_, vol.&nbsp;22, n°2, 1962, p.&nbsp;255.
+[^10]: [Anonymous], &ldquo;Obituary Hugh Vickerman, 1880-1960&rdquo;, _ICE Proceedings_, vol.&nbsp;22, n°2, 1962, p.&nbsp;255.
 
 [^11]: _Ibid._
 
@@ -110,7 +110,7 @@ It was not, however, for their courage in volunteering that the people of Avonda
 
 [^22]: _Ibid._, Part&nbsp;1, f°&nbsp;7.
 
-[^23]: The second people, a minority, are the Moriori, who live in the Chatham Islands—New Zealand islands about 800 kilometres east of New Zealand’s South Island—whose arrival predates that of the Māori. For more information, see Michael King, _Moriori: a people rediscovered_, Auckland, Vicking, 2000 (orig. ed. 1989).
+[^23]: The second people, a minority, are the Moriori, who live in the Chatham Islands—New Zealand islands about 800 kilometres east of New Zealand’s South Island—whose arrival predates that of the Māori. For more information, see Michael King, _Moriori: a people rediscovered_, Auckland, Viking, 2000 (orig. ed. 1989).
 
 [^24]: Georges-Goulven Le Cam, _L’Australie et la Nouvelle-Zélande_, Rennes, Presses universitaires de Rennes, 1996, p.&nbsp;97.
 
@@ -120,13 +120,13 @@ It was not, however, for their courage in volunteering that the people of Avonda
 
 [^27]: _Ibid._, p.&nbsp;372.
 
-[^28]: W. David McIntyre, &laquo;&nbsp;Imperialism and Nationalism&nbsp;&raquo;, in _The Oxford History of New Zealand_, sous la direction de Geoffrey Rice, Auckland, Oxford University Press, 1997 (orig. ed. 1992), p.&nbsp;308.
+[^28]: W. David McIntyre, &laquo;&nbsp;Imperialism and Nationalism&nbsp;&raquo;, in _The Oxford History of New Zealand_, edited by Geoffrey Rice, Auckland, Oxford University Press, 1997 (orig. ed. 1992), p.&nbsp;308.
 
 [^29]: _Ibid._, p.&nbsp;342.
 
 [^30]: Imperial War Museum, Documents.11515, The Memoirs of James Williamson…, _op. cit._, Part&nbsp;1, f°&nbsp;3.
 
-[^31]: _Military Engineering: Demolitions and Mining_, Londres, War Office, 1923, p.&nbsp;127.
+[^31]: _Military Engineering: Demolitions and Mining_, London, War Office, 1923, p.&nbsp;127.
 
 [^32]: Barry Gustafson, _Labour’s Path to Political Independance: The Origins and Establishment of the New Zealand Labour Party 1900-19_, Auckland, Auckland University Press, 1980, p.&nbsp;30.
 
