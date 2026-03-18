@@ -1,5 +1,5 @@
 <!-- Copyright © Anthony Byledbal, 2017–aujourd’hui. Tous droits réservés.
-Livre publié sur New Zealand Tunnellers – https://www.nztunnellers.com/books/les-kiwis-aussi-creusent-des-tunnels -->
+Livre publié sur New Zealand Tunnellers – https://www.nztunnellers.com/fr/books/kiwis-dig-tunnels-too -->
 
 # Chapitre 15: La Compagnie démobilisée
 
