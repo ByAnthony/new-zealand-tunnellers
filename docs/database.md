@@ -7,13 +7,13 @@ The database holds data for:
 
 ## History
 
-| Table                                         | Description |
-| --------------------------------------------- | ----------- |
-| [article](#article)                           | -           |
-| [article_image](#article-image)               | -           |
-| [article_image_join](#article-image-join)     | -           |
-| [article_section](#article-section)           | -           |
-| [article_section_join](#article-section-join) | -           |
+| Table                                         | Description                           |
+| --------------------------------------------- | ------------------------------------- |
+| [article](#article)                           | History chapter articles              |
+| [article_image](#article-image)               | Images used in history articles       |
+| [article_image_join](#article-image-join)     | Links articles to their images        |
+| [article_section](#article-section)           | Text sections within history articles |
+| [article_section_join](#article-section-join) | Links articles to their sections      |
 
 ### History Foreign Key Relationships
 
@@ -26,51 +26,53 @@ The database holds data for:
 
 ## Tunnellers
 
-| Table                                             | Description |
-| ------------------------------------------------- | ----------- |
-| [tunneller](#tunneller)                           | -           |
-| [rank](#rank)                                     | -           |
-| [embarkation_unit](#embarkation-unit)             | -           |
-| [training](#training)                             | -           |
-| [training_location_type](#training-location-type) | -           |
-| [transport](#transport)                           | -           |
-| [transport_reference](#transport-reference)       | -           |
-| [transport_vessel](#transport-vessel)             | -           |
-| [section](#section)                               | -           |
-| [corps](#corps)                                   | -           |
-| [country](#country)                               | -           |
-| [religion](#religion)                             | -           |
-| [marital_status](#marital-status)                 | -           |
-| [occupation](#occupation)                         | -           |
-| [last_employer](#last-employer)                   | -           |
-| [town](#town)                                     | -           |
-| [military_district](#military-district)           | -           |
-| [transferred](#transferred)                       | -           |
-| [transferred_to](#transferred-to)                 | -           |
-| [death_type](#death-type)                         | -           |
-| [death_location](#death-location)                 | -           |
-| [death_cause](#death-cause)                       | -           |
-| [death_circumstances](#death-circumstances)       | -           |
-| [cemetery](#cemetery)                             | -           |
-| [nominal_roll](#nominal-roll)                     | -           |
-| [archives](#archives)                             | -           |
-| [archives_name](#archives-name)                   | -           |
-| [book](#book)                                     | -           |
-| [author](#author)                                 | -           |
-| [author_book_join](#author-book-join)             | -           |
-| [family](#family)                                 | -           |
-| [newspaper](#newspaper)                           | -           |
-| [newspaper_name](#newspaper-name)                 | -           |
-| [army_experience](#army-experience)               | -           |
-| [army_experience_join](#army-experience-join)     | -           |
-| [conflict](#conflict)                             | -           |
-| [london_gazette](#london-gazette)                 | -           |
-| [london_gazette)\_join](#london-gazette-join)     | -           |
-| [nz_archives](#new-zealand-archives)              | -           |
-| [medal](#medal)                                   | -           |
-| [medal_citation](#medal-citation)                 | -           |
-| [medal_join](#medal-join)                         | -           |
-| [company_events](#company-events)                 | -           |
+| Table                                             | Description                                                     |
+| ------------------------------------------------- | --------------------------------------------------------------- |
+| [tunneller](#tunneller)                           | Core tunneller profile data                                     |
+| [rank](#rank)                                     | Military rank lookup                                            |
+| [embarkation_unit](#embarkation-unit)             | Main Body or Reinforcement unit at embarkation                  |
+| [training](#training)                             | Training camp information                                       |
+| [training_location_type](#training-location-type) | Type of training location lookup                                |
+| [transport](#transport)                           | Transport voyage information                                    |
+| [transport_reference](#transport-reference)       | Transport reference document lookup                             |
+| [transport_vessel](#transport-vessel)             | Vessel name lookup                                              |
+| [section](#section)                               | Company section lookup                                          |
+| [corps](#corps)                                   | Corps lookup                                                    |
+| [country](#country)                               | Country lookup                                                  |
+| [religion](#religion)                             | Religion lookup                                                 |
+| [marital_status](#marital-status)                 | Marital status lookup                                           |
+| [occupation](#occupation)                         | Occupation lookup                                               |
+| [last_employer](#last-employer)                   | Last employer before enlistment lookup                          |
+| [town](#town)                                     | Town lookup with coordinates                                    |
+| [military_district](#military-district)           | Military district lookup                                        |
+| [transferred](#transferred)                       | Transfer details during service                                 |
+| [transferred_to](#transferred-to)                 | Transfer destination lookup                                     |
+| [death_type](#death-type)                         | Death type lookup (war, war injuries, after war)                |
+| [death_location](#death-location)                 | Type of location where death occurred lookup                    |
+| [death_cause](#death-cause)                       | Cause of death lookup                                           |
+| [death_circumstances](#death-circumstances)       | Death circumstances lookup                                      |
+| [cemetery](#cemetery)                             | Cemetery information                                            |
+| [nominal_roll](#nominal-roll)                     | Reference to NZ Expeditionary Force Nominal Roll publication    |
+| [archives](#archives)                             | Archive document references                                     |
+| [archives_name](#archives-name)                   | Archive institution name lookup                                 |
+| [book](#book)                                     | Published book references                                       |
+| [author](#author)                                 | Book author lookup                                              |
+| [author_book_join](#author-book-join)             | Links authors to books                                          |
+| [family](#family)                                 | Family name for image source attribution                        |
+| [newspaper](#newspaper)                           | Newspaper reference for image source                            |
+| [newspaper_name](#newspaper-name)                 | Newspaper name lookup                                           |
+| [army_experience](#army-experience)               | Previous military unit or experience before WWI                 |
+| [army_experience_join](#army-experience-join)     | Links tunnellers to their previous military experience          |
+| [conflict](#conflict)                             | Previous war or conflict lookup                                 |
+| [london_gazette](#london-gazette)                 | London Gazette publication references for medals and promotions |
+| [london_gazette_join](#london-gazette-join)       | Links tunnellers to London Gazette entries                      |
+| [nz_archives](#new-zealand-archives)              | New Zealand Archives references                                 |
+| [medal](#medal)                                   | Medal lookup                                                    |
+| [medal_citation](#medal-citation)                 | Medal citation text                                             |
+| [medal_join](#medal-join)                         | Links tunnellers to their medals and citations                  |
+| [company_events](#company-events)                 | Key company events displayed on the WWI timeline                |
+| [event](#event)                                   | Individual tunneller event description lookup                   |
+| [event_join](#event-join)                         | Links tunnellers to their timeline events                       |
 
 ### Tunnellers Foreign Key Relationships
 
@@ -90,7 +92,7 @@ The database holds data for:
 | tunneller            | `father_origin_fk`          | country                | `country_id`                |
 | tunneller            | `religion_fk`               | religion               | `religion_id`               |
 | tunneller            | `marital_status_fk`         | marital_status         | `marital_status_id`         |
-| tunneller            | `occupation_fk`             | occupation             | `ocupation_id`              |
+| tunneller            | `occupation_fk`             | occupation             | `occupation_id`             |
 | tunneller            | `last_employer_fk`          | last_employer          | `last_employer_id`          |
 | tunneller            | `town_fk`                   | town                   | `town_id`                   |
 | town                 | `town_country_fk`           | country                | `country_id`                |
@@ -103,8 +105,9 @@ The database holds data for:
 | tunneller            | `death_location_fk`         | death_location         | `death_location_id`         |
 | tunneller            | `death_town_fk`             | town                   | `town_id`                   |
 | tunneller            | `death_cause_fk`            | death_cause            | `death_cause_id`            |
+| tunneller            | `death_circumstances_fk`    | death_circumstances    | `death_circumstances_id`    |
 | tunneller            | `cemetery_fk`               | cemetery               | `cemetery_id`               |
-| cemetery             | `cemetery_town_id`          | town                   | `town_id`                   |
+| cemetery             | `cemetery_town_fk`          | town                   | `town_id`                   |
 | tunneller            | `nominal_roll_fk`           | nominal_roll           | `nominal_roll_id`           |
 | tunneller            | `image_source_archives_fk`  | archives               | `archives_id`               |
 | archives             | `archives_name_fk`          | archives_name          | `archives_name_id`          |
@@ -114,17 +117,19 @@ The database holds data for:
 | tunneller            | `image_source_family_fk`    | family                 | `family_id`                 |
 | tunneller            | `image_source_newspaper_fk` | newspaper              | `newspaper_id`              |
 | newspaper            | `newspaper_name_fk`         | newspaper_name         | `newspaper_name_id`         |
-| army_experience_join | `army_experience_t_id`      | tunneller              | `tunneller_id`              |
+| army_experience_join | `army_experience_t_id`      | tunneller              | `id`                        |
 | army_experience_join | `army_experience_c_id`      | army_experience        | `army_experience_id`        |
 | army_experience_join | `army_experience_c_c_id`    | country                | `country_id`                |
 | army_experience_join | `army_experience_w_id`      | conflict               | `conflict_id`               |
-| london_gazette_join  | `london_gazette_t_id`       | tunneller              | `tunneller_id`              |
+| london_gazette_join  | `london_gazette_t_id`       | tunneller              | `id`                        |
 | london_gazette_join  | `london_gazette_lg_id`      | london_gazette         | `london_gazette_id`         |
-| medal_join           | `medal_t_id`                | tunneller              | `tunneller_id`              |
+| medal_join           | `medal_t_id`                | tunneller              | `id`                        |
 | medal_join           | `medal_m_id`                | medal                  | `medal_id`                  |
 | medal_join           | `medal_c_id`                | medal_citation         | `medal_citation_id`         |
 | medal_join           | `medal_m_c_id`              | country                | `country_id`                |
-| nz_archives          | `nz_archives_t_id`          | tunneller              | `tunneller_id`              |
+| nz_archives          | `nz_archives_t_id`          | tunneller              | `id`                        |
+| event_join           | `event_t_id`                | tunneller              | `id`                        |
+| event_join           | `event_fk`                  | event                  | `event_id`                  |
 
 ## Tables Details
 
@@ -134,21 +139,27 @@ The database holds data for:
 | ----------- | ---------- | ------- | ------- | ------------------------------ |
 | `id`        | `tinyint`  | Primary | -       | -                              |
 | `string_id` | `tinytext` | -       | -       | Title of article as kebab case |
-| `title`     | `tinytext` | -       | -       | Title of article               |
-| `notes`     | `text`     | -       | -       | Footnotes                      |
+| `title_en`  | `tinytext` | -       | -       | Title of article in English    |
+| `notes_en`  | `text`     | -       | -       | Footnotes in English           |
+| `title_fr`  | `tinytext` | -       | -       | Title of article in French     |
+| `notes_fr`  | `text`     | -       | -       | Footnotes in French            |
 
 [↑ Back to History Tables](#history)
 
 ### Article Image
 
-| Column         | Type       | Key     | Default | Description                     |
-| -------------- | ---------- | ------- | ------- | ------------------------------- |
-| `id`           | `tinyint`  | Primary | -       | -                               |
-| `file`         | `tinytext` | -       | -       | Name of the file with extension |
-| `title`        | `tinytext` | -       | `NULL`  | Title of the image              |
-| `photographer` | `tinytext` | -       | `NULL`  | Photographer name               |
-| `reference`    | `tinytext` | -       | `NULL`  | Source of the image             |
-| `alt`          | `tinytext` | -       | `NULL`  | Alternative text for a11y       |
+| Column            | Type         | Key     | Default | Description                          |
+| ----------------- | ------------ | ------- | ------- | ------------------------------------ |
+| `id`              | `tinyint`    | Primary | -       | -                                    |
+| `file`            | `tinytext`   | -       | -       | Name of the file with extension      |
+| `title_en`        | `tinytext`   | -       | `NULL`  | Title of the image in English        |
+| `title_fr`        | `tinytext`   | -       | `NULL`  | Title of the image in French         |
+| `photographer_en` | `tinytext`   | -       | `NULL`  | Photographer name in English         |
+| `photographer_fr` | `tinytext`   | -       | `NULL`  | Photographer name in French          |
+| `reference_en`    | `tinytext`   | -       | `NULL`  | Source of the image in English       |
+| `reference_fr`    | `tinytext`   | -       | `NULL`  | Source of the image in French        |
+| `alt_en`          | `mediumtext` | -       | `NULL`  | Alternative text for a11y in English |
+| `alt_fr`          | `mediumtext` | -       | `NULL`  | Alternative text for a11y in French  |
 
 [↑ Back to History Tables](#history)
 
@@ -163,11 +174,13 @@ The database holds data for:
 
 ### Article Section
 
-| Column  | Type       | Key     | Default | Description          |
-| ------- | ---------- | ------- | ------- | -------------------- |
-| `id`    | `tinyint`  | Primary | -       | -                    |
-| `title` | `tinytext` | -       | -       | Title of the section |
-| `text`  | `text`     | -       | -       | -                    |
+| Column     | Type       | Key     | Default | Description                     |
+| ---------- | ---------- | ------- | ------- | ------------------------------- |
+| `id`       | `tinyint`  | Primary | -       | -                               |
+| `title_en` | `tinytext` | -       | -       | Title of the section in English |
+| `title_fr` | `tinytext` | -       | -       | Title of the section in French  |
+| `text_en`  | `text`     | -       | -       | Section text in English         |
+| `text_fr`  | `text`     | -       | -       | Section text in French          |
 
 [↑ Back to History Tables](#history)
 
@@ -184,50 +197,50 @@ The database holds data for:
 
 | Column                            | Type       | Key     | Default | Description                                                   |
 | --------------------------------- | ---------- | ------- | ------- | ------------------------------------------------------------- |
-| `id`                              | `smallint` | Primary | -       | -                                                             |
-| `surname`                         | `varchar`  | -       | -       | -                                                             |
-| `forename`                        | `varchar`  | -       | -       | -                                                             |
+| `id`                              | `smallint` | Primary | -       | Primary key                                                   |
+| `surname`                         | `varchar`  | -       | -       | Tunneller's surname                                           |
+| `forename`                        | `varchar`  | -       | -       | Tunneller's forename                                          |
 | `aka`                             | `varchar`  | -       | `NULL`  | Different name given at enlistment                            |
 | `rank_fk`                         | `tinyint`  | Foreign | -       | Rank at enlistment                                            |
 | `serial`                          | `varchar`  | -       | -       | Serial number                                                 |
 | `embarkation_unit_fk`             | `tinyint`  | Foreign | -       | Main Body or Reinforcements                                   |
 | `section_fk`                      | `tinyint`  | Foreign | `NULL`  | Sections in the Main Body                                     |
 | `attached_corps_fk`               | `tinyint`  | Foreign | `NULL`  | Attached personnel                                            |
-| `birth_date`                      | `date`     | -       | `NULL`  | -                                                             |
-| `birth_country_fk`                | `tinyint`  | Foreign | `NULL`  | -                                                             |
-| `mother_name`                     | `varchar`  | -       | `NULL`  | -                                                             |
-| `mother_origin_fk`                | `tinyint`  | Foreign | `NULL`  | -                                                             |
-| `father_name`                     | `varchar`  | -       | `NULL`  | -                                                             |
-| `father_origin_fk`                | `tinyint`  | Foreign | `NULL`  | -                                                             |
+| `birth_date`                      | `date`     | -       | `NULL`  | Date of birth                                                 |
+| `birth_country_fk`                | `tinyint`  | Foreign | `NULL`  | Country of birth                                              |
+| `mother_name`                     | `varchar`  | -       | `NULL`  | Mother's name                                                 |
+| `mother_origin_fk`                | `tinyint`  | Foreign | `NULL`  | Mother's country of origin                                    |
+| `father_name`                     | `varchar`  | -       | `NULL`  | Father's name                                                 |
+| `father_origin_fk`                | `tinyint`  | Foreign | `NULL`  | Father's country of origin                                    |
 | `nz_resident_in_month`            | `smallint` | -       | `NULL`  | Resident in month at enlistment                               |
-| `religion_fk`                     | `tinyint`  | Foreign | `NULL`  | -                                                             |
-| `marital_status_fk`               | `tinyint`  | Foreign | `NULL`  | -                                                             |
-| `wife_name`                       | `varchar`  | -       | `NULL`  | -                                                             |
-| `occupation_fk`                   | `smallint` | Foreign | `NULL`  | -                                                             |
+| `religion_fk`                     | `tinyint`  | Foreign | `NULL`  | Religion at enlistment                                        |
+| `marital_status_fk`               | `tinyint`  | Foreign | `NULL`  | Marital status at enlistment                                  |
+| `wife_name`                       | `varchar`  | -       | `NULL`  | Wife's name                                                   |
+| `occupation_fk`                   | `smallint` | Foreign | `NULL`  | Occupation at enlistment                                      |
 | `last_employer_fk`                | `smallint` | Foreign | `NULL`  | Last employer before enlistment                               |
 | `town_fk`                         | `smallint` | Foreign | `NULL`  | Town of residence at enlistment                               |
-| `enlistment_date`                 | `date`     | -       | `NULL`  | -                                                             |
+| `enlistment_date`                 | `date`     | -       | `NULL`  | Date of enlistment                                            |
 | `military_district_fk`            | `tinyint`  | Foreign | `NULL`  | -                                                             |
 | `posted_date`                     | `date`     | -       | `NULL`  | Men posted to the Tunnellers                                  |
-| `posted_corps_fk`                 | `tinyint`  | Foregin | `NULL`  | Corps before joining the Tunnellers                           |
-| `transport_nz_fk`                 | `tinyint`  | Foregin | `NULL`  | Transport back to New Zealand                                 |
+| `posted_corps_fk`                 | `tinyint`  | Foreign | `NULL`  | Corps before joining the Tunnellers                           |
+| `transport_nz_fk`                 | `tinyint`  | Foreign | `NULL`  | Transport back to New Zealand                                 |
 | `discharge_uk`                    | `tinyint`  | -       | `NULL`  | Discharged in UK                                              |
-| `has_deserted`                    | `tinyint`  | -       | `NULL`  | -                                                             |
+| `has_deserted`                    | `tinyint`  | -       | `NULL`  | Whether the tunneller deserted                                |
 | `service_end`                     | `date`     | -       | `NULL`  | Date of end of service                                        |
 | `transferred_fk`                  | `tinyint`  | Foreign | `NULL`  | Transferred to another corps during the war                   |
-| `death_date`                      | `date`     | -       | `NULL`  | -                                                             |
+| `death_date`                      | `date`     | -       | `NULL`  | Date of death                                                 |
 | `death_type_fk`                   | `tinyint`  | Foreign | `NULL`  | War, War injuries or After war                                |
-| `death_location_fk`               | `tinyint`  | Foreign | `NULL`  | -                                                             |
-| `death_town_fk`                   | `smallint` | Foreign | `NULL`  | -                                                             |
+| `death_location_fk`               | `tinyint`  | Foreign | `NULL`  | Type of location where death occurred                         |
+| `death_town_fk`                   | `smallint` | Foreign | `NULL`  | Town where death occurred                                     |
 | `death_cause_fk`                  | `tinyint`  | Foreign | `NULL`  | Death cause                                                   |
 | `death_circumstances_fk`          | `tinyint`  | Foreign | `NULL`  | Death circumstances                                           |
 | `cemetery_fk`                     | `tinyint`  | Foreign | `NULL`  | Cemetery information                                          |
-| `grave_reference`                 | `varchar`  | -       | `NULL`  | -                                                             |
+| `grave_reference`                 | `varchar`  | -       | `NULL`  | Cemetery grave reference number                               |
 | `nominal_roll_fk`                 | `tinyint`  | Foreign | `NULL`  | Nominal Roll of NZ Expeditionary Force                        |
-| `awwm_cenotaph`                   | `varchar`  | -       | `NULL`  | Reference to the Auckland War Memorial Museum Online Cenotaph |
+| `awmm_cenotaph`                   | `varchar`  | -       | `NULL`  | Reference to the Auckland War Memorial Museum Online Cenotaph |
 | `image`                           | `tinytext` | -       | `NULL`  | Image file name                                               |
 | `image_source_archives_fk`        | `tinyint`  | Foreign | `NULL`  | If image from archives                                        |
-| `image_source_auckland_libraries` | `tinyint`  | -       | `NULL`  | If image from Auckland Libraries                              |
+| `image_source_auckland_libraries` | `tinytext` | -       | `NULL`  | If image from Auckland Libraries                              |
 | `image_source_book_fk`            | `tinyint`  | Foreign | `NULL`  | If image from book                                            |
 | `image_source_family_fk`          | `tinyint`  | Foreign | `NULL`  | If image from family archives                                 |
 | `image_source_newspaper_fk`       | `tinyint`  | Foreign | `NULL`  | If image from newspaper                                       |
@@ -238,7 +251,7 @@ The database holds data for:
 
 | Column    | Type      | Key     | Default | Description     |
 | --------- | --------- | ------- | ------- | --------------- |
-| `rank_id` | `tinyint` | Primary | -       | -               |
+| `rank_id` | `tinyint` | Primary | -       | Primary key     |
 | `rank_en` | `varchar` | -       | -       | Rank in English |
 | `rank_fr` | `varchar` | -       | -       | Rank in French  |
 
@@ -248,7 +261,7 @@ The database holds data for:
 
 | Column                | Type      | Key     | Default | Description                 |
 | --------------------- | --------- | ------- | ------- | --------------------------- |
-| `embarkation_unit_id` | `tinyint` | Primary | -       | -                           |
+| `embarkation_unit_id` | `tinyint` | Primary | -       | Primary key                 |
 | `embarkation_unit_en` | `varchar` | -       | -       | Embarkation unit in English |
 | `embarkation_unit_fr` | `varchar` | -       | -       | Embarkation unit in French  |
 | `training_fk`         | `tinyint` | Foreign | -       | Training information        |
@@ -260,10 +273,10 @@ The database holds data for:
 
 | Column                   | Type      | Key     | Default | Description                   |
 | ------------------------ | --------- | ------- | ------- | ----------------------------- |
-| `training_id`            | `tinyint` | Primary | -       | -                             |
-| `training_start`         | `date`    | -       | -       | -                             |
+| `training_id`            | `tinyint` | Primary | -       | Primary key                   |
+| `training_start`         | `date`    | -       | -       | Date training began           |
 | `training_location`      | `enum`    | -       | -       | where the training took place |
-| `training_location_type` | `tinyint` | Foreing | -       | -                             |
+| `training_location_type` | `tinyint` | Foreign | -       | Type of training location     |
 
 [↑ Back to Tunnellers Tables](#tunnellers)
 
@@ -271,7 +284,7 @@ The database holds data for:
 
 | Column                      | Type      | Key     | Default | Description              |
 | --------------------------- | --------- | ------- | ------- | ------------------------ |
-| `training_location_type_id` | `tinyint` | Primary | -       | -                        |
+| `training_location_type_id` | `tinyint` | Primary | -       | Primary key              |
 | `training_location_type_en` | `varchar` | -       | -       | Location type in English |
 | `training_location_type_fr` | `varchar` | -       | -       | Location type in French  |
 
@@ -281,31 +294,31 @@ The database holds data for:
 
 | Column                  | Type       | Key     | Default | Description         |
 | ----------------------- | ---------- | ------- | ------- | ------------------- |
-| `transport_id`          | `tinyint`  | Primary | -       | -                   |
+| `transport_id`          | `tinyint`  | Primary | -       | Primary key         |
 | `transport_ref_fk`      | `varchar`  | Foreign | -       | Transport reference |
 | `transport_vessel_fk`   | `varchar`  | Foreign | -       | Vessel name         |
-| `transport_start`       | `date`     | -       | -       | -                   |
-| `transport_end`         | `date`     | -       | -       | -                   |
-| `transport_origin`      | `tinytext` | -       | -       | -                   |
-| `transport_destination` | `tinytext` | -       | -       | -                   |
+| `transport_start`       | `date`     | -       | -       | Departure date      |
+| `transport_end`         | `date`     | -       | -       | Arrival date        |
+| `transport_origin`      | `tinytext` | -       | -       | Port of departure   |
+| `transport_destination` | `tinytext` | -       | -       | Port of arrival     |
 
 [↑ Back to Tunnellers Tables](#tunnellers)
 
 ### Transport Reference
 
-| Column               | Type       | Key     | Default | Description |
-| -------------------- | ---------- | ------- | ------- | ----------- |
-| `transport_ref_id`   | `tinyint`  | Primary | -       | -           |
-| `transport_ref_name` | `tinytext` | -       | -       | -           |
+| Column               | Type       | Key     | Default | Description                         |
+| -------------------- | ---------- | ------- | ------- | ----------------------------------- |
+| `transport_ref_id`   | `tinyint`  | Primary | -       | Primary key                         |
+| `transport_ref_name` | `tinytext` | -       | -       | Reference name (e.g. ship register) |
 
 [↑ Back to Tunnellers Tables](#tunnellers)
 
 ### Transport Vessel
 
-| Column                  | Type       | Key     | Default | Description |
-| ----------------------- | ---------- | ------- | ------- | ----------- |
-| `transport_vessel_id`   | `tinyint`  | Primary | -       | -           |
-| `transport_vessel_name` | `tinytext` | -       | -       | -           |
+| Column                  | Type       | Key     | Default | Description        |
+| ----------------------- | ---------- | ------- | ------- | ------------------ |
+| `transport_vessel_id`   | `tinyint`  | Primary | -       | Primary key        |
+| `transport_vessel_name` | `tinytext` | -       | -       | Name of the vessel |
 
 [↑ Back to Tunnellers Tables](#tunnellers)
 
@@ -313,7 +326,7 @@ The database holds data for:
 
 | Column       | Type      | Key     | Default | Description        |
 | ------------ | --------- | ------- | ------- | ------------------ |
-| `section_id` | `tinyint` | Primary | -       | -                  |
+| `section_id` | `tinyint` | Primary | -       | Primary key        |
 | `section_en` | `varchar` | -       | -       | Section in English |
 | `section_fr` | `varchar` | -       | -       | Section in French  |
 
@@ -323,7 +336,7 @@ The database holds data for:
 
 | Column     | Type      | Key     | Default | Description      |
 | ---------- | --------- | ------- | ------- | ---------------- |
-| `corps_id` | `tinyint` | Primary | -       | -                |
+| `corps_id` | `tinyint` | Primary | -       | Primary key      |
 | `corps_en` | `varchar` | -       | -       | Corps in English |
 | `corps_fr` | `varchar` | -       | -       | Corps in French  |
 
@@ -333,7 +346,7 @@ The database holds data for:
 
 | Column       | Type      | Key     | Default | Description        |
 | ------------ | --------- | ------- | ------- | ------------------ |
-| `country_id` | `tinyint` | Primary | -       | -                  |
+| `country_id` | `tinyint` | Primary | -       | Primary key        |
 | `country_en` | `varchar` | -       | -       | Country in English |
 | `country_fr` | `varchar` | -       | -       | Country in French  |
 
@@ -343,7 +356,7 @@ The database holds data for:
 
 | Column        | Type      | Key     | Default | Description         |
 | ------------- | --------- | ------- | ------- | ------------------- |
-| `religion_id` | `tinyint` | Primary | -       | -                   |
+| `religion_id` | `tinyint` | Primary | -       | Primary key         |
 | `religion_en` | `varchar` | -       | -       | Religion in English |
 | `religion_fr` | `varchar` | -       | -       | Religion in French  |
 
@@ -353,7 +366,7 @@ The database holds data for:
 
 | Column              | Type      | Key     | Default | Description               |
 | ------------------- | --------- | ------- | ------- | ------------------------- |
-| `marital_status_id` | `tinyint` | Primary | -       | -                         |
+| `marital_status_id` | `tinyint` | Primary | -       | Primary key               |
 | `marital_status_en` | `varchar` | -       | -       | Marital status in English |
 | `marital_status_fr` | `varchar` | -       | -       | Marital status in French  |
 
@@ -363,7 +376,7 @@ The database holds data for:
 
 | Column          | Type       | Key     | Default | Description           |
 | --------------- | ---------- | ------- | ------- | --------------------- |
-| `occupation_id` | `smallint` | Primary | -       | -                     |
+| `occupation_id` | `smallint` | Primary | -       | Primary key           |
 | `occupation_en` | `varchar`  | -       | -       | Occupation in English |
 | `occupation_fr` | `varchar`  | -       | -       | Occupation in French  |
 
@@ -371,29 +384,31 @@ The database holds data for:
 
 ### Last Employer
 
-| Column               | Type       | Key     | Default | Description |
-| -------------------- | ---------- | ------- | ------- | ----------- |
-| `last_employer_id`   | `smallint` | Primary | -       | -           |
-| `last_employer_name` | `tinytext` | -       | -       | -           |
+| Column               | Type       | Key     | Default | Description                             |
+| -------------------- | ---------- | ------- | ------- | --------------------------------------- |
+| `last_employer_id`   | `smallint` | Primary | -       | Primary key                             |
+| `last_employer_name` | `tinytext` | -       | -       | Name of last employer before enlistment |
 
 [↑ Back to Tunnellers Tables](#tunnellers)
 
 ### Town
 
-| Column            | Type       | Key     | Default | Description |
-| ----------------- | ---------- | ------- | ------- | ----------- |
-| `town_id`         | `smallint` | Primary | -       | -           |
-| `town_name`       | `tinytext` | -       | -       | -           |
-| `town_country_fk` | `tinyint`  | Foregin | -       | -           |
+| Column            | Type       | Key     | Default | Description      |
+| ----------------- | ---------- | ------- | ------- | ---------------- |
+| `town_id`         | `smallint` | Primary | -       | Primary key      |
+| `town_name`       | `tinytext` | -       | -       | Name of the town |
+| `latitude`        | `tinytext` | -       | -       | GPS latitude     |
+| `longitude`       | `tinytext` | -       | -       | GPS longitude    |
+| `town_country_fk` | `tinyint`  | Foreign | -       | Country          |
 
 [↑ Back to Tunnellers Tables](#tunnellers)
 
 ### Military District
 
-| Column                   | Type      | Key     | Default | Description |
-| ------------------------ | --------- | ------- | ------- | ----------- |
-| `military_district_id`   | `tinyint` | Primary | -       | -           |
-| `military_district_name` | `varchar` | -       | -       | -           |
+| Column                   | Type      | Key     | Default | Description               |
+| ------------------------ | --------- | ------- | ------- | ------------------------- |
+| `military_district_id`   | `tinyint` | Primary | -       | Primary key               |
+| `military_district_name` | `varchar` | -       | -       | Name of military district |
 
 [↑ Back to Tunnellers Tables](#tunnellers)
 
@@ -401,7 +416,7 @@ The database holds data for:
 
 | Column              | Type      | Key     | Default | Description      |
 | ------------------- | --------- | ------- | ------- | ---------------- |
-| `transferred_id`    | `tinyint` | Primary | -       | -                |
+| `transferred_id`    | `tinyint` | Primary | -       | Primary key      |
 | `transferred_date`  | `date`    | -       | -       | Date of transfer |
 | `transferred_to_fk` | `tinyint` | Foreign | -       | Transferred to   |
 
@@ -411,7 +426,7 @@ The database holds data for:
 
 | Column              | Type       | Key     | Default | Description                 |
 | ------------------- | ---------- | ------- | ------- | --------------------------- |
-| `transferred_to_id` | `tinyint`  | Primary | -       | -                           |
+| `transferred_to_id` | `tinyint`  | Primary | -       | Primary key                 |
 | `transferred_to_en` | `tinytext` | -       | -       | Transferred unit in English |
 | `transferred_to_fr` | `tinytext` | -       | -       | Transferred unit in French  |
 
@@ -421,7 +436,7 @@ The database holds data for:
 
 | Column          | Type       | Key     | Default | Description           |
 | --------------- | ---------- | ------- | ------- | --------------------- |
-| `death_type_id` | `tinyint`  | Primary | -       | -                     |
+| `death_type_id` | `tinyint`  | Primary | -       | Primary key           |
 | `death_type_en` | `tinytext` | -       | -       | Death type in English |
 | `death_type_fr` | `tinytext` | -       | -       | Death type in French  |
 
@@ -431,7 +446,7 @@ The database holds data for:
 
 | Column              | Type       | Key     | Default | Description               |
 | ------------------- | ---------- | ------- | ------- | ------------------------- |
-| `death_location_id` | `tinyint`  | Primary | -       | -                         |
+| `death_location_id` | `tinyint`  | Primary | -       | Primary key               |
 | `death_location_en` | `tinytext` | -       | -       | Death location in English |
 | `death_location_fr` | `tinytext` | -       | -       | Death location in French  |
 
@@ -441,7 +456,7 @@ The database holds data for:
 
 | Column           | Type      | Key     | Default | Description            |
 | ---------------- | --------- | ------- | ------- | ---------------------- |
-| `death_cause_id` | `tinyint` | Primary | -       | -                      |
+| `death_cause_id` | `tinyint` | Primary | -       | Primary key            |
 | `death_cause_en` | `varchar` | -       | -       | Death cause in English |
 | `death_cause_fr` | `varchar` | -       | -       | Death cause in French  |
 
@@ -451,7 +466,7 @@ The database holds data for:
 
 | Column                   | Type       | Key     | Default | Description                    |
 | ------------------------ | ---------- | ------- | ------- | ------------------------------ |
-| `death_circumstances_id` | `tinyint`  | Primary | -       | -                              |
+| `death_circumstances_id` | `tinyint`  | Primary | -       | Primary key                    |
 | `death_circumstances_en` | `tinytext` | -       | -       | Death circumstances in English |
 | `death_circumstances_fr` | `tinytext` | -       | -       | Death circumstances in French  |
 
@@ -461,10 +476,10 @@ The database holds data for:
 
 | Column             | Type       | Key     | Default | Description              |
 | ------------------ | ---------- | ------- | ------- | ------------------------ |
-| `cemetery_id`      | `tinyint`  | Primary | -       | -                        |
+| `cemetery_id`      | `tinyint`  | Primary | -       | Primary key              |
 | `cemetery_name_en` | `tinytext` | -       | -       | Cemetery name in English |
 | `cemetery_name_fr` | `tinytext` | -       | -       | Cemetery name in French  |
-| `cemetery_town_id` | `smallint` | Foreign | -       | Cemetery location        |
+| `cemetery_town_fk` | `smallint` | Foreign | -       | Cemetery location        |
 
 [↑ Back to Tunnellers Tables](#tunnellers)
 
@@ -472,7 +487,7 @@ The database holds data for:
 
 | Column                | Type       | Key     | Default | Description                               |
 | --------------------- | ---------- | ------- | ------- | ----------------------------------------- |
-| `nominal_roll_id`     | `tinyint`  | Primary | -       | -                                         |
+| `nominal_roll_id`     | `tinyint`  | Primary | -       | Primary key                               |
 | `nominal_roll_volume` | `enum`     | -       | -       | Either 'II' or 'III'                      |
 | `nominal_roll_number` | `enum`     | -       | -       | Either '34', '45', '55', '62', '69', '75' |
 | `nominal_roll_page`   | `tinytext` | -       | -       | -                                         |
@@ -481,22 +496,23 @@ The database holds data for:
 
 ### Archives
 
-| Column              | Type       | Key     | Default | Description            |
-| ------------------- | ---------- | ------- | ------- | ---------------------- |
-| `archives_id`       | `tinyint`  | Primary | -       | -                      |
-| `archives_name_fk`  | `tinyint`  | Foreign | -       | -                      |
-| `archives_ref`      | `tinytext` | -       | -       | -                      |
-| `archives_title_en` | `tinytext` | -       | -       | Description in English |
-| `archives_title_fr` | `tinytext` | -       | -       | Description in French  |
+| Column              | Type       | Key     | Default | Description              |
+| ------------------- | ---------- | ------- | ------- | ------------------------ |
+| `archives_id`       | `tinyint`  | Primary | -       | Primary key              |
+| `archives_name_fk`  | `tinyint`  | Foreign | -       | Archive institution      |
+| `archives_ref`      | `tinytext` | -       | -       | Archive reference number |
+| `archives_title_en` | `tinytext` | -       | -       | Description in English   |
+| `archives_title_fr` | `tinytext` | -       | -       | Description in French    |
 
 [↑ Back to Tunnellers Tables](#tunnellers)
 
 ### Archives Name
 
-| Column             | Type      | Key     | Default | Description |
-| ------------------ | --------- | ------- | ------- | ----------- |
-| `archives_name_id` | `tinyint` | Primary | -       | -           |
-| `archives_name`    | `tinyint` | -       | -       | -           |
+| Column             | Type       | Key     | Default | Description             |
+| ------------------ | ---------- | ------- | ------- | ----------------------- |
+| `archives_name_id` | `tinyint`  | Primary | -       | Primary key             |
+| `archives_name_en` | `tinytext` | -       | -       | Archive name in English |
+| `archives_name_fr` | `tinytext` | -       | -       | Archive name in French  |
 
 [↑ Back to Tunnellers Tables](#tunnellers)
 
@@ -504,7 +520,7 @@ The database holds data for:
 
 | Column           | Type       | Key     | Default | Description         |
 | ---------------- | ---------- | ------- | ------- | ------------------- |
-| `book_id`        | `tinyint`  | Primary | -       | -                   |
+| `book_id`        | `tinyint`  | Primary | -       | Primary key         |
 | `book_title`     | `tinytext` | -       | -       | Title of the book   |
 | `book_town`      | `tinytext` | -       | -       | Publisher location  |
 | `book_publisher` | `tinytext` | -       | -       | Name of publisher   |
@@ -515,11 +531,11 @@ The database holds data for:
 
 ### Author
 
-| Column            | Type       | Key     | Default | Description |
-| ----------------- | ---------- | ------- | ------- | ----------- |
-| `author_id`       | `tinyint`  | Primary | -       | -           |
-| `author_forename` | `tinytext` | -       | -       | -           |
-| `author_surname`  | `tinytext` | -       | -       | -           |
+| Column            | Type       | Key     | Default | Description       |
+| ----------------- | ---------- | ------- | ------- | ----------------- |
+| `author_id`       | `tinyint`  | Primary | -       | Primary key       |
+| `author_forename` | `tinytext` | -       | -       | Author's forename |
+| `author_surname`  | `tinytext` | -       | -       | Author's surname  |
 
 [↑ Back to Tunnellers Tables](#tunnellers)
 
@@ -534,39 +550,38 @@ The database holds data for:
 
 ### Family
 
-| Column        | Type       | Key     | Default | Description |
-| ------------- | ---------- | ------- | ------- | ----------- |
-| `family_id`   | `tinyint`  | Primary | -       | -           |
-| `family_name` | `tinytext` | -       | -       | -           |
+| Column        | Type       | Key     | Default | Description                       |
+| ------------- | ---------- | ------- | ------- | --------------------------------- |
+| `family_id`   | `tinyint`  | Primary | -       | Primary key                       |
+| `family_name` | `tinytext` | -       | -       | Family name for image attribution |
 
 [↑ Back to Tunnellers Tables](#tunnellers)
 
 ### Newspaper
 
-| Column              | Type       | Key     | Default | Description |
-| ------------------- | ---------- | ------- | ------- | ----------- |
-| `newspaper_id`      | `tinyint`  | Primary | -       | -           |
-| `newspaper_name_fk` | `tinytext` | -       | -       | -           |
-| `newspaper_date`    | `tinytext` | -       | -       | -           |
+| Column              | Type      | Key     | Default | Description         |
+| ------------------- | --------- | ------- | ------- | ------------------- |
+| `newspaper_id`      | `tinyint` | Primary | -       | Primary key         |
+| `newspaper_name_fk` | `tinyint` | Foreign | -       | Newspaper           |
+| `newspaper_date`    | `date`    | -       | -       | Date of publication |
 
 [↑ Back to Tunnellers Tables](#tunnellers)
 
 ### Newspaper Name
 
-| Column              | Type       | Key     | Default | Description |
-| ------------------- | ---------- | ------- | ------- | ----------- |
-| `newspaper_name_id` | `tinyint`  | Primary | -       | -           |
-| `newspaper_name`    | `tinytext` | -       | -       | -           |
+| Column              | Type       | Key     | Default | Description           |
+| ------------------- | ---------- | ------- | ------- | --------------------- |
+| `newspaper_name_id` | `tinyint`  | Primary | -       | Primary key           |
+| `newspaper_name`    | `tinytext` | -       | -       | Name of the newspaper |
 
 [↑ Back to Tunnellers Tables](#tunnellers)
 
 ### Army Experience
 
-| Column                    | Type       | Key     | Default | Description |
-| ------------------------- | ---------- | ------- | ------- | ----------- |
-| `army_experience_id`      | `tinyint`  | Primary | -       | -           |
-| `army_experience_name`    | `tinytext` | -       | -       | -           |
-| `army_experience_name_fr` | `tinytext` | -       | -       | -           |
+| Column                 | Type       | Key     | Default | Description                                  |
+| ---------------------- | ---------- | ------- | ------- | -------------------------------------------- |
+| `army_experience_id`   | `smallint` | Primary | -       | Primary key                                  |
+| `army_experience_name` | `tinytext` | -       | -       | Name of previous military unit or experience |
 
 [↑ Back to Tunnellers Tables](#tunnellers)
 
@@ -584,11 +599,11 @@ The database holds data for:
 
 ### Conflict
 
-| Column             | Type       | Key     | Default | Description |
-| ------------------ | ---------- | ------- | ------- | ----------- |
-| `conflict_id`      | `tinyint`  | Primary | -       | -           |
-| `conflict_name_en` | `tinytext` | -       | -       | -           |
-| `conflict_name_fr` | `tinytext` | -       | -       | -           |
+| Column             | Type       | Key     | Default | Description                     |
+| ------------------ | ---------- | ------- | ------- | ------------------------------- |
+| `conflict_id`      | `tinyint`  | Primary | -       | Primary key                     |
+| `conflict_name_en` | `tinytext` | -       | -       | Name of the conflict in English |
+| `conflict_name_fr` | `tinytext` | -       | -       | Name of the conflict in French  |
 
 [↑ Back to Tunnellers Tables](#tunnellers)
 
@@ -596,7 +611,7 @@ The database holds data for:
 
 | Column                | Type       | Key     | Default | Description |
 | --------------------- | ---------- | ------- | ------- | ----------- |
-| `london_gazette_id`   | `tinyint`  | Primary | -       | -           |
+| `london_gazette_id`   | `tinyint`  | Primary | -       | Primary key |
 | `london_gazette_date` | `date`     | -       | -       | Date        |
 | `london_gazette_page` | `tinytext` | -       | `NULL`  | Page        |
 
@@ -607,7 +622,7 @@ The database holds data for:
 | Column                 | Type       | Key     | Default | Description    |
 | ---------------------- | ---------- | ------- | ------- | -------------- |
 | `london_gazette_t_id`  | `smallint` | Foreign | -       | Tunneller      |
-| `london_gazette_lg_id` | `smallint` | Foreign | -       | London Gazette |
+| `london_gazette_lg_id` | `tinyint`  | Foreign | -       | London Gazette |
 
 [↑ Back to Tunnellers Tables](#tunnellers)
 
@@ -625,7 +640,7 @@ The database holds data for:
 
 | Column           | Type       | Key     | Default | Description           |
 | ---------------- | ---------- | ------- | ------- | --------------------- |
-| `medal_id`       | `tinyint`  | Primary | -       | -                     |
+| `medal_id`       | `tinyint`  | Primary | -       | Primary key           |
 | `medal_name_en`  | `tinytext` | -       | -       | Medal name in English |
 | `medal_name_fr`  | `tinytext` | -       | -       | Medal name in French  |
 | `medal_name_img` | `tinytext` | -       | -       | Image of the medal    |
@@ -636,7 +651,7 @@ The database holds data for:
 
 | Column              | Type      | Key     | Default | Description         |
 | ------------------- | --------- | ------- | ------- | ------------------- |
-| `medal_citation_id` | `tinyint` | Primary | -       | -                   |
+| `medal_citation_id` | `tinyint` | Primary | -       | Primary key         |
 | `medal_citation_en` | `text`    | -       | -       | Citation in English |
 | `medal_citation_fr` | `text`    | -       | -       | Citation in French  |
 
@@ -655,13 +670,40 @@ The database holds data for:
 
 ### Company Events
 
-| Column                   | Type       | Key     | Default | Description              |
-| ------------------------ | ---------- | ------- | ------- | ------------------------ |
-| `company_events_id`      | `smallint` | Primary | -       | -                        |
-| `company_events_date`    | `date`     | -       | -       | Date of the event        |
-| `company_events_title`   | `tinytext` | -       | `NULL`  | Title of the event       |
-| `company_events_event`   | `tinytext` | -       | -       | Description of the event |
-| `company_events_img`     | `tinytext` | -       | `NULL`  | Image if applicable      |
-| `company_events_img_alt` | `tinytext` | -       | `NULL`  | Alt for image            |
+| Column                      | Type       | Key     | Default | Description                         |
+| --------------------------- | ---------- | ------- | ------- | ----------------------------------- |
+| `company_events_id`         | `smallint` | Primary | -       | Primary key                         |
+| `company_events_date`       | `date`     | -       | -       | Date of the event                   |
+| `company_events_title_en`   | `tinytext` | -       | `NULL`  | Title of the event in English       |
+| `company_events_title_fr`   | `tinytext` | -       | `NULL`  | Title of the event in French        |
+| `company_events_event_en`   | `tinytext` | -       | -       | Description of the event in English |
+| `company_events_event_fr`   | `tinytext` | -       | -       | Description of the event in French  |
+| `company_events_img`        | `tinytext` | -       | `NULL`  | Image if applicable                 |
+| `company_events_img_alt_en` | `tinytext` | -       | `NULL`  | Alt for image in English            |
+| `company_events_img_alt_fr` | `tinytext` | -       | `NULL`  | Alt for image in French             |
+
+[↑ Back to Tunnellers Tables](#tunnellers)
+
+### Event
+
+| Column     | Type   | Key     | Default | Description                  |
+| ---------- | ------ | ------- | ------- | ---------------------------- |
+| `event_id` | `int`  | Primary | -       | Primary key                  |
+| `event_en` | `text` | -       | -       | Event description in English |
+| `event_fr` | `text` | -       | -       | Event description in French  |
+
+[↑ Back to Tunnellers Tables](#tunnellers)
+
+### Event Join
+
+| Column           | Type       | Key     | Default | Description                      |
+| ---------------- | ---------- | ------- | ------- | -------------------------------- |
+| `event_id`       | `int`      | Primary | -       | Primary key                      |
+| `event_t_id`     | `smallint` | Foreign | -       | Tunneller                        |
+| `event_date`     | `date`     | -       | -       | Date of the event                |
+| `event_title`    | `tinytext` | -       | `NULL`  | Title displayed on the timeline  |
+| `event_sequence` | `int`      | -       | -       | Order of events on the same date |
+| `event_img`      | `tinytext` | -       | `NULL`  | Image if applicable              |
+| `event_fk`       | `int`      | Foreign | -       | Reference to event lookup table  |
 
 [↑ Back to Tunnellers Tables](#tunnellers)

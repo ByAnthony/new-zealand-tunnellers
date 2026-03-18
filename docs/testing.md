@@ -45,4 +45,4 @@ npx playwright test
 ```
 
 - Starts the browser and runs E2E scripts;
-- Use `npx playwright test --ui` for an interactive test runner.
+- Use `npm run playwright:ui` for an interactive test runner.

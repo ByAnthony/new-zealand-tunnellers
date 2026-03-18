@@ -15,13 +15,11 @@ The project is dedicated to a New Zealand special military unit who fought in Fr
 
 ## Technologies
 
-This project is built using **Next.js**, **MariaDB**, **Typescript** and **Sass**. Testing is performed using **React Testing Library** and **Playwright**. Deployment is managed through **GitHub Actions**. The web hosting server is controlled by **N0C**.
+This project is built using **Next.js**, **MariaDB**, **Typescript**, **Sass** and **next-intl**. Testing is performed using **React Testing Library** and **Playwright**. Deployment is managed through **GitHub Actions**. The web hosting server is controlled by **N0C**.
 
 ## Documentation
 
-| Link                                   | Description                                                                                                                                                                        |
-| -------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [Database](./docs/database.md)         | Powers data access for the web application by efficiently storing and serving structured data, with a focus on read-heavy operations.                                              |
-| [Testing](./docs/testing.md)           | Outlines the testing approach for the web application, including test structure, tools used, and instructions for running and maintaining tests to ensure application reliability. |
-| [Deployment](./docs/deployment.md)     | Handles production deployment of the web app through N0C, including hosting, updates, and configuration.                                                                           |
-| [Dependencies](./docs/dependencies.md) | Lists and explains the external npm packages used in the project, including their purpose and usage context.                                                                       |
+- [**Database**](./docs/database.md) — stores and serves structured data for the web application
+- [**Testing**](./docs/testing.md) — test structure, tools, and instructions
+- [**Deployment**](./docs/deployment.md) — production deployment through N0C
+- [**Dependencies**](./docs/dependencies.md) — external npm packages and their purpose
