@@ -47,7 +47,7 @@ Les inspecteurs des mines, en charge de la direction des opérations militaires 
 
 [^7]: _The Work of the Royal Engineers in the European War, 1914-19, Military Mining_, Uckfield, The Naval & Military Press Limited, 2004 (éd. orig. 1922), p.&nbsp;104.
 
-[^8]: H. Standish Ball, _The Work of the Miner on the Western Front, 1915-1918_, London, Crowther & Goodman, 1919, p.&nbsp;18-19.
+[^8]: H. Standish Ball, _The Work of the Miner on the Western Front, 1915-1918_, Londres, Crowther & Goodman, 1919, p.&nbsp;18-19.
 
 [^9]: _Military Mining…_, _op. cit._, p.&nbsp;104.
 
