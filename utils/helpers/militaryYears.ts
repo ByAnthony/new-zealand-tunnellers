@@ -353,7 +353,7 @@ export const getDemobilization = (
       event: isEn
         ? "End of Service in the United Kingdom"
         : "Fin de service au Royaume-Uni",
-      title: isEn ? "Demobilization" : "Démobilisation",
+      title: isEn ? "Demobilisation" : "Démobilisation",
       titleKey: "Demobilization",
       image: null,
     };
@@ -365,7 +365,7 @@ export const getDemobilization = (
       event: isEn
         ? "End of Service as deserter"
         : "Fin de service en tant que déserteur",
-      title: isEn ? "Demobilization" : "Démobilisation",
+      title: isEn ? "Demobilisation" : "Démobilisation",
       titleKey: "Demobilization",
       image: null,
     };
@@ -374,7 +374,7 @@ export const getDemobilization = (
   if (date) {
     return {
       date: date,
-      event: isEn ? "Demobilization" : "Démobilisation",
+      event: isEn ? "Demobilisation" : "Démobilisation",
       title: isEn ? "End of Service" : "Fin de service",
       titleKey: "End of Service",
       image: null,

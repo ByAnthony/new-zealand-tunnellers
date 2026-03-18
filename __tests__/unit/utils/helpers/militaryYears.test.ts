@@ -866,7 +866,7 @@ describe("getDemobilization", () => {
     expect(result).toEqual({
       date: "2023-01-01",
       event: "End of Service in the United Kingdom",
-      title: "Demobilization",
+      title: "Demobilisation",
       titleKey: "Demobilization",
       image: null,
     });
@@ -877,7 +877,7 @@ describe("getDemobilization", () => {
     expect(result).toEqual({
       date: "2023-01-01",
       event: "End of Service as deserter",
-      title: "Demobilization",
+      title: "Demobilisation",
       titleKey: "Demobilization",
       image: null,
     });
@@ -887,7 +887,7 @@ describe("getDemobilization", () => {
     const result = getDemobilization("2023-01-01", null, null);
     expect(result).toEqual({
       date: "2023-01-01",
-      event: "Demobilization",
+      event: "Demobilisation",
       title: "End of Service",
       titleKey: "End of Service",
       image: null,
