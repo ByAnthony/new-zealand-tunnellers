@@ -1,7 +1,7 @@
 <!-- Copyright © Anthony Byledbal, 2017–present. All right reserved.
 Book published on New Zealand Tunnellers website – https://www.nztunnellers.com/books/kiwis-dig-tunnels-too -->
 
-# Chapter 8: Right Under the German’s Noses
+# Chapter 8: Right Under the Germans’ Noses
 
 While Lofty swept the beam of his lamp along the walls of the cavity, Jim was intrigued by a number carved into the chalk. The date 1314 stood out clearly, and the sapper wondered what could have happened in that year.[^1] As he caught up with his comrades, Jim was struck by the fascinating sight of a vast chamber supported by thick, square limestone pillars. More than twenty metres beneath the city of Arras, the air was fairly cool. Water trickled down the walls. In places, large blocks had broken loose from the ceiling. Farther on, other fragments threatened to fall. Above the tunnellers, a circular shaft appeared, its top carefully filled in. This access to the surface had been used in the Middle Ages, when quarrymen extracted from the very ground the stone used to build structures. The “beds”, that is, the blocks of limestone, were hauled out to be brought up either rough or already cut to size. Depending on circumstances, the workers laid out a supported route, reinforced here and there by pillars, and when a seam was exhausted, they worked in the same way in another spot. All this work, which continued until the eighteenth century, created many isolated cavities—sometimes quite low and narrow, sometimes made up of high, spacious chambers.
 
