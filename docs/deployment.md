@@ -6,7 +6,7 @@ This document is a step by step guide on how to deploy a Next.js App to [N0C](ht
 
 ### Next.js Custom Server
 
-To being able to use your Next.js app with N0C, you will have to use a [custom server](https://github.com/vercel/next.js/tree/canary/examples/custom-server):
+To be able to use your Next.js app with N0C, you will have to use a [custom server](https://github.com/vercel/next.js/tree/canary/examples/custom-server):
 
 1. Install `cross-env` and `nodemon` packages:
 
@@ -64,7 +64,7 @@ This setup creates a folder according to the application root your have mentione
 
 ## GitHub Actions
 
-The entire deployment process can easily be automatized through GitHub Actions. This depends of your needs and complexity of your web application. For an example, please refer to [my workflow](https://github.com/ByAnthony/newzealandtunnellers/blob/04cb75b6812fc5391fb79412c718d8e0c8e1c6ba/.github/workflows/nztunnellers.yml).
+The entire deployment process can easily be automated through GitHub Actions. This depends of your needs and complexity of your web application. For an example, please refer to [my workflow](https://github.com/ByAnthony/newzealandtunnellers/blob/04cb75b6812fc5391fb79412c718d8e0c8e1c6ba/.github/workflows/nztunnellers.yml).
 
 ### SSH Key
 
