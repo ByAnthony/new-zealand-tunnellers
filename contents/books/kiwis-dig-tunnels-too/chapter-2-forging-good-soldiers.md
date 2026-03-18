@@ -1,4 +1,4 @@
-<!-- Copyright © Anthony Byledbal, 2017–present. All right reserved.
+<!-- Copyright © Anthony Byledbal, 2017–present. All rights reserved.
 Book published on New Zealand Tunnellers website – https://www.nztunnellers.com/books/kiwis-dig-tunnels-too -->
 
 # Chapter 2: Forging Good Soldiers
@@ -43,9 +43,9 @@ On the way to the port, the public and friends warmly cheered the tunnellers on.
 
 [^1]: Stéphane Audoin-Rouzeau, &ldquo;L’équipement des soldats&rdquo;, in _Encyclopédie de la Grande Guerre 1914-1918. Histoire et culture_, edited by Stéphane Audoin-Rouzeau and Jean-Jacques Becker, Paris, Bayard, 2004, p.&nbsp;282.
 
-[^2]: _Infantry Training 1914_, Londres, General Staff, War Office, 1914, p.&nbsp;48-49.
+[^2]: _Infantry Training 1914_, London, General Staff, War Office, 1914, p.&nbsp;48-49.
 
-[^3]: Ian McGibbon, &ldquo;Duigan, John Evelyn 1883-1950&rdquo; [[Online]](http://ww.teara.govt.nz/en/biographies/4d24/1). _Dictionary of New Zealand Biography_ [Accessed on 1&nbsp;septembre 2010].
+[^3]: Ian McGibbon, &ldquo;Duigan, John Evelyn 1883-1950&rdquo; [[Online]](http://www.teara.govt.nz/en/biographies/4d24/1). _Dictionary of New Zealand Biography_ [Accessed on 1&nbsp;September 2010].
 
 [^4]: _Ibid._
 

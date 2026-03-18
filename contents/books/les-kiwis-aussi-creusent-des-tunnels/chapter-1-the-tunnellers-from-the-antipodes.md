@@ -110,7 +110,7 @@ Ce n’était pourtant pas pour leur courage à se porter volontaire que les hab
 
 [^22]: _Ibid._, 1<sup>re</sup>&nbsp;partie, f°&nbsp;7.
 
-[^23]: Le second peuple, minoritaire, est celui des Morioris installés dans les îles Chatham, îles néo-zélandaises situées à environ 800 kilomètres à l’est de l’île du Sud de la Nouvelle-Zélande, et dont l’arrivée précède celle des Maoris. Pour plus d’informations, voir Michael King, _Moriori: a people rediscovered_, Auckland, Vicking, 2000 (éd. orig. 1989).
+[^23]: Le second peuple, minoritaire, est celui des Morioris installés dans les îles Chatham, îles néo-zélandaises situées à environ 800 kilomètres à l’est de l’île du Sud de la Nouvelle-Zélande, et dont l’arrivée précède celle des Maoris. Pour plus d’informations, voir Michael King, _Moriori: a people rediscovered_, Auckland, Viking, 2000 (éd. orig. 1989).
 
 [^24]: Georges-Goulven Le Cam, _L’Australie et la Nouvelle-Zélande_, Rennes, Presses universitaires de Rennes, 1996, p.&nbsp;97.
 

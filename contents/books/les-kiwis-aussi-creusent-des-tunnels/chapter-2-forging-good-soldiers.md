@@ -45,7 +45,7 @@ Sur le chemin qui les mena au port, la population et les amis encouragèrent cha
 
 [^2]: _Infantry Training 1914_, Londres, General Staff, War Office, 1914, p.&nbsp;48-49.
 
-[^3]: Ian McGibbon, &laquo;&nbsp;Duigan, John Evelyn 1883-1950&nbsp;&raquo; [[En ligne]](http://ww.teara.govt.nz/en/biographies/4d24/1). _Dictionary of New Zealand Biography_ [réf. du 1<sup>er</sup>&nbsp;septembre 2010].
+[^3]: Ian McGibbon, &laquo;&nbsp;Duigan, John Evelyn 1883-1950&nbsp;&raquo; [[En ligne]](http://www.teara.govt.nz/en/biographies/4d24/1). _Dictionary of New Zealand Biography_ [réf. du 1<sup>er</sup>&nbsp;septembre 2010].
 
 [^4]: _Ibid._
 

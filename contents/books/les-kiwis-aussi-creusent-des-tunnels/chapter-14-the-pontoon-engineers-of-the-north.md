@@ -53,7 +53,7 @@ Presque toute l’unité participait au drainage d’une inondation, suite à la
 
 [^4]: Archives nationales du Royaume-Uni, WO&nbsp;95/407, Journal de guerre…, _op. cit._, 16&nbsp;octobre 1918.
 
-[^5]: James E. Edmonds, Official History of the Great War, Military Operations France and Belgium, 26th&nbsp;September&nbsp;- 11th&nbsp;November: The Advance to Victory, Uckfield, The Naval and Military Press, 2010 (éd. orig. 1925), vol.&nbsp;5, p.&nbsp;386.
+[^5]: James E. Edmonds, _Official History of the Great War, Military Operations France and Belgium, 26th&nbsp;September&nbsp;- 11th&nbsp;November: The Advance to Victory_, Uckfield, The Naval and Military Press, 2010 (éd. orig. 1925), vol.&nbsp;5, p.&nbsp;386.
 
 [^6]: Archives nationales du Royaume-Uni, WO 95/407, Journal de guerre…, _op. cit._, 2&nbsp;novembre 1918, &laquo;&nbsp;Le travail a commencé à 6&nbsp;heures sur le pont ferroviaire de Saint-Vaast.&nbsp;&raquo;
 
