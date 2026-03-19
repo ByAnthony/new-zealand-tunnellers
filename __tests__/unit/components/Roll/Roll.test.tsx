@@ -290,7 +290,7 @@ describe("Roll", () => {
       localStorage.setItem(
         "filters",
         JSON.stringify({
-          detachment: ["2nd Reinforcements"],
+          detachment: [2],
           corps: [],
           ranks: {
             Officers: [],

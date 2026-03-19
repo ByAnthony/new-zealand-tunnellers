@@ -7,9 +7,9 @@ describe("getUniqueDetachments", () => {
   test("returns unique detachments sorted correctly", () => {
     const result = getUniqueDetachments(Object.entries(mockTunnellers));
     expect(result).toEqual([
-      "Main Body",
-      "2nd Reinforcements",
-      "5th Reinforcements",
+      { id: 1, label: "Main Body" },
+      { id: 2, label: "2nd Reinforcements" },
+      { id: 5, label: "5th Reinforcements" },
     ]);
   });
 
@@ -30,8 +30,11 @@ describe("getUniqueDetachments", () => {
             deathYear: null,
             search: { fullName: "John Doe" },
             detachment: "3^e renfort",
+            detachmentId: 3,
             rank: "Sapeur",
+            rankId: 1,
             attachedCorps: null,
+            corpsId: null,
           },
           {
             id: 2,
@@ -40,8 +43,11 @@ describe("getUniqueDetachments", () => {
             deathYear: null,
             search: { fullName: "Jane Smith" },
             detachment: "Corps principal",
+            detachmentId: 10,
             rank: "Sapeur",
+            rankId: 1,
             attachedCorps: null,
+            corpsId: null,
           },
           {
             id: 3,
@@ -50,8 +56,11 @@ describe("getUniqueDetachments", () => {
             deathYear: null,
             search: { fullName: "Bob Jones" },
             detachment: "1^er renfort",
+            detachmentId: 1,
             rank: "Sapeur",
+            rankId: 1,
             attachedCorps: null,
+            corpsId: null,
           },
         ],
       ],
@@ -59,7 +68,11 @@ describe("getUniqueDetachments", () => {
 
     const result = getUniqueDetachments(tunnellers);
 
-    expect(result).toEqual(["Corps principal", "1^er renfort", "3^e renfort"]);
+    expect(result).toEqual([
+      { id: 10, label: "Corps principal" },
+      { id: 1, label: "1^er renfort" },
+      { id: 3, label: "3^e renfort" },
+    ]);
   });
 
   test("sorts non-Reinforcement detachments alphabetically", () => {
@@ -74,8 +87,11 @@ describe("getUniqueDetachments", () => {
             deathYear: null,
             search: { fullName: "John Doe" },
             detachment: "Special Unit",
+            detachmentId: 20,
             rank: "Sapper",
+            rankId: 1,
             attachedCorps: null,
+            corpsId: null,
           },
         ],
       ],
@@ -89,8 +105,11 @@ describe("getUniqueDetachments", () => {
             deathYear: null,
             search: { fullName: "Jane Smith" },
             detachment: "Another Unit",
+            detachmentId: 21,
             rank: "Driver",
+            rankId: 2,
             attachedCorps: null,
+            corpsId: null,
           },
         ],
       ],
@@ -98,6 +117,9 @@ describe("getUniqueDetachments", () => {
 
     const result = getUniqueDetachments(tunnellers);
 
-    expect(result).toEqual(["Another Unit", "Special Unit"]);
+    expect(result).toEqual([
+      { id: 21, label: "Another Unit" },
+      { id: 20, label: "Special Unit" },
+    ]);
   });
 });

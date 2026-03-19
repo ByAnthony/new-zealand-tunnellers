@@ -62,10 +62,10 @@ exports[`Roll matches the snapshot 1`] = `
             <div>
               <label>
                 <input
-                  id="Main Body"
+                  id="1"
                   name="Main Body"
                   type="checkbox"
-                  value="Main Body"
+                  value="1"
                 />
                 Main Body
               </label>
@@ -73,10 +73,10 @@ exports[`Roll matches the snapshot 1`] = `
             <div>
               <label>
                 <input
-                  id="2nd Reinforcements"
+                  id="2"
                   name="2nd Reinforcements"
                   type="checkbox"
-                  value="2nd Reinforcements"
+                  value="2"
                 />
                 2nd Reinforcements
               </label>
@@ -84,10 +84,10 @@ exports[`Roll matches the snapshot 1`] = `
             <div>
               <label>
                 <input
-                  id="5th Reinforcements"
+                  id="5"
                   name="5th Reinforcements"
                   type="checkbox"
-                  value="5th Reinforcements"
+                  value="5"
                 />
                 5th Reinforcements
               </label>
@@ -102,10 +102,10 @@ exports[`Roll matches the snapshot 1`] = `
             <div>
               <label>
                 <input
-                  id="Tunnelling Corps"
+                  id="null"
                   name="Tunnelling Corps"
                   type="checkbox"
-                  value="Tunnelling Corps"
+                  value="null"
                 />
                 Tunnelling Corps
               </label>
@@ -113,10 +113,10 @@ exports[`Roll matches the snapshot 1`] = `
             <div>
               <label>
                 <input
-                  id="Army Pay Corps"
+                  id="3"
                   name="Army Pay Corps"
                   type="checkbox"
-                  value="Army Pay Corps"
+                  value="3"
                 />
                 Army Pay Corps
               </label>
@@ -276,10 +276,10 @@ exports[`Roll matches the snapshot 1`] = `
                 >
                   <label>
                     <input
-                      id="Sapper"
+                      id="1"
                       name="Sapper"
                       type="checkbox"
-                      value="Sapper"
+                      value="1"
                     />
                     Sapper
                   </label>
@@ -289,10 +289,10 @@ exports[`Roll matches the snapshot 1`] = `
                 >
                   <label>
                     <input
-                      id="Driver"
+                      id="2"
                       name="Driver"
                       type="checkbox"
-                      value="Driver"
+                      value="2"
                     />
                     Driver
                   </label>

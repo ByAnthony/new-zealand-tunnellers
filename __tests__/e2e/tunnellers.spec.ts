@@ -117,6 +117,18 @@ test("can navigate using pagination buttons", async ({ page }) => {
   ).toBeVisible();
 });
 
+test("filters persist when switching language", async ({ page }) => {
+  await page.goto("/tunnellers");
+
+  await page.getByLabel("7th Reinforcements").click();
+  await expect(page.getByText("31 results")).toBeVisible();
+
+  await page.getByRole("link", { name: "Français" }).click();
+  await page.waitForURL("/fr/tunnellers/", { waitUntil: "load" });
+
+  await expect(page.getByText("31 résultats")).toBeVisible();
+});
+
 test("can navigate using previous and next buttons", async ({ page }) => {
   await page.goto("/tunnellers");
   await page.getByRole("button", { name: "Go to next page" }).click();

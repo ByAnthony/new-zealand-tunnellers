@@ -4,6 +4,7 @@ import { useTranslations } from "next-intl";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 
+import { FilterOption } from "@/types/tunnellers";
 import { renderSuperscript } from "@/utils/helpers/article";
 
 import STYLES from "./RollFilter.module.scss";
@@ -11,20 +12,20 @@ import { rankCategoryTranslationKey } from "../utils/rankUtils";
 
 type Props = {
   className: string;
-  uniqueDetachments: string[];
-  uniquecorps: string[];
+  uniqueDetachments: FilterOption[];
+  uniquecorps: FilterOption[];
   uniqueBirthYears: string[];
   uniqueDeathYears: string[];
   sortedRanks: {
-    [key: string]: string[];
+    [key: string]: FilterOption[];
   };
   filters: {
-    detachment: string[];
-    corps: string[];
+    detachment: (number | null)[];
+    corps: (number | null)[];
     birthYear: string[];
     deathYear: string[];
     ranks: {
-      [key: string]: string[];
+      [key: string]: (number | null)[];
     };
     unknownBirthYear: string;
     unknownDeathYear: string;
@@ -34,15 +35,15 @@ type Props = {
   startDeathYear: string;
   endDeathYear: string;
   // eslint-disable-next-line no-unused-vars
-  handleDetachmentFilter: (detachment: string) => void;
+  handleDetachmentFilter: (detachmentId: number | null) => void;
   // eslint-disable-next-line no-unused-vars
-  handleCorpsFilter: (corps: string) => void;
+  handleCorpsFilter: (corpsId: number | null) => void;
   // eslint-disable-next-line no-unused-vars
   handleBirthSliderChange: (value: number | number[]) => void;
   // eslint-disable-next-line no-unused-vars
   handleDeathSliderChange: (value: number | number[]) => void;
   // eslint-disable-next-line no-unused-vars
-  handleRankFilter: (rank: { [key: string]: string[] }) => void;
+  handleRankFilter: (rank: { [key: string]: (number | null)[] }) => void;
   // eslint-disable-next-line no-unused-vars
   handleUnknwonBirthYear: (unknownBirthYear: string) => void;
   // eslint-disable-next-line no-unused-vars
@@ -76,21 +77,22 @@ export function RollFilter({
       <div className={STYLES.filters}>
         <h3>{t("detachments")}</h3>
         {uniqueDetachments.map((detachment) => (
-          <div key={detachment}>
+          <div key={String(detachment.id)}>
             <label>
               <input
                 type="checkbox"
-                id={detachment}
-                name={detachment}
-                value={detachment}
-                onChange={() => handleDetachmentFilter(detachment)}
+                id={String(detachment.id)}
+                name={detachment.label}
+                value={String(detachment.id)}
+                onChange={() => handleDetachmentFilter(detachment.id)}
                 checked={
-                  filters.detachment && filters.detachment.includes(detachment)
+                  filters.detachment &&
+                  filters.detachment.includes(detachment.id)
                     ? true
                     : false
                 }
               />
-              {renderSuperscript(detachment)}
+              {renderSuperscript(detachment.label)}
             </label>
           </div>
         ))}
@@ -98,19 +100,21 @@ export function RollFilter({
       <div className={STYLES.filters}>
         <h3>{t("corps")}</h3>
         {uniquecorps.map((corps) => (
-          <div key={corps}>
+          <div key={String(corps.id)}>
             <label>
               <input
                 type="checkbox"
-                id={corps}
-                name={corps}
-                value={corps}
-                onChange={() => handleCorpsFilter(corps)}
+                id={String(corps.id)}
+                name={corps.label}
+                value={String(corps.id)}
+                onChange={() => handleCorpsFilter(corps.id)}
                 checked={
-                  filters.corps && filters.corps.includes(corps) ? true : false
+                  filters.corps && filters.corps.includes(corps.id)
+                    ? true
+                    : false
                 }
               />
-              {corps}
+              {corps.id === null ? t("tunnellingCorps") : corps.label}
             </label>
           </div>
         ))}
@@ -218,12 +222,12 @@ export function RollFilter({
                   value={category}
                   onChange={() =>
                     handleRankFilter({
-                      [category]: [],
+                      [category]: ranks.map((r) => r.id),
                     })
                   }
                   checked={
                     ranks.every((rank) =>
-                      filters.ranks?.[category]?.includes(rank),
+                      filters.ranks?.[category]?.includes(rank.id),
                     )
                       ? true
                       : false
@@ -232,23 +236,25 @@ export function RollFilter({
                 {t(rankCategoryTranslationKey[category] ?? category)}
               </label>
               {ranks.map((rank) => (
-                <div key={rank} style={{ marginLeft: "15px" }}>
+                <div key={String(rank.id)} style={{ marginLeft: "15px" }}>
                   <label>
                     <input
                       type="checkbox"
-                      id={rank}
-                      name={rank}
-                      value={rank}
+                      id={String(rank.id)}
+                      name={rank.label}
+                      value={String(rank.id)}
                       onChange={() =>
                         handleRankFilter({
-                          [category]: [rank],
+                          [category]: [rank.id],
                         })
                       }
                       checked={
-                        filters.ranks?.[category]?.includes(rank) ? true : false
+                        filters.ranks?.[category]?.includes(rank.id)
+                          ? true
+                          : false
                       }
                     />
-                    {rank}
+                    {rank.label}
                   </label>
                 </div>
               ))}
