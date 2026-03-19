@@ -1,0 +1,33 @@
+import { PoolConnection, RowDataPacket } from "mysql2/promise";
+
+export type WorkData = {
+  work_id: number;
+  work_name: string;
+  work_type_en: string | null;
+  work_type_fr: string | null;
+  work_section: number | null;
+  work_date_start: string | null;
+  work_date_end: string | null;
+  work_latitude: number;
+  work_longitude: number;
+};
+
+export const worksQuery = async (connection: PoolConnection) => {
+  const query = `SELECT
+    work_id,
+    work_name,
+    work_type_en,
+    work_type_fr,
+    work_section,
+    DATE_FORMAT(work_date_start, '%Y-%m-%d') AS work_date_start,
+    DATE_FORMAT(work_date_end, '%Y-%m-%d') AS work_date_end,
+    work_latitude,
+    work_longitude
+    FROM work
+    WHERE work_latitude IS NOT NULL
+    ORDER BY work_date_start ASC`;
+
+  const [results] =
+    await connection.execute<(WorkData & RowDataPacket)[]>(query);
+  return results;
+};

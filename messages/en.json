@@ -4,7 +4,8 @@
     "aboutUs": "About Us",
     "tunnellers": "List of Tunnellers",
     "book": "Kiwis Dig Tunnels Too",
-    "timelineOf": "Timeline of {forename} {surname}"
+    "timelineOf": "Timeline of {forename} {surname}",
+    "map": "Interactive Map"
   },
   "nav": {
     "history": "History",
@@ -138,6 +139,14 @@
     "enlistedAtAge": "{title} at the age of {age}",
     "companyEventAlt": "Image for {title}",
     "companyEventAltFallback": "Company event"
+  },
+  "maps": {
+    "title": "Tunnellers\u2019 Works",
+    "works": "works",
+    "section": "Section",
+    "cardTitle": "Tunnellers\u2019 Works",
+    "cardDescription": "From underground shelters to bridges, the New Zealand Tunnelling Company left its mark across the Arras front. This interactive map charts the works recorded in the company\u2019s war diary between March 1916 and December 1918 \u2014 each one precisely located using the original British Army trench map grid.",
+    "cardBadge": "Map"
   },
   "books": {
     "readingProgress": "Reading progress",

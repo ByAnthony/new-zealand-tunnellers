@@ -1,6 +1,8 @@
 import { readdirSync } from "fs";
 import { join } from "path";
 
+import { setRequestLocale } from "next-intl/server";
+
 import { Chapter } from "@/components/Books/Chapter/Chapter";
 import { Locale } from "@/types/locale";
 import { readBookMarkdown } from "@/utils/helpers/books/markdownUtil";
@@ -43,6 +45,8 @@ export async function generateMetadata(props: Props) {
 }
 
 export default async function Page(props: Props) {
-  const { markdownContent, locale } = await getMarkdown(props);
+  const { id, locale } = await props.params;
+  setRequestLocale(locale);
+  const markdownContent = await readBookMarkdown(locale, id);
   return <Chapter locale={locale} content={markdownContent} />;
 }

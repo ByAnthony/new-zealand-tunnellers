@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 
 import STYLES from "./Footer.module.scss";
@@ -11,6 +12,9 @@ export function Footer() {
   const tNav = useTranslations("nav");
   const locale = useLocale();
   const localePrefix = locale === "en" ? "" : `/${locale}`;
+  const pathname = usePathname();
+
+  if (pathname.endsWith("/maps") || pathname.endsWith("/maps/")) return null;
 
   const handleClick = () => {
     window.scrollTo(0, 0);

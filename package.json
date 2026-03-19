@@ -24,7 +24,9 @@
     "npm": "10.9.2"
   },
   "dependencies": {
+    "@types/leaflet": "1.9.21",
     "cross-env": "10.1.0",
+    "leaflet": "1.9.4",
     "lodash": "4.17.23",
     "mysql2": "3.19.1",
     "next": "16.1.7",
@@ -34,6 +36,7 @@
     "rc-slider": "11.1.9",
     "react": "19.2.4",
     "react-dom": "19.2.4",
+    "react-leaflet": "5.0.0",
     "react-markdown": "10.1.0",
     "react-zoom-pan-pinch": "3.7.0",
     "rehype-raw": "^7.0.0",
