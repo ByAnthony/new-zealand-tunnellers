@@ -73,10 +73,7 @@ export function WorksMap({ works, locale }: Props) {
   useEffect(() => {
     if (!containerRef.current || mapRef.current) return;
 
-    const map = L.map(containerRef.current, {
-      center: [50.29, 2.78],
-      zoom: 12,
-    });
+    const map = L.map(containerRef.current);
 
     L.tileLayer(
       "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}",
@@ -104,6 +101,11 @@ export function WorksMap({ works, locale }: Props) {
         .addTo(map)
         .bindPopup(popup);
     });
+
+    const bounds = L.latLngBounds(
+      works.map((w) => [w.work_latitude, w.work_longitude] as [number, number]),
+    );
+    map.fitBounds(bounds, { padding: [30, 30] });
 
     mapRef.current = map;
 
