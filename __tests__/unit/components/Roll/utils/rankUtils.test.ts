@@ -9,7 +9,10 @@ import {
 describe("getUniqueRanks", () => {
   test("returns unique detachments sorted correctly", () => {
     const result = getUniqueRanks(Object.entries(mockTunnellers));
-    expect(result).toEqual(["Sapper", "Driver"]);
+    expect(result).toEqual([
+      { id: 1, label: "Sapper" },
+      { id: 2, label: "Driver" },
+    ]);
   });
 
   test("handles empty list", () => {
@@ -20,9 +23,15 @@ describe("getUniqueRanks", () => {
 
 describe("getSortedRanks", () => {
   test("returns sorted ranks", () => {
-    const result = getSortedRanks(["Sapper", "Driver"]);
+    const result = getSortedRanks([
+      { id: 1, label: "Sapper" },
+      { id: 2, label: "Driver" },
+    ]);
     expect(result).toEqual({
-      "Other Ranks": ["Sapper", "Driver"],
+      "Other Ranks": [
+        { id: 1, label: "Sapper" },
+        { id: 2, label: "Driver" },
+      ],
     });
   });
 
@@ -32,31 +41,48 @@ describe("getSortedRanks", () => {
   });
 
   test("sorts categories in the correct order when ranks span multiple categories", () => {
-    const result = getSortedRanks(["Sapper", "Major"]);
-
+    const result = getSortedRanks([
+      { id: 1, label: "Sapper" },
+      { id: 3, label: "Major" },
+    ]);
     expect(result).toEqual({
-      Officers: ["Major"],
-      "Other Ranks": ["Sapper"],
+      Officers: [{ id: 3, label: "Major" }],
+      "Other Ranks": [{ id: 1, label: "Sapper" }],
     });
   });
 
   test("returns sorted French ranks with fr locale", () => {
-    const result = getSortedRanks(["Sapeur", "Conducteur"], "fr");
+    const result = getSortedRanks(
+      [
+        { id: 1, label: "Sapeur" },
+        { id: 2, label: "Conducteur" },
+      ],
+      "fr",
+    );
     expect(result).toEqual({
-      "Other Ranks": ["Sapeur", "Conducteur"],
+      "Other Ranks": [
+        { id: 1, label: "Sapeur" },
+        { id: 2, label: "Conducteur" },
+      ],
     });
   });
 
   test("sorts French ranks across categories with fr locale", () => {
-    const result = getSortedRanks(["Sapeur", "Major"], "fr");
+    const result = getSortedRanks(
+      [
+        { id: 1, label: "Sapeur" },
+        { id: 3, label: "Major" },
+      ],
+      "fr",
+    );
     expect(result).toEqual({
-      Officers: ["Major"],
-      "Other Ranks": ["Sapeur"],
+      Officers: [{ id: 3, label: "Major" }],
+      "Other Ranks": [{ id: 1, label: "Sapeur" }],
     });
   });
 
   test("drops unknown ranks not in any category", () => {
-    const result = getSortedRanks(["Unknown Rank"]);
+    const result = getSortedRanks([{ id: 99, label: "Unknown Rank" }]);
     expect(result).toEqual({});
   });
 });

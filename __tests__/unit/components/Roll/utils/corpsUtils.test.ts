@@ -6,7 +6,10 @@ import { Tunneller } from "@/types/tunnellers";
 describe("getUniqueDetachments", () => {
   test("returns unique detachments sorted correctly", () => {
     const result = getUniqueCorps(Object.entries(mockTunnellers));
-    expect(result).toEqual(["Tunnelling Corps", "Army Pay Corps"]);
+    expect(result).toEqual([
+      { id: null, label: "Tunnelling Corps" },
+      { id: 3, label: "Army Pay Corps" },
+    ]);
   });
 
   test("handles empty list", () => {
@@ -26,8 +29,11 @@ describe("getUniqueDetachments", () => {
             deathYear: null,
             search: { fullName: "John Doe" },
             detachment: "Main Body",
+            detachmentId: 1,
             rank: "Sapper",
+            rankId: 1,
             attachedCorps: "Royal Engineers",
+            corpsId: 5,
           },
         ],
       ],
@@ -41,8 +47,11 @@ describe("getUniqueDetachments", () => {
             deathYear: null,
             search: { fullName: "Jane Smith" },
             detachment: "Main Body",
+            detachmentId: 1,
             rank: "Driver",
+            rankId: 2,
             attachedCorps: "Army Pay Corps",
+            corpsId: 3,
           },
         ],
       ],
@@ -50,6 +59,9 @@ describe("getUniqueDetachments", () => {
 
     const result = getUniqueCorps(tunnellers);
 
-    expect(result).toEqual(["Army Pay Corps", "Royal Engineers"]);
+    expect(result).toEqual([
+      { id: 3, label: "Army Pay Corps" },
+      { id: 5, label: "Royal Engineers" },
+    ]);
   });
 });

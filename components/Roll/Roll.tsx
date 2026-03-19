@@ -14,11 +14,7 @@ import { useWindowDimensions } from "@/utils/helpers/useWindowDimensions";
 import STYLES from "./Roll.module.scss";
 import { getUniqueCorps } from "./utils/corpsUtils";
 import { getUniqueDetachments } from "./utils/detachmentUtils";
-import {
-  getSortedRanks,
-  getUniqueRanks,
-  rankCategories,
-} from "./utils/rankUtils";
+import { getSortedRanks, getUniqueRanks } from "./utils/rankUtils";
 import { getUniqueBirthYears, getUniqueDeathYears } from "./utils/yearsUtils";
 import { Dialog } from "../Dialog/Dialog";
 
@@ -27,9 +23,9 @@ type Props = {
 };
 
 type Filters = {
-  detachment: string[];
-  corps: string[];
-  ranks: Record<string, string[]>;
+  detachment: (number | null)[];
+  corps: (number | null)[];
+  ranks: Record<string, (number | null)[]>;
   birthYear: string[];
   unknownBirthYear: string;
   deathYear: string[];
@@ -90,20 +86,38 @@ export function Roll({ tunnellers }: Props) {
   );
 
   // Normalize any previously stored filters to the current shape
+  const isIdArray = (arr: unknown[]): arr is (number | null)[] =>
+    arr.every((x) => typeof x === "number" || x === null);
+
   const normalizeFilters = (raw: unknown, defaults: Filters): Filters => {
     try {
       const p = (raw ?? {}) as Partial<Filters>;
-      const ranks = (p.ranks ?? {}) as Record<string, string[]>;
+      const ranks = (p.ranks ?? {}) as Record<string, (number | null)[]>;
       const mergedRanks: Filters["ranks"] = {
-        Officers: ranks?.Officers ?? [],
-        "Non-Commissioned Officers": ranks?.["Non-Commissioned Officers"] ?? [],
-        "Other Ranks": ranks?.["Other Ranks"] ?? [],
+        Officers:
+          Array.isArray(ranks?.Officers) && isIdArray(ranks.Officers)
+            ? ranks.Officers
+            : [],
+        "Non-Commissioned Officers":
+          Array.isArray(ranks?.["Non-Commissioned Officers"]) &&
+          isIdArray(ranks["Non-Commissioned Officers"])
+            ? ranks["Non-Commissioned Officers"]
+            : [],
+        "Other Ranks":
+          Array.isArray(ranks?.["Other Ranks"]) &&
+          isIdArray(ranks["Other Ranks"])
+            ? ranks["Other Ranks"]
+            : [],
       };
       return {
-        detachment: Array.isArray(p.detachment)
-          ? p.detachment
-          : defaults.detachment,
-        corps: Array.isArray(p.corps) ? p.corps : defaults.corps,
+        detachment:
+          Array.isArray(p.detachment) && isIdArray(p.detachment)
+            ? p.detachment
+            : defaults.detachment,
+        corps:
+          Array.isArray(p.corps) && isIdArray(p.corps)
+            ? p.corps
+            : defaults.corps,
         ranks: mergedRanks,
         birthYear: Array.isArray(p.birthYear)
           ? p.birthYear
@@ -217,22 +231,17 @@ export function Roll({ tunnellers }: Props) {
           .filter(
             (t) =>
               !filters.detachment?.length ||
-              filters.detachment.includes(t.detachment),
+              filters.detachment.includes(t.detachmentId),
           )
           .filter((t) => {
             if (!filters.corps?.length) return true;
-            if (
-              filters.corps.includes("Tunnelling Corps") &&
-              t.attachedCorps === null
-            )
-              return true;
-            return filters.corps.includes(t.attachedCorps ?? "");
+            return filters.corps.includes(t.corpsId);
           })
           .filter((t) => {
             const r = filters.ranks;
             if (!r || Object.values(r).every((arr) => arr.length === 0))
               return true;
-            return Object.values(r).some((arr) => arr.includes(t.rank));
+            return Object.values(r).some((arr) => arr.includes(t.rankId));
           })
           .filter((t) => {
             const wantsUnknown = filters.unknownBirthYear === "unknown";
@@ -270,10 +279,12 @@ export function Roll({ tunnellers }: Props) {
   const setPageToFirst = useCallback(() => setCurrentPage(1), []);
 
   const handleDetachmentFilter = useCallback(
-    (detachment: string) => {
+    (detachmentId: number | null) => {
       setFilters((prev) => {
         const det = new Set(prev.detachment ?? []);
-        det.has(detachment) ? det.delete(detachment) : det.add(detachment);
+        det.has(detachmentId)
+          ? det.delete(detachmentId)
+          : det.add(detachmentId);
         return { ...prev, detachment: Array.from(det) };
       });
       setPageToFirst();
@@ -282,10 +293,10 @@ export function Roll({ tunnellers }: Props) {
   );
 
   const handleCorpsFilter = useCallback(
-    (corps: string) => {
+    (corpsId: number | null) => {
       setFilters((prev) => {
         const set = new Set(prev.corps ?? []);
-        set.has(corps) ? set.delete(corps) : set.add(corps);
+        set.has(corpsId) ? set.delete(corpsId) : set.add(corpsId);
         return { ...prev, corps: Array.from(set) };
       });
       setPageToFirst();
@@ -346,22 +357,18 @@ export function Roll({ tunnellers }: Props) {
   );
 
   const handleRankFilter = useCallback(
-    (ranksFilter: Record<string, string[]>) => {
+    (ranksFilter: Record<string, (number | null)[]>) => {
       setFilters((prev) => {
-        const nextRanks: Record<string, string[]> = { ...prev.ranks };
-        Object.entries(ranksFilter).forEach(([category, ranks]) => {
-          if (ranks.length === 0) {
-            const allSelected = rankCategories[category].every((rank) =>
-              (nextRanks[category] ?? []).includes(rank),
-            );
-            nextRanks[category] = allSelected ? [] : rankCategories[category];
+        const nextRanks: Record<string, (number | null)[]> = { ...prev.ranks };
+        Object.entries(ranksFilter).forEach(([category, rankIds]) => {
+          const set = new Set(nextRanks[category] ?? []);
+          const allSelected = rankIds.every((id) => set.has(id));
+          if (allSelected) {
+            rankIds.forEach((id) => set.delete(id));
           } else {
-            const set = new Set(nextRanks[category] ?? []);
-            ranks.forEach((rank) =>
-              set.has(rank) ? set.delete(rank) : set.add(rank),
-            );
-            nextRanks[category] = Array.from(set);
+            rankIds.forEach((id) => set.add(id));
           }
+          nextRanks[category] = Array.from(set);
         });
         return { ...prev, ranks: nextRanks };
       });

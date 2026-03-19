@@ -1,3 +1,8 @@
+export type FilterOption = {
+  id: number | null;
+  label: string;
+};
+
 // Database extract
 export type TunnellerData = {
   id: number;
@@ -6,8 +11,11 @@ export type TunnellerData = {
   birthYear: string | null;
   deathYear: string | null;
   detachment: Detachment;
+  detachment_id: number | null;
   rank: Rank;
+  rank_id: number | null;
   attached_corps: string | null;
+  corps_id: number | null;
 };
 
 // Shaped data
@@ -30,7 +38,10 @@ export type Tunneller = {
   birthYear: string | null;
   deathYear: string | null;
   detachment: Detachment;
+  detachmentId: number | null;
   rank: Rank;
+  rankId: number | null;
   search: Search;
   attachedCorps: string | null;
+  corpsId: number | null;
 };

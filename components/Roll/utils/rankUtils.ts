@@ -1,5 +1,5 @@
 import { Locale } from "@/types/locale";
-import { Tunneller } from "@/types/tunnellers";
+import { FilterOption, Tunneller } from "@/types/tunnellers";
 
 export const rankCategories: Record<string, string[]> = {
   Officers: ["Major", "Captain", "Lieutenant", "Second Lieutenant"],
@@ -40,26 +40,39 @@ export const rankCategoryTranslationKey: Record<string, string> = {
   "Other Ranks": "rankOtherRanks",
 };
 
-export const getUniqueRanks = (list: [string, Tunneller[]][]) => {
-  return Array.from(
-    new Set(list.flatMap(([, lists]) => lists.map((item) => item.rank))),
-  );
+export const getUniqueRanks = (
+  list: [string, Tunneller[]][],
+): FilterOption[] => {
+  const seen = new Set<number | null>();
+  const result: FilterOption[] = [];
+
+  list
+    .flatMap(([, lists]) => lists)
+    .forEach((item) => {
+      if (!seen.has(item.rankId)) {
+        seen.add(item.rankId);
+        result.push({ id: item.rankId, label: item.rank });
+      }
+    });
+
+  return result;
 };
 
-export const getSortedRanks = (list: string[], locale: Locale = "en") => {
+export const getSortedRanks = (
+  list: FilterOption[],
+  locale: Locale = "en",
+): Record<string, FilterOption[]> => {
   const categories = locale === "en" ? rankCategories : rankCategoriesFr;
 
   return Object.fromEntries(
     Object.entries(
-      list.reduce((acc: Record<string, string[]>, rank) => {
-        const category: string | undefined = Object.keys(categories).find(
-          (category) => categories[category].includes(rank),
+      list.reduce((acc: Record<string, FilterOption[]>, rank) => {
+        const category = Object.keys(categories).find((category) =>
+          categories[category].includes(rank.label),
         );
 
         if (category) {
-          if (!acc[category]) {
-            acc[category] = [];
-          }
+          if (!acc[category]) acc[category] = [];
           acc[category].push(rank);
         }
 
@@ -74,7 +87,8 @@ export const getSortedRanks = (list: string[], locale: Locale = "en") => {
       .map(([key, value]) => [
         key,
         value.sort(
-          (a, b) => categories[key].indexOf(a) - categories[key].indexOf(b),
+          (a, b) =>
+            categories[key].indexOf(a.label) - categories[key].indexOf(b.label),
         ),
       ]),
   );

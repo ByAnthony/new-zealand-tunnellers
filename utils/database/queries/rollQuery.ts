@@ -10,8 +10,11 @@ export const rollQuery = async (locale: Locale, connection: PoolConnection) => {
     , DATE_FORMAT(t.birth_date, '%Y') AS birthYear
     , DATE_FORMAT(t.death_date, '%Y') AS deathYear
     , embarkation_unit.embarkation_unit_${locale} AS detachment
+    , embarkation_unit.embarkation_unit_id AS detachment_id
     , rank.rank_${locale} AS rank
+    , rank.rank_id AS rank_id
     , attached_corps.corps_${locale} AS attached_corps
+    , attached_corps.corps_id AS corps_id
 
     FROM tunneller t
 

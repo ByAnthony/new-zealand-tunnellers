@@ -4,14 +4,29 @@ import { RollFilter } from "@/components/Roll/RollFilter/RollFilter";
 
 const defaultProps = {
   className: "test-class",
-  uniqueDetachments: ["Main Body", "1st Reinforcements"],
-  uniquecorps: ["Tunnelling Corps", "Engineers"],
+  uniqueDetachments: [
+    { id: 1, label: "Main Body" },
+    { id: 2, label: "1st Reinforcements" },
+  ],
+  uniquecorps: [
+    { id: null, label: "Tunnelling Corps" },
+    { id: 5, label: "Engineers" },
+  ],
   uniqueBirthYears: ["1880", "1890", "1900"],
   uniqueDeathYears: ["1915", "1920", "1930"],
   sortedRanks: {
-    Officers: ["Major", "Captain"],
-    "Non-Commissioned Officers": ["Sergeant", "Corporal"],
-    "Other Ranks": ["Private", "Lance Corporal"],
+    Officers: [
+      { id: 10, label: "Major" },
+      { id: 11, label: "Captain" },
+    ],
+    "Non-Commissioned Officers": [
+      { id: 20, label: "Sergeant" },
+      { id: 21, label: "Corporal" },
+    ],
+    "Other Ranks": [
+      { id: 30, label: "Private" },
+      { id: 31, label: "Lance Corporal" },
+    ],
   },
   filters: {
     detachment: [],
@@ -80,18 +95,14 @@ describe("RollFilter", () => {
     render(<RollFilter {...defaultProps} />);
     const checkbox = screen.getByLabelText("Main Body");
     fireEvent.click(checkbox);
-    expect(defaultProps.handleDetachmentFilter).toHaveBeenCalledWith(
-      "Main Body",
-    );
+    expect(defaultProps.handleDetachmentFilter).toHaveBeenCalledWith(1);
   });
 
   test("calls handleCorpsFilter when a corps checkbox is clicked", () => {
     render(<RollFilter {...defaultProps} />);
     const checkbox = screen.getByLabelText("Tunnelling Corps");
     fireEvent.click(checkbox);
-    expect(defaultProps.handleCorpsFilter).toHaveBeenCalledWith(
-      "Tunnelling Corps",
-    );
+    expect(defaultProps.handleCorpsFilter).toHaveBeenCalledWith(null);
   });
 
   test("calls handleRankFilter when a rank checkbox is clicked", () => {
@@ -99,7 +110,7 @@ describe("RollFilter", () => {
     const checkbox = screen.getByLabelText("Major");
     fireEvent.click(checkbox);
     expect(defaultProps.handleRankFilter).toHaveBeenCalledWith({
-      Officers: ["Major"],
+      Officers: [10],
     });
   });
 
