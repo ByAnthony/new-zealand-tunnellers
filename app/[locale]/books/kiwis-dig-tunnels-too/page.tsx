@@ -3,6 +3,10 @@ import { getTranslations } from "next-intl/server";
 import ContentsContainer from "@/components/Books/Contents/ContentsContainer";
 import { Locale } from "@/types/locale";
 
+export function generateStaticParams() {
+  return [{ locale: "en" }, { locale: "fr" }];
+}
+
 type Props = {
   params: Promise<{ locale: Locale }>;
 };

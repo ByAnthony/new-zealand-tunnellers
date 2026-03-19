@@ -1,6 +1,18 @@
+import { readdirSync } from "fs";
+import { join } from "path";
+
 import { Chapter } from "@/components/Books/Chapter/Chapter";
 import { Locale } from "@/types/locale";
 import { readBookMarkdown } from "@/utils/helpers/books/markdownUtil";
+
+export function generateStaticParams() {
+  const dir = join(process.cwd(), "contents/books/kiwis-dig-tunnels-too");
+  const ids = readdirSync(dir)
+    .filter((f) => f.endsWith(".md"))
+    .map((f) => f.replace(".md", ""));
+
+  return ["en", "fr"].flatMap((locale) => ids.map((id) => ({ locale, id })));
+}
 
 type Props = {
   params: Promise<{ id: string; locale: Locale }>;
