@@ -27,6 +27,21 @@ test("can navigate to the tunnellers page", async ({ page }) => {
   await expect(page).toHaveURL(/tunnellers/);
 });
 
+test("can navigate to the resources section on the homepage", async ({
+  page,
+}) => {
+  await page.goto("/about-us/");
+
+  const resources = page.getByRole("link", { name: "Resources" });
+
+  await expect(resources).toBeVisible();
+  await resources.click();
+
+  await page.waitForLoadState("domcontentloaded");
+  await expect(page).toHaveURL(/#resources/);
+  await expect(page.getByText("Resources to Explore")).toBeInViewport();
+});
+
 test("can navigate to the about us page", async ({ page }) => {
   await page.goto("/tunnellers/");
 
