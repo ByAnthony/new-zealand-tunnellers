@@ -22,25 +22,7 @@ type Props = {
   locale: string;
 };
 
-const TYPE_COLORS: Record<string, string> = {
-  Dugout: "#8B6914",
-  "Machine-gun nest": "#8B0000",
-  "Machine-gun nest – Dugout": "#8B0000",
-  "Trench mortar battery": "#2F4F2F",
-  Trench: "#696969",
-  "Company headquarters": "#00008B",
-  "Brigade headquarters": "#00008B",
-  "Division headquarters": "#00008B",
-  "Observation post": "#4B0082",
-};
-
-function getColor(type: string | null): string {
-  if (!type) return "#888888";
-  for (const [key, color] of Object.entries(TYPE_COLORS)) {
-    if (type.startsWith(key)) return color;
-  }
-  return "#888888";
-}
+const MARKER_COLOR = "rgb(153, 131, 100)";
 
 function createDotIcon(color: string) {
   return L.divIcon({
@@ -73,7 +55,8 @@ export function WorksMap({ works, locale }: Props) {
   useEffect(() => {
     if (!containerRef.current || mapRef.current) return;
 
-    const map = L.map(containerRef.current);
+    const map = L.map(containerRef.current, { zoomControl: false });
+    L.control.zoom({ position: "bottomright" }).addTo(map);
 
     L.tileLayer(
       "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}",
@@ -84,8 +67,7 @@ export function WorksMap({ works, locale }: Props) {
     ).addTo(map);
 
     works.forEach((work) => {
-      const color = getColor(work.work_type_en);
-      const icon = createDotIcon(color);
+      const icon = createDotIcon(MARKER_COLOR);
       const type = locale === "fr" ? work.work_type_fr : work.work_type_en;
 
       const popup = `

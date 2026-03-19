@@ -7,3 +7,28 @@
   width: 100%;
   height: 100%;
 }
+
+:global(.leaflet-control-zoom) {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+:global(.leaflet-control-zoom-in),
+:global(.leaflet-control-zoom-out) {
+  width: 32px !important;
+  height: 32px !important;
+  line-height: 32px !important;
+  background-color: rgb(44, 46, 47) !important;
+  color: rgb(153, 131, 100) !important;
+  border: 1px solid rgb(64, 66, 67) !important;
+  border-radius: 8px !important;
+  font-size: 18px !important;
+  transition:
+    border 0.9s ease-in-out,
+    background-color 0.9s ease-in-out;
+
+  &:hover {
+    background-color: rgb(24, 26, 27) !important;
+    border-color: rgb(153, 131, 100) !important;
+  }
+}
