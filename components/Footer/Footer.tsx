@@ -14,7 +14,11 @@ export function Footer() {
   const localePrefix = locale === "en" ? "" : `/${locale}`;
   const pathname = usePathname();
 
-  if (pathname.endsWith("/maps") || pathname.endsWith("/maps/")) return null;
+  if (
+    pathname.endsWith("/maps/tunnellers-works") ||
+    pathname.endsWith("/maps/tunnellers-works/")
+  )
+    return null;
 
   const handleClick = () => {
     window.scrollTo(0, 0);

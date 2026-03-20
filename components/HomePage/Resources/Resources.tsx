@@ -17,7 +17,10 @@ export function Resources() {
     >
       <h2 id="resources-title">{t("resources")}</h2>
       <div className={STYLES.actions}>
-        <Link href={`${localePrefix}/maps`} className={STYLES.card}>
+        <Link
+          href={`${localePrefix}/maps/tunnellers-works`}
+          className={STYLES.card}
+        >
           <div className={STYLES["card-content"]}>
             <div className={STYLES["card-header"]}>
               <h3 className={STYLES.title}>{tMaps("cardTitle")}</h3>

@@ -38,7 +38,7 @@ describe("Resources", () => {
     mockUseLocale.mockReturnValue("en");
     render(<Resources />);
     const links = screen.getAllByRole("link");
-    expect(links[0]).toHaveAttribute("href", "/maps");
+    expect(links[0]).toHaveAttribute("href", "/maps/tunnellers-works");
     expect(links[1]).toHaveAttribute("href", "/books/kiwis-dig-tunnels-too");
   });
 
@@ -46,7 +46,7 @@ describe("Resources", () => {
     mockUseLocale.mockReturnValue("fr");
     render(<Resources />);
     const links = screen.getAllByRole("link");
-    expect(links[0]).toHaveAttribute("href", "/fr/maps");
+    expect(links[0]).toHaveAttribute("href", "/fr/maps/tunnellers-works");
     expect(links[1]).toHaveAttribute("href", "/fr/books/kiwis-dig-tunnels-too");
   });
 });
