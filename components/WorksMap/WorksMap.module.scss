@@ -1,3 +1,5 @@
+@use "app/variables.module.scss";
+
 .container {
   position: fixed;
   inset: 0;
@@ -8,27 +10,62 @@
   height: 100%;
 }
 
-:global(.leaflet-control-zoom) {
-  border: none !important;
-  box-shadow: none !important;
+.map-controls {
+  position: absolute;
+  bottom: variables.$m-margin;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(500px, 80vw);
+  display: flex;
+  flex-direction: column;
+  gap: variables.$xxxs-margin;
+  z-index: 1000;
+
+  @include variables.desktop {
+    bottom: variables.$base-margin;
+  }
 }
 
-:global(.leaflet-control-zoom-in),
-:global(.leaflet-control-zoom-out) {
-  width: 32px !important;
-  height: 32px !important;
-  line-height: 32px !important;
-  background-color: rgb(44, 46, 47) !important;
-  color: rgb(153, 131, 100) !important;
-  border: 1px solid rgb(64, 66, 67) !important;
-  border-radius: 8px !important;
-  font-size: 18px !important;
-  transition:
-    border 0.9s ease-in-out,
-    background-color 0.9s ease-in-out;
+.controls {
+  display: flex;
+  align-items: stretch;
+  gap: variables.$xxxs-margin;
+}
 
-  &:hover {
-    background-color: rgb(24, 26, 27) !important;
-    border-color: rgb(153, 131, 100) !important;
+.slider-count {
+  flex: 1;
+  background-color: variables.$primary-medium-color;
+  border: 1px solid variables.$primary-light-color;
+  border-radius: variables.$border-radius;
+  padding: variables.$xs-margin variables.$s-margin;
+  color: variables.$text-color;
+  font-size: 1.1rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.zoom {
+  display: flex;
+  flex-direction: row;
+  gap: variables.$xxxs-margin;
+
+  button {
+    width: 50px;
+    height: 100%;
+    background-color: variables.$primary-medium-color;
+    color: variables.$secondary-color;
+    border: 1px solid variables.$primary-light-color;
+    border-radius: variables.$border-radius;
+    font-size: 1.7rem;
+    line-height: 1;
+    cursor: pointer;
+    transition:
+      border 0.9s ease-in-out,
+      background-color 0.9s ease-in-out;
+
+    &:hover {
+      background-color: variables.$primary-dark-color;
+      border-color: variables.$secondary-color;
+    }
   }
 }

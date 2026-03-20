@@ -34,19 +34,12 @@ type Props = {
   endBirthYear: string;
   startDeathYear: string;
   endDeathYear: string;
-  // eslint-disable-next-line no-unused-vars
   handleDetachmentFilter: (detachmentId: number | null) => void;
-  // eslint-disable-next-line no-unused-vars
   handleCorpsFilter: (corpsId: number | null) => void;
-  // eslint-disable-next-line no-unused-vars
   handleBirthSliderChange: (value: number | number[]) => void;
-  // eslint-disable-next-line no-unused-vars
   handleDeathSliderChange: (value: number | number[]) => void;
-  // eslint-disable-next-line no-unused-vars
   handleRankFilter: (rank: { [key: string]: (number | null)[] }) => void;
-  // eslint-disable-next-line no-unused-vars
   handleUnknwonBirthYear: (unknownBirthYear: string) => void;
-  // eslint-disable-next-line no-unused-vars
   handleUnknwonDeathYear: (unknownDeathYear: string) => void;
 };
 

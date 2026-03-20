@@ -1,0 +1,103 @@
+@use "app/variables.module.scss";
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-down {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+.enter {
+  animation: slide-up 0.5s ease-out forwards;
+}
+
+.exit {
+  animation: slide-down 0.5s ease-in forwards;
+}
+
+.info-bar {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: variables.$s-margin;
+  background-color: variables.$primary-medium-color;
+  border: 1px solid variables.$primary-light-color;
+  border-radius: variables.$border-radius;
+  padding: variables.$s-margin;
+
+  button {
+    flex-shrink: 0;
+    background: none;
+    border: none;
+    color: variables.$placeholder-color;
+    font-size: 1.8rem;
+    cursor: pointer;
+    padding: 0;
+    line-height: 0.6;
+    transition: color 0.9s ease-in-out;
+
+    &:hover {
+      color: variables.$text-color;
+    }
+  }
+}
+
+.info-bar-fields {
+  display: flex;
+  flex-wrap: wrap;
+  gap: variables.$xxs-margin variables.$m-margin;
+
+  & > .info-bar-field:first-child {
+    flex-basis: 100%;
+
+    .info-bar-value {
+      font-size: 1.1rem;
+      font-weight: 500;
+    }
+  }
+}
+
+.info-bar-field {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+
+  &--full {
+    flex-basis: 100%;
+  }
+}
+
+.info-bar-dates {
+  flex-basis: 100%;
+  display: flex;
+  gap: variables.$m-margin;
+}
+
+.info-bar-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: variables.$placeholder-color;
+}
+
+.info-bar-value {
+  font-size: 0.95rem;
+  color: variables.$text-color;
+}

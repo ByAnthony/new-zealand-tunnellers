@@ -1,0 +1,18 @@
+@use "app/variables.module.scss";
+
+.slider {
+  background-color: variables.$primary-medium-color;
+  border: 1px solid variables.$primary-light-color;
+  border-radius: variables.$border-radius;
+  padding: 30px 50px 45px 50px;
+}
+
+:global(.rc-slider-dot) {
+  background: variables.$primary-light-color !important;
+  border-color: variables.$primary-light-color !important;
+}
+
+:global(.rc-slider-dot-active) {
+  background: variables.$secondary-color !important;
+  border-color: variables.$secondary-color !important;
+}
