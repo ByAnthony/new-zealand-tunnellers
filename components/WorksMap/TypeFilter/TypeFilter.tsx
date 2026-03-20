@@ -6,9 +6,10 @@ type Props = {
   types: string[];
   selectedType: string | null;
   onChange: (_value: string | null) => void;
+  onOpen?: () => void;
 };
 
-export function TypeFilter({ types, selectedType, onChange }: Props) {
+export function TypeFilter({ types, selectedType, onChange, onOpen }: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -30,7 +31,10 @@ export function TypeFilter({ types, selectedType, onChange }: Props) {
     <div className={STYLES["type-filter"]} ref={containerRef}>
       <button
         className={`${STYLES["type-filter-trigger"]} ${selectedType ? STYLES["type-filter-trigger--active"] : ""}`}
-        onClick={() => setIsOpen((prev) => !prev)}
+        onClick={() => {
+          if (!isOpen) onOpen?.();
+          setIsOpen((prev) => !prev);
+        }}
       >
         {selectedType ?? "All types"}
       </button>

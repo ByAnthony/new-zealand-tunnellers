@@ -223,6 +223,7 @@ export function WorksMap({ works, locale }: Props) {
             types={types}
             selectedType={selectedType}
             onChange={setSelectedType}
+            onOpen={closeInfo}
           />
           <div className={STYLES.zoom}>
             <button onClick={() => zoom(1)} aria-label="Zoom in">
