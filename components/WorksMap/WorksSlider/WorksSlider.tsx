@@ -71,12 +71,7 @@ export function WorksSlider({
             border: "2px solid rgb(153, 131, 100)",
             background: "rgb(29, 31, 32)",
             outline: "none",
-            boxShadow: "none",
-            opacity: 1,
-          },
-          dot: {
-            background: "rgb(64, 66, 67)",
-            borderColor: "rgb(64, 66, 67)",
+            boxShadow: "0 0 5px rgba(64, 66, 67, 0.5)",
           },
         }}
       />

@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 
 import STYLES from "./TypeFilter.module.scss";
+import "rc-slider/assets/index.css";
 
 type Props = {
   types: string[];
