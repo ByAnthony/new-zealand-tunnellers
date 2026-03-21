@@ -5,6 +5,10 @@ export type WorkData = {
   work_name: string;
   work_type_en: string | null;
   work_type_fr: string | null;
+  work_category_1_en: string | null;
+  work_category_1_fr: string | null;
+  work_category_2_en: string | null;
+  work_category_2_fr: string | null;
   work_section: number | null;
   work_date_start: string | null;
   work_date_end: string | null;
@@ -18,6 +22,10 @@ export const worksQuery = async (connection: PoolConnection) => {
     work_name,
     work_type_en,
     work_type_fr,
+    work_category_1_en,
+    work_category_1_fr,
+    work_category_2_en,
+    work_category_2_fr,
     work_section,
     DATE_FORMAT(work_date_start, '%Y-%m-%d') AS work_date_start,
     DATE_FORMAT(work_date_end, '%Y-%m-%d') AS work_date_end,

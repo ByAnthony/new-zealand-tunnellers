@@ -30,13 +30,13 @@
 }
 
 .controls {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
   align-items: stretch;
   gap: variables.$xxxs-margin;
 }
 
 .slider-count {
-  flex: 1;
   background-color: variables.$primary-medium-color;
   border: 1px solid variables.$primary-light-color;
   border-radius: variables.$border-radius;

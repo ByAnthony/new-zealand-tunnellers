@@ -46,7 +46,13 @@ export function WorksMap({ works, locale }: Props) {
   const mapRef = useRef<L.Map | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const markersRef = useRef<
-    Array<{ marker: L.Marker; start: number; end: number; type: string | null }>
+    Array<{
+      marker: L.Marker;
+      start: number;
+      end: number;
+      category1: string | null;
+      category2: string | null;
+    }>
   >([]);
 
   const allMonths = useMemo(
@@ -73,12 +79,16 @@ export function WorksMap({ works, locale }: Props) {
   const selectedMarkerRef = useRef<L.Marker | null>(null);
 
   const types = useMemo(() => {
-    const typeSet = new Set<string>();
+    const categorySet = new Set<string>();
     works.forEach((w) => {
-      const type = locale === "fr" ? w.work_type_fr : w.work_type_en;
-      if (type) typeSet.add(type);
+      const cat1 =
+        locale === "fr" ? w.work_category_1_fr : w.work_category_1_en;
+      const cat2 =
+        locale === "fr" ? w.work_category_2_fr : w.work_category_2_en;
+      if (cat1) categorySet.add(cat1);
+      if (cat2) categorySet.add(cat2);
     });
-    return Array.from(typeSet).sort();
+    return Array.from(categorySet).sort();
   }, [works, locale]);
 
   const selectWork = useCallback((work: WorkData | null) => {
@@ -148,12 +158,16 @@ export function WorksMap({ works, locale }: Props) {
           selectWork(work);
         });
 
-      const type = locale === "fr" ? work.work_type_fr : work.work_type_en;
+      const category1 =
+        locale === "fr" ? work.work_category_1_fr : work.work_category_1_en;
+      const category2 =
+        locale === "fr" ? work.work_category_2_fr : work.work_category_2_en;
       return {
         marker,
         start: allMonths[i].start,
         end: allMonths[i].end,
-        type: type ?? null,
+        category1: category1 ?? null,
+        category2: category2 ?? null,
       };
     });
 
@@ -177,17 +191,22 @@ export function WorksMap({ works, locale }: Props) {
     const map = mapRef.current;
     if (!map) return;
     const [from, to] = dateRange;
-    markersRef.current.forEach(({ marker, start, end, type }) => {
-      const s = Math.min(start, end);
-      const e = Math.max(start, end);
-      const dateVisible = isNaN(s) || (s <= to && e >= from);
-      const typeVisible = !selectedType || type === selectedType;
-      if (dateVisible && typeVisible) {
-        if (!map.hasLayer(marker)) marker.addTo(map);
-      } else {
-        if (map.hasLayer(marker)) marker.remove();
-      }
-    });
+    markersRef.current.forEach(
+      ({ marker, start, end, category1, category2 }) => {
+        const s = Math.min(start, end);
+        const e = Math.max(start, end);
+        const dateVisible = isNaN(s) || (s <= to && e >= from);
+        const typeVisible =
+          !selectedType ||
+          category1 === selectedType ||
+          category2 === selectedType;
+        if (dateVisible && typeVisible) {
+          if (!map.hasLayer(marker)) marker.addTo(map);
+        } else {
+          if (map.hasLayer(marker)) marker.remove();
+        }
+      },
+    );
   }, [dateRange, selectedType]);
 
   const visibleCount = works.filter((w, i) => {
@@ -195,8 +214,10 @@ export function WorksMap({ works, locale }: Props) {
     const s = Math.min(start, end);
     const e = Math.max(start, end);
     const dateVisible = isNaN(s) || (s <= dateRange[1] && e >= dateRange[0]);
-    const type = locale === "fr" ? w.work_type_fr : w.work_type_en;
-    const typeVisible = !selectedType || type === selectedType;
+    const cat1 = locale === "fr" ? w.work_category_1_fr : w.work_category_1_en;
+    const cat2 = locale === "fr" ? w.work_category_2_fr : w.work_category_2_en;
+    const typeVisible =
+      !selectedType || cat1 === selectedType || cat2 === selectedType;
     return dateVisible && typeVisible;
   }).length;
 

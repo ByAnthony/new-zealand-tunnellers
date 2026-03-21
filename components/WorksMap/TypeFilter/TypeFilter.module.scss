@@ -1,9 +1,9 @@
 @use "app/variables.module.scss";
 
 .type-filter {
-  flex: 1;
   position: relative;
   display: flex;
+  min-width: 0;
 }
 
 .type-filter-trigger {
@@ -42,7 +42,8 @@
   position: absolute;
   bottom: calc(100% + variables.$xxxs-margin);
   left: 0;
-  min-width: 100%;
+  left: 0;
+  right: 0;
   max-height: 200px;
   overflow-y: auto;
   background-color: variables.$primary-medium-color;
@@ -60,6 +61,8 @@
     font-size: 0.9rem;
     text-align: left;
     white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     cursor: pointer;
     transition:
       background-color 0.9s ease-in-out,
