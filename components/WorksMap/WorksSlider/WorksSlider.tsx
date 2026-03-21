@@ -43,12 +43,25 @@ export function WorksSlider({
       typeof window !== "undefined" &&
       window.matchMedia("(max-width: 32rem)").matches,
   );
+  const [isTablet, setIsTablet] = useState(
+    () =>
+      typeof window !== "undefined" &&
+      window.matchMedia("(min-width: 32rem) and (max-width: 56rem)").matches,
+  );
 
   useEffect(() => {
-    const mq = window.matchMedia("(max-width: 32rem)");
-    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
-    mq.addEventListener("change", handler);
-    return () => mq.removeEventListener("change", handler);
+    const mqMobile = window.matchMedia("(max-width: 32rem)");
+    const mqTablet = window.matchMedia(
+      "(min-width: 32rem) and (max-width: 56rem)",
+    );
+    const handleMobile = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+    const handleTablet = (e: MediaQueryListEvent) => setIsTablet(e.matches);
+    mqMobile.addEventListener("change", handleMobile);
+    mqTablet.addEventListener("change", handleTablet);
+    return () => {
+      mqMobile.removeEventListener("change", handleMobile);
+      mqTablet.removeEventListener("change", handleTablet);
+    };
   }, []);
 
   const markStyle: CSSProperties = {
@@ -57,24 +70,15 @@ export function WorksSlider({
     whiteSpace: "nowrap",
   };
 
-  const marks: Record<number, { style: CSSProperties; label: string }> = {};
+  const totalMarks = isMobile ? 4 : isTablet ? 5 : 6;
 
-  if (isMobile) {
-    // Mobile: first, two evenly spaced midpoints, last
-    const range = maxMonth - minMonth;
-    const m1 = Math.round(minMonth + range / 3);
-    const m2 = Math.round(minMonth + (2 * range) / 3);
-    [minMonth, m1, m2, maxMonth].forEach((m) => {
-      marks[m] = { style: markStyle, label: formatMonth(m) };
-    });
-  } else {
-    // Tablet+: every 3 months
-    for (let m = minMonth; m <= maxMonth; m++) {
-      if ((m - minMonth) % 3 === 0) {
-        marks[m] = { style: markStyle, label: formatMonth(m) };
-      }
-    }
-  }
+  const marks: Record<number, { style: CSSProperties; label: string }> = {};
+  const range = maxMonth - minMonth;
+  Array.from({ length: totalMarks }, (_, i) =>
+    Math.round(minMonth + (i * range) / (totalMarks - 1)),
+  ).forEach((m) => {
+    marks[m] = { style: markStyle, label: formatMonth(m) };
+  });
 
   return (
     <div className={STYLES.slider}>

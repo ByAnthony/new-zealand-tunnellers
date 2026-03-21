@@ -209,6 +209,18 @@ export function WorksMap({ works, locale }: Props) {
     );
   }, [dateRange, selectedType]);
 
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map) return;
+    const visible = markersRef.current
+      .filter(({ marker }) => map.hasLayer(marker))
+      .map(({ marker }) => marker.getLatLng());
+    if (visible.length === 0) return;
+    const bounds = L.latLngBounds(visible);
+    const zoom = map.getBoundsZoom(bounds, false);
+    map.fitBounds(bounds, { padding: [30, 30], maxZoom: zoom - 1 });
+  }, [selectedType]);
+
   const visibleCount = works.filter((w, i) => {
     const { start, end } = allMonths[i];
     const s = Math.min(start, end);

@@ -1,6 +1,7 @@
 @use "app/variables.module.scss";
 
 .type-filter {
+  grid-area: filter;
   position: relative;
   display: flex;
   min-width: 0;
@@ -46,6 +47,7 @@
   right: 0;
   max-height: 200px;
   overflow-y: auto;
+  padding: variables.$xxs-margin 0;
   background-color: variables.$primary-medium-color;
   border: 1px solid variables.$primary-light-color;
   border-radius: variables.$border-radius;
