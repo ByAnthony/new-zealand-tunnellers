@@ -14,8 +14,12 @@
   border: 1px solid variables.$primary-light-color;
   border-radius: variables.$border-radius;
   color: variables.$secondary-color;
-  font-size: 1rem;
+  font-size: 0.85rem;
   text-align: left;
+
+  @include variables.tablet {
+    font-size: 1rem;
+  }
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

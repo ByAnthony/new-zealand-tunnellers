@@ -1,4 +1,5 @@
 import Slider from "rc-slider";
+import { useState, useEffect } from "react";
 import "rc-slider/assets/index.css";
 import type { CSSProperties } from "react";
 
@@ -37,17 +38,41 @@ export function WorksSlider({
   minMonth,
   maxMonth,
 }: Props) {
+  const [isMobile, setIsMobile] = useState(
+    () =>
+      typeof window !== "undefined" &&
+      window.matchMedia("(max-width: 32rem)").matches,
+  );
+
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 32rem)");
+    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
+
+  const markStyle: CSSProperties = {
+    color: "rgb(153, 131, 100)",
+    fontSize: "0.85rem",
+    whiteSpace: "nowrap",
+  };
+
   const marks: Record<number, { style: CSSProperties; label: string }> = {};
-  for (let m = minMonth; m <= maxMonth; m++) {
-    if ((m - minMonth) % 3 === 0) {
-      marks[m] = {
-        style: {
-          color: "rgb(153, 131, 100)",
-          fontSize: "0.85rem",
-          whiteSpace: "nowrap",
-        },
-        label: formatMonth(m),
-      };
+
+  if (isMobile) {
+    // Mobile: first, two evenly spaced midpoints, last
+    const range = maxMonth - minMonth;
+    const m1 = Math.round(minMonth + range / 3);
+    const m2 = Math.round(minMonth + (2 * range) / 3);
+    [minMonth, m1, m2, maxMonth].forEach((m) => {
+      marks[m] = { style: markStyle, label: formatMonth(m) };
+    });
+  } else {
+    // Tablet+: every 3 months
+    for (let m = minMonth; m <= maxMonth; m++) {
+      if ((m - minMonth) % 3 === 0) {
+        marks[m] = { style: markStyle, label: formatMonth(m) };
+      }
     }
   }
 
