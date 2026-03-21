@@ -144,6 +144,7 @@ export function WorksMap({ works, locale }: Props) {
           }
           marker.setIcon(createDotIcon(MARKER_COLOR_ACTIVE));
           selectedMarkerRef.current = marker;
+          map.panTo(marker.getLatLng());
           selectWork(work);
         });
 
