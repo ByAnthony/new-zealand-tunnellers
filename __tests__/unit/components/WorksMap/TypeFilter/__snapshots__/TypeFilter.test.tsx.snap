@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`TypeFilter matches the snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="type-filter"
+  >
+    <button
+      class="type-filter-trigger "
+    >
+      All types
+    </button>
+  </div>
+</DocumentFragment>
+`;
