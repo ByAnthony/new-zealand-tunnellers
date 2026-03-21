@@ -60,12 +60,11 @@
 .info-bar-fields {
   display: flex;
   flex-wrap: wrap;
+  width: 100%;
   gap: variables.$xxs-margin variables.$m-margin;
 
   & > .info-bar-field:first-child {
-    flex-basis: 100%;
-
-    .info-bar-value {
+    & > .info-bar-value {
       font-size: 1.1rem;
       font-weight: 500;
     }
@@ -84,7 +83,7 @@
 }
 
 .info-bar-dates {
-  flex-basis: 100%;
+  flex: 1 0 100%;
   display: flex;
   gap: variables.$m-margin;
 }
@@ -100,4 +99,21 @@
 .info-bar-value {
   font-size: 0.95rem;
   color: variables.$text-color;
+}
+
+.info-bar-list {
+  padding: 0;
+  margin: 0;
+
+  li {
+    display: flex;
+    align-items: baseline;
+    gap: variables.$xxxs-margin;
+
+    &::before {
+      content: "•";
+      color: variables.$text-color;
+      flex-shrink: 0;
+    }
+  }
 }

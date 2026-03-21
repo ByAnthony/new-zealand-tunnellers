@@ -9,21 +9,15 @@
 
 .type-filter-trigger {
   flex: 1;
-  min-width: 0;
   padding: 0 variables.$s-margin;
   background-color: variables.$primary-medium-color;
   border: 1px solid variables.$primary-light-color;
   border-radius: variables.$border-radius;
   color: variables.$secondary-color;
-  font-size: 0.85rem;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 500;
   text-align: left;
-
-  @include variables.tablet {
-    font-size: 1rem;
-  }
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
   cursor: pointer;
   transition:
     border 0.9s ease-in-out,
@@ -36,6 +30,14 @@
   &--active {
     background-color: variables.$secondary-color;
     color: variables.$primary-dark-color;
+  }
+
+  @include variables.tablet {
+    font-size: 1rem;
+  }
+
+  @include variables.desktop {
+    font-size: 1.1rem;
   }
 }
 
@@ -62,9 +64,6 @@
     color: variables.$text-color;
     font-size: 0.9rem;
     text-align: left;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
     cursor: pointer;
     transition:
       background-color 0.9s ease-in-out,
