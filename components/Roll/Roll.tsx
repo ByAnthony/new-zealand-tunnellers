@@ -447,6 +447,7 @@ export function Roll({ tunnellers }: Props) {
               <button
                 className={STYLES["reset-button"]}
                 onClick={handleResetFilters}
+                disabled={activeFilterCount === 0}
               >
                 {t("resetFilters")}
               </button>

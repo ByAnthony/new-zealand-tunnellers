@@ -36,6 +36,7 @@ exports[`Roll matches the snapshot 1`] = `
         >
           <button
             class="reset-button"
+            disabled=""
           >
             Reset filters
           </button>

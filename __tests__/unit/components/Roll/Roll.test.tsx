@@ -311,17 +311,44 @@ describe("Roll", () => {
     });
   });
 
-  test("calls handleResetFilters when the reset filter button is clicked", async () => {
-    await renderRoll();
-
-    const checkbox = screen.getByRole("checkbox", {
-      name: "2nd Reinforcements",
+  describe("reset filters button", () => {
+    test("is disabled by default when no filters are active", async () => {
+      await renderRoll();
+      expect(
+        screen.getByRole("button", { name: "Reset filters" }),
+      ).toBeDisabled();
     });
-    fireEvent.click(checkbox);
-    expect(screen.getByText("1 result")).toBeInTheDocument();
-    const resetButton = screen.getByText("Reset filters");
-    fireEvent.click(resetButton);
-    expect(screen.getByText("4 results")).toBeInTheDocument();
+
+    test("is enabled when a filter is active", async () => {
+      await renderRoll();
+      fireEvent.click(
+        screen.getByRole("checkbox", { name: "2nd Reinforcements" }),
+      );
+      expect(
+        screen.getByRole("button", { name: "Reset filters" }),
+      ).toBeEnabled();
+    });
+
+    test("becomes disabled again after resetting filters", async () => {
+      await renderRoll();
+      fireEvent.click(
+        screen.getByRole("checkbox", { name: "2nd Reinforcements" }),
+      );
+      fireEvent.click(screen.getByRole("button", { name: "Reset filters" }));
+      expect(
+        screen.getByRole("button", { name: "Reset filters" }),
+      ).toBeDisabled();
+    });
+
+    test("resets filters and restores results when clicked", async () => {
+      await renderRoll();
+      fireEvent.click(
+        screen.getByRole("checkbox", { name: "2nd Reinforcements" }),
+      );
+      expect(screen.getByText("1 result")).toBeInTheDocument();
+      fireEvent.click(screen.getByRole("button", { name: "Reset filters" }));
+      expect(screen.getByText("4 results")).toBeInTheDocument();
+    });
   });
 
   test("renders the RollFilter component for desktop view", async () => {
