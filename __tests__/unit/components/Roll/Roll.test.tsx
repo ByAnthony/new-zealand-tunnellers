@@ -1,4 +1,4 @@
-import { fireEvent, screen, render } from "@testing-library/react";
+import { fireEvent, screen, render, within } from "@testing-library/react";
 import { mockTunnellers } from "__tests__/unit/utils/mocks/mockTunnellers";
 
 import { Roll } from "@/components/Roll/Roll";
@@ -246,6 +246,69 @@ describe("Roll", () => {
         name: "Sapper Biff Tanen 2nd Reinforcements 1897-†? →",
       }),
     ).not.toBeInTheDocument();
+  });
+
+  describe("filter button badge", () => {
+    test("does not show badge when no filters are active", async () => {
+      await renderRoll();
+      const filterButton = screen.getByRole("button", { name: "Filters" });
+      expect(within(filterButton).queryByText(/^\d+$/)).not.toBeInTheDocument();
+    });
+
+    test("shows badge with count 1 when detachment filter is active", async () => {
+      await renderRoll();
+      fireEvent.click(
+        screen.getByRole("checkbox", { name: "2nd Reinforcements" }),
+      );
+      const filterButton = screen.getByRole("button", { name: /Filters/ });
+      expect(within(filterButton).getByText("1")).toBeInTheDocument();
+    });
+
+    test("shows badge with count 2 when detachment and corps filters are active", async () => {
+      await renderRoll();
+      fireEvent.click(
+        screen.getByRole("checkbox", { name: "2nd Reinforcements" }),
+      );
+      fireEvent.click(screen.getByRole("checkbox", { name: "Army Pay Corps" }));
+      const filterButton = screen.getAllByRole("button", {
+        name: /Filters/,
+      })[0];
+      expect(within(filterButton).getByText("2")).toBeInTheDocument();
+    });
+
+    test("does not count birth year when all years are selected by default", async () => {
+      await renderRoll();
+      const filterButton = screen.getByRole("button", { name: "Filters" });
+      expect(within(filterButton).queryByText(/^\d+$/)).not.toBeInTheDocument();
+    });
+
+    test("shows badge count 1 when unknown birth year is unchecked", async () => {
+      await renderRoll();
+      fireEvent.click(
+        screen.getByRole("checkbox", { name: "Unknown birth year" }),
+      );
+      const filterButton = screen.getByRole("button", { name: /Filters/ });
+      expect(within(filterButton).getByText("1")).toBeInTheDocument();
+    });
+
+    test("shows badge count 1 when unknown death year is unchecked", async () => {
+      await renderRoll();
+      fireEvent.click(
+        screen.getByRole("checkbox", { name: "Unknown death year" }),
+      );
+      const filterButton = screen.getByRole("button", { name: /Filters/ });
+      expect(within(filterButton).getByText("1")).toBeInTheDocument();
+    });
+
+    test("removes badge when filters are reset", async () => {
+      await renderRoll();
+      fireEvent.click(
+        screen.getByRole("checkbox", { name: "2nd Reinforcements" }),
+      );
+      fireEvent.click(screen.getByText("Reset filters"));
+      const filterButton = screen.getByRole("button", { name: "Filters" });
+      expect(within(filterButton).queryByText(/^\d+$/)).not.toBeInTheDocument();
+    });
   });
 
   test("calls handleResetFilters when the reset filter button is clicked", async () => {

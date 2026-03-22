@@ -46,7 +46,7 @@ exports[`Roll matches the snapshot 1`] = `
           </p>
         </div>
         <button
-          class="filter-button"
+          class="filter-button "
         >
           Filters
         </button>

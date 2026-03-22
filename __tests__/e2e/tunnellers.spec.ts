@@ -144,6 +144,68 @@ test("can navigate using previous and next buttons", async ({ page }) => {
   ).toBeVisible();
 });
 
+test("filter button shows no badge by default on mobile", async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 812 });
+  await page.goto("/tunnellers");
+
+  const filterButton = page.getByRole("button", { name: "Filters" });
+  await expect(filterButton).toBeVisible();
+  await expect(filterButton.locator("span")).not.toBeVisible();
+});
+
+test("filter button shows badge after selecting a filter on mobile", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 375, height: 812 });
+  await page.goto("/tunnellers");
+
+  await page.getByRole("button", { name: "Filters" }).click();
+  await page.getByLabel("1st Reinforcements").click();
+  await page.getByRole("button", { name: "Done" }).click();
+
+  const filterButton = page.getByRole("button", { name: /Filters/ });
+  await expect(filterButton.locator("span")).toBeVisible();
+  await expect(filterButton.locator("span")).toHaveText("1");
+});
+
+test("filter button badge count increases with multiple active filters on mobile", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 375, height: 812 });
+  await page.goto("/tunnellers");
+
+  await page.getByRole("button", { name: "Filters" }).click();
+  await page.getByLabel("1st Reinforcements").click();
+  await page.getByLabel("Army Pay Corps").click();
+  await page.getByRole("button", { name: "Done" }).click();
+
+  const filterButton = page.getByRole("button", { name: /Filters/ });
+  await expect(filterButton.locator("span")).toHaveText("2");
+});
+
+test("filter button badge disappears after reset on mobile", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 375, height: 812 });
+  await page.goto("/tunnellers");
+
+  await page.getByRole("button", { name: "Filters" }).click();
+  await page.getByLabel("1st Reinforcements").click();
+  await page.getByRole("button", { name: "Done" }).click();
+
+  await expect(
+    page.getByRole("button", { name: /Filters/ }).locator("span"),
+  ).toBeVisible();
+
+  await page.getByRole("button", { name: "Filters" }).click();
+  await page.getByRole("button", { name: "Reset filters" }).click();
+  await page.getByRole("button", { name: "Done" }).click();
+
+  await expect(
+    page.getByRole("button", { name: "Filters" }).locator("span"),
+  ).not.toBeVisible();
+});
+
 test("scroll position is saved and restored when navigating", async ({
   page,
 }) => {
