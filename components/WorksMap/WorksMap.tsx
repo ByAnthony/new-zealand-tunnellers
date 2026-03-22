@@ -28,6 +28,9 @@ type Props = {
 const MARKER_COLOR = "rgb(153, 131, 100)";
 const MARKER_COLOR_ACTIVE = "rgb(255, 255, 255)";
 const COORD_TOLERANCE = 0.0001;
+const EXIT_DURATION_DEFAULT = 150;
+const EXIT_DURATION_SLIDE = 250;
+const EXIT_DURATION_FADE = 300;
 
 function createGroupIcon(color: string, count: number) {
   if (count === 1) {
@@ -94,7 +97,7 @@ export function WorksMap({ works, locale }: Props) {
   const [animType, setAnimType] = useState<
     "default" | "fade" | "slide-next" | "slide-prev"
   >("default");
-  const exitDurationRef = useRef(150);
+  const exitDurationRef = useRef(EXIT_DURATION_DEFAULT);
 
   const types = useMemo(() => {
     const categorySet = new Set<string>();
@@ -148,7 +151,7 @@ export function WorksMap({ works, locale }: Props) {
       stackIndexRef.current = newIndex;
       setStackIndex(newIndex);
       setAnimType(direction === 1 ? "slide-next" : "slide-prev");
-      exitDurationRef.current = 250;
+      exitDurationRef.current = EXIT_DURATION_SLIDE;
       selectWork(stack[newIndex]);
     },
     [selectWork],
@@ -180,17 +183,17 @@ export function WorksMap({ works, locale }: Props) {
       },
     ).addTo(map);
 
-    // Group works by location
-    const groups: WorkData[][] = [];
+    // Group works by location using a Map keyed by snapped coordinates (O(n))
+    const snapCoord = (n: number) =>
+      Math.round(n / COORD_TOLERANCE) * COORD_TOLERANCE;
+    const groupMap = new Map<string, WorkData[]>();
     works.forEach((work) => {
-      const existing = groups.find(
-        (g) =>
-          Math.abs(g[0].work_latitude - work.work_latitude) < COORD_TOLERANCE &&
-          Math.abs(g[0].work_longitude - work.work_longitude) < COORD_TOLERANCE,
-      );
+      const key = `${snapCoord(work.work_latitude)},${snapCoord(work.work_longitude)}`;
+      const existing = groupMap.get(key);
       if (existing) existing.push(work);
-      else groups.push([work]);
+      else groupMap.set(key, [work]);
     });
+    const groups = Array.from(groupMap.values());
 
     markersRef.current = groups.map((groupWorks) => {
       const rep = groupWorks[0];
@@ -214,7 +217,7 @@ export function WorksMap({ works, locale }: Props) {
           setStackIndex(0);
           setStackTotal(groupWorks.length);
           setAnimType("fade");
-          exitDurationRef.current = 300;
+          exitDurationRef.current = EXIT_DURATION_FADE;
           selectWork(groupWorks[0]);
         });
 

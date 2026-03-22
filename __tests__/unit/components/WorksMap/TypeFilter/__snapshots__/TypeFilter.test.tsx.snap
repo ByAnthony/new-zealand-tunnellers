@@ -6,6 +6,9 @@ exports[`TypeFilter matches the snapshot 1`] = `
     class="type-filter"
   >
     <button
+      aria-controls="type-filter-options"
+      aria-expanded="false"
+      aria-haspopup="listbox"
       class="type-filter-trigger "
     >
       All types

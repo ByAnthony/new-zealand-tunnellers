@@ -5,6 +5,10 @@ import type { CSSProperties } from "react";
 
 import STYLES from "./WorksSlider.module.scss";
 
+const COLOR_SECONDARY = "rgb(153, 131, 100)";
+const COLOR_RAIL = "rgb(64, 66, 67)";
+const COLOR_HANDLE_BG = "rgb(29, 31, 32)";
+
 type Props = {
   dateRange: [number, number];
   onChange: (_value: [number, number]) => void;
@@ -65,7 +69,7 @@ export function WorksSlider({
   }, []);
 
   const markStyle: CSSProperties = {
-    color: "rgb(153, 131, 100)",
+    color: COLOR_SECONDARY,
     fontSize: "0.85rem",
     whiteSpace: "nowrap",
   };
@@ -94,13 +98,13 @@ export function WorksSlider({
         dots
         allowCross={false}
         styles={{
-          track: { background: "rgb(153, 131, 100)" },
-          rail: { background: "rgb(64, 66, 67)" },
+          track: { background: COLOR_SECONDARY },
+          rail: { background: COLOR_RAIL },
           handle: {
-            border: "2px solid rgb(153, 131, 100)",
-            background: "rgb(29, 31, 32)",
+            border: `2px solid ${COLOR_SECONDARY}`,
+            background: COLOR_HANDLE_BG,
             outline: "none",
-            boxShadow: "0 0 5px rgba(64, 66, 67, 0.5)",
+            boxShadow: `0 0 5px ${COLOR_RAIL}80`,
           },
         }}
       />

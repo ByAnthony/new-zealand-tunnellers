@@ -118,7 +118,7 @@ describe("TypeFilter", () => {
         />,
       );
       fireEvent.click(screen.getByRole("button", { name: "All types" }));
-      fireEvent.click(screen.getByRole("button", { name: "Dugout" }));
+      fireEvent.click(screen.getByRole("option", { name: "Dugout" }));
       expect(onChange).toHaveBeenCalledWith("Dugout");
     });
 
@@ -131,7 +131,7 @@ describe("TypeFilter", () => {
         />,
       );
       fireEvent.click(screen.getByRole("button", { name: "Dugout" }));
-      fireEvent.click(screen.getByRole("button", { name: "All types" }));
+      fireEvent.click(screen.getByRole("option", { name: "All types" }));
       expect(onChange).toHaveBeenCalledWith(null);
     });
 
@@ -144,7 +144,7 @@ describe("TypeFilter", () => {
         />,
       );
       fireEvent.click(screen.getByRole("button", { name: "All types" }));
-      fireEvent.click(screen.getByRole("button", { name: "Trench" }));
+      fireEvent.click(screen.getByRole("option", { name: "Trench" }));
       expect(screen.queryByText("Machine-gun nest")).not.toBeInTheDocument();
     });
 
@@ -174,6 +174,86 @@ describe("TypeFilter", () => {
       fireEvent.click(trigger);
       fireEvent.click(trigger);
       expect(onOpen).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe("keyboard navigation", () => {
+    test("opens dropup with Enter key", () => {
+      render(
+        <TypeFilter
+          types={mockTypes}
+          selectedType={null}
+          onChange={onChange}
+        />,
+      );
+      fireEvent.keyDown(screen.getByRole("button", { name: "All types" }), {
+        key: "Enter",
+      });
+      expect(screen.getByRole("listbox")).toBeInTheDocument();
+    });
+
+    test("closes dropup with Escape key", () => {
+      render(
+        <TypeFilter
+          types={mockTypes}
+          selectedType={null}
+          onChange={onChange}
+        />,
+      );
+      fireEvent.click(screen.getByRole("button", { name: "All types" }));
+      expect(screen.getByRole("listbox")).toBeInTheDocument();
+      fireEvent.keyDown(screen.getByRole("button", { name: "All types" }), {
+        key: "Escape",
+      });
+      expect(screen.queryByRole("listbox")).not.toBeInTheDocument();
+    });
+
+    test("trigger has aria-expanded false when closed", () => {
+      render(
+        <TypeFilter
+          types={mockTypes}
+          selectedType={null}
+          onChange={onChange}
+        />,
+      );
+      expect(screen.getByRole("button", { name: "All types" })).toHaveAttribute(
+        "aria-expanded",
+        "false",
+      );
+    });
+
+    test("trigger has aria-expanded true when open", () => {
+      render(
+        <TypeFilter
+          types={mockTypes}
+          selectedType={null}
+          onChange={onChange}
+        />,
+      );
+      fireEvent.click(screen.getByRole("button", { name: "All types" }));
+      expect(screen.getByRole("button", { name: "All types" })).toHaveAttribute(
+        "aria-expanded",
+        "true",
+      );
+    });
+
+    test("options have aria-selected reflecting current selection", () => {
+      render(
+        <TypeFilter
+          types={mockTypes}
+          selectedType="Dugout"
+          onChange={onChange}
+        />,
+      );
+      fireEvent.click(screen.getByRole("button", { name: "Dugout" }));
+      expect(screen.getByRole("option", { name: "Dugout" })).toHaveAttribute(
+        "aria-selected",
+        "true",
+      );
+      expect(screen.getByRole("option", { name: "Trench" })).toHaveAttribute(
+        "aria-selected",
+        "false",
+      );
     });
   });
 

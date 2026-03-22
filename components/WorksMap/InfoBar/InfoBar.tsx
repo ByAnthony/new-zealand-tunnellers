@@ -56,10 +56,14 @@ export function InfoBar({
   const categories = [category1, category2].filter(Boolean) as string[];
   const typeLabel = type ?? (categories.length === 1 ? categories[0] : null);
 
-  const a = work.work_date_start;
-  const b = work.work_date_end;
-  const hasTwoDates = a && b && b !== a;
-  const [first, last] = hasTwoDates && b < a ? [b, a] : [a ?? "", b ?? a ?? ""];
+  const dateStart = work.work_date_start;
+  const dateEnd = work.work_date_end;
+  // End date may be before start due to data entry errors — always display in chronological order
+  const hasTwoDates = dateStart && dateEnd && dateEnd !== dateStart;
+  const [displayStart, displayEnd] =
+    hasTwoDates && dateEnd < dateStart
+      ? [dateEnd, dateStart]
+      : [dateStart ?? "", dateEnd ?? dateStart ?? ""];
 
   return (
     <div
@@ -95,21 +99,21 @@ export function InfoBar({
               );
             })()}
         </div>
-        {a && (
+        {dateStart && (
           <div className={STYLES["info-bar-dates"]}>
             <div className={STYLES["info-bar-field"]}>
               <span className={STYLES["info-bar-label"]}>
                 {hasTwoDates ? "Start" : "Date"}
               </span>
               <span className={STYLES["info-bar-value"]}>
-                {formatDate(first, locale)}
+                {formatDate(displayStart, locale)}
               </span>
             </div>
             {hasTwoDates && (
               <div className={STYLES["info-bar-field"]}>
                 <span className={STYLES["info-bar-label"]}>End</span>
                 <span className={STYLES["info-bar-value"]}>
-                  {formatDate(last, locale)}
+                  {formatDate(displayEnd, locale)}
                 </span>
               </div>
             )}
