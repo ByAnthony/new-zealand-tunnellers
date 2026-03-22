@@ -83,9 +83,32 @@
       background-color: variables.$primary-dark-color;
     }
 
+    &--active {
+      background-color: variables.$secondary-color;
+      border-color: variables.$secondary-color;
+      color: variables.$primary-dark-color;
+      display: flex;
+      align-items: center;
+      gap: variables.$xxs-margin;
+    }
+
     @include variables.desktop {
       display: none;
     }
+  }
+
+  .filter-button-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: variables.$primary-dark-color;
+    color: variables.$secondary-color;
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 1;
   }
 
   .filters-container {

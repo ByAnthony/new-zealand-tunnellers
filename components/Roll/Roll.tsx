@@ -221,6 +221,16 @@ export function Roll({ tunnellers }: Props) {
     );
   };
 
+  const activeFilterCount = [
+    Object.values(filters.ranks ?? {}).some((arr) => arr.length),
+    (filters.detachment ?? []).length > 0,
+    (filters.corps ?? []).length > 0,
+    (filters.birthYear ?? []).length < uniqueBirthYears.length ||
+      filters.unknownBirthYear === "",
+    (filters.deathYear ?? []).length < uniqueDeathYears.length ||
+      filters.unknownDeathYear === "",
+  ].filter(Boolean).length;
+
   /** ---- Filtering ---- */
   const filteredGroups: [string, Tunneller[]][] = useMemo(() => {
     if (!hasAnyActiveFilter(filters)) return [];
@@ -447,10 +457,15 @@ export function Roll({ tunnellers }: Props) {
               </p>
             </div>
             <button
-              className={STYLES["filter-button"]}
+              className={`${STYLES["filter-button"]} ${activeFilterCount > 0 ? STYLES["filter-button--active"] : ""}`}
               onClick={handleFilterButton}
             >
               {t("filters")}
+              {activeFilterCount > 0 && (
+                <span className={STYLES["filter-button-badge"]}>
+                  {activeFilterCount}
+                </span>
+              )}
             </button>
             {isDesktop() ? <RollFilter {...rollFiltersProps} /> : null}
           </div>
