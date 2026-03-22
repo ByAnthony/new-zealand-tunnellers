@@ -154,7 +154,7 @@ describe("InfoBar", () => {
   });
 
   describe("animation", () => {
-    test("applies enter class when not exiting", () => {
+    test("applies enter class by default when not exiting", () => {
       const { container } = render(
         <InfoBar
           work={mockWork}
@@ -166,7 +166,7 @@ describe("InfoBar", () => {
       expect(container.firstChild).toHaveClass("enter");
     });
 
-    test("applies exit class when exiting", () => {
+    test("applies exit class by default when exiting", () => {
       const { container } = render(
         <InfoBar
           work={mockWork}
@@ -176,6 +176,148 @@ describe("InfoBar", () => {
         />,
       );
       expect(container.firstChild).toHaveClass("exit");
+    });
+
+    test("applies fade-enter when animType is fade and not exiting", () => {
+      const { container } = render(
+        <InfoBar
+          work={mockWork}
+          isExiting={false}
+          animType="fade"
+          locale="en"
+          onClose={onClose}
+        />,
+      );
+      expect(container.firstChild).toHaveClass("fade-enter");
+    });
+
+    test("applies fade-exit when animType is fade and exiting", () => {
+      const { container } = render(
+        <InfoBar
+          work={mockWork}
+          isExiting={true}
+          animType="fade"
+          locale="en"
+          onClose={onClose}
+        />,
+      );
+      expect(container.firstChild).toHaveClass("fade-exit");
+    });
+
+    test("applies slide-next-enter when animType is slide-next and not exiting", () => {
+      const { container } = render(
+        <InfoBar
+          work={mockWork}
+          isExiting={false}
+          animType="slide-next"
+          locale="en"
+          onClose={onClose}
+        />,
+      );
+      expect(container.firstChild).toHaveClass("slide-next-enter");
+    });
+
+    test("applies slide-prev-enter when animType is slide-prev and not exiting", () => {
+      const { container } = render(
+        <InfoBar
+          work={mockWork}
+          isExiting={false}
+          animType="slide-prev"
+          locale="en"
+          onClose={onClose}
+        />,
+      );
+      expect(container.firstChild).toHaveClass("slide-prev-enter");
+    });
+  });
+
+  describe("stack navigation", () => {
+    const onNavigate = jest.fn();
+
+    test("does not show navigation when stackTotal is 1", () => {
+      render(
+        <InfoBar
+          work={mockWork}
+          isExiting={false}
+          locale="en"
+          onClose={onClose}
+          stackTotal={1}
+          stackIndex={0}
+          onNavigate={onNavigate}
+        />,
+      );
+      expect(
+        screen.queryByRole("button", { name: "Previous" }),
+      ).not.toBeInTheDocument();
+      expect(
+        screen.queryByRole("button", { name: "Next" }),
+      ).not.toBeInTheDocument();
+    });
+
+    test("shows navigation when stackTotal > 1", () => {
+      render(
+        <InfoBar
+          work={mockWork}
+          isExiting={false}
+          locale="en"
+          onClose={onClose}
+          stackTotal={4}
+          stackIndex={0}
+          onNavigate={onNavigate}
+        />,
+      );
+      expect(
+        screen.getByRole("button", { name: "Previous" }),
+      ).toBeInTheDocument();
+      expect(screen.getByRole("button", { name: "Next" })).toBeInTheDocument();
+      expect(screen.getByText("1/4")).toBeInTheDocument();
+    });
+
+    test("shows correct current index in navigation", () => {
+      render(
+        <InfoBar
+          work={mockWork}
+          isExiting={false}
+          locale="en"
+          onClose={onClose}
+          stackTotal={4}
+          stackIndex={2}
+          onNavigate={onNavigate}
+        />,
+      );
+      expect(screen.getByText("3/4")).toBeInTheDocument();
+    });
+
+    test("calls onNavigate(-1) when Previous is clicked", () => {
+      render(
+        <InfoBar
+          work={mockWork}
+          isExiting={false}
+          locale="en"
+          onClose={onClose}
+          stackTotal={4}
+          stackIndex={1}
+          onNavigate={onNavigate}
+        />,
+      );
+      fireEvent.click(screen.getByRole("button", { name: "Previous" }));
+      expect(onNavigate).toHaveBeenCalledWith(-1);
+    });
+
+    test("calls onNavigate(1) when Next is clicked", () => {
+      render(
+        <InfoBar
+          work={mockWork}
+          isExiting={false}
+          locale="en"
+          onClose={onClose}
+          stackTotal={4}
+          stackIndex={1}
+          onNavigate={onNavigate}
+        />,
+      );
+      fireEvent.click(screen.getByRole("button", { name: "Next" }));
+      expect(onNavigate).toHaveBeenCalledWith(1);
     });
   });
 

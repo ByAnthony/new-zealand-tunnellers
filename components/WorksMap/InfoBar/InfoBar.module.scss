@@ -22,12 +22,85 @@
   }
 }
 
-.enter {
-  animation: slide-up 0.5s ease-out forwards;
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
-.exit {
-  animation: slide-down 0.5s ease-in forwards;
+@keyframes fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes slide-from-right {
+  from {
+    opacity: 0;
+    transform: translateX(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-to-left {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-16px);
+  }
+}
+
+@keyframes slide-from-left {
+  from {
+    opacity: 0;
+    transform: translateX(-16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-to-right {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(16px);
+  }
+}
+
+.fade-enter {
+  animation: fade-in 0.4s ease-out forwards;
+}
+.fade-exit {
+  animation: fade-out 0.3s ease-in forwards;
+}
+.slide-next-enter {
+  animation: slide-from-right 0.3s ease-out forwards;
+}
+.slide-next-exit {
+  animation: slide-to-left 0.25s ease-in forwards;
+}
+.slide-prev-enter {
+  animation: slide-from-left 0.3s ease-out forwards;
+}
+.slide-prev-exit {
+  animation: slide-to-right 0.25s ease-in forwards;
 }
 
 .info-bar {
@@ -39,9 +112,17 @@
   border: 1px solid variables.$primary-light-color;
   border-radius: variables.$border-radius;
   padding: variables.$s-margin;
+}
 
-  button {
-    flex-shrink: 0;
+.info-bar-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-shrink: 0;
+  align-self: stretch;
+
+  & > button {
     background: none;
     border: none;
     color: variables.$placeholder-color;
@@ -99,6 +180,36 @@
 .info-bar-value {
   font-size: 0.95rem;
   color: variables.$text-color;
+}
+
+.info-bar-nav {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: variables.$xxxs-margin;
+  flex-shrink: 0;
+
+  span {
+    font-size: 0.9rem;
+    color: variables.$text-color;
+    white-space: nowrap;
+  }
+
+  button {
+    background: none;
+    border: none;
+    color: variables.$placeholder-color;
+    font-size: 1.4rem;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+    transform: translateY(-2px);
+    transition: color 0.9s ease-in-out;
+
+    &:hover {
+      color: variables.$text-color;
+    }
+  }
 }
 
 .info-bar-list {

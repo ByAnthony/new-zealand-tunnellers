@@ -59,11 +59,15 @@ exports[`InfoBar matches the snapshot 1`] = `
         </div>
       </div>
     </div>
-    <button
-      aria-label="Close"
+    <div
+      class="info-bar-actions"
     >
-      ×
-    </button>
+      <button
+        aria-label="Close"
+      >
+        ×
+      </button>
+    </div>
   </div>
 </DocumentFragment>
 `;

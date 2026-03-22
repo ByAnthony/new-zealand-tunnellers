@@ -5,8 +5,12 @@ import STYLES from "./InfoBar.module.scss";
 type Props = {
   work: WorkData;
   isExiting: boolean;
+  animType?: "default" | "fade" | "slide-next" | "slide-prev";
   locale: string;
   onClose: () => void;
+  stackTotal?: number;
+  stackIndex?: number;
+  onNavigate?: (direction: 1 | -1) => void;
 };
 
 function formatDate(dateStr: string, locale: string): string {
@@ -20,7 +24,30 @@ function formatDate(dateStr: string, locale: string): string {
   );
 }
 
-export function InfoBar({ work, isExiting, locale, onClose }: Props) {
+function getAnimClass(
+  isExiting: boolean,
+  animType: Props["animType"],
+  styles: Record<string, string>,
+) {
+  if (animType === "fade")
+    return isExiting ? styles["fade-exit"] : styles["fade-enter"];
+  if (animType === "slide-next")
+    return isExiting ? styles["slide-next-exit"] : styles["slide-next-enter"];
+  if (animType === "slide-prev")
+    return isExiting ? styles["slide-prev-exit"] : styles["slide-prev-enter"];
+  return isExiting ? styles.exit : styles.enter;
+}
+
+export function InfoBar({
+  work,
+  isExiting,
+  animType = "default",
+  locale,
+  onClose,
+  stackTotal,
+  stackIndex,
+  onNavigate,
+}: Props) {
   const type = locale === "fr" ? work.work_type_fr : work.work_type_en;
   const category1 =
     locale === "fr" ? work.work_category_1_fr : work.work_category_1_en;
@@ -36,7 +63,7 @@ export function InfoBar({ work, isExiting, locale, onClose }: Props) {
 
   return (
     <div
-      className={`${STYLES["info-bar"]} ${isExiting ? STYLES.exit : STYLES.enter}`}
+      className={`${STYLES["info-bar"]} ${getAnimClass(isExiting, animType, STYLES)}`}
     >
       <div className={STYLES["info-bar-fields"]}>
         <div className={STYLES["info-bar-field"]}>
@@ -89,9 +116,24 @@ export function InfoBar({ work, isExiting, locale, onClose }: Props) {
           </div>
         )}
       </div>
-      <button onClick={onClose} aria-label="Close">
-        ×
-      </button>
+      <div className={STYLES["info-bar-actions"]}>
+        <button onClick={onClose} aria-label="Close">
+          ×
+        </button>
+        {stackTotal && stackTotal > 1 && (
+          <div className={STYLES["info-bar-nav"]}>
+            <button onClick={() => onNavigate?.(-1)} aria-label="Previous">
+              ‹
+            </button>
+            <span>
+              {(stackIndex ?? 0) + 1}/{stackTotal}
+            </span>
+            <button onClick={() => onNavigate?.(1)} aria-label="Next">
+              ›
+            </button>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

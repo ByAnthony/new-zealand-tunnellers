@@ -27,13 +27,22 @@ type Props = {
 
 const MARKER_COLOR = "rgb(153, 131, 100)";
 const MARKER_COLOR_ACTIVE = "rgb(255, 255, 255)";
+const COORD_TOLERANCE = 0.0001;
 
-function createDotIcon(color: string) {
+function createGroupIcon(color: string, count: number) {
+  if (count === 1) {
+    return L.divIcon({
+      className: "",
+      html: `<div style="width:10px;height:10px;border-radius:50%;background:${color};border:1px solid rgba(255,255,255,0.6);"></div>`,
+      iconSize: [10, 10],
+      iconAnchor: [5, 5],
+    });
+  }
   return L.divIcon({
     className: "",
-    html: `<div style="width:10px;height:10px;border-radius:50%;background:${color};border:1px solid rgba(255,255,255,0.6);"></div>`,
-    iconSize: [10, 10],
-    iconAnchor: [5, 5],
+    html: `<div style="width:22px;height:22px;border-radius:50%;background:${color};border:2px solid rgba(255,255,255,0.8);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:rgb(29,31,32);font-family:sans-serif;">${count}</div>`,
+    iconSize: [22, 22],
+    iconAnchor: [11, 11],
   });
 }
 
@@ -48,10 +57,11 @@ export function WorksMap({ works, locale }: Props) {
   const markersRef = useRef<
     Array<{
       marker: L.Marker;
-      start: number;
-      end: number;
-      category1: string | null;
-      category2: string | null;
+      groupWorks: WorkData[];
+      starts: number[];
+      ends: number[];
+      categories1: (string | null)[];
+      categories2: (string | null)[];
     }>
   >([]);
 
@@ -77,6 +87,14 @@ export function WorksMap({ works, locale }: Props) {
   const nextWorkRef = useRef<WorkData | null>(null);
   const exitTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const selectedMarkerRef = useRef<L.Marker | null>(null);
+  const stackedWorksRef = useRef<WorkData[]>([]);
+  const stackIndexRef = useRef(0);
+  const [stackIndex, setStackIndex] = useState(0);
+  const [stackTotal, setStackTotal] = useState(0);
+  const [animType, setAnimType] = useState<
+    "default" | "fade" | "slide-next" | "slide-prev"
+  >("default");
+  const exitDurationRef = useRef(150);
 
   const types = useMemo(() => {
     const categorySet = new Set<string>();
@@ -103,17 +121,38 @@ export function WorksMap({ works, locale }: Props) {
         displayedWorkRef.current = nextWorkRef.current;
         setDisplayedWork(nextWorkRef.current);
         setIsExiting(false);
-      }, 150);
+      }, exitDurationRef.current);
     }
   }, []);
 
   const closeInfo = useCallback(() => {
     if (selectedMarkerRef.current) {
-      selectedMarkerRef.current.setIcon(createDotIcon(MARKER_COLOR));
+      selectedMarkerRef.current.setIcon(
+        createGroupIcon(MARKER_COLOR, stackedWorksRef.current.length || 1),
+      );
       selectedMarkerRef.current = null;
     }
+    stackedWorksRef.current = [];
+    stackIndexRef.current = 0;
+    setStackIndex(0);
+    setStackTotal(0);
     selectWork(null);
   }, [selectWork]);
+
+  const handleNavigate = useCallback(
+    (direction: 1 | -1) => {
+      const stack = stackedWorksRef.current;
+      if (stack.length <= 1) return;
+      const newIndex =
+        (stackIndexRef.current + direction + stack.length) % stack.length;
+      stackIndexRef.current = newIndex;
+      setStackIndex(newIndex);
+      setAnimType(direction === 1 ? "slide-next" : "slide-prev");
+      exitDurationRef.current = 250;
+      selectWork(stack[newIndex]);
+    },
+    [selectWork],
+  );
 
   useEffect(() => {
     const stickyEl = Array.from(
@@ -141,33 +180,64 @@ export function WorksMap({ works, locale }: Props) {
       },
     ).addTo(map);
 
-    markersRef.current = works.map((work, i) => {
-      const icon = createDotIcon(MARKER_COLOR);
+    // Group works by location
+    const groups: WorkData[][] = [];
+    works.forEach((work) => {
+      const existing = groups.find(
+        (g) =>
+          Math.abs(g[0].work_latitude - work.work_latitude) < COORD_TOLERANCE &&
+          Math.abs(g[0].work_longitude - work.work_longitude) < COORD_TOLERANCE,
+      );
+      if (existing) existing.push(work);
+      else groups.push([work]);
+    });
 
-      const marker = L.marker([work.work_latitude, work.work_longitude], {
-        icon,
-      })
+    markersRef.current = groups.map((groupWorks) => {
+      const rep = groupWorks[0];
+      const count = groupWorks.length;
+      const icon = createGroupIcon(MARKER_COLOR, count);
+
+      const marker = L.marker([rep.work_latitude, rep.work_longitude], { icon })
         .addTo(map)
         .on("click", () => {
           if (selectedMarkerRef.current) {
-            selectedMarkerRef.current.setIcon(createDotIcon(MARKER_COLOR));
+            const prevCount = stackedWorksRef.current.length || 1;
+            selectedMarkerRef.current.setIcon(
+              createGroupIcon(MARKER_COLOR, prevCount),
+            );
           }
-          marker.setIcon(createDotIcon(MARKER_COLOR_ACTIVE));
+          marker.setIcon(createGroupIcon(MARKER_COLOR_ACTIVE, count));
           selectedMarkerRef.current = marker;
           map.panTo(marker.getLatLng());
-          selectWork(work);
+          stackedWorksRef.current = groupWorks;
+          stackIndexRef.current = 0;
+          setStackIndex(0);
+          setStackTotal(groupWorks.length);
+          setAnimType("fade");
+          exitDurationRef.current = 300;
+          selectWork(groupWorks[0]);
         });
 
-      const category1 =
-        locale === "fr" ? work.work_category_1_fr : work.work_category_1_en;
-      const category2 =
-        locale === "fr" ? work.work_category_2_fr : work.work_category_2_en;
+      const worksMonths = groupWorks.map((w) => {
+        const idx = works.indexOf(w);
+        return { start: allMonths[idx].start, end: allMonths[idx].end };
+      });
+
       return {
         marker,
-        start: allMonths[i].start,
-        end: allMonths[i].end,
-        category1: category1 ?? null,
-        category2: category2 ?? null,
+        groupWorks,
+        starts: worksMonths.map((m) => m.start),
+        ends: worksMonths.map((m) => m.end),
+        categories1: groupWorks.map(
+          (w) =>
+            (locale === "fr" ? w.work_category_1_fr : w.work_category_1_en) ??
+            null,
+        ),
+        categories2: groupWorks.map(
+          (w) =>
+            (locale === "fr" ? w.work_category_2_fr : w.work_category_2_en) ??
+            null,
+        ),
       };
     });
 
@@ -192,15 +262,18 @@ export function WorksMap({ works, locale }: Props) {
     if (!map) return;
     const [from, to] = dateRange;
     markersRef.current.forEach(
-      ({ marker, start, end, category1, category2 }) => {
-        const s = Math.min(start, end);
-        const e = Math.max(start, end);
-        const dateVisible = isNaN(s) || (s <= to && e >= from);
-        const typeVisible =
-          !selectedType ||
-          category1 === selectedType ||
-          category2 === selectedType;
-        if (dateVisible && typeVisible) {
+      ({ marker, starts, ends, categories1, categories2 }) => {
+        const groupVisible = starts.some((_, i) => {
+          const s = Math.min(starts[i], ends[i]);
+          const e = Math.max(starts[i], ends[i]);
+          const dateVisible = isNaN(s) || (s <= to && e >= from);
+          const typeVisible =
+            !selectedType ||
+            categories1[i] === selectedType ||
+            categories2[i] === selectedType;
+          return dateVisible && typeVisible;
+        });
+        if (groupVisible) {
           if (!map.hasLayer(marker)) marker.addTo(map);
         } else {
           if (map.hasLayer(marker)) marker.remove();
@@ -245,8 +318,12 @@ export function WorksMap({ works, locale }: Props) {
           <InfoBar
             work={displayedWork}
             isExiting={isExiting}
+            animType={animType}
             locale={locale}
             onClose={closeInfo}
+            stackTotal={stackTotal > 1 ? stackTotal : undefined}
+            stackIndex={stackIndex}
+            onNavigate={handleNavigate}
           />
         )}
         <div className={STYLES.controls}>
