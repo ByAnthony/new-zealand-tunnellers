@@ -85,6 +85,7 @@ describe("Dialog", () => {
           {...defaultProps}
           isFooterEnabled={true}
           handleResetFilters={handleResetFilters}
+          hasActiveFilters={true}
         >
           <div>Dialog Content</div>
         </Dialog>,
@@ -92,6 +93,34 @@ describe("Dialog", () => {
       const resetButton = screen.getByText("Reset filters");
       fireEvent.click(resetButton);
       expect(handleResetFilters).toHaveBeenCalledTimes(1);
+    });
+
+    test("reset button is disabled when no filters are active", () => {
+      render(
+        <Dialog
+          {...defaultProps}
+          isFooterEnabled={true}
+          handleResetFilters={jest.fn()}
+          hasActiveFilters={false}
+        >
+          <div>Dialog Content</div>
+        </Dialog>,
+      );
+      expect(screen.getByText("Reset filters")).toBeDisabled();
+    });
+
+    test("reset button is enabled when filters are active", () => {
+      render(
+        <Dialog
+          {...defaultProps}
+          isFooterEnabled={true}
+          handleResetFilters={jest.fn()}
+          hasActiveFilters={true}
+        >
+          <div>Dialog Content</div>
+        </Dialog>,
+      );
+      expect(screen.getByText("Reset filters")).toBeEnabled();
     });
 
     test("sets page properties when the dialog is open", () => {
@@ -188,6 +217,7 @@ describe("Dialog", () => {
           {...defaultProps}
           isFooterEnabled={true}
           handleResetFilters={handleResetFilters}
+          hasActiveFilters={true}
         >
           <div>Dialog Content</div>
         </Dialog>,
@@ -195,6 +225,34 @@ describe("Dialog", () => {
       const resetButton = screen.getByText("Reset filters");
       fireEvent.click(resetButton);
       expect(handleResetFilters).toHaveBeenCalledTimes(1);
+    });
+
+    test("reset button is disabled when no filters are active", () => {
+      render(
+        <Dialog
+          {...defaultProps}
+          isFooterEnabled={true}
+          handleResetFilters={jest.fn()}
+          hasActiveFilters={false}
+        >
+          <div>Dialog Content</div>
+        </Dialog>,
+      );
+      expect(screen.getByText("Reset filters")).toBeDisabled();
+    });
+
+    test("reset button is enabled when filters are active", () => {
+      render(
+        <Dialog
+          {...defaultProps}
+          isFooterEnabled={true}
+          handleResetFilters={jest.fn()}
+          hasActiveFilters={true}
+        >
+          <div>Dialog Content</div>
+        </Dialog>,
+      );
+      expect(screen.getByText("Reset filters")).toBeEnabled();
     });
 
     test("sets page properties when the dialog is open", () => {

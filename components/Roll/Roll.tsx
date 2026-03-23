@@ -429,6 +429,7 @@ export function Roll({ tunnellers }: Props) {
         isFooterEnabled={true}
         isOpen={isOpen}
         handleResetFilters={handleResetFilters}
+        hasActiveFilters={activeFilterCount > 0}
         onClose={onClose}
         title={t("filters")}
         totalFiltered={totalFilteredTunnellers}
