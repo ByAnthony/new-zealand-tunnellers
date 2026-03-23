@@ -66,9 +66,8 @@
 
       &:disabled {
         color: variables.$primary-light-color;
-        border-bottom-color: variables.$primary-light-color;
-        cursor: default;
-        pointer-events: none;
+        border-bottom: none;
+        cursor: not-allowed;
       }
     }
   }
