@@ -20,7 +20,7 @@ exports[`Timeline matches the snapshot 1`] = `
           /
         </span>
         <a
-          href="/tunnellers/1"
+          href="/tunnellers/harry-corrin--4_1415"
         >
           John Smith
         </a>
@@ -464,7 +464,7 @@ exports[`Timeline matches the snapshot 1`] = `
           <wbr />
           tunnellers/
           <wbr />
-          1/
+          harry-corrin--4_1415/
           <wbr />
           wwi-
           <wbr />

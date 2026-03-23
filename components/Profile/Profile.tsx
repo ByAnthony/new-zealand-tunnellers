@@ -52,7 +52,7 @@ export function Profile({ tunneller }: Props) {
         </div>
         <div className={STYLES["flex-diary"]}>
           <ProfileDiary
-            tunnellerId={tunneller.id}
+            tunnellerSlug={tunneller.slug}
             origins={tunneller.origins}
             preWarYears={tunneller.preWarYears}
             militaryYears={tunneller.militaryYears}
@@ -60,7 +60,10 @@ export function Profile({ tunneller }: Props) {
           />
           <ProfileSources sources={tunneller.sources} />
           <ProfileImageSource source={tunneller.image?.source} />
-          <HowToCite id={tunneller.id} summary={tunneller.summary} />
+          <HowToCite
+            tunnellerSlug={tunneller.slug}
+            summary={tunneller.summary}
+          />
         </div>
       </div>
     </>

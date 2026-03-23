@@ -42,7 +42,7 @@ test("can search and click on a name", async ({ page }) => {
   await tunneller.click();
   page.waitForLoadState("domcontentloaded");
 
-  await expect(page).toHaveURL("/tunnellers/442/");
+  await expect(page).toHaveURL("/tunnellers/joseph-kelly--37713/");
 });
 
 test("can close the dropdown by clicking outside", async ({ page }) => {

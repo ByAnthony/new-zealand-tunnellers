@@ -10,7 +10,7 @@ import STYLES_WWI from "./DiaryArmyExperience.module.scss";
 import STYLES from "../ProfileDiary.module.scss";
 
 type Props = {
-  tunnellerId: number;
+  tunnellerSlug: string;
   armyExperience: ArmyExperience[];
 };
 
@@ -111,7 +111,7 @@ function ArmyExperienceList({
   return null;
 }
 
-export function DiaryArmyExperience({ tunnellerId, armyExperience }: Props) {
+export function DiaryArmyExperience({ tunnellerSlug, armyExperience }: Props) {
   const t = useTranslations("profile");
   const locale = useLocale();
   const localePrefix = locale === "en" ? "" : `/${locale}`;
@@ -121,7 +121,7 @@ export function DiaryArmyExperience({ tunnellerId, armyExperience }: Props) {
       <h3>{t("armyExperience")}</h3>
       <ArmyExperienceList militaryExperience={armyExperience} locale={locale} />
       <Link
-        href={`${localePrefix}/tunnellers/${tunnellerId}/wwi-timeline`}
+        href={`${localePrefix}/tunnellers/${tunnellerSlug}/wwi-timeline`}
         className={STYLES_WWI["war-service"]}
         aria-label={t("openTimeline")}
       >

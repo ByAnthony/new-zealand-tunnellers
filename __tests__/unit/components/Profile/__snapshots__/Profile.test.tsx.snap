@@ -208,7 +208,7 @@ exports[`Profile matches the snapshot 1`] = `
         <a
           aria-label="Open the World War I timeline"
           class="war-service"
-          href="/tunnellers/1/wwi-timeline"
+          href="/tunnellers/harry-corrin--4_1415/wwi-timeline"
         >
           <div>
             <p>
@@ -359,7 +359,7 @@ exports[`Profile matches the snapshot 1`] = `
             <wbr />
             tunnellers/
             <wbr />
-            1
+            harry-corrin--4_1415
           </span>
         </p>
       </div>

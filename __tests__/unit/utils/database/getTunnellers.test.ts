@@ -18,23 +18,31 @@ describe("getTunnellers", () => {
     const mockResults: TunnellerData[] = [
       {
         id: 1,
+        slug: "test-tunneller--1_234",
         forename: "John",
         surname: "Doe",
         birthYear: "1940",
         deathYear: "2020",
         detachment: "Main Body",
+        detachment_id: 1,
         rank: "Sapper",
+        rank_id: 1,
         attached_corps: null,
+        corps_id: null,
       },
       {
         id: 2,
+        slug: "test-tunneller--1_234",
         forename: "Jane",
         surname: "Smith",
         birthYear: "1915",
         deathYear: "1999",
         detachment: "2nd Reinforcements",
+        detachment_id: 2,
         rank: "Sapper",
+        rank_id: 1,
         attached_corps: null,
+        corps_id: null,
       },
     ];
 
@@ -46,6 +54,7 @@ describe("getTunnellers", () => {
     const expectedTunnellers: Tunneller[] = [
       {
         id: 1,
+        slug: "test-tunneller--1_234",
         name: {
           forename: "John",
           surname: "Doe",
@@ -56,11 +65,15 @@ describe("getTunnellers", () => {
           fullName: "John Doe",
         },
         detachment: "Main Body",
+        detachmentId: 1,
         rank: "Sapper",
+        rankId: 1,
         attachedCorps: null,
+        corpsId: null,
       },
       {
         id: 2,
+        slug: "test-tunneller--1_234",
         name: {
           forename: "Jane",
           surname: "Smith",
@@ -71,8 +84,11 @@ describe("getTunnellers", () => {
           fullName: "Jane Smith",
         },
         detachment: "2nd Reinforcements",
+        detachmentId: 2,
         rank: "Sapper",
+        rankId: 1,
         attachedCorps: null,
+        corpsId: null,
       },
     ];
 

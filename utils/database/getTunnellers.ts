@@ -14,6 +14,7 @@ export async function getTunnellers(
 
   const tunnellers: Tunneller[] = results.map((result: TunnellerData) => ({
     id: result.id,
+    slug: result.slug,
     name: {
       surname: result.surname,
       forename: result.forename,

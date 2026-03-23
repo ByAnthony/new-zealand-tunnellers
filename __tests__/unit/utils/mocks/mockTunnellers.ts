@@ -2,6 +2,7 @@ import { Tunneller } from "@/types/tunnellers";
 
 const mockTunneller1: Tunneller = {
   id: 1,
+  slug: "test-tunneller--1_234",
   name: { forename: "John", surname: "Doe" },
   birthYear: "1886",
   deathYear: "1952",
@@ -16,6 +17,7 @@ const mockTunneller1: Tunneller = {
 
 const mockTunneller2: Tunneller = {
   id: 2,
+  slug: "test-tunneller--1_234",
   name: { forename: "Biff", surname: "Tanen" },
   birthYear: "1897",
   deathYear: null,
@@ -30,6 +32,7 @@ const mockTunneller2: Tunneller = {
 
 const mockTunneller3: Tunneller = {
   id: 3,
+  slug: "test-tunneller--1_234",
   name: { forename: "Emmett", surname: "Brown" },
   birthYear: null,
   deathYear: "1935",
@@ -44,6 +47,7 @@ const mockTunneller3: Tunneller = {
 
 const mockTunneller4: Tunneller = {
   id: 4,
+  slug: "test-tunneller--1_234",
   name: { forename: "Marty", surname: "McFly" },
   birthYear: null,
   deathYear: null,

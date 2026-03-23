@@ -24,6 +24,7 @@ describe("getUniqueDetachments", () => {
         [
           {
             id: 1,
+            slug: "test-tunneller--1_234",
             name: { forename: "John", surname: "Doe" },
             birthYear: null,
             deathYear: null,
@@ -42,6 +43,7 @@ describe("getUniqueDetachments", () => {
         [
           {
             id: 2,
+            slug: "test-tunneller--1_234",
             name: { forename: "Jane", surname: "Smith" },
             birthYear: null,
             deathYear: null,

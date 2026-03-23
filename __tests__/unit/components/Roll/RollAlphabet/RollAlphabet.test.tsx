@@ -7,13 +7,17 @@ import { Tunneller } from "@/types/tunnellers";
 const createTunnellers = (count: number): [string, Tunneller[]][] => {
   const tunnellers: Tunneller[] = Array.from({ length: count }, (_, i) => ({
     id: i + 1,
+    slug: "test-tunneller--1_234",
     name: { forename: "John", surname: `Doe${i + 1}` },
     birthYear: "1886",
     deathYear: "1952",
     search: { fullName: `John Doe${i + 1}` },
     detachment: "Main Body",
+    detachmentId: 1,
     rank: "Sapper",
+    rankId: 1,
     attachedCorps: null,
+    corpsId: null,
   }));
   return [["D", tunnellers]];
 };
