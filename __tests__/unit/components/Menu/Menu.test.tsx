@@ -62,7 +62,7 @@ describe("Menu", () => {
     expect(screen.getByText("(1886-1952)")).toBeInTheDocument();
     expect(screen.getAllByRole("link")[1]).toHaveAttribute(
       "href",
-      "/tunnellers/1",
+      "/tunnellers/test-tunneller--1_234",
     );
   });
 

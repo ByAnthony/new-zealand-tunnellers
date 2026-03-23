@@ -275,6 +275,7 @@ export const mockImageTunneller: ImageTunneller = {
 // Profile
 export const mockTunnellerProfile: TunnellerProfile = {
   id: 1,
+  slug: "harry-corrin--4_1415",
   summary: mockSummary,
   origins: mockOrigins,
   preWarYears: mockPreWarYears,

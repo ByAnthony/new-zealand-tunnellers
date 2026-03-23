@@ -67,11 +67,12 @@ import {
 } from "../helpers/sources";
 
 export async function getTunneller(
-  id: string,
+  slug: string,
   locale: Locale,
   connection: PoolConnection,
 ) {
-  const profile: ProfileData = await tunnellerQuery(id, locale, connection);
+  const profile: ProfileData = await tunnellerQuery(slug, locale, connection);
+  const id = profile.id.toString();
   const armyExperience: ArmyExperience[] = await armyExperienceQuery(
     id,
     locale,
@@ -205,6 +206,7 @@ export async function getTunneller(
 
   const tunneller: TunnellerProfile = {
     id: profile.id,
+    slug: profile.slug,
     summary: {
       serial: profile.serial,
       name: {

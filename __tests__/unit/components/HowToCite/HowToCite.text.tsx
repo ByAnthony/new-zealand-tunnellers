@@ -170,7 +170,9 @@ describe("HowToCite", () => {
       death: "1966",
     };
 
-    render(<HowToCite summary={tunneller} id={1} />);
+    render(
+      <HowToCite summary={tunneller} tunnellerSlug="harry-corrin--4_1415" />,
+    );
 
     expect(screen.getByText(/John Smith/)).toBeInTheDocument();
   });
@@ -200,7 +202,13 @@ describe("HowToCite", () => {
       death: "1966",
     };
 
-    render(<HowToCite summary={tunneller} timeline={true} id={1} />);
+    render(
+      <HowToCite
+        summary={tunneller}
+        timeline={true}
+        tunnellerSlug="harry-corrin--4_1415"
+      />,
+    );
 
     expect(
       screen.getByText(/World War I Timeline of John Smith/),
@@ -216,7 +224,12 @@ describe("HowToCite", () => {
     };
 
     render(
-      <HowToCite summary={tunneller} timeline={true} id={1} locale="fr" />,
+      <HowToCite
+        summary={tunneller}
+        timeline={true}
+        tunnellerSlug="harry-corrin--4_1415"
+        locale="fr"
+      />,
     );
 
     expect(
@@ -225,14 +238,14 @@ describe("HowToCite", () => {
   });
 
   test("English URL has no locale prefix for tunneller profile", () => {
-    render(<HowToCite id={1} locale="en" />);
+    render(<HowToCite tunnellerSlug="harry-corrin--4_1415" locale="en" />);
 
     expect(screen.getByText(/nztunnellers/)).toBeInTheDocument();
     expect(screen.queryByText(/\/en\//)).not.toBeInTheDocument();
   });
 
   test("French URL includes /fr/ prefix for tunneller profile", () => {
-    render(<HowToCite id={1} locale="fr" />);
+    render(<HowToCite tunnellerSlug="harry-corrin--4_1415" locale="fr" />);
 
     expect(screen.getByText(/\/fr\//)).toBeInTheDocument();
   });
@@ -246,7 +259,12 @@ describe("HowToCite", () => {
     };
 
     render(
-      <HowToCite summary={tunneller} timeline={true} id={1} locale="fr" />,
+      <HowToCite
+        summary={tunneller}
+        timeline={true}
+        tunnellerSlug="harry-corrin--4_1415"
+        locale="fr"
+      />,
     );
 
     expect(screen.getByText(/\/fr\//)).toBeInTheDocument();

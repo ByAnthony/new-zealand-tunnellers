@@ -20,7 +20,7 @@ exports[`renders the component correctly 1`] = `
   <a
     aria-label="Open the World War I timeline"
     class="war-service"
-    href="/tunnellers/1/wwi-timeline"
+    href="/tunnellers/undefined/wwi-timeline"
   >
     <div>
       <p>

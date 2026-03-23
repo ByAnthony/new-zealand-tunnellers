@@ -1,19 +1,33 @@
+import { redirect } from "next/navigation";
+
 import { Profile } from "@/components/Profile/Profile";
 import { Locale } from "@/types/locale";
 import { TunnellerProfile } from "@/types/tunneller";
 import { getTunneller } from "@/utils/database/getTunneller";
 import { mysqlConnection } from "@/utils/database/mysqlConnection";
+import { tunnellerSlugByIdQuery } from "@/utils/database/queries/tunnellerSlugByIdQuery";
 
 type Props = {
-  params: Promise<{ id: string; locale: Locale }>;
+  params: Promise<{ slug: string; locale: Locale }>;
 };
 
-async function getData(id: string, locale: Locale) {
+async function getData(slug: string, locale: Locale) {
   const connection = await mysqlConnection.getConnection();
 
   try {
-    return getTunneller(id, locale, connection);
+    if (/^\d+$/.test(slug)) {
+      const newSlug = await tunnellerSlugByIdQuery(slug, connection);
+      if (newSlug) {
+        const localePrefix = locale === "en" ? "" : `/${locale}`;
+        redirect(`${localePrefix}/tunnellers/${newSlug}`);
+      }
+    }
+
+    return getTunneller(slug, locale, connection);
   } catch (error) {
+    if (error instanceof Error && error.message.includes("NEXT_REDIRECT")) {
+      throw error;
+    }
     const errorMessage = error instanceof Error ? error.message : String(error);
     throw new Error(`Failed to fetch Tunneller data: ${errorMessage}`);
   } finally {
@@ -22,8 +36,8 @@ async function getData(id: string, locale: Locale) {
 }
 
 export async function generateMetadata(props: Props) {
-  const { id, locale } = await props.params;
-  const response = await getData(id, locale);
+  const { slug, locale } = await props.params;
+  const response = await getData(slug, locale);
   const tunneller: TunnellerProfile = await response.json();
 
   const surname = tunneller.summary.name.surname;
@@ -35,8 +49,8 @@ export async function generateMetadata(props: Props) {
 }
 
 export default async function Page(props: Props) {
-  const { id, locale } = await props.params;
-  const response = await getData(id, locale);
+  const { slug, locale } = await props.params;
+  const response = await getData(slug, locale);
   const tunneller: TunnellerProfile = await response.json();
 
   return <Profile tunneller={tunneller} />;

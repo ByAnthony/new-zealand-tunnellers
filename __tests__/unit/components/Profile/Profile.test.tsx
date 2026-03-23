@@ -72,7 +72,10 @@ describe("Profile", () => {
     const timeline = screen.getByRole("link", {
       name: "Open the World War I timeline",
     });
-    expect(timeline).toHaveAttribute("href", "/tunnellers/1/wwi-timeline");
+    expect(timeline).toHaveAttribute(
+      "href",
+      "/tunnellers/harry-corrin--4_1415/wwi-timeline",
+    );
     expect(screen.getByText("World War I (1914-1918)")).toBeInTheDocument();
     expect(screen.getByText("New Zealand Tunnellers")).toBeInTheDocument();
 
@@ -163,7 +166,9 @@ describe("Profile", () => {
     expect(findElementWithText("John Smith (1886-1966)")).toBeInTheDocument();
     expect(screen.getByText(/Accessed: 4 May 2023/)).toBeInTheDocument();
     expect(
-      screen.getByText(/URL: www.nztunnellers.com\/tunnellers\/1/),
+      screen.getByText(
+        /URL: www.nztunnellers.com\/tunnellers\/harry-corrin--4_1415/,
+      ),
     ).toBeInTheDocument();
   });
 });
