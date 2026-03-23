@@ -10,6 +10,7 @@ type Props = {
   id: string;
   children: ReactNode;
   handleResetFilters?: () => void;
+  hasActiveFilters?: boolean;
   isFooterEnabled?: boolean;
   isOpen: boolean;
   onClose: () => void | null;
@@ -42,6 +43,7 @@ export function Dialog(props: Props) {
     isFooterEnabled,
     isOpen,
     handleResetFilters,
+    hasActiveFilters,
     onClose,
     title,
     totalFiltered,
@@ -97,6 +99,7 @@ export function Dialog(props: Props) {
                   <button
                     className={STYLES["dialog-cancel-button"]}
                     onClick={handleResetFilters}
+                    disabled={!hasActiveFilters}
                   >
                     {t("resetFilters")}
                   </button>
