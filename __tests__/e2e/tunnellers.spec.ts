@@ -58,6 +58,9 @@ test("can reset filters and adjust pagination", async ({ page }) => {
   await page.goto("/tunnellers");
 
   await expect(page.getByText("936 results")).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "Reset filters" }),
+  ).toBeDisabled();
 
   await expect(
     page.getByRole("button", { name: "Go to previous page" }),
@@ -74,6 +77,9 @@ test("can reset filters and adjust pagination", async ({ page }) => {
 
   await page.getByLabel("1st Reinforcements").click();
   await expect(page.getByText("103 results")).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "Reset filters" }),
+  ).toBeEnabled();
 
   await expect(
     page.getByRole("button", { name: "Go to previous page" }),
@@ -93,6 +99,9 @@ test("can reset filters and adjust pagination", async ({ page }) => {
 
   await page.getByRole("button", { name: "Reset filters" }).click();
   await expect(page.getByText("936 results")).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "Reset filters" }),
+  ).toBeDisabled();
 
   await expect(
     page.getByRole("button", { name: "Go to previous page" }),

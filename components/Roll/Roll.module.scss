@@ -63,6 +63,12 @@
       display: inline-block;
 
       @include variables.text-link;
+
+      &:disabled {
+        color: variables.$primary-light-color;
+        border-bottom: none;
+        cursor: not-allowed;
+      }
     }
   }
 
