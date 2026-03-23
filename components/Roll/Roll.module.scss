@@ -66,7 +66,7 @@
 
       &:disabled {
         color: variables.$primary-light-color;
-        border-bottom-color: variables.$primary-dark-color;
+        border-bottom-color: variables.$primary-light-color;
         cursor: not-allowed;
       }
     }

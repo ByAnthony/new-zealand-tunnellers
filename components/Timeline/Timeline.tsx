@@ -26,7 +26,7 @@ export function Timeline({ tunneller }: Props) {
           <Link href={`${localePrefix}/tunnellers`}>{t("tunnellers")}</Link>
           <span>/</span>
           <Link
-            href={`${localePrefix}/tunnellers/${tunneller.id}`}
+            href={`${localePrefix}/tunnellers/${tunneller.slug}`}
           >{`${tunneller.summary.name.forename} ${tunneller.summary.name.surname}`}</Link>
         </div>
         <div className={STYLES["main-title"]}>
@@ -38,7 +38,11 @@ export function Timeline({ tunneller }: Props) {
           <TimelineEvents militaryYears={tunneller.militaryYears} />
         </div>
       </div>
-      <HowToCite id={tunneller.id} summary={tunneller.summary} timeline />
+      <HowToCite
+        tunnellerSlug={tunneller.slug}
+        summary={tunneller.summary}
+        timeline
+      />
     </div>
   );
 }

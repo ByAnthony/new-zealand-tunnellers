@@ -6,6 +6,7 @@ export type FilterOption = {
 // Database extract
 export type TunnellerData = {
   id: number;
+  slug: string;
   forename: string;
   surname: string;
   birthYear: string | null;
@@ -34,6 +35,7 @@ export type Detachment = string;
 
 export type Tunneller = {
   id: number;
+  slug: string;
   name: Name;
   birthYear: string | null;
   deathYear: string | null;

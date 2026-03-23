@@ -207,7 +207,7 @@ export function Menu({ tunnellers }: Props) {
               {filteredTunnellers.map((tunneller, index) => (
                 <li key={index}>
                   <Link
-                    href={`${localePrefix}/tunnellers/${tunneller.id}`}
+                    href={`${localePrefix}/tunnellers/${tunneller.slug}`}
                     aria-label={t("seeTunnellerProfile", {
                       forename: tunneller.name.forename,
                       surname: tunneller.name.surname,

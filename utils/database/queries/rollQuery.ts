@@ -5,6 +5,7 @@ import { TunnellerData } from "@/types/tunnellers";
 
 export const rollQuery = async (locale: Locale, connection: PoolConnection) => {
   const query = `SELECT t.id
+    , t.slug
     , t.surname
     , t.forename
     , DATE_FORMAT(t.birth_date, '%Y') AS birthYear

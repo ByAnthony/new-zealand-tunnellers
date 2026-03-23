@@ -20,7 +20,10 @@ describe("Timeline", () => {
     const tunnellersLink = screen.getByText("Tunnellers");
     expect(tunnellersLink).toHaveAttribute("href", "/tunnellers");
     const tunnellerLink = screen.getByText("John Smith");
-    expect(tunnellerLink).toHaveAttribute("href", "/tunnellers/1");
+    expect(tunnellerLink).toHaveAttribute(
+      "href",
+      "/tunnellers/harry-corrin--4_1415",
+    );
 
     const titleLineOne = screen.getByText("World War I");
     expect(titleLineOne).toHaveClass("title-line-1");
@@ -57,7 +60,7 @@ describe("Timeline", () => {
     expect(screen.getByText(/Accessed: 4 May 2023/)).toBeInTheDocument();
     expect(
       screen.getByText(
-        /URL: www.nztunnellers.com\/tunnellers\/1\/wwi-timeline/,
+        /URL: www.nztunnellers.com\/tunnellers\/harry-corrin--4_1415\/wwi-timeline/,
       ),
     ).toBeInTheDocument();
   });

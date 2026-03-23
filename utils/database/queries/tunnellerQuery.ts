@@ -4,11 +4,12 @@ import { Locale } from "@/types/locale";
 import { ProfileData } from "@/types/tunneller";
 
 export const tunnellerQuery = async (
-  id: string,
+  slug: string,
   locale: Locale,
   connection: PoolConnection,
 ) => {
   const query = `SELECT t.id
+    , t.slug
     , t.surname
     , t.forename
     , DATE_FORMAT(t.birth_date, '%Y-%m-%d') AS birth_date
@@ -121,11 +122,9 @@ export const tunnellerQuery = async (
     LEFT JOIN newspaper_name ON newspaper_name.newspaper_name_id=newspaper.newspaper_name_fk
     LEFT JOIN book ON book.book_id=t.image_source_book_fk
 
-    WHERE t.id=${id}`;
+    WHERE t.slug='${slug}'`;
 
-  const [results] = await connection.execute<(ProfileData & RowDataPacket)[]>(
-    query,
-    [id],
-  );
+  const [results] =
+    await connection.execute<(ProfileData & RowDataPacket)[]>(query);
   return results[0];
 };

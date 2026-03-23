@@ -3,6 +3,7 @@ import { Detachment, Name } from "./tunnellers";
 // Database extract
 export type ProfileData = {
   id: number;
+  slug: string;
   surname: string;
   forename: string;
   birth_date: string | null;
@@ -351,6 +352,7 @@ export type ImageTunneller = {
 
 export type TunnellerProfile = {
   id: number;
+  slug: string;
   summary: Summary;
   origins: Origins;
   preWarYears: PreWayYears;

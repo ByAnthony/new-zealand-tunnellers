@@ -11,7 +11,7 @@ import { displayBiographyDates } from "@/utils/helpers/roll";
 import STYLES from "./HowToCite.module.scss";
 
 type Props = {
-  id?: number;
+  tunnellerSlug?: string;
   summary?: Summary;
   title?: string;
   slug?: string;
@@ -22,7 +22,7 @@ type Props = {
 };
 
 type HowToCiteUrlProps = {
-  id?: number;
+  tunnellerSlug?: string;
   title?: string;
   slug?: string;
   timeline?: boolean;
@@ -40,7 +40,7 @@ type HowToCiteTitleProps = {
 };
 
 export function HowToCiteUrl({
-  id,
+  tunnellerSlug,
   title,
   slug,
   timeline,
@@ -71,18 +71,18 @@ export function HowToCiteUrl({
       <wbr />
       .com{localePrefix}/
       <wbr />
-      {id && !timeline && (
+      {tunnellerSlug && !timeline && (
         <>
           tunnellers/
           <wbr />
-          {id}
+          {tunnellerSlug}
         </>
       )}
-      {id && timeline && (
+      {tunnellerSlug && timeline && (
         <>
           tunnellers/
           <wbr />
-          {id}
+          {tunnellerSlug}
           /
           <wbr />
           wwi-
@@ -90,7 +90,7 @@ export function HowToCiteUrl({
           timeline
         </>
       )}
-      {!id && (slug ?? title) && (
+      {!tunnellerSlug && (slug ?? title) && (
         <>
           history/
           <wbr />
@@ -202,7 +202,7 @@ function HowToCiteTitle({
 }
 
 export function HowToCite({
-  id,
+  tunnellerSlug,
   summary,
   title,
   slug,
@@ -298,7 +298,7 @@ export function HowToCite({
         {currentDate}
         {". "}
         <HowToCiteUrl
-          id={id}
+          tunnellerSlug={tunnellerSlug}
           title={title}
           slug={slug}
           timeline={timeline}

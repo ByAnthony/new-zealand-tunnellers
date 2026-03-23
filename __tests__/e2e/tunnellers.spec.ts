@@ -14,7 +14,7 @@ test("can change page and click on a name", async ({ page }) => {
   await tunneller.click();
   await page.waitForLoadState("domcontentloaded");
 
-  await expect(page).toHaveURL(/tunnellers\/895/);
+  await expect(page).toHaveURL(/tunnellers\/claude-percival-wells--21380/);
 });
 
 test("can filter and adjust pagination", async ({ page }) => {
@@ -224,7 +224,7 @@ test("scroll position is saved and restored when navigating", async ({
   await page.getByRole("link", { name: "Sapper Jeremiah Branigan" }).click();
   await page.waitForLoadState("domcontentloaded");
 
-  await expect(page).toHaveURL(/tunnellers\/70/);
+  await expect(page).toHaveURL(/tunnellers\/jeremiah-branigan--4_1489/);
   await expect(page.getByText("Jeremiah", { exact: true })).toBeVisible();
   await expect(page.getByText("Branigan", { exact: true })).toBeVisible();
   await expect(

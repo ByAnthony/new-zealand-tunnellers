@@ -16,7 +16,7 @@ import { MilitaryYears, Origins, Death, PreWayYears } from "@/types/tunneller";
 import STYLES from "./ProfileDiary.module.scss";
 
 type Props = {
-  tunnellerId: number;
+  tunnellerSlug: string;
   origins: Origins;
   preWarYears: PreWayYears;
   militaryYears: MilitaryYears;
@@ -24,7 +24,7 @@ type Props = {
 };
 
 export function ProfileDiary({
-  tunnellerId,
+  tunnellerSlug,
   origins,
   preWarYears,
   militaryYears,
@@ -45,7 +45,7 @@ export function ProfileDiary({
         wife={preWarYears.wife}
       />
       <DiaryArmyExperience
-        tunnellerId={tunnellerId}
+        tunnellerSlug={tunnellerSlug}
         armyExperience={preWarYears.armyExperience}
       />
       <DiaryMedal medals={militaryYears.medals} />
