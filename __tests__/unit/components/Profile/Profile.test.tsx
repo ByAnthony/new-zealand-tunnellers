@@ -171,4 +171,30 @@ describe("Profile", () => {
       ),
     ).toBeInTheDocument();
   });
+
+  describe("back link", () => {
+    beforeEach(() => {
+      localStorage.clear();
+    });
+
+    test("links to /tunnellers when no return URL is stored", () => {
+      render(<Profile tunneller={mockTunnellerProfile} />);
+      expect(screen.getByText("Tunnellers")).toHaveAttribute(
+        "href",
+        "/tunnellers",
+      );
+    });
+
+    test("links to stored return URL when available", () => {
+      localStorage.setItem(
+        "tunnellers:return",
+        "/tunnellers?detachment=1&page=2",
+      );
+      render(<Profile tunneller={mockTunnellerProfile} />);
+      expect(screen.getByText("Tunnellers")).toHaveAttribute(
+        "href",
+        "/tunnellers?detachment=1&page=2",
+      );
+    });
+  });
 });

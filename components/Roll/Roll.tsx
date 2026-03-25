@@ -1,20 +1,34 @@
 "use client";
 
 import isEqual from "lodash/isEqual";
+import { useSearchParams, useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { RollAlphabet } from "@/components/Roll/RollAlphabet/RollAlphabet";
 import { RollFilter } from "@/components/Roll/RollFilter/RollFilter";
 import { RollNoResults } from "@/components/Roll/RollNoResults/RollNoResults";
 import { Title } from "@/components/Title/Title";
 import { Tunneller } from "@/types/tunnellers";
+import {
+  type FilterLookups,
+  type Filters,
+  filtersToSearchParams,
+  searchParamsToFilters,
+} from "@/utils/helpers/rollParams";
 import { useWindowDimensions } from "@/utils/helpers/useWindowDimensions";
 
 import STYLES from "./Roll.module.scss";
-import { getUniqueCorps } from "./utils/corpsUtils";
-import { getUniqueDetachments } from "./utils/detachmentUtils";
-import { getSortedRanks, getUniqueRanks } from "./utils/rankUtils";
+import { getUniqueCorps, getUniqueCorpsEn } from "./utils/corpsUtils";
+import {
+  getUniqueDetachments,
+  getUniqueDetachmentsEn,
+} from "./utils/detachmentUtils";
+import {
+  getSortedRanks,
+  getUniqueRanks,
+  getUniqueRanksEn,
+} from "./utils/rankUtils";
 import { getUniqueBirthYears, getUniqueDeathYears } from "./utils/yearsUtils";
 import { Dialog } from "../Dialog/Dialog";
 
@@ -22,20 +36,13 @@ type Props = {
   tunnellers: Record<string, Tunneller[]>;
 };
 
-type Filters = {
-  detachment: (number | null)[];
-  corps: (number | null)[];
-  ranks: Record<string, (number | null)[]>;
-  birthYear: string[];
-  unknownBirthYear: string;
-  deathYear: string[];
-  unknownDeathYear: string;
-};
-
 export function Roll({ tunnellers }: Props) {
   const t = useTranslations("roll");
   const locale = useLocale();
   const { width } = useWindowDimensions();
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const isFirstRenderRef = useRef(true);
 
   /** ---- Derived data ---- */
   const tunnellersList = useMemo(
@@ -66,6 +73,22 @@ export function Roll({ tunnellers }: Props) {
     () => getUniqueDeathYears(tunnellersList),
     [tunnellersList],
   );
+  const uniqueDetachmentsEn = useMemo(
+    () => getUniqueDetachmentsEn(tunnellersList),
+    [tunnellersList],
+  );
+  const uniqueCorpsEn = useMemo(
+    () => getUniqueCorpsEn(tunnellersList),
+    [tunnellersList],
+  );
+  const uniqueRanksEn = useMemo(
+    () => getUniqueRanksEn(tunnellersList),
+    [tunnellersList],
+  );
+  const sortedRanksEn = useMemo(
+    () => getSortedRanks(uniqueRanksEn, "en"),
+    [uniqueRanksEn],
+  );
 
   /** ---- Defaults ---- */
   const defaultFilters: Filters = useMemo(
@@ -85,115 +108,47 @@ export function Roll({ tunnellers }: Props) {
     [uniqueBirthYears, uniqueDeathYears],
   );
 
-  // Normalize any previously stored filters to the current shape
-  const isIdArray = (arr: unknown[]): arr is (number | null)[] =>
-    arr.every((x) => typeof x === "number" || x === null);
+  /** ---- Filter lookups for URL slug conversion ---- */
+  const filterLookups: FilterLookups = useMemo(
+    () => ({
+      detachments: uniqueDetachmentsEn,
+      corps: uniqueCorpsEn,
+      sortedRanks: sortedRanksEn,
+      birthYears: uniqueBirthYears,
+      deathYears: uniqueDeathYears,
+    }),
+    [
+      uniqueDetachmentsEn,
+      uniqueCorpsEn,
+      sortedRanksEn,
+      uniqueBirthYears,
+      uniqueDeathYears,
+    ],
+  );
 
-  const normalizeFilters = (raw: unknown, defaults: Filters): Filters => {
-    try {
-      const p = (raw ?? {}) as Partial<Filters>;
-      const ranks = (p.ranks ?? {}) as Record<string, (number | null)[]>;
-      const mergedRanks: Filters["ranks"] = {
-        Officers:
-          Array.isArray(ranks?.Officers) && isIdArray(ranks.Officers)
-            ? ranks.Officers
-            : [],
-        "Non-Commissioned Officers":
-          Array.isArray(ranks?.["Non-Commissioned Officers"]) &&
-          isIdArray(ranks["Non-Commissioned Officers"])
-            ? ranks["Non-Commissioned Officers"]
-            : [],
-        "Other Ranks":
-          Array.isArray(ranks?.["Other Ranks"]) &&
-          isIdArray(ranks["Other Ranks"])
-            ? ranks["Other Ranks"]
-            : [],
-      };
-      return {
-        detachment:
-          Array.isArray(p.detachment) && isIdArray(p.detachment)
-            ? p.detachment
-            : defaults.detachment,
-        corps:
-          Array.isArray(p.corps) && isIdArray(p.corps)
-            ? p.corps
-            : defaults.corps,
-        ranks: mergedRanks,
-        birthYear: Array.isArray(p.birthYear)
-          ? p.birthYear
-          : defaults.birthYear,
-        unknownBirthYear:
-          typeof p.unknownBirthYear === "string"
-            ? p.unknownBirthYear
-            : defaults.unknownBirthYear,
-        deathYear: Array.isArray(p.deathYear)
-          ? p.deathYear
-          : defaults.deathYear,
-        unknownDeathYear:
-          typeof p.unknownDeathYear === "string"
-            ? p.unknownDeathYear
-            : defaults.unknownDeathYear,
-      };
-    } catch {
-      return defaults;
-    }
-  };
+  /** ---- Initial state from URL params ---- */
+  const initialData = useMemo(
+    () => searchParamsToFilters(searchParams, filterLookups),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [],
+  );
 
-  /** ---- Initial state ---- */
-  const [filters, setFilters] = useState<Filters>(() => {
-    if (typeof window !== "undefined") {
-      try {
-        const raw = localStorage.getItem("filters");
-        if (raw) {
-          return normalizeFilters(JSON.parse(raw), defaultFilters);
-        }
-      } catch (error) {
-        const errorMessage =
-          error instanceof Error ? error.message : String(error);
-        throw new Error(`Failed to load filters: ${errorMessage}`);
-      }
-    }
-    return defaultFilters;
-  });
+  const [filters, setFilters] = useState<Filters>(initialData.filters);
+  const [currentPage, setCurrentPage] = useState<number>(initialData.page);
 
-  const [currentPage, setCurrentPage] = useState<number>(() => {
-    if (typeof window !== "undefined") {
-      try {
-        const raw = localStorage.getItem("page");
-        const n = Number(raw);
-        if (Number.isFinite(n) && n > 0) return n;
-      } catch (error) {
-        const errorMessage =
-          error instanceof Error ? error.message : String(error);
-        throw new Error(`Failed to load current page: ${errorMessage}`);
-      }
-    }
-    return 1;
-  });
-
-  /** ---- Persist to localStorage ---- */
+  /** ---- Sync URL params when state changes ---- */
   useEffect(() => {
-    if (typeof window === "undefined") return;
-    try {
-      localStorage.setItem("filters", JSON.stringify(filters));
-    } catch (error) {
-      const errorMessage =
-        error instanceof Error ? error.message : String(error);
-      throw new Error(`Failed to save filters: ${errorMessage}`);
+    if (isFirstRenderRef.current) {
+      isFirstRenderRef.current = false;
+      return;
     }
-  }, [filters]);
+    const qs = filtersToSearchParams(filters, currentPage, filterLookups);
+    const currentQs = window.location.search.replace(/^\?/, "");
+    if (qs === currentQs) return;
+    router.replace(`?${qs}`, { scroll: false });
+  }, [filters, currentPage, router, filterLookups]);
 
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    try {
-      localStorage.setItem("page", String(currentPage));
-    } catch (error) {
-      const errorMessage =
-        error instanceof Error ? error.message : String(error);
-      throw new Error(`Failed to save current page: ${errorMessage}`);
-    }
-  }, [currentPage]);
-
+  /** ---- Restore scroll position on mount ---- */
   useEffect(() => {
     if (typeof window === "undefined") return;
     const raw = localStorage.getItem("roll:scrollY");
