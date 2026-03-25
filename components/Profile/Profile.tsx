@@ -23,12 +23,18 @@ export function Profile({ tunneller }: Props) {
   const locale = useLocale();
   const localePrefix = locale === "en" ? "" : `/${locale}`;
 
+  const returnUrl =
+    typeof window !== "undefined"
+      ? (localStorage.getItem("tunnellers:return") ??
+        `${localePrefix}/tunnellers`)
+      : `${localePrefix}/tunnellers`;
+
   return (
     <>
       <div className={STYLES.container}>
         <div className={STYLES.header}>
           <div className={STYLES.link}>
-            <Link href={`${localePrefix}/tunnellers`}>{t("tunnellers")}</Link>
+            <Link href={returnUrl}>{t("tunnellers")}</Link>
           </div>
           <Title
             name={tunneller.summary.name}

@@ -22,7 +22,7 @@ export function Menu({ tunnellers }: Props) {
   const locale = useLocale();
   const localePrefix = locale === "en" ? "" : `/${locale}`;
   const pathname = usePathname();
-  const switchLocalePath =
+  const switchLocaleBase =
     locale === "en" ? `/fr${pathname}` : pathname.replace(/^\/fr/, "") || "/";
 
   const { width } = useWindowDimensions();
@@ -247,7 +247,15 @@ export function Menu({ tunnellers }: Props) {
         )}
       </div>
 
-      <Link href={switchLocalePath} className={STYLES["language-switcher"]}>
+      <Link
+        href={switchLocaleBase}
+        className={STYLES["language-switcher"]}
+        onClick={(e) => {
+          e.preventDefault();
+          const qs = window.location.search;
+          router.push(qs ? `${switchLocaleBase}${qs}` : switchLocaleBase);
+        }}
+      >
         {locale === "en" ? "Français" : "English"}
       </Link>
     </div>

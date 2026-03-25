@@ -1,5 +1,6 @@
-import { NextResponse } from "next/server";
+import { unstable_cache } from "next/cache";
 import { getTranslations } from "next-intl/server";
+import { Suspense } from "react";
 
 import { Roll } from "@/components/Roll/Roll";
 import { Locale } from "@/types/locale";
@@ -11,37 +12,34 @@ type Props = {
   params: Promise<{ locale: Locale }>;
 };
 
-async function getData(locale: Locale) {
-  const connection = await mysqlConnection.getConnection();
+const getCachedTunnellers = unstable_cache(
+  async (locale: Locale): Promise<Record<string, Tunneller[]>> => {
+    const connection = await mysqlConnection.getConnection();
 
-  try {
-    const response = await getTunnellers(locale, connection);
-    const data = await response.json();
+    try {
+      const response = await getTunnellers(locale, connection);
+      const data: Tunneller[] = await response.json();
 
-    const tunnellers: Record<string, Tunneller[]> = data.reduce(
-      (acc: Record<string, Tunneller[]>, tunneller: Tunneller) => {
-        const firstLetter: string = tunneller.name.surname
-          .charAt(0)
-          .toUpperCase();
-        if (!acc[firstLetter]) {
-          acc[firstLetter] = [];
-        }
-        acc[firstLetter].push({
-          ...tunneller,
-        });
-        return acc;
-      },
-      {} as { [key: string]: Tunneller[] },
-    );
-
-    return NextResponse.json(tunnellers);
-  } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : String(error);
-    throw new Error(`Failed to fetch Tunnellers data: ${errorMessage}`);
-  } finally {
-    connection.release();
-  }
-}
+      return data.reduce(
+        (acc: Record<string, Tunneller[]>, tunneller: Tunneller) => {
+          const firstLetter = tunneller.name.surname.charAt(0).toUpperCase();
+          if (!acc[firstLetter]) acc[firstLetter] = [];
+          acc[firstLetter].push(tunneller);
+          return acc;
+        },
+        {},
+      );
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : String(error);
+      throw new Error(`Failed to fetch Tunnellers data: ${errorMessage}`);
+    } finally {
+      connection.release();
+    }
+  },
+  ["tunnellers"],
+  { revalidate: false },
+);
 
 export async function generateMetadata(props: Props) {
   const { locale } = await props.params;
@@ -51,8 +49,11 @@ export async function generateMetadata(props: Props) {
 
 export default async function Page(props: Props) {
   const { locale } = await props.params;
-  const response = await getData(locale);
-  const tunnellers: Record<string, Tunneller[]> = await response.json();
+  const tunnellers = await getCachedTunnellers(locale);
 
-  return <Roll tunnellers={tunnellers} />;
+  return (
+    <Suspense>
+      <Roll tunnellers={tunnellers} />
+    </Suspense>
+  );
 }

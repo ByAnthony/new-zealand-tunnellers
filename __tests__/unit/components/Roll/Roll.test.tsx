@@ -4,6 +4,14 @@ import { mockTunnellers } from "__tests__/unit/utils/mocks/mockTunnellers";
 import { Roll } from "@/components/Roll/Roll";
 import { AttachedCorpsBadge } from "@/components/Roll/RollDetails/RollDetails";
 
+const mockReplace = jest.fn();
+let mockSearchParams = new URLSearchParams();
+
+jest.mock("next/navigation", () => ({
+  useSearchParams: () => mockSearchParams,
+  useRouter: () => ({ replace: mockReplace }),
+}));
+
 async function renderRoll() {
   const utils = render(<Roll tunnellers={mockTunnellers} />);
   await screen.findByText("Filters");
@@ -13,6 +21,7 @@ async function renderRoll() {
 describe("Roll", () => {
   beforeEach(() => {
     localStorage.clear();
+    mockSearchParams = new URLSearchParams();
     window.scrollTo = jest.fn();
   });
 
@@ -375,58 +384,31 @@ describe("Roll", () => {
     ).not.toBeInTheDocument();
   });
 
-  describe("localStorage", () => {
-    test("restores valid detachment filter from localStorage on mount", async () => {
-      localStorage.setItem(
-        "filters",
-        JSON.stringify({
-          detachment: [2],
-          corps: [],
-          ranks: {
-            Officers: [],
-            "Non-Commissioned Officers": [],
-            "Other Ranks": [],
-          },
-          birthYear: ["1886", "1897"],
-          unknownBirthYear: "unknown",
-          deathYear: ["1935", "1952"],
-          unknownDeathYear: "unknown",
-        }),
-      );
+  describe("URL params", () => {
+    test("restores valid detachment filter from URL params on mount", async () => {
+      mockSearchParams = new URLSearchParams("detachment=2nd-reinforcements");
 
       await renderRoll();
 
       expect(screen.getByText("1 result")).toBeInTheDocument();
     });
 
-    test("falls back to default filters when localStorage has invalid field types", async () => {
-      localStorage.setItem(
-        "filters",
-        JSON.stringify({
-          detachment: "not-an-array",
-          corps: 42,
-          birthYear: null,
-          unknownBirthYear: 999,
-          deathYear: "wrong-type",
-          unknownDeathYear: true,
-        }),
-      );
+    test("shows all results when no filter params in URL", async () => {
+      await renderRoll();
+
+      expect(screen.getByText("4 results")).toBeInTheDocument();
+    });
+
+    test("restores current page from URL params", async () => {
+      mockSearchParams = new URLSearchParams("page=1");
 
       await renderRoll();
 
       expect(screen.getByText("4 results")).toBeInTheDocument();
     });
 
-    test("restores current page from localStorage", async () => {
-      localStorage.setItem("page", "1");
-
-      await renderRoll();
-
-      expect(screen.getByText("4 results")).toBeInTheDocument();
-    });
-
-    test("ignores NaN page from localStorage", async () => {
-      localStorage.setItem("page", "abc");
+    test("ignores invalid page param from URL", async () => {
+      mockSearchParams = new URLSearchParams("page=abc");
 
       await renderRoll();
 

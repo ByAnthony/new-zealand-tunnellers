@@ -25,10 +25,13 @@ export async function getTunnellers(
       fullName: `${result.forename} ${result.surname}`,
     },
     detachment: result.detachment,
+    detachmentEn: result.detachment_en,
     detachmentId: result.detachment_id,
     rank: result.rank,
+    rankEn: result.rank_en,
     rankId: result.rank_id,
     attachedCorps: result.attached_corps,
+    corpsEn: result.corps_en,
     corpsId: result.corps_id,
   }));
 

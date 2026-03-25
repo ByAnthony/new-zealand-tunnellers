@@ -126,6 +126,15 @@ test("can navigate using pagination buttons", async ({ page }) => {
   ).toBeVisible();
 });
 
+test("filters appear in URL after filtering", async ({ page }) => {
+  await page.goto("/tunnellers");
+
+  await page.getByLabel("7th Reinforcements").click();
+  await expect(page.getByText("31 results")).toBeVisible();
+
+  await expect(page).toHaveURL(/detachment=/);
+});
+
 test("filters persist when switching language", async ({ page }) => {
   await page.goto("/tunnellers");
 
@@ -133,9 +142,42 @@ test("filters persist when switching language", async ({ page }) => {
   await expect(page.getByText("31 results")).toBeVisible();
 
   await page.getByRole("link", { name: "Français" }).click();
-  await page.waitForURL("/fr/tunnellers/", { waitUntil: "load" });
+  await page.waitForURL(/\/fr\/tunnellers\//, { waitUntil: "load" });
 
   await expect(page.getByText("31 résultats")).toBeVisible();
+  await expect(page).toHaveURL(/detachment=/);
+});
+
+test("navigating directly to a filtered URL applies filters", async ({
+  page,
+}) => {
+  await page.goto("/tunnellers");
+  await page.getByLabel("7th Reinforcements").click();
+  const filteredUrl = page.url();
+
+  await page.goto("/tunnellers");
+  await expect(page.getByText("936 results")).toBeVisible();
+
+  await page.goto(filteredUrl);
+  await expect(page.getByText("31 results")).toBeVisible();
+});
+
+test("back link from profile restores filters", async ({ page }) => {
+  await page.goto("/tunnellers");
+
+  await page.getByLabel("7th Reinforcements").click();
+  await expect(page.getByText("31 results")).toBeVisible();
+
+  await page
+    .getByRole("link", { name: /Sapper.*7th Reinforcements/ })
+    .first()
+    .click();
+  await page.waitForLoadState("domcontentloaded");
+
+  await page.getByRole("link", { name: "Tunnellers" }).first().click();
+  await page.waitForLoadState("domcontentloaded");
+
+  await expect(page.getByText("31 results")).toBeVisible();
 });
 
 test("can navigate using previous and next buttons", async ({ page }) => {

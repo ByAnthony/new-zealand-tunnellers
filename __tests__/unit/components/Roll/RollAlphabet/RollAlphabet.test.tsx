@@ -13,10 +13,13 @@ const createTunnellers = (count: number): [string, Tunneller[]][] => {
     deathYear: "1952",
     search: { fullName: `John Doe${i + 1}` },
     detachment: "Main Body",
+    detachmentEn: "Main Body",
     detachmentId: 1,
     rank: "Sapper",
+    rankEn: "Sapper",
     rankId: 1,
     attachedCorps: null,
+    corpsEn: null,
     corpsId: null,
   }));
   return [["D", tunnellers]];

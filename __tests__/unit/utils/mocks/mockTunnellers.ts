@@ -8,10 +8,13 @@ const mockTunneller1: Tunneller = {
   deathYear: "1952",
   search: { fullName: "John Doe" },
   detachment: "Main Body",
+  detachmentEn: "Main Body",
   detachmentId: 1,
   rank: "Sapper",
+  rankEn: "Sapper",
   rankId: 1,
   attachedCorps: null,
+  corpsEn: null,
   corpsId: null,
 };
 
@@ -23,10 +26,13 @@ const mockTunneller2: Tunneller = {
   deathYear: null,
   search: { fullName: "Biff Tanen" },
   detachment: "2nd Reinforcements",
+  detachmentEn: "2nd Reinforcements",
   detachmentId: 2,
   rank: "Sapper",
+  rankEn: "Sapper",
   rankId: 1,
   attachedCorps: null,
+  corpsEn: null,
   corpsId: null,
 };
 
@@ -38,10 +44,13 @@ const mockTunneller3: Tunneller = {
   deathYear: "1935",
   search: { fullName: "Emmett Brown" },
   detachment: "Main Body",
+  detachmentEn: "Main Body",
   detachmentId: 1,
   rank: "Sapper",
+  rankEn: "Sapper",
   rankId: 1,
   attachedCorps: null,
+  corpsEn: null,
   corpsId: null,
 };
 
@@ -53,10 +62,13 @@ const mockTunneller4: Tunneller = {
   deathYear: null,
   search: { fullName: "Marty McFly" },
   detachment: "5th Reinforcements",
+  detachmentEn: "5th Reinforcements",
   detachmentId: 5,
   rank: "Driver",
+  rankEn: "Driver",
   rankId: 2,
   attachedCorps: "Army Pay Corps",
+  corpsEn: "Army Pay Corps",
   corpsId: 3,
 };
 

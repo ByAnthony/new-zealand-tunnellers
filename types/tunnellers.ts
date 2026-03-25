@@ -12,10 +12,13 @@ export type TunnellerData = {
   birthYear: string | null;
   deathYear: string | null;
   detachment: Detachment;
+  detachment_en: string | null;
   detachment_id: number | null;
   rank: Rank;
+  rank_en: string | null;
   rank_id: number | null;
   attached_corps: string | null;
+  corps_en: string | null;
   corps_id: number | null;
 };
 
@@ -40,10 +43,13 @@ export type Tunneller = {
   birthYear: string | null;
   deathYear: string | null;
   detachment: Detachment;
+  detachmentEn: string | null;
   detachmentId: number | null;
   rank: Rank;
+  rankEn: string | null;
   rankId: number | null;
   search: Search;
   attachedCorps: string | null;
+  corpsEn: string | null;
   corpsId: number | null;
 };
