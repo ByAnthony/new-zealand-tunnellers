@@ -1,9 +1,11 @@
 import { PoolConnection } from "mysql2/promise";
+import { unstable_cache } from "next/cache";
 import { NextResponse } from "next/server";
 
 import { Locale } from "@/types/locale";
 import { Tunneller, TunnellerData } from "@/types/tunnellers";
 
+import { mysqlConnection } from "./mysqlConnection";
 import { rollQuery } from "./queries/rollQuery";
 
 export async function getTunnellers(
@@ -37,3 +39,27 @@ export async function getTunnellers(
 
   return NextResponse.json(tunnellers);
 }
+
+export const getCachedTunnellers = unstable_cache(
+  async (locale: Locale): Promise<Record<string, Tunneller[]>> => {
+    const connection = await mysqlConnection.getConnection();
+    try {
+      const response = await getTunnellers(locale, connection);
+      const data: Tunneller[] = await response.json();
+
+      return data.reduce(
+        (acc: Record<string, Tunneller[]>, tunneller: Tunneller) => {
+          const firstLetter = tunneller.name.surname.charAt(0).toUpperCase();
+          if (!acc[firstLetter]) acc[firstLetter] = [];
+          acc[firstLetter].push(tunneller);
+          return acc;
+        },
+        {},
+      );
+    } finally {
+      connection.release();
+    }
+  },
+  ["tunnellers"],
+  { revalidate: false },
+);
