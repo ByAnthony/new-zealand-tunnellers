@@ -19,11 +19,17 @@ export function Timeline({ tunneller }: Props) {
   const locale = useLocale();
   const localePrefix = locale === "en" ? "" : `/${locale}`;
 
+  const returnUrl =
+    typeof window !== "undefined"
+      ? (localStorage.getItem("tunnellers:return") ??
+        `${localePrefix}/tunnellers`)
+      : `${localePrefix}/tunnellers`;
+
   return (
     <div className={STYLES.timeline}>
       <div className={STYLES.header}>
         <div className={STYLES.link}>
-          <Link href={`${localePrefix}/tunnellers`}>{t("tunnellers")}</Link>
+          <Link href={returnUrl}>{t("tunnellers")}</Link>
           <span>/</span>
           <Link
             href={`${localePrefix}/tunnellers/${tunneller.slug}`}

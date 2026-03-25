@@ -175,12 +175,12 @@ test("back link from profile restores filters", async ({ page }) => {
     .getByRole("link", { name: /Sapper.*7th Reinforcements/ })
     .first()
     .click();
-  await page.waitForLoadState("domcontentloaded");
+  await page.waitForLoadState("networkidle");
 
   await page.getByRole("link", { name: "Tunnellers" }).first().click();
-  await page.waitForLoadState("domcontentloaded");
+  await page.waitForLoadState("networkidle");
 
-  await expect(page.getByText("31 results")).toBeVisible();
+  await expect(page.getByText("31 results")).toBeVisible({ timeout: 10000 });
 });
 
 test("can navigate using previous and next buttons", async ({ page }) => {
