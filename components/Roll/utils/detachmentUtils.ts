@@ -33,3 +33,33 @@ export const getUniqueDetachments = (
     return a.label.localeCompare(b.label);
   });
 };
+
+export const getUniqueDetachmentsEn = (
+  list: [string, Tunneller[]][],
+): FilterOption[] => {
+  const seen = new Set<number | null>();
+  const result: FilterOption[] = [];
+
+  list
+    .flatMap(([, lists]) => lists)
+    .forEach((item) => {
+      if (!seen.has(item.detachmentId) && item.detachmentEn) {
+        seen.add(item.detachmentId);
+        result.push({ id: item.detachmentId, label: item.detachmentEn });
+      }
+    });
+
+  return result.sort((a, b) => {
+    if (a.label === "Main Body") return -1;
+    if (b.label === "Main Body") return 1;
+
+    const aMatch = a.label.match(/(\d+)(?:st|nd|rd|th) Reinforcements/);
+    const bMatch = b.label.match(/(\d+)(?:st|nd|rd|th) Reinforcements/);
+
+    if (aMatch && bMatch) {
+      return parseInt(aMatch[1], 10) - parseInt(bMatch[1], 10);
+    }
+
+    return a.label.localeCompare(b.label);
+  });
+};

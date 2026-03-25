@@ -64,4 +64,30 @@ describe("Timeline", () => {
       ),
     ).toBeInTheDocument();
   });
+
+  describe("back link", () => {
+    beforeEach(() => {
+      localStorage.clear();
+    });
+
+    test("links to /tunnellers when no return URL is stored", () => {
+      render(<Timeline tunneller={mockTunnellerProfile} />);
+      expect(screen.getByText("Tunnellers")).toHaveAttribute(
+        "href",
+        "/tunnellers",
+      );
+    });
+
+    test("links to stored return URL when available", () => {
+      localStorage.setItem(
+        "tunnellers:return",
+        "/tunnellers?detachment=main-body&page=2",
+      );
+      render(<Timeline tunneller={mockTunnellerProfile} />);
+      expect(screen.getByText("Tunnellers")).toHaveAttribute(
+        "href",
+        "/tunnellers?detachment=main-body&page=2",
+      );
+    });
+  });
 });

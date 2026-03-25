@@ -29,6 +29,7 @@ export function RollDetails({ listOfTunnellers }: Props) {
   const saveScroll = useCallback(() => {
     try {
       localStorage.setItem("roll:scrollY", String(window.scrollY || 0));
+      localStorage.setItem("tunnellers:return", window.location.href);
     } catch (error) {
       const errorMessage =
         error instanceof Error ? error.message : String(error);

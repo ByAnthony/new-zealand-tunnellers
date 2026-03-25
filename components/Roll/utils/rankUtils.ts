@@ -58,6 +58,26 @@ export const getUniqueRanks = (
   return result;
 };
 
+export const getUniqueRanksEn = (
+  list: [string, Tunneller[]][],
+): FilterOption[] => {
+  const seen = new Set<number | null>();
+  const result: FilterOption[] = [];
+
+  list
+    .flatMap(([, lists]) => lists)
+    .forEach((item) => {
+      if (!seen.has(item.rankId)) {
+        seen.add(item.rankId);
+        if (item.rankEn) {
+          result.push({ id: item.rankId, label: item.rankEn });
+        }
+      }
+    });
+
+  return result;
+};
+
 export const getSortedRanks = (
   list: FilterOption[],
   locale: Locale = "en",
