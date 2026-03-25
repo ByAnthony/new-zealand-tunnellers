@@ -4,6 +4,10 @@ import { Tunneller, TunnellerData } from "@/types/tunnellers";
 import { getTunnellers } from "@/utils/database/getTunnellers";
 import { rollQuery } from "@/utils/database/queries/rollQuery";
 
+jest.mock("next/cache", () => ({
+  unstable_cache: jest.fn((fn: unknown) => fn),
+}));
+
 jest.mock("@/utils/database/queries/rollQuery");
 
 jest.mock("next/server", () => ({
