@@ -153,6 +153,8 @@ test("navigating directly to a filtered URL applies filters", async ({
 }) => {
   await page.goto("/tunnellers");
   await page.getByLabel("7th Reinforcements").click();
+  await expect(page.getByText("31 results")).toBeVisible();
+  await page.waitForURL(/detachment=/);
   const filteredUrl = page.url();
 
   await page.goto("/tunnellers");
@@ -167,6 +169,7 @@ test("back link from profile restores filters", async ({ page }) => {
 
   await page.getByLabel("7th Reinforcements").click();
   await expect(page.getByText("31 results")).toBeVisible();
+  await page.waitForURL(/detachment=/);
 
   await page
     .getByRole("link", { name: /Sapper.*7th Reinforcements/ })
