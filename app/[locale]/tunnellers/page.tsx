@@ -52,7 +52,7 @@ export default async function Page(props: Props) {
   const tunnellers = await getCachedTunnellers(locale);
 
   return (
-    <Suspense>
+    <Suspense fallback={<div style={{ minHeight: "100vh" }} />}>
       <Roll tunnellers={tunnellers} />
     </Suspense>
   );
