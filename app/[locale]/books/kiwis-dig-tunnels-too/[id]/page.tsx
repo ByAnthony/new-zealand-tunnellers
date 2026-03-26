@@ -5,7 +5,6 @@ import { setRequestLocale } from "next-intl/server";
 
 import { Chapter } from "@/components/Books/Chapter/Chapter";
 import { Locale } from "@/types/locale";
-import { bookFilePath } from "@/utils/helpers/books/basePathUtil";
 import { readBookMarkdown } from "@/utils/helpers/books/markdownUtil";
 
 export function generateStaticParams() {
@@ -20,13 +19,6 @@ export function generateStaticParams() {
 type Props = {
   params: Promise<{ id: string; locale: Locale }>;
 };
-
-export function generateStaticParams() {
-  const dir = join(process.cwd(), `contents/${bookFilePath("en")}`);
-  return readdirSync(dir)
-    .filter((f) => f.endsWith(".md"))
-    .map((f) => ({ id: f.replace(/\.md$/, "") }));
-}
 
 const getTitleFromMarkdown = (md: string): string | null => {
   const match = md.match(/^#\s+(.+)$/m);
