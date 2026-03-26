@@ -5,6 +5,7 @@ import { setRequestLocale } from "next-intl/server";
 
 import { Chapter } from "@/components/Books/Chapter/Chapter";
 import { Locale } from "@/types/locale";
+import { bookFilePath } from "@/utils/helpers/books/basePathUtil";
 import { readBookMarkdown } from "@/utils/helpers/books/markdownUtil";
 
 export function generateStaticParams() {
@@ -20,24 +21,21 @@ type Props = {
   params: Promise<{ id: string; locale: Locale }>;
 };
 
+export function generateStaticParams() {
+  const dir = join(process.cwd(), `contents/${bookFilePath("en")}`);
+  return readdirSync(dir)
+    .filter((f) => f.endsWith(".md"))
+    .map((f) => ({ id: f.replace(/\.md$/, "") }));
+}
+
 const getTitleFromMarkdown = (md: string): string | null => {
   const match = md.match(/^#\s+(.+)$/m);
   return match ? match[1].trim() : null;
 };
 
-const getMarkdown = async (props: Props) => {
-  const { id, locale } = await props.params;
-  try {
-    const markdownContent = await readBookMarkdown(locale, id);
-    return { markdownContent, locale };
-  } catch (error) {
-    console.error("Error fetching markdown content:", error);
-    throw new Error("Failed to load chapter content.");
-  }
-};
-
 export async function generateMetadata(props: Props) {
-  const { markdownContent } = await getMarkdown(props);
+  const { id, locale } = await props.params;
+  const markdownContent = await readBookMarkdown(locale, id);
   const title = getTitleFromMarkdown(markdownContent);
   return {
     title: `${title} - New Zealand Tunnellers`,

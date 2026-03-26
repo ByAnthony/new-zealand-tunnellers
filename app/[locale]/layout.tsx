@@ -21,6 +21,7 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
+  setRequestLocale(locale);
   const t = await getTranslations({ locale, namespace: "site" });
 
   return {
@@ -35,10 +36,14 @@ export default async function LocaleLayout({ children, params }: Props) {
   const messages = await getMessages();
 
   return (
-    <NextIntlClientProvider messages={messages}>
-      <MenuContainer />
-      {children}
-      <Footer />
-    </NextIntlClientProvider>
+    <html lang={locale} data-scroll-behavior="smooth">
+      <body>
+        <NextIntlClientProvider messages={messages}>
+          <MenuContainer />
+          {children}
+          <Footer />
+        </NextIntlClientProvider>
+      </body>
+    </html>
   );
 }

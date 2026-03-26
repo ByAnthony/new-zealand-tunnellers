@@ -83,3 +83,11 @@ export const nextArticleQuery = async (
     await connection.execute<(ArticleReferenceData & RowDataPacket)[]>(query);
   return results;
 };
+
+export const allArticleIdsQuery = async (
+  connection: PoolConnection,
+): Promise<string[]> => {
+  const query = `SELECT article.string_id AS id FROM article`;
+  const [results] = await connection.execute<RowDataPacket[]>(query);
+  return results.map((r) => r.id as string);
+};
