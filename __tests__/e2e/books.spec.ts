@@ -208,8 +208,8 @@ test("progress ring shows tick after scrolling to the bottom of a chapter", asyn
   page,
 }) => {
   await page.goto(EN_CHAPTER_1);
-  await page.locator(".footnotes").scrollIntoViewIfNeeded();
-  await page.waitForTimeout(100);
+  await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+  await page.waitForTimeout(500);
 
   await page.getByLabel("Back to contents").click();
   await page.waitForLoadState("domcontentloaded");
