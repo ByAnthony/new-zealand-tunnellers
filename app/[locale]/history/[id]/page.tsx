@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { setRequestLocale } from "next-intl/server";
 
 import { Article } from "@/components/Article/Article";
 import {
@@ -11,6 +12,7 @@ import {
 import { Locale } from "@/types/locale";
 import { mysqlConnection } from "@/utils/database/mysqlConnection";
 import {
+  allArticleIdsQuery,
   chapterQuery,
   sectionsQuery,
   imagesQuery,
@@ -53,6 +55,16 @@ async function getData(id: string, locale: Locale) {
   }
 }
 
+export async function generateStaticParams() {
+  const connection = await mysqlConnection.getConnection();
+  try {
+    const ids = await allArticleIdsQuery(connection);
+    return ids.map((id) => ({ id }));
+  } finally {
+    connection.release();
+  }
+}
+
 export async function generateMetadata(props: Props) {
   const { id, locale } = await props.params;
   const response = await getData(id, locale);
@@ -67,6 +79,7 @@ export async function generateMetadata(props: Props) {
 
 export default async function Page(props: Props) {
   const { id, locale } = await props.params;
+  setRequestLocale(locale);
   const response = await getData(id, locale);
   const article: Chapter = await response.json();
 
