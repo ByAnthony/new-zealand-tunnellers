@@ -39,7 +39,7 @@ export default async function Page({ params }: Props) {
 
   return (
     <Suspense fallback={<div style={{ minHeight: "100vh" }} />}>
-      <WorksMapContainer works={works} locale={locale} />
+      <WorksMapContainer key={locale} works={works} locale={locale} />
     </Suspense>
   );
 }
