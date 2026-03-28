@@ -14,7 +14,7 @@ exports[`TypeFilter matches the snapshot 1`] = `
     </button>
     <div
       aria-label="Filter by type"
-      class="chips"
+      class="chips  "
       role="group"
     >
       <button

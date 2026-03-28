@@ -51,7 +51,7 @@ export function TypeFilter({ types, selectedTypes, onToggle, colors }: Props) {
         &larr;
       </button>
       <div
-        className={STYLES.chips}
+        className={`${STYLES.chips} ${canScrollLeft ? STYLES["chips--fade-left"] : ""} ${canScrollRight ? STYLES["chips--fade-right"] : ""}`}
         role="group"
         aria-label="Filter by type"
         ref={scrollRef}
