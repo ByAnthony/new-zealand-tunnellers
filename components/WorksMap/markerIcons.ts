@@ -7,12 +7,12 @@ export const CATEGORY_COLORS: Record<string, string> = {
   Demolition: "rgb(231, 76, 60)",
   Dugout: "rgb(52, 152, 219)",
   Infrastructure: "rgb(243, 156, 18)",
-  "Machine-gun nest": "rgb(142, 68, 173)",
-  Medical: "rgb(46, 204, 113)",
-  "Observation post": "rgb(26, 188, 156)",
+  "Machine-Gun Nest": "rgb(142, 68, 173)",
+  "First Aid Post": "rgb(46, 204, 113)",
+  "Observation Post": "rgb(26, 188, 156)",
   Subway: "rgb(241, 196, 15)",
   Trench: "rgb(230, 126, 34)",
-  "Trench Mortar": "rgb(192, 57, 43)",
+  "Trench Mortar Emplacement": "rgb(192, 57, 43)",
 };
 
 function getCategoryColor(
