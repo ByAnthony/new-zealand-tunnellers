@@ -1,0 +1,111 @@
+@use "app/variables.module.scss";
+
+.type-filter {
+  display: flex;
+  align-items: stretch;
+  gap: variables.$xxxs-margin;
+}
+
+.chips {
+  display: flex;
+  align-items: stretch;
+  gap: variables.$xxxs-margin;
+  overflow-x: auto;
+  scrollbar-width: none;
+  flex: 1;
+  min-width: 0;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  &--fade-left {
+    mask-image: linear-gradient(to right, transparent, black 12px);
+  }
+
+  &--fade-right {
+    mask-image: linear-gradient(to left, transparent, black 12px);
+  }
+
+  &--fade-left#{&}--fade-right {
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      black 12px,
+      black calc(100% - 12px),
+      transparent
+    );
+  }
+}
+
+.arrow {
+  margin: 0;
+  flex-shrink: 0;
+  padding: 0 variables.$xxs-margin;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+  background-color: variables.$primary-medium-color;
+  border: 1px solid variables.$primary-light-color;
+  border-radius: variables.$border-radius;
+  color: variables.$secondary-color;
+  font-family: variables.$main-font;
+  font-size: 1.9rem;
+  font-weight: 200;
+  cursor: pointer;
+  transition:
+    border-color 0.9s ease-in-out,
+    background-color 0.9s ease-in-out;
+
+  &:hover:not(:disabled) {
+    background-color: variables.$primary-dark-color;
+    border: 1px solid variables.$secondary-color;
+  }
+
+  &:disabled {
+    border: 1px solid variables.$primary-light-color;
+    color: variables.$primary-light-color;
+    cursor: not-allowed;
+  }
+}
+
+.chip {
+  display: flex;
+  align-items: center;
+  gap: variables.$xxxs-margin;
+  flex-shrink: 0;
+  padding: 0 variables.$xxs-margin;
+  background-color: variables.$primary-medium-color;
+  border: 1px solid variables.$primary-light-color;
+  border-radius: variables.$border-radius;
+  color: variables.$secondary-color;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    border-color 0.9s ease-in-out,
+    background-color 0.9s ease-in-out,
+    color 0.9s ease-in-out;
+
+  &:hover {
+    border-color: variables.$secondary-color;
+  }
+
+  &--active {
+    background-color: variables.$secondary-color;
+    border-color: variables.$secondary-color;
+    color: variables.$primary-dark-color;
+  }
+}
+
+.chip-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  flex-shrink: 0;
+}

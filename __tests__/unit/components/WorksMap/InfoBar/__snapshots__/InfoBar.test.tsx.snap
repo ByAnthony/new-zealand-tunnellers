@@ -1,0 +1,74 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`InfoBar matches the snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="info-bar enter"
+  >
+    <div
+      class="info-bar-fields"
+    >
+      <div
+        class="info-bar-header"
+      >
+        <span
+          class="info-bar-name"
+        >
+          Corona Cave
+        </span>
+        <div
+          class="info-bar-tags"
+        >
+          <span
+            class="info-bar-tag"
+            style="background-color: rgb(52, 152, 219); border-color: rgb(52, 152, 219);"
+          >
+            Dugout
+          </span>
+        </div>
+      </div>
+      <div
+        class="info-bar-dates"
+      >
+        <div
+          class="info-bar-field"
+        >
+          <span
+            class="info-bar-label"
+          >
+            Started
+          </span>
+          <span
+            class="info-bar-value"
+          >
+            15 June 1917
+          </span>
+        </div>
+        <div
+          class="info-bar-field"
+        >
+          <span
+            class="info-bar-label"
+          >
+            Ended
+          </span>
+          <span
+            class="info-bar-value"
+          >
+            15 July 1917
+          </span>
+        </div>
+      </div>
+    </div>
+    <div
+      class="info-bar-actions"
+    >
+      <button
+        aria-label="Close"
+      >
+        ×
+      </button>
+    </div>
+  </div>
+</DocumentFragment>
+`;

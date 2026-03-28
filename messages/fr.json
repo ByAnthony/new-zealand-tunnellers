@@ -4,7 +4,8 @@
     "aboutUs": "À propos",
     "tunnellers": "Liste des tunneliers",
     "book": "Les Kiwis aussi creusent des tunnels",
-    "timelineOf": "Chronologie de {forename} {surname}"
+    "timelineOf": "Chronologie de {forename} {surname}",
+    "map": "Carte interactive"
   },
   "nav": {
     "history": "Histoire",
@@ -138,6 +139,18 @@
     "enlistedAtAge": "{title} à l'âge de {age} ans",
     "companyEventAlt": "Image pour {title}",
     "companyEventAltFallback": "Événement de la compagnie"
+  },
+  "maps": {
+    "title": "Travaux des tunneliers",
+    "work": "travail",
+    "works": "travaux",
+    "section": "Section",
+    "cardTitle": "Travaux des tunneliers",
+    "cardDescription": "Des abris souterrains aux ponts, la compagnie de tunneliers néo-zélandais a laissé son empreinte sur le front d\u2019Arras. Cette carte interactive répertorie les travaux consignés dans le journal de guerre de la compagnie entre mars 1916 et décembre 1918 \u2014 chacun localisé avec précision grâce au système de quadrillage des cartes d\u2019état-major britanniques.",
+    "cardBadge": "Carte",
+    "date": "Date",
+    "start": "Début",
+    "end": "Fin"
   },
   "books": {
     "readingProgress": "Progression de la lecture",

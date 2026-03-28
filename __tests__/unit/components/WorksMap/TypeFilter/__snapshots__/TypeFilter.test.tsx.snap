@@ -1,0 +1,60 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`TypeFilter matches the snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="type-filter"
+  >
+    <button
+      aria-label="Scroll filters left"
+      class="arrow"
+      disabled=""
+    >
+      ←
+    </button>
+    <div
+      aria-label="Filter by type"
+      class="chips  "
+      role="group"
+    >
+      <button
+        aria-pressed="false"
+        class="chip "
+      >
+        <span
+          class="chip-dot"
+          style="background-color: rgb(52, 152, 219);"
+        />
+        Dugout
+      </button>
+      <button
+        aria-pressed="false"
+        class="chip "
+      >
+        <span
+          class="chip-dot"
+          style="background-color: rgb(142, 68, 173);"
+        />
+        Machine-gun nest
+      </button>
+      <button
+        aria-pressed="false"
+        class="chip "
+      >
+        <span
+          class="chip-dot"
+          style="background-color: rgb(230, 126, 34);"
+        />
+        Trench
+      </button>
+    </div>
+    <button
+      aria-label="Scroll filters right"
+      class="arrow"
+      disabled=""
+    >
+      →
+    </button>
+  </div>
+</DocumentFragment>
+`;

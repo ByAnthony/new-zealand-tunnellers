@@ -1,0 +1,136 @@
+@use "app/variables.module.scss";
+
+.container {
+  position: fixed;
+  inset: 0;
+}
+
+.map {
+  width: 100%;
+  height: 100%;
+}
+
+.map-controls {
+  position: absolute;
+  bottom: variables.$m-margin;
+  left: variables.$m-margin;
+  right: variables.$m-margin;
+  display: flex;
+  flex-direction: column;
+  gap: variables.$xxxs-margin;
+  z-index: 1000;
+
+  @include variables.desktop {
+    bottom: variables.$base-margin;
+    left: 50%;
+    right: auto;
+    width: 600px;
+    transform: translateX(-50%);
+  }
+}
+
+.filter-row {
+  display: flex;
+  gap: variables.$xxxs-margin;
+
+  > :last-child {
+    flex: 1;
+    min-width: 0;
+  }
+}
+
+.slider-row {
+  display: flex;
+  gap: variables.$xxxs-margin;
+
+  > :first-child {
+    flex: 1;
+    min-width: 0;
+  }
+}
+
+.slider-count {
+  width: variables.$l-margin;
+  background-color: variables.$primary-medium-color;
+  border: 1px solid variables.$primary-light-color;
+  border-radius: variables.$border-radius;
+  padding: variables.$xs-margin variables.$s-margin;
+  color: variables.$text-color;
+  font-size: 0.9rem;
+  font-weight: 500;
+  white-space: nowrap;
+  text-align: center;
+}
+
+:global(.leaflet-bottom.leaflet-right) {
+  left: 50%;
+  right: auto;
+  bottom: calc(variables.$m-margin / 2);
+  transform: translateX(-50%) translateY(50%);
+
+  @include variables.desktop {
+    bottom: calc(variables.$base-margin / 2);
+  }
+}
+
+:global(.leaflet-control-attribution) {
+  background-color: transparent !important;
+  border: 1px solid variables.$placeholder-color;
+  border-radius: variables.$border-radius;
+  color: variables.$placeholder-color !important;
+  font-size: 0.5rem;
+  padding: 2px variables.$xxs-margin;
+  white-space: nowrap;
+
+  a {
+    color: variables.$secondary-color !important;
+    transition: all 0.9s ease-in-out;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  @include variables.tablet {
+    font-size: 0.6rem;
+  }
+
+  @include variables.desktop {
+    font-size: 0.7rem;
+  }
+}
+
+.zoom {
+  display: flex;
+  flex-direction: column;
+  gap: variables.$xxxs-margin;
+
+  button {
+    width: 45px;
+    height: 100%;
+    background-color: variables.$primary-medium-color;
+    color: variables.$secondary-color;
+    border: 1px solid variables.$primary-light-color;
+    border-radius: variables.$border-radius;
+    font-size: 1.5rem;
+
+    @include variables.tablet {
+      font-size: 1.6rem;
+    }
+
+    @include variables.desktop {
+      font-size: 1.7rem;
+    }
+
+    line-height: 1;
+    cursor: pointer;
+    transition:
+      border 0.9s ease-in-out,
+      background-color 0.9s ease-in-out;
+
+    &:hover {
+      background-color: variables.$primary-dark-color;
+      border-color: variables.$secondary-color;
+    }
+  }
+}
