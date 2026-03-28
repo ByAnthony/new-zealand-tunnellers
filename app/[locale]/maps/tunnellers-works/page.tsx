@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { Suspense } from "react";
 
 import { WorksMapContainer } from "@/components/WorksMap/WorksMapContainer";
 import { Locale } from "@/types/locale";
@@ -36,5 +37,9 @@ export default async function Page({ params }: Props) {
   const response = await getData();
   const works: WorkData[] = await response.json();
 
-  return <WorksMapContainer works={works} locale={locale} />;
+  return (
+    <Suspense fallback={<div style={{ minHeight: "100vh" }} />}>
+      <WorksMapContainer works={works} locale={locale} />
+    </Suspense>
+  );
 }

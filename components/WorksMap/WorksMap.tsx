@@ -2,6 +2,7 @@
 
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
+import { useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState, useCallback, useMemo } from "react";
 
@@ -48,8 +49,14 @@ function dateToMonth(dateStr: string): number {
   return d.getFullYear() * 12 + d.getMonth();
 }
 
+function toSlug(name: string): string {
+  return name.toLowerCase().replace(/\s+/g, "-");
+}
+
 export function WorksMap({ works, locale }: Props) {
   const t = useTranslations("maps");
+  const searchParams = useSearchParams();
+  const isFirstRenderRef = useRef(true);
   const mapRef = useRef<L.Map | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const markersRef = useRef<
@@ -74,11 +81,57 @@ export function WorksMap({ works, locale }: Props) {
   const minMonth = Math.min(...allMonths.map((m) => m.start));
   const maxMonth = Math.max(...allMonths.map((m) => m.end));
 
+  const { types, typeColors, nameToSlug, slugToName } = useMemo(() => {
+    const categorySet = new Set<string>();
+    const colorMap: Record<string, string> = {};
+    const n2s = new Map<string, string>();
+    const s2n = new Map<string, string>();
+    works.forEach((w) => {
+      const [cat1, cat2] = getWorkCategories(w, locale);
+      if (cat1) {
+        categorySet.add(cat1);
+        if (w.work_category_1_en && CATEGORY_COLORS[w.work_category_1_en]) {
+          colorMap[cat1] = CATEGORY_COLORS[w.work_category_1_en];
+        }
+        if (w.work_category_1_en) {
+          const slug = toSlug(w.work_category_1_en);
+          n2s.set(cat1, slug);
+          s2n.set(slug, cat1);
+        }
+      }
+      if (cat2) {
+        categorySet.add(cat2);
+        if (w.work_category_2_en && CATEGORY_COLORS[w.work_category_2_en]) {
+          colorMap[cat2] = CATEGORY_COLORS[w.work_category_2_en];
+        }
+        if (w.work_category_2_en) {
+          const slug = toSlug(w.work_category_2_en);
+          n2s.set(cat2, slug);
+          s2n.set(slug, cat2);
+        }
+      }
+    });
+    return {
+      types: Array.from(categorySet).sort(),
+      typeColors: colorMap,
+      nameToSlug: n2s,
+      slugToName: s2n,
+    };
+  }, [works, locale]);
+
   const [dateRange, setDateRange] = useState<[number, number]>([
     minMonth,
     maxMonth,
   ]);
-  const [selectedTypes, setSelectedTypes] = useState<Set<string>>(new Set());
+  const [selectedTypes, setSelectedTypes] = useState<Set<string>>(() => {
+    const typesParam = searchParams.get("type");
+    if (!typesParam) return new Set<string>();
+    const matched = typesParam
+      .split(",")
+      .map((slug) => slugToName.get(slug))
+      .filter((name): name is string => name !== undefined);
+    return new Set(matched);
+  });
   const [displayedWork, setDisplayedWork] = useState<WorkData | null>(null);
   const [isExiting, setIsExiting] = useState(false);
   const displayedWorkRef = useRef<WorkData | null>(null);
@@ -96,31 +149,34 @@ export function WorksMap({ works, locale }: Props) {
   >("default");
   const exitDurationRef = useRef(EXIT_DURATION_DEFAULT);
 
-  const { types, typeColors } = useMemo(() => {
-    const categorySet = new Set<string>();
-    const colorMap: Record<string, string> = {};
-    works.forEach((w) => {
-      const [cat1, cat2] = getWorkCategories(w, locale);
-      if (cat1) {
-        categorySet.add(cat1);
-        if (w.work_category_1_en && CATEGORY_COLORS[w.work_category_1_en]) {
-          colorMap[cat1] = CATEGORY_COLORS[w.work_category_1_en];
-        }
-      }
-      if (cat2) {
-        categorySet.add(cat2);
-        if (w.work_category_2_en && CATEGORY_COLORS[w.work_category_2_en]) {
-          colorMap[cat2] = CATEGORY_COLORS[w.work_category_2_en];
-        }
-      }
-    });
-    return { types: Array.from(categorySet).sort(), typeColors: colorMap };
-  }, [works, locale]);
-
   const typeColorsRef = useRef(typeColors);
   selectedTypesRef.current = selectedTypes;
   dateRangeRef.current = dateRange;
   typeColorsRef.current = typeColors;
+
+  useEffect(() => {
+    if (isFirstRenderRef.current) {
+      isFirstRenderRef.current = false;
+      return;
+    }
+    const slugs = Array.from(selectedTypes)
+      .map((name) => nameToSlug.get(name) ?? toSlug(name))
+      .sort()
+      .join(",");
+    const params = new URLSearchParams(window.location.search);
+    if (slugs) {
+      params.set("type", slugs);
+    } else {
+      params.delete("type");
+    }
+    const qs = params.toString().replace(/%2C/gi, ",");
+    const currentQs = window.location.search.replace(/^\?/, "");
+    if (qs === currentQs) return;
+    const url = qs
+      ? `${window.location.pathname}?${qs}`
+      : window.location.pathname;
+    window.history.replaceState(null, "", url);
+  }, [selectedTypes, nameToSlug]);
 
   const selectWork = useCallback((work: WorkData | null) => {
     if (exitTimeoutRef.current) clearTimeout(exitTimeoutRef.current);
