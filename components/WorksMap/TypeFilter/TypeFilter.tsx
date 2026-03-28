@@ -64,11 +64,6 @@ export function TypeFilter({ types, selectedTypes, onToggle, colors }: Props) {
               className={`${STYLES.chip} ${isActive ? STYLES["chip--active"] : ""}`}
               aria-pressed={isActive}
               onClick={() => onToggle(type)}
-              style={
-                isActive
-                  ? { backgroundColor: colors[type], borderColor: colors[type] }
-                  : undefined
-              }
             >
               <span
                 className={STYLES["chip-dot"]}

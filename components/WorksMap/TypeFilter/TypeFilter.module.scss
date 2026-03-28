@@ -63,8 +63,8 @@
   border-radius: variables.$border-radius;
   color: variables.$secondary-color;
   font: inherit;
-  font-size: 0.8rem;
-  font-weight: 400;
+  font-size: 0.9rem;
+  font-weight: 500;
   white-space: nowrap;
   cursor: pointer;
   transition:
@@ -77,6 +77,8 @@
   }
 
   &--active {
+    background-color: variables.$secondary-color;
+    border-color: variables.$secondary-color;
     color: variables.$primary-dark-color;
   }
 }

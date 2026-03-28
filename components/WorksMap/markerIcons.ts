@@ -13,19 +13,14 @@ export const CATEGORY_COLORS: Record<string, string> = {
   Subway: "rgb(241, 196, 15)",
   Trench: "rgb(230, 126, 34)",
   "Trench Mortar": "rgb(192, 57, 43)",
-  // French equivalents
-  Démolition: "rgb(231, 76, 60)",
-  Abri: "rgb(52, 152, 219)",
-  "Nid de mitrailleuses": "rgb(142, 68, 173)",
-  Médical: "rgb(46, 204, 113)",
-  "Poste d'observation": "rgb(26, 188, 156)",
-  Boyau: "rgb(241, 196, 15)",
-  Tranchée: "rgb(230, 126, 34)",
-  "Lance-mines": "rgb(192, 57, 43)",
 };
 
-function getCategoryColor(category: string | null): string {
+function getCategoryColor(
+  category: string | null,
+  colorMap?: Record<string, string>,
+): string {
   if (!category) return MARKER_COLOR_NEUTRAL;
+  if (colorMap && colorMap[category]) return colorMap[category];
   return CATEGORY_COLORS[category] ?? MARKER_COLOR_NEUTRAL;
 }
 
@@ -79,20 +74,24 @@ function createSplitGroupIcon(colors: string[], count: number) {
   });
 }
 
-export function createWorkIcon(categories: Set<string>, visibleCount: number) {
+export function createWorkIcon(
+  categories: Set<string>,
+  visibleCount: number,
+  colorMap?: Record<string, string>,
+) {
   const cats = Array.from(categories);
   if (visibleCount === 1 && cats.length <= 2) {
     return createSingleIcon(
-      getCategoryColor(cats[0] ?? null),
-      cats[1] ? getCategoryColor(cats[1]) : null,
+      getCategoryColor(cats[0] ?? null, colorMap),
+      cats[1] ? getCategoryColor(cats[1], colorMap) : null,
     );
   }
   if (cats.length === 1) {
-    return createGroupIcon(getCategoryColor(cats[0]), visibleCount);
+    return createGroupIcon(getCategoryColor(cats[0], colorMap), visibleCount);
   }
   if (cats.length >= 2) {
     return createSplitGroupIcon(
-      cats.map((c) => getCategoryColor(c)),
+      cats.map((c) => getCategoryColor(c, colorMap)),
       visibleCount,
     );
   }

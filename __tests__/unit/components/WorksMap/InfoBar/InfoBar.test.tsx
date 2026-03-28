@@ -7,8 +7,10 @@ import {
 } from "__tests__/unit/utils/mocks/mockWork";
 
 import { InfoBar } from "@/components/WorksMap/InfoBar/InfoBar";
+import { CATEGORY_COLORS } from "@/components/WorksMap/markerIcons";
 
 const onClose = jest.fn();
+const colors = CATEGORY_COLORS;
 
 describe("InfoBar", () => {
   beforeEach(() => {
@@ -21,6 +23,7 @@ describe("InfoBar", () => {
         work={mockWork}
         isExiting={false}
         locale="en"
+        colors={colors}
         onClose={onClose}
       />,
     );
@@ -33,6 +36,7 @@ describe("InfoBar", () => {
         work={mockWork}
         isExiting={false}
         locale="en"
+        colors={colors}
         onClose={onClose}
       />,
     );
@@ -40,17 +44,17 @@ describe("InfoBar", () => {
   });
 
   describe("type display", () => {
-    test("shows single category as plain text when no type", () => {
+    test("shows single category as a tag with dot", () => {
       render(
         <InfoBar
           work={mockWork}
           isExiting={false}
           locale="en"
+          colors={colors}
           onClose={onClose}
         />,
       );
       expect(screen.getByText("Dugout")).toBeInTheDocument();
-      expect(screen.queryByRole("list")).not.toBeInTheDocument();
     });
 
     test("shows work type when present, not category", () => {
@@ -59,6 +63,7 @@ describe("InfoBar", () => {
           work={mockWorkWithType}
           isExiting={false}
           locale="en"
+          colors={colors}
           onClose={onClose}
         />,
       );
@@ -66,17 +71,16 @@ describe("InfoBar", () => {
       expect(screen.queryByText("Dugout")).not.toBeInTheDocument();
     });
 
-    test("shows two categories as a bullet list", () => {
+    test("shows two categories as tags", () => {
       render(
         <InfoBar
           work={mockWorkTwoCategories}
           isExiting={false}
           locale="en"
+          colors={colors}
           onClose={onClose}
         />,
       );
-      const list = screen.getByRole("list");
-      expect(list).toBeInTheDocument();
       expect(screen.getByText("Machine-gun nest")).toBeInTheDocument();
       expect(screen.getByText("Dugout")).toBeInTheDocument();
     });
@@ -87,6 +91,7 @@ describe("InfoBar", () => {
           work={mockWork}
           isExiting={false}
           locale="fr"
+          colors={colors}
           onClose={onClose}
         />,
       );
@@ -99,6 +104,7 @@ describe("InfoBar", () => {
           work={mockWorkWithType}
           isExiting={false}
           locale="fr"
+          colors={colors}
           onClose={onClose}
         />,
       );
@@ -107,17 +113,18 @@ describe("InfoBar", () => {
   });
 
   describe("date display", () => {
-    test("shows Start and End labels when dates are different", () => {
+    test("shows Started and Ended labels when dates are different", () => {
       render(
         <InfoBar
           work={mockWork}
           isExiting={false}
           locale="en"
+          colors={colors}
           onClose={onClose}
         />,
       );
-      expect(screen.getByText("Start")).toBeInTheDocument();
-      expect(screen.getByText("End")).toBeInTheDocument();
+      expect(screen.getByText("Started")).toBeInTheDocument();
+      expect(screen.getByText("Ended")).toBeInTheDocument();
     });
 
     test("shows Date label when start and end are the same", () => {
@@ -126,6 +133,7 @@ describe("InfoBar", () => {
           work={mockWorkSingleDate}
           isExiting={false}
           locale="en"
+          colors={colors}
           onClose={onClose}
         />,
       );
@@ -145,6 +153,7 @@ describe("InfoBar", () => {
           work={workNoDate}
           isExiting={false}
           locale="en"
+          colors={colors}
           onClose={onClose}
         />,
       );
@@ -160,6 +169,7 @@ describe("InfoBar", () => {
           work={mockWork}
           isExiting={false}
           locale="en"
+          colors={colors}
           onClose={onClose}
         />,
       );
@@ -172,6 +182,7 @@ describe("InfoBar", () => {
           work={mockWork}
           isExiting={true}
           locale="en"
+          colors={colors}
           onClose={onClose}
         />,
       );
@@ -185,6 +196,7 @@ describe("InfoBar", () => {
           isExiting={false}
           animType="fade"
           locale="en"
+          colors={colors}
           onClose={onClose}
         />,
       );
@@ -198,6 +210,7 @@ describe("InfoBar", () => {
           isExiting={true}
           animType="fade"
           locale="en"
+          colors={colors}
           onClose={onClose}
         />,
       );
@@ -211,6 +224,7 @@ describe("InfoBar", () => {
           isExiting={false}
           animType="slide-next"
           locale="en"
+          colors={colors}
           onClose={onClose}
         />,
       );
@@ -224,6 +238,7 @@ describe("InfoBar", () => {
           isExiting={false}
           animType="slide-prev"
           locale="en"
+          colors={colors}
           onClose={onClose}
         />,
       );
@@ -240,6 +255,7 @@ describe("InfoBar", () => {
           work={mockWork}
           isExiting={false}
           locale="en"
+          colors={colors}
           onClose={onClose}
           stackTotal={1}
           stackIndex={0}
@@ -260,6 +276,7 @@ describe("InfoBar", () => {
           work={mockWork}
           isExiting={false}
           locale="en"
+          colors={colors}
           onClose={onClose}
           stackTotal={4}
           stackIndex={0}
@@ -279,6 +296,7 @@ describe("InfoBar", () => {
           work={mockWork}
           isExiting={false}
           locale="en"
+          colors={colors}
           onClose={onClose}
           stackTotal={4}
           stackIndex={2}
@@ -294,6 +312,7 @@ describe("InfoBar", () => {
           work={mockWork}
           isExiting={false}
           locale="en"
+          colors={colors}
           onClose={onClose}
           stackTotal={4}
           stackIndex={1}
@@ -310,6 +329,7 @@ describe("InfoBar", () => {
           work={mockWork}
           isExiting={false}
           locale="en"
+          colors={colors}
           onClose={onClose}
           stackTotal={4}
           stackIndex={1}
@@ -327,6 +347,7 @@ describe("InfoBar", () => {
         work={mockWork}
         isExiting={false}
         locale="en"
+        colors={colors}
         onClose={onClose}
       />,
     );

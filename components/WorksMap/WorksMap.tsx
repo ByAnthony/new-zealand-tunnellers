@@ -2,6 +2,7 @@
 
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
+import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState, useCallback, useMemo } from "react";
 
 import { WorkData } from "@/utils/database/queries/worksQuery";
@@ -48,6 +49,7 @@ function dateToMonth(dateStr: string): number {
 }
 
 export function WorksMap({ works, locale }: Props) {
+  const t = useTranslations("maps");
   const mapRef = useRef<L.Map | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const markersRef = useRef<
@@ -94,18 +96,31 @@ export function WorksMap({ works, locale }: Props) {
   >("default");
   const exitDurationRef = useRef(EXIT_DURATION_DEFAULT);
 
-  const types = useMemo(() => {
+  const { types, typeColors } = useMemo(() => {
     const categorySet = new Set<string>();
+    const colorMap: Record<string, string> = {};
     works.forEach((w) => {
       const [cat1, cat2] = getWorkCategories(w, locale);
-      if (cat1) categorySet.add(cat1);
-      if (cat2) categorySet.add(cat2);
+      if (cat1) {
+        categorySet.add(cat1);
+        if (w.work_category_1_en && CATEGORY_COLORS[w.work_category_1_en]) {
+          colorMap[cat1] = CATEGORY_COLORS[w.work_category_1_en];
+        }
+      }
+      if (cat2) {
+        categorySet.add(cat2);
+        if (w.work_category_2_en && CATEGORY_COLORS[w.work_category_2_en]) {
+          colorMap[cat2] = CATEGORY_COLORS[w.work_category_2_en];
+        }
+      }
     });
-    return Array.from(categorySet).sort();
+    return { types: Array.from(categorySet).sort(), typeColors: colorMap };
   }, [works, locale]);
 
+  const typeColorsRef = useRef(typeColors);
   selectedTypesRef.current = selectedTypes;
   dateRangeRef.current = dateRange;
+  typeColorsRef.current = typeColors;
 
   const selectWork = useCallback((work: WorkData | null) => {
     if (exitTimeoutRef.current) clearTimeout(exitTimeoutRef.current);
@@ -128,7 +143,9 @@ export function WorksMap({ works, locale }: Props) {
       const stack = stackedWorksRef.current;
       const count = stack.length || 1;
       const cats = collectCategories(stack, locale);
-      selectedMarkerRef.current.setIcon(createWorkIcon(cats, count));
+      selectedMarkerRef.current.setIcon(
+        createWorkIcon(cats, count, typeColorsRef.current),
+      );
       selectedMarkerRef.current = null;
     }
     stackedWorksRef.current = [];
@@ -195,7 +212,7 @@ export function WorksMap({ works, locale }: Props) {
       const rep = groupWorks[0];
       const count = groupWorks.length;
       const groupCats = collectCategories(groupWorks, locale);
-      const icon = createWorkIcon(groupCats, count);
+      const icon = createWorkIcon(groupCats, count, typeColorsRef.current);
 
       const marker = L.marker([rep.work_latitude, rep.work_longitude], { icon })
         .addTo(map)
@@ -205,7 +222,7 @@ export function WorksMap({ works, locale }: Props) {
             const prevCount = prev.length || 1;
             const prevCats = collectCategories(prev, locale);
             selectedMarkerRef.current.setIcon(
-              createWorkIcon(prevCats, prevCount),
+              createWorkIcon(prevCats, prevCount, typeColorsRef.current),
             );
           }
 
@@ -300,14 +317,14 @@ export function WorksMap({ works, locale }: Props) {
         if (count > 0) {
           if (!map.hasLayer(marker)) marker.addTo(map);
           if (marker !== selectedMarkerRef.current) {
-            marker.setIcon(createWorkIcon(visibleCats, count));
+            marker.setIcon(createWorkIcon(visibleCats, count, typeColors));
           }
         } else {
           if (map.hasLayer(marker)) marker.remove();
         }
       },
     );
-  }, [dateRange, selectedTypes]);
+  }, [dateRange, selectedTypes, typeColors]);
 
   useEffect(() => {
     const map = mapRef.current;
@@ -360,6 +377,7 @@ export function WorksMap({ works, locale }: Props) {
             isExiting={isExiting}
             animType={animType}
             locale={locale}
+            colors={typeColors}
             onClose={closeInfo}
             stackTotal={stackTotal > 1 ? stackTotal : undefined}
             stackIndex={stackIndex}
@@ -368,13 +386,13 @@ export function WorksMap({ works, locale }: Props) {
         )}
         <div className={STYLES["filter-row"]}>
           <div className={STYLES["slider-count"]}>
-            {visibleCount} {visibleCount === 1 ? "work" : "works"}
+            {visibleCount} {visibleCount === 1 ? t("work") : t("works")}
           </div>
           <TypeFilter
             types={types}
             selectedTypes={selectedTypes}
             onToggle={toggleType}
-            colors={CATEGORY_COLORS}
+            colors={typeColors}
           />
         </div>
         <div className={STYLES["slider-row"]}>

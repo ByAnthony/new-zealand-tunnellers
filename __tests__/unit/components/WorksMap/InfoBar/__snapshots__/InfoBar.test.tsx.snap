@@ -9,18 +9,19 @@ exports[`InfoBar matches the snapshot 1`] = `
       class="info-bar-fields"
     >
       <div
-        class="info-bar-field"
+        class="info-bar-header"
       >
         <span
-          class="info-bar-value"
+          class="info-bar-name"
         >
           Corona Cave
         </span>
         <div
-          class="info-bar-field info-bar-field--full"
+          class="info-bar-tags"
         >
           <span
-            class="info-bar-value"
+            class="info-bar-tag"
+            style="background-color: rgb(52, 152, 219); border-color: rgb(52, 152, 219);"
           >
             Dugout
           </span>
@@ -35,7 +36,7 @@ exports[`InfoBar matches the snapshot 1`] = `
           <span
             class="info-bar-label"
           >
-            Start
+            Started
           </span>
           <span
             class="info-bar-value"
@@ -49,7 +50,7 @@ exports[`InfoBar matches the snapshot 1`] = `
           <span
             class="info-bar-label"
           >
-            End
+            Ended
           </span>
           <span
             class="info-bar-value"

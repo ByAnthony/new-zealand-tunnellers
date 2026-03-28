@@ -1,3 +1,5 @@
+import { useTranslations } from "next-intl";
+
 import { WorkData } from "@/utils/database/queries/worksQuery";
 
 import STYLES from "./InfoBar.module.scss";
@@ -7,6 +9,7 @@ type Props = {
   isExiting: boolean;
   animType?: "default" | "fade" | "slide-next" | "slide-prev";
   locale: string;
+  colors: Record<string, string>;
   onClose: () => void;
   stackTotal?: number;
   stackIndex?: number;
@@ -43,18 +46,32 @@ export function InfoBar({
   isExiting,
   animType = "default",
   locale,
+  colors,
   onClose,
   stackTotal,
   stackIndex,
   onNavigate,
 }: Props) {
+  const t = useTranslations("maps");
   const type = locale === "fr" ? work.work_type_fr : work.work_type_en;
   const category1 =
     locale === "fr" ? work.work_category_1_fr : work.work_category_1_en;
   const category2 =
     locale === "fr" ? work.work_category_2_fr : work.work_category_2_en;
   const categories = [category1, category2].filter(Boolean) as string[];
-  const typeLabel = type ?? (categories.length === 1 ? categories[0] : null);
+  const typeItems = type
+    ? type
+        .split(",")
+        .map((s) => s.trim())
+        .filter(Boolean)
+    : [];
+  const labels =
+    typeItems.length > 0
+      ? typeItems.map((text, i) => ({
+          text,
+          colorKey: categories[i] ?? categories[0],
+        }))
+      : categories.map((cat) => ({ text: cat, colorKey: cat }));
 
   const dateStart = work.work_date_start;
   const dateEnd = work.work_date_end;
@@ -70,40 +87,30 @@ export function InfoBar({
       className={`${STYLES["info-bar"]} ${getAnimClass(isExiting, animType, STYLES)}`}
     >
       <div className={STYLES["info-bar-fields"]}>
-        <div className={STYLES["info-bar-field"]}>
-          <span className={STYLES["info-bar-value"]}>{work.work_name}</span>
-          {(typeLabel || categories.length > 1) &&
-            (() => {
-              const items = typeLabel
-                ? typeLabel
-                    .split(",")
-                    .map((s) => s.trim())
-                    .filter(Boolean)
-                : categories;
-              return (
-                <div
-                  className={`${STYLES["info-bar-field"]} ${STYLES["info-bar-field--full"]}`}
+        <div className={STYLES["info-bar-header"]}>
+          <span className={STYLES["info-bar-name"]}>{work.work_name}</span>
+          {labels.length > 0 && (
+            <div className={STYLES["info-bar-tags"]}>
+              {labels.map((label) => (
+                <span
+                  key={label.text}
+                  className={STYLES["info-bar-tag"]}
+                  style={{
+                    backgroundColor: colors[label.colorKey],
+                    borderColor: colors[label.colorKey],
+                  }}
                 >
-                  {items.length > 1 ? (
-                    <ul className={STYLES["info-bar-list"]}>
-                      {items.map((item) => (
-                        <li key={item} className={STYLES["info-bar-value"]}>
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
-                  ) : (
-                    <span className={STYLES["info-bar-value"]}>{items[0]}</span>
-                  )}
-                </div>
-              );
-            })()}
+                  {label.text}
+                </span>
+              ))}
+            </div>
+          )}
         </div>
         {dateStart && (
           <div className={STYLES["info-bar-dates"]}>
             <div className={STYLES["info-bar-field"]}>
               <span className={STYLES["info-bar-label"]}>
-                {hasTwoDates ? "Start" : "Date"}
+                {hasTwoDates ? t("start") : t("date")}
               </span>
               <span className={STYLES["info-bar-value"]}>
                 {formatDate(displayStart, locale)}
@@ -111,7 +118,7 @@ export function InfoBar({
             </div>
             {hasTwoDates && (
               <div className={STYLES["info-bar-field"]}>
-                <span className={STYLES["info-bar-label"]}>End</span>
+                <span className={STYLES["info-bar-label"]}>{t("end")}</span>
                 <span className={STYLES["info-bar-value"]}>
                   {formatDate(displayEnd, locale)}
                 </span>

@@ -1,3 +1,4 @@
+import { useLocale } from "next-intl";
 import Slider from "rc-slider";
 import { useState, useEffect } from "react";
 import "rc-slider/assets/index.css";
@@ -16,24 +17,17 @@ type Props = {
   maxMonth: number;
 };
 
-function formatMonth(monthNum: number): string {
+function formatMonth(monthNum: number, locale: string): string {
   const year = Math.floor(monthNum / 12);
   const month = monthNum % 12;
-  const months = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-  ];
-  return `${months[month]} ${year}`;
+  const date = new Date(year, month);
+  const monthName = date.toLocaleDateString(
+    locale === "en" ? "en-GB" : locale,
+    {
+      month: "short",
+    },
+  );
+  return `${monthName.charAt(0).toUpperCase() + monthName.slice(1)} ${year}`;
 }
 
 export function WorksSlider({
@@ -42,6 +36,7 @@ export function WorksSlider({
   minMonth,
   maxMonth,
 }: Props) {
+  const locale = useLocale();
   const [isMobile, setIsMobile] = useState(
     () =>
       typeof window !== "undefined" &&
@@ -81,7 +76,7 @@ export function WorksSlider({
   Array.from({ length: totalMarks }, (_, i) =>
     Math.round(minMonth + (i * range) / (totalMarks - 1)),
   ).forEach((m) => {
-    marks[m] = { style: markStyle, label: formatMonth(m) };
+    marks[m] = { style: markStyle, label: formatMonth(m, locale) };
   });
 
   return (

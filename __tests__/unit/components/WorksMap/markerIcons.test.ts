@@ -22,9 +22,11 @@ describe("markerIcons", () => {
       expect(CATEGORY_COLORS["Infrastructure"]).toBe("rgb(243, 156, 18)");
     });
 
-    test("has French category colors matching English equivalents", () => {
-      expect(CATEGORY_COLORS["Abri"]).toBe(CATEGORY_COLORS["Dugout"]);
-      expect(CATEGORY_COLORS["Tranchée"]).toBe(CATEGORY_COLORS["Trench"]);
+    test("only contains English category keys", () => {
+      const keys = Object.keys(CATEGORY_COLORS);
+      expect(keys).toHaveLength(9);
+      expect(keys).toContain("Demolition");
+      expect(keys).not.toContain("Abri");
     });
   });
 
@@ -113,6 +115,19 @@ describe("markerIcons", () => {
       const html = (icon.options as { html: string }).html;
       expect(html).toContain("3");
       expect(html).toContain("rgb(29, 31, 32)");
+    });
+
+    test("uses custom color map for localized category names", () => {
+      const colorMap = { Abri: "rgb(52, 152, 219)" };
+      const icon = createWorkIcon(new Set(["Abri"]), 1, colorMap);
+      const html = (icon.options as { html: string }).html;
+      expect(html).toContain("rgb(52, 152, 219)");
+    });
+
+    test("falls back to CATEGORY_COLORS when not in custom map", () => {
+      const icon = createWorkIcon(new Set(["Dugout"]), 1, {});
+      const html = (icon.options as { html: string }).html;
+      expect(html).toContain("rgb(52, 152, 219)");
     });
   });
 });
