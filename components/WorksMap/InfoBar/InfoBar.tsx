@@ -133,14 +133,13 @@ export function InfoBar({
         </button>
         {stackTotal && stackTotal > 1 && (
           <div className={STYLES["info-bar-nav"]}>
-            <button onClick={() => onNavigate?.(-1)} aria-label="Previous">
-              ‹
-            </button>
             <span>
-              {(stackIndex ?? 0) + 1}/{stackTotal}
+              <strong>{(stackIndex ?? 0) + 1}</strong>
+              &nbsp;/&nbsp;
+              {stackTotal}
             </span>
             <button onClick={() => onNavigate?.(1)} aria-label="Next">
-              ›
+              &rarr;
             </button>
           </div>
         )}

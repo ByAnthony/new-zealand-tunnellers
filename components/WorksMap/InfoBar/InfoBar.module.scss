@@ -177,20 +177,21 @@
   flex-shrink: 0;
 }
 
-.info-bar-field {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-}
-
 .info-bar-dates {
   flex: 1 0 100%;
   display: flex;
-  gap: variables.$m-margin;
+  flex-direction: column;
+  gap: variables.$xxxs-margin;
+}
+
+.info-bar-field {
+  display: flex;
+  align-items: baseline;
+  gap: variables.$xxxs-margin;
 }
 
 .info-bar-label {
+  min-width: 5em;
   font-size: 0.7rem;
   font-weight: 600;
   text-transform: uppercase;
@@ -207,29 +208,51 @@
 .info-bar-nav {
   display: flex;
   flex-direction: row;
-  align-items: center;
-  gap: variables.$xxxs-margin;
+  align-items: stretch;
   flex-shrink: 0;
 
   span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 variables.$xxs-margin;
+    background: none;
+    border: 1px solid variables.$primary-light-color;
+    border-right: none;
+    border-radius: variables.$border-radius 0 0 variables.$border-radius;
     font-size: 0.9rem;
-    color: variables.$text-color;
+    color: variables.$placeholder-color;
     white-space: nowrap;
+
+    strong {
+      color: variables.$text-color;
+      font-weight: 600;
+    }
   }
 
   button {
-    background: none;
-    border: none;
-    color: variables.$placeholder-color;
-    font-size: 1.4rem;
-    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
     padding: 0;
+    background-color: variables.$primary-medium-color;
+    border: 1px solid variables.$primary-light-color;
+    border-radius: 0 variables.$border-radius variables.$border-radius 0;
+    color: variables.$secondary-color;
+    font-family: variables.$main-font;
+    font-size: 1.4rem;
+    font-weight: 200;
+    cursor: pointer;
     line-height: 1;
-    transform: translateY(-2px);
-    transition: color 0.9s ease-in-out;
+    transition:
+      border-color 0.9s ease-in-out,
+      background-color 0.9s ease-in-out;
 
     &:hover {
-      color: variables.$text-color;
+      background-color: variables.$primary-dark-color;
+      border-color: variables.$secondary-color;
     }
   }
 }

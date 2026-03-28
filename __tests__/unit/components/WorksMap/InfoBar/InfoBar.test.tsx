@@ -283,11 +283,13 @@ describe("InfoBar", () => {
           onNavigate={onNavigate}
         />,
       );
-      expect(
-        screen.getByRole("button", { name: "Previous" }),
-      ).toBeInTheDocument();
       expect(screen.getByRole("button", { name: "Next" })).toBeInTheDocument();
-      expect(screen.getByText("1/4")).toBeInTheDocument();
+      expect(
+        screen.getByText(
+          (_content, el) =>
+            el?.tagName === "SPAN" && el.textContent === "1\u00a0/\u00a04",
+        ),
+      ).toBeInTheDocument();
     });
 
     test("shows correct current index in navigation", () => {
@@ -303,24 +305,12 @@ describe("InfoBar", () => {
           onNavigate={onNavigate}
         />,
       );
-      expect(screen.getByText("3/4")).toBeInTheDocument();
-    });
-
-    test("calls onNavigate(-1) when Previous is clicked", () => {
-      render(
-        <InfoBar
-          work={mockWork}
-          isExiting={false}
-          locale="en"
-          colors={colors}
-          onClose={onClose}
-          stackTotal={4}
-          stackIndex={1}
-          onNavigate={onNavigate}
-        />,
-      );
-      fireEvent.click(screen.getByRole("button", { name: "Previous" }));
-      expect(onNavigate).toHaveBeenCalledWith(-1);
+      expect(
+        screen.getByText(
+          (_content, el) =>
+            el?.tagName === "SPAN" && el.textContent === "3\u00a0/\u00a04",
+        ),
+      ).toBeInTheDocument();
     });
 
     test("calls onNavigate(1) when Next is clicked", () => {
