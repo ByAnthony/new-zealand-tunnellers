@@ -142,6 +142,7 @@ export function WorksMap({ works, locale }: Props) {
   const dateRangeRef = useRef<[number, number]>([minMonth, maxMonth]);
   const stackedWorksRef = useRef<WorkData[]>([]);
   const stackIndexRef = useRef(0);
+  const pendingStackIndexRef = useRef<number | null>(null);
   const [stackIndex, setStackIndex] = useState(0);
   const [stackTotal, setStackTotal] = useState(0);
   const [animType, setAnimType] = useState<
@@ -183,6 +184,10 @@ export function WorksMap({ works, locale }: Props) {
     if (!displayedWorkRef.current) {
       displayedWorkRef.current = work;
       setDisplayedWork(work);
+      if (pendingStackIndexRef.current !== null) {
+        setStackIndex(pendingStackIndexRef.current);
+        pendingStackIndexRef.current = null;
+      }
     } else {
       nextWorkRef.current = work;
       setIsExiting(true);
@@ -190,6 +195,10 @@ export function WorksMap({ works, locale }: Props) {
         displayedWorkRef.current = nextWorkRef.current;
         setDisplayedWork(nextWorkRef.current);
         setIsExiting(false);
+        if (pendingStackIndexRef.current !== null) {
+          setStackIndex(pendingStackIndexRef.current);
+          pendingStackIndexRef.current = null;
+        }
       }, exitDurationRef.current);
     }
   }, []);
@@ -218,9 +227,9 @@ export function WorksMap({ works, locale }: Props) {
       const newIndex =
         (stackIndexRef.current + direction + stack.length) % stack.length;
       stackIndexRef.current = newIndex;
-      setStackIndex(newIndex);
       setAnimType(direction === 1 ? "slide-next" : "slide-prev");
       exitDurationRef.current = EXIT_DURATION_SLIDE;
+      pendingStackIndexRef.current = newIndex;
       selectWork(stack[newIndex]);
     },
     [selectWork],
