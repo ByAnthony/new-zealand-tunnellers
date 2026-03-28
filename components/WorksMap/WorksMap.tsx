@@ -6,7 +6,19 @@ import { useEffect, useRef, useState, useCallback, useMemo } from "react";
 
 import { WorkData } from "@/utils/database/queries/worksQuery";
 
+import {
+  collectCategories,
+  getWorkCategories,
+  isWorkVisible,
+} from "./filterUtils";
 import { InfoBar } from "./InfoBar/InfoBar";
+import {
+  CATEGORY_COLORS,
+  MARKER_COLOR_ACTIVE,
+  createGroupIcon,
+  createSingleIcon,
+  createWorkIcon,
+} from "./markerIcons";
 import { TypeFilter } from "./TypeFilter/TypeFilter";
 import STYLES from "./WorksMap.module.scss";
 import { WorksSlider } from "./WorksSlider/WorksSlider";
@@ -25,29 +37,10 @@ type Props = {
   locale: string;
 };
 
-const MARKER_COLOR = "rgb(153, 131, 100)";
-const MARKER_COLOR_ACTIVE = "rgb(255, 255, 255)";
 const COORD_TOLERANCE = 0.0001;
 const EXIT_DURATION_DEFAULT = 150;
 const EXIT_DURATION_SLIDE = 250;
 const EXIT_DURATION_FADE = 300;
-
-function createGroupIcon(color: string, count: number) {
-  if (count === 1) {
-    return L.divIcon({
-      className: "",
-      html: `<div style="width:10px;height:10px;border-radius:50%;background:${color};border:1px solid rgba(255,255,255,0.6);"></div>`,
-      iconSize: [10, 10],
-      iconAnchor: [5, 5],
-    });
-  }
-  return L.divIcon({
-    className: "",
-    html: `<div style="width:22px;height:22px;border-radius:50%;background:${color};border:2px solid rgba(255,255,255,0.8);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:rgb(29,31,32);font-family:sans-serif;">${count}</div>`,
-    iconSize: [22, 22],
-    iconAnchor: [11, 11],
-  });
-}
 
 function dateToMonth(dateStr: string): number {
   const d = new Date(dateStr);
@@ -83,13 +76,15 @@ export function WorksMap({ works, locale }: Props) {
     minMonth,
     maxMonth,
   ]);
-  const [selectedType, setSelectedType] = useState<string | null>(null);
+  const [selectedTypes, setSelectedTypes] = useState<Set<string>>(new Set());
   const [displayedWork, setDisplayedWork] = useState<WorkData | null>(null);
   const [isExiting, setIsExiting] = useState(false);
   const displayedWorkRef = useRef<WorkData | null>(null);
   const nextWorkRef = useRef<WorkData | null>(null);
   const exitTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const selectedMarkerRef = useRef<L.Marker | null>(null);
+  const selectedTypesRef = useRef<Set<string>>(new Set());
+  const dateRangeRef = useRef<[number, number]>([minMonth, maxMonth]);
   const stackedWorksRef = useRef<WorkData[]>([]);
   const stackIndexRef = useRef(0);
   const [stackIndex, setStackIndex] = useState(0);
@@ -102,15 +97,15 @@ export function WorksMap({ works, locale }: Props) {
   const types = useMemo(() => {
     const categorySet = new Set<string>();
     works.forEach((w) => {
-      const cat1 =
-        locale === "fr" ? w.work_category_1_fr : w.work_category_1_en;
-      const cat2 =
-        locale === "fr" ? w.work_category_2_fr : w.work_category_2_en;
+      const [cat1, cat2] = getWorkCategories(w, locale);
       if (cat1) categorySet.add(cat1);
       if (cat2) categorySet.add(cat2);
     });
     return Array.from(categorySet).sort();
   }, [works, locale]);
+
+  selectedTypesRef.current = selectedTypes;
+  dateRangeRef.current = dateRange;
 
   const selectWork = useCallback((work: WorkData | null) => {
     if (exitTimeoutRef.current) clearTimeout(exitTimeoutRef.current);
@@ -130,9 +125,10 @@ export function WorksMap({ works, locale }: Props) {
 
   const closeInfo = useCallback(() => {
     if (selectedMarkerRef.current) {
-      selectedMarkerRef.current.setIcon(
-        createGroupIcon(MARKER_COLOR, stackedWorksRef.current.length || 1),
-      );
+      const stack = stackedWorksRef.current;
+      const count = stack.length || 1;
+      const cats = collectCategories(stack, locale);
+      selectedMarkerRef.current.setIcon(createWorkIcon(cats, count));
       selectedMarkerRef.current = null;
     }
     stackedWorksRef.current = [];
@@ -140,7 +136,7 @@ export function WorksMap({ works, locale }: Props) {
     setStackIndex(0);
     setStackTotal(0);
     selectWork(null);
-  }, [selectWork]);
+  }, [selectWork, locale]);
 
   const handleNavigate = useCallback(
     (direction: 1 | -1) => {
@@ -198,27 +194,53 @@ export function WorksMap({ works, locale }: Props) {
     markersRef.current = groups.map((groupWorks) => {
       const rep = groupWorks[0];
       const count = groupWorks.length;
-      const icon = createGroupIcon(MARKER_COLOR, count);
+      const groupCats = collectCategories(groupWorks, locale);
+      const icon = createWorkIcon(groupCats, count);
 
       const marker = L.marker([rep.work_latitude, rep.work_longitude], { icon })
         .addTo(map)
         .on("click", () => {
           if (selectedMarkerRef.current) {
-            const prevCount = stackedWorksRef.current.length || 1;
+            const prev = stackedWorksRef.current;
+            const prevCount = prev.length || 1;
+            const prevCats = collectCategories(prev, locale);
             selectedMarkerRef.current.setIcon(
-              createGroupIcon(MARKER_COLOR, prevCount),
+              createWorkIcon(prevCats, prevCount),
             );
           }
-          marker.setIcon(createGroupIcon(MARKER_COLOR_ACTIVE, count));
+
+          const filtered = groupWorks.filter((w) => {
+            const idx = works.indexOf(w);
+            const [c1, c2] = getWorkCategories(w, locale);
+            return isWorkVisible(
+              allMonths[idx].start,
+              allMonths[idx].end,
+              c1,
+              c2,
+              dateRangeRef.current,
+              selectedTypesRef.current,
+            );
+          });
+          if (filtered.length === 0) return;
+
+          marker.setIcon(
+            filtered.length === 1
+              ? createSingleIcon(MARKER_COLOR_ACTIVE, null)
+              : createGroupIcon(
+                  MARKER_COLOR_ACTIVE,
+                  filtered.length,
+                  "rgb(29,31,32)",
+                ),
+          );
           selectedMarkerRef.current = marker;
           map.panTo(marker.getLatLng());
-          stackedWorksRef.current = groupWorks;
+          stackedWorksRef.current = filtered;
           stackIndexRef.current = 0;
           setStackIndex(0);
-          setStackTotal(groupWorks.length);
+          setStackTotal(filtered.length);
           setAnimType("fade");
           exitDurationRef.current = EXIT_DURATION_FADE;
-          selectWork(groupWorks[0]);
+          selectWork(filtered[0]);
         });
 
       const worksMonths = groupWorks.map((w) => {
@@ -231,16 +253,8 @@ export function WorksMap({ works, locale }: Props) {
         groupWorks,
         starts: worksMonths.map((m) => m.start),
         ends: worksMonths.map((m) => m.end),
-        categories1: groupWorks.map(
-          (w) =>
-            (locale === "fr" ? w.work_category_1_fr : w.work_category_1_en) ??
-            null,
-        ),
-        categories2: groupWorks.map(
-          (w) =>
-            (locale === "fr" ? w.work_category_2_fr : w.work_category_2_en) ??
-            null,
-        ),
+        categories1: groupWorks.map((w) => getWorkCategories(w, locale)[0]),
+        categories2: groupWorks.map((w) => getWorkCategories(w, locale)[1]),
       };
     });
 
@@ -263,27 +277,37 @@ export function WorksMap({ works, locale }: Props) {
   useEffect(() => {
     const map = mapRef.current;
     if (!map) return;
-    const [from, to] = dateRange;
     markersRef.current.forEach(
       ({ marker, starts, ends, categories1, categories2 }) => {
-        const groupVisible = starts.some((_, i) => {
-          const s = Math.min(starts[i], ends[i]);
-          const e = Math.max(starts[i], ends[i]);
-          const dateVisible = isNaN(s) || (s <= to && e >= from);
-          const typeVisible =
-            !selectedType ||
-            categories1[i] === selectedType ||
-            categories2[i] === selectedType;
-          return dateVisible && typeVisible;
+        let count = 0;
+        const visibleCats = new Set<string>();
+        starts.forEach((_, i) => {
+          if (
+            isWorkVisible(
+              starts[i],
+              ends[i],
+              categories1[i],
+              categories2[i],
+              dateRange,
+              selectedTypes,
+            )
+          ) {
+            count++;
+            if (categories1[i]) visibleCats.add(categories1[i]);
+            if (categories2[i]) visibleCats.add(categories2[i]);
+          }
         });
-        if (groupVisible) {
+        if (count > 0) {
           if (!map.hasLayer(marker)) marker.addTo(map);
+          if (marker !== selectedMarkerRef.current) {
+            marker.setIcon(createWorkIcon(visibleCats, count));
+          }
         } else {
           if (map.hasLayer(marker)) marker.remove();
         }
       },
     );
-  }, [dateRange, selectedType]);
+  }, [dateRange, selectedTypes]);
 
   useEffect(() => {
     const map = mapRef.current;
@@ -295,19 +319,32 @@ export function WorksMap({ works, locale }: Props) {
     const bounds = L.latLngBounds(visible);
     const zoom = map.getBoundsZoom(bounds, false);
     map.fitBounds(bounds, { padding: [30, 30], maxZoom: zoom - 1 });
-  }, [selectedType]);
+  }, [selectedTypes]);
 
   const visibleCount = works.filter((w, i) => {
-    const { start, end } = allMonths[i];
-    const s = Math.min(start, end);
-    const e = Math.max(start, end);
-    const dateVisible = isNaN(s) || (s <= dateRange[1] && e >= dateRange[0]);
-    const cat1 = locale === "fr" ? w.work_category_1_fr : w.work_category_1_en;
-    const cat2 = locale === "fr" ? w.work_category_2_fr : w.work_category_2_en;
-    const typeVisible =
-      !selectedType || cat1 === selectedType || cat2 === selectedType;
-    return dateVisible && typeVisible;
+    const [cat1, cat2] = getWorkCategories(w, locale);
+    return isWorkVisible(
+      allMonths[i].start,
+      allMonths[i].end,
+      cat1,
+      cat2,
+      dateRange,
+      selectedTypes,
+    );
   }).length;
+
+  const toggleType = useCallback(
+    (type: string) => {
+      closeInfo();
+      setSelectedTypes((prev) => {
+        const next = new Set(prev);
+        if (next.has(type)) next.delete(type);
+        else next.add(type);
+        return next;
+      });
+    },
+    [closeInfo],
+  );
 
   const zoom = useCallback((dir: 1 | -1) => {
     mapRef.current?.[dir === 1 ? "zoomIn" : "zoomOut"]();
@@ -329,15 +366,23 @@ export function WorksMap({ works, locale }: Props) {
             onNavigate={handleNavigate}
           />
         )}
-        <div className={STYLES.controls}>
+        <div className={STYLES["filter-row"]}>
           <div className={STYLES["slider-count"]}>
             {visibleCount} {visibleCount === 1 ? "work" : "works"}
           </div>
           <TypeFilter
             types={types}
-            selectedType={selectedType}
-            onChange={setSelectedType}
-            onOpen={closeInfo}
+            selectedTypes={selectedTypes}
+            onToggle={toggleType}
+            colors={CATEGORY_COLORS}
+          />
+        </div>
+        <div className={STYLES["slider-row"]}>
+          <WorksSlider
+            dateRange={dateRange}
+            onChange={setDateRange}
+            minMonth={minMonth}
+            maxMonth={maxMonth}
           />
           <div className={STYLES.zoom}>
             <button onClick={() => zoom(1)} aria-label="Zoom in">
@@ -348,12 +393,6 @@ export function WorksMap({ works, locale }: Props) {
             </button>
           </div>
         </div>
-        <WorksSlider
-          dateRange={dateRange}
-          onChange={setDateRange}
-          minMonth={minMonth}
-          maxMonth={maxMonth}
-        />
       </div>
     </div>
   );

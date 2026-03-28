@@ -29,30 +29,28 @@
   }
 }
 
-.controls {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  grid-template-rows: 1fr 1fr;
-  grid-template-areas:
-    "filter zoom"
-    "count zoom";
+.filter-row {
+  display: flex;
   gap: variables.$xxxs-margin;
 
-  @include variables.tablet {
-    grid-template-columns: 1fr 1fr auto;
-    grid-template-rows: auto;
-    grid-template-areas: "count filter zoom";
+  > :last-child {
+    flex: 1;
+    min-width: 0;
   }
+}
 
-  @include variables.desktop {
-    grid-template-columns: 1fr 1fr auto;
-    grid-template-rows: auto;
-    grid-template-areas: "count filter zoom";
+.slider-row {
+  display: flex;
+  gap: variables.$xxxs-margin;
+
+  > :first-child {
+    flex: 1;
+    min-width: 0;
   }
 }
 
 .slider-count {
-  grid-area: count;
+  width: variables.$l-margin;
   background-color: variables.$primary-medium-color;
   border: 1px solid variables.$primary-light-color;
   border-radius: variables.$border-radius;
@@ -61,14 +59,7 @@
   font-size: 0.9rem;
   font-weight: 500;
   white-space: nowrap;
-
-  @include variables.tablet {
-    font-size: 1rem;
-  }
-
-  @include variables.desktop {
-    font-size: 1.1rem;
-  }
+  text-align: center;
 }
 
 :global(.leaflet-bottom.leaflet-right) {
@@ -110,21 +101,12 @@
 }
 
 .zoom {
-  grid-area: zoom;
   display: flex;
   flex-direction: column;
   gap: variables.$xxxs-margin;
 
-  @include variables.tablet {
-    flex-direction: row;
-  }
-
-  @include variables.desktop {
-    flex-direction: row;
-  }
-
   button {
-    width: 50px;
+    width: 45px;
     height: 100%;
     background-color: variables.$primary-medium-color;
     color: variables.$secondary-color;

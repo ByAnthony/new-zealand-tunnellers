@@ -7,6 +7,23 @@
   padding: 30px 50px 45px 50px;
 }
 
+:global(
+  .rc-slider-handle-dragging.rc-slider-handle-dragging.rc-slider-handle-dragging
+) {
+  border-color: rgb(153, 131, 100) !important;
+  box-shadow: 0 0 5px rgba(64, 66, 67, 0.5) !important;
+}
+
+:global(.rc-slider-handle:focus-visible) {
+  border-color: rgb(153, 131, 100) !important;
+  box-shadow: 0 0 5px rgba(64, 66, 67, 0.5) !important;
+}
+
+:global(.rc-slider-handle:active) {
+  border-color: rgb(153, 131, 100) !important;
+  box-shadow: 0 0 5px rgba(64, 66, 67, 0.5) !important;
+}
+
 :global(.rc-slider-dot) {
   background: variables.$primary-light-color !important;
   border-color: variables.$primary-light-color !important;

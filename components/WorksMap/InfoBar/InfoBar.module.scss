@@ -108,8 +108,8 @@
   align-items: flex-start;
   justify-content: space-between;
   gap: variables.$s-margin;
-  background-color: variables.$primary-medium-color;
-  border: 1px solid variables.$primary-light-color;
+  background-color: variables.$primary-dark-color;
+  border: 1px solid variables.$primary-medium-color;
   border-radius: variables.$border-radius;
   padding: variables.$s-margin;
 }
