@@ -53,6 +53,18 @@ function toSlug(name: string): string {
   return name.toLowerCase().replace(/\s+/g, "-");
 }
 
+function monthToParam(month: number): string {
+  const year = Math.floor(month / 12);
+  const m = (month % 12) + 1;
+  return `${year}-${String(m).padStart(2, "0")}`;
+}
+
+function paramToMonth(param: string): number | null {
+  const match = param.match(/^(\d{4})-(\d{2})$/);
+  if (!match) return null;
+  return Number(match[1]) * 12 + (Number(match[2]) - 1);
+}
+
 export function WorksMap({ works, locale }: Props) {
   const t = useTranslations("maps");
   const searchParams = useSearchParams();
@@ -119,10 +131,16 @@ export function WorksMap({ works, locale }: Props) {
     };
   }, [works, locale]);
 
-  const [dateRange, setDateRange] = useState<[number, number]>([
-    minMonth,
-    maxMonth,
-  ]);
+  const [dateRange, setDateRange] = useState<[number, number]>(() => {
+    const fromParam = searchParams.get("from");
+    const toParam = searchParams.get("to");
+    const from = fromParam ? paramToMonth(fromParam) : null;
+    const to = toParam ? paramToMonth(toParam) : null;
+    return [
+      from !== null && from >= minMonth && from <= maxMonth ? from : minMonth,
+      to !== null && to >= minMonth && to <= maxMonth ? to : maxMonth,
+    ];
+  });
   const [selectedTypes, setSelectedTypes] = useState<Set<string>>(() => {
     const typesParam = searchParams.get("type");
     if (!typesParam) return new Set<string>();
@@ -160,16 +178,26 @@ export function WorksMap({ works, locale }: Props) {
       isFirstRenderRef.current = false;
       return;
     }
+    const params = new URLSearchParams(window.location.search);
+
     const slugs = Array.from(selectedTypes)
       .map((name) => nameToSlug.get(name) ?? toSlug(name))
       .sort()
       .join(",");
-    const params = new URLSearchParams(window.location.search);
     if (slugs) {
       params.set("type", slugs);
     } else {
       params.delete("type");
     }
+
+    if (dateRange[0] !== minMonth || dateRange[1] !== maxMonth) {
+      params.set("from", monthToParam(dateRange[0]));
+      params.set("to", monthToParam(dateRange[1]));
+    } else {
+      params.delete("from");
+      params.delete("to");
+    }
+
     const qs = params.toString().replace(/%2C/gi, ",");
     const currentQs = window.location.search.replace(/^\?/, "");
     if (qs === currentQs) return;
@@ -177,7 +205,7 @@ export function WorksMap({ works, locale }: Props) {
       ? `${window.location.pathname}?${qs}`
       : window.location.pathname;
     window.history.replaceState(null, "", url);
-  }, [selectedTypes, nameToSlug]);
+  }, [selectedTypes, nameToSlug, dateRange, minMonth, maxMonth]);
 
   const selectWork = useCallback((work: WorkData | null) => {
     if (exitTimeoutRef.current) clearTimeout(exitTimeoutRef.current);
