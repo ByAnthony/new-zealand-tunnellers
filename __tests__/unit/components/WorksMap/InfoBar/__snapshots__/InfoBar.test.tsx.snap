@@ -28,21 +28,39 @@ exports[`InfoBar matches the snapshot 1`] = `
         </div>
       </div>
       <div
-        class="info-bar-dates"
+        class="info-bar-details"
       >
         <div
-          class="info-bar-field"
+          class="info-bar-row"
         >
-          <span
-            class="info-bar-label"
+          <div
+            class="info-bar-field"
           >
-            Started
-          </span>
-          <span
-            class="info-bar-value"
+            <span
+              class="info-bar-label"
+            >
+              Work started
+            </span>
+            <span
+              class="info-bar-value"
+            >
+              15 June 1917
+            </span>
+          </div>
+          <div
+            class="info-bar-field"
           >
-            15 June 1917
-          </span>
+            <span
+              class="info-bar-label"
+            >
+              Ended
+            </span>
+            <span
+              class="info-bar-value"
+            >
+              15 July 1917
+            </span>
+          </div>
         </div>
         <div
           class="info-bar-field"
@@ -50,12 +68,12 @@ exports[`InfoBar matches the snapshot 1`] = `
           <span
             class="info-bar-label"
           >
-            Ended
+            Coordinates
           </span>
           <span
             class="info-bar-value"
           >
-            15 July 1917
+            50.305000, 2.876000
           </span>
         </div>
       </div>

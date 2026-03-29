@@ -177,21 +177,26 @@
   flex-shrink: 0;
 }
 
-.info-bar-dates {
+.info-bar-details {
   flex: 1 0 100%;
   display: flex;
   flex-direction: column;
   gap: variables.$xxxs-margin;
 }
 
+.info-bar-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: variables.$xxxs-margin variables.$m-margin;
+}
+
 .info-bar-field {
   display: flex;
   align-items: baseline;
-  gap: variables.$xxxs-margin;
+  gap: variables.$xxs-margin;
 }
 
 .info-bar-label {
-  min-width: 5em;
   font-size: 0.7rem;
   font-weight: 600;
   text-transform: uppercase;

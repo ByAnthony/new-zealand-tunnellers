@@ -106,26 +106,35 @@ export function InfoBar({
             </div>
           )}
         </div>
-        {dateStart && (
-          <div className={STYLES["info-bar-dates"]}>
-            <div className={STYLES["info-bar-field"]}>
-              <span className={STYLES["info-bar-label"]}>
-                {hasTwoDates ? t("start") : t("date")}
-              </span>
-              <span className={STYLES["info-bar-value"]}>
-                {formatDate(displayStart, locale)}
-              </span>
-            </div>
-            {hasTwoDates && (
+        <div className={STYLES["info-bar-details"]}>
+          {dateStart && (
+            <div className={STYLES["info-bar-row"]}>
               <div className={STYLES["info-bar-field"]}>
-                <span className={STYLES["info-bar-label"]}>{t("end")}</span>
+                <span className={STYLES["info-bar-label"]}>
+                  {hasTwoDates ? t("start") : t("date")}
+                </span>
                 <span className={STYLES["info-bar-value"]}>
-                  {formatDate(displayEnd, locale)}
+                  {formatDate(displayStart, locale)}
                 </span>
               </div>
-            )}
+              {hasTwoDates && (
+                <div className={STYLES["info-bar-field"]}>
+                  <span className={STYLES["info-bar-label"]}>{t("end")}</span>
+                  <span className={STYLES["info-bar-value"]}>
+                    {formatDate(displayEnd, locale)}
+                  </span>
+                </div>
+              )}
+            </div>
+          )}
+          <div className={STYLES["info-bar-field"]}>
+            <span className={STYLES["info-bar-label"]}>{t("coordinates")}</span>
+            <span className={STYLES["info-bar-value"]}>
+              {Number(work.work_latitude).toFixed(6)},{" "}
+              {Number(work.work_longitude).toFixed(6)}
+            </span>
           </div>
-        )}
+        </div>
       </div>
       <div className={STYLES["info-bar-actions"]}>
         <button onClick={onClose} aria-label="Close">

@@ -113,7 +113,7 @@ describe("InfoBar", () => {
   });
 
   describe("date display", () => {
-    test("shows Started and Ended labels when dates are different", () => {
+    test("shows Work started and Ended labels when dates are different", () => {
       render(
         <InfoBar
           work={mockWork}
@@ -123,11 +123,11 @@ describe("InfoBar", () => {
           onClose={onClose}
         />,
       );
-      expect(screen.getByText("Started")).toBeInTheDocument();
+      expect(screen.getByText("Work started")).toBeInTheDocument();
       expect(screen.getByText("Ended")).toBeInTheDocument();
     });
 
-    test("shows Date label when start and end are the same", () => {
+    test("shows Work date label when start and end are the same", () => {
       render(
         <InfoBar
           work={mockWorkSingleDate}
@@ -137,9 +137,9 @@ describe("InfoBar", () => {
           onClose={onClose}
         />,
       );
-      expect(screen.getByText("Date")).toBeInTheDocument();
-      expect(screen.queryByText("Start")).not.toBeInTheDocument();
-      expect(screen.queryByText("End")).not.toBeInTheDocument();
+      expect(screen.getByText("Work date")).toBeInTheDocument();
+      expect(screen.queryByText("Work started")).not.toBeInTheDocument();
+      expect(screen.queryByText("Ended")).not.toBeInTheDocument();
     });
 
     test("shows no date labels when work has no date", () => {
@@ -157,8 +157,8 @@ describe("InfoBar", () => {
           onClose={onClose}
         />,
       );
-      expect(screen.queryByText("Date")).not.toBeInTheDocument();
-      expect(screen.queryByText("Start")).not.toBeInTheDocument();
+      expect(screen.queryByText("Work date")).not.toBeInTheDocument();
+      expect(screen.queryByText("Work started")).not.toBeInTheDocument();
     });
   });
 

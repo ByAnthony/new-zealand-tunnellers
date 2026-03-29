@@ -14,6 +14,7 @@ import {
   isWorkVisible,
 } from "./filterUtils";
 import { InfoBar } from "./InfoBar/InfoBar";
+import { dateToMonth, monthToParam, paramToMonth, toSlug } from "./mapParams";
 import {
   CATEGORY_COLORS,
   MARKER_COLOR_ACTIVE,
@@ -43,27 +44,6 @@ const COORD_TOLERANCE = 0.0001;
 const EXIT_DURATION_DEFAULT = 150;
 const EXIT_DURATION_SLIDE = 250;
 const EXIT_DURATION_FADE = 300;
-
-function dateToMonth(dateStr: string): number {
-  const d = new Date(dateStr);
-  return d.getFullYear() * 12 + d.getMonth();
-}
-
-function toSlug(name: string): string {
-  return name.toLowerCase().replace(/\s+/g, "-");
-}
-
-function monthToParam(month: number): string {
-  const year = Math.floor(month / 12);
-  const m = (month % 12) + 1;
-  return `${year}-${String(m).padStart(2, "0")}`;
-}
-
-function paramToMonth(param: string): number | null {
-  const match = param.match(/^(\d{4})-(\d{2})$/);
-  if (!match) return null;
-  return Number(match[1]) * 12 + (Number(match[2]) - 1);
-}
 
 export function WorksMap({ works, locale }: Props) {
   const t = useTranslations("maps");
@@ -173,6 +153,27 @@ export function WorksMap({ works, locale }: Props) {
   dateRangeRef.current = dateRange;
   typeColorsRef.current = typeColors;
 
+  const initialWorkId = searchParams.get("work");
+  const initialWorkIdRef = useRef<number | null>(
+    initialWorkId ? Number(initialWorkId) : null,
+  );
+  const initialLat = searchParams.get("lat");
+  const initialLng = searchParams.get("lng");
+  const initialZoom = searchParams.get("zoom");
+  const initialViewRef = useRef<{
+    lat: number;
+    lng: number;
+    zoom: number;
+  } | null>(
+    initialLat && initialLng && initialZoom
+      ? {
+          lat: Number(initialLat),
+          lng: Number(initialLng),
+          zoom: Number(initialZoom),
+        }
+      : null,
+  );
+
   useEffect(() => {
     if (isFirstRenderRef.current) {
       isFirstRenderRef.current = false;
@@ -198,6 +199,12 @@ export function WorksMap({ works, locale }: Props) {
       params.delete("to");
     }
 
+    if (displayedWorkRef.current) {
+      params.set("work", String(displayedWorkRef.current.work_id));
+    } else {
+      params.delete("work");
+    }
+
     const qs = params.toString().replace(/%2C/gi, ",");
     const currentQs = window.location.search.replace(/^\?/, "");
     if (qs === currentQs) return;
@@ -205,7 +212,7 @@ export function WorksMap({ works, locale }: Props) {
       ? `${window.location.pathname}?${qs}`
       : window.location.pathname;
     window.history.replaceState(null, "", url);
-  }, [selectedTypes, nameToSlug, dateRange, minMonth, maxMonth]);
+  }, [selectedTypes, nameToSlug, dateRange, minMonth, maxMonth, displayedWork]);
 
   const selectWork = useCallback((work: WorkData | null) => {
     if (exitTimeoutRef.current) clearTimeout(exitTimeoutRef.current);
@@ -370,10 +377,31 @@ export function WorksMap({ works, locale }: Props) {
 
     map.on("click", () => closeInfo());
 
-    const bounds = L.latLngBounds(
-      works.map((w) => [w.work_latitude, w.work_longitude] as [number, number]),
-    );
-    map.fitBounds(bounds, { padding: [30, 30] });
+    const savedView = initialViewRef.current;
+    if (savedView) {
+      map.setView([savedView.lat, savedView.lng], savedView.zoom);
+    } else {
+      const bounds = L.latLngBounds(
+        works.map(
+          (w) => [w.work_latitude, w.work_longitude] as [number, number],
+        ),
+      );
+      map.fitBounds(bounds, { padding: [30, 30] });
+    }
+
+    map.on("moveend", () => {
+      const center = map.getCenter();
+      const z = map.getZoom();
+      const params = new URLSearchParams(window.location.search);
+      params.set("lat", center.lat.toFixed(6));
+      params.set("lng", center.lng.toFixed(6));
+      params.set("zoom", String(z));
+      const qs = params.toString().replace(/%2C/gi, ",");
+      const currentQs = window.location.search.replace(/^\?/, "");
+      if (qs === currentQs) return;
+      const url = `${window.location.pathname}?${qs}`;
+      window.history.replaceState(null, "", url);
+    });
 
     mapRef.current = map;
 
@@ -419,7 +447,10 @@ export function WorksMap({ works, locale }: Props) {
     );
   }, [dateRange, selectedTypes, typeColors]);
 
+  const prevSelectedTypesRef = useRef(selectedTypes);
   useEffect(() => {
+    if (prevSelectedTypesRef.current === selectedTypes) return;
+    prevSelectedTypesRef.current = selectedTypes;
     const map = mapRef.current;
     if (!map) return;
     const visible = markersRef.current
@@ -430,6 +461,21 @@ export function WorksMap({ works, locale }: Props) {
     const zoom = map.getBoundsZoom(bounds, false);
     map.fitBounds(bounds, { padding: [30, 30], maxZoom: zoom - 1 });
   }, [selectedTypes]);
+
+  // Open work from URL param — must run after all other effects
+  useEffect(() => {
+    const initialWorkId = initialWorkIdRef.current;
+    if (initialWorkId === null || !mapRef.current) return;
+    const timer = setTimeout(() => {
+      initialWorkIdRef.current = null;
+      const entry = markersRef.current.find(({ groupWorks }) =>
+        groupWorks.some((w) => w.work_id === initialWorkId),
+      );
+      if (!entry) return;
+      entry.marker.fire("click");
+    }, 0);
+    return () => clearTimeout(timer);
+  }, []);
 
   const visibleCount = works.filter((w, i) => {
     const [cat1, cat2] = getWorkCategories(w, locale);
