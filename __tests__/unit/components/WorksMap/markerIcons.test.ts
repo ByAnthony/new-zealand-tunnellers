@@ -24,7 +24,7 @@ describe("markerIcons", () => {
 
     test("only contains English category keys", () => {
       const keys = Object.keys(CATEGORY_COLORS);
-      expect(keys).toHaveLength(9);
+      expect(keys).toHaveLength(10);
       expect(keys).toContain("Demolition");
       expect(keys).not.toContain("Abri");
     });

@@ -4,6 +4,7 @@ const MARKER_COLOR_NEUTRAL = "rgb(29, 31, 32)";
 export const MARKER_COLOR_ACTIVE = "rgb(255, 255, 255)";
 
 export const CATEGORY_COLORS: Record<string, string> = {
+  Bridge: "rgb(214, 69, 117)",
   Demolition: "rgb(231, 76, 60)",
   Dugout: "rgb(52, 152, 219)",
   Infrastructure: "rgb(243, 156, 18)",
