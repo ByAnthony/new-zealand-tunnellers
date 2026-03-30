@@ -6,7 +6,7 @@ import { useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState, useCallback, useMemo } from "react";
 
-import { WorkData } from "@/utils/database/queries/worksQuery";
+import { WorkData, WorkPathPoint } from "@/utils/database/queries/worksQuery";
 
 import {
   collectCategories,
@@ -37,6 +37,7 @@ L.Icon.Default.mergeOptions({
 
 type Props = {
   works: WorkData[];
+  paths: WorkPathPoint[];
   locale: string;
 };
 
@@ -45,7 +46,7 @@ const EXIT_DURATION_DEFAULT = 150;
 const EXIT_DURATION_SLIDE = 250;
 const EXIT_DURATION_FADE = 300;
 
-export function WorksMap({ works, locale }: Props) {
+export function WorksMap({ works, paths, locale }: Props) {
   const t = useTranslations("maps");
   const searchParams = useSearchParams();
   const isFirstRenderRef = useRef(true);
@@ -136,6 +137,8 @@ export function WorksMap({ works, locale }: Props) {
   const nextWorkRef = useRef<WorkData | null>(null);
   const exitTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const selectedMarkerRef = useRef<L.Marker | null>(null);
+  const selectedPolylinesRef = useRef<L.Polyline[]>([]);
+  const polylinesByWorkIdRef = useRef<Map<number, L.Polyline[]>>(new Map());
   const selectedTypesRef = useRef<Set<string>>(new Set());
   const dateRangeRef = useRef<[number, number]>([minMonth, maxMonth]);
   const stackedWorksRef = useRef<WorkData[]>([]);
@@ -238,6 +241,13 @@ export function WorksMap({ works, locale }: Props) {
     }
   }, []);
 
+  const resetSelectedPolylines = useCallback(() => {
+    selectedPolylinesRef.current.forEach((pl) => {
+      pl.setStyle({ color: "rgb(113, 152, 185)", opacity: 1 });
+    });
+    selectedPolylinesRef.current = [];
+  }, []);
+
   const closeInfo = useCallback(() => {
     if (selectedMarkerRef.current) {
       const stack = stackedWorksRef.current;
@@ -248,12 +258,13 @@ export function WorksMap({ works, locale }: Props) {
       );
       selectedMarkerRef.current = null;
     }
+    resetSelectedPolylines();
     stackedWorksRef.current = [];
     stackIndexRef.current = 0;
     setStackIndex(0);
     setStackTotal(0);
     selectWork(null);
-  }, [selectWork, locale]);
+  }, [selectWork, locale, resetSelectedPolylines]);
 
   const handleNavigate = useCallback(
     (direction: 1 | -1) => {
@@ -292,15 +303,84 @@ export function WorksMap({ works, locale }: Props) {
       "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}",
       {
         attribution: "Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ",
-        maxZoom: 16,
+        maxZoom: 19,
       },
     ).addTo(map);
+
+    // Temporary Arras overlay for reference
+    L.imageOverlay(
+      "/images/map/arras-overlay.png",
+      [
+        [50.2674, 2.7229],
+        [50.307, 2.8126],
+      ],
+      { opacity: 0.8 },
+    ).addTo(map);
+
+    // Draw tunnel polylines from work_path data
+    const workIdsWithPaths = new Set(paths.map((p) => p.work_id));
+    const polylinesByWorkId = new Map<number, L.Polyline[]>();
+    const segments = new Map<
+      string,
+      { workId: number; points: [number, number][] }
+    >();
+    paths.forEach((p) => {
+      const key = `${p.work_id}-${p.segment}`;
+      if (!segments.has(key))
+        segments.set(key, { workId: p.work_id, points: [] });
+      segments.get(key)!.points.push([Number(p.latitude), Number(p.longitude)]);
+    });
+    segments.forEach(({ workId, points }) => {
+      const polyline = L.polyline(points, {
+        color: "rgb(113, 152, 185)",
+        weight: 3,
+        opacity: 1,
+      }).addTo(map);
+      if (!polylinesByWorkId.has(workId)) polylinesByWorkId.set(workId, []);
+      polylinesByWorkId.get(workId)!.push(polyline);
+      polylinesByWorkIdRef.current = polylinesByWorkId;
+
+      const work = works.find((w) => w.work_id === workId);
+      if (work) {
+        polyline.on("click", (e: L.LeafletMouseEvent) => {
+          L.DomEvent.stopPropagation(e);
+          if (selectedMarkerRef.current) {
+            const prev = stackedWorksRef.current;
+            const prevCount = prev.length || 1;
+            const prevCats = collectCategories(prev, locale);
+            selectedMarkerRef.current.setIcon(
+              createWorkIcon(prevCats, prevCount, typeColorsRef.current),
+            );
+            selectedMarkerRef.current = null;
+          }
+          // Reset previous polylines, then highlight all segments of this work
+          selectedPolylinesRef.current.forEach((pl) => {
+            pl.setStyle({ color: "rgb(113, 152, 185)", opacity: 1 });
+          });
+          const workPolylines = polylinesByWorkId.get(workId) ?? [];
+          workPolylines.forEach((pl) => {
+            pl.setStyle({ color: MARKER_COLOR_ACTIVE, opacity: 1 });
+          });
+          selectedPolylinesRef.current = workPolylines;
+
+          map.panTo(e.latlng);
+          stackedWorksRef.current = [work];
+          stackIndexRef.current = 0;
+          setStackIndex(0);
+          setStackTotal(1);
+          setAnimType("fade");
+          exitDurationRef.current = EXIT_DURATION_FADE;
+          selectWork(work);
+        });
+      }
+    });
 
     // Group works by location using a Map keyed by snapped coordinates (O(n))
     const snapCoord = (n: number) =>
       Math.round(n / COORD_TOLERANCE) * COORD_TOLERANCE;
     const groupMap = new Map<string, WorkData[]>();
     works.forEach((work) => {
+      if (workIdsWithPaths.has(work.work_id)) return;
       const key = `${snapCoord(work.work_latitude)},${snapCoord(work.work_longitude)}`;
       const existing = groupMap.get(key);
       if (existing) existing.push(work);
@@ -325,6 +405,11 @@ export function WorksMap({ works, locale }: Props) {
               createWorkIcon(prevCats, prevCount, typeColorsRef.current),
             );
           }
+          // Reset any highlighted polylines
+          selectedPolylinesRef.current.forEach((pl) => {
+            pl.setStyle({ color: "rgb(113, 152, 185)", opacity: 1 });
+          });
+          selectedPolylinesRef.current = [];
 
           const filtered = groupWorks.filter((w) => {
             const idx = works.indexOf(w);
@@ -375,7 +460,11 @@ export function WorksMap({ works, locale }: Props) {
       };
     });
 
-    map.on("click", () => closeInfo());
+    map.on("click", (e: L.LeafletMouseEvent) => {
+      // eslint-disable-next-line no-console
+      console.log(`[${e.latlng.lat.toFixed(6)}, ${e.latlng.lng.toFixed(6)}],`);
+      closeInfo();
+    });
 
     const savedView = initialViewRef.current;
     if (savedView) {
@@ -445,7 +534,29 @@ export function WorksMap({ works, locale }: Props) {
         }
       },
     );
-  }, [dateRange, selectedTypes, typeColors]);
+    // Filter polylines by date range and selected types
+    polylinesByWorkIdRef.current.forEach((polylines, workId) => {
+      const work = works.find((w) => w.work_id === workId);
+      if (!work) return;
+      const idx = works.indexOf(work);
+      const [c1, c2] = getWorkCategories(work, locale);
+      const visible = isWorkVisible(
+        allMonths[idx].start,
+        allMonths[idx].end,
+        c1,
+        c2,
+        dateRange,
+        selectedTypes,
+      );
+      polylines.forEach((pl) => {
+        if (visible) {
+          if (!map.hasLayer(pl)) pl.addTo(map);
+        } else {
+          if (map.hasLayer(pl)) pl.remove();
+        }
+      });
+    });
+  }, [dateRange, selectedTypes, typeColors, works, locale, allMonths]);
 
   const prevSelectedTypesRef = useRef(selectedTypes);
   useEffect(() => {

@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic";
 
-import { WorkData } from "@/utils/database/queries/worksQuery";
+import { WorkData, WorkPathPoint } from "@/utils/database/queries/worksQuery";
 
 const WorksMap = dynamic(
   () => import("@/components/WorksMap/WorksMap").then((m) => m.WorksMap),
@@ -14,9 +14,10 @@ const WorksMap = dynamic(
 
 type Props = {
   works: WorkData[];
+  paths: WorkPathPoint[];
   locale: string;
 };
 
-export function WorksMapContainer({ works, locale }: Props) {
-  return <WorksMap works={works} locale={locale} />;
+export function WorksMapContainer({ works, paths, locale }: Props) {
+  return <WorksMap works={works} paths={paths} locale={locale} />;
 }

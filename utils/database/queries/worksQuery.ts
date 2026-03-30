@@ -39,3 +39,21 @@ export const worksQuery = async (connection: PoolConnection) => {
     await connection.execute<(WorkData & RowDataPacket)[]>(query);
   return results;
 };
+
+export type WorkPathPoint = {
+  work_id: number;
+  segment: number;
+  point_order: number;
+  latitude: number;
+  longitude: number;
+};
+
+export const workPathsQuery = async (connection: PoolConnection) => {
+  const query = `SELECT work_id, segment, point_order, latitude, longitude
+    FROM work_path
+    ORDER BY work_id, segment, point_order`;
+
+  const [results] =
+    await connection.execute<(WorkPathPoint & RowDataPacket)[]>(query);
+  return results;
+};
