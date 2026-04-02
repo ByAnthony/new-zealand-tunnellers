@@ -6,6 +6,7 @@ import { useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState, useCallback, useMemo } from "react";
 
+import { CaveData, CavePathPoint } from "@/utils/database/queries/cavesQuery";
 import { WorkData, WorkPathPoint } from "@/utils/database/queries/worksQuery";
 
 import {
@@ -38,6 +39,8 @@ L.Icon.Default.mergeOptions({
 type Props = {
   works: WorkData[];
   paths: WorkPathPoint[];
+  caves: CaveData[];
+  cavePaths: CavePathPoint[];
   locale: string;
 };
 
@@ -46,7 +49,7 @@ const EXIT_DURATION_DEFAULT = 150;
 const EXIT_DURATION_SLIDE = 250;
 const EXIT_DURATION_FADE = 300;
 
-export function WorksMap({ works, paths, locale }: Props) {
+export function WorksMap({ works, paths, caves, cavePaths, locale }: Props) {
   const t = useTranslations("maps");
   const searchParams = useSearchParams();
   const isFirstRenderRef = useRef(true);
@@ -139,6 +142,10 @@ export function WorksMap({ works, paths, locale }: Props) {
   const selectedMarkerRef = useRef<L.Marker | null>(null);
   const selectedPolylinesRef = useRef<L.Polyline[]>([]);
   const polylinesByWorkIdRef = useRef<Map<number, L.Polyline[]>>(new Map());
+  const polylineColorByWorkIdRef = useRef<Map<number, string>>(new Map());
+  const cavePolygonsByCaveIdRef = useRef<Map<number, L.Polygon[]>>(new Map());
+  const [displayedCave, setDisplayedCave] = useState<CaveData | null>(null);
+  const displayedCaveRef = useRef<CaveData | null>(null);
   const selectedTypesRef = useRef<Set<string>>(new Set());
   const dateRangeRef = useRef<[number, number]>([minMonth, maxMonth]);
   const stackedWorksRef = useRef<WorkData[]>([]);
@@ -159,6 +166,10 @@ export function WorksMap({ works, paths, locale }: Props) {
   const initialWorkId = searchParams.get("work");
   const initialWorkIdRef = useRef<number | null>(
     initialWorkId ? Number(initialWorkId) : null,
+  );
+  const initialCaveId = searchParams.get("cave");
+  const initialCaveIdRef = useRef<number | null>(
+    initialCaveId ? Number(initialCaveId) : null,
   );
   const initialLat = searchParams.get("lat");
   const initialLng = searchParams.get("lng");
@@ -208,6 +219,12 @@ export function WorksMap({ works, paths, locale }: Props) {
       params.delete("work");
     }
 
+    if (displayedCaveRef.current) {
+      params.set("cave", String(displayedCaveRef.current.cave_id));
+    } else {
+      params.delete("cave");
+    }
+
     const qs = params.toString().replace(/%2C/gi, ",");
     const currentQs = window.location.search.replace(/^\?/, "");
     if (qs === currentQs) return;
@@ -215,7 +232,15 @@ export function WorksMap({ works, paths, locale }: Props) {
       ? `${window.location.pathname}?${qs}`
       : window.location.pathname;
     window.history.replaceState(null, "", url);
-  }, [selectedTypes, nameToSlug, dateRange, minMonth, maxMonth, displayedWork]);
+  }, [
+    selectedTypes,
+    nameToSlug,
+    dateRange,
+    minMonth,
+    maxMonth,
+    displayedWork,
+    displayedCave,
+  ]);
 
   const selectWork = useCallback((work: WorkData | null) => {
     if (exitTimeoutRef.current) clearTimeout(exitTimeoutRef.current);
@@ -242,10 +267,32 @@ export function WorksMap({ works, paths, locale }: Props) {
   }, []);
 
   const resetSelectedPolylines = useCallback(() => {
-    selectedPolylinesRef.current.forEach((pl) => {
-      pl.setStyle({ color: "rgb(113, 152, 185)", opacity: 1 });
+    const selected = selectedPolylinesRef.current;
+    // Find which workId owns these polylines to restore the correct color
+    polylinesByWorkIdRef.current.forEach((polylines, workId) => {
+      if (polylines.some((pl) => selected.includes(pl))) {
+        const color =
+          polylineColorByWorkIdRef.current.get(workId) ?? "rgb(113, 152, 185)";
+        polylines.forEach((pl) => pl.setStyle({ color, opacity: 1 }));
+      }
     });
     selectedPolylinesRef.current = [];
+  }, []);
+
+  const resetSelectedCavePolylines = useCallback(() => {
+    if (displayedCaveRef.current) {
+      const polygons =
+        cavePolygonsByCaveIdRef.current.get(displayedCaveRef.current.cave_id) ??
+        [];
+      polygons.forEach((pl) =>
+        pl.setStyle({
+          color: "#2c2e2f",
+          fillColor: "#2c2e2f",
+          fillOpacity: 1,
+          opacity: 1,
+        }),
+      );
+    }
   }, []);
 
   const closeInfo = useCallback(() => {
@@ -259,12 +306,17 @@ export function WorksMap({ works, paths, locale }: Props) {
       selectedMarkerRef.current = null;
     }
     resetSelectedPolylines();
+    if (displayedCaveRef.current) {
+      resetSelectedCavePolylines();
+      displayedCaveRef.current = null;
+      setDisplayedCave(null);
+    }
     stackedWorksRef.current = [];
     stackIndexRef.current = 0;
     setStackIndex(0);
     setStackTotal(0);
     selectWork(null);
-  }, [selectWork, locale, resetSelectedPolylines]);
+  }, [selectWork, locale, resetSelectedPolylines, resetSelectedCavePolylines]);
 
   const handleNavigate = useCallback(
     (direction: 1 | -1) => {
@@ -314,7 +366,7 @@ export function WorksMap({ works, paths, locale }: Props) {
         [50.2674, 2.7229],
         [50.307, 2.8126],
       ],
-      { opacity: 0.8 },
+      { opacity: 0 },
     ).addTo(map);
 
     // Draw tunnel polylines from work_path data
@@ -331,8 +383,16 @@ export function WorksMap({ works, paths, locale }: Props) {
       segments.get(key)!.points.push([Number(p.latitude), Number(p.longitude)]);
     });
     segments.forEach(({ workId, points }) => {
+      const work = works.find((w) => w.work_id === workId);
+      const cat = work?.work_category_1_en ?? null;
+      const workColor =
+        cat && CATEGORY_COLORS[cat]
+          ? CATEGORY_COLORS[cat]
+          : "rgb(113, 152, 185)";
+      polylineColorByWorkIdRef.current.set(workId, workColor);
+
       const polyline = L.polyline(points, {
-        color: "rgb(113, 152, 185)",
+        color: workColor,
         weight: 3,
         opacity: 1,
       }).addTo(map);
@@ -340,7 +400,6 @@ export function WorksMap({ works, paths, locale }: Props) {
       polylinesByWorkId.get(workId)!.push(polyline);
       polylinesByWorkIdRef.current = polylinesByWorkId;
 
-      const work = works.find((w) => w.work_id === workId);
       if (work) {
         polyline.on("click", (e: L.LeafletMouseEvent) => {
           L.DomEvent.stopPropagation(e);
@@ -354,9 +413,7 @@ export function WorksMap({ works, paths, locale }: Props) {
             selectedMarkerRef.current = null;
           }
           // Reset previous polylines, then highlight all segments of this work
-          selectedPolylinesRef.current.forEach((pl) => {
-            pl.setStyle({ color: "rgb(113, 152, 185)", opacity: 1 });
-          });
+          resetSelectedPolylines();
           const workPolylines = polylinesByWorkId.get(workId) ?? [];
           workPolylines.forEach((pl) => {
             pl.setStyle({ color: MARKER_COLOR_ACTIVE, opacity: 1 });
@@ -374,6 +431,79 @@ export function WorksMap({ works, paths, locale }: Props) {
         });
       }
     });
+
+    // Draw cave polygons
+    const caveSegments = new Map<
+      string,
+      { caveId: number; points: [number, number][] }
+    >();
+    cavePaths.forEach((p) => {
+      const key = `${p.cave_id}-${p.segment}`;
+      if (!caveSegments.has(key))
+        caveSegments.set(key, { caveId: p.cave_id, points: [] });
+      caveSegments
+        .get(key)!
+        .points.push([Number(p.latitude), Number(p.longitude)]);
+    });
+    const cavePolygonsById = new Map<number, L.Polygon[]>();
+    caveSegments.forEach(({ caveId, points }) => {
+      const polygon = L.polygon(points, {
+        color: "#2c2e2f",
+        weight: 2,
+        opacity: 1,
+        fillColor: "#2c2e2f",
+        fillOpacity: 1,
+      }).addTo(map);
+      if (!cavePolygonsById.has(caveId)) cavePolygonsById.set(caveId, []);
+      cavePolygonsById.get(caveId)!.push(polygon);
+
+      const cave = caves.find((c) => c.cave_id === caveId);
+      if (cave) {
+        polygon.on("click", (e: L.LeafletMouseEvent) => {
+          L.DomEvent.stopPropagation(e);
+          // Reset any selected work marker or polylines
+          if (selectedMarkerRef.current) {
+            const prev = stackedWorksRef.current;
+            const prevCount = prev.length || 1;
+            const prevCats = collectCategories(prev, locale);
+            selectedMarkerRef.current.setIcon(
+              createWorkIcon(prevCats, prevCount, typeColorsRef.current),
+            );
+            selectedMarkerRef.current = null;
+          }
+          resetSelectedPolylines();
+          stackedWorksRef.current = [];
+          selectWork(null);
+          // Reset previous cave polygons
+          if (displayedCaveRef.current) {
+            const prevCavePolygons =
+              cavePolygonsById.get(displayedCaveRef.current.cave_id) ?? [];
+            prevCavePolygons.forEach((pl) =>
+              pl.setStyle({
+                color: "#2c2e2f",
+                fillColor: "#2c2e2f",
+                fillOpacity: 1,
+                opacity: 1,
+              }),
+            );
+          }
+          // Highlight all segments of this cave
+          const thisCavePolygons = cavePolygonsById.get(caveId) ?? [];
+          thisCavePolygons.forEach((pl) =>
+            pl.setStyle({
+              color: MARKER_COLOR_ACTIVE,
+              fillColor: "#2c2e2f",
+              fillOpacity: 1,
+              opacity: 1,
+            }),
+          );
+          displayedCaveRef.current = cave;
+          setDisplayedCave(cave);
+          map.panTo(e.latlng);
+        });
+      }
+    });
+    cavePolygonsByCaveIdRef.current = cavePolygonsById;
 
     // Group works by location using a Map keyed by snapped coordinates (O(n))
     const snapCoord = (n: number) =>
@@ -406,10 +536,24 @@ export function WorksMap({ works, paths, locale }: Props) {
             );
           }
           // Reset any highlighted polylines
-          selectedPolylinesRef.current.forEach((pl) => {
-            pl.setStyle({ color: "rgb(113, 152, 185)", opacity: 1 });
-          });
-          selectedPolylinesRef.current = [];
+          resetSelectedPolylines();
+          // Reset any highlighted cave
+          if (displayedCaveRef.current) {
+            const prevCavePolygons =
+              cavePolygonsByCaveIdRef.current.get(
+                displayedCaveRef.current.cave_id,
+              ) ?? [];
+            prevCavePolygons.forEach((pl) =>
+              pl.setStyle({
+                color: "#2c2e2f",
+                fillColor: "#2c2e2f",
+                fillOpacity: 1,
+                opacity: 1,
+              }),
+            );
+            displayedCaveRef.current = null;
+            setDisplayedCave(null);
+          }
 
           const filtered = groupWorks.filter((w) => {
             const idx = works.indexOf(w);
@@ -499,7 +643,17 @@ export function WorksMap({ works, paths, locale }: Props) {
       mapRef.current = null;
       markersRef.current = [];
     };
-  }, [works, locale, allMonths, selectWork, closeInfo]);
+  }, [
+    works,
+    paths,
+    caves,
+    cavePaths,
+    locale,
+    allMonths,
+    selectWork,
+    closeInfo,
+    resetSelectedPolylines,
+  ]);
 
   useEffect(() => {
     const map = mapRef.current;
@@ -573,20 +727,61 @@ export function WorksMap({ works, paths, locale }: Props) {
     map.fitBounds(bounds, { padding: [30, 30], maxZoom: zoom - 1 });
   }, [selectedTypes]);
 
-  // Open work from URL param — must run after all other effects
+  // Open work/cave from URL param — must run after all other effects
   useEffect(() => {
-    const initialWorkId = initialWorkIdRef.current;
-    if (initialWorkId === null || !mapRef.current) return;
     const timer = setTimeout(() => {
+      // Restore cave
+      const initialCaveId = initialCaveIdRef.current;
+      if (initialCaveId !== null) {
+        initialCaveIdRef.current = null;
+        const cave = caves.find((c) => c.cave_id === initialCaveId);
+        const polygons =
+          cavePolygonsByCaveIdRef.current.get(initialCaveId) ?? [];
+        if (cave && polygons.length > 0) {
+          polygons.forEach((pl) =>
+            pl.setStyle({
+              color: MARKER_COLOR_ACTIVE,
+              fillColor: "#2c2e2f",
+              fillOpacity: 1,
+              opacity: 1,
+            }),
+          );
+          displayedCaveRef.current = cave;
+          setDisplayedCave(cave);
+        }
+        return;
+      }
+      // Restore work (marker or polyline)
+      const initialWorkId = initialWorkIdRef.current;
+      if (initialWorkId === null || !mapRef.current) return;
       initialWorkIdRef.current = null;
+      // Try marker first
       const entry = markersRef.current.find(({ groupWorks }) =>
         groupWorks.some((w) => w.work_id === initialWorkId),
       );
-      if (!entry) return;
-      entry.marker.fire("click");
+      if (entry) {
+        entry.marker.fire("click");
+        return;
+      }
+      // Try polyline
+      const polylines = polylinesByWorkIdRef.current.get(initialWorkId) ?? [];
+      const work = works.find((w) => w.work_id === initialWorkId);
+      if (work && polylines.length > 0) {
+        polylines.forEach((pl) =>
+          pl.setStyle({ color: MARKER_COLOR_ACTIVE, opacity: 1 }),
+        );
+        selectedPolylinesRef.current = polylines;
+        stackedWorksRef.current = [work];
+        stackIndexRef.current = 0;
+        setStackIndex(0);
+        setStackTotal(1);
+        setAnimType("fade");
+        exitDurationRef.current = EXIT_DURATION_FADE;
+        selectWork(work);
+      }
     }, 0);
     return () => clearTimeout(timer);
-  }, []);
+  }, [caves, works, selectWork]);
 
   const visibleCount = works.filter((w, i) => {
     const [cat1, cat2] = getWorkCategories(w, locale);
@@ -621,9 +816,10 @@ export function WorksMap({ works, paths, locale }: Props) {
     <div className={STYLES.container}>
       <div ref={containerRef} className={STYLES.map} />
       <div className={STYLES["map-controls"]}>
-        {displayedWork && (
+        {(displayedWork || displayedCave) && (
           <InfoBar
             work={displayedWork}
+            cave={displayedCave}
             isExiting={isExiting}
             animType={animType}
             locale={locale}

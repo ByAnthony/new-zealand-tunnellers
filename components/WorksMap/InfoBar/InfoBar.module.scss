@@ -177,6 +177,16 @@
   flex-shrink: 0;
 }
 
+.info-bar-type-label {
+  padding: variables.$xxxs-margin variables.$xxs-margin;
+  font-size: 0.8rem;
+  font-weight: 300;
+  color: variables.$text-color;
+  border: 1px solid variables.$primary-light-color;
+  border-radius: variables.$border-radius;
+  width: fit-content;
+}
+
 .info-bar-details {
   flex: 1 0 100%;
   display: flex;

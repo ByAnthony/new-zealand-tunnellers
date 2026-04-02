@@ -1,11 +1,13 @@
 import { useTranslations } from "next-intl";
 
+import { CaveData } from "@/utils/database/queries/cavesQuery";
 import { WorkData } from "@/utils/database/queries/worksQuery";
 
 import STYLES from "./InfoBar.module.scss";
 
 type Props = {
-  work: WorkData;
+  work: WorkData | null;
+  cave?: CaveData | null;
   isExiting: boolean;
   animType?: "default" | "fade" | "slide-next" | "slide-prev";
   locale: string;
@@ -43,6 +45,7 @@ function getAnimClass(
 
 export function InfoBar({
   work,
+  cave,
   isExiting,
   animType = "default",
   locale,
@@ -53,6 +56,42 @@ export function InfoBar({
   onNavigate,
 }: Props) {
   const t = useTranslations("maps");
+
+  if (cave) {
+    const name = locale === "fr" ? cave.cave_name_fr : cave.cave_name_en;
+    const typeLabel = locale === "fr" ? cave.cave_type_fr : cave.cave_type_en;
+    return (
+      <div
+        className={`${STYLES["info-bar"]} ${getAnimClass(isExiting, animType, STYLES)}`}
+      >
+        <div className={STYLES["info-bar-fields"]}>
+          <div className={STYLES["info-bar-header"]}>
+            <span className={STYLES["info-bar-name"]}>{name}</span>
+            <span className={STYLES["info-bar-type-label"]}>{typeLabel}</span>
+          </div>
+          <div className={STYLES["info-bar-details"]}>
+            <div className={STYLES["info-bar-field"]}>
+              <span className={STYLES["info-bar-label"]}>
+                {t("coordinates")}
+              </span>
+              <span className={STYLES["info-bar-value"]}>
+                {Number(cave.cave_latitude).toFixed(6)},{" "}
+                {Number(cave.cave_longitude).toFixed(6)}
+              </span>
+            </div>
+          </div>
+        </div>
+        <div className={STYLES["info-bar-actions"]}>
+          <button onClick={onClose} aria-label="Close">
+            ×
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  if (!work) return null;
+
   const type = locale === "fr" ? work.work_type_fr : work.work_type_en;
   const category1 =
     locale === "fr" ? work.work_category_1_fr : work.work_category_1_en;

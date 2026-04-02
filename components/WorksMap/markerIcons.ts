@@ -9,7 +9,7 @@ export const CATEGORY_COLORS: Record<string, string> = {
   Dugout: "rgb(52, 152, 219)",
   Infrastructure: "rgb(243, 156, 18)",
   "Machine-Gun Nest": "rgb(142, 68, 173)",
-  "Mining Gallery": "rgb(52, 73, 94)",
+  "Mining Gallery": "rgb(150, 190, 230)",
   "First Aid Post": "rgb(46, 204, 113)",
   "Observation Post": "rgb(26, 188, 156)",
   Subway: "rgb(241, 196, 15)",

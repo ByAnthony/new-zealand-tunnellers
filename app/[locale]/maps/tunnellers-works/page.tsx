@@ -6,6 +6,12 @@ import { WorksMapContainer } from "@/components/WorksMap/WorksMapContainer";
 import { Locale } from "@/types/locale";
 import { mysqlConnection } from "@/utils/database/mysqlConnection";
 import {
+  cavesQuery,
+  cavePathsQuery,
+  CaveData,
+  CavePathPoint,
+} from "@/utils/database/queries/cavesQuery";
+import {
   worksQuery,
   workPathsQuery,
   WorkData,
@@ -21,7 +27,9 @@ async function getData() {
   try {
     const works = await worksQuery(connection);
     const paths = await workPathsQuery(connection);
-    return NextResponse.json({ works, paths });
+    const caves = await cavesQuery(connection);
+    const cavePaths = await cavePathsQuery(connection);
+    return NextResponse.json({ works, paths, caves, cavePaths });
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error);
     throw new Error(`Failed to fetch works data: ${errorMessage}`);
@@ -41,8 +49,17 @@ export default async function Page({ params }: Props) {
   setRequestLocale(locale);
 
   const response = await getData();
-  const { works, paths }: { works: WorkData[]; paths: WorkPathPoint[] } =
-    await response.json();
+  const {
+    works,
+    paths,
+    caves,
+    cavePaths,
+  }: {
+    works: WorkData[];
+    paths: WorkPathPoint[];
+    caves: CaveData[];
+    cavePaths: CavePathPoint[];
+  } = await response.json();
 
   return (
     <Suspense fallback={<div style={{ minHeight: "100vh" }} />}>
@@ -50,6 +67,8 @@ export default async function Page({ params }: Props) {
         key={locale}
         works={works}
         paths={paths}
+        caves={caves}
+        cavePaths={cavePaths}
         locale={locale}
       />
     </Suspense>
