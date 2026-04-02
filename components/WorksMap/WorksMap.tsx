@@ -804,11 +804,15 @@ export function WorksMap({
       );
       polylines.forEach((pl) => toggleLayer(pl, visible));
     });
+    const filterActive = selectedTypes.size > 0;
+    const subwayTypeSelected = selectedTypes.has(
+      slugToName.get("subway") ?? "",
+    );
     subwayPolylinesBySubwayIdRef.current.forEach((polylines, subwayId) => {
       const subway = subways.find((s) => s.subway_id === subwayId);
       if (!subway) return;
-      let visible = true;
-      if (subway.subway_date_start) {
+      let visible = !filterActive || subwayTypeSelected;
+      if (visible && subway.subway_date_start) {
         const start = dateToMonth(subway.subway_date_start);
         const end = dateToMonth(
           subway.subway_date_end ?? subway.subway_date_start,
@@ -817,7 +821,21 @@ export function WorksMap({
       }
       polylines.forEach((pl) => toggleLayer(pl, visible));
     });
-  }, [dateRange, selectedTypes, typeColors, works, locale, allMonths, subways]);
+    cavePolygonsByCaveIdRef.current.forEach((polygons) => {
+      polygons.forEach((pl) =>
+        toggleLayer(pl, !filterActive || subwayTypeSelected),
+      );
+    });
+  }, [
+    dateRange,
+    selectedTypes,
+    slugToName,
+    typeColors,
+    works,
+    locale,
+    allMonths,
+    subways,
+  ]);
 
   const prevSelectedTypesRef = useRef(selectedTypes);
   useEffect(() => {
