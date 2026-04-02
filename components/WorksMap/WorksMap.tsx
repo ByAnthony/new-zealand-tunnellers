@@ -286,8 +286,8 @@ export function WorksMap({ works, paths, caves, cavePaths, locale }: Props) {
         [];
       polygons.forEach((pl) =>
         pl.setStyle({
-          color: "#2c2e2f",
-          fillColor: "#2c2e2f",
+          color: "rgb(159, 154, 143)",
+          fillColor: "rgb(159, 154, 143)",
           fillOpacity: 1,
           opacity: 1,
         }),
@@ -448,10 +448,10 @@ export function WorksMap({ works, paths, caves, cavePaths, locale }: Props) {
     const cavePolygonsById = new Map<number, L.Polygon[]>();
     caveSegments.forEach(({ caveId, points }) => {
       const polygon = L.polygon(points, {
-        color: "#2c2e2f",
+        color: "rgb(159, 154, 143)",
         weight: 2,
         opacity: 1,
-        fillColor: "#2c2e2f",
+        fillColor: "rgb(159, 154, 143)",
         fillOpacity: 1,
       }).addTo(map);
       if (!cavePolygonsById.has(caveId)) cavePolygonsById.set(caveId, []);
@@ -480,8 +480,8 @@ export function WorksMap({ works, paths, caves, cavePaths, locale }: Props) {
               cavePolygonsById.get(displayedCaveRef.current.cave_id) ?? [];
             prevCavePolygons.forEach((pl) =>
               pl.setStyle({
-                color: "#2c2e2f",
-                fillColor: "#2c2e2f",
+                color: "rgb(159, 154, 143)",
+                fillColor: "rgb(159, 154, 143)",
                 fillOpacity: 1,
                 opacity: 1,
               }),
@@ -492,7 +492,7 @@ export function WorksMap({ works, paths, caves, cavePaths, locale }: Props) {
           thisCavePolygons.forEach((pl) =>
             pl.setStyle({
               color: MARKER_COLOR_ACTIVE,
-              fillColor: "#2c2e2f",
+              fillColor: MARKER_COLOR_ACTIVE,
               fillOpacity: 1,
               opacity: 1,
             }),
@@ -545,8 +545,8 @@ export function WorksMap({ works, paths, caves, cavePaths, locale }: Props) {
               ) ?? [];
             prevCavePolygons.forEach((pl) =>
               pl.setStyle({
-                color: "#2c2e2f",
-                fillColor: "#2c2e2f",
+                color: "rgb(159, 154, 143)",
+                fillColor: "rgb(159, 154, 143)",
                 fillOpacity: 1,
                 opacity: 1,
               }),
@@ -741,7 +741,7 @@ export function WorksMap({ works, paths, caves, cavePaths, locale }: Props) {
           polygons.forEach((pl) =>
             pl.setStyle({
               color: MARKER_COLOR_ACTIVE,
-              fillColor: "#2c2e2f",
+              fillColor: MARKER_COLOR_ACTIVE,
               fillOpacity: 1,
               opacity: 1,
             }),
