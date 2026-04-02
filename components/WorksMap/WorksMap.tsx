@@ -54,6 +54,8 @@ const COORD_TOLERANCE = 0.0001;
 const EXIT_DURATION_DEFAULT = 150;
 const EXIT_DURATION_SLIDE = 250;
 const EXIT_DURATION_FADE = 300;
+const INERT_FEATURE_COLOR = "rgb(159, 154, 143)";
+const DEFAULT_WORK_COLOR = "rgb(113, 152, 185)";
 
 export function WorksMap({
   works,
@@ -304,7 +306,7 @@ export function WorksMap({
     polylinesByWorkIdRef.current.forEach((polylines, workId) => {
       if (polylines.some((pl) => selected.includes(pl))) {
         const color =
-          polylineColorByWorkIdRef.current.get(workId) ?? "rgb(113, 152, 185)";
+          polylineColorByWorkIdRef.current.get(workId) ?? DEFAULT_WORK_COLOR;
         polylines.forEach((pl) => pl.setStyle({ color, opacity: 1 }));
       }
     });
@@ -318,7 +320,7 @@ export function WorksMap({
           displayedSubwayRef.current.subway_id,
         ) ?? [];
       polylines.forEach((pl) =>
-        pl.setStyle({ color: "rgb(159, 154, 143)", opacity: 1 }),
+        pl.setStyle({ color: INERT_FEATURE_COLOR, opacity: 1 }),
       );
     }
   }, []);
@@ -330,8 +332,8 @@ export function WorksMap({
         [];
       polygons.forEach((pl) =>
         pl.setStyle({
-          color: "rgb(159, 154, 143)",
-          fillColor: "rgb(159, 154, 143)",
+          color: INERT_FEATURE_COLOR,
+          fillColor: INERT_FEATURE_COLOR,
           fillOpacity: 1,
           opacity: 1,
         }),
@@ -404,7 +406,7 @@ export function WorksMap({
   useEffect(() => {
     if (!containerRef.current || mapRef.current) return;
 
-    const map = L.map(containerRef.current, { zoomControl: false });
+    const map = L.map(containerRef.current, { zoomControl: false, minZoom: 6 });
 
     L.tileLayer(
       "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}",
@@ -424,26 +426,40 @@ export function WorksMap({
       { opacity: 0 },
     ).addTo(map);
 
-    // Draw tunnel polylines from work_path data
+    const initializeStack = (stackWorks: WorkData[]) => {
+      stackedWorksRef.current = stackWorks;
+      stackIndexRef.current = 0;
+      setStackIndex(0);
+      setStackTotal(stackWorks.length);
+      setAnimType("fade");
+      exitDurationRef.current = EXIT_DURATION_FADE;
+      selectWork(stackWorks[0]);
+    };
+
+    const groupPathsBySegment = <
+      T extends { segment: number; latitude: number; longitude: number },
+    >(
+      rawPaths: T[],
+      getId: (p: T) => number,
+    ): Map<string, { id: number; points: [number, number][] }> => {
+      const map = new Map<string, { id: number; points: [number, number][] }>();
+      rawPaths.forEach((p) => {
+        const id = getId(p);
+        const key = `${id}-${p.segment}`;
+        if (!map.has(key)) map.set(key, { id, points: [] });
+        map.get(key)!.points.push([Number(p.latitude), Number(p.longitude)]);
+      });
+      return map;
+    };
+
     const workIdsWithPaths = new Set(paths.map((p) => p.work_id));
     const polylinesByWorkId = new Map<number, L.Polyline[]>();
-    const segments = new Map<
-      string,
-      { workId: number; points: [number, number][] }
-    >();
-    paths.forEach((p) => {
-      const key = `${p.work_id}-${p.segment}`;
-      if (!segments.has(key))
-        segments.set(key, { workId: p.work_id, points: [] });
-      segments.get(key)!.points.push([Number(p.latitude), Number(p.longitude)]);
-    });
-    segments.forEach(({ workId, points }) => {
+    const segments = groupPathsBySegment(paths, (p) => p.work_id);
+    segments.forEach(({ id: workId, points }) => {
       const work = works.find((w) => w.work_id === workId);
       const cat = work?.work_category_1_en ?? null;
       const workColor =
-        cat && CATEGORY_COLORS[cat]
-          ? CATEGORY_COLORS[cat]
-          : "rgb(113, 152, 185)";
+        cat && CATEGORY_COLORS[cat] ? CATEGORY_COLORS[cat] : DEFAULT_WORK_COLOR;
       polylineColorByWorkIdRef.current.set(workId, workColor);
 
       const polyline = L.polyline(points, {
@@ -453,7 +469,6 @@ export function WorksMap({
       }).addTo(map);
       if (!polylinesByWorkId.has(workId)) polylinesByWorkId.set(workId, []);
       polylinesByWorkId.get(workId)!.push(polyline);
-      polylinesByWorkIdRef.current = polylinesByWorkId;
 
       if (work) {
         polyline.on("click", (e: L.LeafletMouseEvent) => {
@@ -467,16 +482,14 @@ export function WorksMap({
             );
             selectedMarkerRef.current = null;
           }
-          // Reset previous polylines, then highlight all segments of this work
           resetSelectedPolylines();
+          if (displayedCaveRef.current) {
+            resetSelectedCavePolylines();
+            displayedCaveRef.current = null;
+            setDisplayedCave(null);
+          }
           if (displayedSubwayRef.current) {
-            const prevSubwayPolylines =
-              subwayPolylinesBySubwayIdRef.current.get(
-                displayedSubwayRef.current.subway_id,
-              ) ?? [];
-            prevSubwayPolylines.forEach((pl) =>
-              pl.setStyle({ color: "rgb(159, 154, 143)", opacity: 1 }),
-            );
+            resetSelectedSubwayPolylines();
             displayedSubwayRef.current = null;
             setDisplayedSubway(null);
           }
@@ -487,178 +500,117 @@ export function WorksMap({
           selectedPolylinesRef.current = workPolylines;
 
           map.panTo(e.latlng);
-          stackedWorksRef.current = [work];
-          stackIndexRef.current = 0;
-          setStackIndex(0);
-          setStackTotal(1);
-          setAnimType("fade");
-          exitDurationRef.current = EXIT_DURATION_FADE;
-          selectWork(work);
+          initializeStack([work]);
         });
       }
     });
+    polylinesByWorkIdRef.current = polylinesByWorkId;
 
-    // Draw cave polygons
-    const caveSegments = new Map<
-      string,
-      { caveId: number; points: [number, number][] }
-    >();
-    cavePaths.forEach((p) => {
-      const key = `${p.cave_id}-${p.segment}`;
-      if (!caveSegments.has(key))
-        caveSegments.set(key, { caveId: p.cave_id, points: [] });
-      caveSegments
-        .get(key)!
-        .points.push([Number(p.latitude), Number(p.longitude)]);
-    });
     const cavePolygonsById = new Map<number, L.Polygon[]>();
-    caveSegments.forEach(({ caveId, points }) => {
-      const polygon = L.polygon(points, {
-        color: "rgb(159, 154, 143)",
-        weight: 2,
-        opacity: 1,
-        fillColor: "rgb(159, 154, 143)",
-        fillOpacity: 1,
-      }).addTo(map);
-      if (!cavePolygonsById.has(caveId)) cavePolygonsById.set(caveId, []);
-      cavePolygonsById.get(caveId)!.push(polygon);
+    groupPathsBySegment(cavePaths, (p) => p.cave_id).forEach(
+      ({ id: caveId, points }) => {
+        const polygon = L.polygon(points, {
+          color: INERT_FEATURE_COLOR,
+          weight: 2,
+          opacity: 1,
+          fillColor: INERT_FEATURE_COLOR,
+          fillOpacity: 1,
+        }).addTo(map);
+        if (!cavePolygonsById.has(caveId)) cavePolygonsById.set(caveId, []);
+        cavePolygonsById.get(caveId)!.push(polygon);
 
-      const cave = caves.find((c) => c.cave_id === caveId);
-      if (cave) {
-        polygon.on("click", (e: L.LeafletMouseEvent) => {
-          L.DomEvent.stopPropagation(e);
-          // Reset any selected work marker or polylines
-          if (selectedMarkerRef.current) {
-            const prev = stackedWorksRef.current;
-            const prevCount = prev.length || 1;
-            const prevCats = collectCategories(prev, locale);
-            selectedMarkerRef.current.setIcon(
-              createWorkIcon(prevCats, prevCount, typeColorsRef.current),
-            );
-            selectedMarkerRef.current = null;
-          }
-          resetSelectedPolylines();
-          stackedWorksRef.current = [];
-          selectWork(null);
-          if (displayedSubwayRef.current) {
-            const prevSubwayPolylines =
-              subwayPolylinesBySubwayIdRef.current.get(
-                displayedSubwayRef.current.subway_id,
-              ) ?? [];
-            prevSubwayPolylines.forEach((pl) =>
-              pl.setStyle({ color: "rgb(159, 154, 143)", opacity: 1 }),
-            );
-            displayedSubwayRef.current = null;
-            setDisplayedSubway(null);
-          }
-          // Reset previous cave polygons
-          if (displayedCaveRef.current) {
-            const prevCavePolygons =
-              cavePolygonsById.get(displayedCaveRef.current.cave_id) ?? [];
-            prevCavePolygons.forEach((pl) =>
+        const cave = caves.find((c) => c.cave_id === caveId);
+        if (cave) {
+          polygon.on("click", (e: L.LeafletMouseEvent) => {
+            L.DomEvent.stopPropagation(e);
+            // Reset any selected work marker or polylines
+            if (selectedMarkerRef.current) {
+              const prev = stackedWorksRef.current;
+              const prevCount = prev.length || 1;
+              const prevCats = collectCategories(prev, locale);
+              selectedMarkerRef.current.setIcon(
+                createWorkIcon(prevCats, prevCount, typeColorsRef.current),
+              );
+              selectedMarkerRef.current = null;
+            }
+            resetSelectedPolylines();
+            stackedWorksRef.current = [];
+            selectWork(null);
+            if (displayedSubwayRef.current) {
+              resetSelectedSubwayPolylines();
+              displayedSubwayRef.current = null;
+              setDisplayedSubway(null);
+            }
+            if (displayedCaveRef.current) {
+              resetSelectedCavePolylines();
+            }
+            const thisCavePolygons = cavePolygonsById.get(caveId) ?? [];
+            thisCavePolygons.forEach((pl) =>
               pl.setStyle({
-                color: "rgb(159, 154, 143)",
-                fillColor: "rgb(159, 154, 143)",
+                color: MARKER_COLOR_ACTIVE,
+                fillColor: MARKER_COLOR_ACTIVE,
                 fillOpacity: 1,
                 opacity: 1,
               }),
             );
-          }
-          // Highlight all segments of this cave
-          const thisCavePolygons = cavePolygonsById.get(caveId) ?? [];
-          thisCavePolygons.forEach((pl) =>
-            pl.setStyle({
-              color: MARKER_COLOR_ACTIVE,
-              fillColor: MARKER_COLOR_ACTIVE,
-              fillOpacity: 1,
-              opacity: 1,
-            }),
-          );
-          displayedCaveRef.current = cave;
-          setDisplayedCave(cave);
-          map.panTo(e.latlng);
-        });
-      }
-    });
+            displayedCaveRef.current = cave;
+            setDisplayedCave(cave);
+            map.panTo(e.latlng);
+          });
+        }
+      },
+    );
     cavePolygonsByCaveIdRef.current = cavePolygonsById;
 
-    // Draw subway polylines
-    const subwaySegments = new Map<
-      string,
-      { subwayId: number; points: [number, number][] }
-    >();
-    subwayPaths.forEach((p) => {
-      const key = `${p.subway_id}-${p.segment}`;
-      if (!subwaySegments.has(key))
-        subwaySegments.set(key, { subwayId: p.subway_id, points: [] });
-      subwaySegments
-        .get(key)!
-        .points.push([Number(p.latitude), Number(p.longitude)]);
-    });
     const subwayPolylinesById = new Map<number, L.Polyline[]>();
-    subwaySegments.forEach(({ subwayId, points }) => {
-      const polyline = L.polyline(points, {
-        color: "rgb(159, 154, 143)",
-        weight: 3,
-        opacity: 1,
-      }).addTo(map);
-      if (!subwayPolylinesById.has(subwayId))
-        subwayPolylinesById.set(subwayId, []);
-      subwayPolylinesById.get(subwayId)!.push(polyline);
+    groupPathsBySegment(subwayPaths, (p) => p.subway_id).forEach(
+      ({ id: subwayId, points }) => {
+        const polyline = L.polyline(points, {
+          color: INERT_FEATURE_COLOR,
+          weight: 3,
+          opacity: 1,
+        }).addTo(map);
+        if (!subwayPolylinesById.has(subwayId))
+          subwayPolylinesById.set(subwayId, []);
+        subwayPolylinesById.get(subwayId)!.push(polyline);
 
-      const subway = subways.find((s) => s.subway_id === subwayId);
-      if (subway) {
-        polyline.on("click", (e: L.LeafletMouseEvent) => {
-          L.DomEvent.stopPropagation(e);
-          if (selectedMarkerRef.current) {
-            const prev = stackedWorksRef.current;
-            const prevCount = prev.length || 1;
-            const prevCats = collectCategories(prev, locale);
-            selectedMarkerRef.current.setIcon(
-              createWorkIcon(prevCats, prevCount, typeColorsRef.current),
+        const subway = subways.find((s) => s.subway_id === subwayId);
+        if (subway) {
+          polyline.on("click", (e: L.LeafletMouseEvent) => {
+            L.DomEvent.stopPropagation(e);
+            if (selectedMarkerRef.current) {
+              const prev = stackedWorksRef.current;
+              const prevCount = prev.length || 1;
+              const prevCats = collectCategories(prev, locale);
+              selectedMarkerRef.current.setIcon(
+                createWorkIcon(prevCats, prevCount, typeColorsRef.current),
+              );
+              selectedMarkerRef.current = null;
+            }
+            resetSelectedPolylines();
+            stackedWorksRef.current = [];
+            selectWork(null);
+            if (displayedCaveRef.current) {
+              resetSelectedCavePolylines();
+              displayedCaveRef.current = null;
+              setDisplayedCave(null);
+            }
+            if (displayedSubwayRef.current) {
+              resetSelectedSubwayPolylines();
+            }
+            const thisSubwayPolylines = subwayPolylinesById.get(subwayId) ?? [];
+            thisSubwayPolylines.forEach((pl) =>
+              pl.setStyle({ color: MARKER_COLOR_ACTIVE, opacity: 1 }),
             );
-            selectedMarkerRef.current = null;
-          }
-          resetSelectedPolylines();
-          stackedWorksRef.current = [];
-          selectWork(null);
-          if (displayedCaveRef.current) {
-            const prevCavePolygons =
-              cavePolygonsById.get(displayedCaveRef.current.cave_id) ?? [];
-            prevCavePolygons.forEach((pl) =>
-              pl.setStyle({
-                color: "rgb(159, 154, 143)",
-                fillColor: "rgb(159, 154, 143)",
-                fillOpacity: 1,
-                opacity: 1,
-              }),
-            );
-            displayedCaveRef.current = null;
-            setDisplayedCave(null);
-          }
-          // Reset previous subway
-          if (displayedSubwayRef.current) {
-            const prevSubwayPolylines =
-              subwayPolylinesById.get(displayedSubwayRef.current.subway_id) ??
-              [];
-            prevSubwayPolylines.forEach((pl) =>
-              pl.setStyle({ color: "rgb(159, 154, 143)", opacity: 1 }),
-            );
-          }
-          // Highlight this subway
-          const thisSubwayPolylines = subwayPolylinesById.get(subwayId) ?? [];
-          thisSubwayPolylines.forEach((pl) =>
-            pl.setStyle({ color: MARKER_COLOR_ACTIVE, opacity: 1 }),
-          );
-          displayedSubwayRef.current = subway;
-          setDisplayedSubway(subway);
-          map.panTo(e.latlng);
-        });
-      }
-    });
+            displayedSubwayRef.current = subway;
+            setDisplayedSubway(subway);
+            map.panTo(e.latlng);
+          });
+        }
+      },
+    );
     subwayPolylinesBySubwayIdRef.current = subwayPolylinesById;
 
-    // Group works by location using a Map keyed by snapped coordinates (O(n))
     const snapCoord = (n: number) =>
       Math.round(n / COORD_TOLERANCE) * COORD_TOLERANCE;
     const groupMap = new Map<string, WorkData[]>();
@@ -688,34 +640,14 @@ export function WorksMap({
               createWorkIcon(prevCats, prevCount, typeColorsRef.current),
             );
           }
-          // Reset any highlighted polylines
           resetSelectedPolylines();
-          // Reset any highlighted cave
           if (displayedCaveRef.current) {
-            const prevCavePolygons =
-              cavePolygonsByCaveIdRef.current.get(
-                displayedCaveRef.current.cave_id,
-              ) ?? [];
-            prevCavePolygons.forEach((pl) =>
-              pl.setStyle({
-                color: "rgb(159, 154, 143)",
-                fillColor: "rgb(159, 154, 143)",
-                fillOpacity: 1,
-                opacity: 1,
-              }),
-            );
+            resetSelectedCavePolylines();
             displayedCaveRef.current = null;
             setDisplayedCave(null);
           }
-          // Reset any highlighted subway
           if (displayedSubwayRef.current) {
-            const prevSubwayPolylines =
-              subwayPolylinesBySubwayIdRef.current.get(
-                displayedSubwayRef.current.subway_id,
-              ) ?? [];
-            prevSubwayPolylines.forEach((pl) =>
-              pl.setStyle({ color: "rgb(159, 154, 143)", opacity: 1 }),
-            );
+            resetSelectedSubwayPolylines();
             displayedSubwayRef.current = null;
             setDisplayedSubway(null);
           }
@@ -745,13 +677,7 @@ export function WorksMap({
           );
           selectedMarkerRef.current = marker;
           map.panTo(marker.getLatLng());
-          stackedWorksRef.current = filtered;
-          stackIndexRef.current = 0;
-          setStackIndex(0);
-          setStackTotal(filtered.length);
-          setAnimType("fade");
-          exitDurationRef.current = EXIT_DURATION_FADE;
-          selectWork(filtered[0]);
+          initializeStack(filtered);
         });
 
       const worksMonths = groupWorks.map((w) => {
@@ -759,13 +685,14 @@ export function WorksMap({
         return { start: allMonths[idx].start, end: allMonths[idx].end };
       });
 
+      const categoryPairs = groupWorks.map((w) => getWorkCategories(w, locale));
       return {
         marker,
         groupWorks,
         starts: worksMonths.map((m) => m.start),
         ends: worksMonths.map((m) => m.end),
-        categories1: groupWorks.map((w) => getWorkCategories(w, locale)[0]),
-        categories2: groupWorks.map((w) => getWorkCategories(w, locale)[1]),
+        categories1: categoryPairs.map(([c1]) => c1),
+        categories2: categoryPairs.map(([, c2]) => c2),
       };
     });
 
@@ -790,6 +717,7 @@ export function WorksMap({
     map.on("moveend", () => {
       const center = map.getCenter();
       const z = map.getZoom();
+      setCurrentZoom(z);
       const params = new URLSearchParams(window.location.search);
       params.set("lat", center.lat.toFixed(6));
       params.set("lng", center.lng.toFixed(6));
@@ -800,6 +728,9 @@ export function WorksMap({
       const url = `${window.location.pathname}?${qs}`;
       window.history.replaceState(null, "", url);
     });
+
+    map.on("load", () => setCurrentZoom(map.getZoom()));
+    setCurrentZoom(map.getZoom());
 
     mapRef.current = map;
 
@@ -825,6 +756,13 @@ export function WorksMap({
   useEffect(() => {
     const map = mapRef.current;
     if (!map) return;
+    const toggleLayer = (layer: L.Layer, visible: boolean) => {
+      if (visible) {
+        if (!map.hasLayer(layer)) layer.addTo(map);
+      } else {
+        if (map.hasLayer(layer)) layer.remove();
+      }
+    };
     markersRef.current.forEach(
       ({ marker, starts, ends, categories1, categories2 }) => {
         let count = 0;
@@ -845,21 +783,16 @@ export function WorksMap({
             if (categories2[i]) visibleCats.add(categories2[i]);
           }
         });
-        if (count > 0) {
-          if (!map.hasLayer(marker)) marker.addTo(map);
-          if (marker !== selectedMarkerRef.current) {
-            marker.setIcon(createWorkIcon(visibleCats, count, typeColors));
-          }
-        } else {
-          if (map.hasLayer(marker)) marker.remove();
+        toggleLayer(marker, count > 0);
+        if (count > 0 && marker !== selectedMarkerRef.current) {
+          marker.setIcon(createWorkIcon(visibleCats, count, typeColors));
         }
       },
     );
-    // Filter polylines by date range and selected types
     polylinesByWorkIdRef.current.forEach((polylines, workId) => {
-      const work = works.find((w) => w.work_id === workId);
-      if (!work) return;
-      const idx = works.indexOf(work);
+      const idx = works.findIndex((w) => w.work_id === workId);
+      if (idx === -1) return;
+      const work = works[idx];
       const [c1, c2] = getWorkCategories(work, locale);
       const visible = isWorkVisible(
         allMonths[idx].start,
@@ -869,15 +802,8 @@ export function WorksMap({
         dateRange,
         selectedTypes,
       );
-      polylines.forEach((pl) => {
-        if (visible) {
-          if (!map.hasLayer(pl)) pl.addTo(map);
-        } else {
-          if (map.hasLayer(pl)) pl.remove();
-        }
-      });
+      polylines.forEach((pl) => toggleLayer(pl, visible));
     });
-    // Filter subway polylines by date range (no date = always visible)
     subwayPolylinesBySubwayIdRef.current.forEach((polylines, subwayId) => {
       const subway = subways.find((s) => s.subway_id === subwayId);
       if (!subway) return;
@@ -889,13 +815,7 @@ export function WorksMap({
         );
         visible = start <= dateRange[1] && end >= dateRange[0];
       }
-      polylines.forEach((pl) => {
-        if (visible) {
-          if (!map.hasLayer(pl)) pl.addTo(map);
-        } else {
-          if (map.hasLayer(pl)) pl.remove();
-        }
-      });
+      polylines.forEach((pl) => toggleLayer(pl, visible));
     });
   }, [dateRange, selectedTypes, typeColors, works, locale, allMonths, subways]);
 
@@ -911,7 +831,10 @@ export function WorksMap({
     if (visible.length === 0) return;
     const bounds = L.latLngBounds(visible);
     const zoom = map.getBoundsZoom(bounds, false);
-    map.fitBounds(bounds, { padding: [30, 30], maxZoom: zoom - 1 });
+    map.fitBounds(bounds, {
+      padding: [30, 30],
+      maxZoom: Math.max(zoom - 1, 10),
+    });
   }, [selectedTypes]);
 
   // Open work/cave from URL param — must run after all other effects
@@ -1011,6 +934,8 @@ export function WorksMap({
     [closeInfo],
   );
 
+  const [currentZoom, setCurrentZoom] = useState<number | null>(null);
+
   const zoom = useCallback((dir: 1 | -1) => {
     mapRef.current?.[dir === 1 ? "zoomIn" : "zoomOut"]();
   }, []);
@@ -1053,10 +978,18 @@ export function WorksMap({
             maxMonth={maxMonth}
           />
           <div className={STYLES.zoom}>
-            <button onClick={() => zoom(1)} aria-label="Zoom in">
+            <button
+              onClick={() => zoom(1)}
+              aria-label="Zoom in"
+              disabled={currentZoom !== null && currentZoom >= 19}
+            >
               +
             </button>
-            <button onClick={() => zoom(-1)} aria-label="Zoom out">
+            <button
+              onClick={() => zoom(-1)}
+              aria-label="Zoom out"
+              disabled={currentZoom !== null && currentZoom <= 6}
+            >
               −
             </button>
           </div>

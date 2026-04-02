@@ -129,9 +129,15 @@
       border 0.9s ease-in-out,
       background-color 0.9s ease-in-out;
 
-    &:hover {
+    &:hover:not(:disabled) {
       background-color: variables.$primary-dark-color;
       border-color: variables.$secondary-color;
+    }
+
+    &:disabled {
+      border-color: variables.$primary-light-color;
+      color: variables.$primary-light-color;
+      cursor: not-allowed;
     }
   }
 }
