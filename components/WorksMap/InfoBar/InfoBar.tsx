@@ -1,6 +1,7 @@
 import { useTranslations } from "next-intl";
 
 import { CaveData } from "@/utils/database/queries/cavesQuery";
+import { SubwayData } from "@/utils/database/queries/subwaysQuery";
 import { WorkData } from "@/utils/database/queries/worksQuery";
 
 import STYLES from "./InfoBar.module.scss";
@@ -8,6 +9,7 @@ import STYLES from "./InfoBar.module.scss";
 type Props = {
   work: WorkData | null;
   cave?: CaveData | null;
+  subway?: SubwayData | null;
   isExiting: boolean;
   animType?: "default" | "fade" | "slide-next" | "slide-prev";
   locale: string;
@@ -46,6 +48,7 @@ function getAnimClass(
 export function InfoBar({
   work,
   cave,
+  subway,
   isExiting,
   animType = "default",
   locale,
@@ -56,6 +59,68 @@ export function InfoBar({
   onNavigate,
 }: Props) {
   const t = useTranslations("maps");
+
+  if (subway) {
+    const name =
+      locale === "fr" ? subway.subway_name_fr : subway.subway_name_en;
+    const typeLabel =
+      locale === "fr" ? subway.subway_type_fr : subway.subway_type_en;
+    const dateStart = subway.subway_date_start;
+    const dateEnd = subway.subway_date_end;
+    const hasTwoDates = dateStart && dateEnd && dateEnd !== dateStart;
+    const [displayStart, displayEnd] =
+      hasTwoDates && dateEnd < dateStart
+        ? [dateEnd, dateStart]
+        : [dateStart ?? "", dateEnd ?? dateStart ?? ""];
+    return (
+      <div
+        className={`${STYLES["info-bar"]} ${getAnimClass(isExiting, animType, STYLES)}`}
+      >
+        <div className={STYLES["info-bar-fields"]}>
+          <div className={STYLES["info-bar-header"]}>
+            <span className={STYLES["info-bar-name"]}>{name}</span>
+            <span className={STYLES["info-bar-type-label"]}>{typeLabel}</span>
+          </div>
+          <div className={STYLES["info-bar-details"]}>
+            {dateStart && (
+              <div className={STYLES["info-bar-row"]}>
+                <div className={STYLES["info-bar-field"]}>
+                  <span className={STYLES["info-bar-label"]}>
+                    {hasTwoDates ? t("start") : t("date")}
+                  </span>
+                  <span className={STYLES["info-bar-value"]}>
+                    {formatDate(displayStart, locale)}
+                  </span>
+                </div>
+                {hasTwoDates && (
+                  <div className={STYLES["info-bar-field"]}>
+                    <span className={STYLES["info-bar-label"]}>{t("end")}</span>
+                    <span className={STYLES["info-bar-value"]}>
+                      {formatDate(displayEnd, locale)}
+                    </span>
+                  </div>
+                )}
+              </div>
+            )}
+            <div className={STYLES["info-bar-field"]}>
+              <span className={STYLES["info-bar-label"]}>
+                {t("coordinates")}
+              </span>
+              <span className={STYLES["info-bar-value"]}>
+                {Number(subway.subway_latitude).toFixed(6)},{" "}
+                {Number(subway.subway_longitude).toFixed(6)}
+              </span>
+            </div>
+          </div>
+        </div>
+        <div className={STYLES["info-bar-actions"]}>
+          <button onClick={onClose} aria-label="Close">
+            ×
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   if (cave) {
     const name = locale === "fr" ? cave.cave_name_fr : cave.cave_name_en;

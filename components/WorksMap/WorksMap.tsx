@@ -7,6 +7,10 @@ import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState, useCallback, useMemo } from "react";
 
 import { CaveData, CavePathPoint } from "@/utils/database/queries/cavesQuery";
+import {
+  SubwayData,
+  SubwayPathPoint,
+} from "@/utils/database/queries/subwaysQuery";
 import { WorkData, WorkPathPoint } from "@/utils/database/queries/worksQuery";
 
 import {
@@ -41,6 +45,8 @@ type Props = {
   paths: WorkPathPoint[];
   caves: CaveData[];
   cavePaths: CavePathPoint[];
+  subways: SubwayData[];
+  subwayPaths: SubwayPathPoint[];
   locale: string;
 };
 
@@ -49,7 +55,15 @@ const EXIT_DURATION_DEFAULT = 150;
 const EXIT_DURATION_SLIDE = 250;
 const EXIT_DURATION_FADE = 300;
 
-export function WorksMap({ works, paths, caves, cavePaths, locale }: Props) {
+export function WorksMap({
+  works,
+  paths,
+  caves,
+  cavePaths,
+  subways,
+  subwayPaths,
+  locale,
+}: Props) {
   const t = useTranslations("maps");
   const searchParams = useSearchParams();
   const isFirstRenderRef = useRef(true);
@@ -146,6 +160,13 @@ export function WorksMap({ works, paths, caves, cavePaths, locale }: Props) {
   const cavePolygonsByCaveIdRef = useRef<Map<number, L.Polygon[]>>(new Map());
   const [displayedCave, setDisplayedCave] = useState<CaveData | null>(null);
   const displayedCaveRef = useRef<CaveData | null>(null);
+  const subwayPolylinesBySubwayIdRef = useRef<Map<number, L.Polyline[]>>(
+    new Map(),
+  );
+  const [displayedSubway, setDisplayedSubway] = useState<SubwayData | null>(
+    null,
+  );
+  const displayedSubwayRef = useRef<SubwayData | null>(null);
   const selectedTypesRef = useRef<Set<string>>(new Set());
   const dateRangeRef = useRef<[number, number]>([minMonth, maxMonth]);
   const stackedWorksRef = useRef<WorkData[]>([]);
@@ -170,6 +191,10 @@ export function WorksMap({ works, paths, caves, cavePaths, locale }: Props) {
   const initialCaveId = searchParams.get("cave");
   const initialCaveIdRef = useRef<number | null>(
     initialCaveId ? Number(initialCaveId) : null,
+  );
+  const initialSubwayId = searchParams.get("subway");
+  const initialSubwayIdRef = useRef<number | null>(
+    initialSubwayId ? Number(initialSubwayId) : null,
   );
   const initialLat = searchParams.get("lat");
   const initialLng = searchParams.get("lng");
@@ -225,6 +250,12 @@ export function WorksMap({ works, paths, caves, cavePaths, locale }: Props) {
       params.delete("cave");
     }
 
+    if (displayedSubwayRef.current) {
+      params.set("subway", String(displayedSubwayRef.current.subway_id));
+    } else {
+      params.delete("subway");
+    }
+
     const qs = params.toString().replace(/%2C/gi, ",");
     const currentQs = window.location.search.replace(/^\?/, "");
     if (qs === currentQs) return;
@@ -240,6 +271,7 @@ export function WorksMap({ works, paths, caves, cavePaths, locale }: Props) {
     maxMonth,
     displayedWork,
     displayedCave,
+    displayedSubway,
   ]);
 
   const selectWork = useCallback((work: WorkData | null) => {
@@ -279,6 +311,18 @@ export function WorksMap({ works, paths, caves, cavePaths, locale }: Props) {
     selectedPolylinesRef.current = [];
   }, []);
 
+  const resetSelectedSubwayPolylines = useCallback(() => {
+    if (displayedSubwayRef.current) {
+      const polylines =
+        subwayPolylinesBySubwayIdRef.current.get(
+          displayedSubwayRef.current.subway_id,
+        ) ?? [];
+      polylines.forEach((pl) =>
+        pl.setStyle({ color: "rgb(159, 154, 143)", opacity: 1 }),
+      );
+    }
+  }, []);
+
   const resetSelectedCavePolylines = useCallback(() => {
     if (displayedCaveRef.current) {
       const polygons =
@@ -311,12 +355,23 @@ export function WorksMap({ works, paths, caves, cavePaths, locale }: Props) {
       displayedCaveRef.current = null;
       setDisplayedCave(null);
     }
+    if (displayedSubwayRef.current) {
+      resetSelectedSubwayPolylines();
+      displayedSubwayRef.current = null;
+      setDisplayedSubway(null);
+    }
     stackedWorksRef.current = [];
     stackIndexRef.current = 0;
     setStackIndex(0);
     setStackTotal(0);
     selectWork(null);
-  }, [selectWork, locale, resetSelectedPolylines, resetSelectedCavePolylines]);
+  }, [
+    selectWork,
+    locale,
+    resetSelectedPolylines,
+    resetSelectedCavePolylines,
+    resetSelectedSubwayPolylines,
+  ]);
 
   const handleNavigate = useCallback(
     (direction: 1 | -1) => {
@@ -414,6 +469,17 @@ export function WorksMap({ works, paths, caves, cavePaths, locale }: Props) {
           }
           // Reset previous polylines, then highlight all segments of this work
           resetSelectedPolylines();
+          if (displayedSubwayRef.current) {
+            const prevSubwayPolylines =
+              subwayPolylinesBySubwayIdRef.current.get(
+                displayedSubwayRef.current.subway_id,
+              ) ?? [];
+            prevSubwayPolylines.forEach((pl) =>
+              pl.setStyle({ color: "rgb(159, 154, 143)", opacity: 1 }),
+            );
+            displayedSubwayRef.current = null;
+            setDisplayedSubway(null);
+          }
           const workPolylines = polylinesByWorkId.get(workId) ?? [];
           workPolylines.forEach((pl) => {
             pl.setStyle({ color: MARKER_COLOR_ACTIVE, opacity: 1 });
@@ -474,6 +540,17 @@ export function WorksMap({ works, paths, caves, cavePaths, locale }: Props) {
           resetSelectedPolylines();
           stackedWorksRef.current = [];
           selectWork(null);
+          if (displayedSubwayRef.current) {
+            const prevSubwayPolylines =
+              subwayPolylinesBySubwayIdRef.current.get(
+                displayedSubwayRef.current.subway_id,
+              ) ?? [];
+            prevSubwayPolylines.forEach((pl) =>
+              pl.setStyle({ color: "rgb(159, 154, 143)", opacity: 1 }),
+            );
+            displayedSubwayRef.current = null;
+            setDisplayedSubway(null);
+          }
           // Reset previous cave polygons
           if (displayedCaveRef.current) {
             const prevCavePolygons =
@@ -504,6 +581,82 @@ export function WorksMap({ works, paths, caves, cavePaths, locale }: Props) {
       }
     });
     cavePolygonsByCaveIdRef.current = cavePolygonsById;
+
+    // Draw subway polylines
+    const subwaySegments = new Map<
+      string,
+      { subwayId: number; points: [number, number][] }
+    >();
+    subwayPaths.forEach((p) => {
+      const key = `${p.subway_id}-${p.segment}`;
+      if (!subwaySegments.has(key))
+        subwaySegments.set(key, { subwayId: p.subway_id, points: [] });
+      subwaySegments
+        .get(key)!
+        .points.push([Number(p.latitude), Number(p.longitude)]);
+    });
+    const subwayPolylinesById = new Map<number, L.Polyline[]>();
+    subwaySegments.forEach(({ subwayId, points }) => {
+      const polyline = L.polyline(points, {
+        color: "rgb(159, 154, 143)",
+        weight: 3,
+        opacity: 1,
+      }).addTo(map);
+      if (!subwayPolylinesById.has(subwayId))
+        subwayPolylinesById.set(subwayId, []);
+      subwayPolylinesById.get(subwayId)!.push(polyline);
+
+      const subway = subways.find((s) => s.subway_id === subwayId);
+      if (subway) {
+        polyline.on("click", (e: L.LeafletMouseEvent) => {
+          L.DomEvent.stopPropagation(e);
+          if (selectedMarkerRef.current) {
+            const prev = stackedWorksRef.current;
+            const prevCount = prev.length || 1;
+            const prevCats = collectCategories(prev, locale);
+            selectedMarkerRef.current.setIcon(
+              createWorkIcon(prevCats, prevCount, typeColorsRef.current),
+            );
+            selectedMarkerRef.current = null;
+          }
+          resetSelectedPolylines();
+          stackedWorksRef.current = [];
+          selectWork(null);
+          if (displayedCaveRef.current) {
+            const prevCavePolygons =
+              cavePolygonsById.get(displayedCaveRef.current.cave_id) ?? [];
+            prevCavePolygons.forEach((pl) =>
+              pl.setStyle({
+                color: "rgb(159, 154, 143)",
+                fillColor: "rgb(159, 154, 143)",
+                fillOpacity: 1,
+                opacity: 1,
+              }),
+            );
+            displayedCaveRef.current = null;
+            setDisplayedCave(null);
+          }
+          // Reset previous subway
+          if (displayedSubwayRef.current) {
+            const prevSubwayPolylines =
+              subwayPolylinesById.get(displayedSubwayRef.current.subway_id) ??
+              [];
+            prevSubwayPolylines.forEach((pl) =>
+              pl.setStyle({ color: "rgb(159, 154, 143)", opacity: 1 }),
+            );
+          }
+          // Highlight this subway
+          const thisSubwayPolylines = subwayPolylinesById.get(subwayId) ?? [];
+          thisSubwayPolylines.forEach((pl) =>
+            pl.setStyle({ color: MARKER_COLOR_ACTIVE, opacity: 1 }),
+          );
+          displayedSubwayRef.current = subway;
+          setDisplayedSubway(subway);
+          map.panTo(e.latlng);
+        });
+      }
+    });
+    subwayPolylinesBySubwayIdRef.current = subwayPolylinesById;
 
     // Group works by location using a Map keyed by snapped coordinates (O(n))
     const snapCoord = (n: number) =>
@@ -553,6 +706,18 @@ export function WorksMap({ works, paths, caves, cavePaths, locale }: Props) {
             );
             displayedCaveRef.current = null;
             setDisplayedCave(null);
+          }
+          // Reset any highlighted subway
+          if (displayedSubwayRef.current) {
+            const prevSubwayPolylines =
+              subwayPolylinesBySubwayIdRef.current.get(
+                displayedSubwayRef.current.subway_id,
+              ) ?? [];
+            prevSubwayPolylines.forEach((pl) =>
+              pl.setStyle({ color: "rgb(159, 154, 143)", opacity: 1 }),
+            );
+            displayedSubwayRef.current = null;
+            setDisplayedSubway(null);
           }
 
           const filtered = groupWorks.filter((w) => {
@@ -648,6 +813,8 @@ export function WorksMap({ works, paths, caves, cavePaths, locale }: Props) {
     paths,
     caves,
     cavePaths,
+    subways,
+    subwayPaths,
     locale,
     allMonths,
     selectWork,
@@ -710,7 +877,27 @@ export function WorksMap({ works, paths, caves, cavePaths, locale }: Props) {
         }
       });
     });
-  }, [dateRange, selectedTypes, typeColors, works, locale, allMonths]);
+    // Filter subway polylines by date range (no date = always visible)
+    subwayPolylinesBySubwayIdRef.current.forEach((polylines, subwayId) => {
+      const subway = subways.find((s) => s.subway_id === subwayId);
+      if (!subway) return;
+      let visible = true;
+      if (subway.subway_date_start) {
+        const start = dateToMonth(subway.subway_date_start);
+        const end = dateToMonth(
+          subway.subway_date_end ?? subway.subway_date_start,
+        );
+        visible = start <= dateRange[1] && end >= dateRange[0];
+      }
+      polylines.forEach((pl) => {
+        if (visible) {
+          if (!map.hasLayer(pl)) pl.addTo(map);
+        } else {
+          if (map.hasLayer(pl)) pl.remove();
+        }
+      });
+    });
+  }, [dateRange, selectedTypes, typeColors, works, locale, allMonths, subways]);
 
   const prevSelectedTypesRef = useRef(selectedTypes);
   useEffect(() => {
@@ -730,6 +917,22 @@ export function WorksMap({ works, paths, caves, cavePaths, locale }: Props) {
   // Open work/cave from URL param — must run after all other effects
   useEffect(() => {
     const timer = setTimeout(() => {
+      // Restore subway
+      const initialSubwayId = initialSubwayIdRef.current;
+      if (initialSubwayId !== null) {
+        initialSubwayIdRef.current = null;
+        const subway = subways.find((s) => s.subway_id === initialSubwayId);
+        const polylines =
+          subwayPolylinesBySubwayIdRef.current.get(initialSubwayId) ?? [];
+        if (subway && polylines.length > 0) {
+          polylines.forEach((pl) =>
+            pl.setStyle({ color: MARKER_COLOR_ACTIVE, opacity: 1 }),
+          );
+          displayedSubwayRef.current = subway;
+          setDisplayedSubway(subway);
+        }
+        return;
+      }
       // Restore cave
       const initialCaveId = initialCaveIdRef.current;
       if (initialCaveId !== null) {
@@ -781,7 +984,7 @@ export function WorksMap({ works, paths, caves, cavePaths, locale }: Props) {
       }
     }, 0);
     return () => clearTimeout(timer);
-  }, [caves, works, selectWork]);
+  }, [subways, caves, works, selectWork]);
 
   const visibleCount = works.filter((w, i) => {
     const [cat1, cat2] = getWorkCategories(w, locale);
@@ -816,10 +1019,11 @@ export function WorksMap({ works, paths, caves, cavePaths, locale }: Props) {
     <div className={STYLES.container}>
       <div ref={containerRef} className={STYLES.map} />
       <div className={STYLES["map-controls"]}>
-        {(displayedWork || displayedCave) && (
+        {(displayedWork || displayedCave || displayedSubway) && (
           <InfoBar
             work={displayedWork}
             cave={displayedCave}
+            subway={displayedSubway}
             isExiting={isExiting}
             animType={animType}
             locale={locale}

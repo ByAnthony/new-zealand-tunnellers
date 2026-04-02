@@ -12,6 +12,12 @@ import {
   CavePathPoint,
 } from "@/utils/database/queries/cavesQuery";
 import {
+  subwaysQuery,
+  subwayPathsQuery,
+  SubwayData,
+  SubwayPathPoint,
+} from "@/utils/database/queries/subwaysQuery";
+import {
   worksQuery,
   workPathsQuery,
   WorkData,
@@ -29,7 +35,16 @@ async function getData() {
     const paths = await workPathsQuery(connection);
     const caves = await cavesQuery(connection);
     const cavePaths = await cavePathsQuery(connection);
-    return NextResponse.json({ works, paths, caves, cavePaths });
+    const subways = await subwaysQuery(connection);
+    const subwayPaths = await subwayPathsQuery(connection);
+    return NextResponse.json({
+      works,
+      paths,
+      caves,
+      cavePaths,
+      subways,
+      subwayPaths,
+    });
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error);
     throw new Error(`Failed to fetch works data: ${errorMessage}`);
@@ -54,11 +69,15 @@ export default async function Page({ params }: Props) {
     paths,
     caves,
     cavePaths,
+    subways,
+    subwayPaths,
   }: {
     works: WorkData[];
     paths: WorkPathPoint[];
     caves: CaveData[];
     cavePaths: CavePathPoint[];
+    subways: SubwayData[];
+    subwayPaths: SubwayPathPoint[];
   } = await response.json();
 
   return (
@@ -69,6 +88,8 @@ export default async function Page({ params }: Props) {
         paths={paths}
         caves={caves}
         cavePaths={cavePaths}
+        subways={subways}
+        subwayPaths={subwayPaths}
         locale={locale}
       />
     </Suspense>
