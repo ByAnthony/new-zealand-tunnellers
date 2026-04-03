@@ -25,11 +25,9 @@
 }
 
 :global(.rc-slider-dot) {
-  background: variables.$primary-light-color !important;
-  border-color: variables.$primary-light-color !important;
+  display: none !important;
 }
 
 :global(.rc-slider-dot-active) {
-  background: variables.$secondary-color !important;
-  border-color: variables.$secondary-color !important;
+  display: none !important;
 }

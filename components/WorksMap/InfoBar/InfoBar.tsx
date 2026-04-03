@@ -216,6 +216,11 @@ export function InfoBar({
               ))}
             </div>
           )}
+          {(locale === "fr" ? work.work_note_fr : work.work_note_en) && (
+            <span className={STYLES["info-bar-note"]}>
+              {locale === "fr" ? work.work_note_fr : work.work_note_en}
+            </span>
+          )}
         </div>
         <div className={STYLES["info-bar-details"]}>
           {dateStart && (

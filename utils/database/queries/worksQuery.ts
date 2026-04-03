@@ -15,6 +15,8 @@ export type WorkData = {
   work_date_end: string | null;
   work_latitude: number;
   work_longitude: number;
+  work_note_en: string | null;
+  work_note_fr: string | null;
 };
 
 export const worksQuery = async (connection: PoolConnection) => {
@@ -32,7 +34,9 @@ export const worksQuery = async (connection: PoolConnection) => {
     DATE_FORMAT(work_date_start, '%Y-%m-%d') AS work_date_start,
     DATE_FORMAT(work_date_end, '%Y-%m-%d') AS work_date_end,
     work_latitude,
-    work_longitude
+    work_longitude,
+    work_note_en,
+    work_note_fr
     FROM work
     WHERE work_latitude IS NOT NULL
     ORDER BY work_date_start ASC`;
