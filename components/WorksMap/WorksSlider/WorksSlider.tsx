@@ -37,6 +37,7 @@ export function WorksSlider({
   maxMonth,
 }: Props) {
   const locale = useLocale();
+  const [dragging, setDragging] = useState<[number, number] | null>(null);
   const [isMobile, setIsMobile] = useState(
     () =>
       typeof window !== "undefined" &&
@@ -81,14 +82,25 @@ export function WorksSlider({
 
   return (
     <div className={STYLES.slider}>
+      {dragging && (
+        <div className={STYLES.tooltip}>
+          {formatMonth(dragging[0], locale)}
+          {dragging[0] !== dragging[1] &&
+            ` — ${formatMonth(dragging[1], locale)}`}
+        </div>
+      )}
       <Slider
         range
         min={minMonth}
         max={maxMonth}
         value={dateRange}
         onChange={(value) => {
-          if (Array.isArray(value)) onChange([value[0], value[1]]);
+          if (Array.isArray(value)) {
+            onChange([value[0], value[1]]);
+            setDragging([value[0], value[1]]);
+          }
         }}
+        onChangeComplete={() => setDragging(null)}
         marks={marks}
         dots
         allowCross={false}

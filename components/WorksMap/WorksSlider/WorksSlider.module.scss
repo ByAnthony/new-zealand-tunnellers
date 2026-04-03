@@ -1,10 +1,28 @@
 @use "app/variables.module.scss";
 
 .slider {
+  position: relative;
   background-color: variables.$primary-medium-color;
   border: 1px solid variables.$primary-light-color;
   border-radius: variables.$border-radius;
   padding: 30px 50px 45px 50px;
+}
+
+.tooltip {
+  position: absolute;
+  top: variables.$xxs-margin;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 1px solid variables.$primary-light-color;
+  border-radius: variables.$border-radius;
+  padding: 2px variables.$xxs-margin;
+  font-size: 0.8rem;
+  color: variables.$text-color;
+  white-space: nowrap;
+  min-width: 115px;
+  text-align: center;
+  pointer-events: none;
+  z-index: 10;
 }
 
 :global(
