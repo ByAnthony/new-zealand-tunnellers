@@ -177,6 +177,14 @@
   flex-shrink: 0;
 }
 
+.info-bar-note {
+  flex: 1 0 100%;
+  font-size: 0.85rem;
+  font-weight: 300;
+  color: variables.$placeholder-color;
+  font-style: italic;
+}
+
 .info-bar-type-label {
   padding: variables.$xxxs-margin variables.$xxs-margin;
   font-size: 0.8rem;

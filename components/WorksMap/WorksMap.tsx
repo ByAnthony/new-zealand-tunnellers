@@ -54,7 +54,8 @@ const COORD_TOLERANCE = 0.0001;
 const EXIT_DURATION_DEFAULT = 150;
 const EXIT_DURATION_SLIDE = 250;
 const EXIT_DURATION_FADE = 300;
-const INERT_FEATURE_COLOR = "rgb(159, 154, 143)";
+const CAVE_COLOR = "rgb(44, 46, 47)";
+const CAVE_BORDER_COLOR = "rgba(255,255,255,0.15)";
 const DEFAULT_WORK_COLOR = "rgb(113, 152, 185)";
 
 export function WorksMap({
@@ -319,9 +320,7 @@ export function WorksMap({
         subwayPolylinesBySubwayIdRef.current.get(
           displayedSubwayRef.current.subway_id,
         ) ?? [];
-      polylines.forEach((pl) =>
-        pl.setStyle({ color: INERT_FEATURE_COLOR, opacity: 1 }),
-      );
+      polylines.forEach((pl) => pl.setStyle({ color: CAVE_COLOR, opacity: 1 }));
     }
   }, []);
 
@@ -332,8 +331,8 @@ export function WorksMap({
         [];
       polygons.forEach((pl) =>
         pl.setStyle({
-          color: INERT_FEATURE_COLOR,
-          fillColor: INERT_FEATURE_COLOR,
+          color: CAVE_BORDER_COLOR,
+          fillColor: CAVE_COLOR,
           fillOpacity: 1,
           opacity: 1,
         }),
@@ -414,16 +413,6 @@ export function WorksMap({
         attribution: "Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ",
         maxZoom: 19,
       },
-    ).addTo(map);
-
-    // Temporary Arras overlay for reference
-    L.imageOverlay(
-      "/images/map/arras-overlay.png",
-      [
-        [50.2674, 2.7229],
-        [50.307, 2.8126],
-      ],
-      { opacity: 0 },
     ).addTo(map);
 
     const initializeStack = (stackWorks: WorkData[]) => {
@@ -510,10 +499,10 @@ export function WorksMap({
     groupPathsBySegment(cavePaths, (p) => p.cave_id).forEach(
       ({ id: caveId, points }) => {
         const polygon = L.polygon(points, {
-          color: INERT_FEATURE_COLOR,
+          color: CAVE_BORDER_COLOR,
           weight: 2,
           opacity: 1,
-          fillColor: INERT_FEATURE_COLOR,
+          fillColor: CAVE_COLOR,
           fillOpacity: 1,
         }).addTo(map);
         if (!cavePolygonsById.has(caveId)) cavePolygonsById.set(caveId, []);
@@ -566,7 +555,7 @@ export function WorksMap({
     groupPathsBySegment(subwayPaths, (p) => p.subway_id).forEach(
       ({ id: subwayId, points }) => {
         const polyline = L.polyline(points, {
-          color: INERT_FEATURE_COLOR,
+          color: CAVE_COLOR,
           weight: 3,
           opacity: 1,
         }).addTo(map);
@@ -751,6 +740,8 @@ export function WorksMap({
     selectWork,
     closeInfo,
     resetSelectedPolylines,
+    resetSelectedCavePolylines,
+    resetSelectedSubwayPolylines,
   ]);
 
   useEffect(() => {

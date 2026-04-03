@@ -10,6 +10,8 @@ export type SubwayData = {
   subway_date_end: string | null;
   subway_latitude: number;
   subway_longitude: number;
+  subway_note_en: string | null;
+  subway_note_fr: string | null;
 };
 
 export const subwaysQuery = async (connection: PoolConnection) => {
@@ -22,7 +24,9 @@ export const subwaysQuery = async (connection: PoolConnection) => {
     subway_date_start,
     subway_date_end,
     subway_latitude,
-    subway_longitude
+    subway_longitude,
+    subway_note_en,
+    subway_note_fr
     FROM subway`;
 
   const [results] =

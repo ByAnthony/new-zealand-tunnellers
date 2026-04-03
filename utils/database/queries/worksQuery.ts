@@ -3,6 +3,7 @@ import { PoolConnection, RowDataPacket } from "mysql2/promise";
 export type WorkData = {
   work_id: number;
   work_name: string;
+  work_name_fr: string | null;
   work_type_en: string | null;
   work_type_fr: string | null;
   work_category_1_en: string | null;
@@ -20,6 +21,7 @@ export const worksQuery = async (connection: PoolConnection) => {
   const query = `SELECT
     work_id,
     work_name,
+    work_name_fr,
     work_type_en,
     work_type_fr,
     work_category_1_en,

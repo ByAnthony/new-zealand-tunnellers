@@ -10,6 +10,8 @@ export const mockSubway: SubwayData = {
   subway_date_end: "1917-01-22",
   subway_latitude: 50.287814,
   subway_longitude: 2.784128,
+  subway_note_en: null,
+  subway_note_fr: null,
 };
 
 export const mockSubwayNoDate: SubwayData = {

@@ -65,6 +65,8 @@ export function InfoBar({
       locale === "fr" ? subway.subway_name_fr : subway.subway_name_en;
     const typeLabel =
       locale === "fr" ? subway.subway_type_fr : subway.subway_type_en;
+    const note =
+      locale === "fr" ? subway.subway_note_fr : subway.subway_note_en;
     const dateStart = subway.subway_date_start;
     const dateEnd = subway.subway_date_end;
     const hasTwoDates = dateStart && dateEnd && dateEnd !== dateStart;
@@ -80,6 +82,7 @@ export function InfoBar({
           <div className={STYLES["info-bar-header"]}>
             <span className={STYLES["info-bar-name"]}>{name}</span>
             <span className={STYLES["info-bar-type-label"]}>{typeLabel}</span>
+            {note && <span className={STYLES["info-bar-note"]}>{note}</span>}
           </div>
           <div className={STYLES["info-bar-details"]}>
             {dateStart && (
@@ -192,7 +195,11 @@ export function InfoBar({
     >
       <div className={STYLES["info-bar-fields"]}>
         <div className={STYLES["info-bar-header"]}>
-          <span className={STYLES["info-bar-name"]}>{work.work_name}</span>
+          <span className={STYLES["info-bar-name"]}>
+            {locale === "fr" && work.work_name_fr
+              ? work.work_name_fr
+              : work.work_name}
+          </span>
           {labels.length > 0 && (
             <div className={STYLES["info-bar-tags"]}>
               {labels.map((label) => (
