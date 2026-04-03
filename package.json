@@ -29,10 +29,10 @@
     "cross-env": "10.1.0",
     "leaflet": "1.9.4",
     "leaflet.markercluster": "1.5.3",
-    "lodash": "4.17.23",
+    "lodash": "4.18.1",
     "mysql2": "3.20.0",
-    "next": "16.2.1",
-    "next-intl": "4.8.3",
+    "next": "16.2.2",
+    "next-intl": "4.9.0",
     "nodemon": "3.1.14",
     "prettier": "3.8.1",
     "rc-slider": "11.1.9",
@@ -44,14 +44,14 @@
     "rehype-raw": "^7.0.0",
     "remark-gfm": "4.0.1",
     "remark-remove-comments": "1.1.1",
-    "sass": "1.98.0",
+    "sass": "1.99.0",
     "sharp": "0.34.5",
     "ts-node": "10.9.2",
     "unist-util-visit": "5.1.0"
   },
   "devDependencies": {
     "@eslint/js": "9.39.2",
-    "@playwright/test": "1.58.2",
+    "@playwright/test": "1.59.1",
     "@testing-library/jest-dom": "6.9.1",
     "@testing-library/react": "16.3.2",
     "@types/jest": "30.0.0",
@@ -59,9 +59,9 @@
     "@types/node": "22.19.15",
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
-    "baseline-browser-mapping": "2.10.11",
+    "baseline-browser-mapping": "2.10.13",
     "eslint": "9.39.2",
-    "eslint-config-next": "16.2.1",
+    "eslint-config-next": "16.2.2",
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-import": "2.32.0",
     "eslint-plugin-react-hooks": "7.0.1",
@@ -71,6 +71,6 @@
     "jest-environment-jsdom": "30.3.0",
     "lint-staged": "16.4.0",
     "typescript": "5.9.3",
-    "typescript-eslint": "8.57.2"
+    "typescript-eslint": "8.58.0"
   }
 }
