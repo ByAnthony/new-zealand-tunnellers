@@ -411,7 +411,7 @@ export function WorksMap({
       "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}",
       {
         attribution: "Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ",
-        maxZoom: 19,
+        maxZoom: 16,
       },
     ).addTo(map);
 
@@ -990,7 +990,7 @@ export function WorksMap({
             <button
               onClick={() => zoom(1)}
               aria-label="Zoom in"
-              disabled={currentZoom !== null && currentZoom >= 19}
+              disabled={currentZoom !== null && currentZoom >= 16}
             >
               +
             </button>
