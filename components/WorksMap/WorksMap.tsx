@@ -425,6 +425,15 @@ export function WorksMap({
       selectWork(stackWorks[0]);
     };
 
+    const panTo = (latlng: L.LatLng) => {
+      if (window.innerWidth < 512) {
+        const pt = map.latLngToContainerPoint(latlng);
+        map.panTo(map.containerPointToLatLng(L.point(pt.x, pt.y + 100)));
+      } else {
+        map.panTo(latlng);
+      }
+    };
+
     const groupPathsBySegment = <
       T extends { segment: number; latitude: number; longitude: number },
     >(
@@ -488,7 +497,7 @@ export function WorksMap({
           });
           selectedPolylinesRef.current = workPolylines;
 
-          map.panTo(e.latlng);
+          panTo(e.latlng);
           initializeStack([work]);
         });
       }
@@ -544,7 +553,7 @@ export function WorksMap({
             );
             displayedCaveRef.current = cave;
             setDisplayedCave(cave);
-            map.panTo(e.latlng);
+            panTo(e.latlng);
           });
         }
       },
@@ -593,7 +602,7 @@ export function WorksMap({
             );
             displayedSubwayRef.current = subway;
             setDisplayedSubway(subway);
-            map.panTo(e.latlng);
+            panTo(e.latlng);
           });
         }
       },
@@ -665,7 +674,7 @@ export function WorksMap({
                 ),
           );
           selectedMarkerRef.current = marker;
-          map.panTo(marker.getLatLng());
+          panTo(marker.getLatLng());
           initializeStack(filtered);
         });
 
@@ -968,9 +977,66 @@ export function WorksMap({
             onNavigate={handleNavigate}
           />
         )}
-        <div className={STYLES["filter-row"]}>
-          <div className={STYLES["slider-count"]}>
-            {visibleCount} {visibleCount === 1 ? t("work") : t("works")}
+        {/* Tablet/Desktop layout */}
+        <div className={STYLES["controls-desktop"]}>
+          <div className={STYLES["filter-row"]}>
+            <div className={STYLES["slider-count"]}>
+              {visibleCount} {visibleCount === 1 ? t("work") : t("works")}
+            </div>
+            <TypeFilter
+              types={types}
+              selectedTypes={selectedTypes}
+              onToggle={toggleType}
+              colors={typeColors}
+            />
+          </div>
+          <div className={STYLES["slider-row"]}>
+            <WorksSlider
+              dateRange={dateRange}
+              onChange={setDateRange}
+              minMonth={minMonth}
+              maxMonth={maxMonth}
+            />
+            <div className={STYLES.zoom}>
+              <button
+                onClick={() => zoom(1)}
+                aria-label="Zoom in"
+                disabled={currentZoom !== null && currentZoom >= 16}
+              >
+                +
+              </button>
+              <button
+                onClick={() => zoom(-1)}
+                aria-label="Zoom out"
+                disabled={currentZoom !== null && currentZoom <= 6}
+              >
+                −
+              </button>
+            </div>
+          </div>
+        </div>
+        {/* Mobile layout */}
+        <div className={STYLES["controls-mobile"]}>
+          <div className={STYLES["mobile-top"]}>
+            <div className={STYLES["slider-count"]}>
+              {visibleCount} {visibleCount === 1 ? t("work") : t("works")}
+            </div>
+            <div className={STYLES["zoom-mobile"]}>
+              <button
+                onClick={() => zoom(1)}
+                aria-label="Zoom in"
+                disabled={currentZoom !== null && currentZoom >= 16}
+              >
+                +
+              </button>
+              <button
+                onClick={() => zoom(-1)}
+                aria-label="Zoom out"
+                disabled={currentZoom !== null && currentZoom <= 6}
+              >
+                −
+              </button>
+            </div>
           </div>
           <TypeFilter
             types={types}
@@ -978,30 +1044,12 @@ export function WorksMap({
             onToggle={toggleType}
             colors={typeColors}
           />
-        </div>
-        <div className={STYLES["slider-row"]}>
           <WorksSlider
             dateRange={dateRange}
             onChange={setDateRange}
             minMonth={minMonth}
             maxMonth={maxMonth}
           />
-          <div className={STYLES.zoom}>
-            <button
-              onClick={() => zoom(1)}
-              aria-label="Zoom in"
-              disabled={currentZoom !== null && currentZoom >= 16}
-            >
-              +
-            </button>
-            <button
-              onClick={() => zoom(-1)}
-              aria-label="Zoom out"
-              disabled={currentZoom !== null && currentZoom <= 6}
-            >
-              −
-            </button>
-          </div>
         </div>
       </div>
     </div>

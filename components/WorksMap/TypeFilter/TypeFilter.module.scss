@@ -75,7 +75,12 @@
   align-items: center;
   gap: variables.$xxxs-margin;
   flex-shrink: 0;
-  padding: 0 variables.$xxs-margin;
+  padding: 13px variables.$xxs-margin;
+
+  @media screen and (min-width: variables.$mobile) {
+    padding: 0 variables.$xxs-margin;
+  }
+
   background-color: variables.$primary-medium-color;
   border: 1px solid variables.$primary-light-color;
   border-radius: variables.$border-radius;

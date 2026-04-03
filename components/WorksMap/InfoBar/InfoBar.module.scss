@@ -180,7 +180,7 @@
 .info-bar-note {
   flex: 1 0 100%;
   font-size: 0.85rem;
-  font-weight: 300;
+  font-weight: 400;
   color: variables.$placeholder-color;
   font-style: italic;
 }
@@ -230,22 +230,32 @@
 
 .info-bar-nav {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: stretch;
   flex-shrink: 0;
+
+  @media screen and (min-width: variables.$mobile) {
+    flex-direction: row;
+  }
 
   span {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0 variables.$xxs-margin;
+    padding: variables.$xxxs-margin variables.$xxs-margin;
     background: none;
     border: 1px solid variables.$primary-light-color;
-    border-right: none;
-    border-radius: variables.$border-radius 0 0 variables.$border-radius;
+    border-bottom: none;
+    border-radius: variables.$border-radius variables.$border-radius 0 0;
     font-size: 0.9rem;
     color: variables.$placeholder-color;
     white-space: nowrap;
+
+    @media screen and (min-width: variables.$mobile) {
+      border-bottom: 1px solid variables.$primary-light-color;
+      border-right: none;
+      border-radius: variables.$border-radius 0 0 variables.$border-radius;
+    }
 
     strong {
       color: variables.$text-color;
@@ -257,12 +267,17 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 28px;
+    width: 100%;
     height: 28px;
     padding: 0;
     background-color: variables.$primary-medium-color;
     border: 1px solid variables.$primary-light-color;
-    border-radius: 0 variables.$border-radius variables.$border-radius 0;
+    border-radius: 0 0 variables.$border-radius variables.$border-radius;
+
+    @media screen and (min-width: variables.$mobile) {
+      width: 28px;
+      border-radius: 0 variables.$border-radius variables.$border-radius 0;
+    }
     color: variables.$secondary-color;
     font-family: variables.$main-font;
     font-size: 1.4rem;
