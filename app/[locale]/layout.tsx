@@ -9,7 +9,7 @@ import { ReactNode } from "react";
 
 import { Footer } from "@/components/Footer/Footer";
 import { MenuContainer } from "@/components/Menu/MenuContainer";
-import { ogLocale, pageUrl } from "@/utils/helpers/metadata";
+import { BASE_URL, ogLocale, pageUrl } from "@/utils/helpers/metadata";
 
 type Props = {
   children: ReactNode;
@@ -26,6 +26,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const t = await getTranslations({ locale, namespace: "site" });
 
   return {
+    metadataBase: new URL(BASE_URL),
     title: "New Zealand Tunnellers",
     description: t("description"),
     openGraph: {
