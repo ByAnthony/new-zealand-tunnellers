@@ -32,3 +32,12 @@ export const rollQuery = async (locale: Locale, connection: PoolConnection) => {
     await connection.execute<(TunnellerData & RowDataPacket)[]>(query);
   return results;
 };
+
+export const allTunnellerSlugsQuery = async (
+  connection: PoolConnection,
+): Promise<string[]> => {
+  const [results] = await connection.execute<RowDataPacket[]>(
+    "SELECT slug FROM tunneller ORDER BY surname, forename ASC",
+  );
+  return results.map((r) => r.slug as string);
+};

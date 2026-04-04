@@ -2,9 +2,15 @@
   "site": {
     "description": "Découvrez l'histoire des tunneliers néo-zélandais, de la formation de leur compagnie à la guerre souterraine durant la Première Guerre mondiale",
     "aboutUs": "À propos",
+    "aboutUsDescription": "Une plateforme dédiée à la compagnie de tunneliers de Nouvelle-Zélande, créée par Anthony Byledbal, docteur en histoire contemporaine, mêlant recherche historique et technologies modernes.",
     "tunnellers": "Liste des tunneliers",
+    "tunnellersDescription": "Parcourez les profils des tunneliers néo-zélandais qui ont servi durant la Première Guerre mondiale",
     "book": "Les Kiwis aussi creusent des tunnels",
-    "timelineOf": "Chronologie de {forename} {surname}"
+    "timelineOf": "Chronologie de {forename} {surname}",
+    "tunnellerDescription": "Biographie de {rank} {forename} {surname}, tunnelier néo-zélandais ayant servi durant la Première Guerre mondiale",
+    "tunnellerTimelineDescription": "Chronologie de la Première Guerre mondiale de {rank} {forename} {surname}, tunnelier néo-zélandais",
+    "historyChapterDescription": "Lire le chapitre {title} - histoire des tunneliers néo-zélandais durant la Première Guerre mondiale",
+    "bookChapterDescription": "Lire {title} - un chapitre de Les Kiwis aussi creusent des tunnels, sur les tunneliers néo-zélandais"
   },
   "nav": {
     "history": "Histoire",
