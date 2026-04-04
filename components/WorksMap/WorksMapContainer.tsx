@@ -4,6 +4,10 @@ import dynamic from "next/dynamic";
 
 import { CaveData, CavePathPoint } from "@/utils/database/queries/cavesQuery";
 import {
+  FrontLineData,
+  FrontLinePathPoint,
+} from "@/utils/database/queries/frontLinesQuery";
+import {
   SubwayData,
   SubwayPathPoint,
 } from "@/utils/database/queries/subwaysQuery";
@@ -24,6 +28,8 @@ type Props = {
   cavePaths: CavePathPoint[];
   subways: SubwayData[];
   subwayPaths: SubwayPathPoint[];
+  frontLines: FrontLineData[];
+  frontLinePaths: FrontLinePathPoint[];
   locale: string;
 };
 
@@ -34,6 +40,8 @@ export function WorksMapContainer({
   cavePaths,
   subways,
   subwayPaths,
+  frontLines,
+  frontLinePaths,
   locale,
 }: Props) {
   return (
@@ -44,6 +52,8 @@ export function WorksMapContainer({
       cavePaths={cavePaths}
       subways={subways}
       subwayPaths={subwayPaths}
+      frontLines={frontLines}
+      frontLinePaths={frontLinePaths}
       locale={locale}
     />
   );

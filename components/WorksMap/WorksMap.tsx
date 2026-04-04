@@ -8,6 +8,10 @@ import { useEffect, useRef, useState, useCallback, useMemo } from "react";
 
 import { CaveData, CavePathPoint } from "@/utils/database/queries/cavesQuery";
 import {
+  FrontLineData,
+  FrontLinePathPoint,
+} from "@/utils/database/queries/frontLinesQuery";
+import {
   SubwayData,
   SubwayPathPoint,
 } from "@/utils/database/queries/subwaysQuery";
@@ -47,6 +51,8 @@ type Props = {
   cavePaths: CavePathPoint[];
   subways: SubwayData[];
   subwayPaths: SubwayPathPoint[];
+  frontLines: FrontLineData[];
+  frontLinePaths: FrontLinePathPoint[];
   locale: string;
 };
 
@@ -57,6 +63,8 @@ const EXIT_DURATION_FADE = 300;
 const CAVE_COLOR = "rgb(44, 46, 47)";
 const CAVE_BORDER_COLOR = "rgba(255,255,255,0.15)";
 const DEFAULT_WORK_COLOR = "rgb(113, 152, 185)";
+const BRITISH_LINE_COLOR = "rgb(80, 120, 180)";
+const GERMAN_LINE_COLOR = "rgb(180, 70, 70)";
 
 export function WorksMap({
   works,
@@ -65,6 +73,8 @@ export function WorksMap({
   cavePaths,
   subways,
   subwayPaths,
+  frontLines,
+  frontLinePaths,
   locale,
 }: Props) {
   const t = useTranslations("maps");
@@ -163,6 +173,9 @@ export function WorksMap({
   const cavePolygonsByCaveIdRef = useRef<Map<number, L.Polygon[]>>(new Map());
   const [displayedCave, setDisplayedCave] = useState<CaveData | null>(null);
   const displayedCaveRef = useRef<CaveData | null>(null);
+  const frontLinePolylinesByIdRef = useRef<Map<number, L.Polyline[]>>(
+    new Map(),
+  );
   const subwayPolylinesBySubwayIdRef = useRef<Map<number, L.Polyline[]>>(
     new Map(),
   );
@@ -415,6 +428,15 @@ export function WorksMap({
       },
     ).addTo(map);
 
+    L.imageOverlay(
+      "/images/map/arras-1916-10.png",
+      [
+        [50.25546, 2.65843],
+        [50.37629, 3.04786],
+      ],
+      { opacity: 0 },
+    ).addTo(map);
+
     const initializeStack = (stackWorks: WorkData[]) => {
       stackedWorksRef.current = stackWorks;
       stackIndexRef.current = 0;
@@ -609,6 +631,29 @@ export function WorksMap({
     );
     subwayPolylinesBySubwayIdRef.current = subwayPolylinesById;
 
+    // Draw front lines
+    const frontLinePolylinesById = new Map<number, L.Polyline[]>();
+    groupPathsBySegment(frontLinePaths, (p) => p.front_line_id).forEach(
+      ({ id: frontLineId, points }) => {
+        const fl = frontLines.find((f) => f.front_line_id === frontLineId);
+        if (!fl) return;
+        const color =
+          fl.front_line_side === "british"
+            ? BRITISH_LINE_COLOR
+            : GERMAN_LINE_COLOR;
+        const polyline = L.polyline(points, {
+          color,
+          weight: 2,
+          opacity: 0,
+          dashArray: "6, 6",
+        }).addTo(map);
+        if (!frontLinePolylinesById.has(frontLineId))
+          frontLinePolylinesById.set(frontLineId, []);
+        frontLinePolylinesById.get(frontLineId)!.push(polyline);
+      },
+    );
+    frontLinePolylinesByIdRef.current = frontLinePolylinesById;
+
     const snapCoord = (n: number) =>
       Math.round(n / COORD_TOLERANCE) * COORD_TOLERANCE;
     const groupMap = new Map<string, WorkData[]>();
@@ -751,6 +796,8 @@ export function WorksMap({
     resetSelectedPolylines,
     resetSelectedCavePolylines,
     resetSelectedSubwayPolylines,
+    frontLines,
+    frontLinePaths,
   ]);
 
   useEffect(() => {
@@ -826,6 +873,25 @@ export function WorksMap({
         toggleLayer(pl, !filterActive || subwayTypeSelected),
       );
     });
+    // Show front lines only when slider is not at full default range
+    const sliderAdjusted =
+      dateRange[0] !== minMonth || dateRange[1] !== maxMonth;
+    frontLinePolylinesByIdRef.current.forEach((polylines, id) => {
+      const fl = frontLines.find((f) => f.front_line_id === id);
+      const visible =
+        sliderAdjusted &&
+        !!fl &&
+        dateToMonth(fl.front_line_period_start) <= dateRange[1] &&
+        dateToMonth(fl.front_line_period_end) >= dateRange[0];
+      polylines.forEach((pl) => {
+        if (visible) {
+          pl.setStyle({ opacity: 1 });
+          if (!mapRef.current?.hasLayer(pl)) pl.addTo(mapRef.current!);
+        } else {
+          pl.setStyle({ opacity: 0 });
+        }
+      });
+    });
   }, [
     dateRange,
     selectedTypes,
@@ -835,6 +901,9 @@ export function WorksMap({
     locale,
     allMonths,
     subways,
+    frontLines,
+    minMonth,
+    maxMonth,
   ]);
 
   const prevSelectedTypesRef = useRef(selectedTypes);

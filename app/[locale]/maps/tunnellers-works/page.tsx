@@ -12,6 +12,12 @@ import {
   CavePathPoint,
 } from "@/utils/database/queries/cavesQuery";
 import {
+  frontLinesQuery,
+  frontLinePathsQuery,
+  FrontLineData,
+  FrontLinePathPoint,
+} from "@/utils/database/queries/frontLinesQuery";
+import {
   subwaysQuery,
   subwayPathsQuery,
   SubwayData,
@@ -37,6 +43,8 @@ async function getData() {
     const cavePaths = await cavePathsQuery(connection);
     const subways = await subwaysQuery(connection);
     const subwayPaths = await subwayPathsQuery(connection);
+    const frontLines = await frontLinesQuery(connection);
+    const frontLinePaths = await frontLinePathsQuery(connection);
     return NextResponse.json({
       works,
       paths,
@@ -44,6 +52,8 @@ async function getData() {
       cavePaths,
       subways,
       subwayPaths,
+      frontLines,
+      frontLinePaths,
     });
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error);
@@ -71,6 +81,8 @@ export default async function Page({ params }: Props) {
     cavePaths,
     subways,
     subwayPaths,
+    frontLines,
+    frontLinePaths,
   }: {
     works: WorkData[];
     paths: WorkPathPoint[];
@@ -78,6 +90,8 @@ export default async function Page({ params }: Props) {
     cavePaths: CavePathPoint[];
     subways: SubwayData[];
     subwayPaths: SubwayPathPoint[];
+    frontLines: FrontLineData[];
+    frontLinePaths: FrontLinePathPoint[];
   } = await response.json();
 
   return (
@@ -90,6 +104,8 @@ export default async function Page({ params }: Props) {
         cavePaths={cavePaths}
         subways={subways}
         subwayPaths={subwayPaths}
+        frontLines={frontLines}
+        frontLinePaths={frontLinePaths}
         locale={locale}
       />
     </Suspense>
