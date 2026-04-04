@@ -1,4 +1,5 @@
 import { redirect } from "next/navigation";
+import { getTranslations } from "next-intl/server";
 
 import { Profile } from "@/components/Profile/Profile";
 import { Locale } from "@/types/locale";
@@ -6,6 +7,7 @@ import { TunnellerProfile } from "@/types/tunneller";
 import { getTunneller } from "@/utils/database/getTunneller";
 import { mysqlConnection } from "@/utils/database/mysqlConnection";
 import { tunnellerSlugByIdQuery } from "@/utils/database/queries/tunnellerSlugByIdQuery";
+import { ogLocale, pageUrl } from "@/utils/helpers/metadata";
 
 type Props = {
   params: Promise<{ slug: string; locale: Locale }>;
@@ -42,9 +44,23 @@ export async function generateMetadata(props: Props) {
 
   const surname = tunneller.summary.name.surname;
   const forename = tunneller.summary.name.forename;
+  const rank = tunneller.militaryYears.enlistment.rank;
+  const t = await getTranslations({ locale, namespace: "site" });
+  const title = `${forename} ${surname} - New Zealand Tunnellers`;
 
   return {
-    title: `${forename} ${surname} - New Zealand Tunnellers`,
+    title,
+    openGraph: {
+      title,
+      description: t("tunnellerDescription", { rank, forename, surname }),
+      url: pageUrl(locale, `/tunnellers/${slug}/`),
+      siteName: "New Zealand Tunnellers",
+      locale: ogLocale(locale),
+      alternateLocale: locale === "fr" ? "en_NZ" : "fr_FR",
+      type: "profile",
+      firstName: forename,
+      lastName: surname,
+    },
   };
 }
 
@@ -53,5 +69,53 @@ export default async function Page(props: Props) {
   const response = await getData(slug, locale);
   const tunneller: TunnellerProfile = await response.json();
 
-  return <Profile tunneller={tunneller} />;
+  const { forename, surname } = tunneller.summary.name;
+  const rank = tunneller.militaryYears.enlistment.rank;
+  const birthDate = tunneller.origins.birth.date?.year;
+  const birthPlace = tunneller.origins.birth.country;
+  const deathDate = tunneller.death?.date?.year;
+  const deathTown = tunneller.death?.place?.town;
+  const deathCountry = tunneller.death?.place?.country;
+  const awmm = tunneller.sources.awmmCenotaph;
+  const image = tunneller.image?.url;
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: `${forename} ${surname}`,
+    givenName: forename,
+    familyName: surname,
+    jobTitle: rank,
+    memberOf: {
+      "@type": "Organization",
+      name: "New Zealand Tunnelling Company",
+    },
+    url: pageUrl(locale, `/tunnellers/${slug}/`),
+    ...(image && {
+      image: `https://www.nztunnellers.com/images/roll/tunnellers/${image}`,
+    }),
+    ...(birthDate && { birthDate }),
+    ...(birthPlace && {
+      birthPlace: { "@type": "Place", addressCountry: birthPlace },
+    }),
+    ...(deathDate && { deathDate }),
+    ...((deathTown || deathCountry) && {
+      deathPlace: {
+        "@type": "Place",
+        ...(deathTown && { name: deathTown }),
+        ...(deathCountry && { addressCountry: deathCountry }),
+      },
+    }),
+    ...(awmm && { sameAs: awmm }),
+  };
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <Profile tunneller={tunneller} />
+    </>
+  );
 }

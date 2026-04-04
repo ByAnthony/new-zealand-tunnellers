@@ -132,6 +132,7 @@ jobs:
             jest.setup.js
             node_modules/**
             playwright.config.js
+            .next/cache/**
 
       - name: Restart server
         run: LANG="en_US.UTF-8" ; ssh -T -p 5022 deploy "source nodevenv/$SERVER_DIR/22/bin/activate && cd $SERVER_DIR && npm ci && touch ~/$SERVER_DIR/tmp/restart.txt"

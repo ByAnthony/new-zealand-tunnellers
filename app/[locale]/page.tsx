@@ -9,6 +9,7 @@ import {
   historyChaptersQuery,
 } from "@/utils/database/queries/homepageQuery";
 import { getHistoryChapters } from "@/utils/helpers/homepage";
+import { pageUrl } from "@/utils/helpers/metadata";
 
 type Props = {
   params: Promise<{ locale: Locale }>;
@@ -46,5 +47,20 @@ export default async function Page(props: Props) {
   const response = await getData(locale);
   const homepage = await response.json();
 
-  return <HomePage homepage={homepage} />;
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "New Zealand Tunnellers",
+    url: pageUrl(locale, "/"),
+  };
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <HomePage homepage={homepage} />
+    </>
+  );
 }
