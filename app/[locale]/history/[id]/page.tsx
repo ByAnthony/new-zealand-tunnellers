@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { setRequestLocale } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 
 import { Article } from "@/components/Article/Article";
 import {
@@ -19,6 +19,7 @@ import {
   nextArticleQuery,
 } from "@/utils/database/queries/historyChapterQuery";
 import { getNextChapter } from "@/utils/helpers/article";
+import { ogLocale, pageUrl } from "@/utils/helpers/metadata";
 
 type Props = {
   params: Promise<{ id: string; locale: Locale }>;
@@ -70,10 +71,21 @@ export async function generateMetadata(props: Props) {
   const response = await getData(id, locale);
   const article: Chapter = await response.json();
 
-  const title = article.title.replace(/\\/g, " ");
+  const t = await getTranslations({ locale, namespace: "site" });
+  const chapterTitle = article.title.replace(/\\/g, " ");
+  const title = `${chapterTitle} - New Zealand Tunnellers`;
 
   return {
-    title: `${title} - New Zealand Tunnellers`,
+    title,
+    openGraph: {
+      title,
+      description: t("historyChapterDescription", { title: chapterTitle }),
+      url: pageUrl(locale, `/history/${id}/`),
+      siteName: "New Zealand Tunnellers",
+      locale: ogLocale(locale),
+      alternateLocale: locale === "fr" ? "en_NZ" : "fr_FR",
+      type: "article",
+    },
   };
 }
 
@@ -83,5 +95,30 @@ export default async function Page(props: Props) {
   const response = await getData(id, locale);
   const article: Chapter = await response.json();
 
-  return <Article article={article} />;
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: article.title.replace(/\\/g, " "),
+    inLanguage: locale,
+    url: pageUrl(locale, `/history/${id}/`),
+    author: {
+      "@type": "Person",
+      name: "Anthony Byledbal",
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "New Zealand Tunnellers",
+      url: "https://www.nztunnellers.com",
+    },
+  };
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <Article article={article} />
+    </>
+  );
 }

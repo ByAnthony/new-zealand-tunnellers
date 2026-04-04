@@ -9,6 +9,7 @@ import { ReactNode } from "react";
 
 import { Footer } from "@/components/Footer/Footer";
 import { MenuContainer } from "@/components/Menu/MenuContainer";
+import { ogLocale, pageUrl } from "@/utils/helpers/metadata";
 
 type Props = {
   children: ReactNode;
@@ -27,6 +28,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: "New Zealand Tunnellers",
     description: t("description"),
+    openGraph: {
+      title: "New Zealand Tunnellers",
+      description: t("description"),
+      url: pageUrl(locale, "/"),
+      siteName: "New Zealand Tunnellers",
+      locale: ogLocale(locale),
+      alternateLocale: locale === "fr" ? "en_NZ" : "fr_FR",
+      type: "website",
+    },
   };
 }
 
