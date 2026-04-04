@@ -906,10 +906,7 @@ export function WorksMap({
     maxMonth,
   ]);
 
-  const prevSelectedTypesRef = useRef(selectedTypes);
-  useEffect(() => {
-    if (prevSelectedTypesRef.current === selectedTypes) return;
-    prevSelectedTypesRef.current = selectedTypes;
+  const fitToVisibleWorks = useCallback(() => {
     const map = mapRef.current;
     if (!map) return;
     const visible = markersRef.current
@@ -922,7 +919,14 @@ export function WorksMap({
       padding: [30, 30],
       maxZoom: Math.max(zoom - 1, 10),
     });
-  }, [selectedTypes]);
+  }, []);
+
+  const prevSelectedTypesRef = useRef(selectedTypes);
+  useEffect(() => {
+    if (prevSelectedTypesRef.current === selectedTypes) return;
+    prevSelectedTypesRef.current = selectedTypes;
+    fitToVisibleWorks();
+  }, [selectedTypes, fitToVisibleWorks]);
 
   // Open work/cave from URL param — must run after all other effects
   useEffect(() => {
@@ -1063,6 +1067,7 @@ export function WorksMap({
             <WorksSlider
               dateRange={dateRange}
               onChange={setDateRange}
+              onChangeComplete={fitToVisibleWorks}
               minMonth={minMonth}
               maxMonth={maxMonth}
             />

@@ -13,6 +13,7 @@ const COLOR_HANDLE_BG = "rgb(29, 31, 32)";
 type Props = {
   dateRange: [number, number];
   onChange: (_value: [number, number]) => void;
+  onChangeComplete?: () => void;
   minMonth: number;
   maxMonth: number;
 };
@@ -33,6 +34,7 @@ function formatMonth(monthNum: number, locale: string): string {
 export function WorksSlider({
   dateRange,
   onChange,
+  onChangeComplete,
   minMonth,
   maxMonth,
 }: Props) {
@@ -100,7 +102,10 @@ export function WorksSlider({
             setDragging([value[0], value[1]]);
           }
         }}
-        onChangeComplete={() => setDragging(null)}
+        onChangeComplete={() => {
+          setDragging(null);
+          onChangeComplete?.();
+        }}
         marks={marks}
         dots
         allowCross={false}
