@@ -22,6 +22,27 @@
     border-color: variables.$secondary-color;
     color: variables.$primary-dark-color;
   }
+
+  &--active {
+    background-color: variables.$secondary-color;
+    border-color: variables.$secondary-color;
+    color: variables.$primary-dark-color;
+  }
+}
+
+.filter-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: variables.$primary-dark-color;
+  color: variables.$secondary-color;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1;
+  margin-left: variables.$xxxs-margin;
 }
 
 .period-row {
@@ -51,7 +72,6 @@
     background-color 0.9s ease-in-out;
 
   &:hover {
-    background-color: variables.$primary-dark-color;
     border-color: variables.$secondary-color;
   }
 
@@ -76,7 +96,7 @@
 }
 
 .period-button-title {
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   font-weight: 500;
   color: variables.$secondary-color;
   white-space: nowrap;
@@ -91,6 +111,34 @@
   .period-toggle {
     flex: 1;
   }
+}
+
+// Dialog-specific styles
+.dialog-section {
+  display: flex;
+  flex-direction: column;
+  gap: variables.$xxs-margin;
+  margin-bottom: variables.$s-margin;
+}
+
+.dialog-section-title {
+  color: variables.$text-color;
+}
+
+.dialog-period-grid {
+  display: flex;
+  flex-direction: column;
+  gap: variables.$xxxs-margin;
+
+  .period-button {
+    width: 100%;
+  }
+}
+
+.dialog-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: variables.$xxxs-margin;
 }
 
 .filter-row {

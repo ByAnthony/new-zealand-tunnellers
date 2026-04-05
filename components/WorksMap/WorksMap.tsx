@@ -139,6 +139,8 @@ export function WorksMap({
     };
   }, [works, locale]);
 
+  const [isPeriodActive, setIsPeriodActive] = useState(false);
+
   const [dateRange, setDateRange] = useState<[number, number]>(() => {
     const fromParam = searchParams.get("from");
     const toParam = searchParams.get("to");
@@ -885,13 +887,10 @@ export function WorksMap({
         toggleLayer(pl, !filterActive || subwayTypeSelected),
       );
     });
-    // Show front lines only when slider is not at full default range
-    const sliderAdjusted =
-      dateRange[0] !== minMonth || dateRange[1] !== maxMonth;
     frontLinePolylinesByIdRef.current.forEach((polylines, id) => {
       const fl = frontLines.find((f) => f.front_line_id === id);
       const visible =
-        sliderAdjusted &&
+        isPeriodActive &&
         !!fl &&
         dateToDay(fl.front_line_period_start) <= dateRange[1] &&
         dateToDay(fl.front_line_period_end) >= dateRange[0];
@@ -916,6 +915,7 @@ export function WorksMap({
     frontLines,
     minMonth,
     maxMonth,
+    isPeriodActive,
   ]);
 
   const prevSelectedTypesRef = useRef(selectedTypes);
@@ -997,6 +997,21 @@ export function WorksMap({
     return () => clearTimeout(timer);
   }, [subways, caves, works, selectWork]);
 
+  const availableTypes = useMemo(() => {
+    const cats = new Set<string>();
+    works.forEach((w, i) => {
+      if (
+        allMonths[i].start <= dateRange[1] &&
+        allMonths[i].end >= dateRange[0]
+      ) {
+        const [c1, c2] = getWorkCategories(w, locale);
+        if (c1) cats.add(c1);
+        if (c2) cats.add(c2);
+      }
+    });
+    return cats;
+  }, [works, allMonths, dateRange, locale]);
+
   const visibleCount = works.filter((w, i) => {
     const [cat1, cat2] = getWorkCategories(w, locale);
     return isWorkVisible(
@@ -1012,6 +1027,7 @@ export function WorksMap({
   const handlePeriodSelect = useCallback(
     (dateStart: string, dateEnd: string) => {
       closeInfo();
+      setIsPeriodActive(true);
       setDateRange([dateToDay(dateStart), dateToDay(dateEnd)]);
       setTimeout(fitToVisibleWorks, 0);
     },
@@ -1020,7 +1036,16 @@ export function WorksMap({
 
   const handlePeriodReset = useCallback(() => {
     closeInfo();
+    setIsPeriodActive(false);
     setDateRange([minMonth, maxMonth]);
+    setTimeout(fitToVisibleWorks, 0);
+  }, [closeInfo, fitToVisibleWorks, minMonth, maxMonth]);
+
+  const handleResetAllFilters = useCallback(() => {
+    closeInfo();
+    setIsPeriodActive(false);
+    setDateRange([minMonth, maxMonth]);
+    setSelectedTypes(new Set());
     setTimeout(fitToVisibleWorks, 0);
   }, [closeInfo, fitToVisibleWorks, minMonth, maxMonth]);
 
@@ -1067,6 +1092,7 @@ export function WorksMap({
           locale={locale}
           types={types}
           selectedTypes={selectedTypes}
+          availableTypes={availableTypes}
           onToggleType={toggleType}
           typeColors={typeColors}
           dateRange={dateRange}
@@ -1076,8 +1102,10 @@ export function WorksMap({
           maxMonth={maxMonth}
           onPeriodSelect={handlePeriodSelect}
           onPeriodReset={handlePeriodReset}
+          onResetAllFilters={handleResetAllFilters}
           currentZoom={currentZoom}
           onZoom={zoom}
+          totalWorks={works.length}
         />
       </div>
     </div>

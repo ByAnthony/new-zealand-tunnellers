@@ -70,6 +70,12 @@
   }
 }
 
+.chips-wrapped {
+  display: flex;
+  flex-wrap: wrap;
+  gap: variables.$xxxs-margin;
+}
+
 .chip {
   display: flex;
   align-items: center;
@@ -103,6 +109,11 @@
     background-color: variables.$secondary-color;
     border-color: variables.$secondary-color;
     color: variables.$primary-dark-color;
+  }
+
+  &--disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
   }
 }
 

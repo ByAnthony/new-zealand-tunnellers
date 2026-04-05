@@ -158,4 +158,74 @@ describe("TypeFilter", () => {
       ).toBeInTheDocument();
     });
   });
+
+  describe("isWrapped", () => {
+    test("does not render arrow buttons when isWrapped", () => {
+      render(
+        <TypeFilter
+          types={mockTypes}
+          selectedTypes={new Set()}
+          onToggle={onToggle}
+          colors={mockColors}
+          isWrapped
+        />,
+      );
+      expect(
+        screen.queryByRole("button", { name: "Scroll filters left" }),
+      ).not.toBeInTheDocument();
+      expect(
+        screen.queryByRole("button", { name: "Scroll filters right" }),
+      ).not.toBeInTheDocument();
+    });
+
+    test("renders all chips when isWrapped", () => {
+      render(
+        <TypeFilter
+          types={mockTypes}
+          selectedTypes={new Set()}
+          onToggle={onToggle}
+          colors={mockColors}
+          isWrapped
+        />,
+      );
+      expect(screen.getByText("Dugout")).toBeInTheDocument();
+      expect(screen.getByText("Machine-gun nest")).toBeInTheDocument();
+      expect(screen.getByText("Trench")).toBeInTheDocument();
+    });
+  });
+
+  describe("availableTypes", () => {
+    test("disables chips not in availableTypes", () => {
+      render(
+        <TypeFilter
+          types={mockTypes}
+          selectedTypes={new Set()}
+          availableTypes={new Set(["Dugout"])}
+          onToggle={onToggle}
+          colors={mockColors}
+        />,
+      );
+      expect(screen.getByText("Dugout").closest("button")).not.toBeDisabled();
+      expect(
+        screen.getByText("Machine-gun nest").closest("button"),
+      ).toBeDisabled();
+      expect(screen.getByText("Trench").closest("button")).toBeDisabled();
+    });
+
+    test("enables all chips when availableTypes is not provided", () => {
+      render(
+        <TypeFilter
+          types={mockTypes}
+          selectedTypes={new Set()}
+          onToggle={onToggle}
+          colors={mockColors}
+        />,
+      );
+      expect(screen.getByText("Dugout").closest("button")).not.toBeDisabled();
+      expect(
+        screen.getByText("Machine-gun nest").closest("button"),
+      ).not.toBeDisabled();
+      expect(screen.getByText("Trench").closest("button")).not.toBeDisabled();
+    });
+  });
 });

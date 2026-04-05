@@ -19,7 +19,7 @@ exports[`TypeFilter matches the snapshot 1`] = `
     >
       <button
         aria-pressed="false"
-        class="chip "
+        class="chip  "
       >
         <span
           class="chip-dot"
@@ -29,7 +29,7 @@ exports[`TypeFilter matches the snapshot 1`] = `
       </button>
       <button
         aria-pressed="false"
-        class="chip "
+        class="chip  "
       >
         <span
           class="chip-dot"
@@ -39,7 +39,7 @@ exports[`TypeFilter matches the snapshot 1`] = `
       </button>
       <button
         aria-pressed="false"
-        class="chip "
+        class="chip  "
       >
         <span
           class="chip-dot"

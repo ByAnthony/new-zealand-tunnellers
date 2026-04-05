@@ -3,6 +3,8 @@
 import { useTranslations } from "next-intl";
 import { useState, useEffect } from "react";
 
+import { Dialog } from "@/components/Dialog/Dialog";
+
 import STYLES from "./MapControls.module.scss";
 import { TypeFilter } from "../TypeFilter/TypeFilter";
 import { WorksSlider } from "../WorksSlider/WorksSlider";
@@ -13,7 +15,7 @@ const PERIODS = [
     start: "1916-03-16",
     end: "1916-11-15",
     dates: "16/03/1916 — 15/11/1916",
-    en: "War Underground",
+    en: "Underground Warfare",
     fr: "Guerre souterraine",
   },
   {
@@ -21,40 +23,40 @@ const PERIODS = [
     start: "1916-11-16",
     end: "1917-04-09",
     dates: "16/11/1916 — 09/04/1917",
-    en: "Battle of Arras Preparation",
-    fr: "Préparation de la bataille d'Arras",
+    en: "Battle of Arras Preparations",
+    fr: "Préparatifs de la bataille d'Arras",
   },
   {
     key: "1917-04-10/1918-03-20",
     start: "1917-04-10",
     end: "1918-03-20",
     dates: "10/04/1917 — 20/03/1918",
-    en: "Trench Works",
-    fr: "Travaux de tranchées",
+    en: "East of Arras Trench Works",
+    fr: "Travaux de tranchées à l'est d'Arras",
   },
   {
-    key: "1918-03-21/1918-08-07",
+    key: "1918-03-21/1918-07-14",
     start: "1918-03-21",
-    end: "1918-08-07",
-    dates: "21/03/1918 — 07/08/1918",
+    end: "1918-07-14",
+    dates: "21/03/1918 — 14/07/1918",
     en: "German Spring Offensive",
-    fr: "Offensives de printemps allemandes",
+    fr: "Offensive de printemps allemande",
   },
   {
-    key: "1918-08-08/1918-11-10",
-    start: "1918-08-08",
-    end: "1918-11-10",
-    dates: "08/08/1918 — 10/11/1918",
-    en: "Hundred Days Offensive",
-    fr: "Offensive des Cent-Jours",
+    key: "1918-07-15/1918-09-26",
+    start: "1918-07-15",
+    end: "1918-09-26",
+    dates: "15/07/1918 — 26/09/1918",
+    en: "Hundred Days Offensive Preparations",
+    fr: "Préparatifs de l'offensive des Cent Jours",
   },
   {
-    key: "1918-11-11/1918-12-27",
-    start: "1918-11-11",
+    key: "1918-09-27/1918-12-27",
+    start: "1918-09-27",
     end: "1918-12-27",
-    dates: "11/11/1918 — 27/12/1918",
-    en: "Armistice",
-    fr: "Armistice",
+    dates: "27/09/1918 — 27/12/1918",
+    en: "Bridging Operations",
+    fr: "Opérations de ponts",
   },
 ];
 
@@ -63,6 +65,7 @@ type Props = {
   locale: string;
   types: string[];
   selectedTypes: Set<string>;
+  availableTypes: Set<string>;
   onToggleType: (_type: string) => void;
   typeColors: Record<string, string>;
   dateRange: [number, number];
@@ -72,8 +75,10 @@ type Props = {
   maxMonth: number;
   onPeriodSelect: (_dateStart: string, _dateEnd: string) => void;
   onPeriodReset: () => void;
+  onResetAllFilters: () => void;
   currentZoom: number | null;
   onZoom: (_dir: 1 | -1) => void;
+  totalWorks: number;
 };
 
 export function MapControls({
@@ -81,6 +86,7 @@ export function MapControls({
   locale,
   types,
   selectedTypes,
+  availableTypes,
   onToggleType,
   typeColors,
   dateRange,
@@ -90,8 +96,10 @@ export function MapControls({
   maxMonth,
   onPeriodSelect,
   onPeriodReset,
+  onResetAllFilters,
   currentZoom,
   onZoom,
+  totalWorks,
 }: Props) {
   const t = useTranslations("maps");
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
@@ -119,13 +127,18 @@ export function MapControls({
     }
   };
 
+  const activeFilterCount = (selectedPeriod ? 1 : 0) + selectedTypes.size;
+
   const filtersToggleButton = (
     <button
-      className={`${STYLES["period-toggle"]} ${isFiltersOpen ? STYLES["period-toggle--open"] : ""}`}
+      className={`${STYLES["period-toggle"]} ${isFiltersOpen ? STYLES["period-toggle--open"] : ""} ${activeFilterCount > 0 ? STYLES["period-toggle--active"] : ""}`}
       onClick={() => setIsFiltersOpen((v) => !v)}
       aria-label="Toggle filters"
     >
       {locale === "fr" ? "Filtres" : "Filters"}
+      {activeFilterCount > 0 && (
+        <span className={STYLES["filter-badge"]}>{activeFilterCount}</span>
+      )}
     </button>
   );
 
@@ -173,15 +186,68 @@ export function MapControls({
           selectedTypes={selectedTypes}
           onToggle={onToggleType}
           colors={typeColors}
+          availableTypes={availableTypes}
         />
       </div>
     </>
   );
 
+  const hasActiveFilters = selectedPeriod !== null || selectedTypes.size > 0;
+
+  const handleResetFilters = () => {
+    setSelectedPeriod(null);
+    onResetAllFilters();
+  };
+
   if (isMobile) {
     return (
       <>
-        {filtersPanel}
+        <Dialog
+          id="map-filters"
+          isOpen={isFiltersOpen}
+          onClose={() => setIsFiltersOpen(false)}
+          title={locale === "fr" ? "Filtres" : "Filters"}
+          isFooterEnabled={true}
+          hasActiveFilters={hasActiveFilters}
+          handleResetFilters={handleResetFilters}
+          totalFiltered={visibleCount}
+          total={totalWorks}
+        >
+          <div className={STYLES["dialog-section"]}>
+            <h3 className={STYLES["dialog-section-title"]}>
+              {locale === "fr" ? "Périodes" : "Time periods"}
+            </h3>
+            <div className={STYLES["dialog-period-grid"]}>
+              {PERIODS.map(({ key, start, end, dates, en, fr }) => (
+                <button
+                  key={key}
+                  className={`${STYLES["period-button"]} ${selectedPeriod === key ? STYLES["period-button--active"] : ""}`}
+                  onClick={() => handlePeriodClick(start, end, key)}
+                >
+                  <span className={STYLES["period-button-dates"]}>{dates}</span>
+                  <span className={STYLES["period-button-title"]}>
+                    {locale === "fr" ? fr : en}
+                  </span>
+                </button>
+              ))}
+            </div>
+          </div>
+          <div className={STYLES["dialog-section"]}>
+            <h3 className={STYLES["dialog-section-title"]}>
+              {locale === "fr" ? "Types de travaux" : "Work types"}
+            </h3>
+            <div className={STYLES["dialog-chips"]}>
+              <TypeFilter
+                types={types}
+                selectedTypes={selectedTypes}
+                availableTypes={availableTypes}
+                onToggle={onToggleType}
+                colors={typeColors}
+                isWrapped
+              />
+            </div>
+          </div>
+        </Dialog>
         <div className={STYLES["mobile-top"]}>
           <div className={STYLES["slider-count"]}>
             {visibleCount} {visibleCount === 1 ? t("work") : t("works")}

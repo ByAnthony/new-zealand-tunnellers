@@ -5,11 +5,20 @@ import STYLES from "./TypeFilter.module.scss";
 type Props = {
   types: string[];
   selectedTypes: Set<string>;
+  availableTypes?: Set<string>;
   onToggle: (_type: string) => void;
   colors: Record<string, string>;
+  isWrapped?: boolean;
 };
 
-export function TypeFilter({ types, selectedTypes, onToggle, colors }: Props) {
+export function TypeFilter({
+  types,
+  selectedTypes,
+  availableTypes,
+  onToggle,
+  colors,
+  isWrapped = false,
+}: Props) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
@@ -40,6 +49,39 @@ export function TypeFilter({ types, selectedTypes, onToggle, colors }: Props) {
     el.scrollBy({ left: direction * 150, behavior: "smooth" });
   };
 
+  const chips = types.map((type) => {
+    const isActive = selectedTypes.has(type);
+    const isDisabled =
+      availableTypes !== undefined && !availableTypes.has(type);
+    return (
+      <button
+        key={type}
+        className={`${STYLES.chip} ${isActive ? STYLES["chip--active"] : ""} ${isDisabled ? STYLES["chip--disabled"] : ""}`}
+        aria-pressed={isActive}
+        disabled={isDisabled}
+        onClick={() => onToggle(type)}
+      >
+        <span
+          className={STYLES["chip-dot"]}
+          style={{ backgroundColor: colors[type] }}
+        />
+        {type}
+      </button>
+    );
+  });
+
+  if (isWrapped) {
+    return (
+      <div
+        className={STYLES["chips-wrapped"]}
+        role="group"
+        aria-label="Filter by type"
+      >
+        {chips}
+      </div>
+    );
+  }
+
   return (
     <div className={STYLES["type-filter"]}>
       <button
@@ -56,23 +98,7 @@ export function TypeFilter({ types, selectedTypes, onToggle, colors }: Props) {
         aria-label="Filter by type"
         ref={scrollRef}
       >
-        {types.map((type) => {
-          const isActive = selectedTypes.has(type);
-          return (
-            <button
-              key={type}
-              className={`${STYLES.chip} ${isActive ? STYLES["chip--active"] : ""}`}
-              aria-pressed={isActive}
-              onClick={() => onToggle(type)}
-            >
-              <span
-                className={STYLES["chip-dot"]}
-                style={{ backgroundColor: colors[type] }}
-              />
-              {type}
-            </button>
-          );
-        })}
+        {chips}
       </div>
       <button
         className={STYLES.arrow}
