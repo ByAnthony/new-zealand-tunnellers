@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 import { Dialog } from "@/components/Dialog/Dialog";
 
@@ -103,6 +103,21 @@ export function MapControls({
 }: Props) {
   const t = useTranslations("maps");
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
+  const filtersPanelRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!isFiltersOpen) return;
+    const handleClickOutside = (e: MouseEvent) => {
+      if (
+        filtersPanelRef.current &&
+        !filtersPanelRef.current.contains(e.target as Node)
+      ) {
+        setIsFiltersOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [isFiltersOpen]);
   const [selectedPeriod, setSelectedPeriod] = useState<string | null>(null);
   const [isMobile, setIsMobile] = useState(
     () =>
@@ -125,6 +140,13 @@ export function MapControls({
       setSelectedPeriod(key);
       onPeriodSelect(start, end);
     }
+  };
+
+  const hasActiveFilters = selectedPeriod !== null || selectedTypes.size > 0;
+
+  const handleResetFilters = () => {
+    setSelectedPeriod(null);
+    onResetAllFilters();
   };
 
   const activeFilterCount = (selectedPeriod ? 1 : 0) + selectedTypes.size;
@@ -165,7 +187,26 @@ export function MapControls({
   );
 
   const filtersPanel = isFiltersOpen && (
-    <>
+    <div className={STYLES["filters-panel"]} ref={filtersPanelRef}>
+      <div className={STYLES["filters-panel-header"]}>
+        <button
+          className={STYLES["filters-panel-reset"]}
+          onClick={handleResetFilters}
+          disabled={!hasActiveFilters}
+        >
+          {locale === "fr" ? "Réinitialiser les filtres" : "Reset filters"}
+        </button>
+        <button
+          className={STYLES["filters-panel-close"]}
+          onClick={() => setIsFiltersOpen(false)}
+          aria-label="Close filters"
+        >
+          ×
+        </button>
+      </div>
+      <h3 className={STYLES["filters-panel-title"]}>
+        {locale === "fr" ? "Périodes" : "Time periods"}
+      </h3>
       <div className={STYLES["period-row"]}>
         {PERIODS.map(({ key, start, end, dates, en, fr }) => (
           <button
@@ -180,6 +221,9 @@ export function MapControls({
           </button>
         ))}
       </div>
+      <h3 className={STYLES["filters-panel-title"]}>
+        {locale === "fr" ? "Types de travaux" : "Work types"}
+      </h3>
       <div className={STYLES["filter-row"]}>
         <TypeFilter
           types={types}
@@ -189,15 +233,8 @@ export function MapControls({
           availableTypes={availableTypes}
         />
       </div>
-    </>
+    </div>
   );
-
-  const hasActiveFilters = selectedPeriod !== null || selectedTypes.size > 0;
-
-  const handleResetFilters = () => {
-    setSelectedPeriod(null);
-    onResetAllFilters();
-  };
 
   if (isMobile) {
     return (
@@ -271,13 +308,7 @@ export function MapControls({
     <>
       {filtersPanel}
       <div className={STYLES["controls-grid"]}>
-        <button
-          className={`${STYLES["period-toggle"]} ${isFiltersOpen ? STYLES["period-toggle--open"] : ""}`}
-          onClick={() => setIsFiltersOpen((v) => !v)}
-          aria-label="Toggle filters"
-        >
-          {locale === "fr" ? "Filtres" : "Filters"}
-        </button>
+        {filtersToggleButton}
         <div className={STYLES["slider-wrapper"]}>
           <WorksSlider
             dateRange={dateRange}

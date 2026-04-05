@@ -20,19 +20,19 @@
   }
 
   &--fade-left {
-    mask-image: linear-gradient(to right, transparent, black 12px);
+    mask-image: linear-gradient(to right, transparent, black 30px);
   }
 
   &--fade-right {
-    mask-image: linear-gradient(to left, transparent, black 12px);
+    mask-image: linear-gradient(to left, transparent, black 30px);
   }
 
   &--fade-left#{&}--fade-right {
     mask-image: linear-gradient(
       to right,
       transparent,
-      black 12px,
-      black calc(100% - 12px),
+      black 30px,
+      black calc(100% - 30px),
       transparent
     );
   }

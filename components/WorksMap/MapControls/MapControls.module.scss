@@ -45,15 +45,101 @@
   margin-left: variables.$xxxs-margin;
 }
 
+.filters-panel-title {
+  margin: 0;
+  color: variables.$text-color;
+  font-size: 1rem;
+  font-weight: 500;
+  padding: variables.$xs-margin 0;
+}
+
+.filters-panel-reset {
+  all: unset;
+  cursor: pointer;
+  font-size: 0.9rem;
+
+  @include variables.text-link;
+
+  &:disabled {
+    color: variables.$primary-light-color;
+    border-bottom-color: variables.$primary-light-color;
+    cursor: not-allowed;
+  }
+}
+
+.filters-panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.filters-panel-close {
+  background: none;
+  border: none;
+  color: variables.$placeholder-color;
+  font-size: 1.8rem;
+  cursor: pointer;
+  padding: 0;
+  line-height: 0.6;
+  transition: color 0.9s ease-in-out;
+
+  &:hover {
+    color: variables.$text-color;
+  }
+}
+
+.filters-panel {
+  display: flex;
+  flex-direction: column;
+  gap: variables.$xxxs-margin;
+  background-color: variables.$primary-dark-color;
+  border: 1px solid variables.$primary-medium-color;
+  border-radius: variables.$border-radius;
+  padding: variables.$s-margin;
+}
+
+.period-nav {
+  display: flex;
+  align-items: stretch;
+  gap: variables.$xxxs-margin;
+}
+
+.period-arrow {
+  margin: 0;
+  flex-shrink: 0;
+  padding: 0 variables.$xxs-margin;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+  background-color: variables.$primary-medium-color;
+  border: 1px solid variables.$primary-light-color;
+  border-radius: variables.$border-radius;
+  color: variables.$secondary-color;
+  font-family: variables.$main-font;
+  font-size: 1.9rem;
+  font-weight: 200;
+  cursor: pointer;
+  transition:
+    border-color 0.9s ease-in-out,
+    background-color 0.9s ease-in-out;
+
+  &:hover:not(:disabled) {
+    background-color: variables.$primary-dark-color;
+    border: 1px solid variables.$secondary-color;
+  }
+
+  &:disabled {
+    border: 1px solid variables.$primary-light-color;
+    color: variables.$primary-light-color;
+    cursor: not-allowed;
+  }
+}
+
 .period-row {
   display: flex;
+  flex-wrap: wrap;
   gap: variables.$xxxs-margin;
-  overflow-x: auto;
-  scrollbar-width: none;
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
 }
 
 .period-button {
@@ -144,6 +230,7 @@
 .filter-row {
   display: flex;
   min-width: 0;
+  height: 45px;
 
   > * {
     flex: 1;
