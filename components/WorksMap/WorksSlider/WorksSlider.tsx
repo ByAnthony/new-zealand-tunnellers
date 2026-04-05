@@ -18,17 +18,14 @@ type Props = {
   maxMonth: number;
 };
 
-function formatMonth(monthNum: number, locale: string): string {
-  const year = Math.floor(monthNum / 12);
-  const month = monthNum % 12;
-  const date = new Date(year, month);
-  const monthName = date.toLocaleDateString(
-    locale === "en" ? "en-GB" : locale,
-    {
-      month: "short",
-    },
-  );
-  return `${monthName.charAt(0).toUpperCase() + monthName.slice(1)} ${year}`;
+function formatDay(dayNum: number, locale: string): string {
+  const d = new Date(dayNum * 86400000);
+  const formatted = d.toLocaleDateString(locale === "en" ? "en-GB" : locale, {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+  return formatted.charAt(0).toUpperCase() + formatted.slice(1);
 }
 
 export function WorksSlider({
@@ -78,48 +75,46 @@ export function WorksSlider({
   const range = maxMonth - minMonth;
   Array.from({ length: totalMarks }, (_, i) =>
     Math.round(minMonth + (i * range) / (totalMarks - 1)),
-  ).forEach((m) => {
-    marks[m] = { style: markStyle, label: formatMonth(m, locale) };
+  ).forEach((d) => {
+    marks[d] = { style: markStyle, label: formatDay(d, locale) };
   });
 
   return (
     <div className={STYLES.slider}>
-      {dragging && (
-        <div className={STYLES.tooltip}>
-          {formatMonth(dragging[0], locale)}
-          {dragging[0] !== dragging[1] &&
-            ` — ${formatMonth(dragging[1], locale)}`}
-        </div>
-      )}
-      <Slider
-        range
-        min={minMonth}
-        max={maxMonth}
-        value={dateRange}
-        onChange={(value) => {
-          if (Array.isArray(value)) {
-            onChange([value[0], value[1]]);
-            setDragging([value[0], value[1]]);
-          }
-        }}
-        onChangeComplete={() => {
-          setDragging(null);
-          onChangeComplete?.();
-        }}
-        marks={marks}
-        dots
-        allowCross={false}
-        styles={{
-          track: { background: COLOR_SECONDARY },
-          rail: { background: COLOR_RAIL },
-          handle: {
-            border: `2px solid ${COLOR_SECONDARY}`,
-            background: COLOR_HANDLE_BG,
-            outline: "none",
-            boxShadow: `0 0 5px ${COLOR_RAIL}80`,
-          },
-        }}
-      />
+      <div className={STYLES.tooltip}>
+        <span>{formatDay((dragging ?? dateRange)[0], locale)}</span>
+        <span>{formatDay((dragging ?? dateRange)[1], locale)}</span>
+      </div>
+      <div className={STYLES["slider-track"]}>
+        <Slider
+          range
+          min={minMonth}
+          max={maxMonth}
+          value={dateRange}
+          onChange={(value) => {
+            if (Array.isArray(value)) {
+              onChange([value[0], value[1]]);
+              setDragging([value[0], value[1]]);
+            }
+          }}
+          onChangeComplete={() => {
+            setDragging(null);
+            onChangeComplete?.();
+          }}
+          dots={false}
+          allowCross={false}
+          styles={{
+            track: { background: COLOR_SECONDARY },
+            rail: { background: COLOR_RAIL },
+            handle: {
+              border: `2px solid ${COLOR_SECONDARY}`,
+              background: COLOR_HANDLE_BG,
+              outline: "none",
+              boxShadow: `0 0 5px ${COLOR_RAIL}80`,
+            },
+          }}
+        />
+      </div>
     </div>
   );
 }

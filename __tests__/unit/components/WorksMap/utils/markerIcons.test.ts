@@ -6,7 +6,7 @@ import {
   createSingleIcon,
   createGroupIcon,
   createWorkIcon,
-} from "@/components/WorksMap/markerIcons";
+} from "@/components/WorksMap/utils/markerIcons";
 
 describe("markerIcons", () => {
   describe("MARKER_COLOR_ACTIVE", () => {

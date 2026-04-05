@@ -13,7 +13,7 @@ import {
 } from "__tests__/unit/utils/mocks/mockWork";
 
 import { InfoBar } from "@/components/WorksMap/InfoBar/InfoBar";
-import { CATEGORY_COLORS } from "@/components/WorksMap/markerIcons";
+import { CATEGORY_COLORS } from "@/components/WorksMap/utils/markerIcons";
 
 const onClose = jest.fn();
 const colors = CATEGORY_COLORS;

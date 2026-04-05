@@ -3,7 +3,6 @@
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import { useSearchParams } from "next/navigation";
-import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState, useCallback, useMemo } from "react";
 
 import { CaveData, CavePathPoint } from "@/utils/database/queries/cavesQuery";
@@ -17,23 +16,22 @@ import {
 } from "@/utils/database/queries/subwaysQuery";
 import { WorkData, WorkPathPoint } from "@/utils/database/queries/worksQuery";
 
+import { InfoBar } from "./InfoBar/InfoBar";
+import { MapControls } from "./MapControls/MapControls";
 import {
   collectCategories,
   getWorkCategories,
   isWorkVisible,
-} from "./filterUtils";
-import { InfoBar } from "./InfoBar/InfoBar";
-import { dateToMonth, monthToParam, paramToMonth, toSlug } from "./mapParams";
+} from "./utils/filterUtils";
+import { dateToDay, dayToParam, paramToDay, toSlug } from "./utils/mapParams";
 import {
   CATEGORY_COLORS,
   MARKER_COLOR_ACTIVE,
   createGroupIcon,
   createSingleIcon,
   createWorkIcon,
-} from "./markerIcons";
-import { TypeFilter } from "./TypeFilter/TypeFilter";
+} from "./utils/markerIcons";
 import STYLES from "./WorksMap.module.scss";
-import { WorksSlider } from "./WorksSlider/WorksSlider";
 
 // Fix Leaflet default marker icons in Next.js
 delete (L.Icon.Default.prototype as unknown as Record<string, unknown>)
@@ -77,7 +75,6 @@ export function WorksMap({
   frontLinePaths,
   locale,
 }: Props) {
-  const t = useTranslations("maps");
   const searchParams = useSearchParams();
   const isFirstRenderRef = useRef(true);
   const mapRef = useRef<L.Map | null>(null);
@@ -96,8 +93,8 @@ export function WorksMap({
   const allMonths = useMemo(
     () =>
       works.map((w) => ({
-        start: dateToMonth(w.work_date_start!),
-        end: dateToMonth(w.work_date_end || w.work_date_start!),
+        start: dateToDay(w.work_date_start!),
+        end: dateToDay(w.work_date_end || w.work_date_start!),
       })),
     [works],
   );
@@ -145,8 +142,8 @@ export function WorksMap({
   const [dateRange, setDateRange] = useState<[number, number]>(() => {
     const fromParam = searchParams.get("from");
     const toParam = searchParams.get("to");
-    const from = fromParam ? paramToMonth(fromParam) : null;
-    const to = toParam ? paramToMonth(toParam) : null;
+    const from = fromParam ? paramToDay(fromParam) : null;
+    const to = toParam ? paramToDay(toParam) : null;
     return [
       from !== null && from >= minMonth && from <= maxMonth ? from : minMonth,
       to !== null && to >= minMonth && to <= maxMonth ? to : maxMonth,
@@ -247,8 +244,8 @@ export function WorksMap({
     }
 
     if (dateRange[0] !== minMonth || dateRange[1] !== maxMonth) {
-      params.set("from", monthToParam(dateRange[0]));
-      params.set("to", monthToParam(dateRange[1]));
+      params.set("from", dayToParam(dateRange[0]));
+      params.set("to", dayToParam(dateRange[1]));
     } else {
       params.delete("from");
       params.delete("to");
@@ -351,6 +348,21 @@ export function WorksMap({
         }),
       );
     }
+  }, []);
+
+  const fitToVisibleWorks = useCallback(() => {
+    const map = mapRef.current;
+    if (!map) return;
+    const visible = markersRef.current
+      .filter(({ marker }) => map.hasLayer(marker))
+      .map(({ marker }) => marker.getLatLng());
+    if (visible.length === 0) return;
+    const bounds = L.latLngBounds(visible);
+    const zoom = map.getBoundsZoom(bounds, false);
+    map.fitBounds(bounds, {
+      padding: [30, 30],
+      maxZoom: Math.max(zoom - 1, 10),
+    });
   }, []);
 
   const closeInfo = useCallback(() => {
@@ -860,8 +872,8 @@ export function WorksMap({
       if (!subway) return;
       let visible = !filterActive || subwayTypeSelected;
       if (visible && subway.subway_date_start) {
-        const start = dateToMonth(subway.subway_date_start);
-        const end = dateToMonth(
+        const start = dateToDay(subway.subway_date_start);
+        const end = dateToDay(
           subway.subway_date_end ?? subway.subway_date_start,
         );
         visible = start <= dateRange[1] && end >= dateRange[0];
@@ -881,8 +893,8 @@ export function WorksMap({
       const visible =
         sliderAdjusted &&
         !!fl &&
-        dateToMonth(fl.front_line_period_start) <= dateRange[1] &&
-        dateToMonth(fl.front_line_period_end) >= dateRange[0];
+        dateToDay(fl.front_line_period_start) <= dateRange[1] &&
+        dateToDay(fl.front_line_period_end) >= dateRange[0];
       polylines.forEach((pl) => {
         if (visible) {
           pl.setStyle({ opacity: 1 });
@@ -905,21 +917,6 @@ export function WorksMap({
     minMonth,
     maxMonth,
   ]);
-
-  const fitToVisibleWorks = useCallback(() => {
-    const map = mapRef.current;
-    if (!map) return;
-    const visible = markersRef.current
-      .filter(({ marker }) => map.hasLayer(marker))
-      .map(({ marker }) => marker.getLatLng());
-    if (visible.length === 0) return;
-    const bounds = L.latLngBounds(visible);
-    const zoom = map.getBoundsZoom(bounds, false);
-    map.fitBounds(bounds, {
-      padding: [30, 30],
-      maxZoom: Math.max(zoom - 1, 10),
-    });
-  }, []);
 
   const prevSelectedTypesRef = useRef(selectedTypes);
   useEffect(() => {
@@ -1012,6 +1009,21 @@ export function WorksMap({
     );
   }).length;
 
+  const handlePeriodSelect = useCallback(
+    (dateStart: string, dateEnd: string) => {
+      closeInfo();
+      setDateRange([dateToDay(dateStart), dateToDay(dateEnd)]);
+      setTimeout(fitToVisibleWorks, 0);
+    },
+    [closeInfo, fitToVisibleWorks],
+  );
+
+  const handlePeriodReset = useCallback(() => {
+    closeInfo();
+    setDateRange([minMonth, maxMonth]);
+    setTimeout(fitToVisibleWorks, 0);
+  }, [closeInfo, fitToVisibleWorks, minMonth, maxMonth]);
+
   const toggleType = useCallback(
     (type: string) => {
       closeInfo();
@@ -1050,81 +1062,23 @@ export function WorksMap({
             onNavigate={handleNavigate}
           />
         )}
-        {/* Tablet/Desktop layout */}
-        <div className={STYLES["controls-desktop"]}>
-          <div className={STYLES["filter-row"]}>
-            <div className={STYLES["slider-count"]}>
-              {visibleCount} {visibleCount === 1 ? t("work") : t("works")}
-            </div>
-            <TypeFilter
-              types={types}
-              selectedTypes={selectedTypes}
-              onToggle={toggleType}
-              colors={typeColors}
-            />
-          </div>
-          <div className={STYLES["slider-row"]}>
-            <WorksSlider
-              dateRange={dateRange}
-              onChange={setDateRange}
-              onChangeComplete={fitToVisibleWorks}
-              minMonth={minMonth}
-              maxMonth={maxMonth}
-            />
-            <div className={STYLES.zoom}>
-              <button
-                onClick={() => zoom(1)}
-                aria-label="Zoom in"
-                disabled={currentZoom !== null && currentZoom >= 16}
-              >
-                +
-              </button>
-              <button
-                onClick={() => zoom(-1)}
-                aria-label="Zoom out"
-                disabled={currentZoom !== null && currentZoom <= 6}
-              >
-                −
-              </button>
-            </div>
-          </div>
-        </div>
-        {/* Mobile layout */}
-        <div className={STYLES["controls-mobile"]}>
-          <div className={STYLES["mobile-top"]}>
-            <div className={STYLES["slider-count"]}>
-              {visibleCount} {visibleCount === 1 ? t("work") : t("works")}
-            </div>
-            <div className={STYLES["zoom-mobile"]}>
-              <button
-                onClick={() => zoom(1)}
-                aria-label="Zoom in"
-                disabled={currentZoom !== null && currentZoom >= 16}
-              >
-                +
-              </button>
-              <button
-                onClick={() => zoom(-1)}
-                aria-label="Zoom out"
-                disabled={currentZoom !== null && currentZoom <= 6}
-              >
-                −
-              </button>
-            </div>
-          </div>
-          <TypeFilter
-            types={types}
-            selectedTypes={selectedTypes}
-            onToggle={toggleType}
-            colors={typeColors}
-          />
-          <WorksSlider
-            dateRange={dateRange}
-            onChange={setDateRange}
-            minMonth={minMonth}
-            maxMonth={maxMonth}
-          />
-        </div>
+        <MapControls
+          visibleCount={visibleCount}
+          locale={locale}
+          types={types}
+          selectedTypes={selectedTypes}
+          onToggleType={toggleType}
+          typeColors={typeColors}
+          dateRange={dateRange}
+          onDateRangeChange={setDateRange}
+          onDateRangeComplete={fitToVisibleWorks}
+          minMonth={minMonth}
+          maxMonth={maxMonth}
+          onPeriodSelect={handlePeriodSelect}
+          onPeriodReset={handlePeriodReset}
+          currentZoom={currentZoom}
+          onZoom={zoom}
+        />
       </div>
     </div>
   );

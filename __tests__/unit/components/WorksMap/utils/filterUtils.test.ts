@@ -2,7 +2,7 @@ import {
   getWorkCategories,
   collectCategories,
   isWorkVisible,
-} from "@/components/WorksMap/filterUtils";
+} from "@/components/WorksMap/utils/filterUtils";
 import { WorkData } from "@/utils/database/queries/worksQuery";
 
 const mockWork = (overrides: Partial<WorkData> = {}): WorkData =>

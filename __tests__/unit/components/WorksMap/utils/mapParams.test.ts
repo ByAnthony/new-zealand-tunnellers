@@ -3,7 +3,7 @@ import {
   toSlug,
   monthToParam,
   paramToMonth,
-} from "@/components/WorksMap/mapParams";
+} from "@/components/WorksMap/utils/mapParams";
 
 describe("mapParams", () => {
   describe("dateToMonth", () => {
