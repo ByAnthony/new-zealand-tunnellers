@@ -186,56 +186,6 @@ export function MapControls({
     </button>
   );
 
-  // const filtersPanel = isFiltersOpen && (
-  //   <div className={STYLES["filters-panel"]} ref={filtersPanelRef}>
-  //     <div className={STYLES["filters-panel-header"]}>
-  //       <button
-  //         className={STYLES["filters-panel-reset"]}
-  //         onClick={handleResetFilters}
-  //         disabled={!hasActiveFilters}
-  //       >
-  //         {locale === "fr" ? "Réinitialiser les filtres" : "Reset filters"}
-  //       </button>
-  //       <button
-  //         className={STYLES["filters-panel-close"]}
-  //         onClick={() => setIsFiltersOpen(false)}
-  //         aria-label="Close filters"
-  //       >
-  //         ×
-  //       </button>
-  //     </div>
-  //     <h3 className={STYLES["filters-panel-title"]}>
-  //       {locale === "fr" ? "Périodes" : "Time periods"}
-  //     </h3>
-  //     <div className={STYLES["period-row"]}>
-  //       {PERIODS.map(({ key, start, end, dates, en, fr }) => (
-  //         <button
-  //           key={key}
-  //           className={`${STYLES["period-button"]} ${selectedPeriod === key ? STYLES["period-button--active"] : ""}`}
-  //           onClick={() => handlePeriodClick(start, end, key)}
-  //         >
-  //           <span className={STYLES["period-button-dates"]}>{dates}</span>
-  //           <span className={STYLES["period-button-title"]}>
-  //             {locale === "fr" ? fr : en}
-  //           </span>
-  //         </button>
-  //       ))}
-  //     </div>
-  //     <h3 className={STYLES["filters-panel-title"]}>
-  //       {locale === "fr" ? "Types de travaux" : "Work types"}
-  //     </h3>
-  //     <div className={STYLES["filter-row"]}>
-  //       <TypeFilter
-  //         types={types}
-  //         selectedTypes={selectedTypes}
-  //         onToggle={onToggleType}
-  //         colors={typeColors}
-  //         availableTypes={availableTypes}
-  //       />
-  //     </div>
-  //   </div>
-  // );
-
   const filtersDialog = (
     <Dialog
       id="map-filters"
