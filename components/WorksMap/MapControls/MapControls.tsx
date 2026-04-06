@@ -1,12 +1,13 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useMemo } from "react";
 
 import { Dialog } from "@/components/Dialog/Dialog";
 
 import STYLES from "./MapControls.module.scss";
 import { TypeFilter } from "../TypeFilter/TypeFilter";
+import { dateToDay } from "../utils/mapParams";
 import { WorksSlider } from "../WorksSlider/WorksSlider";
 
 const PERIODS = [
@@ -23,7 +24,7 @@ const PERIODS = [
     start: "1916-11-16",
     end: "1917-04-09",
     dates: "16/11/1916 — 09/04/1917",
-    en: "Battle of Arras Preparations",
+    en: "Preparations for the Battle of Arras",
     fr: "Préparatifs de la bataille d'Arras",
   },
   {
@@ -39,15 +40,15 @@ const PERIODS = [
     start: "1918-03-21",
     end: "1918-07-14",
     dates: "21/03/1918 — 14/07/1918",
-    en: "German Spring Offensive",
-    fr: "Offensive de printemps allemande",
+    en: "1918 German Spring Offensive",
+    fr: "Offensive allemande du printemps 1918",
   },
   {
     key: "1918-07-15/1918-09-26",
     start: "1918-07-15",
     end: "1918-09-26",
     dates: "15/07/1918 — 26/09/1918",
-    en: "Hundred Days Offensive Preparations",
+    en: "Preparations for the Hundred Days Offensive",
     fr: "Préparatifs de l'offensive des Cent Jours",
   },
   {
@@ -65,17 +66,19 @@ type Props = {
   locale: string;
   types: string[];
   selectedTypes: Set<string>;
-  availableTypes: Set<string>;
-  onToggleType: (_type: string) => void;
   typeColors: Record<string, string>;
   dateRange: [number, number];
   onDateRangeChange: (_value: [number, number]) => void;
   onDateRangeComplete: () => void;
   minMonth: number;
   maxMonth: number;
-  onPeriodSelect: (_dateStart: string, _dateEnd: string) => void;
-  onPeriodReset: () => void;
-  onResetAllFilters: () => void;
+  onApplyFilters: (
+    _periodKey: string | null,
+    _periodStart: string | null,
+    _periodEnd: string | null,
+    _types: Set<string>,
+  ) => void;
+  computeAvailableTypes: (_start: number, _end: number) => Set<string>;
   currentZoom: number | null;
   onZoom: (_dir: 1 | -1) => void;
   totalWorks: number;
@@ -86,39 +89,40 @@ export function MapControls({
   locale,
   types,
   selectedTypes,
-  availableTypes,
-  onToggleType,
   typeColors,
   dateRange,
   onDateRangeChange,
   onDateRangeComplete,
   minMonth,
   maxMonth,
-  onPeriodSelect,
-  onPeriodReset,
-  onResetAllFilters,
+  onApplyFilters,
+  computeAvailableTypes,
   currentZoom,
   onZoom,
   totalWorks,
 }: Props) {
   const t = useTranslations("maps");
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
-  const filtersPanelRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (!isFiltersOpen) return;
-    const handleClickOutside = (e: MouseEvent) => {
-      if (
-        filtersPanelRef.current &&
-        !filtersPanelRef.current.contains(e.target as Node)
-      ) {
-        setIsFiltersOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [isFiltersOpen]);
-  const [selectedPeriod, setSelectedPeriod] = useState<string | null>(null);
+  // Pending state: staged while dialog is open, committed on close
+  const [pendingPeriod, setPendingPeriod] = useState<string | null>(null);
+  const [pendingTypes, setPendingTypes] = useState<Set<string>>(new Set());
+
+  const openFiltersDialog = () => {
+    setPendingTypes(new Set(selectedTypes));
+    setIsFiltersOpen(true);
+  };
+
+  const commitPending = (period: string | null, types: Set<string>) => {
+    const p = period ? PERIODS.find((x) => x.key === period) : null;
+    onApplyFilters(period, p?.start ?? null, p?.end ?? null, types);
+  };
+
+  const handleDialogClose = () => {
+    setIsFiltersOpen(false);
+    commitPending(pendingPeriod, pendingTypes);
+  };
+
   const [isMobile, setIsMobile] = useState(
     () =>
       typeof window !== "undefined" &&
@@ -132,29 +136,45 @@ export function MapControls({
     return () => mq.removeEventListener("change", handle);
   }, []);
 
-  const handlePeriodClick = (start: string, end: string, key: string) => {
-    if (selectedPeriod === key) {
-      setSelectedPeriod(null);
-      onPeriodReset();
-    } else {
-      setSelectedPeriod(key);
-      onPeriodSelect(start, end);
-    }
+  const handlePeriodClick = (key: string) => {
+    setPendingPeriod((prev) => (prev === key ? null : key));
   };
 
-  const hasActiveFilters = selectedPeriod !== null || selectedTypes.size > 0;
+  const handleTypeToggle = (type: string) => {
+    setPendingTypes((prev) => {
+      const next = new Set(prev);
+      if (next.has(type)) next.delete(type);
+      else next.add(type);
+      return next;
+    });
+  };
+
+  const pendingAvailableTypes = useMemo(() => {
+    const p = pendingPeriod
+      ? PERIODS.find((x) => x.key === pendingPeriod)
+      : null;
+    return p
+      ? computeAvailableTypes(dateToDay(p.start), dateToDay(p.end))
+      : computeAvailableTypes(minMonth, maxMonth);
+  }, [pendingPeriod, computeAvailableTypes, minMonth, maxMonth]);
+
+  const hasActiveFilters = pendingPeriod !== null || pendingTypes.size > 0;
 
   const handleResetFilters = () => {
-    setSelectedPeriod(null);
-    onResetAllFilters();
+    setPendingPeriod(null);
+    setPendingTypes(new Set());
   };
 
-  const activeFilterCount = (selectedPeriod ? 1 : 0) + selectedTypes.size;
+  const activeFilterCount =
+    (pendingPeriod ? 1 : 0) +
+    (isFiltersOpen ? pendingTypes.size : selectedTypes.size);
 
   const filtersToggleButton = (
     <button
       className={`${STYLES["period-toggle"]} ${isFiltersOpen ? STYLES["period-toggle--open"] : ""} ${activeFilterCount > 0 ? STYLES["period-toggle--active"] : ""}`}
-      onClick={() => setIsFiltersOpen((v) => !v)}
+      onClick={() =>
+        isFiltersOpen ? handleDialogClose() : openFiltersDialog()
+      }
       aria-label="Toggle filters"
     >
       {locale === "fr" ? "Filtres" : "Filters"}
@@ -190,7 +210,7 @@ export function MapControls({
     <Dialog
       id="map-filters"
       isOpen={isFiltersOpen}
-      onClose={() => setIsFiltersOpen(false)}
+      onClose={handleDialogClose}
       title={locale === "fr" ? "Filtres" : "Filters"}
       isFooterEnabled={true}
       hasActiveFilters={hasActiveFilters}
@@ -203,11 +223,11 @@ export function MapControls({
           {locale === "fr" ? "Périodes" : "Time periods"}
         </h3>
         <div className={STYLES["dialog-period-grid"]}>
-          {PERIODS.map(({ key, start, end, dates, en, fr }) => (
+          {PERIODS.map(({ key, dates, en, fr }) => (
             <button
               key={key}
-              className={`${STYLES["period-button"]} ${selectedPeriod === key ? STYLES["period-button--active"] : ""}`}
-              onClick={() => handlePeriodClick(start, end, key)}
+              className={`${STYLES["period-button"]} ${pendingPeriod === key ? STYLES["period-button--active"] : ""}`}
+              onClick={() => handlePeriodClick(key)}
             >
               <span className={STYLES["period-button-dates"]}>{dates}</span>
               <span className={STYLES["period-button-title"]}>
@@ -224,9 +244,9 @@ export function MapControls({
         <div className={STYLES["dialog-chips"]}>
           <TypeFilter
             types={types}
-            selectedTypes={selectedTypes}
-            availableTypes={availableTypes}
-            onToggle={onToggleType}
+            selectedTypes={pendingTypes}
+            availableTypes={pendingAvailableTypes}
+            onToggle={handleTypeToggle}
             colors={typeColors}
             isWrapped
           />

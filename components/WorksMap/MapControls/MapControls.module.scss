@@ -7,7 +7,7 @@
   border: 1px solid variables.$primary-light-color;
   border-radius: variables.$border-radius;
   color: variables.$secondary-color;
-  font-size: 0.9rem;
+  font-size: 1rem;
   cursor: pointer;
   transition:
     border-color 0.9s ease-in-out,
@@ -213,7 +213,7 @@
   border-radius: variables.$border-radius;
   padding: variables.$xxs-margin;
   color: variables.$text-color;
-  font-size: 0.9rem;
+  font-size: 1rem;
   font-weight: 500;
   white-space: nowrap;
   text-align: center;
