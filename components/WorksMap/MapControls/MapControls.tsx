@@ -82,6 +82,7 @@ type Props = {
   currentZoom: number | null;
   onZoom: (_dir: 1 | -1) => void;
   totalWorks: number;
+  periodBounds: [number, number] | null;
 };
 
 export function MapControls({
@@ -100,6 +101,7 @@ export function MapControls({
   currentZoom,
   onZoom,
   totalWorks,
+  periodBounds,
 }: Props) {
   const t = useTranslations("maps");
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
@@ -273,6 +275,8 @@ export function MapControls({
           onChangeComplete={onDateRangeComplete}
           minMonth={minMonth}
           maxMonth={maxMonth}
+          clampMin={periodBounds?.[0]}
+          clampMax={periodBounds?.[1]}
         />
       </>
     );
@@ -290,6 +294,8 @@ export function MapControls({
             onChangeComplete={onDateRangeComplete}
             minMonth={minMonth}
             maxMonth={maxMonth}
+            clampMin={periodBounds?.[0]}
+            clampMax={periodBounds?.[1]}
           />
         </div>
         <button

@@ -140,6 +140,9 @@ export function WorksMap({
   }, [works, locale]);
 
   const [isPeriodActive, setIsPeriodActive] = useState(false);
+  const [periodBounds, setPeriodBounds] = useState<[number, number] | null>(
+    null,
+  );
 
   const [dateRange, setDateRange] = useState<[number, number]>(() => {
     const fromParam = searchParams.get("from");
@@ -659,7 +662,6 @@ export function WorksMap({
           color,
           weight: 2,
           opacity: 0,
-          dashArray: "6, 6",
         }).addTo(map);
         if (!frontLinePolylinesById.has(frontLineId))
           frontLinePolylinesById.set(frontLineId, []);
@@ -1034,10 +1036,14 @@ export function WorksMap({
       closeInfo();
       if (periodKey === null) {
         setIsPeriodActive(false);
+        setPeriodBounds(null);
         setDateRange([minMonth, maxMonth]);
       } else {
+        const pMin = dateToDay(periodStart!);
+        const pMax = dateToDay(periodEnd!);
         setIsPeriodActive(true);
-        setDateRange([dateToDay(periodStart!), dateToDay(periodEnd!)]);
+        setPeriodBounds([pMin, pMax]);
+        setDateRange([pMin, pMax]);
       }
       setSelectedTypes(types);
       setTimeout(fitToVisibleWorks, 0);
@@ -1081,6 +1087,7 @@ export function WorksMap({
           onDateRangeComplete={fitToVisibleWorks}
           minMonth={minMonth}
           maxMonth={maxMonth}
+          periodBounds={periodBounds}
           onApplyFilters={handleApplyFilters}
           computeAvailableTypes={computeAvailableTypes}
           currentZoom={currentZoom}

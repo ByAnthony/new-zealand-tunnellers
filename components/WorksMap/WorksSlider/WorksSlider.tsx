@@ -16,6 +16,8 @@ type Props = {
   onChangeComplete?: () => void;
   minMonth: number;
   maxMonth: number;
+  clampMin?: number;
+  clampMax?: number;
 };
 
 function formatDay(dayNum: number, locale: string): string {
@@ -34,6 +36,8 @@ export function WorksSlider({
   onChangeComplete,
   minMonth,
   maxMonth,
+  clampMin,
+  clampMax,
 }: Props) {
   const locale = useLocale();
   const [dragging, setDragging] = useState<[number, number] | null>(null);
@@ -93,8 +97,16 @@ export function WorksSlider({
           value={dateRange}
           onChange={(value) => {
             if (Array.isArray(value)) {
-              onChange([value[0], value[1]]);
-              setDragging([value[0], value[1]]);
+              const lo =
+                clampMin !== undefined
+                  ? Math.max(clampMin, value[0])
+                  : value[0];
+              const hi =
+                clampMax !== undefined
+                  ? Math.min(clampMax, value[1])
+                  : value[1];
+              onChange([lo, hi]);
+              setDragging([lo, hi]);
             }
           }}
           onChangeComplete={() => {
