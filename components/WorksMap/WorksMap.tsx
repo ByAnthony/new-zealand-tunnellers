@@ -358,15 +358,25 @@ export function WorksMap({
   const fitToVisibleWorks = useCallback(() => {
     const map = mapRef.current;
     if (!map) return;
-    const visible = markersRef.current
+    const points = markersRef.current
       .filter(({ marker }) => map.hasLayer(marker))
       .map(({ marker }) => marker.getLatLng());
-    if (visible.length === 0) return;
-    const bounds = L.latLngBounds(visible);
+    let bounds = points.length > 0 ? L.latLngBounds(points) : null;
+    let hasPolylines = false;
+    polylinesByWorkIdRef.current.forEach((polylines) => {
+      polylines.forEach((pl) => {
+        if (!map.hasLayer(pl)) return;
+        const plBounds = pl.getBounds();
+        if (!plBounds.isValid()) return;
+        bounds = bounds ? bounds.extend(plBounds) : plBounds;
+        hasPolylines = true;
+      });
+    });
+    if (!bounds || !bounds.isValid()) return;
     const zoom = map.getBoundsZoom(bounds, false);
     map.fitBounds(bounds, {
       padding: [30, 30],
-      maxZoom: Math.max(zoom - 1, 10),
+      maxZoom: hasPolylines ? zoom : Math.max(zoom - 1, 10),
     });
   }, []);
 
@@ -889,19 +899,38 @@ export function WorksMap({
         toggleLayer(pl, !filterActive || subwayTypeSelected),
       );
     });
-    frontLinePolylinesByIdRef.current.forEach((polylines, id) => {
-      const fl = frontLines.find((f) => f.front_line_id === id);
-      const visible =
+    const visibleFrontLines = frontLines.filter(
+      (fl) =>
         isPeriodActive &&
-        !!fl &&
         dateToDay(fl.front_line_period_start) <= dateRange[1] &&
-        dateToDay(fl.front_line_period_end) >= dateRange[0];
+        dateToDay(fl.front_line_period_end) >= dateRange[0],
+    );
+    const latestIdBySide = new Map<string, number>();
+    visibleFrontLines.forEach((fl) => {
+      const current = latestIdBySide.get(fl.front_line_side);
+      if (
+        current === undefined ||
+        fl.front_line_date >
+          frontLines.find((f) => f.front_line_id === current)!.front_line_date
+      ) {
+        latestIdBySide.set(fl.front_line_side, fl.front_line_id);
+      }
+    });
+    const latestIds = new Set(latestIdBySide.values());
+    const visibleIds = new Set(visibleFrontLines.map((fl) => fl.front_line_id));
+
+    frontLinePolylinesByIdRef.current.forEach((polylines, id) => {
+      const visible = visibleIds.has(id);
+      const isOld = visible && !latestIds.has(id);
       polylines.forEach((pl) => {
         if (visible) {
-          pl.setStyle({ opacity: 1 });
+          pl.setStyle({
+            opacity: 1,
+            dashArray: isOld ? "6 6" : undefined,
+          });
           if (!mapRef.current?.hasLayer(pl)) pl.addTo(mapRef.current!);
         } else {
-          pl.setStyle({ opacity: 0 });
+          pl.setStyle({ opacity: 0, dashArray: undefined });
         }
       });
     });
