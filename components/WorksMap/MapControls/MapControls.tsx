@@ -72,6 +72,7 @@ type Props = {
   onDateRangeComplete: () => void;
   minMonth: number;
   maxMonth: number;
+  initialPeriodKey: string | null;
   onApplyFilters: (
     _periodKey: string | null,
     _periodStart: string | null,
@@ -96,6 +97,7 @@ export function MapControls({
   onDateRangeComplete,
   minMonth,
   maxMonth,
+  initialPeriodKey,
   onApplyFilters,
   computeAvailableTypes,
   currentZoom,
@@ -107,7 +109,9 @@ export function MapControls({
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
 
   // Pending state: staged while dialog is open, committed on close
-  const [pendingPeriod, setPendingPeriod] = useState<string | null>(null);
+  const [pendingPeriod, setPendingPeriod] = useState<string | null>(
+    initialPeriodKey,
+  );
   const [pendingTypes, setPendingTypes] = useState<Set<string>>(new Set());
 
   const openFiltersDialog = () => {

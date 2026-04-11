@@ -139,10 +139,22 @@ export function WorksMap({
     };
   }, [works, locale]);
 
-  const [isPeriodActive, setIsPeriodActive] = useState(false);
-  const periodKeyRef = useRef<string | null>(null);
+  const isPeriodParam = searchParams.get("period") === "true";
+  const initialPeriodKey = (() => {
+    if (!isPeriodParam) return null;
+    const fromParam = searchParams.get("from");
+    const toParam = searchParams.get("to");
+    return fromParam && toParam ? `${fromParam}/${toParam}` : null;
+  })();
+  const [isPeriodActive, setIsPeriodActive] = useState(() => isPeriodParam);
+  const periodKeyRef = useRef<string | null>(initialPeriodKey);
   const [periodBounds, setPeriodBounds] = useState<[number, number] | null>(
-    null,
+    () => {
+      if (!initialPeriodKey) return null;
+      const [start, end] = initialPeriodKey.split("/");
+      if (!start || !end) return null;
+      return [dateToDay(start), dateToDay(end)];
+    },
   );
 
   const [dateRange, setDateRange] = useState<[number, number]>(() => {
@@ -249,6 +261,12 @@ export function WorksMap({
       params.delete("type");
     }
 
+    if (isPeriodActive) {
+      params.set("period", "true");
+    } else {
+      params.delete("period");
+    }
+
     if (dateRange[0] !== minMonth || dateRange[1] !== maxMonth) {
       params.set("from", dayToParam(dateRange[0]));
       params.set("to", dayToParam(dateRange[1]));
@@ -288,6 +306,7 @@ export function WorksMap({
     dateRange,
     minMonth,
     maxMonth,
+    isPeriodActive,
     displayedWork,
     displayedCave,
     displayedSubway,
@@ -1117,6 +1136,7 @@ export function WorksMap({
           onDateRangeComplete={fitToVisibleWorks}
           minMonth={minMonth}
           maxMonth={maxMonth}
+          initialPeriodKey={initialPeriodKey}
           periodBounds={periodBounds}
           onApplyFilters={handleApplyFilters}
           computeAvailableTypes={computeAvailableTypes}
