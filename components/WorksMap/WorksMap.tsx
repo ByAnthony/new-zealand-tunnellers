@@ -140,6 +140,7 @@ export function WorksMap({
   }, [works, locale]);
 
   const [isPeriodActive, setIsPeriodActive] = useState(false);
+  const periodKeyRef = useRef<string | null>(null);
   const [periodBounds, setPeriodBounds] = useState<[number, number] | null>(
     null,
   );
@@ -362,21 +363,20 @@ export function WorksMap({
       .filter(({ marker }) => map.hasLayer(marker))
       .map(({ marker }) => marker.getLatLng());
     let bounds = points.length > 0 ? L.latLngBounds(points) : null;
-    let hasPolylines = false;
     polylinesByWorkIdRef.current.forEach((polylines) => {
       polylines.forEach((pl) => {
         if (!map.hasLayer(pl)) return;
         const plBounds = pl.getBounds();
         if (!plBounds.isValid()) return;
         bounds = bounds ? bounds.extend(plBounds) : plBounds;
-        hasPolylines = true;
       });
     });
     if (!bounds || !bounds.isValid()) return;
     const zoom = map.getBoundsZoom(bounds, false);
+    const isArras = periodKeyRef.current === "1916-11-16/1917-04-09";
     map.fitBounds(bounds, {
       padding: [30, 30],
-      maxZoom: hasPolylines ? zoom : Math.max(zoom - 1, 10),
+      maxZoom: Math.max(zoom - (isArras ? 0 : 1), 10),
     });
   }, []);
 
@@ -1063,6 +1063,7 @@ export function WorksMap({
       types: Set<string>,
     ) => {
       closeInfo();
+      periodKeyRef.current = periodKey;
       if (periodKey === null) {
         setIsPeriodActive(false);
         setPeriodBounds(null);
