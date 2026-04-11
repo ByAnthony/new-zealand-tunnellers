@@ -146,16 +146,17 @@ export function WorksMap({
     const toParam = searchParams.get("to");
     return fromParam && toParam ? `${fromParam}/${toParam}` : null;
   })();
-  const [isPeriodActive, setIsPeriodActive] = useState(() => isPeriodParam);
-  const periodKeyRef = useRef<string | null>(initialPeriodKey);
-  const [periodBounds, setPeriodBounds] = useState<[number, number] | null>(
-    () => {
-      if (!initialPeriodKey) return null;
-      const [start, end] = initialPeriodKey.split("/");
-      if (!start || !end) return null;
-      return [dateToDay(start), dateToDay(end)];
-    },
+  const [activePeriodKey, setActivePeriodKey] = useState<string | null>(
+    () => initialPeriodKey,
   );
+  const periodKeyRef = useRef<string | null>(initialPeriodKey);
+  const isPeriodActive = activePeriodKey !== null;
+  const periodBounds = useMemo<[number, number] | null>(() => {
+    if (!activePeriodKey) return null;
+    const [start, end] = activePeriodKey.split("/");
+    if (!start || !end) return null;
+    return [dateToDay(start), dateToDay(end)];
+  }, [activePeriodKey]);
 
   const [dateRange, setDateRange] = useState<[number, number]>(() => {
     const fromParam = searchParams.get("from");
@@ -1083,15 +1084,12 @@ export function WorksMap({
     ) => {
       closeInfo();
       periodKeyRef.current = periodKey;
+      setActivePeriodKey(periodKey);
       if (periodKey === null) {
-        setIsPeriodActive(false);
-        setPeriodBounds(null);
         setDateRange([minMonth, maxMonth]);
       } else {
         const pMin = dateToDay(periodStart!);
         const pMax = dateToDay(periodEnd!);
-        setIsPeriodActive(true);
-        setPeriodBounds([pMin, pMax]);
         setDateRange([pMin, pMax]);
       }
       setSelectedTypes(types);
