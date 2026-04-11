@@ -393,6 +393,9 @@ export function WorksMap({
     });
     if (!bounds || !bounds.isValid()) return;
     const zoom = map.getBoundsZoom(bounds, false);
+    // Arras period works are spread across a wider area than other periods,
+    // so fitBounds naturally returns the right zoom — no adjustment needed.
+    // Other periods need zoom - 1 to avoid over-zooming on tightly clustered works.
     const isArras = periodKeyRef.current === "1916-11-16/1917-04-09";
     map.fitBounds(bounds, {
       padding: [30, 30],
