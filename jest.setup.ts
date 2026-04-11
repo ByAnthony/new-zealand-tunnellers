@@ -26,9 +26,7 @@ jest.mock("next-intl", () => ({
 jest.mock("next/image", () => ({
   __esModule: true,
   default: (props: any) => {
-    // Use object destructuring with rest syntax to omit `priority` and `quality`
-    // eslint-disable-next-line no-unused-vars
-    const { priority, quality, ...imgProps } = props;
+    const { priority: _priority, quality: _quality, ...imgProps } = props;
 
     return React.createElement("img", imgProps);
   },

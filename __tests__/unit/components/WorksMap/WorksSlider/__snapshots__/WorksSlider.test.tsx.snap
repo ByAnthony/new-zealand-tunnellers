@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`WorksSlider matches the snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="slider"
+  >
+    <div
+      class="tooltip"
+    >
+      <span>
+        30 December 2032
+      </span>
+      <span>
+        17 January 2033
+      </span>
+    </div>
+    <div
+      class="slider-track"
+    >
+      <div
+        data-max="23027"
+        data-min="23009"
+        data-testid="rc-slider"
+        data-value="23009,23027"
+      />
+    </div>
+  </div>
+</DocumentFragment>
+`;

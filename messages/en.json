@@ -7,6 +7,7 @@
     "tunnellersDescription": "Browse the profiles of the New Zealand Tunnellers who served during the First World War",
     "book": "Kiwis Dig Tunnels Too",
     "timelineOf": "Timeline of {forename} {surname}",
+    "map": "Tunnellers Works Map",
     "tunnellerDescription": "Biography of {rank} {forename} {surname}, a New Zealand Tunneller who served during the First World War",
     "tunnellerTimelineDescription": "Follow the World War I timeline of {rank} {forename} {surname}, a New Zealand Tunneller",
     "historyChapterDescription": "Read about {title} - history of the New Zealand Tunnellers during the First World War",
@@ -144,6 +145,19 @@
     "enlistedAtAge": "{title} at the age of {age}",
     "companyEventAlt": "Image for {title}",
     "companyEventAltFallback": "Company event"
+  },
+  "maps": {
+    "title": "Tunnellers\u2019 Works",
+    "work": "work",
+    "works": "works",
+    "section": "Section",
+    "cardTitle": "Tunnellers\u2019 Works",
+    "cardDescription": "From underground shelters to bridges, the New Zealand Tunnelling Company left its mark across the Arras front. This interactive map charts the works recorded in the company\u2019s war diary between March 1916 and December 1918 \u2014 each one precisely located using the original British Army trench map grid.",
+    "cardBadge": "Map",
+    "date": "Work date",
+    "start": "Work started",
+    "end": "Ended",
+    "coordinates": "Coordinates"
   },
   "books": {
     "readingProgress": "Reading progress",
