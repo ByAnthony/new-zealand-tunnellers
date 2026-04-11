@@ -20,6 +20,7 @@ import { InfoBar } from "./InfoBar/InfoBar";
 import { MapControls } from "./MapControls/MapControls";
 import {
   collectCategories,
+  getVisibleFrontLines,
   getWorkCategories,
   isWorkVisible,
 } from "./utils/filterUtils";
@@ -31,6 +32,7 @@ import {
   createSingleIcon,
   createWorkIcon,
 } from "./utils/markerIcons";
+import { groupPathsBySegment } from "./utils/pathUtils";
 import STYLES from "./WorksMap.module.scss";
 
 // Fix Leaflet default marker icons in Next.js
@@ -470,6 +472,9 @@ export function WorksMap({
 
     const map = L.map(containerRef.current, { zoomControl: false, minZoom: 6 });
 
+    const frontLinePane = map.createPane("frontLinePane");
+    frontLinePane.style.zIndex = "450";
+
     L.tileLayer(
       "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}",
       {
@@ -504,22 +509,6 @@ export function WorksMap({
       } else {
         map.panTo(latlng);
       }
-    };
-
-    const groupPathsBySegment = <
-      T extends { segment: number; latitude: number; longitude: number },
-    >(
-      rawPaths: T[],
-      getId: (p: T) => number,
-    ): Map<string, { id: number; points: [number, number][] }> => {
-      const map = new Map<string, { id: number; points: [number, number][] }>();
-      rawPaths.forEach((p) => {
-        const id = getId(p);
-        const key = `${id}-${p.segment}`;
-        if (!map.has(key)) map.set(key, { id, points: [] });
-        map.get(key)!.points.push([Number(p.latitude), Number(p.longitude)]);
-      });
-      return map;
     };
 
     const workIdsWithPaths = new Set(paths.map((p) => p.work_id));
@@ -695,6 +684,7 @@ export function WorksMap({
           color,
           weight: 2,
           opacity: 0,
+          pane: "frontLinePane",
         }).addTo(map);
         if (!frontLinePolylinesById.has(frontLineId))
           frontLinePolylinesById.set(frontLineId, []);
@@ -922,25 +912,12 @@ export function WorksMap({
         toggleLayer(pl, !filterActive || subwayTypeSelected),
       );
     });
-    const visibleFrontLines = frontLines.filter(
-      (fl) =>
-        isPeriodActive &&
-        dateToDay(fl.front_line_period_start) <= dateRange[1] &&
-        dateToDay(fl.front_line_period_end) >= dateRange[0],
+    const { visibleIds, latestIds } = getVisibleFrontLines(
+      frontLines,
+      dateRange,
+      isPeriodActive,
+      dateToDay,
     );
-    const latestIdBySide = new Map<string, number>();
-    visibleFrontLines.forEach((fl) => {
-      const current = latestIdBySide.get(fl.front_line_side);
-      if (
-        current === undefined ||
-        fl.front_line_date >
-          frontLines.find((f) => f.front_line_id === current)!.front_line_date
-      ) {
-        latestIdBySide.set(fl.front_line_side, fl.front_line_id);
-      }
-    });
-    const latestIds = new Set(latestIdBySide.values());
-    const visibleIds = new Set(visibleFrontLines.map((fl) => fl.front_line_id));
 
     frontLinePolylinesByIdRef.current.forEach((polylines, id) => {
       const visible = visibleIds.has(id);

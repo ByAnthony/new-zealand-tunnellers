@@ -1,3 +1,4 @@
+import { FrontLineData } from "@/utils/database/queries/frontLinesQuery";
 import { WorkData } from "@/utils/database/queries/worksQuery";
 
 export function getWorkCategories(
@@ -24,6 +25,35 @@ export function collectCategories(
     if (c2) cats.add(c2);
   });
   return cats;
+}
+
+export function getVisibleFrontLines(
+  frontLines: FrontLineData[],
+  dateRange: [number, number],
+  isPeriodActive: boolean,
+  dateToDay: (date: string) => number,
+): { visibleIds: Set<number>; latestIds: Set<number> } {
+  const visibleFrontLines = frontLines.filter(
+    (fl) =>
+      isPeriodActive &&
+      dateToDay(fl.front_line_period_start) <= dateRange[1] &&
+      dateToDay(fl.front_line_period_end) >= dateRange[0],
+  );
+  const latestIdBySide = new Map<string, number>();
+  visibleFrontLines.forEach((fl) => {
+    const current = latestIdBySide.get(fl.front_line_side);
+    if (
+      current === undefined ||
+      fl.front_line_date >
+        frontLines.find((f) => f.front_line_id === current)!.front_line_date
+    ) {
+      latestIdBySide.set(fl.front_line_side, fl.front_line_id);
+    }
+  });
+  return {
+    visibleIds: new Set(visibleFrontLines.map((fl) => fl.front_line_id)),
+    latestIds: new Set(latestIdBySide.values()),
+  };
 }
 
 export function isWorkVisible(
