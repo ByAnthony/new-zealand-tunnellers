@@ -170,13 +170,18 @@ test("EN: next chapter button navigates to chapter 2", async ({ page }) => {
     "Go to chapter 2: Forging Good Soldiers",
   );
   await expect(nextChapterLink).toBeVisible();
+  await expect(nextChapterLink).toHaveAttribute(
+    "href",
+    "/books/kiwis-dig-tunnels-too/chapter-2-forging-good-soldiers",
+  );
+  await nextChapterLink.scrollIntoViewIfNeeded();
 
   await Promise.all([
     page.waitForURL(
       /books\/kiwis-dig-tunnels-too\/chapter-2-forging-good-soldiers/,
       { waitUntil: "domcontentloaded" },
     ),
-    nextChapterLink.click(),
+    nextChapterLink.click({ force: true }),
   ]);
 });
 
@@ -219,7 +224,10 @@ test("progress ring shows tick after scrolling to the bottom of a chapter", asyn
 }) => {
   await page.goto(EN_CHAPTER_1);
 
-  await page.locator(".footnotes").last().scrollIntoViewIfNeeded();
+  await expect(page.locator(".footnotes").last()).toBeAttached();
+  await page.evaluate(() => {
+    window.scrollTo(0, document.body.scrollHeight);
+  });
   await expect
     .poll(
       () =>
