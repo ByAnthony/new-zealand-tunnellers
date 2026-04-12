@@ -9,9 +9,17 @@ export const getNzResident = (
 ) => {
   if (month) {
     const calculateResidentSince = (date: string, month: number) => {
-      const startDate = new Date(date);
-      startDate.setMonth(startDate.getMonth() - month);
-      return startDate.getFullYear().toString();
+      const match = date.match(/^(\d{4})[-/](\d{2})[-/](\d{2})$/);
+      if (!match) {
+        const startDate = new Date(date);
+        startDate.setUTCMonth(startDate.getUTCMonth() - month);
+        return startDate.getUTCFullYear().toString();
+      }
+
+      const baseYear = Number(match[1]);
+      const baseMonthIndex = Number(match[2]) - 1;
+      const totalMonths = baseYear * 12 + baseMonthIndex - month;
+      return Math.floor(totalMonths / 12).toString();
     };
 
     if (enlistment) {
