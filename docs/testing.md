@@ -70,8 +70,9 @@ Watch mode:
 npm run test:watch
 ```
 
-Notes:
-
+- Tests live in files like \*.test.tsx;
+- Uses Jest under the hood.
+- The repo enforces global coverage thresholds in `jest.config.ts`, so a focused run can still exit non-zero even when the selected test files pass.
 - Test files usually live in `*.test.ts` and `*.test.tsx`
 - Jest enforces global coverage thresholds for the whole repository
 - Because of that, a focused Jest run can show passing tests but still exit non-zero if the global coverage threshold is not met

@@ -1,5 +1,5 @@
-name: Setup and build
-description: A composite action to setup and build the web app
+name: Setup test database
+description: Export the remote database and import it into the local CI MariaDB service
 
 inputs:
   host:
@@ -63,37 +63,3 @@ runs:
         USERNAME: ${{ inputs.username }}
         MYSQL_PWD: ${{ inputs.password }}
         DATABASE: ${{ inputs.database }}
-
-    - name: Setup node
-      uses: actions/setup-node@v4.0.2
-      with:
-        node-version-file: ".nvmrc"
-
-    - name: Install dependencies
-      shell: bash
-      run: npm ci
-
-    - name: Create .env file
-      shell: bash
-      run: |
-        echo "MYSQL_HOST=127.0.0.1" >> .env
-        echo "MYSQL_USER=$USERNAME" >> .env
-        echo "MYSQL_PASSWORD=$PASSWORD" >> .env
-        echo "MYSQL_DATABASE=$DATABASE" >> .env
-        echo "MYSQL_PORT=3306" >> .env
-      env:
-        USERNAME: ${{ inputs.username }}
-        PASSWORD: ${{ inputs.password }}
-        DATABASE: ${{ inputs.database }}
-
-    - name: Cache Next.js build
-      uses: actions/cache@v4
-      with:
-        path: .next/cache
-        key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx') }}
-        restore-keys: |
-          ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
-
-    - name: Build web app
-      shell: bash
-      run: npm run build

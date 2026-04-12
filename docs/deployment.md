@@ -86,29 +86,68 @@ That logic lives in the composite action at [`.github/actions/setup-and-build/ac
 
 ### Environment variables
 
-If you need a `.env` file, add your own variables by simply running this script:
+Production requires a `.env` file because the application reads its database configuration from runtime environment variables:
 
-```yml
-- name: Create .env file
-    run: |
-        echo "VARIABLE_NAME=my_variable" >> .env
-        ...
+- `MYSQL_HOST`
+- `MYSQL_USER`
+- `MYSQL_PASSWORD`
+- `MYSQL_DATABASE`
+- `MYSQL_PORT`
+
+The GitHub Actions workflow generates `.env` during the `build-production` job from repository secrets and includes it in the deployment artifact. This keeps the production file out of the repository while still allowing the deployed app to start correctly.
+
+### Build, Test And Deploy
+
+The workflow is split into four jobs:
+
+1. `checks`
+   Runs `npm ci`, linting, Prettier, and unit tests.
+2. `build-production`
+   Imports a copy of the production database into the CI MariaDB service, creates the production `.env`, builds the app, and uploads a single deployment artifact.
+3. `run-e2e-tests`
+   Downloads the same deployment artifact and runs Playwright against that exact build.
+4. `deployment`
+   Downloads the same artifact again and syncs it to the N0C server.
+
+This means the build is created once and reused for both E2E validation and production deployment.
+
+### Deployment Artifact
+
+The deployment artifact must include all runtime files that the server needs:
+
+- `.next`
+- `dist`
+- `public`
+- `package.json`
+- `package-lock.json`
+- `next.config.mjs`
+- `tsconfig.server.json`
+- `server.ts`
+- `.env`
+- `i18n/request.ts`
+- `i18n/routing.ts`
+- `utils/imageLoader.ts`
+- `messages`
+
+Because `.next` is a hidden directory, `actions/upload-artifact` must be configured with `include-hidden-files: true`. Without that option, the production build output is skipped and the application cannot start.
+
+### Sync Files
+
+The deployment job syncs the artifact to the server with `rsync` over SSH:
+
+```bash
+rsync -az --delete \
+  --exclude ".next/cache/**" \
+  --exclude "tmp/" \
+  -e "ssh -p 5022" \
+  ./ deploy:~/${folder-where-your-application-lives}/
 ```
 
-This file is then used by the `build` step.
+Notes:
 
-### Build and sync files
-
-The current deployment job:
-
-- installs dependencies
-- builds the app with `npm run build`
-- uploads the build output with [SamKirkland/FTP-Deploy-Action](https://github.com/SamKirkland/FTP-Deploy-Action)
-- restarts the Node.js app on N0C
-
-The FTP sync currently uploads the built `.next` output file by file. This works, but it is the slowest part of the rollout because Next.js generates many small files under `.next/server/app/**` and `.next/static/**`. Even relatively small content or UI changes can therefore trigger a long sync.
-
-The current excludes are defined directly in the workflow and should be kept in sync with the runtime needs of the custom server.
+- `--delete` removes stale files from previous deployments;
+- `.next/cache` is excluded because it is build cache and not required at runtime;
+- `tmp/` is excluded because it is managed by N0C and is used for restarts.
 
 ### Restart server automatically
 
@@ -123,24 +162,17 @@ source nodevenv/${folder-where-your-application-lives}/${node-version}/bin/activ
 Then:
 
 ```bash
-cd folder-where-your-application-lives && npm ci
+cd folder-where-your-application-lives && HUSKY=0 npm ci
 ```
 
 Finally, create a `restart.txt` which needs to be added to the `/tmp/` folder:
 
 ```bash
+mkdir -p ~/${folder-where-your-application-lives}/tmp
 touch ~/${folder-where-your-application-lives}/tmp/restart.txt
 ```
 
 This restarts the application after a new rollout.
-
-### Current deployment limitations
-
-- the deployment job rebuilds the app instead of reusing a build artifact from the test jobs
-- the FTP sync step is slow for `.next` output because it transfers many small files
-- the server restart step currently runs `npm ci` on the host before touching `tmp/restart.txt`
-
-If deploy time becomes a recurring issue, the first thing to review is the FTP sync strategy.
 
 ### Updating Node.js
 
