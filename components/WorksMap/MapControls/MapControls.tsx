@@ -80,6 +80,11 @@ type Props = {
     _types: Set<string>,
   ) => void;
   computeAvailableTypes: (_start: number, _end: number) => Set<string>;
+  computeVisibleCount: (
+    _start: number,
+    _end: number,
+    _types: Set<string>,
+  ) => number;
   currentZoom: number | null;
   onZoom: (_dir: 1 | -1) => void;
   totalWorks: number;
@@ -100,6 +105,7 @@ export function MapControls({
   initialPeriodKey,
   onApplyFilters,
   computeAvailableTypes,
+  computeVisibleCount,
   currentZoom,
   onZoom,
   totalWorks,
@@ -164,6 +170,15 @@ export function MapControls({
       : computeAvailableTypes(minMonth, maxMonth);
   }, [pendingPeriod, computeAvailableTypes, minMonth, maxMonth]);
 
+  const pendingVisibleCount = useMemo(() => {
+    const p = pendingPeriod
+      ? PERIODS.find((x) => x.key === pendingPeriod)
+      : null;
+    const start = p ? dateToDay(p.start) : minMonth;
+    const end = p ? dateToDay(p.end) : maxMonth;
+    return computeVisibleCount(start, end, pendingTypes);
+  }, [pendingPeriod, pendingTypes, computeVisibleCount, minMonth, maxMonth]);
+
   const hasActiveFilters = pendingPeriod !== null || pendingTypes.size > 0;
 
   const handleResetFilters = () => {
@@ -221,7 +236,7 @@ export function MapControls({
       isFooterEnabled={true}
       hasActiveFilters={hasActiveFilters}
       handleResetFilters={handleResetFilters}
-      totalFiltered={visibleCount}
+      totalFiltered={pendingVisibleCount}
       total={totalWorks}
     >
       <div className={STYLES["dialog-section"]}>

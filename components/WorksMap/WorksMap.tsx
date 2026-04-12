@@ -1112,17 +1112,27 @@ export function WorksMap({
     isDisplayedCaveVisible,
   ]);
 
-  const visibleCount = works.filter((w, i) => {
-    const [cat1, cat2] = getWorkCategories(w, locale);
-    return isWorkVisible(
-      allMonths[i].start,
-      allMonths[i].end,
-      cat1,
-      cat2,
-      dateRange,
-      selectedTypes,
-    );
-  }).length;
+  const computeVisibleCount = useCallback(
+    (start: number, end: number, types: Set<string>): number =>
+      works.filter((w, i) => {
+        const [cat1, cat2] = getWorkCategories(w, locale);
+        return isWorkVisible(
+          allMonths[i].start,
+          allMonths[i].end,
+          cat1,
+          cat2,
+          [start, end],
+          types,
+        );
+      }).length,
+    [works, allMonths, locale],
+  );
+
+  const visibleCount = computeVisibleCount(
+    dateRange[0],
+    dateRange[1],
+    selectedTypes,
+  );
 
   const computeAvailableTypes = useCallback(
     (start: number, end: number): Set<string> => {
@@ -1202,6 +1212,7 @@ export function WorksMap({
           periodBounds={periodBounds}
           onApplyFilters={handleApplyFilters}
           computeAvailableTypes={computeAvailableTypes}
+          computeVisibleCount={computeVisibleCount}
           currentZoom={currentZoom}
           onZoom={zoom}
           totalWorks={works.length}
