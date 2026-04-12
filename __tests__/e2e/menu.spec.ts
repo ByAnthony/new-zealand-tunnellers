@@ -38,9 +38,13 @@ test("can search and click on a name", async ({ page }) => {
 
   await page.locator("input").fill("joseph");
   const tunneller = page.getByLabel("See Joseph Kelly profile");
-  await tunneller.hover();
-  await tunneller.click();
-  page.waitForLoadState("domcontentloaded");
+  await expect(tunneller).toBeVisible();
+  await Promise.all([
+    page.waitForURL("/tunnellers/joseph-kelly--37713/", {
+      waitUntil: "domcontentloaded",
+    }),
+    tunneller.click(),
+  ]);
 
   await expect(page).toHaveURL("/tunnellers/joseph-kelly--37713/");
 });
