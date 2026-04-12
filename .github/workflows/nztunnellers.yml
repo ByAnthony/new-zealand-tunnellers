@@ -18,7 +18,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  checks-and-run-tests:
+  checks:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     env:
@@ -45,10 +45,12 @@ jobs:
       - name: Run test
         run: npm run test
 
-  run-e2e-tests:
+  build-production:
     runs-on: ubuntu-latest
-    needs: checks-and-run-tests
+    needs: checks
     timeout-minutes: 60
+    env:
+      HUSKY: 0
     services:
       mariadb:
         image: mariadb:10.6.21
@@ -64,8 +66,8 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@v6.0.2
 
-      - name: Setup and build web app
-        uses: ./.github/actions/setup-and-build
+      - name: Setup test database
+        uses: ./.github/actions/setup-test-database
         with:
           host: ${{ secrets.SERVER }}
           username: ${{ secrets.USERNAME }}
@@ -73,20 +75,16 @@ jobs:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
           database: ${{ secrets.DATABASE }}
 
-      # - name: Cache Playwright browsers
-      #   uses: actions/cache@v5
-      #   with:
-      #     path: ~/.cache/ms-playwright
-      #     key: ${{ runner.os }}-playwright-${{ hashFiles('**/package-lock.json') }}
+      - name: Setup node
+        uses: actions/setup-node@v6.3.0
+        with:
+          node-version-file: ".nvmrc"
+          cache: "npm"
 
-      # - name: Install playwright browsers
-      #   run: npx playwright install --with-deps
-
-      # - name: Run tests
-      #   run: npx playwright test
+      - name: Install dependencies
+        run: npm ci
 
       - name: Create production .env
-        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
         shell: bash
         run: |
           {
@@ -101,8 +99,18 @@ jobs:
           PASSWORD: ${{ secrets.PASSWORD }}
           DATABASE: ${{ secrets.DATABASE }}
 
+      - name: Cache Next.js build
+        uses: actions/cache@v5
+        with:
+          path: .next/cache
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx') }}
+          restore-keys: |
+            ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
+
+      - name: Build web app
+        run: npm run build
+
       - name: Upload deployment artifact
-        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
         uses: actions/upload-artifact@v4
         with:
           name: production-build
@@ -122,6 +130,63 @@ jobs:
             i18n/routing.ts
             utils/imageLoader.ts
             messages
+
+  run-e2e-tests:
+    runs-on: ubuntu-latest
+    needs: build-production
+    timeout-minutes: 60
+    env:
+      HUSKY: 0
+    services:
+      mariadb:
+        image: mariadb:10.6.21
+        ports:
+          - 3306:3306
+        env:
+          MYSQL_DATABASE: ${{ secrets.DATABASE }}
+          MYSQL_USER: ${{ secrets.USERNAME }}
+          MYSQL_PASSWORD: ${{ secrets.PASSWORD }}
+          MARIADB_ROOT_PASSWORD: ${{ secrets.PASSWORD }}
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v6.0.2
+
+      - name: Setup test database
+        uses: ./.github/actions/setup-test-database
+        with:
+          host: ${{ secrets.SERVER }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          database: ${{ secrets.DATABASE }}
+
+      - name: Setup node
+        uses: actions/setup-node@v6.3.0
+        with:
+          node-version-file: ".nvmrc"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Download production artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: production-build
+          path: .
+
+      - name: Cache Playwright browsers
+        uses: actions/cache@v5
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ hashFiles('**/package-lock.json') }}
+
+      - name: Install playwright browsers
+        run: npx playwright install --with-deps
+
+      - name: Run tests
+        run: npx playwright test
 
   deployment:
     if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
