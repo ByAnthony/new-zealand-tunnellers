@@ -40,7 +40,7 @@ jobs:
         run: npm run lint
 
       - name: Prettier
-        run: npm run prettier
+        run: npm run prettier:check
 
       - name: Run test
         run: npm run test

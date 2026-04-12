@@ -11,12 +11,13 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "prettier": "npx prettier . --write",
+    "prettier:check": "npx prettier . --check",
     "playwright:ui": "npx playwright test --ui",
     "prepare": "husky || true"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
-      "eslint . --fix"
+      "eslint --fix"
     ]
   },
   "engines": {

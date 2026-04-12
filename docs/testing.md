@@ -15,13 +15,21 @@ Used for end-to-end (E2E) testing. Automates browser-based tests to simulate rea
 ```bash
 __tests__/
 │
-├── unit/                # React Testing Library tests
-│   ├── components/      # Component-specific tests
-│   └── utils/           # Utility functions
+├── unit/                     # Jest + React Testing Library tests
+│   ├── components/           # Component-specific tests
+│   │   ├── Books/
+│   │   ├── Menu/
+│   │   ├── Roll/
+│   │   └── WorksMap/
+│   ├── utils/                # Shared testing helpers and mocks
+│   └── content/
 │
-└── e2e/                 # Playwright tests
-    ├── home.spec.ts     # Example: homepage flow
-    └── login.spec.ts    # Example: login behavior
+└── e2e/                      # Playwright end-to-end tests
+    ├── home.spec.ts
+    ├── menu.spec.ts
+    ├── tunneller.spec.ts
+    ├── tunnellers.spec.ts
+    └── works-map.spec.ts
 
 ```
 
@@ -36,7 +44,8 @@ npm run test:watch
 ```
 
 - Tests live in files like \*.test.tsx;
-- Uses jest under the hood.
+- Uses Jest under the hood.
+- The repo enforces global coverage thresholds in `jest.config.ts`, so a focused run can still exit non-zero even when the selected test files pass.
 
 ### E2E Tests ([Playwright](https://github.com/microsoft/playwright))
 
@@ -45,4 +54,5 @@ npx playwright test
 ```
 
 - Starts the browser and runs E2E scripts;
+- Starts the local app using the `webServer` config in `playwright.config.ts`;
 - Use `npm run playwright:ui` for an interactive test runner.
