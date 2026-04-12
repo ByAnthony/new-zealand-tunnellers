@@ -47,7 +47,6 @@ jobs:
 
   build-production:
     runs-on: ubuntu-latest
-    needs: checks
     timeout-minutes: 60
     env:
       HUSKY: 0
@@ -191,7 +190,9 @@ jobs:
   deployment:
     if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
-    needs: run-e2e-tests
+    needs:
+      - checks
+      - run-e2e-tests
     steps:
       - name: Configure SSH
         shell: bash
