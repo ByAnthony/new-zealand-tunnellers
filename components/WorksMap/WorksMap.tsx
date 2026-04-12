@@ -395,13 +395,15 @@ export function WorksMap({
     });
     if (!bounds || !bounds.isValid()) return;
     const zoom = map.getBoundsZoom(bounds, false);
-    // Arras period works are spread across a wider area than other periods,
-    // so fitBounds naturally returns the right zoom — no adjustment needed.
-    // Other periods need zoom - 1 to avoid over-zooming on tightly clustered works.
+    // Arras: works spread across a wide area, no zoom adjustment needed.
+    // Hundred Days prep: works are more spread out, zoom out one extra level.
+    // Other periods: zoom - 1 to avoid over-zooming on tightly clustered works.
     const isArras = periodKeyRef.current === "1916-11-16/1917-04-09";
+    const isHundredDaysPrep = periodKeyRef.current === "1918-07-15/1918-09-26";
+    const zoomAdjust = isArras ? 1 : isHundredDaysPrep ? 2 : 1;
     map.fitBounds(bounds, {
       padding: [30, 30],
-      maxZoom: Math.max(zoom - (isArras ? 0 : 1), 10),
+      maxZoom: Math.max(zoom - zoomAdjust, 10),
     });
   }, []);
 
@@ -481,15 +483,6 @@ export function WorksMap({
         attribution: "Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ",
         maxZoom: 16,
       },
-    ).addTo(map);
-
-    L.imageOverlay(
-      "/images/map/arras-1916-10.png",
-      [
-        [50.25546, 2.65843],
-        [50.37629, 3.04786],
-      ],
-      { opacity: 0 },
     ).addTo(map);
 
     const initializeStack = (stackWorks: WorkData[]) => {
@@ -685,6 +678,7 @@ export function WorksMap({
           weight: 2,
           opacity: 0,
           pane: "frontLinePane",
+          interactive: false,
         }).addTo(map);
         if (!frontLinePolylinesById.has(frontLineId))
           frontLinePolylinesById.set(frontLineId, []);
@@ -778,9 +772,7 @@ export function WorksMap({
       };
     });
 
-    map.on("click", (e: L.LeafletMouseEvent) => {
-      // eslint-disable-next-line no-console
-      console.log(`[${e.latlng.lat.toFixed(6)}, ${e.latlng.lng.toFixed(6)}],`);
+    map.on("click", () => {
       closeInfo();
     });
 
