@@ -53,6 +53,8 @@ test("can close the dropdown by clicking outside", async ({ page }) => {
   await page.goto("/");
 
   await page.locator("input").fill("james");
+  const resultLink = page.getByLabel("See James Williamson profile").first();
+  await expect(resultLink).toBeVisible();
   await expect(page.getByTestId("dropdown")).toBeVisible();
 
   await page.locator("body").click({ position: { x: 10, y: 300 } });
