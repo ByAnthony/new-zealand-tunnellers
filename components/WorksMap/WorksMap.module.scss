@@ -42,9 +42,7 @@
 
 :global(.leaflet-control-attribution) {
   background-color: transparent !important;
-  border: 1px solid variables.$placeholder-color;
-  border-radius: variables.$border-radius;
-  color: variables.$placeholder-color !important;
+  color: variables.$text-color !important;
   font-size: 0.5rem;
   padding: 2px variables.$xxs-margin;
   white-space: nowrap;
