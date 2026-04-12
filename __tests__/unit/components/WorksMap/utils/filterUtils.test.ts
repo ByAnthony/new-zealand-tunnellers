@@ -301,7 +301,7 @@ describe("getVisibleFrontLines", () => {
     expect(latestIds).toEqual(new Set([2, 4]));
   });
 
-  test("does not include the next adjacent period when the selected range end drifts forward", () => {
+  test("excludes the next adjacent period even when the selected range reaches its boundary", () => {
     const frontLines = [
       mockFrontLine({
         front_line_id: 9,

@@ -336,7 +336,7 @@ const frontLines: FrontLineData[] = [
     front_line_date: "1918-08-01",
     front_line_side: "british",
     front_line_period_start: "1918-07-15",
-    front_line_period_end: "1918-09-26",
+    front_line_period_end: "1918-08-21",
   },
 ];
 const frontLinePaths: FrontLinePathPoint[] = [
