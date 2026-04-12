@@ -1,10 +1,10 @@
 import { useLocale } from "next-intl";
 import Slider from "rc-slider";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import "rc-slider/assets/index.css";
-import type { CSSProperties } from "react";
 
 import STYLES from "./WorksSlider.module.scss";
+import { formatDay } from "../utils/mapParams";
 
 const COLOR_SECONDARY = "rgb(153, 131, 100)";
 const COLOR_RAIL = "rgb(64, 66, 67)";
@@ -20,16 +20,6 @@ type Props = {
   clampMax?: number;
 };
 
-function formatDay(dayNum: number, locale: string): string {
-  const d = new Date(dayNum * 86400000);
-  const formatted = d.toLocaleDateString(locale === "en" ? "en-GB" : locale, {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  });
-  return formatted.charAt(0).toUpperCase() + formatted.slice(1);
-}
-
 export function WorksSlider({
   dateRange,
   onChange,
@@ -41,47 +31,6 @@ export function WorksSlider({
 }: Props) {
   const locale = useLocale();
   const [dragging, setDragging] = useState<[number, number] | null>(null);
-  const [isMobile, setIsMobile] = useState(
-    () =>
-      typeof window !== "undefined" &&
-      window.matchMedia("(max-width: 32rem)").matches,
-  );
-  const [isTablet, setIsTablet] = useState(
-    () =>
-      typeof window !== "undefined" &&
-      window.matchMedia("(min-width: 32rem) and (max-width: 56rem)").matches,
-  );
-
-  useEffect(() => {
-    const mqMobile = window.matchMedia("(max-width: 32rem)");
-    const mqTablet = window.matchMedia(
-      "(min-width: 32rem) and (max-width: 56rem)",
-    );
-    const handleMobile = (e: MediaQueryListEvent) => setIsMobile(e.matches);
-    const handleTablet = (e: MediaQueryListEvent) => setIsTablet(e.matches);
-    mqMobile.addEventListener("change", handleMobile);
-    mqTablet.addEventListener("change", handleTablet);
-    return () => {
-      mqMobile.removeEventListener("change", handleMobile);
-      mqTablet.removeEventListener("change", handleTablet);
-    };
-  }, []);
-
-  const markStyle: CSSProperties = {
-    color: COLOR_SECONDARY,
-    fontSize: "0.85rem",
-    whiteSpace: "nowrap",
-  };
-
-  const totalMarks = isMobile ? 4 : isTablet ? 5 : 6;
-
-  const marks: Record<number, { style: CSSProperties; label: string }> = {};
-  const range = maxMonth - minMonth;
-  Array.from({ length: totalMarks }, (_, i) =>
-    Math.round(minMonth + (i * range) / (totalMarks - 1)),
-  ).forEach((d) => {
-    marks[d] = { style: markStyle, label: formatDay(d, locale) };
-  });
 
   return (
     <div className={STYLES.slider}>

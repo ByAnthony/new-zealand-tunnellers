@@ -5,6 +5,7 @@ import { SubwayData } from "@/utils/database/queries/subwaysQuery";
 import { WorkData } from "@/utils/database/queries/worksQuery";
 
 import STYLES from "./InfoBar.module.scss";
+import { formatDateParam } from "../utils/mapParams";
 
 type Props = {
   work: WorkData | null;
@@ -19,17 +20,6 @@ type Props = {
   stackIndex?: number;
   onNavigate?: (direction: 1 | -1) => void;
 };
-
-function formatDate(dateStr: string, locale: string): string {
-  return new Date(dateStr).toLocaleDateString(
-    locale === "en" ? "en-GB" : locale,
-    {
-      day: "numeric",
-      month: "long",
-      year: "numeric",
-    },
-  );
-}
 
 function getAnimClass(
   isExiting: boolean,
@@ -92,14 +82,14 @@ export function InfoBar({
                     {hasTwoDates ? t("start") : t("date")}
                   </span>
                   <span className={STYLES["info-bar-value"]}>
-                    {formatDate(displayStart, locale)}
+                    {formatDateParam(displayStart, locale)}
                   </span>
                 </div>
                 {hasTwoDates && (
                   <div className={STYLES["info-bar-field"]}>
                     <span className={STYLES["info-bar-label"]}>{t("end")}</span>
                     <span className={STYLES["info-bar-value"]}>
-                      {formatDate(displayEnd, locale)}
+                      {formatDateParam(displayEnd, locale)}
                     </span>
                   </div>
                 )}
@@ -230,14 +220,14 @@ export function InfoBar({
                   {hasTwoDates ? t("start") : t("date")}
                 </span>
                 <span className={STYLES["info-bar-value"]}>
-                  {formatDate(displayStart, locale)}
+                  {formatDateParam(displayStart, locale)}
                 </span>
               </div>
               {hasTwoDates && (
                 <div className={STYLES["info-bar-field"]}>
                   <span className={STYLES["info-bar-label"]}>{t("end")}</span>
                   <span className={STYLES["info-bar-value"]}>
-                    {formatDate(displayEnd, locale)}
+                    {formatDateParam(displayEnd, locale)}
                   </span>
                 </div>
               )}

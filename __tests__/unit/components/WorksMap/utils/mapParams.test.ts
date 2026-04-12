@@ -1,5 +1,9 @@
 import {
   dateToMonth,
+  dateToDay,
+  dayToParam,
+  formatDateParam,
+  formatDay,
   toSlug,
   monthToParam,
   paramToMonth,
@@ -34,6 +38,13 @@ describe("mapParams", () => {
     });
   });
 
+  describe("day params", () => {
+    test("converts YYYY-MM-DD to day number and back", () => {
+      const day = dateToDay("1917-03-15");
+      expect(dayToParam(day)).toBe("1917-03-15");
+    });
+  });
+
   describe("monthToParam", () => {
     test("converts month number to YYYY-MM string", () => {
       expect(monthToParam(1917 * 12 + 2)).toBe("1917-03");
@@ -64,6 +75,16 @@ describe("mapParams", () => {
     test("roundtrips with monthToParam", () => {
       const month = 1917 * 12 + 8;
       expect(paramToMonth(monthToParam(month))).toBe(month);
+    });
+  });
+
+  describe("date formatting", () => {
+    test("formats date params as calendar dates", () => {
+      expect(formatDateParam("1917-01-01", "en")).toBe("1 January 1917");
+    });
+
+    test("formats day numbers without timezone drift", () => {
+      expect(formatDay(dateToDay("1917-01-01"), "en")).toBe("1 January 1917");
     });
   });
 });

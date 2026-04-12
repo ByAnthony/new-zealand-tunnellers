@@ -206,6 +206,7 @@ export function WorksMap({
   const stackedWorksRef = useRef<WorkData[]>([]);
   const stackIndexRef = useRef(0);
   const pendingStackIndexRef = useRef<number | null>(null);
+  const pendingFilterFitRef = useRef(false);
   const [stackIndex, setStackIndex] = useState(0);
   const [stackTotal, setStackTotal] = useState(0);
   const [animType, setAnimType] = useState<
@@ -385,27 +386,32 @@ export function WorksMap({
       .filter(({ marker }) => map.hasLayer(marker))
       .map(({ marker }) => marker.getLatLng());
     let bounds = points.length > 0 ? L.latLngBounds(points) : null;
-    polylinesByWorkIdRef.current.forEach((polylines) => {
+    const extendWithPolylineBounds = (polylines: L.Polyline[]) => {
       polylines.forEach((pl) => {
         if (!map.hasLayer(pl)) return;
         const plBounds = pl.getBounds();
         if (!plBounds.isValid()) return;
         bounds = bounds ? bounds.extend(plBounds) : plBounds;
       });
+    };
+    polylinesByWorkIdRef.current.forEach((polylines) => {
+      extendWithPolylineBounds(polylines);
+    });
+    const { visibleIds } = getVisibleFrontLines(
+      frontLines,
+      dateRange,
+      isPeriodActive,
+      dateToDay,
+    );
+    visibleIds.forEach((id) => {
+      const polylines = frontLinePolylinesByIdRef.current.get(id) ?? [];
+      extendWithPolylineBounds(polylines);
     });
     if (!bounds || !bounds.isValid()) return;
-    const zoom = map.getBoundsZoom(bounds, false);
-    // Arras: works spread across a wide area, no zoom adjustment needed.
-    // Hundred Days prep: works are more spread out, zoom out one extra level.
-    // Other periods: zoom - 1 to avoid over-zooming on tightly clustered works.
-    const isArras = periodKeyRef.current === "1916-11-16/1917-04-09";
-    const isHundredDaysPrep = periodKeyRef.current === "1918-07-15/1918-09-26";
-    const zoomAdjust = isArras ? 1 : isHundredDaysPrep ? 2 : 1;
     map.fitBounds(bounds, {
       padding: [30, 30],
-      maxZoom: Math.max(zoom - zoomAdjust, 10),
     });
-  }, []);
+  }, [frontLines, dateRange, isPeriodActive]);
 
   const closeInfo = useCallback(() => {
     if (selectedMarkerRef.current) {
@@ -941,12 +947,86 @@ export function WorksMap({
     isPeriodActive,
   ]);
 
+  useEffect(() => {
+    if (!pendingFilterFitRef.current) return;
+    pendingFilterFitRef.current = false;
+    fitToVisibleWorks();
+  }, [dateRange, selectedTypes, isPeriodActive, fitToVisibleWorks]);
+
   const prevSelectedTypesRef = useRef(selectedTypes);
   useEffect(() => {
     if (prevSelectedTypesRef.current === selectedTypes) return;
     prevSelectedTypesRef.current = selectedTypes;
     fitToVisibleWorks();
   }, [selectedTypes, fitToVisibleWorks]);
+
+  const isDisplayedWorkVisible = useCallback(
+    (work: WorkData | null): boolean => {
+      if (!work) return false;
+      const idx = works.findIndex((w) => w.work_id === work.work_id);
+      if (idx === -1) return false;
+      const [c1, c2] = getWorkCategories(work, locale);
+      return isWorkVisible(
+        allMonths[idx].start,
+        allMonths[idx].end,
+        c1,
+        c2,
+        dateRange,
+        selectedTypes,
+      );
+    },
+    [works, locale, allMonths, dateRange, selectedTypes],
+  );
+
+  const isDisplayedSubwayVisible = useCallback(
+    (subway: SubwayData | null): boolean => {
+      if (!subway) return false;
+      const filterActive = selectedTypes.size > 0;
+      const subwayTypeSelected = selectedTypes.has(
+        slugToName.get("subway") ?? "",
+      );
+      let visible = !filterActive || subwayTypeSelected;
+      if (visible && subway.subway_date_start) {
+        const start = dateToDay(subway.subway_date_start);
+        const end = dateToDay(
+          subway.subway_date_end ?? subway.subway_date_start,
+        );
+        visible = start <= dateRange[1] && end >= dateRange[0];
+      }
+      return visible;
+    },
+    [dateRange, selectedTypes, slugToName],
+  );
+
+  const isDisplayedCaveVisible = useCallback(
+    (cave: CaveData | null): boolean => {
+      if (!cave) return false;
+      const filterActive = selectedTypes.size > 0;
+      const subwayTypeSelected = selectedTypes.has(
+        slugToName.get("subway") ?? "",
+      );
+      return !filterActive || subwayTypeSelected;
+    },
+    [selectedTypes, slugToName],
+  );
+
+  useEffect(() => {
+    const hasInvalidSelection =
+      (displayedWork !== null && !isDisplayedWorkVisible(displayedWork)) ||
+      (displayedSubway !== null &&
+        !isDisplayedSubwayVisible(displayedSubway)) ||
+      (displayedCave !== null && !isDisplayedCaveVisible(displayedCave));
+    if (!hasInvalidSelection) return;
+    closeInfo();
+  }, [
+    displayedWork,
+    displayedSubway,
+    displayedCave,
+    isDisplayedWorkVisible,
+    isDisplayedSubwayVisible,
+    isDisplayedCaveVisible,
+    closeInfo,
+  ]);
 
   // Open work/cave from URL param — must run after all other effects
   useEffect(() => {
@@ -958,7 +1038,11 @@ export function WorksMap({
         const subway = subways.find((s) => s.subway_id === initialSubwayId);
         const polylines =
           subwayPolylinesBySubwayIdRef.current.get(initialSubwayId) ?? [];
-        if (subway && polylines.length > 0) {
+        if (
+          subway &&
+          polylines.length > 0 &&
+          isDisplayedSubwayVisible(subway)
+        ) {
           polylines.forEach((pl) =>
             pl.setStyle({ color: MARKER_COLOR_ACTIVE, opacity: 1 }),
           );
@@ -974,7 +1058,7 @@ export function WorksMap({
         const cave = caves.find((c) => c.cave_id === initialCaveId);
         const polygons =
           cavePolygonsByCaveIdRef.current.get(initialCaveId) ?? [];
-        if (cave && polygons.length > 0) {
+        if (cave && polygons.length > 0 && isDisplayedCaveVisible(cave)) {
           polygons.forEach((pl) =>
             pl.setStyle({
               color: MARKER_COLOR_ACTIVE,
@@ -1003,7 +1087,7 @@ export function WorksMap({
       // Try polyline
       const polylines = polylinesByWorkIdRef.current.get(initialWorkId) ?? [];
       const work = works.find((w) => w.work_id === initialWorkId);
-      if (work && polylines.length > 0) {
+      if (work && polylines.length > 0 && isDisplayedWorkVisible(work)) {
         polylines.forEach((pl) =>
           pl.setStyle({ color: MARKER_COLOR_ACTIVE, opacity: 1 }),
         );
@@ -1018,7 +1102,15 @@ export function WorksMap({
       }
     }, 0);
     return () => clearTimeout(timer);
-  }, [subways, caves, works, selectWork]);
+  }, [
+    subways,
+    caves,
+    works,
+    selectWork,
+    isDisplayedWorkVisible,
+    isDisplayedSubwayVisible,
+    isDisplayedCaveVisible,
+  ]);
 
   const visibleCount = works.filter((w, i) => {
     const [cat1, cat2] = getWorkCategories(w, locale);
@@ -1065,9 +1157,9 @@ export function WorksMap({
         setDateRange([pMin, pMax]);
       }
       setSelectedTypes(types);
-      setTimeout(fitToVisibleWorks, 0);
+      pendingFilterFitRef.current = true;
     },
-    [closeInfo, fitToVisibleWorks, minMonth, maxMonth],
+    [closeInfo, minMonth, maxMonth],
   );
 
   const [currentZoom, setCurrentZoom] = useState<number | null>(null);

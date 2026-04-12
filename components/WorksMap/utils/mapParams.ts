@@ -7,6 +7,15 @@ export function dateToDay(dateStr: string): number {
   return Math.floor(new Date(dateStr).getTime() / 86400000);
 }
 
+function getLocaleTag(locale: string): string {
+  return locale === "en" ? "en-GB" : locale;
+}
+
+function parseDateOnlyAsUTC(dateStr: string): Date {
+  const [year, month, day] = dateStr.split("-").map(Number);
+  return new Date(Date.UTC(year, month - 1, day));
+}
+
 export function dayToParam(day: number): string {
   return new Date(day * 86400000).toISOString().split("T")[0];
 }
@@ -30,4 +39,24 @@ export function paramToMonth(param: string): number | null {
   const match = param.match(/^(\d{4})-(\d{2})$/);
   if (!match) return null;
   return Number(match[1]) * 12 + (Number(match[2]) - 1);
+}
+
+export function formatDateParam(dateStr: string, locale: string): string {
+  return parseDateOnlyAsUTC(dateStr).toLocaleDateString(getLocaleTag(locale), {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+    timeZone: "UTC",
+  });
+}
+
+export function formatDay(dayNum: number, locale: string): string {
+  return new Date(dayNum * 86400000)
+    .toLocaleDateString(getLocaleTag(locale), {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+      timeZone: "UTC",
+    })
+    .replace(/^./, (char) => char.toUpperCase());
 }
