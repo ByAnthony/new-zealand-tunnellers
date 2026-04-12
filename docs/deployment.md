@@ -1,10 +1,10 @@
 # Deployment
 
-This document is a step by step guide on how to deploy a Next.js App to [N0C](https://kb.n0c.com/en/what-is-n0c/).
+This document explains how this project is deployed to [N0C](https://kb.n0c.com/en/what-is-n0c/) and how the current GitHub Actions rollout works.
 
-## Prerequisite
+## Prerequisites
 
-### Next.js Custom Server
+### Next.js custom server
 
 To be able to use your Next.js app with N0C, you will have to use a [custom server](https://github.com/vercel/next.js/tree/canary/examples/custom-server):
 
@@ -14,12 +14,12 @@ To be able to use your Next.js app with N0C, you will have to use a [custom serv
 npm install cross-env nodemon
 ```
 
-2. Copy and add the following files to the root of your application:
+1. Copy and add the following files to the root of your application:
    1. [`server.ts`](https://github.com/ByAnthony/newzealandtunnellers/blob/04cb75b6812fc5391fb79412c718d8e0c8e1c6ba/server.ts);
    2. [`nodemon.json`](https://github.com/ByAnthony/newzealandtunnellers/blob/04cb75b6812fc5391fb79412c718d8e0c8e1c6ba/nodemon.json);
    3. [`tsconfig.server.json`](https://github.com/ByAnthony/newzealandtunnellers/blob/04cb75b6812fc5391fb79412c718d8e0c8e1c6ba/tsconfig.server.json).
 
-3. Modify your scripts in the `package.json`:
+2. Modify your scripts in the `package.json`:
 
 ```json
 "scripts": {
@@ -49,7 +49,7 @@ Server entry point is `server.ts` in development and `dist/server.js` in product
    };
    ```
 
-### N0C Setup
+### N0C setup
 
 1. Go to **Node.js** in the Languages Section of your N0C;
 2. Click **Create**:
@@ -64,17 +64,27 @@ This setup creates a folder according to the application root your have mentione
 
 ## GitHub Actions
 
-The entire deployment process can easily be automated through GitHub Actions. This depends of your needs and complexity of your web application. For an example, please refer to [my workflow](https://github.com/ByAnthony/newzealandtunnellers/blob/04cb75b6812fc5391fb79412c718d8e0c8e1c6ba/.github/workflows/nztunnellers.yml).
+The repository uses a single workflow at [`.github/workflows/nztunnellers.yml`](../.github/workflows/nztunnellers.yml).
 
-### SSH Key
+On `push` to `main`, the workflow currently runs three stages:
+
+1. `checks-and-run-tests`
+2. `run-e2e-tests`
+3. `deployment`
+
+On pull requests, the deployment job is skipped.
+
+### SSH key
 
 Setup an SSH key (without passphrase) to being able to access your server. You can add it in **SSH Keys** in the Files section of your N0C.
 
 ### Database
 
-If your web application depends on a database, you will need to access it at build time. The only way I found was to connect to my server and export the database. This is then imported into GitHub Actions and set it up with the same mysql credentials as the production database.
+This application needs database access at build time. The current workflow exports the production MariaDB database over SSH, copies the dump into the GitHub runner, and imports it into the MariaDB service used during build and E2E execution.
 
-### Environment Variables
+That logic lives in the composite action at [`.github/actions/setup-and-build/action.yml`](../.github/actions/setup-and-build/action.yml).
+
+### Environment variables
 
 If you need a `.env` file, add your own variables by simply running this script:
 
@@ -85,15 +95,22 @@ If you need a `.env` file, add your own variables by simply running this script:
         ...
 ```
 
-This file will be picked up by the `build` step.
+This file is then used by the `build` step.
 
-### Build And Sync Files
+### Build and sync files
 
-You should then be able to run `npm run build`.
+The current deployment job:
 
-To sync your modified files, the `.next` and `/dist/` folders, use [SamKirkland/FTP-Deploy-Action](https://github.com/SamKirkland/FTP-Deploy-Action). Don't forget to exclude files and folder which are not needed to run your application in production.
+- installs dependencies
+- builds the app with `npm run build`
+- uploads the build output with [SamKirkland/FTP-Deploy-Action](https://github.com/SamKirkland/FTP-Deploy-Action)
+- restarts the Node.js app on N0C
 
-### Restart Server Automatically
+The FTP sync currently uploads the built `.next` output file by file. This works, but it is the slowest part of the rollout because Next.js generates many small files under `.next/server/app/**` and `.next/static/**`. Even relatively small content or UI changes can therefore trigger a long sync.
+
+The current excludes are defined directly in the workflow and should be kept in sync with the runtime needs of the custom server.
+
+### Restart server automatically
 
 N0C uses `nodevenv` to set the desired Node.js version for your web application. Therefore, when connecting to your server, run:
 
@@ -101,7 +118,7 @@ N0C uses `nodevenv` to set the desired Node.js version for your web application.
 source nodevenv/${folder-where-your-application-lives}/${node-version}/bin/activate
 ```
 
-**Note**: the Node version should just be `22` if your are using `22.9.0` for example.
+**Note**: the Node version should just be `22` if you are using a `22.x.x` release.
 
 Then:
 
@@ -115,7 +132,15 @@ Finally, create a `restart.txt` which needs to be added to the `/tmp/` folder:
 touch ~/${folder-where-your-application-lives}/tmp/restart.txt
 ```
 
-This will restart your application automatically after a new rollout.
+This restarts the application after a new rollout.
+
+### Current deployment limitations
+
+- the deployment job rebuilds the app instead of reusing a build artifact from the test jobs
+- the FTP sync step is slow for `.next` output because it transfers many small files
+- the server restart step currently runs `npm ci` on the host before touching `tmp/restart.txt`
+
+If deploy time becomes a recurring issue, the first thing to review is the FTP sync strategy.
 
 ### Updating Node.js
 
