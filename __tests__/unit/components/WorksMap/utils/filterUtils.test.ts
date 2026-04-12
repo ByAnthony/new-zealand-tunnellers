@@ -300,4 +300,51 @@ describe("getVisibleFrontLines", () => {
     // latest british = 2, latest german = 4
     expect(latestIds).toEqual(new Set([2, 4]));
   });
+
+  test("does not include the next adjacent period when the selected range end drifts forward", () => {
+    const frontLines = [
+      mockFrontLine({
+        front_line_id: 9,
+        front_line_date: "1918-03-21",
+        front_line_side: "british",
+        front_line_period_start: "1918-03-21",
+        front_line_period_end: "1918-07-14",
+      }),
+      mockFrontLine({
+        front_line_id: 10,
+        front_line_date: "1918-03-21",
+        front_line_side: "german",
+        front_line_period_start: "1918-03-21",
+        front_line_period_end: "1918-07-14",
+      }),
+      mockFrontLine({
+        front_line_id: 11,
+        front_line_date: "1918-07-15",
+        front_line_side: "british",
+        front_line_period_start: "1918-07-15",
+        front_line_period_end: "1918-08-08",
+      }),
+      mockFrontLine({
+        front_line_id: 12,
+        front_line_date: "1918-07-15",
+        front_line_side: "german",
+        front_line_period_start: "1918-07-15",
+        front_line_period_end: "1918-08-08",
+      }),
+    ];
+    const driftedRange: [number, number] = [
+      dateToDay("1918-03-21"),
+      dateToDay("1918-07-15"),
+    ];
+
+    const { visibleIds, latestIds } = getVisibleFrontLines(
+      frontLines,
+      driftedRange,
+      true,
+      dateToDay,
+    );
+
+    expect(visibleIds).toEqual(new Set([9, 10]));
+    expect(latestIds).toEqual(new Set([9, 10]));
+  });
 });

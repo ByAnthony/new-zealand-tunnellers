@@ -24,14 +24,14 @@ test("switching map periods replaces the active period in the URL", async ({
   await filtersButton.click();
   await page
     .getByRole("button", {
-      name: /Preparations for the Hundred Days Offensive/i,
+      name: /Preparations for the Allied Offensives/i,
     })
     .click();
   await page.getByRole("button", { name: "Done" }).click();
 
   await expect(page).toHaveURL(/period=true/);
   await expect(page).toHaveURL(/from=1918-07-15/);
-  await expect(page).toHaveURL(/to=1918-09-26/);
+  await expect(page).toHaveURL(/to=1918-08-21/);
   await expect(page).not.toHaveURL(/1916-11-16|1917-04-09/);
 });
 
@@ -44,7 +44,7 @@ test("deep-link restore opens a visible work and ignores the same work when hidd
   await expect(page.getByText(J3_WORK_NAME, { exact: true })).toBeVisible();
 
   await page.goto(
-    `/maps/tunnellers-works?work=${J3_WORK_ID}&period=true&from=1918-07-15&to=1918-09-26`,
+    `/maps/tunnellers-works?work=${J3_WORK_ID}&period=true&from=1918-07-15&to=1918-08-21`,
   );
   await expect(page.getByText(J3_WORK_NAME, { exact: true })).not.toBeVisible();
 });
@@ -59,7 +59,7 @@ test("changing to a period that excludes the selected work closes the info bar",
   await filtersButton.click();
   await page
     .getByRole("button", {
-      name: /Preparations for the Hundred Days Offensive/i,
+      name: /Preparations for the Allied Offensives/i,
     })
     .click();
   await page.getByRole("button", { name: "Done" }).click();
