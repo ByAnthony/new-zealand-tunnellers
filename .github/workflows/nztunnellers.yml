@@ -100,6 +100,8 @@ jobs:
             next.config.mjs
             tsconfig.server.json
             server.ts
+            i18n/request.ts
+            i18n/routing.ts
             utils/imageLoader.ts
             messages
 
