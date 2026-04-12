@@ -149,7 +149,15 @@
   "maps": {
     "cardTitle": "Tunnellers\u2019 Works",
     "cardDescription": "From underground shelters to bridges, the New Zealand Tunnelling Company left its mark across the Arras front. This interactive map charts the works recorded in the company\u2019s war diary between March 1916 and December 1918 \u2014 each one precisely located using the original British Army trench map grid.",
-    "cardBadge": "Map"
+    "cardBadge": "Map",
+    "title": "Tunnellers\u2019 Works",
+    "work": "work",
+    "works": "works",
+    "section": "Section",
+    "date": "Work date",
+    "start": "Work started",
+    "end": "Ended",
+    "coordinates": "Coordinates"
   },
   "books": {
     "readingProgress": "Reading progress",

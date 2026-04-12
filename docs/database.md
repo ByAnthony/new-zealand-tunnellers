@@ -3,7 +3,8 @@
 The database holds data for:
 
 - [History](#history): everything related to the articles for the company history;
-- [Tunnellers](#tunnellers): everything related to the profiles and timelines of the tunnellers.
+- [Tunnellers](#tunnellers): everything related to the profiles and timelines of the tunnellers;
+- [Works Map](#works-map): geographical data for the interactive tunnelling works map.
 
 ## History
 
@@ -130,6 +131,28 @@ The database holds data for:
 | nz_archives          | `nz_archives_t_id`          | tunneller              | `id`                        |
 | event_join           | `event_t_id`                | tunneller              | `id`                        |
 | event_join           | `event_fk`                  | event                  | `event_id`                  |
+
+## Works Map
+
+| Table                               | Description                                               |
+| ----------------------------------- | --------------------------------------------------------- |
+| [work](#work)                       | Main tunnelling works shown on the interactive map        |
+| [work_path](#work-path)             | Polyline geometry for works that are represented as paths |
+| [cave](#cave)                       | Caves and quarries shown on the map                       |
+| [cave_path](#cave-path)             | Polyline geometry for caves represented as paths          |
+| [subway](#subway)                   | Underground galleries and subways shown on the map        |
+| [subway_path](#subway-path)         | Polyline geometry for subways represented as paths        |
+| [front_line](#front-line)           | Front lines used for selected historical periods          |
+| [front_line_path](#front-line-path) | Polyline geometry for each front line                     |
+
+### Works Map Foreign Key Relationships
+
+| Table           | Column          | Table      | Column          |
+| --------------- | --------------- | ---------- | --------------- |
+| work_path       | `work_id`       | work       | `work_id`       |
+| cave_path       | `cave_id`       | cave       | `cave_id`       |
+| subway_path     | `subway_id`     | subway     | `subway_id`     |
+| front_line_path | `front_line_id` | front_line | `front_line_id` |
 
 ## Tables Details
 
@@ -707,3 +730,118 @@ The database holds data for:
 | `event_fk`       | `int`      | Foreign | -       | Reference to event lookup table  |
 
 [↑ Back to Tunnellers Tables](#tunnellers)
+
+### Work
+
+| Column               | Type           | Key     | Default | Description                              |
+| -------------------- | -------------- | ------- | ------- | ---------------------------------------- |
+| `work_id`            | `int`          | Primary | -       | Primary key                              |
+| `work_name`          | `varchar`      | -       | -       | Work name in English                     |
+| `work_name_fr`       | `varchar`      | -       | `NULL`  | Work name in French                      |
+| `work_type_en`       | `varchar`      | -       | `NULL`  | Work type in English                     |
+| `work_type_fr`       | `varchar`      | -       | `NULL`  | Work type in French                      |
+| `work_category_1_en` | `varchar`      | -       | `NULL`  | Main category in English                 |
+| `work_category_1_fr` | `varchar`      | -       | `NULL`  | Main category in French                  |
+| `work_category_2_en` | `varchar`      | -       | `NULL`  | Secondary category in English            |
+| `work_category_2_fr` | `varchar`      | -       | `NULL`  | Secondary category in French             |
+| `work_section`       | `tinyint`      | -       | `NULL`  | Company section associated with the work |
+| `work_date_start`    | `date`         | -       | `NULL`  | Start date of the work                   |
+| `work_date_end`      | `date`         | -       | `NULL`  | End date of the work                     |
+| `work_latitude`      | `decimal(9,6)` | -       | `NULL`  | Marker latitude                          |
+| `work_longitude`     | `decimal(9,6)` | -       | `NULL`  | Marker longitude                         |
+| `work_note_en`       | `text`         | -       | `NULL`  | Additional note in English               |
+| `work_note_fr`       | `text`         | -       | `NULL`  | Additional note in French                |
+
+[↑ Back to Works Map Tables](#works-map)
+
+### Work Path
+
+| Column        | Type           | Key     | Default | Description                            |
+| ------------- | -------------- | ------- | ------- | -------------------------------------- |
+| `work_id`     | `int`          | Foreign | -       | Related work                           |
+| `segment`     | `int`          | -       | -       | Segment number for multi-part geometry |
+| `point_order` | `int`          | -       | -       | Point ordering inside the segment      |
+| `latitude`    | `decimal(9,6)` | -       | -       | Point latitude                         |
+| `longitude`   | `decimal(9,6)` | -       | -       | Point longitude                        |
+
+[↑ Back to Works Map Tables](#works-map)
+
+### Cave
+
+| Column           | Type           | Key     | Default | Description          |
+| ---------------- | -------------- | ------- | ------- | -------------------- |
+| `cave_id`        | `int`          | Primary | -       | Primary key          |
+| `cave_name_en`   | `varchar`      | -       | -       | Cave name in English |
+| `cave_name_fr`   | `varchar`      | -       | -       | Cave name in French  |
+| `cave_type_en`   | `varchar`      | -       | -       | Cave type in English |
+| `cave_type_fr`   | `varchar`      | -       | -       | Cave type in French  |
+| `cave_latitude`  | `decimal(9,6)` | -       | -       | Marker latitude      |
+| `cave_longitude` | `decimal(9,6)` | -       | -       | Marker longitude     |
+
+[↑ Back to Works Map Tables](#works-map)
+
+### Cave Path
+
+| Column        | Type           | Key     | Default | Description                            |
+| ------------- | -------------- | ------- | ------- | -------------------------------------- |
+| `cave_id`     | `int`          | Foreign | -       | Related cave                           |
+| `segment`     | `int`          | -       | -       | Segment number for multi-part geometry |
+| `point_order` | `int`          | -       | -       | Point ordering inside the segment      |
+| `latitude`    | `decimal(9,6)` | -       | -       | Point latitude                         |
+| `longitude`   | `decimal(9,6)` | -       | -       | Point longitude                        |
+
+[↑ Back to Works Map Tables](#works-map)
+
+### Subway
+
+| Column              | Type           | Key     | Default | Description                |
+| ------------------- | -------------- | ------- | ------- | -------------------------- |
+| `subway_id`         | `int`          | Primary | -       | Primary key                |
+| `subway_name_en`    | `varchar`      | -       | -       | Subway name in English     |
+| `subway_name_fr`    | `varchar`      | -       | -       | Subway name in French      |
+| `subway_type_en`    | `varchar`      | -       | -       | Subway type in English     |
+| `subway_type_fr`    | `varchar`      | -       | -       | Subway type in French      |
+| `subway_date_start` | `date`         | -       | `NULL`  | Start date                 |
+| `subway_date_end`   | `date`         | -       | `NULL`  | End date                   |
+| `subway_latitude`   | `decimal(9,6)` | -       | -       | Marker latitude            |
+| `subway_longitude`  | `decimal(9,6)` | -       | -       | Marker longitude           |
+| `subway_note_en`    | `text`         | -       | `NULL`  | Additional note in English |
+| `subway_note_fr`    | `text`         | -       | `NULL`  | Additional note in French  |
+
+[↑ Back to Works Map Tables](#works-map)
+
+### Subway Path
+
+| Column        | Type           | Key     | Default | Description                            |
+| ------------- | -------------- | ------- | ------- | -------------------------------------- |
+| `subway_id`   | `int`          | Foreign | -       | Related subway                         |
+| `segment`     | `int`          | -       | -       | Segment number for multi-part geometry |
+| `point_order` | `int`          | -       | -       | Point ordering inside the segment      |
+| `latitude`    | `decimal(9,6)` | -       | -       | Point latitude                         |
+| `longitude`   | `decimal(9,6)` | -       | -       | Point longitude                        |
+
+[↑ Back to Works Map Tables](#works-map)
+
+### Front Line
+
+| Column                    | Type      | Key     | Default | Description                           |
+| ------------------------- | --------- | ------- | ------- | ------------------------------------- |
+| `front_line_id`           | `int`     | Primary | -       | Primary key                           |
+| `front_line_date`         | `date`    | -       | -       | Date represented by the front line    |
+| `front_line_side`         | `varchar` | -       | -       | Side of the line, e.g. British/German |
+| `front_line_period_start` | `date`    | -       | -       | Period start used by map filters      |
+| `front_line_period_end`   | `date`    | -       | -       | Period end used by map filters        |
+
+[↑ Back to Works Map Tables](#works-map)
+
+### Front Line Path
+
+| Column          | Type           | Key     | Default | Description                            |
+| --------------- | -------------- | ------- | ------- | -------------------------------------- |
+| `front_line_id` | `int`          | Foreign | -       | Related front line                     |
+| `segment`       | `int`          | -       | -       | Segment number for multi-part geometry |
+| `point_order`   | `int`          | -       | -       | Point ordering inside the segment      |
+| `latitude`      | `decimal(9,6)` | -       | -       | Point latitude                         |
+| `longitude`     | `decimal(9,6)` | -       | -       | Point longitude                        |
+
+[↑ Back to Works Map Tables](#works-map)
