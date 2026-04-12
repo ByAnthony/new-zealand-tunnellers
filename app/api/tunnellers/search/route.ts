@@ -11,9 +11,8 @@ function isLocale(value: string | null): value is Locale {
 export async function GET(request: NextRequest) {
   const { searchParams } = request.nextUrl;
   const query = searchParams.get("query")?.trim() ?? "";
-  const locale = isLocale(searchParams.get("locale"))
-    ? searchParams.get("locale")
-    : "en";
+  const requestedLocale = searchParams.get("locale");
+  const locale: Locale = isLocale(requestedLocale) ? requestedLocale : "en";
 
   if (query.length === 0) {
     return NextResponse.json([]);
