@@ -418,6 +418,44 @@ exports[`Homepage matches the snapshot for mobile viewport 1`] = `
       >
         <a
           class="card"
+          href="/maps/tunnellers-works"
+        >
+          <div
+            class="card-content"
+          >
+            <div
+              class="card-header"
+            >
+              <h3
+                class="title"
+              >
+                Tunnellers’ Works
+              </h3>
+              <div
+                class="badge"
+              >
+                Map
+              </div>
+            </div>
+            <p
+              class="description"
+            >
+              From underground shelters to bridges, the New Zealand Tunnelling Company left its mark across the Arras front. This interactive map charts the works recorded in the company’s war diary between March 1916 and December 1918 — each one precisely located using the original British Army trench map grid.
+            </p>
+          </div>
+          <div
+            class="button-base"
+          >
+            <div
+              class="arrow"
+              style="margin-left: auto;"
+            >
+              →
+            </div>
+          </div>
+        </a>
+        <a
+          class="card"
           href="/books/kiwis-dig-tunnels-too"
         >
           <div
@@ -869,6 +907,44 @@ exports[`Homepage matches the snapshot for tablet/desktop viewports 1`] = `
       <div
         class="actions"
       >
+        <a
+          class="card"
+          href="/maps/tunnellers-works"
+        >
+          <div
+            class="card-content"
+          >
+            <div
+              class="card-header"
+            >
+              <h3
+                class="title"
+              >
+                Tunnellers’ Works
+              </h3>
+              <div
+                class="badge"
+              >
+                Map
+              </div>
+            </div>
+            <p
+              class="description"
+            >
+              From underground shelters to bridges, the New Zealand Tunnelling Company left its mark across the Arras front. This interactive map charts the works recorded in the company’s war diary between March 1916 and December 1918 — each one precisely located using the original British Army trench map grid.
+            </p>
+          </div>
+          <div
+            class="button-base"
+          >
+            <div
+              class="arrow"
+              style="margin-left: auto;"
+            >
+              →
+            </div>
+          </div>
+        </a>
         <a
           class="card"
           href="/books/kiwis-dig-tunnels-too"

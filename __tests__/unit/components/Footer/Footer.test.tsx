@@ -2,6 +2,10 @@ import { fireEvent, render, screen } from "@testing-library/react";
 
 import { Footer } from "@/components/Footer/Footer";
 
+jest.mock("next/navigation", () => ({
+  usePathname: jest.fn(() => "/"),
+}));
+
 const component = <Footer />;
 
 describe("Footer", () => {
