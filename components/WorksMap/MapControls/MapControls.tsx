@@ -44,18 +44,18 @@ const PERIODS = [
     fr: "Offensive allemande du printemps 1918",
   },
   {
-    key: "1918-07-15/1918-09-26",
+    key: "1918-07-15/1918-08-21",
     start: "1918-07-15",
-    end: "1918-09-26",
-    dates: "15/07/1918 — 26/09/1918",
-    en: "Preparations for the Hundred Days Offensive",
-    fr: "Préparatifs de l'offensive des Cent Jours",
+    end: "1918-08-21",
+    dates: "15/07/1918 — 21/08/1918",
+    en: "Preparations for the Allied Offensives",
+    fr: "Préparatifs des offensives alliées",
   },
   {
-    key: "1918-09-27/1918-12-27",
-    start: "1918-09-27",
+    key: "1918-09-26/1918-12-27",
+    start: "1918-09-26",
     end: "1918-12-27",
-    dates: "27/09/1918 — 27/12/1918",
+    dates: "26/09/1918 — 27/12/1918",
     en: "Bridging Operations",
     fr: "Opérations de ponts",
   },
@@ -80,6 +80,11 @@ type Props = {
     _types: Set<string>,
   ) => void;
   computeAvailableTypes: (_start: number, _end: number) => Set<string>;
+  computeVisibleCount: (
+    _start: number,
+    _end: number,
+    _types: Set<string>,
+  ) => number;
   currentZoom: number | null;
   onZoom: (_dir: 1 | -1) => void;
   totalWorks: number;
@@ -100,6 +105,7 @@ export function MapControls({
   initialPeriodKey,
   onApplyFilters,
   computeAvailableTypes,
+  computeVisibleCount,
   currentZoom,
   onZoom,
   totalWorks,
@@ -164,6 +170,15 @@ export function MapControls({
       : computeAvailableTypes(minMonth, maxMonth);
   }, [pendingPeriod, computeAvailableTypes, minMonth, maxMonth]);
 
+  const pendingVisibleCount = useMemo(() => {
+    const p = pendingPeriod
+      ? PERIODS.find((x) => x.key === pendingPeriod)
+      : null;
+    const start = p ? dateToDay(p.start) : minMonth;
+    const end = p ? dateToDay(p.end) : maxMonth;
+    return computeVisibleCount(start, end, pendingTypes);
+  }, [pendingPeriod, pendingTypes, computeVisibleCount, minMonth, maxMonth]);
+
   const hasActiveFilters = pendingPeriod !== null || pendingTypes.size > 0;
 
   const handleResetFilters = () => {
@@ -221,7 +236,7 @@ export function MapControls({
       isFooterEnabled={true}
       hasActiveFilters={hasActiveFilters}
       handleResetFilters={handleResetFilters}
-      totalFiltered={visibleCount}
+      totalFiltered={pendingVisibleCount}
       total={totalWorks}
     >
       <div className={STYLES["dialog-section"]}>

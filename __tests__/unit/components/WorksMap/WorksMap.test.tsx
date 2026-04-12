@@ -74,10 +74,10 @@ jest.mock("../../../../components/WorksMap/MapControls/MapControls", () => ({
                 _periodEnd: string | null,
                 _types: Set<string>,
               ) => void
-            )("1918-07-15/1918-09-26", "1918-07-15", "1918-09-26", new Set())
+            )("1918-07-15/1918-08-21", "1918-07-15", "1918-08-21", new Set())
           }
         >
-          Apply Hundred Days
+          Apply Allied Offensives
         </button>
       </div>
     );
@@ -408,7 +408,9 @@ describe("WorksMap", () => {
       expect(lastMapInstance?.fitBoundsCalls.at(-1)?.bounds.maxLat).toBe(12);
     });
 
-    fireEvent.click(screen.getByRole("button", { name: "Apply Hundred Days" }));
+    fireEvent.click(
+      screen.getByRole("button", { name: "Apply Allied Offensives" }),
+    );
     await waitFor(() => {
       expect(lastMapInstance?.fitBoundsCalls.at(-1)?.bounds.maxLat).toBe(52);
     });
@@ -426,7 +428,9 @@ describe("WorksMap", () => {
 
     expect(await screen.findByText("Visible Work")).toBeInTheDocument();
 
-    fireEvent.click(screen.getByRole("button", { name: "Apply Hundred Days" }));
+    fireEvent.click(
+      screen.getByRole("button", { name: "Apply Allied Offensives" }),
+    );
 
     await waitFor(() => {
       expect(screen.queryByText("Visible Work")).not.toBeInTheDocument();
@@ -435,12 +439,12 @@ describe("WorksMap", () => {
 
   test("does not restore a deep-linked work when current filters hide it", async () => {
     mockSearchParams = new URLSearchParams(
-      "work=1&period=true&from=1918-07-15&to=1918-09-26",
+      "work=1&period=true&from=1918-07-15&to=1918-08-21",
     );
     window.history.replaceState(
       {},
       "",
-      "/maps?work=1&period=true&from=1918-07-15&to=1918-09-26",
+      "/maps?work=1&period=true&from=1918-07-15&to=1918-08-21",
     );
 
     renderWorksMap();
