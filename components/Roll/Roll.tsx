@@ -43,6 +43,7 @@ export function Roll({ tunnellers }: Props) {
   const searchParams = useSearchParams();
   const router = useRouter();
   const isFirstRenderRef = useRef(true);
+  const previousSearchParamsRef = useRef(searchParams.toString());
 
   /** ---- Derived data ---- */
   const tunnellersList = useMemo(
@@ -126,15 +127,37 @@ export function Roll({ tunnellers }: Props) {
     ],
   );
 
-  /** ---- Initial state from URL params ---- */
-  const initialData = useMemo(
+  /** ---- URL-derived state ---- */
+  const parsedUrlState = useMemo(
     () => searchParamsToFilters(searchParams, filterLookups),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [],
+    [searchParams, filterLookups],
   );
 
-  const [filters, setFilters] = useState<Filters>(initialData.filters);
-  const [currentPage, setCurrentPage] = useState<number>(initialData.page);
+  const [filters, setFilters] = useState<Filters>(parsedUrlState.filters);
+  const [currentPage, setCurrentPage] = useState<number>(parsedUrlState.page);
+  const searchParamsString = searchParams.toString();
+
+  /** ---- Re-sync local state when URL changes after mount ---- */
+  useEffect(() => {
+    if (previousSearchParamsRef.current === searchParamsString) return;
+    previousSearchParamsRef.current = searchParamsString;
+    let cancelled = false;
+
+    queueMicrotask(() => {
+      if (cancelled) return;
+
+      if (!isEqual(filters, parsedUrlState.filters)) {
+        setFilters(parsedUrlState.filters);
+      }
+      if (currentPage !== parsedUrlState.page) {
+        setCurrentPage(parsedUrlState.page);
+      }
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [searchParamsString, parsedUrlState, filters, currentPage]);
 
   /** ---- Sync URL params when state changes ---- */
   useEffect(() => {
