@@ -136,12 +136,13 @@ jobs:
         run: |
           rsync -az --delete \
             --exclude ".next/cache/**" \
+            --exclude "tmp/" \
             -e "ssh -p 5022" \
             ./ deploy:~/$SERVER_DIR/
         env:
           SERVER_DIR: ${{ secrets.SERVER_DIR }}
 
       - name: Restart server
-        run: LANG="en_US.UTF-8" ; ssh -T -p 5022 deploy "source nodevenv/$SERVER_DIR/22/bin/activate && cd $SERVER_DIR && npm ci && touch ~/$SERVER_DIR/tmp/restart.txt"
+        run: LANG="en_US.UTF-8" ; ssh -T -p 5022 deploy "source nodevenv/$SERVER_DIR/22/bin/activate && cd $SERVER_DIR && HUSKY=0 npm ci && mkdir -p ~/$SERVER_DIR/tmp && touch ~/$SERVER_DIR/tmp/restart.txt"
         env:
           SERVER_DIR: ${{ secrets.SERVER_DIR }}
