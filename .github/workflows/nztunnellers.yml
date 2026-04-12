@@ -85,54 +85,61 @@ jobs:
       - name: Run tests
         run: npx playwright test
 
+      - name: Upload deployment artifact
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: production-build
+          retention-days: 1
+          path: |
+            .next
+            dist
+            public
+            package.json
+            package-lock.json
+            next.config.mjs
+            tsconfig.server.json
+            server.ts
+            messages
+
   deployment:
     if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
     needs: run-e2e-tests
-    services:
-      mariadb:
-        image: mariadb:10.6.21
-        ports:
-          - 3306:3306
-        env:
-          MYSQL_DATABASE: ${{ secrets.DATABASE }}
-          MYSQL_USER: ${{ secrets.USERNAME }}
-          MYSQL_PASSWORD: ${{ secrets.PASSWORD }}
-          MARIADB_ROOT_PASSWORD: ${{ secrets.PASSWORD }}
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
     steps:
-      - name: Checkout source code
-        uses: actions/checkout@v6.0.2
+      - name: Configure SSH
+        shell: bash
+        run: |
+          mkdir -p ~/.ssh
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/deploy.key
+          chmod 600 ~/.ssh/deploy.key
+          cat >>~/.ssh/config <<END
+          Host deploy
+            HostName $SSH_HOST
+            User $SSH_USER
+            IdentityFile ~/.ssh/deploy.key
+            StrictHostKeyChecking no
+          END
+        env:
+          SSH_HOST: ${{ secrets.SERVER }}
+          SSH_USER: ${{ secrets.USERNAME }}
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      - name: Setup and build web app
-        uses: ./.github/actions/setup-and-build
+      - name: Download deployment artifact
+        uses: actions/download-artifact@v4
         with:
-          host: ${{ secrets.SERVER }}
-          username: ${{ secrets.USERNAME }}
-          password: ${{ secrets.PASSWORD }}
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-          database: ${{ secrets.DATABASE }}
+          name: production-build
+          path: .
 
       - name: Sync files
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.6
-        with:
-          server: ${{ secrets.SERVER }}
-          username: ${{ secrets.USERNAME }}
-          password: ${{ secrets.PASSWORD }}
-          server-dir: ${{ secrets.SERVER_DIR }}/
-          exclude: |
-            .git/**
-            .github/**
-            .husky/**
-            __tests__/**
-            docs/**
-            .gitignore
-            README.md
-            jest.config.js
-            jest.setup.js
-            node_modules/**
-            playwright.config.js
-            .next/cache/**
+        shell: bash
+        run: |
+          rsync -az --delete \
+            --exclude ".next/cache/**" \
+            -e "ssh -p 5022" \
+            ./ deploy:~/$SERVER_DIR/
+        env:
+          SERVER_DIR: ${{ secrets.SERVER_DIR }}
 
       - name: Restart server
         run: LANG="en_US.UTF-8" ; ssh -T -p 5022 deploy "source nodevenv/$SERVER_DIR/22/bin/activate && cd $SERVER_DIR && npm ci && touch ~/$SERVER_DIR/tmp/restart.txt"
