@@ -33,6 +33,28 @@ test("can search for a name", async ({ page }) => {
   ).toBeVisible();
 });
 
+test("search fetches matches from the server route", async ({ page }) => {
+  await page.goto("/");
+
+  const searchRequestPromise = page.waitForRequest((request) => {
+    return (
+      request.url().includes("/api/tunnellers/search?") &&
+      request.method() === "GET"
+    );
+  });
+
+  await Promise.all([
+    searchRequestPromise,
+    page.locator("input").fill("joseph"),
+  ]);
+
+  const request = await searchRequestPromise;
+  expect(request.url()).toContain("query=joseph");
+  expect(request.url()).toContain("locale=en");
+
+  await expect(page.getByLabel("See Joseph Kelly profile")).toBeVisible();
+});
+
 test("can search and click on a name", async ({ page }) => {
   await page.goto("/");
 

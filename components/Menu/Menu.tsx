@@ -12,11 +12,7 @@ import { useWindowDimensions } from "@/utils/helpers/useWindowDimensions";
 
 import STYLES from "./Menu.module.scss";
 
-type Props = {
-  tunnellers: Tunneller[];
-};
-
-export function Menu({ tunnellers }: Props) {
+export function Menu() {
   const t = useTranslations("menu");
   const tNav = useTranslations("nav");
   const locale = useLocale();
@@ -29,10 +25,10 @@ export function Menu({ tunnellers }: Props) {
   const divRef = useRef<HTMLDivElement>(null);
   const searchFormRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const prevScrollPosRef = useRef(0);
 
   const router = useRouter();
 
-  const [prevScrollPos, setPrevScrollPos] = useState(0);
   const [menuVisible, setMenuVisible] = useState(true);
   const [filteredTunnellers, setFilteredTunnellers] = useState<Tunneller[]>([]);
   const [dropdownVisible, setDropdownVisible] = useState(false);
@@ -42,13 +38,13 @@ export function Menu({ tunnellers }: Props) {
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollPos = window.scrollY;
-      setMenuVisible(prevScrollPos > currentScrollPos);
-      setPrevScrollPos(currentScrollPos);
+      setMenuVisible(prevScrollPosRef.current > currentScrollPos);
+      prevScrollPosRef.current = currentScrollPos;
     };
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [prevScrollPos]);
+  }, []);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -94,20 +90,47 @@ export function Menu({ tunnellers }: Props) {
       window.visualViewport?.removeEventListener("resize", handleResize);
   }, []);
 
-  const handleSearch = (search: string) => {
-    const searchParts = search.toLowerCase().split(" ");
+  useEffect(() => {
+    if (query.length === 0) {
+      setFilteredTunnellers([]);
+      setDropdownVisible(false);
+      return;
+    }
 
-    setFilteredTunnellers(
-      search.length > 0
-        ? tunnellers.filter((tunneller: Tunneller) => {
-            const fullName = tunneller.search.fullName?.toLowerCase() ?? "";
-            return searchParts.every((part) => fullName.includes(part));
-          })
-        : [],
-    );
+    let isCancelled = false;
+    const controller = new AbortController();
 
-    setDropdownVisible(search.length > 0);
-  };
+    setDropdownVisible(true);
+
+    const searchTunnellers = async () => {
+      try {
+        const response = await fetch(
+          `/api/tunnellers/search?query=${encodeURIComponent(query)}&locale=${locale}`,
+          { signal: controller.signal },
+        );
+
+        if (!response.ok) {
+          throw new Error("Failed to search tunnellers");
+        }
+
+        const tunnellers: Tunneller[] = await response.json();
+        if (!isCancelled) {
+          setFilteredTunnellers(tunnellers);
+        }
+      } catch {
+        if (!controller.signal.aborted && !isCancelled) {
+          setFilteredTunnellers([]);
+        }
+      }
+    };
+
+    void searchTunnellers();
+
+    return () => {
+      isCancelled = true;
+      controller.abort();
+    };
+  }, [locale, query]);
 
   const handleClickInside = () => {
     if (!dropdownVisible) {
@@ -165,9 +188,7 @@ export function Menu({ tunnellers }: Props) {
             placeholder={t("searchPlaceholder")}
             value={query}
             onChange={(event) => {
-              const value = event.target.value;
-              setQuery(value);
-              handleSearch(value);
+              setQuery(event.target.value);
             }}
           />
 

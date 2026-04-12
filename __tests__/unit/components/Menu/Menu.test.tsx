@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { mockTunnellersData } from "__tests__/unit/utils/mocks/mockTunnellers";
 
 import { Menu } from "@/components/Menu/Menu";
@@ -17,10 +17,17 @@ mockedUseRouter.mockReturnValue({
 });
 
 describe("Menu", () => {
+  const fetchMock = jest.fn();
+
   beforeEach(() => {
     mockedUseRouter.mockReturnValue({
       refresh: jest.fn(),
     });
+    fetchMock.mockResolvedValue({
+      ok: true,
+      json: async () => mockTunnellersData,
+    });
+    global.fetch = fetchMock as unknown as typeof fetch;
   });
 
   afterEach(() => {
@@ -28,13 +35,13 @@ describe("Menu", () => {
   });
 
   test("matches the snapshot", () => {
-    const { asFragment } = render(<Menu tunnellers={mockTunnellersData} />);
+    const { asFragment } = render(<Menu />);
 
     expect(asFragment()).toMatchSnapshot();
   });
 
   test("renders the component correctly", () => {
-    render(<Menu tunnellers={mockTunnellersData} />);
+    render(<Menu />);
 
     const nextButton = screen.getByRole("link", {
       name: "Go to the Homepage",
@@ -46,8 +53,8 @@ describe("Menu", () => {
     expect(search).toHaveAttribute("placeholder", "Search for a Tunneller");
   });
 
-  test("can input a name", () => {
-    render(<Menu tunnellers={mockTunnellersData} />);
+  test("can input a name", async () => {
+    render(<Menu />);
 
     const search = screen.getByRole("textbox");
     fireEvent.click(search);
@@ -55,7 +62,7 @@ describe("Menu", () => {
       target: { value: "John Doe" },
     });
 
-    expect(screen.getByRole("list")).toBeInTheDocument();
+    expect(await screen.findByRole("list")).toBeInTheDocument();
     expect(screen.getByText("John")).toBeInTheDocument();
     expect(screen.getByText("Doe")).toBeInTheDocument();
     expect(screen.getByText("Doe")).toHaveClass("surname");
@@ -64,10 +71,14 @@ describe("Menu", () => {
       "href",
       "/tunnellers/test-tunneller--1_234",
     );
+    expect(fetchMock).toHaveBeenCalledWith(
+      "/api/tunnellers/search?query=John%20Doe&locale=en",
+      expect.objectContaining({ signal: expect.any(AbortSignal) }),
+    );
   });
 
   test("becomes invisible on scrolling down", () => {
-    render(<Menu tunnellers={mockTunnellersData} />);
+    render(<Menu />);
     expect(screen.getByTestId("menu")).toHaveClass("menu");
 
     fireEvent.scroll(window, { target: { scrollY: 100 } });
@@ -75,7 +86,7 @@ describe("Menu", () => {
   });
 
   test("becomes visible on scrolling up", () => {
-    render(<Menu tunnellers={mockTunnellersData} />);
+    render(<Menu />);
     expect(screen.getByTestId("menu")).toHaveClass("menu");
 
     fireEvent.scroll(window, { target: { scrollY: 100 } });
@@ -86,23 +97,24 @@ describe("Menu", () => {
   });
 
   describe("Keyboard", () => {
-    test("closes dropdown with Escape key", () => {
-      render(<Menu tunnellers={mockTunnellersData} />);
+    test("closes dropdown with Escape key", async () => {
+      render(<Menu />);
 
       const search = screen.getByRole("textbox");
       fireEvent.change(search, { target: { value: "John Doe" } });
-      expect(screen.getByTestId("dropdown")).toBeInTheDocument();
+      expect(await screen.findByTestId("dropdown")).toBeInTheDocument();
 
       fireEvent.keyDown(document, { key: "Escape" });
 
       expect(screen.queryByTestId("dropdown")).not.toBeInTheDocument();
     });
 
-    test("re-opens dropdown with Enter key when results are available", () => {
-      render(<Menu tunnellers={mockTunnellersData} />);
+    test("re-opens dropdown with Enter key when results are available", async () => {
+      render(<Menu />);
 
       const search = screen.getByRole("textbox");
       fireEvent.change(search, { target: { value: "John Doe" } });
+      expect(await screen.findByTestId("dropdown")).toBeInTheDocument();
 
       fireEvent.mouseDown(document.body);
       expect(screen.queryByTestId("dropdown")).not.toBeInTheDocument();
@@ -114,8 +126,40 @@ describe("Menu", () => {
   });
 
   describe("Dropdown", () => {
-    test("can close the dropdown with outside click", () => {
-      render(<Menu tunnellers={mockTunnellersData} />);
+    test("keeps previous results visible while the next search is loading", async () => {
+      const secondSearch = Promise.withResolvers<typeof mockTunnellersData>();
+
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => mockTunnellersData,
+      });
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: () => secondSearch.promise,
+      });
+
+      render(<Menu />);
+
+      const search = screen.getByRole("textbox");
+      fireEvent.change(search, {
+        target: { value: "John" },
+      });
+
+      expect(await screen.findByTestId("dropdown")).toBeInTheDocument();
+
+      fireEvent.change(search, {
+        target: { value: "John D" },
+      });
+
+      expect(screen.getByTestId("dropdown")).toBeInTheDocument();
+      expect(screen.getByText("John")).toBeInTheDocument();
+
+      secondSearch.resolve(mockTunnellersData);
+      await screen.findByTestId("dropdown");
+    });
+
+    test("can close the dropdown with outside click", async () => {
+      render(<Menu />);
 
       const search = screen.getByRole("textbox");
       fireEvent.click(search);
@@ -123,14 +167,14 @@ describe("Menu", () => {
         target: { value: "John Doe" },
       });
 
-      expect(screen.getByTestId("dropdown")).toBeInTheDocument();
+      expect(await screen.findByTestId("dropdown")).toBeInTheDocument();
 
       fireEvent.mouseDown(document.body);
       expect(screen.queryByTestId("dropdown")).not.toBeInTheDocument();
     });
 
-    test("should not close the dropdown when click on the search bar", () => {
-      render(<Menu tunnellers={mockTunnellersData} />);
+    test("should not close the dropdown when click on the search bar", async () => {
+      render(<Menu />);
 
       const search = screen.getByRole("textbox");
       fireEvent.click(search);
@@ -138,14 +182,14 @@ describe("Menu", () => {
         target: { value: "John Doe" },
       });
 
-      expect(screen.getByTestId("dropdown")).toBeInTheDocument();
+      expect(await screen.findByTestId("dropdown")).toBeInTheDocument();
 
       fireEvent.mouseDown(search);
       expect(screen.getByTestId("dropdown")).toBeInTheDocument();
     });
 
     test("should not open dropdown if no input", () => {
-      render(<Menu tunnellers={mockTunnellersData} />);
+      render(<Menu />);
 
       const search = screen.getByRole("textbox");
       fireEvent.click(search);
@@ -153,8 +197,8 @@ describe("Menu", () => {
       expect(screen.queryByTestId("dropdown")).not.toBeInTheDocument();
     });
 
-    test("should reopen dropdown if input present", () => {
-      render(<Menu tunnellers={mockTunnellersData} />);
+    test("should reopen dropdown if input present", async () => {
+      render(<Menu />);
 
       const search = screen.getByRole("textbox");
       fireEvent.click(search);
@@ -162,7 +206,7 @@ describe("Menu", () => {
         target: { value: "John Doe" },
       });
 
-      expect(screen.getByTestId("dropdown")).toBeInTheDocument();
+      expect(await screen.findByTestId("dropdown")).toBeInTheDocument();
 
       fireEvent.mouseDown(document.body);
       expect(screen.queryByTestId("dropdown")).not.toBeInTheDocument();
@@ -171,8 +215,8 @@ describe("Menu", () => {
       expect(screen.getByTestId("dropdown")).toBeInTheDocument();
     });
 
-    test("can click on tunnellers link", () => {
-      render(<Menu tunnellers={mockTunnellersData} />);
+    test("can click on tunnellers link", async () => {
+      render(<Menu />);
 
       const search = screen.getByRole("textbox");
       fireEvent.click(search);
@@ -180,7 +224,7 @@ describe("Menu", () => {
         target: { value: "John Doe" },
       });
 
-      expect(screen.getByTestId("dropdown")).toBeInTheDocument();
+      expect(await screen.findByTestId("dropdown")).toBeInTheDocument();
 
       const tunnellersLink = screen.getByRole("link", {
         name: "See all Tunnellers →",
@@ -190,8 +234,8 @@ describe("Menu", () => {
       expect(screen.queryByTestId("dropdown")).not.toBeInTheDocument();
     });
 
-    test("can clear name and close the dropdown", () => {
-      render(<Menu tunnellers={mockTunnellersData} />);
+    test("can clear name and close the dropdown", async () => {
+      render(<Menu />);
 
       const search = screen.getByRole("textbox");
       fireEvent.click(search);
@@ -199,7 +243,7 @@ describe("Menu", () => {
         target: { value: "John Doe" },
       });
 
-      expect(screen.getByTestId("dropdown")).toBeInTheDocument();
+      expect(await screen.findByTestId("dropdown")).toBeInTheDocument();
 
       fireEvent.click(search);
       fireEvent.change(search, {
@@ -209,7 +253,12 @@ describe("Menu", () => {
     });
 
     test("no dropdown when name not found", () => {
-      render(<Menu tunnellers={mockTunnellersData} />);
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => [],
+      });
+
+      render(<Menu />);
 
       const search = screen.getByRole("textbox");
       fireEvent.click(search);
@@ -217,7 +266,9 @@ describe("Menu", () => {
         target: { value: "John Doe Smith" },
       });
 
-      expect(screen.queryByTestId("dropdown")).not.toBeInTheDocument();
+      return waitFor(() => {
+        expect(screen.queryByTestId("dropdown")).not.toBeInTheDocument();
+      });
     });
   });
 
@@ -235,7 +286,7 @@ describe("Menu", () => {
         writable: true,
       });
 
-      render(<Menu tunnellers={mockTunnellersData} />);
+      render(<Menu />);
 
       expect(mockViewport.addEventListener).toHaveBeenCalledWith(
         "resize",
@@ -251,8 +302,8 @@ describe("Menu", () => {
   });
 
   describe("Clear Button", () => {
-    test("can clear the search input", () => {
-      render(<Menu tunnellers={mockTunnellersData} />);
+    test("can clear the search input", async () => {
+      render(<Menu />);
 
       const search = screen.getByRole("textbox");
       fireEvent.click(search);
@@ -260,7 +311,7 @@ describe("Menu", () => {
         target: { value: "John Doe" },
       });
 
-      expect(screen.getByTestId("dropdown")).toBeInTheDocument();
+      expect(await screen.findByTestId("dropdown")).toBeInTheDocument();
 
       const clearButton = screen.getByRole("button", {
         name: "Clear search input",
@@ -276,8 +327,8 @@ describe("Menu", () => {
       expect(screen.queryByTestId("dropdown")).not.toBeInTheDocument();
     });
 
-    test("clear button replace magnifier icon", () => {
-      render(<Menu tunnellers={mockTunnellersData} />);
+    test("clear button replace magnifier icon", async () => {
+      render(<Menu />);
 
       expect(
         screen.getByRole("img", {
@@ -290,6 +341,8 @@ describe("Menu", () => {
       fireEvent.change(search, {
         target: { value: "John Doe" },
       });
+
+      await screen.findByTestId("dropdown");
 
       expect(
         screen.queryByRole("img", {
@@ -304,7 +357,7 @@ describe("Menu", () => {
     });
 
     test("clears the input field and focuses it", () => {
-      render(<Menu tunnellers={mockTunnellersData} />);
+      render(<Menu />);
 
       const input = screen.getByPlaceholderText(
         "Search for a Tunneller",
@@ -329,7 +382,7 @@ describe("Menu", () => {
     test("renders Français link on English locale", () => {
       mockedUseLocale.mockReturnValue("en");
       mockedUsePathname.mockReturnValue("/tunnellers");
-      render(<Menu tunnellers={mockTunnellersData} />);
+      render(<Menu />);
 
       const link = screen.getByRole("link", { name: "Français" });
       expect(link).toBeInTheDocument();
@@ -339,7 +392,7 @@ describe("Menu", () => {
     test("renders English link on French locale", () => {
       mockedUseLocale.mockReturnValue("fr");
       mockedUsePathname.mockReturnValue("/fr/tunnellers");
-      render(<Menu tunnellers={mockTunnellersData} />);
+      render(<Menu />);
 
       const link = screen.getByRole("link", { name: "English" });
       expect(link).toBeInTheDocument();
@@ -349,7 +402,7 @@ describe("Menu", () => {
     test("French switcher falls back to / when path is only /fr", () => {
       mockedUseLocale.mockReturnValue("fr");
       mockedUsePathname.mockReturnValue("/fr");
-      render(<Menu tunnellers={mockTunnellersData} />);
+      render(<Menu />);
 
       const link = screen.getByRole("link", { name: "English" });
       expect(link).toHaveAttribute("href", "/");
