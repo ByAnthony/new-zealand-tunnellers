@@ -166,25 +166,35 @@ test("BookMenu is visible when scrolling down a chapter", async ({ page }) => {
 test("EN: next chapter button navigates to chapter 2", async ({ page }) => {
   await page.goto(EN_CHAPTER_1);
 
-  await page.getByLabel("Go to chapter 2: Forging Good Soldiers").click();
-
-  await page.waitForLoadState("domcontentloaded");
-  await expect(page).toHaveURL(
-    /books\/kiwis-dig-tunnels-too\/chapter-2-forging-good-soldiers/,
+  const nextChapterLink = page.getByLabel(
+    "Go to chapter 2: Forging Good Soldiers",
   );
+  await expect(nextChapterLink).toBeVisible();
+
+  await Promise.all([
+    page.waitForURL(
+      /books\/kiwis-dig-tunnels-too\/chapter-2-forging-good-soldiers/,
+      { waitUntil: "domcontentloaded" },
+    ),
+    nextChapterLink.click(),
+  ]);
 });
 
 test("FR: next chapter button navigates to chapter 2", async ({ page }) => {
   await page.goto(FR_CHAPTER_1);
 
-  await page
-    .getByLabel("Aller au chapitre 2 : En faire de bons soldats")
-    .click();
-
-  await page.waitForLoadState("domcontentloaded");
-  await expect(page).toHaveURL(
-    /fr\/books\/kiwis-dig-tunnels-too\/chapter-2-forging-good-soldiers/,
+  const nextChapterLink = page.getByLabel(
+    "Aller au chapitre 2 : En faire de bons soldats",
   );
+  await expect(nextChapterLink).toBeVisible();
+
+  await Promise.all([
+    page.waitForURL(
+      /fr\/books\/kiwis-dig-tunnels-too\/chapter-2-forging-good-soldiers/,
+      { waitUntil: "domcontentloaded" },
+    ),
+    nextChapterLink.click(),
+  ]);
 });
 
 // ─── Progress ring on contents page ──────────────────────────────────────────
@@ -208,8 +218,23 @@ test("progress ring shows tick after scrolling to the bottom of a chapter", asyn
   page,
 }) => {
   await page.goto(EN_CHAPTER_1);
-  await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
-  await page.waitForTimeout(500);
+
+  await page.locator(".footnotes").last().scrollIntoViewIfNeeded();
+  await expect
+    .poll(
+      () =>
+        page.evaluate((pathname) => {
+          const stored = localStorage.getItem("book-reading-progress");
+          if (!stored) return 0;
+          const normalizedPath = pathname
+            .replace(/^\/+|\/+$/g, "")
+            .toLowerCase();
+          const data: Record<string, number> = JSON.parse(stored);
+          return data[normalizedPath] ?? 0;
+        }, EN_CHAPTER_1),
+      { timeout: 10000 },
+    )
+    .toBe(100);
 
   await page.getByLabel("Back to contents").click();
   await page.waitForLoadState("domcontentloaded");

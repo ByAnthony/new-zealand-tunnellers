@@ -49,11 +49,11 @@ test("can close the dropdown by clicking outside", async ({ page }) => {
   await page.goto("/");
 
   await page.locator("input").fill("james");
-  await expect(page.locator("[class*='dropdown']")).toBeVisible();
+  await expect(page.getByTestId("dropdown")).toBeVisible();
 
-  await page.mouse.click(1, 1);
+  await page.locator("body").click({ position: { x: 10, y: 300 } });
 
-  await expect(page.locator("[class*='dropdown']")).not.toBeVisible();
+  await expect(page.getByTestId("dropdown")).not.toBeVisible();
 });
 
 test("can reopen the dropdown by clicking the search", async ({ page }) => {
