@@ -33,6 +33,10 @@ describe("getDayMonth", () => {
       expect(result).toEqual(expectedDayMonth);
     },
   );
+
+  test("is stable for date-only strings regardless of local timezone", () => {
+    expect(getDayMonth("1917-01-01")).toBe("1 January");
+  });
 });
 
 describe("getDate", () => {
@@ -77,5 +81,9 @@ describe("getAge", () => {
     const expectedAge = 21;
     const result = getAge(birthDate, currentDate);
     expect(result).toEqual(expectedAge);
+  });
+
+  test("should not drift across timezones for date-only strings", () => {
+    expect(getAge("1900-01-01", "1917-01-01")).toBe(17);
   });
 });

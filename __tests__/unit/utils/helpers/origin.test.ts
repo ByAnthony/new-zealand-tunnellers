@@ -70,4 +70,10 @@ describe("getNzResident", () => {
     const result = getNzResident(month, enlistment, null);
     expect(result).toBe(expectedResult);
   });
+
+  test("remains stable for date-only strings regardless of local timezone", () => {
+    const month = 1;
+    const enlistment = "1917-01-01";
+    expect(getNzResident(month, enlistment, null)).toBe("1916");
+  });
 });
