@@ -17,7 +17,7 @@ describe("Resources", () => {
     ).toBeInTheDocument();
   });
 
-  test("renders the book card title, badge and author", () => {
+  test("renders the card title, badge and author", () => {
     render(<Resources />);
     expect(
       screen.getByRole("heading", { name: "Kiwis Dig Tunnels Too", level: 3 }),
@@ -26,27 +26,21 @@ describe("Resources", () => {
     expect(screen.getByText("Anthony Byledbal")).toBeInTheDocument();
   });
 
-  test("renders the map card title and badge", () => {
-    render(<Resources />);
-    expect(
-      screen.getByRole("heading", { name: "Tunnellers\u2019 Works", level: 3 }),
-    ).toBeInTheDocument();
-    expect(screen.getByText("Map")).toBeInTheDocument();
-  });
-
-  test("card links point to correct paths for English locale", () => {
+  test("card link points to the correct path for English locale", () => {
     mockUseLocale.mockReturnValue("en");
     render(<Resources />);
-    const links = screen.getAllByRole("link");
-    expect(links[0]).toHaveAttribute("href", "/maps/tunnellers-works");
-    expect(links[1]).toHaveAttribute("href", "/books/kiwis-dig-tunnels-too");
+    expect(screen.getByRole("link")).toHaveAttribute(
+      "href",
+      "/books/kiwis-dig-tunnels-too",
+    );
   });
 
-  test("card links point to correct paths for French locale", () => {
+  test("card link points to the correct path for French locale", () => {
     mockUseLocale.mockReturnValue("fr");
     render(<Resources />);
-    const links = screen.getAllByRole("link");
-    expect(links[0]).toHaveAttribute("href", "/fr/maps/tunnellers-works");
-    expect(links[1]).toHaveAttribute("href", "/fr/books/kiwis-dig-tunnels-too");
+    expect(screen.getByRole("link")).toHaveAttribute(
+      "href",
+      "/fr/books/kiwis-dig-tunnels-too",
+    );
   });
 });

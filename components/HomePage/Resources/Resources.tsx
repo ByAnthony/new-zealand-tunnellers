@@ -5,7 +5,6 @@ import STYLES from "./Resources.module.scss";
 
 export function Resources() {
   const t = useTranslations("homepage");
-  const tMaps = useTranslations("maps");
   const locale = useLocale();
   const localePrefix = locale === "en" ? "" : `/${locale}`;
 
@@ -17,23 +16,6 @@ export function Resources() {
     >
       <h2 id="resources-title">{t("resources")}</h2>
       <div className={STYLES.actions}>
-        <Link
-          href={`${localePrefix}/maps/tunnellers-works`}
-          className={STYLES.card}
-        >
-          <div className={STYLES["card-content"]}>
-            <div className={STYLES["card-header"]}>
-              <h3 className={STYLES.title}>{tMaps("cardTitle")}</h3>
-              <div className={STYLES.badge}>{tMaps("cardBadge")}</div>
-            </div>
-            <p className={STYLES.description}>{tMaps("cardDescription")}</p>
-          </div>
-          <div className={STYLES["button-base"]}>
-            <div className={STYLES.arrow} style={{ marginLeft: "auto" }}>
-              &rarr;
-            </div>
-          </div>
-        </Link>
         <Link
           href={`${localePrefix}/books/kiwis-dig-tunnels-too`}
           className={STYLES.card}
