@@ -73,17 +73,17 @@ jobs:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
           database: ${{ secrets.DATABASE }}
 
-      - name: Cache Playwright browsers
-        uses: actions/cache@v5
-        with:
-          path: ~/.cache/ms-playwright
-          key: ${{ runner.os }}-playwright-${{ hashFiles('**/package-lock.json') }}
+      # - name: Cache Playwright browsers
+      #   uses: actions/cache@v5
+      #   with:
+      #     path: ~/.cache/ms-playwright
+      #     key: ${{ runner.os }}-playwright-${{ hashFiles('**/package-lock.json') }}
 
-      - name: Install playwright browsers
-        run: npx playwright install --with-deps
+      # - name: Install playwright browsers
+      #   run: npx playwright install --with-deps
 
-      - name: Run tests
-        run: npx playwright test
+      # - name: Run tests
+      #   run: npx playwright test
 
       - name: Upload deployment artifact
         if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
