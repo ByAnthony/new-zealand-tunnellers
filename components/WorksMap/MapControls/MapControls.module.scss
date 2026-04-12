@@ -1,0 +1,276 @@
+@use "app/variables.module.scss";
+
+.period-toggle {
+  grid-column: 1;
+  grid-row: 1;
+  background-color: variables.$primary-medium-color;
+  border: 1px solid variables.$primary-light-color;
+  border-radius: variables.$border-radius;
+  color: variables.$secondary-color;
+  font-size: 1rem;
+  cursor: pointer;
+  transition:
+    border-color 0.9s ease-in-out,
+    background-color 0.9s ease-in-out;
+
+  &:hover {
+    border-color: variables.$secondary-color;
+  }
+
+  &--open {
+    background-color: variables.$secondary-color;
+    border-color: variables.$secondary-color;
+    color: variables.$primary-dark-color;
+  }
+
+  &--active {
+    background-color: variables.$secondary-color;
+    border-color: variables.$secondary-color;
+    color: variables.$primary-dark-color;
+  }
+}
+
+.filter-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: variables.$primary-dark-color;
+  color: variables.$secondary-color;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1;
+  margin-left: variables.$xxxs-margin;
+}
+
+.period-nav {
+  display: flex;
+  align-items: stretch;
+  gap: variables.$xxxs-margin;
+}
+
+.period-arrow {
+  margin: 0;
+  flex-shrink: 0;
+  padding: 0 variables.$xxs-margin;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+  background-color: variables.$primary-medium-color;
+  border: 1px solid variables.$primary-light-color;
+  border-radius: variables.$border-radius;
+  color: variables.$secondary-color;
+  font-family: variables.$main-font;
+  font-size: 1.9rem;
+  font-weight: 200;
+  cursor: pointer;
+  transition:
+    border-color 0.9s ease-in-out,
+    background-color 0.9s ease-in-out;
+
+  &:hover:not(:disabled) {
+    background-color: variables.$primary-dark-color;
+    border: 1px solid variables.$secondary-color;
+  }
+
+  &:disabled {
+    border: 1px solid variables.$primary-light-color;
+    color: variables.$primary-light-color;
+    cursor: not-allowed;
+  }
+}
+
+.period-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: variables.$xxxs-margin;
+}
+
+.period-button {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  gap: 2px;
+  background-color: variables.$primary-medium-color;
+  border: 1px solid variables.$primary-light-color;
+  border-radius: variables.$border-radius;
+  padding: variables.$xxs-margin;
+  cursor: pointer;
+  text-align: left;
+  transition:
+    border-color 0.9s ease-in-out,
+    background-color 0.9s ease-in-out;
+
+  &:hover {
+    border-color: variables.$secondary-color;
+  }
+
+  &--active {
+    background-color: variables.$secondary-color;
+    border-color: variables.$secondary-color;
+
+    .period-button-dates {
+      color: variables.$primary-dark-color;
+    }
+
+    .period-button-title {
+      color: variables.$primary-dark-color;
+    }
+  }
+}
+
+.period-button-dates {
+  font-size: 0.75rem;
+  color: variables.$placeholder-color;
+  white-space: nowrap;
+}
+
+.period-button-title {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: variables.$secondary-color;
+  white-space: nowrap;
+}
+
+.mobile-top {
+  display: flex;
+  gap: variables.$xxxs-margin;
+  align-items: stretch;
+
+  .slider-count,
+  .period-toggle {
+    flex: 1;
+  }
+}
+
+// Dialog-specific styles
+.dialog-section {
+  display: flex;
+  flex-direction: column;
+  gap: variables.$xxs-margin;
+  margin-bottom: variables.$s-margin;
+}
+
+.dialog-section-title {
+  color: variables.$text-color;
+}
+
+.dialog-period-grid {
+  display: flex;
+  flex-direction: column;
+  gap: variables.$xxxs-margin;
+
+  .period-button {
+    width: 100%;
+  }
+
+  @media (min-width: variables.$mobile) {
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    .period-button {
+      width: auto;
+    }
+  }
+}
+
+.dialog-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: variables.$xxxs-margin;
+}
+
+.filter-row {
+  display: flex;
+  min-width: 0;
+  height: 45px;
+
+  > * {
+    flex: 1;
+    min-width: 0;
+  }
+}
+
+.controls-grid {
+  display: grid;
+  grid-template-columns: 110px 1fr auto;
+  grid-template-rows: 45px 45px;
+  gap: variables.$xxxs-margin;
+  align-items: stretch;
+}
+
+.slider-count {
+  grid-column: 1;
+  grid-row: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: variables.$primary-medium-color;
+  border: 1px solid variables.$primary-light-color;
+  border-radius: variables.$border-radius;
+  padding: variables.$xxs-margin;
+  color: variables.$text-color;
+  font-size: 1rem;
+  font-weight: 500;
+  white-space: nowrap;
+  text-align: center;
+}
+
+.slider-wrapper {
+  grid-column: 2;
+  grid-row: 1 / 3;
+  display: flex;
+  flex-direction: column;
+
+  > * {
+    flex: 1;
+  }
+}
+
+.zoom-in {
+  grid-column: 3;
+  grid-row: 1;
+}
+
+.zoom-out {
+  grid-column: 3;
+  grid-row: 2;
+}
+
+.zoom-btn {
+  width: 45px;
+  height: 45px;
+  background-color: variables.$primary-medium-color;
+  color: variables.$secondary-color;
+  border: 1px solid variables.$primary-light-color;
+  border-radius: variables.$border-radius;
+  font-size: 1.5rem;
+
+  @include variables.tablet {
+    font-size: 1.6rem;
+  }
+
+  @include variables.desktop {
+    font-size: 1.7rem;
+  }
+
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    border 0.9s ease-in-out,
+    background-color 0.9s ease-in-out;
+
+  &:hover:not(:disabled) {
+    background-color: variables.$primary-dark-color;
+    border-color: variables.$secondary-color;
+  }
+
+  &:disabled {
+    border-color: variables.$primary-light-color;
+    color: variables.$primary-light-color;
+    cursor: not-allowed;
+  }
+}

@@ -47,6 +47,8 @@ const config: Config = {
     "<rootDir>/utils/database/queries/",
     "<rootDir>/__tests__/unit/utils/mocks/",
     "<rootDir>/__tests__/unit/utils/findElementWithText.ts",
+    "<rootDir>/components/WorksMap/WorksMap.tsx",
+    "<rootDir>/components/WorksMap/WorksMapContainer.tsx",
   ],
 
   // Indicates which provider should be used to instrument code for coverage

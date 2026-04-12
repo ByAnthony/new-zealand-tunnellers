@@ -10,7 +10,6 @@ import STYLES from "./RollAlphabet.module.scss";
 type Props = {
   tunnellers: [string, Tunneller[]][];
   currentPage: number;
-  // eslint-disable-next-line no-unused-vars
   onPageChange: (page: number) => void;
 };
 

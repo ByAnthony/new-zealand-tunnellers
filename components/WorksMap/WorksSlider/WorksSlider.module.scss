@@ -1,0 +1,52 @@
+@use "app/variables.module.scss";
+
+.slider {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: variables.$primary-medium-color;
+  border: 1px solid variables.$primary-light-color;
+  border-radius: variables.$border-radius;
+  padding: variables.$s-margin variables.$m-margin;
+
+  @include variables.desktop {
+    padding: 0 variables.$padding-card;
+  }
+}
+
+.slider-track {
+  padding: variables.$xxxs-margin 0;
+}
+
+.tooltip {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  color: variables.$text-color;
+  pointer-events: none;
+}
+
+:global(
+  .rc-slider-handle-dragging.rc-slider-handle-dragging.rc-slider-handle-dragging
+) {
+  border-color: rgb(153, 131, 100) !important;
+  box-shadow: 0 0 5px rgba(64, 66, 67, 0.5) !important;
+}
+
+:global(.rc-slider-handle:focus-visible) {
+  border-color: rgb(153, 131, 100) !important;
+  box-shadow: 0 0 5px rgba(64, 66, 67, 0.5) !important;
+}
+
+:global(.rc-slider-handle:active) {
+  border-color: rgb(153, 131, 100) !important;
+  box-shadow: 0 0 5px rgba(64, 66, 67, 0.5) !important;
+}
+
+:global(.rc-slider-dot) {
+  display: none !important;
+}
+
+:global(.rc-slider-dot-active) {
+  display: none !important;
+}

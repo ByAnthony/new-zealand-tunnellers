@@ -21,6 +21,11 @@ This document outlines the dependencies used in the New Zealand Tunnellers proje
 
 - **`sass`**: CSS preprocessor for enhanced styling capabilities;
 - **`rc-slider`**: React slider component for interactive filter controls;
+- **`leaflet`**: Base mapping library used for the interactive works map;
+- **`react-leaflet`**: React bindings for Leaflet components and map lifecycle;
+- **`leaflet.markercluster`**: Marker clustering for dense point data on the map;
+- **`@types/leaflet`**: TypeScript types for Leaflet;
+- **`@types/leaflet.markercluster`**: TypeScript types for Leaflet marker clustering;
 - **`react-zoom-pan-pinch`**: Image zoom and pan component used in book chapter images.
 
 ### Utilities & Tools
@@ -96,7 +101,8 @@ This document outlines the dependencies used in the New Zealand Tunnellers proje
   "lint": "eslint .",
   "lint:fix": "eslint . --fix",
   // Format code with Prettier
-  "prettier": "npx prettier . --write"
+  "prettier": "npx prettier . --write",
+  "prettier:check": "npx prettier . --check"
 }
 ```
 
@@ -118,11 +124,9 @@ This document outlines the dependencies used in the New Zealand Tunnellers proje
 ```json
 {
   // Setup Husky git hooks
-  "prepare": "husky || true"
+  "prepare": "husky || true",
   "lint-staged": {
-    "*.{js,jsx,ts,tsx}": [
-      "eslint . --fix"
-    ]
+    "*.{js,jsx,ts,tsx}": ["eslint --fix"]
   }
 }
 ```

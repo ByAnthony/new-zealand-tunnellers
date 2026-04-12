@@ -7,6 +7,7 @@
     "tunnellersDescription": "Parcourez les profils des tunneliers néo-zélandais qui ont servi durant la Première Guerre mondiale",
     "book": "Les Kiwis aussi creusent des tunnels",
     "timelineOf": "Chronologie de {forename} {surname}",
+    "map": "Carte des travaux des tunneliers",
     "tunnellerDescription": "Biographie de {rank} {forename} {surname}, tunnelier néo-zélandais ayant servi durant la Première Guerre mondiale",
     "tunnellerTimelineDescription": "Chronologie de la Première Guerre mondiale de {rank} {forename} {surname}, tunnelier néo-zélandais",
     "historyChapterDescription": "Lire le chapitre {title} - histoire des tunneliers néo-zélandais durant la Première Guerre mondiale",
@@ -144,6 +145,16 @@
     "enlistedAtAge": "{title} à l'âge de {age} ans",
     "companyEventAlt": "Image pour {title}",
     "companyEventAltFallback": "Événement de la compagnie"
+  },
+  "maps": {
+    "title": "Travaux des tunneliers",
+    "work": "travail",
+    "works": "travaux",
+    "section": "Section",
+    "date": "Date des travaux",
+    "start": "Début des travaux",
+    "end": "Fin",
+    "coordinates": "Coordonnées"
   },
   "books": {
     "readingProgress": "Progression de la lecture",
