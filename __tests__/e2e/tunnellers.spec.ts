@@ -14,12 +14,28 @@ async function goToTunnellersPage(
   ).toBeDisabled();
 }
 
+async function goToPreviousTunnellersPage(
+  page: import("@playwright/test").Page,
+  pageNumber: number,
+) {
+  const previousButton = page.getByRole("button", {
+    name: "Go to previous page",
+  });
+  await expect(previousButton).toBeVisible();
+  await expect(previousButton).toBeEnabled();
+  await previousButton.click();
+  await expect(page).toHaveURL(new RegExp(`[?&]page=${pageNumber}(?:&|$)`));
+  await expect(
+    page.getByRole("button", { name: String(pageNumber) }),
+  ).toBeDisabled();
+}
+
 test("can change page and click on a name", async ({ page }) => {
   await page.goto("/tunnellers");
 
   await goToTunnellersPage(page, 38);
-  await goToTunnellersPage(page, 37);
-  await goToTunnellersPage(page, 36);
+  await goToPreviousTunnellersPage(page, 37);
+  await goToPreviousTunnellersPage(page, 36);
 
   const tunneller = page.getByRole("link", {
     name: "Sapper Claude Percival Wells",

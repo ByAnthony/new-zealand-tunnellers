@@ -85,7 +85,7 @@ test("can remove a name", async ({ page }) => {
   const search = page.getByPlaceholder("Search for a Tunneller");
   await search.fill("david");
   await expect(
-    page.getByRole("link", { name: /See David .* profile/ }).first(),
+    page.getByRole("button", { name: "Clear search input" }),
   ).toBeVisible();
   await expect(page.getByTestId("dropdown")).toBeVisible();
 
@@ -100,7 +100,7 @@ test("can clear a name", async ({ page }) => {
   const search = page.getByPlaceholder("Search for a Tunneller");
   await search.fill("david");
   await expect(
-    page.getByRole("link", { name: /See David .* profile/ }).first(),
+    page.getByRole("button", { name: "Clear search input" }),
   ).toBeVisible();
   await expect(page.getByTestId("dropdown")).toBeVisible();
 
