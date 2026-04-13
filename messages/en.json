@@ -43,10 +43,10 @@
     "discover": "Discover",
     "nzTunnellers": "The New Zealand Tunnellers",
     "resources": "Resources to Explore",
-    "resourceTitle": "Kiwis Dig Tunnels Too",
-    "resourceBadge": "Book",
-    "resourceDescription": "Recruited for their digging skills, James Williamson, Harold Howard, George Race, and Gerald Punch—four New Zealand volunteers—are preparing to cross the oceans with their special unit to take part in this secret war. But on the other side of the world, this deadly game is already tipping in favor of the German miners.",
-    "resourceBy": "By "
+    "bookTitle": "Kiwis Dig Tunnels Too",
+    "bookBadge": "Book",
+    "bookDescription": "Recruited for their digging skills, James Williamson, Harold Howard, George Race, and Gerald Punch—four New Zealand volunteers—are preparing to cross the oceans with their special unit to take part in this secret war. But on the other side of the world, this deadly game is already tipping in favor of the German miners.",
+    "bookBy": "By "
   },
   "aboutUs": {
     "contactByEmail": "Contact us by email",
@@ -147,9 +147,9 @@
     "companyEventAltFallback": "Company event"
   },
   "maps": {
-    "cardTitle": "Tunnellers\u2019 Works",
-    "cardDescription": "From underground shelters to bridges, the New Zealand Tunnelling Company left its mark across the Arras front. This interactive map charts the works recorded in the company\u2019s war diary between March 1916 and December 1918 \u2014 each one precisely located using the original British Army trench map grid.",
-    "cardBadge": "Map",
+    "mapTitle": "Tunnellers\u2019 Works",
+    "mapDescription": "From underground shelters to bridges, the New Zealand Tunnelling Company left its mark across the Arras front. This interactive map charts the works recorded in the company\u2019s war diary between March 1916 and December 1918 \u2014 each one precisely located using the original British Army trench map grid.",
+    "mapBadge": "Map",
     "title": "Tunnellers\u2019 Works",
     "work": "work",
     "works": "works",

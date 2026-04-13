@@ -48,16 +48,25 @@ export async function generateMetadata(props: Props) {
 
   const t = await getTranslations({ locale, namespace: "site" });
   const title = `${t("timelineOf", { forename, surname })} - New Zealand Tunnellers`;
+  const description = t("tunnellerTimelineDescription", {
+    rank,
+    forename,
+    surname,
+  });
 
   return {
     title,
+    description,
+    alternates: {
+      canonical: pageUrl(locale, `/tunnellers/${slug}/wwi-timeline/`),
+      languages: {
+        en: pageUrl("en", `/tunnellers/${slug}/wwi-timeline/`),
+        fr: pageUrl("fr", `/tunnellers/${slug}/wwi-timeline/`),
+      },
+    },
     openGraph: {
       title,
-      description: t("tunnellerTimelineDescription", {
-        rank,
-        forename,
-        surname,
-      }),
+      description,
       url: pageUrl(locale, `/tunnellers/${slug}/wwi-timeline/`),
       siteName: "New Zealand Tunnellers",
       locale: ogLocale(locale),

@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { getTranslations } from "next-intl/server";
 
 import { HomePage } from "@/components/HomePage/HomePage";
 import { HistoryImageChapters, HistoryChapterData } from "@/types/homepage";
@@ -9,11 +10,37 @@ import {
   historyChaptersQuery,
 } from "@/utils/database/queries/homepageQuery";
 import { getHistoryChapters } from "@/utils/helpers/homepage";
-import { pageUrl } from "@/utils/helpers/metadata";
+import { ogLocale, pageUrl } from "@/utils/helpers/metadata";
 
 type Props = {
   params: Promise<{ locale: Locale }>;
 };
+
+export async function generateMetadata({ params }: Props) {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "site" });
+
+  return {
+    title: "New Zealand Tunnellers",
+    description: t("description"),
+    alternates: {
+      canonical: pageUrl(locale, "/"),
+      languages: {
+        en: pageUrl("en", "/"),
+        fr: pageUrl("fr", "/"),
+      },
+    },
+    openGraph: {
+      title: "New Zealand Tunnellers",
+      description: t("description"),
+      url: pageUrl(locale, "/"),
+      siteName: "New Zealand Tunnellers",
+      locale: ogLocale(locale),
+      alternateLocale: locale === "fr" ? "en_NZ" : "fr_FR",
+      type: "website",
+    },
+  };
+}
 
 async function getData(locale: Locale) {
   const connection = await mysqlConnection.getConnection();

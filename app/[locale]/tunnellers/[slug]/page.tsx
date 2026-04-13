@@ -47,12 +47,21 @@ export async function generateMetadata(props: Props) {
   const rank = tunneller.militaryYears.enlistment.rank;
   const t = await getTranslations({ locale, namespace: "site" });
   const title = `${forename} ${surname} - New Zealand Tunnellers`;
+  const description = t("tunnellerDescription", { rank, forename, surname });
 
   return {
     title,
+    description,
+    alternates: {
+      canonical: pageUrl(locale, `/tunnellers/${slug}/`),
+      languages: {
+        en: pageUrl("en", `/tunnellers/${slug}/`),
+        fr: pageUrl("fr", `/tunnellers/${slug}/`),
+      },
+    },
     openGraph: {
       title,
-      description: t("tunnellerDescription", { rank, forename, surname }),
+      description,
       url: pageUrl(locale, `/tunnellers/${slug}/`),
       siteName: "New Zealand Tunnellers",
       locale: ogLocale(locale),

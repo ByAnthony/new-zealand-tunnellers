@@ -23,10 +23,10 @@ export function Resources() {
         >
           <div className={STYLES["card-content"]}>
             <div className={STYLES["card-header"]}>
-              <h3 className={STYLES.title}>{tMaps("cardTitle")}</h3>
-              <div className={STYLES.badge}>{tMaps("cardBadge")}</div>
+              <h3 className={STYLES.title}>{tMaps("mapTitle")}</h3>
+              <div className={STYLES.badge}>{tMaps("mapBadge")}</div>
             </div>
-            <p className={STYLES.description}>{tMaps("cardDescription")}</p>
+            <p className={STYLES.description}>{tMaps("mapDescription")}</p>
           </div>
           <div className={STYLES["button-base"]}>
             <div className={STYLES.arrow} style={{ marginLeft: "auto" }}>
@@ -40,14 +40,14 @@ export function Resources() {
         >
           <div className={STYLES["card-content"]}>
             <div className={STYLES["card-header"]}>
-              <h3 className={STYLES.title}>{t("resourceTitle")}</h3>
-              <div className={STYLES.badge}>{t("resourceBadge")}</div>
+              <h3 className={STYLES.title}>{t("bookTitle")}</h3>
+              <div className={STYLES.badge}>{t("bookBadge")}</div>
             </div>
-            <p className={STYLES.description}>{t("resourceDescription")}</p>
+            <p className={STYLES.description}>{t("bookDescription")}</p>
           </div>
           <div className={STYLES["button-base"]}>
             <div>
-              <span className={STYLES.by}>{t("resourceBy")}</span>
+              <span className={STYLES.by}>{t("bookBy")}</span>
               <span className={STYLES.author}>Anthony Byledbal</span>
             </div>
             <div className={STYLES.arrow}>&rarr;</div>
