@@ -33,12 +33,21 @@ export async function generateMetadata(props: Props) {
   const t = await getTranslations({ locale, namespace: "site" });
   const chapterTitle = getTitleFromMarkdown(markdownContent) ?? "";
   const title = `${chapterTitle} - New Zealand Tunnellers`;
+  const description = t("bookChapterDescription", { title: chapterTitle });
 
   return {
     title,
+    description,
+    alternates: {
+      canonical: pageUrl(locale, `/books/kiwis-dig-tunnels-too/${id}/`),
+      languages: {
+        en: pageUrl("en", `/books/kiwis-dig-tunnels-too/${id}/`),
+        fr: pageUrl("fr", `/books/kiwis-dig-tunnels-too/${id}/`),
+      },
+    },
     openGraph: {
       title,
-      description: t("bookChapterDescription", { title: chapterTitle }),
+      description,
       url: pageUrl(locale, `/books/kiwis-dig-tunnels-too/${id}/`),
       siteName: "New Zealand Tunnellers",
       locale: ogLocale(locale),

@@ -49,11 +49,21 @@ export async function generateMetadata(props: Props) {
   const { locale } = await props.params;
   const t = await getTranslations({ locale, namespace: "site" });
   const title = `${t("aboutUs")} - New Zealand Tunnellers`;
+  const description = t("aboutUsDescription");
+
   return {
     title,
+    description,
+    alternates: {
+      canonical: pageUrl(locale, "/about-us/"),
+      languages: {
+        en: pageUrl("en", "/about-us/"),
+        fr: pageUrl("fr", "/about-us/"),
+      },
+    },
     openGraph: {
       title,
-      description: t("aboutUsDescription"),
+      description,
       url: pageUrl(locale, "/about-us/"),
       siteName: "New Zealand Tunnellers",
       locale: ogLocale(locale),

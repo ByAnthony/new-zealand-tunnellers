@@ -67,10 +67,11 @@ async function getData() {
 export async function generateMetadata({ params }: Props) {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "site" });
+  const tMaps = await getTranslations({ locale, namespace: "maps" });
 
   return {
     title: `${t("map")} - New Zealand Tunnellers`,
-    description: t("description"),
+    description: tMaps("cardDescription"),
     alternates: {
       canonical: pageUrl(locale, "/maps/tunnellers-works/"),
       languages: {
@@ -80,7 +81,7 @@ export async function generateMetadata({ params }: Props) {
     },
     openGraph: {
       title: `${t("map")} - New Zealand Tunnellers`,
-      description: t("description"),
+      description: tMaps("cardDescription"),
       url: pageUrl(locale, "/maps/tunnellers-works/"),
       siteName: "New Zealand Tunnellers",
       locale: ogLocale(locale),

@@ -18,8 +18,17 @@ export async function generateMetadata({ params }: Props) {
   const t = await getTranslations({ locale, namespace: "site" });
   const tHomepage = await getTranslations({ locale, namespace: "homepage" });
   const title = `${t("book")} - New Zealand Tunnellers`;
+
   return {
     title,
+    description: tHomepage("resourceDescription"),
+    alternates: {
+      canonical: pageUrl(locale, "/books/kiwis-dig-tunnels-too/"),
+      languages: {
+        en: pageUrl("en", "/books/kiwis-dig-tunnels-too/"),
+        fr: pageUrl("fr", "/books/kiwis-dig-tunnels-too/"),
+      },
+    },
     openGraph: {
       title,
       description: tHomepage("resourceDescription"),

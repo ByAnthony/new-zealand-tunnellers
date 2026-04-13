@@ -74,12 +74,21 @@ export async function generateMetadata(props: Props) {
   const t = await getTranslations({ locale, namespace: "site" });
   const chapterTitle = article.title.replace(/\\/g, " ");
   const title = `${chapterTitle} - New Zealand Tunnellers`;
+  const description = t("historyChapterDescription", { title: chapterTitle });
 
   return {
     title,
+    description,
+    alternates: {
+      canonical: pageUrl(locale, `/history/${id}/`),
+      languages: {
+        en: pageUrl("en", `/history/${id}/`),
+        fr: pageUrl("fr", `/history/${id}/`),
+      },
+    },
     openGraph: {
       title,
-      description: t("historyChapterDescription", { title: chapterTitle }),
+      description,
       url: pageUrl(locale, `/history/${id}/`),
       siteName: "New Zealand Tunnellers",
       locale: ogLocale(locale),
