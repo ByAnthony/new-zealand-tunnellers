@@ -66,7 +66,8 @@ test("can search and click on a name", async ({ page }) => {
 test("can close the dropdown by clicking outside", async ({ page }) => {
   await page.goto("/");
 
-  await page.locator("input").fill("james");
+  const search = page.getByPlaceholder("Search for a Tunneller");
+  await typeIntoSearch(search, "james");
   const resultLink = page.getByLabel("See James Williamson profile").first();
   await expect(resultLink).toBeVisible();
   await expect(page.getByTestId("dropdown")).toBeVisible();
@@ -80,7 +81,7 @@ test("can reopen the dropdown by clicking the search", async ({ page }) => {
   await page.goto("/");
 
   const search = page.getByPlaceholder("Search for a Tunneller");
-  await search.fill("james");
+  await typeIntoSearch(search, "james");
   await expect(
     page.getByLabel("See James Williamson profile").first(),
   ).toBeVisible();
