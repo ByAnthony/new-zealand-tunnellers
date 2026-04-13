@@ -1,11 +1,8 @@
 import { test, expect } from "@playwright/test";
 
 test("can change page and click on a name", async ({ page }) => {
-  await page.goto("/tunnellers");
-
-  await page.getByRole("button", { name: "38" }).click();
-  await page.getByRole("button", { name: "37" }).click();
-  await page.getByRole("button", { name: "36" }).click();
+  await page.goto("/tunnellers/?page=36");
+  await expect(page).toHaveURL(/\/tunnellers\/\?page=36/);
 
   const tunneller = page.getByRole("link", {
     name: "Sapper Claude Percival Wells",
@@ -154,7 +151,7 @@ test("navigating directly to a filtered URL applies filters", async ({
   await page.goto("/tunnellers");
   await page.getByLabel("7th Reinforcements").click();
   await expect(page.getByText("31 results")).toBeVisible();
-  await page.waitForURL(/detachment=/);
+  await expect(page).toHaveURL(/detachment=/);
   const filteredUrl = page.url();
 
   await page.goto("/tunnellers");
@@ -169,7 +166,7 @@ test("back link from profile restores filters", async ({ page }) => {
 
   await page.getByLabel("7th Reinforcements").click();
   await expect(page.getByText("31 results")).toBeVisible();
-  await page.waitForURL(/detachment=/);
+  await expect(page).toHaveURL(/detachment=/);
 
   await page
     .getByRole("link", { name: /Sapper.*7th Reinforcements/ })

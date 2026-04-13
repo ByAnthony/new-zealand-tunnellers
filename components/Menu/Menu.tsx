@@ -109,7 +109,7 @@ export function Menu({ tunnellers }: Props) {
     setDropdownVisible(search.length > 0);
   };
 
-  const handleClickInside = () => {
+  const handleSearchInteraction = () => {
     if (!dropdownVisible) {
       setDropdownVisible(filteredTunnellers.length > 0);
     }
@@ -154,7 +154,7 @@ export function Menu({ tunnellers }: Props) {
       <div className={STYLES["search-form-container"]}>
         <div
           className={STYLES["search-form"]}
-          onClick={handleClickInside}
+          onClick={handleSearchInteraction}
           ref={searchFormRef}
         >
           <input
@@ -164,6 +164,7 @@ export function Menu({ tunnellers }: Props) {
             type="text"
             placeholder={t("searchPlaceholder")}
             value={query}
+            onFocus={handleSearchInteraction}
             onChange={(event) => {
               const value = event.target.value;
               setQuery(value);

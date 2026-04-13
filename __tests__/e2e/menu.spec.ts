@@ -1,5 +1,18 @@
 import { test, expect } from "@playwright/test";
 
+async function typeIntoSearch(
+  search: import("@playwright/test").Locator,
+  value: string,
+) {
+  await expect(search).toBeEditable();
+  await search.click();
+  await search.press("Control+A");
+  await search.press("Backspace");
+  if (value) {
+    await search.pressSequentially(value, { delay: 50 });
+  }
+}
+
 test("can click on logo to go to home page", async ({ page }) => {
   await page.goto("/tunnellers");
 
@@ -36,11 +49,16 @@ test("can search for a name", async ({ page }) => {
 test("can search and click on a name", async ({ page }) => {
   await page.goto("/");
 
-  await page.locator("input").fill("joseph");
-  const tunneller = page.getByLabel("See Joseph Kelly profile");
-  await tunneller.hover();
-  await tunneller.click();
-  page.waitForLoadState("domcontentloaded");
+  const search = page.getByPlaceholder("Search for a Tunneller");
+  await typeIntoSearch(search, "joseph");
+  await expect(search).toHaveValue("joseph");
+  await expect(page.getByTestId("dropdown")).toBeVisible();
+  await Promise.all([
+    page.waitForURL("/tunnellers/joseph-kelly--37713/", {
+      waitUntil: "domcontentloaded",
+    }),
+    page.getByLabel("See Joseph Kelly profile").click(),
+  ]);
 
   await expect(page).toHaveURL("/tunnellers/joseph-kelly--37713/");
 });
@@ -48,51 +66,62 @@ test("can search and click on a name", async ({ page }) => {
 test("can close the dropdown by clicking outside", async ({ page }) => {
   await page.goto("/");
 
-  await page.locator("input").fill("james");
-  await expect(page.locator("[class*='dropdown']")).toBeVisible();
+  const search = page.getByPlaceholder("Search for a Tunneller");
+  await typeIntoSearch(search, "james");
+  const resultLink = page.getByLabel("See James Williamson profile").first();
+  await expect(resultLink).toBeVisible();
+  await expect(page.getByTestId("dropdown")).toBeVisible();
 
-  await page.mouse.click(1, 1);
+  await page.locator("body").click({ position: { x: 10, y: 300 } });
 
-  await expect(page.locator("[class*='dropdown']")).not.toBeVisible();
+  await expect(page.getByTestId("dropdown")).not.toBeVisible();
 });
 
 test("can reopen the dropdown by clicking the search", async ({ page }) => {
   await page.goto("/");
 
-  const search = page.locator("input");
-  await search.fill("james");
-  await expect(page.locator("[class*='dropdown']")).toBeVisible();
+  const search = page.getByPlaceholder("Search for a Tunneller");
+  await typeIntoSearch(search, "james");
+  await expect(
+    page.getByLabel("See James Williamson profile").first(),
+  ).toBeVisible();
+  await expect(page.getByTestId("dropdown")).toBeVisible();
 
   await page.mouse.click(1, 1);
-  await expect(page.locator("[class*='dropdown']")).not.toBeVisible();
+  await expect(page.getByTestId("dropdown")).not.toBeVisible();
 
   await page.getByPlaceholder("Search for a Tunneller").click();
-  await expect(page.locator("[class*='dropdown']")).toBeVisible();
+  await expect(page.getByTestId("dropdown")).toBeVisible();
 });
 
 test("can remove a name", async ({ page }) => {
   await page.goto("/");
 
-  const search = page.locator("input");
-  await search.fill("david");
-  await expect(page.locator("[class*='dropdown']")).toBeVisible();
+  const search = page.getByPlaceholder("Search for a Tunneller");
+  await typeIntoSearch(search, "david");
+  await expect(search).toHaveValue("david");
 
-  await search.fill("");
-  await expect(page.locator("[class*='dropdown']")).not.toBeVisible();
+  await typeIntoSearch(search, "");
+  await expect(search).toHaveValue("");
+  await expect(page.getByTestId("dropdown")).not.toBeVisible();
   await expect(search).toHaveAttribute("placeholder", "Search for a Tunneller");
 });
 
 test("can clear a name", async ({ page }) => {
   await page.goto("/");
 
-  const search = page.locator("input");
-  await search.fill("david");
-  await expect(page.locator("[class*='dropdown']")).toBeVisible();
+  const search = page.getByPlaceholder("Search for a Tunneller");
+  await typeIntoSearch(search, "david");
+  await expect(search).toHaveValue("david");
+  await expect(
+    page.getByRole("button", { name: "Clear search input" }),
+  ).toBeVisible();
+  await expect(page.getByTestId("dropdown")).toBeVisible();
 
   const clearButton = page.getByRole("button", { name: "Clear search input" });
   await clearButton.click();
 
-  await expect(page.locator("[class*='dropdown']")).not.toBeVisible();
+  await expect(page.getByTestId("dropdown")).not.toBeVisible();
   await expect(search).toHaveAttribute("placeholder", "Search for a Tunneller");
 });
 
@@ -119,14 +148,17 @@ test("can switch from French to English", async ({ page }) => {
 test("can go to the tunnellers page", async ({ page }) => {
   await page.goto("/");
 
-  const search = page.locator("input");
+  const search = page.getByPlaceholder("Search for a Tunneller");
   await search.fill("david");
-  await expect(page.locator("[class*='dropdown']")).toBeVisible();
+  await expect(
+    page.getByRole("link", { name: /See David .* profile/ }).first(),
+  ).toBeVisible();
+  await expect(page.getByTestId("dropdown")).toBeVisible();
 
   const link = page.getByRole("link", { name: "See all Tunnellers →" });
   await expect(link).toBeVisible();
 
   await link.click();
   await expect(page).toHaveURL("/tunnellers/");
-  await expect(page.locator("[class*='dropdown']")).not.toBeVisible();
+  await expect(page.getByTestId("dropdown")).not.toBeVisible();
 });

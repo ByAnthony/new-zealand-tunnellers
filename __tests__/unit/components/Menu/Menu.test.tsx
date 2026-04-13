@@ -171,6 +171,24 @@ describe("Menu", () => {
       expect(screen.getByTestId("dropdown")).toBeInTheDocument();
     });
 
+    test("should reopen dropdown when search regains focus", () => {
+      render(<Menu tunnellers={mockTunnellersData} />);
+
+      const search = screen.getByRole("textbox");
+      fireEvent.click(search);
+      fireEvent.change(search, {
+        target: { value: "John Doe" },
+      });
+
+      expect(screen.getByTestId("dropdown")).toBeInTheDocument();
+
+      fireEvent.mouseDown(document.body);
+      expect(screen.queryByTestId("dropdown")).not.toBeInTheDocument();
+
+      fireEvent.focus(search);
+      expect(screen.getByTestId("dropdown")).toBeInTheDocument();
+    });
+
     test("can click on tunnellers link", () => {
       render(<Menu tunnellers={mockTunnellersData} />);
 

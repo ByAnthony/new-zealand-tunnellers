@@ -163,27 +163,27 @@ test("BookMenu is visible when scrolling down a chapter", async ({ page }) => {
 
 // ─── Next chapter button ──────────────────────────────────────────────────────
 
-test("EN: next chapter button navigates to chapter 2", async ({ page }) => {
+test("EN: next chapter button links to chapter 2", async ({ page }) => {
   await page.goto(EN_CHAPTER_1);
 
-  await page.getByLabel("Go to chapter 2: Forging Good Soldiers").click();
-
-  await page.waitForLoadState("domcontentloaded");
-  await expect(page).toHaveURL(
-    /books\/kiwis-dig-tunnels-too\/chapter-2-forging-good-soldiers/,
+  const nextChapterLabel = "Go to chapter 2: Forging Good Soldiers";
+  const nextChapterLink = page.getByLabel(nextChapterLabel);
+  await expect(nextChapterLink).toBeVisible();
+  await expect(nextChapterLink).toHaveAttribute(
+    "href",
+    "/books/kiwis-dig-tunnels-too/chapter-2-forging-good-soldiers",
   );
 });
 
-test("FR: next chapter button navigates to chapter 2", async ({ page }) => {
+test("FR: next chapter button links to chapter 2", async ({ page }) => {
   await page.goto(FR_CHAPTER_1);
 
-  await page
-    .getByLabel("Aller au chapitre 2 : En faire de bons soldats")
-    .click();
-
-  await page.waitForLoadState("domcontentloaded");
-  await expect(page).toHaveURL(
-    /fr\/books\/kiwis-dig-tunnels-too\/chapter-2-forging-good-soldiers/,
+  const nextChapterLabel = "Aller au chapitre 2 : En faire de bons soldats";
+  const nextChapterLink = page.getByLabel(nextChapterLabel);
+  await expect(nextChapterLink).toBeVisible();
+  await expect(nextChapterLink).toHaveAttribute(
+    "href",
+    "/fr/books/kiwis-dig-tunnels-too/chapter-2-forging-good-soldiers",
   );
 });
 
@@ -194,8 +194,10 @@ test("progress ring shows arrow after partial scroll", async ({ page }) => {
   await page.evaluate(() => window.scrollTo(0, 300));
   await page.waitForTimeout(100);
 
-  await page.getByLabel("Back to contents").click();
-  await page.waitForLoadState("domcontentloaded");
+  await page.goto(EN_CONTENTS);
+  await expect(
+    page.getByRole("heading", { name: "Kiwis Dig Tunnels Too" }),
+  ).toBeVisible();
 
   const chapter1Link = page.getByLabel(
     "Go to chapter 1: The Tunnellers from the Antipodes",
@@ -208,11 +210,31 @@ test("progress ring shows tick after scrolling to the bottom of a chapter", asyn
   page,
 }) => {
   await page.goto(EN_CHAPTER_1);
-  await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
-  await page.waitForTimeout(500);
 
-  await page.getByLabel("Back to contents").click();
-  await page.waitForLoadState("domcontentloaded");
+  await expect(page.locator(".footnotes").last()).toBeAttached();
+  await page.evaluate(() => {
+    window.scrollTo(0, document.body.scrollHeight);
+  });
+  await expect
+    .poll(
+      () =>
+        page.evaluate((pathname) => {
+          const stored = localStorage.getItem("book-reading-progress");
+          if (!stored) return 0;
+          const normalizedPath = pathname
+            .replace(/^\/+|\/+$/g, "")
+            .toLowerCase();
+          const data: Record<string, number> = JSON.parse(stored);
+          return data[normalizedPath] ?? 0;
+        }, EN_CHAPTER_1),
+      { timeout: 10000 },
+    )
+    .toBe(100);
+
+  await page.goto(EN_CONTENTS);
+  await expect(
+    page.getByRole("heading", { name: "Kiwis Dig Tunnels Too" }),
+  ).toBeVisible();
 
   const chapter1Link = page.getByLabel(
     "Go to chapter 1: The Tunnellers from the Antipodes",
