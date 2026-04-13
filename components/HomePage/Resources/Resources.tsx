@@ -21,8 +21,8 @@ export function Resources() {
           href={`${localePrefix}/maps/tunnellers-works`}
           className={STYLES.card}
         >
-            <div className={STYLES["card-content"]}>
-              <div className={STYLES["card-header"]}>
+          <div className={STYLES["card-content"]}>
+            <div className={STYLES["card-header"]}>
               <h3 className={STYLES.title}>{tMaps("mapTitle")}</h3>
               <div className={STYLES.badge}>{tMaps("mapBadge")}</div>
             </div>
@@ -38,11 +38,11 @@ export function Resources() {
           href={`${localePrefix}/books/kiwis-dig-tunnels-too`}
           className={STYLES.card}
         >
-            <div className={STYLES["card-content"]}>
-              <div className={STYLES["card-header"]}>
+          <div className={STYLES["card-content"]}>
+            <div className={STYLES["card-header"]}>
               <h3 className={STYLES.title}>{t("bookTitle")}</h3>
               <div className={STYLES.badge}>{t("bookBadge")}</div>
-              </div>
+            </div>
             <p className={STYLES.description}>{t("bookDescription")}</p>
           </div>
           <div className={STYLES["button-base"]}>
