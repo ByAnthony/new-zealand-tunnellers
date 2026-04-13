@@ -99,7 +99,9 @@ test("can clear a name", async ({ page }) => {
   await page.goto("/");
 
   const search = page.getByPlaceholder("Search for a Tunneller");
+  await expect(search).toBeEditable();
   await search.fill("david");
+  await expect(search).toHaveValue("david");
   await expect(
     page.getByRole("button", { name: "Clear search input" }),
   ).toBeVisible();
