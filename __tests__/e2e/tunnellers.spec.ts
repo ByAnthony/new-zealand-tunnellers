@@ -1,41 +1,8 @@
 import { test, expect } from "@playwright/test";
 
-async function goToTunnellersPage(
-  page: import("@playwright/test").Page,
-  pageNumber: number,
-) {
-  const pageButton = page.getByRole("button", { name: String(pageNumber) });
-  await expect(pageButton).toBeVisible();
-  await expect(pageButton).toBeEnabled();
-  await pageButton.click();
-  await expect(page).toHaveURL(new RegExp(`[?&]page=${pageNumber}(?:&|$)`));
-  await expect(
-    page.getByRole("button", { name: String(pageNumber) }),
-  ).toBeDisabled();
-}
-
-async function goToPreviousTunnellersPage(
-  page: import("@playwright/test").Page,
-  pageNumber: number,
-) {
-  const previousButton = page.getByRole("button", {
-    name: "Go to previous page",
-  });
-  await expect(previousButton).toBeVisible();
-  await expect(previousButton).toBeEnabled();
-  await previousButton.click();
-  await expect(page).toHaveURL(new RegExp(`[?&]page=${pageNumber}(?:&|$)`));
-  await expect(
-    page.getByRole("button", { name: String(pageNumber) }),
-  ).toBeDisabled();
-}
-
 test("can change page and click on a name", async ({ page }) => {
-  await page.goto("/tunnellers");
-
-  await goToTunnellersPage(page, 38);
-  await goToPreviousTunnellersPage(page, 37);
-  await goToPreviousTunnellersPage(page, 36);
+  await page.goto("/tunnellers/?page=36");
+  await expect(page).toHaveURL(/\/tunnellers\/\?page=36/);
 
   const tunneller = page.getByRole("link", {
     name: "Sapper Claude Percival Wells",

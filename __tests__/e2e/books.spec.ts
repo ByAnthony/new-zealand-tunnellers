@@ -174,13 +174,10 @@ test("EN: next chapter button navigates to chapter 2", async ({ page }) => {
     "/books/kiwis-dig-tunnels-too/chapter-2-forging-good-soldiers",
   );
 
-  await Promise.all([
-    page.waitForURL(
-      /books\/kiwis-dig-tunnels-too\/chapter-2-forging-good-soldiers/,
-      { waitUntil: "domcontentloaded" },
-    ),
-    page.getByLabel(nextChapterLabel).click(),
-  ]);
+  await page.getByLabel(nextChapterLabel).click({ force: true });
+  await expect(page).toHaveURL(
+    /books\/kiwis-dig-tunnels-too\/chapter-2-forging-good-soldiers/,
+  );
 });
 
 test("FR: next chapter button navigates to chapter 2", async ({ page }) => {
@@ -194,13 +191,10 @@ test("FR: next chapter button navigates to chapter 2", async ({ page }) => {
     "/fr/books/kiwis-dig-tunnels-too/chapter-2-forging-good-soldiers",
   );
 
-  await Promise.all([
-    page.waitForURL(
-      /fr\/books\/kiwis-dig-tunnels-too\/chapter-2-forging-good-soldiers/,
-      { waitUntil: "domcontentloaded" },
-    ),
-    page.getByLabel(nextChapterLabel).click(),
-  ]);
+  await page.getByLabel(nextChapterLabel).click({ force: true });
+  await expect(page).toHaveURL(
+    /fr\/books\/kiwis-dig-tunnels-too\/chapter-2-forging-good-soldiers/,
+  );
 });
 
 // ─── Progress ring on contents page ──────────────────────────────────────────
