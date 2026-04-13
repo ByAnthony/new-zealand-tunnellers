@@ -1,5 +1,18 @@
 import { test, expect } from "@playwright/test";
 
+async function typeIntoSearch(
+  search: import("@playwright/test").Locator,
+  value: string,
+) {
+  await expect(search).toBeEditable();
+  await search.click();
+  await search.press("Control+A");
+  await search.press("Backspace");
+  if (value) {
+    await search.pressSequentially(value, { delay: 50 });
+  }
+}
+
 test("can click on logo to go to home page", async ({ page }) => {
   await page.goto("/tunnellers");
 
@@ -37,8 +50,7 @@ test("can search and click on a name", async ({ page }) => {
   await page.goto("/");
 
   const search = page.getByPlaceholder("Search for a Tunneller");
-  await expect(search).toBeEditable();
-  await search.fill("joseph");
+  await typeIntoSearch(search, "joseph");
   await expect(search).toHaveValue("joseph");
   await expect(page.getByTestId("dropdown")).toBeVisible();
   await Promise.all([
@@ -85,11 +97,10 @@ test("can remove a name", async ({ page }) => {
   await page.goto("/");
 
   const search = page.getByPlaceholder("Search for a Tunneller");
-  await expect(search).toBeEditable();
-  await search.fill("david");
+  await typeIntoSearch(search, "david");
   await expect(search).toHaveValue("david");
 
-  await search.fill("");
+  await typeIntoSearch(search, "");
   await expect(search).toHaveValue("");
   await expect(page.getByTestId("dropdown")).not.toBeVisible();
   await expect(search).toHaveAttribute("placeholder", "Search for a Tunneller");
@@ -99,8 +110,7 @@ test("can clear a name", async ({ page }) => {
   await page.goto("/");
 
   const search = page.getByPlaceholder("Search for a Tunneller");
-  await expect(search).toBeEditable();
-  await search.fill("david");
+  await typeIntoSearch(search, "david");
   await expect(search).toHaveValue("david");
   await expect(
     page.getByRole("button", { name: "Clear search input" }),
