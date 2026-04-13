@@ -35,6 +35,11 @@
     border-radius: variables.$border-radius;
     border: 1px solid variables.$primary-light-color;
   }
+
+  @include variables.desktop {
+    height: 80vh;
+    max-height: fit-content;
+  }
 }
 
 .dialog::backdrop {
