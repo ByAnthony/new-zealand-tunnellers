@@ -33,12 +33,11 @@ export function getVisibleFrontLines(
   isPeriodActive: boolean,
   dateToDay: (date: string) => number,
 ): { visibleIds: Set<number>; latestIds: Set<number> } {
-  const anchorDay = dateRange[0];
   const visibleFrontLines = frontLines.filter(
     (fl) =>
       isPeriodActive &&
-      dateToDay(fl.front_line_period_start) <= anchorDay &&
-      dateToDay(fl.front_line_period_end) >= anchorDay,
+      dateToDay(fl.front_line_period_start) >= dateRange[0] &&
+      dateToDay(fl.front_line_period_end) <= dateRange[1],
   );
   const latestIdBySide = new Map<string, number>();
   visibleFrontLines.forEach((fl) => {
