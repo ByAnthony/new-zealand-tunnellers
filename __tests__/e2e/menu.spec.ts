@@ -36,14 +36,16 @@ test("can search for a name", async ({ page }) => {
 test("can search and click on a name", async ({ page }) => {
   await page.goto("/");
 
-  await page.locator("input").fill("joseph");
+  const search = page.getByPlaceholder("Search for a Tunneller");
+  await search.fill("joseph");
+  await expect(search).toHaveValue("joseph");
+  await expect(page.getByTestId("dropdown")).toBeVisible();
   const tunneller = page.getByLabel("See Joseph Kelly profile");
-  await expect(tunneller).toBeVisible();
   await Promise.all([
     page.waitForURL("/tunnellers/joseph-kelly--37713/", {
       waitUntil: "domcontentloaded",
     }),
-    tunneller.click(),
+    page.getByLabel("See Joseph Kelly profile").click(),
   ]);
 
   await expect(page).toHaveURL("/tunnellers/joseph-kelly--37713/");
