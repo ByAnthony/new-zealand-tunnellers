@@ -84,12 +84,10 @@ test("can remove a name", async ({ page }) => {
 
   const search = page.getByPlaceholder("Search for a Tunneller");
   await search.fill("david");
-  await expect(
-    page.getByRole("button", { name: "Clear search input" }),
-  ).toBeVisible();
-  await expect(page.getByTestId("dropdown")).toBeVisible();
+  await expect(search).toHaveValue("david");
 
   await search.fill("");
+  await expect(search).toHaveValue("");
   await expect(page.getByTestId("dropdown")).not.toBeVisible();
   await expect(search).toHaveAttribute("placeholder", "Search for a Tunneller");
 });

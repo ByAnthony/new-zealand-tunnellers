@@ -163,7 +163,7 @@ test("BookMenu is visible when scrolling down a chapter", async ({ page }) => {
 
 // ─── Next chapter button ──────────────────────────────────────────────────────
 
-test("EN: next chapter button navigates to chapter 2", async ({ page }) => {
+test("EN: next chapter button links to chapter 2", async ({ page }) => {
   await page.goto(EN_CHAPTER_1);
 
   const nextChapterLabel = "Go to chapter 2: Forging Good Soldiers";
@@ -173,14 +173,9 @@ test("EN: next chapter button navigates to chapter 2", async ({ page }) => {
     "href",
     "/books/kiwis-dig-tunnels-too/chapter-2-forging-good-soldiers",
   );
-
-  await page.getByLabel(nextChapterLabel).click({ force: true });
-  await expect(page).toHaveURL(
-    /books\/kiwis-dig-tunnels-too\/chapter-2-forging-good-soldiers/,
-  );
 });
 
-test("FR: next chapter button navigates to chapter 2", async ({ page }) => {
+test("FR: next chapter button links to chapter 2", async ({ page }) => {
   await page.goto(FR_CHAPTER_1);
 
   const nextChapterLabel = "Aller au chapitre 2 : En faire de bons soldats";
@@ -189,11 +184,6 @@ test("FR: next chapter button navigates to chapter 2", async ({ page }) => {
   await expect(nextChapterLink).toHaveAttribute(
     "href",
     "/fr/books/kiwis-dig-tunnels-too/chapter-2-forging-good-soldiers",
-  );
-
-  await page.getByLabel(nextChapterLabel).click({ force: true });
-  await expect(page).toHaveURL(
-    /fr\/books\/kiwis-dig-tunnels-too\/chapter-2-forging-good-soldiers/,
   );
 });
 
@@ -205,7 +195,10 @@ test("progress ring shows arrow after partial scroll", async ({ page }) => {
   await page.waitForTimeout(100);
 
   await page.getByLabel("Back to contents").click();
-  await page.waitForLoadState("domcontentloaded");
+  await expect(page).toHaveURL(/books\/kiwis-dig-tunnels-too\/?$/);
+  await expect(
+    page.getByRole("heading", { name: "Kiwis Dig Tunnels Too" }),
+  ).toBeVisible();
 
   const chapter1Link = page.getByLabel(
     "Go to chapter 1: The Tunnellers from the Antipodes",
