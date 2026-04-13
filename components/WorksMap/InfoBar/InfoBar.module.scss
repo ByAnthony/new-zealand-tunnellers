@@ -261,6 +261,11 @@
       color: variables.$text-color;
       font-weight: 600;
     }
+
+    &:hover {
+      background-color: variables.$primary-dark-color;
+      border-color: variables.$secondary-color;
+    }
   }
 
   button {

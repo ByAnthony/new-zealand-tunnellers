@@ -15,6 +15,7 @@
 
   &:hover {
     border-color: variables.$secondary-color;
+    background-color: variables.$primary-dark-color;
   }
 
   &--open {
@@ -106,6 +107,7 @@
 
   &:hover {
     border-color: variables.$secondary-color;
+    background-color: variables.$primary-dark-color;
   }
 
   &--active {
@@ -124,7 +126,7 @@
 
 .period-button-dates {
   font-size: 0.75rem;
-  color: variables.$placeholder-color;
+  color: variables.$secondary-color;
   white-space: nowrap;
 }
 
