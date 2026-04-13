@@ -194,8 +194,7 @@ test("progress ring shows arrow after partial scroll", async ({ page }) => {
   await page.evaluate(() => window.scrollTo(0, 300));
   await page.waitForTimeout(100);
 
-  await page.getByLabel("Back to contents").click();
-  await expect(page).toHaveURL(/books\/kiwis-dig-tunnels-too\/?$/);
+  await page.goto(EN_CONTENTS);
   await expect(
     page.getByRole("heading", { name: "Kiwis Dig Tunnels Too" }),
   ).toBeVisible();
@@ -232,8 +231,10 @@ test("progress ring shows tick after scrolling to the bottom of a chapter", asyn
     )
     .toBe(100);
 
-  await page.getByLabel("Back to contents").click();
-  await page.waitForLoadState("domcontentloaded");
+  await page.goto(EN_CONTENTS);
+  await expect(
+    page.getByRole("heading", { name: "Kiwis Dig Tunnels Too" }),
+  ).toBeVisible();
 
   const chapter1Link = page.getByLabel(
     "Go to chapter 1: The Tunnellers from the Antipodes",

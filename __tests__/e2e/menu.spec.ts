@@ -37,6 +37,7 @@ test("can search and click on a name", async ({ page }) => {
   await page.goto("/");
 
   const search = page.getByPlaceholder("Search for a Tunneller");
+  await expect(search).toBeEditable();
   await search.fill("joseph");
   await expect(search).toHaveValue("joseph");
   await expect(page.getByTestId("dropdown")).toBeVisible();
@@ -84,6 +85,7 @@ test("can remove a name", async ({ page }) => {
   await page.goto("/");
 
   const search = page.getByPlaceholder("Search for a Tunneller");
+  await expect(search).toBeEditable();
   await search.fill("david");
   await expect(search).toHaveValue("david");
 
