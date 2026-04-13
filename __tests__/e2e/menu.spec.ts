@@ -40,7 +40,6 @@ test("can search and click on a name", async ({ page }) => {
   await search.fill("joseph");
   await expect(search).toHaveValue("joseph");
   await expect(page.getByTestId("dropdown")).toBeVisible();
-  const tunneller = page.getByLabel("See Joseph Kelly profile");
   await Promise.all([
     page.waitForURL("/tunnellers/joseph-kelly--37713/", {
       waitUntil: "domcontentloaded",
