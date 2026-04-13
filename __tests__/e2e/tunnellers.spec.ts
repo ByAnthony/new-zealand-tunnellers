@@ -1,11 +1,25 @@
 import { test, expect } from "@playwright/test";
 
+async function goToTunnellersPage(
+  page: import("@playwright/test").Page,
+  pageNumber: number,
+) {
+  const pageButton = page.getByRole("button", { name: String(pageNumber) });
+  await expect(pageButton).toBeVisible();
+  await expect(pageButton).toBeEnabled();
+  await pageButton.click();
+  await expect(page).toHaveURL(new RegExp(`[?&]page=${pageNumber}(?:&|$)`));
+  await expect(
+    page.getByRole("button", { name: String(pageNumber) }),
+  ).toBeDisabled();
+}
+
 test("can change page and click on a name", async ({ page }) => {
   await page.goto("/tunnellers");
 
-  await page.getByRole("button", { name: "38" }).click();
-  await page.getByRole("button", { name: "37" }).click();
-  await page.getByRole("button", { name: "36" }).click();
+  await goToTunnellersPage(page, 38);
+  await goToTunnellersPage(page, 37);
+  await goToTunnellersPage(page, 36);
 
   const tunneller = page.getByRole("link", {
     name: "Sapper Claude Percival Wells",

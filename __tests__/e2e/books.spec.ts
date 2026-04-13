@@ -166,39 +166,40 @@ test("BookMenu is visible when scrolling down a chapter", async ({ page }) => {
 test("EN: next chapter button navigates to chapter 2", async ({ page }) => {
   await page.goto(EN_CHAPTER_1);
 
-  const nextChapterLink = page.getByLabel(
-    "Go to chapter 2: Forging Good Soldiers",
-  );
+  const nextChapterLabel = "Go to chapter 2: Forging Good Soldiers";
+  const nextChapterLink = page.getByLabel(nextChapterLabel);
   await expect(nextChapterLink).toBeVisible();
   await expect(nextChapterLink).toHaveAttribute(
     "href",
     "/books/kiwis-dig-tunnels-too/chapter-2-forging-good-soldiers",
   );
-  await nextChapterLink.scrollIntoViewIfNeeded();
 
   await Promise.all([
     page.waitForURL(
       /books\/kiwis-dig-tunnels-too\/chapter-2-forging-good-soldiers/,
       { waitUntil: "domcontentloaded" },
     ),
-    nextChapterLink.click({ force: true }),
+    page.getByLabel(nextChapterLabel).click(),
   ]);
 });
 
 test("FR: next chapter button navigates to chapter 2", async ({ page }) => {
   await page.goto(FR_CHAPTER_1);
 
-  const nextChapterLink = page.getByLabel(
-    "Aller au chapitre 2 : En faire de bons soldats",
-  );
+  const nextChapterLabel = "Aller au chapitre 2 : En faire de bons soldats";
+  const nextChapterLink = page.getByLabel(nextChapterLabel);
   await expect(nextChapterLink).toBeVisible();
+  await expect(nextChapterLink).toHaveAttribute(
+    "href",
+    "/fr/books/kiwis-dig-tunnels-too/chapter-2-forging-good-soldiers",
+  );
 
   await Promise.all([
     page.waitForURL(
       /fr\/books\/kiwis-dig-tunnels-too\/chapter-2-forging-good-soldiers/,
       { waitUntil: "domcontentloaded" },
     ),
-    nextChapterLink.click(),
+    page.getByLabel(nextChapterLabel).click(),
   ]);
 });
 
