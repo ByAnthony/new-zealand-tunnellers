@@ -66,11 +66,12 @@ This setup creates a folder according to the application root your have mentione
 
 The repository uses a single workflow at [`.github/workflows/nztunnellers.yml`](../.github/workflows/nztunnellers.yml).
 
-On `push` to `main`, the workflow currently runs three stages:
+On `push` to `main`, the workflow currently runs four jobs:
 
-1. `checks-and-run-tests`
-2. `run-e2e-tests`
-3. `deployment`
+1. `checks`
+2. `build-production`
+3. `run-e2e-tests`
+4. `deployment`
 
 On pull requests, the deployment job is skipped.
 
@@ -82,7 +83,7 @@ Setup an SSH key (without passphrase) to being able to access your server. You c
 
 This application needs database access at build time. The current workflow exports the production MariaDB database over SSH, copies the dump into the GitHub runner, and imports it into the MariaDB service used during build and E2E execution.
 
-That logic lives in the composite action at [`.github/actions/setup-and-build/action.yml`](../.github/actions/setup-and-build/action.yml).
+That logic lives in the composite action at [`.github/actions/setup-test-database/action.yml`](../.github/actions/setup-test-database/action.yml).
 
 ### Environment variables
 
