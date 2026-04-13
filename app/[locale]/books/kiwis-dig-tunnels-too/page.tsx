@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: Props) {
 
   return {
     title,
-    description: tHomepage("resourceDescription"),
+    description: tHomepage("bookDescription"),
     alternates: {
       canonical: pageUrl(locale, "/books/kiwis-dig-tunnels-too/"),
       languages: {
@@ -31,7 +31,7 @@ export async function generateMetadata({ params }: Props) {
     },
     openGraph: {
       title,
-      description: tHomepage("resourceDescription"),
+      description: tHomepage("bookDescription"),
       url: pageUrl(locale, "/books/kiwis-dig-tunnels-too/"),
       siteName: "New Zealand Tunnellers",
       locale: ogLocale(locale),

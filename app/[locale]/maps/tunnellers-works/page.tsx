@@ -71,7 +71,7 @@ export async function generateMetadata({ params }: Props) {
 
   return {
     title: `${t("map")} - New Zealand Tunnellers`,
-    description: tMaps("cardDescription"),
+    description: tMaps("mapDescription"),
     alternates: {
       canonical: pageUrl(locale, "/maps/tunnellers-works/"),
       languages: {
@@ -81,7 +81,7 @@ export async function generateMetadata({ params }: Props) {
     },
     openGraph: {
       title: `${t("map")} - New Zealand Tunnellers`,
-      description: tMaps("cardDescription"),
+      description: tMaps("mapDescription"),
       url: pageUrl(locale, "/maps/tunnellers-works/"),
       siteName: "New Zealand Tunnellers",
       locale: ogLocale(locale),
