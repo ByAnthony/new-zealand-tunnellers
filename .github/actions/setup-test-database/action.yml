@@ -39,24 +39,17 @@ runs:
         SSH_USER: ${{ inputs.username }}
         SSH_PRIVATE_KEY: ${{ inputs.ssh-private-key }}
 
-    - name: Export database
+    - name: Export database to runner
       shell: bash
-      run: LANG="en_US.UTF-8" ; ssh -T -p 5022 deploy "export MYSQL_PWD=$PASSWORD; mysqldump -P 3306 -u $USERNAME $DATABASE > github_actions.sql"
+      run: |
+        mkdir -p ~/database
+        LANG="en_US.UTF-8" ; ssh -T -p 5022 deploy "export MYSQL_PWD=$PASSWORD; mysqldump -P 3306 -u $USERNAME $DATABASE" > ~/database/github_actions.sql
       env:
         USERNAME: ${{ inputs.username }}
         PASSWORD: ${{ inputs.password }}
         DATABASE: ${{ inputs.database }}
 
     - name: Import database
-      shell: bash
-      run: |
-        mkdir -p ~/database
-        LANG="en_US.UTF-8" ; scp -P 5022 deploy:~/github_actions.sql ~/database
-      env:
-        SERVER: ${{ inputs.host }}
-        USERNAME: ${{ inputs.username }}
-
-    - name: Checkout database
       shell: bash
       run: mysql -h 127.0.0.1 -u $USERNAME $DATABASE < ~/database/github_actions.sql
       env:
