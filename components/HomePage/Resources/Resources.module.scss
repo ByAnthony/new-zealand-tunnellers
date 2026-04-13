@@ -78,7 +78,7 @@
 .actions {
   display: grid;
   grid-template-columns: 1fr;
-  gap: variables.$xs-margin;
+  gap: variables.$m-margin;
 
   @include variables.desktop {
     grid-template-columns: repeat(2, 1fr);
