@@ -3,7 +3,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import ContentsContainer from "@/components/Books/Contents/ContentsContainer";
 import { Locale } from "@/types/locale";
 import { bookTitle } from "@/utils/helpers/books/basePathUtil";
-import { ogLocale, pageUrl } from "@/utils/helpers/metadata";
+import { buildPageMetadata, pageUrl } from "@/utils/helpers/metadata";
 
 export function generateStaticParams() {
   return [{ locale: "en" }, { locale: "fr" }];
@@ -19,26 +19,12 @@ export async function generateMetadata({ params }: Props) {
   const tHomepage = await getTranslations({ locale, namespace: "homepage" });
   const title = `${t("book")} - New Zealand Tunnellers`;
 
-  return {
+  return buildPageMetadata({
+    locale,
     title,
     description: tHomepage("bookDescription"),
-    alternates: {
-      canonical: pageUrl(locale, "/books/kiwis-dig-tunnels-too/"),
-      languages: {
-        en: pageUrl("en", "/books/kiwis-dig-tunnels-too/"),
-        fr: pageUrl("fr", "/books/kiwis-dig-tunnels-too/"),
-      },
-    },
-    openGraph: {
-      title,
-      description: tHomepage("bookDescription"),
-      url: pageUrl(locale, "/books/kiwis-dig-tunnels-too/"),
-      siteName: "New Zealand Tunnellers",
-      locale: ogLocale(locale),
-      alternateLocale: locale === "fr" ? "en_NZ" : "fr_FR",
-      type: "website",
-    },
-  };
+    path: "/books/kiwis-dig-tunnels-too/",
+  });
 }
 
 export default async function Page({ params }: Props) {

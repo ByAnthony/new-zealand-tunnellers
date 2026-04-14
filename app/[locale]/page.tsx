@@ -10,7 +10,7 @@ import {
   historyChaptersQuery,
 } from "@/utils/database/queries/homepageQuery";
 import { getHistoryChapters } from "@/utils/helpers/homepage";
-import { ogLocale, pageUrl } from "@/utils/helpers/metadata";
+import { buildPageMetadata, pageUrl } from "@/utils/helpers/metadata";
 
 type Props = {
   params: Promise<{ locale: Locale }>;
@@ -20,26 +20,12 @@ export async function generateMetadata({ params }: Props) {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "site" });
 
-  return {
+  return buildPageMetadata({
+    locale,
     title: "New Zealand Tunnellers",
     description: t("description"),
-    alternates: {
-      canonical: pageUrl(locale, "/"),
-      languages: {
-        en: pageUrl("en", "/"),
-        fr: pageUrl("fr", "/"),
-      },
-    },
-    openGraph: {
-      title: "New Zealand Tunnellers",
-      description: t("description"),
-      url: pageUrl(locale, "/"),
-      siteName: "New Zealand Tunnellers",
-      locale: ogLocale(locale),
-      alternateLocale: locale === "fr" ? "en_NZ" : "fr_FR",
-      type: "website",
-    },
-  };
+    path: "/",
+  });
 }
 
 async function getData(locale: Locale) {

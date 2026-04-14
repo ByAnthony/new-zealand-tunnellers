@@ -7,7 +7,7 @@ import { Chapter } from "@/components/Books/Chapter/Chapter";
 import { Locale } from "@/types/locale";
 import { bookTitle } from "@/utils/helpers/books/basePathUtil";
 import { readBookMarkdown } from "@/utils/helpers/books/markdownUtil";
-import { ogLocale, pageUrl } from "@/utils/helpers/metadata";
+import { buildPageMetadata, pageUrl } from "@/utils/helpers/metadata";
 
 export function generateStaticParams() {
   const dir = join(process.cwd(), "contents/books/kiwis-dig-tunnels-too");
@@ -35,26 +35,13 @@ export async function generateMetadata(props: Props) {
   const title = `${chapterTitle} - New Zealand Tunnellers`;
   const description = t("bookChapterDescription", { title: chapterTitle });
 
-  return {
+  return buildPageMetadata({
+    locale,
     title,
     description,
-    alternates: {
-      canonical: pageUrl(locale, `/books/kiwis-dig-tunnels-too/${id}/`),
-      languages: {
-        en: pageUrl("en", `/books/kiwis-dig-tunnels-too/${id}/`),
-        fr: pageUrl("fr", `/books/kiwis-dig-tunnels-too/${id}/`),
-      },
-    },
-    openGraph: {
-      title,
-      description,
-      url: pageUrl(locale, `/books/kiwis-dig-tunnels-too/${id}/`),
-      siteName: "New Zealand Tunnellers",
-      locale: ogLocale(locale),
-      alternateLocale: locale === "fr" ? "en_NZ" : "fr_FR",
-      type: "article",
-    },
-  };
+    path: `/books/kiwis-dig-tunnels-too/${id}/`,
+    type: "article",
+  });
 }
 
 export default async function Page(props: Props) {

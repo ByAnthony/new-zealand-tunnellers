@@ -19,7 +19,7 @@ import {
   nextArticleQuery,
 } from "@/utils/database/queries/historyChapterQuery";
 import { getNextChapter } from "@/utils/helpers/article";
-import { ogLocale, pageUrl } from "@/utils/helpers/metadata";
+import { buildPageMetadata, pageUrl } from "@/utils/helpers/metadata";
 
 type Props = {
   params: Promise<{ id: string; locale: Locale }>;
@@ -76,26 +76,13 @@ export async function generateMetadata(props: Props) {
   const title = `${chapterTitle} - New Zealand Tunnellers`;
   const description = t("historyChapterDescription", { title: chapterTitle });
 
-  return {
+  return buildPageMetadata({
+    locale,
     title,
     description,
-    alternates: {
-      canonical: pageUrl(locale, `/history/${id}/`),
-      languages: {
-        en: pageUrl("en", `/history/${id}/`),
-        fr: pageUrl("fr", `/history/${id}/`),
-      },
-    },
-    openGraph: {
-      title,
-      description,
-      url: pageUrl(locale, `/history/${id}/`),
-      siteName: "New Zealand Tunnellers",
-      locale: ogLocale(locale),
-      alternateLocale: locale === "fr" ? "en_NZ" : "fr_FR",
-      type: "article",
-    },
-  };
+    path: `/history/${id}/`,
+    type: "article",
+  });
 }
 
 export default async function Page(props: Props) {
