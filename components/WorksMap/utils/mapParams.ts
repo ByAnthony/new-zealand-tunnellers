@@ -60,3 +60,30 @@ export function formatDay(dayNum: number, locale: string): string {
     })
     .replace(/^./, (char) => char.toUpperCase());
 }
+
+export function formatPeriodRange(
+  locale: string,
+  startDate: string,
+  endDate: string,
+): string {
+  const start = parseDateOnlyAsUTC(startDate);
+  const end = parseDateOnlyAsUTC(endDate);
+  const sameYear = start.getUTCFullYear() === end.getUTCFullYear();
+  const localeTag = getLocaleTag(locale);
+
+  const startFormatter = new Intl.DateTimeFormat(localeTag, {
+    day: "numeric",
+    month: "long",
+    ...(sameYear ? {} : { year: "numeric" }),
+    timeZone: "UTC",
+  });
+
+  const endFormatter = new Intl.DateTimeFormat(localeTag, {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+    timeZone: "UTC",
+  });
+
+  return `${startFormatter.format(start)} — ${endFormatter.format(end)}`;
+}
