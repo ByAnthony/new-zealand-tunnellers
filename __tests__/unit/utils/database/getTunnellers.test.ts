@@ -1,5 +1,3 @@
-import { NextResponse } from "next/server";
-
 import { Tunneller, TunnellerData } from "@/types/tunnellers";
 import { getTunnellers } from "@/utils/database/getTunnellers";
 import { rollQuery } from "@/utils/database/queries/rollQuery";
@@ -9,12 +7,6 @@ jest.mock("next/cache", () => ({
 }));
 
 jest.mock("@/utils/database/queries/rollQuery");
-
-jest.mock("next/server", () => ({
-  NextResponse: {
-    json: jest.fn((data) => data),
-  },
-}));
 
 describe("getTunnellers", () => {
   test("should return a list of tunnellers with full names", async () => {
@@ -108,6 +100,6 @@ describe("getTunnellers", () => {
       },
     ];
 
-    expect(response).toEqual(NextResponse.json(expectedTunnellers));
+    expect(response).toEqual(expectedTunnellers);
   });
 });
