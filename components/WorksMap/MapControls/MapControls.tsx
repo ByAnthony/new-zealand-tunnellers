@@ -185,8 +185,11 @@ export function MapControls({
       new Set(
         PERIODS.filter(
           ({ start, end }) =>
-            computeVisibleCount(dateToDay(start), dateToDay(end), pendingTypes) >
-            0,
+            computeVisibleCount(
+              dateToDay(start),
+              dateToDay(end),
+              pendingTypes,
+            ) > 0,
         ).map(({ key }) => key),
       ),
     [computeVisibleCount, pendingTypes],
@@ -199,8 +202,7 @@ export function MapControls({
     setPendingTypes(new Set());
   };
 
-  const activeFilterCount =
-    (initialPeriodKey ? 1 : 0) + selectedTypes.size;
+  const activeFilterCount = (initialPeriodKey ? 1 : 0) + selectedTypes.size;
 
   const filtersToggleButton = (
     <button
