@@ -7,6 +7,7 @@ import { Chapter } from "@/components/Books/Chapter/Chapter";
 import { Locale } from "@/types/locale";
 import { bookTitle } from "@/utils/helpers/books/basePathUtil";
 import { readBookMarkdown } from "@/utils/helpers/books/markdownUtil";
+import { jsonLdAuthor, jsonLdPublisher } from "@/utils/helpers/jsonLd";
 import { buildPageMetadata, pageUrl } from "@/utils/helpers/metadata";
 
 export function generateStaticParams() {
@@ -60,15 +61,8 @@ export default async function Page(props: Props) {
       name: bookTitle(locale),
     },
     url: pageUrl(locale, `/books/kiwis-dig-tunnels-too/${id}/`),
-    author: {
-      "@type": "Person",
-      name: "Anthony Byledbal",
-    },
-    publisher: {
-      "@type": "Organization",
-      name: "New Zealand Tunnellers",
-      url: "https://www.nztunnellers.com",
-    },
+    author: jsonLdAuthor,
+    publisher: jsonLdPublisher,
   };
 
   return (

@@ -4,6 +4,7 @@ import { Profile } from "@/components/Profile/Profile";
 import { Locale } from "@/types/locale";
 import { TunnellerProfile } from "@/types/tunneller";
 import { getTunnellerBySlug } from "@/utils/database/getTunnellerBySlug";
+import { buildTunnellerJsonLd } from "@/utils/helpers/jsonLd";
 import { buildPageMetadata, pageUrl } from "@/utils/helpers/metadata";
 
 type Props = {
@@ -46,35 +47,19 @@ export default async function Page(props: Props) {
   const awmm = tunneller.sources.awmmCenotaph;
   const image = tunneller.image?.url;
 
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    name: `${forename} ${surname}`,
-    givenName: forename,
+  const jsonLd = buildTunnellerJsonLd({
+    awmm,
+    birthDate,
+    birthPlace,
+    deathCountry,
+    deathDate,
+    deathTown,
     familyName: surname,
+    givenName: forename,
+    image,
     jobTitle: rank,
-    memberOf: {
-      "@type": "Organization",
-      name: "New Zealand Tunnelling Company",
-    },
     url: pageUrl(locale, `/tunnellers/${slug}/`),
-    ...(image && {
-      image: `https://www.nztunnellers.com/images/roll/tunnellers/${image}`,
-    }),
-    ...(birthDate && { birthDate }),
-    ...(birthPlace && {
-      birthPlace: { "@type": "Place", addressCountry: birthPlace },
-    }),
-    ...(deathDate && { deathDate }),
-    ...((deathTown || deathCountry) && {
-      deathPlace: {
-        "@type": "Place",
-        ...(deathTown && { name: deathTown }),
-        ...(deathCountry && { addressCountry: deathCountry }),
-      },
-    }),
-    ...(awmm && { sameAs: awmm }),
-  };
+  });
 
   return (
     <>

@@ -3,6 +3,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import ContentsContainer from "@/components/Books/Contents/ContentsContainer";
 import { Locale } from "@/types/locale";
 import { bookTitle } from "@/utils/helpers/books/basePathUtil";
+import { jsonLdAuthor, jsonLdPublisher } from "@/utils/helpers/jsonLd";
 import { buildPageMetadata, pageUrl } from "@/utils/helpers/metadata";
 
 export function generateStaticParams() {
@@ -37,15 +38,8 @@ export default async function Page({ params }: Props) {
     name: bookTitle(locale),
     inLanguage: locale,
     url: pageUrl(locale, "/books/kiwis-dig-tunnels-too/"),
-    author: {
-      "@type": "Person",
-      name: "Anthony Byledbal",
-    },
-    publisher: {
-      "@type": "Organization",
-      name: "New Zealand Tunnellers",
-      url: "https://www.nztunnellers.com",
-    },
+    author: jsonLdAuthor,
+    publisher: jsonLdPublisher,
   };
 
   return (

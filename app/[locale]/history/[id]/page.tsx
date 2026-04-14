@@ -18,6 +18,7 @@ import {
 } from "@/utils/database/queries/historyChapterQuery";
 import { withConnection } from "@/utils/database/withConnection";
 import { getNextChapter } from "@/utils/helpers/article";
+import { jsonLdAuthor, jsonLdPublisher } from "@/utils/helpers/jsonLd";
 import { buildPageMetadata, pageUrl } from "@/utils/helpers/metadata";
 
 type Props = {
@@ -93,15 +94,8 @@ export default async function Page(props: Props) {
     headline: article.title.replace(/\\/g, " "),
     inLanguage: locale,
     url: pageUrl(locale, `/history/${id}/`),
-    author: {
-      "@type": "Person",
-      name: "Anthony Byledbal",
-    },
-    publisher: {
-      "@type": "Organization",
-      name: "New Zealand Tunnellers",
-      url: "https://www.nztunnellers.com",
-    },
+    author: jsonLdAuthor,
+    publisher: jsonLdPublisher,
   };
 
   return (
