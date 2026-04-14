@@ -15,7 +15,6 @@ const PERIODS = [
     key: "1916-03-16/1916-11-15",
     start: "1916-03-16",
     end: "1916-11-15",
-    dates: "16/03/1916 — 15/11/1916",
     en: "Underground Warfare",
     fr: "Guerre souterraine",
   },
@@ -23,7 +22,6 @@ const PERIODS = [
     key: "1916-11-16/1917-04-09",
     start: "1916-11-16",
     end: "1917-04-09",
-    dates: "16/11/1916 — 09/04/1917",
     en: "Preparations for the Battle of Arras",
     fr: "Préparatifs de la bataille d'Arras",
   },
@@ -31,7 +29,6 @@ const PERIODS = [
     key: "1917-04-10/1918-03-20",
     start: "1917-04-10",
     end: "1918-03-20",
-    dates: "10/04/1917 — 20/03/1918",
     en: "East of Arras Trench Works",
     fr: "Travaux de tranchées à l'est d'Arras",
   },
@@ -39,7 +36,6 @@ const PERIODS = [
     key: "1918-03-21/1918-07-14",
     start: "1918-03-21",
     end: "1918-07-14",
-    dates: "21/03/1918 — 14/07/1918",
     en: "1918 German Spring Offensive",
     fr: "Offensive allemande du printemps 1918",
   },
@@ -47,7 +43,6 @@ const PERIODS = [
     key: "1918-07-15/1918-08-21",
     start: "1918-07-15",
     end: "1918-08-21",
-    dates: "15/07/1918 — 21/08/1918",
     en: "Preparations for the Allied Offensives",
     fr: "Préparatifs des offensives alliées",
   },
@@ -55,11 +50,37 @@ const PERIODS = [
     key: "1918-09-26/1918-12-27",
     start: "1918-09-26",
     end: "1918-12-27",
-    dates: "26/09/1918 — 27/12/1918",
     en: "Bridging Operations",
     fr: "Opérations de ponts",
   },
 ];
+
+function formatPeriodRange(
+  locale: string,
+  startDate: string,
+  endDate: string,
+): string {
+  const start = new Date(`${startDate}T00:00:00Z`);
+  const end = new Date(`${endDate}T00:00:00Z`);
+  const sameYear = start.getUTCFullYear() === end.getUTCFullYear();
+  const formatLocale = locale === "fr" ? "fr-FR" : "en-GB";
+
+  const startFormatter = new Intl.DateTimeFormat(formatLocale, {
+    day: "numeric",
+    month: "long",
+    ...(sameYear ? {} : { year: "numeric" }),
+    timeZone: "UTC",
+  });
+
+  const endFormatter = new Intl.DateTimeFormat(formatLocale, {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+    timeZone: "UTC",
+  });
+
+  return `${startFormatter.format(start)} — ${endFormatter.format(end)}`;
+}
 
 type Props = {
   visibleCount: number;
@@ -244,13 +265,15 @@ export function MapControls({
           {locale === "fr" ? "Périodes" : "Time periods"}
         </h3>
         <div className={STYLES["dialog-period-grid"]}>
-          {PERIODS.map(({ key, dates, en, fr }) => (
+          {PERIODS.map(({ key, start, end, en, fr }) => (
             <button
               key={key}
               className={`${STYLES["period-button"]} ${pendingPeriod === key ? STYLES["period-button--active"] : ""}`}
               onClick={() => handlePeriodClick(key)}
             >
-              <span className={STYLES["period-button-dates"]}>{dates}</span>
+              <span className={STYLES["period-button-dates"]}>
+                {formatPeriodRange(locale, start, end)}
+              </span>
               <span className={STYLES["period-button-title"]}>
                 {locale === "fr" ? fr : en}
               </span>

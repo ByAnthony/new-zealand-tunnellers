@@ -106,6 +106,10 @@ describe("MapControls", () => {
 
     fireEvent.click(screen.getByRole("button", { name: "Toggle filters" }));
     expect(screen.getByTestId("dialog-count")).toHaveTextContent("8/10");
+    expect(screen.getByText("16 March — 15 November 1916")).toBeInTheDocument();
+    expect(
+      screen.getByText("16 November 1916 — 9 April 1917"),
+    ).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole("button", { name: "Dugout" }));
     expect(screen.getByTestId("dialog-count")).toHaveTextContent("3/10");
