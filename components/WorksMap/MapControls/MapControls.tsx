@@ -7,7 +7,7 @@ import { Dialog } from "@/components/Dialog/Dialog";
 
 import STYLES from "./MapControls.module.scss";
 import { TypeFilter } from "../TypeFilter/TypeFilter";
-import { dateToDay } from "../utils/mapParams";
+import { dateToDay, formatPeriodRange } from "../utils/mapParams";
 import { WorksSlider } from "../WorksSlider/WorksSlider";
 
 const PERIODS = [
@@ -54,33 +54,6 @@ const PERIODS = [
     fr: "Opérations de ponts",
   },
 ];
-
-function formatPeriodRange(
-  locale: string,
-  startDate: string,
-  endDate: string,
-): string {
-  const start = new Date(`${startDate}T00:00:00Z`);
-  const end = new Date(`${endDate}T00:00:00Z`);
-  const sameYear = start.getUTCFullYear() === end.getUTCFullYear();
-  const formatLocale = locale === "fr" ? "fr-FR" : "en-GB";
-
-  const startFormatter = new Intl.DateTimeFormat(formatLocale, {
-    day: "numeric",
-    month: "long",
-    ...(sameYear ? {} : { year: "numeric" }),
-    timeZone: "UTC",
-  });
-
-  const endFormatter = new Intl.DateTimeFormat(formatLocale, {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-    timeZone: "UTC",
-  });
-
-  return `${startFormatter.format(start)} — ${endFormatter.format(end)}`;
-}
 
 type Props = {
   visibleCount: number;
