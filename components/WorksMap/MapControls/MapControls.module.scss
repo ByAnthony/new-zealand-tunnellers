@@ -3,20 +3,9 @@
 .period-toggle {
   grid-column: 1;
   grid-row: 1;
-  background-color: variables.$primary-medium-color;
-  border: 1px solid variables.$primary-light-color;
-  border-radius: variables.$border-radius;
-  color: variables.$secondary-color;
   font-size: 1rem;
-  cursor: pointer;
-  transition:
-    border-color 0.9s ease-in-out,
-    background-color 0.9s ease-in-out;
 
-  &:hover {
-    border-color: variables.$secondary-color;
-    background-color: variables.$primary-dark-color;
-  }
+  @include variables.outlined-control;
 
   &--active {
     background-color: variables.$secondary-color;
@@ -60,25 +49,13 @@
   align-items: center;
   justify-content: center;
   align-self: stretch;
-  background-color: variables.$primary-medium-color;
-  border: 1px solid variables.$primary-light-color;
-  border-radius: variables.$border-radius;
-  color: variables.$secondary-color;
   font-family: variables.$main-font;
   font-size: 1.9rem;
   font-weight: 200;
-  cursor: pointer;
-  transition:
-    border-color 0.9s ease-in-out,
-    background-color 0.9s ease-in-out;
 
-  &:hover:not(:disabled) {
-    background-color: variables.$primary-dark-color;
-    border: 1px solid variables.$secondary-color;
-  }
+  @include variables.outlined-control;
 
   &:disabled {
-    border: 1px solid variables.$primary-light-color;
     color: variables.$primary-light-color;
     cursor: not-allowed;
   }
@@ -95,20 +72,11 @@
   flex-direction: column;
   flex-shrink: 0;
   gap: 2px;
-  background-color: variables.$primary-medium-color;
-  border: 1px solid variables.$primary-light-color;
-  border-radius: variables.$border-radius;
   padding: variables.$xxs-margin;
-  cursor: pointer;
   text-align: left;
-  color: variables.$secondary-color;
   font: inherit;
-  transition: all 0.9s ease-in-out;
 
-  &:hover {
-    border-color: variables.$secondary-color;
-    background-color: variables.$primary-dark-color;
-  }
+  @include variables.outlined-control;
 
   &--active {
     background-color: variables.$secondary-color;
@@ -250,11 +218,10 @@
 .zoom-btn {
   width: 45px;
   height: 45px;
-  background-color: variables.$primary-medium-color;
-  color: variables.$secondary-color;
-  border: 1px solid variables.$primary-light-color;
-  border-radius: variables.$border-radius;
   font-size: 1.5rem;
+  line-height: 1;
+
+  @include variables.outlined-control;
 
   @include variables.tablet {
     font-size: 1.6rem;
@@ -264,19 +231,7 @@
     font-size: 1.7rem;
   }
 
-  line-height: 1;
-  cursor: pointer;
-  transition:
-    border 0.9s ease-in-out,
-    background-color 0.9s ease-in-out;
-
-  &:hover:not(:disabled) {
-    background-color: variables.$primary-dark-color;
-    border-color: variables.$secondary-color;
-  }
-
   &:disabled {
-    border-color: variables.$primary-light-color;
     color: variables.$primary-light-color;
     cursor: not-allowed;
   }

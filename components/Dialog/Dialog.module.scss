@@ -70,10 +70,7 @@
   border-bottom: 1px solid variables.$primary-medium-color;
 
   button {
-    all: unset;
-    cursor: pointer;
-
-    @include variables.text-link;
+    @include variables.text-link-button;
   }
 }
 
@@ -113,10 +110,7 @@
 }
 
 .dialog-cancel-button {
-  all: unset;
-  cursor: pointer;
-
-  @include variables.text-link;
+  @include variables.text-link-button;
 
   &:disabled {
     color: variables.$primary-light-color;

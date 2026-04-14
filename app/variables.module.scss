@@ -123,6 +123,13 @@ $border-radius: 8px;
   }
 }
 
+@mixin text-link-button {
+  all: unset;
+  cursor: pointer;
+
+  @include text-link;
+}
+
 .link {
   font-size: 1rem;
   font-weight: 500;
@@ -161,6 +168,23 @@ $border-radius: 8px;
 
   &:hover {
     border: 1px solid $secondary-color;
+    background-color: $primary-dark-color;
+  }
+}
+
+@mixin outlined-control {
+  background-color: $primary-medium-color;
+  border: 1px solid $primary-light-color;
+  border-radius: $border-radius;
+  color: $secondary-color;
+  cursor: pointer;
+  transition:
+    border-color 0.9s ease-in-out,
+    background-color 0.9s ease-in-out,
+    color 0.9s ease-in-out;
+
+  &:hover:not(:disabled) {
+    border-color: $secondary-color;
     background-color: $primary-dark-color;
   }
 }

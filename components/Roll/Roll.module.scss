@@ -58,11 +58,9 @@
     }
 
     @include variables.desktop {
-      all: unset;
-      cursor: pointer;
       display: inline-block;
 
-      @include variables.text-link;
+      @include variables.text-link-button;
 
       &:disabled {
         color: variables.$primary-light-color;
