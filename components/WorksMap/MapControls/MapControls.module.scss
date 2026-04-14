@@ -18,13 +18,13 @@
     background-color: variables.$primary-dark-color;
   }
 
-  &--open {
+  &--active {
     background-color: variables.$secondary-color;
     border-color: variables.$secondary-color;
     color: variables.$primary-dark-color;
   }
 
-  &--active {
+  &--active:hover {
     background-color: variables.$secondary-color;
     border-color: variables.$secondary-color;
     color: variables.$primary-dark-color;
@@ -101,9 +101,9 @@
   padding: variables.$xxs-margin;
   cursor: pointer;
   text-align: left;
-  transition:
-    border-color 0.9s ease-in-out,
-    background-color 0.9s ease-in-out;
+  color: variables.$secondary-color;
+  font: inherit;
+  transition: all 0.9s ease-in-out;
 
   &:hover {
     border-color: variables.$secondary-color;
@@ -113,27 +113,32 @@
   &--active {
     background-color: variables.$secondary-color;
     border-color: variables.$secondary-color;
+    color: variables.$primary-dark-color;
+  }
 
-    .period-button-dates {
-      color: variables.$primary-dark-color;
-    }
+  &--active:hover {
+    background-color: variables.$secondary-color;
+    border-color: variables.$secondary-color;
+  }
 
-    .period-button-title {
-      color: variables.$primary-dark-color;
-    }
+  &:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
   }
 }
 
 .period-button-dates {
   font-size: 0.75rem;
-  color: variables.$secondary-color;
+  font-weight: 300;
+  font-style: italic;
+  color: inherit;
   white-space: nowrap;
 }
 
 .period-button-title {
   font-size: 0.9rem;
   font-weight: 500;
-  color: variables.$secondary-color;
+  color: inherit;
   white-space: nowrap;
 }
 
