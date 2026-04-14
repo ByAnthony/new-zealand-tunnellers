@@ -265,12 +265,12 @@ export function Roll({ tunnellers }: Props) {
     () => filteredGroups.reduce((acc, [, list]) => acc + list.length, 0),
     [filteredGroups],
   );
-  const sortedFilteredGroups = useMemo(() => {
+  const sortedFilteredGroups = useMemo<[string, Tunneller[]][]>(() => {
     const direction = sortOrder === "asc" ? 1 : -1;
 
     return [...filteredGroups]
       .sort(([groupA], [groupB]) => groupA.localeCompare(groupB) * direction)
-      .map(([group, list]) => [
+      .map<[string, Tunneller[]]>(([group, list]) => [
         group,
         [...list].sort((a, b) => {
           const surnameCompare =
