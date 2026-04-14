@@ -142,6 +142,7 @@ export function MapControls({
   const [pendingTypes, setPendingTypes] = useState<Set<string>>(new Set());
 
   const openFiltersDialog = () => {
+    setPendingPeriod(initialPeriodKey);
     setPendingTypes(new Set(selectedTypes));
     setIsFiltersOpen(true);
   };
@@ -200,6 +201,21 @@ export function MapControls({
     return computeVisibleCount(start, end, pendingTypes);
   }, [pendingPeriod, pendingTypes, computeVisibleCount, minMonth, maxMonth]);
 
+  const availablePeriods = useMemo(
+    () =>
+      new Set(
+        PERIODS.filter(
+          ({ start, end }) =>
+            computeVisibleCount(
+              dateToDay(start),
+              dateToDay(end),
+              pendingTypes,
+            ) > 0,
+        ).map(({ key }) => key),
+      ),
+    [computeVisibleCount, pendingTypes],
+  );
+
   const hasActiveFilters = pendingPeriod !== null || pendingTypes.size > 0;
 
   const handleResetFilters = () => {
@@ -207,9 +223,7 @@ export function MapControls({
     setPendingTypes(new Set());
   };
 
-  const activeFilterCount =
-    (pendingPeriod ? 1 : 0) +
-    (isFiltersOpen ? pendingTypes.size : selectedTypes.size);
+  const activeFilterCount = (initialPeriodKey ? 1 : 0) + selectedTypes.size;
 
   const filtersToggleButton = (
     <button
@@ -269,6 +283,7 @@ export function MapControls({
             <button
               key={key}
               className={`${STYLES["period-button"]} ${pendingPeriod === key ? STYLES["period-button--active"] : ""}`}
+              disabled={!availablePeriods.has(key)}
               onClick={() => handlePeriodClick(key)}
             >
               <span className={STYLES["period-button-dates"]}>
