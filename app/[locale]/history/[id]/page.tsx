@@ -1,4 +1,3 @@
-import { NextResponse } from "next/server";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
 import { Article } from "@/components/Article/Article";
@@ -10,7 +9,6 @@ import {
   ImageData,
 } from "@/types/article";
 import { Locale } from "@/types/locale";
-import { mysqlConnection } from "@/utils/database/mysqlConnection";
 import {
   allArticleIdsQuery,
   chapterQuery,
@@ -18,6 +16,7 @@ import {
   imagesQuery,
   nextArticleQuery,
 } from "@/utils/database/queries/historyChapterQuery";
+import { withConnection } from "@/utils/database/withConnection";
 import { getNextChapter } from "@/utils/helpers/article";
 import { buildPageMetadata, pageUrl } from "@/utils/helpers/metadata";
 
@@ -26,50 +25,48 @@ type Props = {
 };
 
 async function getData(id: string, locale: Locale) {
-  const connection = await mysqlConnection.getConnection();
-
   try {
-    const data: ArticleData = await chapterQuery(id, locale, connection);
-    const section: SectionData[] = await sectionsQuery(id, locale, connection);
-    const images: ImageData[] = await imagesQuery(id, locale, connection);
-    const nextArticle: ArticleReferenceData[] = await nextArticleQuery(
-      locale,
-      connection,
-    );
+    return await withConnection(async (connection) => {
+      const data: ArticleData = await chapterQuery(id, locale, connection);
+      const section: SectionData[] = await sectionsQuery(
+        id,
+        locale,
+        connection,
+      );
+      const images: ImageData[] = await imagesQuery(id, locale, connection);
+      const nextArticle: ArticleReferenceData[] = await nextArticleQuery(
+        locale,
+        connection,
+      );
 
-    const article: Chapter = {
-      id: data.id,
-      chapter: data.chapter,
-      title: data.title,
-      section: section,
-      image: images,
-      next: getNextChapter(data.chapter, nextArticle),
-      notes: data.notes,
-    };
+      const article: Chapter = {
+        id: data.id,
+        chapter: data.chapter,
+        title: data.title,
+        section: section,
+        image: images,
+        next: getNextChapter(data.chapter, nextArticle),
+        notes: data.notes,
+      };
 
-    return NextResponse.json(article);
+      return article;
+    });
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error);
     throw new Error(`Failed to fetch Chapter data: ${errorMessage}`);
-  } finally {
-    connection.release();
   }
 }
 
 export async function generateStaticParams() {
-  const connection = await mysqlConnection.getConnection();
-  try {
-    const ids = await allArticleIdsQuery(connection);
-    return ids.map((id) => ({ id }));
-  } finally {
-    connection.release();
-  }
+  const ids = await withConnection((connection) =>
+    allArticleIdsQuery(connection),
+  );
+  return ids.map((id) => ({ id }));
 }
 
 export async function generateMetadata(props: Props) {
   const { id, locale } = await props.params;
-  const response = await getData(id, locale);
-  const article: Chapter = await response.json();
+  const article: Chapter = await getData(id, locale);
 
   const t = await getTranslations({ locale, namespace: "site" });
   const chapterTitle = article.title.replace(/\\/g, " ");
@@ -88,8 +85,7 @@ export async function generateMetadata(props: Props) {
 export default async function Page(props: Props) {
   const { id, locale } = await props.params;
   setRequestLocale(locale);
-  const response = await getData(id, locale);
-  const article: Chapter = await response.json();
+  const article: Chapter = await getData(id, locale);
 
   const jsonLd = {
     "@context": "https://schema.org",

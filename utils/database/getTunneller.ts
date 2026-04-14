@@ -1,5 +1,4 @@
 import { PoolConnection } from "mysql2/promise";
-import { NextResponse } from "next/server";
 
 import { Locale } from "@/types/locale";
 import {
@@ -351,5 +350,5 @@ export async function getTunneller(
     ),
   };
 
-  return NextResponse.json(tunneller);
+  return tunneller;
 }

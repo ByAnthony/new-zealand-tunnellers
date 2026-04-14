@@ -1,10 +1,8 @@
-import { NextResponse } from "next/server";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Suspense } from "react";
 
 import { WorksMapContainer } from "@/components/WorksMap/WorksMapContainer";
 import { Locale } from "@/types/locale";
-import { mysqlConnection } from "@/utils/database/mysqlConnection";
 import {
   cavesQuery,
   cavePathsQuery,
@@ -29,6 +27,7 @@ import {
   WorkData,
   WorkPathPoint,
 } from "@/utils/database/queries/worksQuery";
+import { withConnection } from "@/utils/database/withConnection";
 import { buildPageMetadata } from "@/utils/helpers/metadata";
 
 type Props = {
@@ -36,31 +35,30 @@ type Props = {
 };
 
 async function getData() {
-  const connection = await mysqlConnection.getConnection();
   try {
-    const works = await worksQuery(connection);
-    const paths = await workPathsQuery(connection);
-    const caves = await cavesQuery(connection);
-    const cavePaths = await cavePathsQuery(connection);
-    const subways = await subwaysQuery(connection);
-    const subwayPaths = await subwayPathsQuery(connection);
-    const frontLines = await frontLinesQuery(connection);
-    const frontLinePaths = await frontLinePathsQuery(connection);
-    return NextResponse.json({
-      works,
-      paths,
-      caves,
-      cavePaths,
-      subways,
-      subwayPaths,
-      frontLines,
-      frontLinePaths,
+    return await withConnection(async (connection) => {
+      const works = await worksQuery(connection);
+      const paths = await workPathsQuery(connection);
+      const caves = await cavesQuery(connection);
+      const cavePaths = await cavePathsQuery(connection);
+      const subways = await subwaysQuery(connection);
+      const subwayPaths = await subwayPathsQuery(connection);
+      const frontLines = await frontLinesQuery(connection);
+      const frontLinePaths = await frontLinePathsQuery(connection);
+      return {
+        works,
+        paths,
+        caves,
+        cavePaths,
+        subways,
+        subwayPaths,
+        frontLines,
+        frontLinePaths,
+      };
     });
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error);
     throw new Error(`Failed to fetch works data: ${errorMessage}`);
-  } finally {
-    connection.release();
   }
 }
 
@@ -81,7 +79,6 @@ export default async function Page({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
 
-  const response = await getData();
   const {
     works,
     paths,
@@ -100,7 +97,7 @@ export default async function Page({ params }: Props) {
     subwayPaths: SubwayPathPoint[];
     frontLines: FrontLineData[];
     frontLinePaths: FrontLinePathPoint[];
-  } = await response.json();
+  } = await getData();
 
   return (
     <Suspense fallback={<div style={{ minHeight: "100vh" }} />}>

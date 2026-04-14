@@ -1,12 +1,11 @@
 import { PoolConnection } from "mysql2/promise";
 import { unstable_cache } from "next/cache";
-import { NextResponse } from "next/server";
 
 import { Locale } from "@/types/locale";
 import { Tunneller, TunnellerData } from "@/types/tunnellers";
 
-import { mysqlConnection } from "./mysqlConnection";
 import { rollQuery } from "./queries/rollQuery";
+import { withConnection } from "./withConnection";
 
 export async function getTunnellers(
   locale: Locale,
@@ -37,28 +36,24 @@ export async function getTunnellers(
     corpsId: result.corps_id,
   }));
 
-  return NextResponse.json(tunnellers);
+  return tunnellers;
 }
 
 export const getCachedTunnellers = unstable_cache(
   async (locale: Locale): Promise<Record<string, Tunneller[]>> => {
-    const connection = await mysqlConnection.getConnection();
-    try {
-      const response = await getTunnellers(locale, connection);
-      const data: Tunneller[] = await response.json();
+    const data = await withConnection((connection) =>
+      getTunnellers(locale, connection),
+    );
 
-      return data.reduce(
-        (acc: Record<string, Tunneller[]>, tunneller: Tunneller) => {
-          const firstLetter = tunneller.name.surname.charAt(0).toUpperCase();
-          if (!acc[firstLetter]) acc[firstLetter] = [];
-          acc[firstLetter].push(tunneller);
-          return acc;
-        },
-        {},
-      );
-    } finally {
-      connection.release();
-    }
+    return data.reduce(
+      (acc: Record<string, Tunneller[]>, tunneller: Tunneller) => {
+        const firstLetter = tunneller.name.surname.charAt(0).toUpperCase();
+        if (!acc[firstLetter]) acc[firstLetter] = [];
+        acc[firstLetter].push(tunneller);
+        return acc;
+      },
+      {},
+    );
   },
   ["tunnellers"],
   { revalidate: false },
