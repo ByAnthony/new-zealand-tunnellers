@@ -15,7 +15,7 @@ import {
   aboutUsSections,
   aboutUsImage,
 } from "@/utils/database/queries/aboutUsQuery";
-import { ogLocale, pageUrl } from "@/utils/helpers/metadata";
+import { buildPageMetadata } from "@/utils/helpers/metadata";
 
 type Props = {
   params: Promise<{ locale: Locale }>;
@@ -51,26 +51,12 @@ export async function generateMetadata(props: Props) {
   const title = `${t("aboutUs")} - New Zealand Tunnellers`;
   const description = t("aboutUsDescription");
 
-  return {
+  return buildPageMetadata({
+    locale,
     title,
     description,
-    alternates: {
-      canonical: pageUrl(locale, "/about-us/"),
-      languages: {
-        en: pageUrl("en", "/about-us/"),
-        fr: pageUrl("fr", "/about-us/"),
-      },
-    },
-    openGraph: {
-      title,
-      description,
-      url: pageUrl(locale, "/about-us/"),
-      siteName: "New Zealand Tunnellers",
-      locale: ogLocale(locale),
-      alternateLocale: locale === "fr" ? "en_NZ" : "fr_FR",
-      type: "website",
-    },
-  };
+    path: "/about-us/",
+  });
 }
 
 export default async function Page(props: Props) {

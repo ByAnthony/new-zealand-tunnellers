@@ -29,7 +29,7 @@ import {
   WorkData,
   WorkPathPoint,
 } from "@/utils/database/queries/worksQuery";
-import { ogLocale, pageUrl } from "@/utils/helpers/metadata";
+import { buildPageMetadata } from "@/utils/helpers/metadata";
 
 type Props = {
   params: Promise<{ locale: Locale }>;
@@ -69,26 +69,12 @@ export async function generateMetadata({ params }: Props) {
   const t = await getTranslations({ locale, namespace: "site" });
   const tMaps = await getTranslations({ locale, namespace: "maps" });
 
-  return {
+  return buildPageMetadata({
+    locale,
     title: `${t("map")} - New Zealand Tunnellers`,
     description: tMaps("mapDescription"),
-    alternates: {
-      canonical: pageUrl(locale, "/maps/tunnellers-works/"),
-      languages: {
-        en: pageUrl("en", "/maps/tunnellers-works/"),
-        fr: pageUrl("fr", "/maps/tunnellers-works/"),
-      },
-    },
-    openGraph: {
-      title: `${t("map")} - New Zealand Tunnellers`,
-      description: tMaps("mapDescription"),
-      url: pageUrl(locale, "/maps/tunnellers-works/"),
-      siteName: "New Zealand Tunnellers",
-      locale: ogLocale(locale),
-      alternateLocale: locale === "fr" ? "en_NZ" : "fr_FR",
-      type: "website",
-    },
-  };
+    path: "/maps/tunnellers-works/",
+  });
 }
 
 export default async function Page({ params }: Props) {

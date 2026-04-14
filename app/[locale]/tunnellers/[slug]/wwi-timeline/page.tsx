@@ -7,7 +7,7 @@ import { TunnellerProfile } from "@/types/tunneller";
 import { getTunneller } from "@/utils/database/getTunneller";
 import { mysqlConnection } from "@/utils/database/mysqlConnection";
 import { tunnellerSlugByIdQuery } from "@/utils/database/queries/tunnellerSlugByIdQuery";
-import { ogLocale, pageUrl } from "@/utils/helpers/metadata";
+import { buildPageMetadata, pageUrl } from "@/utils/helpers/metadata";
 
 type Props = {
   params: Promise<{ slug: string; locale: Locale }>;
@@ -54,28 +54,15 @@ export async function generateMetadata(props: Props) {
     surname,
   });
 
-  return {
+  return buildPageMetadata({
+    locale,
     title,
     description,
-    alternates: {
-      canonical: pageUrl(locale, `/tunnellers/${slug}/wwi-timeline/`),
-      languages: {
-        en: pageUrl("en", `/tunnellers/${slug}/wwi-timeline/`),
-        fr: pageUrl("fr", `/tunnellers/${slug}/wwi-timeline/`),
-      },
-    },
-    openGraph: {
-      title,
-      description,
-      url: pageUrl(locale, `/tunnellers/${slug}/wwi-timeline/`),
-      siteName: "New Zealand Tunnellers",
-      locale: ogLocale(locale),
-      alternateLocale: locale === "fr" ? "en_NZ" : "fr_FR",
-      type: "profile",
-      firstName: forename,
-      lastName: surname,
-    },
-  };
+    path: `/tunnellers/${slug}/wwi-timeline/`,
+    type: "profile",
+    firstName: forename,
+    lastName: surname,
+  });
 }
 
 export default async function Page(props: Props) {
