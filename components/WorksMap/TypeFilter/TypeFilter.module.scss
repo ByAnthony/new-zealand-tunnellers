@@ -86,6 +86,12 @@
     color: variables.$primary-dark-color;
   }
 
+  &--active:hover {
+    background-color: variables.$secondary-color;
+    border-color: variables.$secondary-color;
+    color: variables.$primary-dark-color;
+  }
+
   &--disabled {
     opacity: 0.35;
     cursor: not-allowed;
