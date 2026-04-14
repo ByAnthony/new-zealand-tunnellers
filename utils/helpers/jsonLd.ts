@@ -12,15 +12,15 @@ export const jsonLdPublisher = {
 } as const;
 
 type TunnellerJsonLdInput = {
-  awmm?: string;
-  birthDate?: string;
-  birthPlace?: string;
-  deathCountry?: string;
-  deathDate?: string;
-  deathTown?: string;
+  awmm?: string | null;
+  birthDate?: string | null;
+  birthPlace?: string | null;
+  deathCountry?: string | null;
+  deathDate?: string | null;
+  deathTown?: string | null;
   familyName: string;
   givenName: string;
-  image?: string;
+  image?: string | null;
   jobTitle: string;
   url: string;
 };
