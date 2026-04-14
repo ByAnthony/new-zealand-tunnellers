@@ -58,6 +58,8 @@
     "title": "Les Tunneliers\\néo-zélandais",
     "filters": "Filtres",
     "resetFilters": "Supprimer les filtres",
+    "sortAscending": "A à Z",
+    "sortDescending": "Z à A",
     "results": "{count} résultat",
     "resultsPlural": "{count} résultats",
     "detachments": "Détachements",

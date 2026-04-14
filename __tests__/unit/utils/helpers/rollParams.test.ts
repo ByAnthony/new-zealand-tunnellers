@@ -45,58 +45,64 @@ const make = (qs: string) =>
 
 describe("filtersToSearchParams", () => {
   test("returns empty string for default filters on page 1", () => {
-    expect(filtersToSearchParams(defaultFilters, 1, lookups)).toBe("");
+    expect(filtersToSearchParams(defaultFilters, 1, "asc", lookups)).toBe("");
   });
 
   test("includes page when greater than 1", () => {
-    expect(filtersToSearchParams(defaultFilters, 3, lookups)).toContain(
+    expect(filtersToSearchParams(defaultFilters, 3, "asc", lookups)).toContain(
       "page=3",
+    );
+  });
+
+  test("includes sort when descending", () => {
+    expect(filtersToSearchParams(defaultFilters, 1, "desc", lookups)).toContain(
+      "sort=desc",
     );
   });
 
   test("serialises detachment IDs as slugs", () => {
     const filters = { ...defaultFilters, detachment: [1, 2] };
-    expect(filtersToSearchParams(filters, 1, lookups)).toContain(
+    expect(filtersToSearchParams(filters, 1, "asc", lookups)).toContain(
       "detachment=main-body,2nd-reinforcements",
     );
   });
 
   test("serialises null ID as slug for Tunnelling Corps", () => {
     const filters = { ...defaultFilters, corps: [null] };
-    expect(filtersToSearchParams(filters, 1, lookups)).toContain(
+    expect(filtersToSearchParams(filters, 1, "asc", lookups)).toContain(
       "corps=tunnelling-corps",
     );
   });
 
   test("serialises mixed null and numeric corps IDs as slugs", () => {
     const filters = { ...defaultFilters, corps: [null, 2] };
-    expect(filtersToSearchParams(filters, 1, lookups)).toContain(
+    expect(filtersToSearchParams(filters, 1, "asc", lookups)).toContain(
       "corps=tunnelling-corps,army-pay-corps",
     );
   });
 
   test("serialises birth year range", () => {
     const filters = { ...defaultFilters, birthYear: ["1886", "1897"] };
-    const qs = filtersToSearchParams(filters, 1, lookups);
+    const qs = filtersToSearchParams(filters, 1, "asc", lookups);
     expect(qs).toContain("birth-min=1886");
     expect(qs).toContain("birth-max=1897");
   });
 
   test("does not include birth range when full default range", () => {
-    const qs = filtersToSearchParams(defaultFilters, 1, lookups);
+    const qs = filtersToSearchParams(defaultFilters, 1, "asc", lookups);
     expect(qs).not.toContain("birth-min");
   });
 
   test("sets unknown-birth=0 when unknowns excluded", () => {
     const filters = { ...defaultFilters, unknownBirthYear: "" };
-    expect(filtersToSearchParams(filters, 1, lookups)).toContain(
+    expect(filtersToSearchParams(filters, 1, "asc", lookups)).toContain(
       "unknown-birth=0",
     );
   });
 
   test("does not encode commas as %2C", () => {
     const filters = { ...defaultFilters, detachment: [1, 2] };
-    const qs = filtersToSearchParams(filters, 1, lookups);
+    const qs = filtersToSearchParams(filters, 1, "asc", lookups);
     expect(qs).not.toContain("%2C");
   });
 
@@ -105,7 +111,7 @@ describe("filtersToSearchParams", () => {
       ...defaultFilters,
       ranks: { ...defaultFilters.ranks, Officers: [1, 2] },
     };
-    expect(filtersToSearchParams(filters, 1, lookups)).toContain(
+    expect(filtersToSearchParams(filters, 1, "asc", lookups)).toContain(
       "officer=major,captain",
     );
   });
@@ -113,11 +119,20 @@ describe("filtersToSearchParams", () => {
 
 describe("searchParamsToFilters", () => {
   test("returns defaults and page 1 for empty params", () => {
-    const { filters, page } = searchParamsToFilters(make(""), lookups);
+    const { filters, page, sortOrder } = searchParamsToFilters(
+      make(""),
+      lookups,
+    );
     expect(page).toBe(1);
+    expect(sortOrder).toBe("asc");
     expect(filters.detachment).toEqual([]);
     expect(filters.birthYear).toEqual(lookups.birthYears);
     expect(filters.unknownBirthYear).toBe("unknown");
+  });
+
+  test("parses descending sort", () => {
+    const { sortOrder } = searchParamsToFilters(make("sort=desc"), lookups);
+    expect(sortOrder).toBe("desc");
   });
 
   test("parses page number", () => {
@@ -173,12 +188,13 @@ describe("searchParamsToFilters", () => {
       deathYear: ["1935", "1952"],
       unknownDeathYear: "unknown",
     };
-    const qs = filtersToSearchParams(original, 2, lookups);
-    const { filters, page } = searchParamsToFilters(
+    const qs = filtersToSearchParams(original, 2, "desc", lookups);
+    const { filters, page, sortOrder } = searchParamsToFilters(
       make(qs) as unknown as Parameters<typeof searchParamsToFilters>[0],
       lookups,
     );
     expect(page).toBe(2);
+    expect(sortOrder).toBe("desc");
     expect(filters.detachment).toEqual([1, 2]);
     expect(filters.corps).toEqual([null, 2]);
     expect(filters.ranks["Officers"]).toEqual([1]);

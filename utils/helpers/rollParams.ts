@@ -20,6 +20,8 @@ export type FilterLookups = {
   deathYears: string[];
 };
 
+export type RollSortOrder = "asc" | "desc";
+
 function slugify(label: string): string {
   return label
     .toLowerCase()
@@ -54,9 +56,10 @@ function slugsToIds(
 export function searchParamsToFilters(
   params: ReadonlyURLSearchParams,
   lookups: FilterLookups,
-): { filters: Filters; page: number } {
+): { filters: Filters; page: number; sortOrder: RollSortOrder } {
   const pageRaw = Number(params.get("page"));
   const page = Number.isFinite(pageRaw) && pageRaw > 0 ? pageRaw : 1;
+  const sortOrder = params.get("sort") === "desc" ? "desc" : "asc";
 
   const birthMin = params.get("birth-min");
   const birthMax = params.get("birth-max");
@@ -74,6 +77,7 @@ export function searchParamsToFilters(
 
   return {
     page,
+    sortOrder,
     filters: {
       detachment: slugsToIds(params.get("detachment"), lookups.detachments),
       corps: slugsToIds(params.get("corps"), lookups.corps),
@@ -99,11 +103,13 @@ export function searchParamsToFilters(
 export function filtersToSearchParams(
   filters: Filters,
   page: number,
+  sortOrder: RollSortOrder,
   lookups: FilterLookups,
 ): string {
   const params = new URLSearchParams();
 
   if (page > 1) params.set("page", String(page));
+  if (sortOrder === "desc") params.set("sort", "desc");
 
   if (filters.detachment.length > 0) {
     const slugs = idsToSlugs(filters.detachment, lookups.detachments);

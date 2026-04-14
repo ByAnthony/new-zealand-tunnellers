@@ -26,26 +26,62 @@ exports[`Roll matches the snapshot 1`] = `
       </div>
     </div>
     <div
+      class="header-summary"
+    >
+      <div
+        class="header-actions"
+      >
+        <button
+          class="reset-button"
+          disabled=""
+        >
+          Reset filters
+        </button>
+      </div>
+      <div
+        class="header-meta"
+      >
+        <p
+          class="results"
+        >
+          4 results
+        </p>
+        <button
+          aria-label="Z to A"
+          class="sort-button"
+        >
+          <span
+            class="sort-button-label"
+          >
+            <span
+              class="sort-button-letters"
+            >
+              <span
+                class="sort-button-top"
+              >
+                Z
+              </span>
+              <span
+                class="sort-button-bottom"
+              >
+                A
+              </span>
+            </span>
+            <span
+              class="sort-button-arrow"
+            >
+              ↓
+            </span>
+          </span>
+        </button>
+      </div>
+    </div>
+    <div
       class="roll-container"
     >
       <div
         class="controls"
       >
-        <div
-          class="results-container"
-        >
-          <button
-            class="reset-button"
-            disabled=""
-          >
-            Reset filters
-          </button>
-          <p
-            class="results"
-          >
-            4 results
-          </p>
-        </div>
         <button
           class="filter-button "
         >
