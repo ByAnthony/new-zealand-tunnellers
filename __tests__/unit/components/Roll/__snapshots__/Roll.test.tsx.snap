@@ -59,12 +59,12 @@ exports[`Roll matches the snapshot 1`] = `
               <span
                 class="sort-button-top"
               >
-                Z
+                A
               </span>
               <span
                 class="sort-button-bottom"
               >
-                A
+                Z
               </span>
             </span>
             <span

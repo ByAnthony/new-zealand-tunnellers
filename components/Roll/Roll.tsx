@@ -477,12 +477,8 @@ export function Roll({ tunnellers }: Props) {
               >
                 <span className={STYLES["sort-button-label"]}>
                   <span className={STYLES["sort-button-letters"]}>
-                    <span className={STYLES["sort-button-top"]}>
-                      {isAscending ? "Z" : "A"}
-                    </span>
-                    <span className={STYLES["sort-button-bottom"]}>
-                      {isAscending ? "A" : "Z"}
-                    </span>
+                    <span className={STYLES["sort-button-top"]}>A</span>
+                    <span className={STYLES["sort-button-bottom"]}>Z</span>
                   </span>
                   <span className={STYLES["sort-button-arrow"]}>
                     {isAscending ? "↓" : "↑"}
@@ -505,12 +501,8 @@ export function Roll({ tunnellers }: Props) {
                   >
                     <span className={STYLES["sort-button-label"]}>
                       <span className={STYLES["sort-button-letters"]}>
-                        <span className={STYLES["sort-button-top"]}>
-                          {isAscending ? "Z" : "A"}
-                        </span>
-                        <span className={STYLES["sort-button-bottom"]}>
-                          {isAscending ? "A" : "Z"}
-                        </span>
+                        <span className={STYLES["sort-button-top"]}>A</span>
+                        <span className={STYLES["sort-button-bottom"]}>Z</span>
                       </span>
                       <span className={STYLES["sort-button-arrow"]}>
                         {isAscending ? "↓" : "↑"}
