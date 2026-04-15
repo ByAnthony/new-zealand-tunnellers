@@ -162,6 +162,7 @@ export function Menu({ tunnellers }: Props) {
             id="search"
             ref={inputRef}
             type="text"
+            aria-label={t("searchAlt")}
             placeholder={t("searchPlaceholder")}
             value={query}
             onFocus={handleSearchInteraction}

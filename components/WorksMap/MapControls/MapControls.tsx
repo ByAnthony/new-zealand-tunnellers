@@ -204,7 +204,7 @@ export function MapControls({
       onClick={() =>
         isFiltersOpen ? handleDialogClose() : openFiltersDialog()
       }
-      aria-label="Toggle filters"
+      aria-label={t("toggleFilters")}
     >
       {locale === "fr" ? "Filtres" : "Filters"}
       {activeFilterCount > 0 && (
@@ -216,7 +216,7 @@ export function MapControls({
   const zoomInButton = (
     <button
       onClick={() => onZoom(1)}
-      aria-label="Zoom in"
+      aria-label={t("zoomIn")}
       className={STYLES["zoom-btn"]}
       disabled={currentZoom !== null && currentZoom >= 16}
     >
@@ -227,7 +227,7 @@ export function MapControls({
   const zoomOutButton = (
     <button
       onClick={() => onZoom(-1)}
-      aria-label="Zoom out"
+      aria-label={t("zoomOut")}
       className={STYLES["zoom-btn"]}
       disabled={currentZoom !== null && currentZoom <= 6}
     >
@@ -280,7 +280,6 @@ export function MapControls({
             availableTypes={pendingAvailableTypes}
             onToggle={handleTypeToggle}
             colors={typeColors}
-            isWrapped
           />
         </div>
       </div>
@@ -330,7 +329,7 @@ export function MapControls({
         </div>
         <button
           onClick={() => onZoom(1)}
-          aria-label="Zoom in"
+          aria-label={t("zoomIn")}
           className={`${STYLES["zoom-btn"]} ${STYLES["zoom-in"]}`}
           disabled={currentZoom !== null && currentZoom >= 16}
         >
@@ -341,7 +340,7 @@ export function MapControls({
         </div>
         <button
           onClick={() => onZoom(-1)}
-          aria-label="Zoom out"
+          aria-label={t("zoomOut")}
           className={`${STYLES["zoom-btn"]} ${STYLES["zoom-out"]}`}
           disabled={currentZoom !== null && currentZoom <= 6}
         >

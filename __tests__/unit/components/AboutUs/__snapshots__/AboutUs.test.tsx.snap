@@ -68,14 +68,14 @@ exports[`AboutUs matches the snapshot 1`] = `
         class="contact-buttons"
       >
         <button
-          aria-label="Contact us by email"
+          aria-label="Open your email app to contact New Zealand Tunnellers"
           class="email"
           type="button"
         >
           Email
         </button>
         <button
-          aria-label="Contact us on LinkedIn"
+          aria-label="Open Anthony Byledbal's LinkedIn profile"
           class="linkedin"
           type="button"
         >

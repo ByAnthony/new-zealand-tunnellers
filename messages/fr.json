@@ -31,7 +31,7 @@
   "menu": {
     "searchPlaceholder": "Rechercher un tunnelier",
     "clearSearch": "Effacer la recherche",
-    "searchAlt": "Tapez un nom pour rechercher un tunnelier",
+    "searchAlt": "Rechercher un tunnelier",
     "seeAllTunnellers": "Voir tous les tunneliers",
     "seeTunnellerProfile": "Voir le profil de {forename} {surname}"
   },
@@ -49,9 +49,9 @@
     "bookBy": "Par "
   },
   "aboutUs": {
-    "contactByEmail": "Nous contacter par e-mail",
+    "contactByEmail": "Ouvrir votre messagerie pour contacter New Zealand Tunnellers",
     "email": "E-mail",
-    "contactOnLinkedIn": "Nous contacter sur LinkedIn",
+    "contactOnLinkedIn": "Ouvrir le profil LinkedIn d'Anthony Byledbal",
     "linkedIn": "LinkedIn"
   },
   "roll": {
@@ -66,7 +66,11 @@
     "corps": "Corps",
     "tunnellingCorps": "Corps des tunneliers",
     "birthYears": "Naissance",
+    "birthYearStart": "Début de l'année de naissance",
+    "birthYearEnd": "Fin de l'année de naissance",
     "deathYears": "Décès",
+    "deathYearStart": "Début de l'année de décès",
+    "deathYearEnd": "Fin de l'année de décès",
     "ranks": "Grades",
     "rankOfficers": "Officiers",
     "rankNco": "Sous-officiers",
@@ -155,6 +159,12 @@
     "title": "Travaux des tunneliers",
     "work": "travail",
     "works": "travaux",
+    "toggleFilters": "Afficher ou masquer les filtres",
+    "zoomIn": "Agrandir",
+    "zoomOut": "Réduire",
+    "filterByType": "Filtrer par type",
+    "closePanel": "Fermer",
+    "nextItem": "Suivant",
     "section": "Section",
     "date": "Date des travaux",
     "start": "Début des travaux",
@@ -171,6 +181,8 @@
     "minRead": "min de lecture",
     "by": "Par",
     "read": "Lire : {title}",
-    "goToChapter": "Aller au chapitre {chapter} : {title}"
+    "goToChapter": "Aller au chapitre {chapter} : {title}",
+    "zoomImage": "Agrandir l'image",
+    "resetImageZoom": "Réinitialiser le zoom de l'image"
   }
 }

@@ -33,7 +33,9 @@ describe("AboutUs", () => {
 
     const { getByLabelText } = render(<AboutUs article={mockAboutUs} />);
 
-    const emailButton = getByLabelText("Contact us by email");
+    const emailButton = getByLabelText(
+      "Open your email app to contact New Zealand Tunnellers",
+    );
 
     fireEvent.click(emailButton);
 
@@ -46,7 +48,9 @@ describe("AboutUs", () => {
     const target = "https://www.linkedin.com/in/anthony-byledbal/";
     const { getByLabelText } = render(<AboutUs article={mockAboutUs} />);
 
-    const linkedinButton = getByLabelText("Contact us on LinkedIn");
+    const linkedinButton = getByLabelText(
+      "Open Anthony Byledbal's LinkedIn profile",
+    );
 
     fireEvent.click(linkedinButton);
 

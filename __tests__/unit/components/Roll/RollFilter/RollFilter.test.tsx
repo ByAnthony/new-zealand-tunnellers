@@ -73,12 +73,24 @@ describe("RollFilter", () => {
     render(<RollFilter {...defaultProps} />);
     expect(screen.getByText("Birth")).toBeInTheDocument();
     expect(screen.getByText("1880-1900")).toBeInTheDocument();
+    expect(
+      screen.getByRole("slider", { name: "Birth year start" }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("slider", { name: "Birth year end" }),
+    ).toBeInTheDocument();
   });
 
   test("renders the death year slider", () => {
     render(<RollFilter {...defaultProps} />);
     expect(screen.getByText("Death")).toBeInTheDocument();
     expect(screen.getByText("1915-1930")).toBeInTheDocument();
+    expect(
+      screen.getByRole("slider", { name: "Death year start" }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("slider", { name: "Death year end" }),
+    ).toBeInTheDocument();
   });
 
   test("renders the rank filters", () => {

@@ -40,7 +40,9 @@ describe("ImageZoom", () => {
   test("shows the zoom-in button initially", () => {
     render(<ImageZoom src="/images/photo.jpg" alt="photo" />);
 
-    expect(screen.getByRole("button")).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "Zoom image" }),
+    ).toBeInTheDocument();
   });
 
   test("toggles to reset button after clicking zoom in", () => {
@@ -54,9 +56,12 @@ describe("ImageZoom", () => {
 
     render(<ImageZoom src="/images/photo.jpg" alt="photo" />);
 
-    fireEvent.click(screen.getByRole("button"));
+    fireEvent.click(screen.getByRole("button", { name: "Zoom image" }));
 
     expect(zoomIn).toHaveBeenCalledWith(1);
+    expect(
+      screen.getByRole("button", { name: "Reset image zoom" }),
+    ).toBeInTheDocument();
   });
 
   test("converts numeric string width and height to numbers", () => {
@@ -85,8 +90,8 @@ describe("ImageZoom", () => {
 
     render(<ImageZoom src="/images/photo.jpg" alt="photo" />);
 
-    fireEvent.click(screen.getByRole("button"));
-    fireEvent.click(screen.getByRole("button"));
+    fireEvent.click(screen.getByRole("button", { name: "Zoom image" }));
+    fireEvent.click(screen.getByRole("button", { name: "Reset image zoom" }));
 
     expect(resetTransform).toHaveBeenCalled();
   });

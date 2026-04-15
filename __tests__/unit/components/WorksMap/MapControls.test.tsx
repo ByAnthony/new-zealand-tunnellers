@@ -11,6 +11,9 @@ jest.mock("next-intl", () => ({
     ({
       work: "work",
       works: "works",
+      toggleFilters: "Toggle filters",
+      zoomIn: "Zoom in",
+      zoomOut: "Zoom out",
     })[key] ?? key,
 }));
 
