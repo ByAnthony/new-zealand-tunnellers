@@ -13,6 +13,7 @@ import { Tunneller } from "@/types/tunnellers";
 import {
   type FilterLookups,
   type Filters,
+  type RollSortOrder,
   filtersToSearchParams,
   searchParamsToFilters,
 } from "@/utils/helpers/rollParams";
@@ -135,6 +136,9 @@ export function Roll({ tunnellers }: Props) {
 
   const [filters, setFilters] = useState<Filters>(parsedUrlState.filters);
   const [currentPage, setCurrentPage] = useState<number>(parsedUrlState.page);
+  const [sortOrder, setSortOrder] = useState<RollSortOrder>(
+    parsedUrlState.sortOrder,
+  );
   const searchParamsString = searchParams.toString();
 
   /** ---- Re-sync local state when URL changes after mount ---- */
@@ -152,12 +156,15 @@ export function Roll({ tunnellers }: Props) {
       if (currentPage !== parsedUrlState.page) {
         setCurrentPage(parsedUrlState.page);
       }
+      if (sortOrder !== parsedUrlState.sortOrder) {
+        setSortOrder(parsedUrlState.sortOrder);
+      }
     });
 
     return () => {
       cancelled = true;
     };
-  }, [searchParamsString, parsedUrlState, filters, currentPage]);
+  }, [searchParamsString, parsedUrlState, filters, currentPage, sortOrder]);
 
   /** ---- Sync URL params when state changes ---- */
   useEffect(() => {
@@ -165,11 +172,16 @@ export function Roll({ tunnellers }: Props) {
       isFirstRenderRef.current = false;
       return;
     }
-    const qs = filtersToSearchParams(filters, currentPage, filterLookups);
+    const qs = filtersToSearchParams(
+      filters,
+      currentPage,
+      sortOrder,
+      filterLookups,
+    );
     const currentQs = window.location.search.replace(/^\?/, "");
     if (qs === currentQs) return;
     router.replace(`?${qs}`, { scroll: false });
-  }, [filters, currentPage, router, filterLookups]);
+  }, [filters, currentPage, router, filterLookups, sortOrder]);
 
   /** ---- Restore scroll position on mount ---- */
   useEffect(() => {
@@ -253,6 +265,21 @@ export function Roll({ tunnellers }: Props) {
     () => filteredGroups.reduce((acc, [, list]) => acc + list.length, 0),
     [filteredGroups],
   );
+  const sortedFilteredGroups = useMemo<[string, Tunneller[]][]>(() => {
+    const direction = sortOrder === "asc" ? 1 : -1;
+
+    return [...filteredGroups]
+      .sort(([groupA], [groupB]) => groupA.localeCompare(groupB) * direction)
+      .map<[string, Tunneller[]]>(([group, list]) => [
+        group,
+        [...list].sort((a, b) => {
+          const surnameCompare =
+            a.name.surname.localeCompare(b.name.surname) * direction;
+          if (surnameCompare !== 0) return surnameCompare;
+          return a.name.forename.localeCompare(b.name.forename) * direction;
+        }),
+      ]);
+  }, [filteredGroups, sortOrder]);
   const totalTunnellers = useMemo(
     () => tunnellersList.reduce((acc, [, list]) => acc + list.length, 0),
     [tunnellersList],
@@ -376,6 +403,10 @@ export function Roll({ tunnellers }: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const onClose = useCallback(() => setIsOpen(false), []);
   const handleFilterButton = useCallback(() => setIsOpen(true), []);
+  const handleSortToggle = useCallback(() => {
+    setCurrentPage(1);
+    setSortOrder((current) => (current === "asc" ? "desc" : "asc"));
+  }, []);
 
   const rollFiltersProps = {
     className: STYLES["filters-container"],
@@ -399,6 +430,13 @@ export function Roll({ tunnellers }: Props) {
   };
 
   const isDesktop = () => (width ? width > 896 : false);
+  const desktopView = isDesktop();
+  const resultsText =
+    totalFilteredTunnellers > 1
+      ? t("resultsPlural", { count: totalFilteredTunnellers })
+      : t("results", { count: totalFilteredTunnellers });
+  const isAscending = sortOrder === "asc";
+  const sortButtonText = isAscending ? t("sortDescending") : t("sortAscending");
 
   return (
     <>
@@ -419,10 +457,9 @@ export function Roll({ tunnellers }: Props) {
         <div className={STYLES.header}>
           <Title title={t("title")} />
         </div>
-
-        <div className={STYLES["roll-container"]}>
-          <div className={STYLES.controls}>
-            <div className={STYLES["results-container"]}>
+        {desktopView ? (
+          <div className={STYLES["header-summary"]}>
+            <div className={STYLES["header-actions"]}>
               <button
                 className={STYLES["reset-button"]}
                 onClick={handleResetFilters}
@@ -430,29 +467,89 @@ export function Roll({ tunnellers }: Props) {
               >
                 {t("resetFilters")}
               </button>
-              <p className={STYLES.results}>
-                {totalFilteredTunnellers > 1
-                  ? t("resultsPlural", { count: totalFilteredTunnellers })
-                  : t("results", { count: totalFilteredTunnellers })}
-              </p>
             </div>
-            <button
-              className={`${STYLES["filter-button"]} ${activeFilterCount > 0 ? STYLES["filter-button--active"] : ""}`}
-              onClick={handleFilterButton}
-            >
-              {t("filters")}
-              {activeFilterCount > 0 && (
-                <span className={STYLES["filter-button-badge"]}>
-                  {activeFilterCount}
+            <div className={STYLES["header-meta"]}>
+              <p className={STYLES.results}>{resultsText}</p>
+              <button
+                className={STYLES["sort-button"]}
+                onClick={handleSortToggle}
+                aria-label={sortButtonText}
+              >
+                <span className={STYLES["sort-button-label"]}>
+                  <span className={STYLES["sort-button-letters"]}>
+                    <span className={STYLES["sort-button-top"]}>
+                      {isAscending ? "Z" : "A"}
+                    </span>
+                    <span className={STYLES["sort-button-bottom"]}>
+                      {isAscending ? "A" : "Z"}
+                    </span>
+                  </span>
+                  <span className={STYLES["sort-button-arrow"]}>
+                    {isAscending ? "↓" : "↑"}
+                  </span>
                 </span>
-              )}
-            </button>
-            {isDesktop() ? <RollFilter {...rollFiltersProps} /> : null}
+              </button>
+            </div>
+          </div>
+        ) : null}
+        <div className={STYLES["roll-container"]}>
+          <div className={STYLES.controls}>
+            {!desktopView ? (
+              <div className={STYLES["results-container"]}>
+                <p className={STYLES.results}>{resultsText}</p>
+                <div className={STYLES["mobile-actions"]}>
+                  <button
+                    className={STYLES["sort-button"]}
+                    onClick={handleSortToggle}
+                    aria-label={sortButtonText}
+                  >
+                    <span className={STYLES["sort-button-label"]}>
+                      <span className={STYLES["sort-button-letters"]}>
+                        <span className={STYLES["sort-button-top"]}>
+                          {isAscending ? "Z" : "A"}
+                        </span>
+                        <span className={STYLES["sort-button-bottom"]}>
+                          {isAscending ? "A" : "Z"}
+                        </span>
+                      </span>
+                      <span className={STYLES["sort-button-arrow"]}>
+                        {isAscending ? "↓" : "↑"}
+                      </span>
+                    </span>
+                  </button>
+                  <button
+                    className={`${STYLES["filter-button"]} ${activeFilterCount > 0 ? STYLES["filter-button--active"] : ""}`}
+                    onClick={handleFilterButton}
+                  >
+                    {t("filters")}
+                    {activeFilterCount > 0 && (
+                      <span className={STYLES["filter-button-badge"]}>
+                        {activeFilterCount}
+                      </span>
+                    )}
+                  </button>
+                </div>
+              </div>
+            ) : null}
+            {desktopView ? (
+              <button
+                className={`${STYLES["filter-button"]} ${activeFilterCount > 0 ? STYLES["filter-button--active"] : ""}`}
+                onClick={handleFilterButton}
+              >
+                {t("filters")}
+                {activeFilterCount > 0 && (
+                  <span className={STYLES["filter-button-badge"]}>
+                    {activeFilterCount}
+                  </span>
+                )}
+              </button>
+            ) : null}
+            {desktopView ? <RollFilter {...rollFiltersProps} /> : null}
           </div>
 
           {filteredGroups.length > 0 ? (
             <RollAlphabet
-              tunnellers={filteredGroups}
+              tunnellers={sortedFilteredGroups}
               currentPage={currentPage}
               onPageChange={setCurrentPage}
             />

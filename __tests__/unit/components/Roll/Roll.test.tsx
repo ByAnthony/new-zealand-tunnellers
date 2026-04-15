@@ -1,4 +1,10 @@
-import { fireEvent, screen, render, within } from "@testing-library/react";
+import {
+  fireEvent,
+  screen,
+  render,
+  within,
+  waitFor,
+} from "@testing-library/react";
 import { mockTunnellers } from "__tests__/unit/utils/mocks/mockTunnellers";
 
 import { Roll } from "@/components/Roll/Roll";
@@ -368,6 +374,42 @@ describe("Roll", () => {
     expect(screen.getByText("Birth")).toBeInTheDocument();
     expect(screen.getByText("Death")).toBeInTheDocument();
     expect(screen.getByText("Ranks")).toBeInTheDocument();
+  });
+
+  test("reverses the roll order when sort button is clicked", async () => {
+    await renderRoll();
+
+    const before = screen
+      .getAllByRole("heading", { level: 2 })
+      .map((heading) => {
+        return heading.textContent;
+      });
+    expect(before).toEqual(["B", "D", "M", "T"]);
+
+    fireEvent.click(screen.getByRole("button", { name: "Z to A" }));
+
+    const after = screen
+      .getAllByRole("heading", { level: 2 })
+      .map((heading) => {
+        return heading.textContent;
+      });
+    expect(after).toEqual(["T", "M", "D", "B"]);
+    expect(screen.getByRole("button", { name: "A to Z" })).toBeInTheDocument();
+  });
+
+  test("resets to page 1 when sort order changes", async () => {
+    mockSearchParams = new URLSearchParams("page=2");
+
+    await renderRoll();
+
+    const sortButtons = screen.getAllByRole("button", { name: "Z to A" });
+    fireEvent.click(sortButtons[0]);
+
+    await waitFor(() => {
+      expect(mockReplace).toHaveBeenCalledWith("?sort=desc", {
+        scroll: false,
+      });
+    });
   });
 
   test("should filter Tunnelling Corps shows only tunnellers without attached corps", async () => {

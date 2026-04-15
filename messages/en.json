@@ -58,6 +58,8 @@
     "title": "The New Zealand\\Tunnellers",
     "filters": "Filters",
     "resetFilters": "Reset filters",
+    "sortAscending": "A to Z",
+    "sortDescending": "Z to A",
     "results": "{count} result",
     "resultsPlural": "{count} results",
     "detachments": "Detachments",
