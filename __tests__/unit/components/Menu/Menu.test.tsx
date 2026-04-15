@@ -41,7 +41,9 @@ describe("Menu", () => {
     });
     expect(nextButton).toHaveAttribute("href", "/");
 
-    const search = screen.getByRole("textbox");
+    const search = screen.getByRole("textbox", {
+      name: "Search for a tunneller",
+    });
     expect(search).toBeInTheDocument();
     expect(search).toHaveAttribute("placeholder", "Search for a Tunneller");
   });
@@ -299,7 +301,7 @@ describe("Menu", () => {
 
       expect(
         screen.getByRole("img", {
-          name: "Type a name to search for a Tunneller",
+          name: "Search for a tunneller",
         }),
       ).toBeInTheDocument();
 
@@ -311,7 +313,7 @@ describe("Menu", () => {
 
       expect(
         screen.queryByRole("img", {
-          name: "Type a name to search for a Tunneller",
+          name: "Search for a tunneller",
         }),
       ).not.toBeInTheDocument();
 

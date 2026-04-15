@@ -2,7 +2,7 @@
 
 exports[`Footer matches the snapshot 1`] = `
 <DocumentFragment>
-  <div
+  <footer
     class="footer"
   >
     <div
@@ -94,6 +94,6 @@ exports[`Footer matches the snapshot 1`] = `
         </a>
       </div>
     </div>
-  </div>
+  </footer>
 </DocumentFragment>
 `;

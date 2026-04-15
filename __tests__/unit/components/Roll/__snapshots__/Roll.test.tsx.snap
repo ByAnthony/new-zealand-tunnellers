@@ -187,6 +187,7 @@ exports[`Roll matches the snapshot 1`] = `
                 />
                 <div
                   aria-disabled="false"
+                  aria-label="Birth year start"
                   aria-orientation="horizontal"
                   aria-valuemax="1897"
                   aria-valuemin="1886"
@@ -198,6 +199,7 @@ exports[`Roll matches the snapshot 1`] = `
                 />
                 <div
                   aria-disabled="false"
+                  aria-label="Birth year end"
                   aria-orientation="horizontal"
                   aria-valuemax="1897"
                   aria-valuemin="1886"
@@ -252,6 +254,7 @@ exports[`Roll matches the snapshot 1`] = `
                 />
                 <div
                   aria-disabled="false"
+                  aria-label="Death year start"
                   aria-orientation="horizontal"
                   aria-valuemax="1952"
                   aria-valuemin="1935"
@@ -263,6 +266,7 @@ exports[`Roll matches the snapshot 1`] = `
                 />
                 <div
                   aria-disabled="false"
+                  aria-label="Death year end"
                   aria-orientation="horizontal"
                   aria-valuemax="1952"
                   aria-valuemin="1935"

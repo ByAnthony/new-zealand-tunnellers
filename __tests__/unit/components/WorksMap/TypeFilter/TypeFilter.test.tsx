@@ -1,9 +1,3 @@
-global.ResizeObserver = class {
-  observe() {}
-  unobserve() {}
-  disconnect() {}
-};
-
 import { fireEvent, render, screen } from "@testing-library/react";
 
 import { TypeFilter } from "@/components/WorksMap/TypeFilter/TypeFilter";
@@ -140,58 +134,18 @@ describe("TypeFilter", () => {
     });
   });
 
-  describe("arrow buttons", () => {
-    test("renders left and right arrow buttons", () => {
-      render(
-        <TypeFilter
-          types={mockTypes}
-          selectedTypes={new Set()}
-          onToggle={onToggle}
-          colors={mockColors}
-        />,
-      );
-      expect(
-        screen.getByRole("button", { name: "Scroll filters left" }),
-      ).toBeInTheDocument();
-      expect(
-        screen.getByRole("button", { name: "Scroll filters right" }),
-      ).toBeInTheDocument();
-    });
-  });
-
-  describe("isWrapped", () => {
-    test("does not render arrow buttons when isWrapped", () => {
-      render(
-        <TypeFilter
-          types={mockTypes}
-          selectedTypes={new Set()}
-          onToggle={onToggle}
-          colors={mockColors}
-          isWrapped
-        />,
-      );
-      expect(
-        screen.queryByRole("button", { name: "Scroll filters left" }),
-      ).not.toBeInTheDocument();
-      expect(
-        screen.queryByRole("button", { name: "Scroll filters right" }),
-      ).not.toBeInTheDocument();
-    });
-
-    test("renders all chips when isWrapped", () => {
-      render(
-        <TypeFilter
-          types={mockTypes}
-          selectedTypes={new Set()}
-          onToggle={onToggle}
-          colors={mockColors}
-          isWrapped
-        />,
-      );
-      expect(screen.getByText("Dugout")).toBeInTheDocument();
-      expect(screen.getByText("Machine-gun nest")).toBeInTheDocument();
-      expect(screen.getByText("Trench")).toBeInTheDocument();
-    });
+  test("renders the chips in a filter group", () => {
+    render(
+      <TypeFilter
+        types={mockTypes}
+        selectedTypes={new Set()}
+        onToggle={onToggle}
+        colors={mockColors}
+      />,
+    );
+    expect(
+      screen.getByRole("group", { name: "Filter by type" }),
+    ).toBeInTheDocument();
   });
 
   describe("availableTypes", () => {

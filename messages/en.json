@@ -31,7 +31,7 @@
   "menu": {
     "searchPlaceholder": "Search for a Tunneller",
     "clearSearch": "Clear search input",
-    "searchAlt": "Type a name to search for a Tunneller",
+    "searchAlt": "Search for a tunneller",
     "seeAllTunnellers": "See all Tunnellers",
     "seeTunnellerProfile": "See {forename} {surname} profile"
   },
@@ -49,9 +49,9 @@
     "bookBy": "By "
   },
   "aboutUs": {
-    "contactByEmail": "Contact us by email",
+    "contactByEmail": "Open your email app to contact New Zealand Tunnellers",
     "email": "Email",
-    "contactOnLinkedIn": "Contact us on LinkedIn",
+    "contactOnLinkedIn": "Open Anthony Byledbal's LinkedIn profile",
     "linkedIn": "LinkedIn"
   },
   "roll": {
@@ -66,7 +66,11 @@
     "corps": "Corps",
     "tunnellingCorps": "Tunnelling Corps",
     "birthYears": "Birth",
+    "birthYearStart": "Birth year start",
+    "birthYearEnd": "Birth year end",
     "deathYears": "Death",
+    "deathYearStart": "Death year start",
+    "deathYearEnd": "Death year end",
     "ranks": "Ranks",
     "rankOfficers": "Officers",
     "rankNco": "Non-Commissioned Officers",
@@ -155,6 +159,12 @@
     "title": "Tunnellers\u2019 Works",
     "work": "work",
     "works": "works",
+    "toggleFilters": "Toggle filters",
+    "zoomIn": "Zoom in",
+    "zoomOut": "Zoom out",
+    "filterByType": "Filter by type",
+    "closePanel": "Close",
+    "nextItem": "Next",
     "section": "Section",
     "date": "Work date",
     "start": "Work started",
@@ -171,6 +181,8 @@
     "minRead": "min read",
     "by": "By",
     "read": "Read: {title}",
-    "goToChapter": "Go to chapter {chapter}: {title}"
+    "goToChapter": "Go to chapter {chapter}: {title}",
+    "zoomImage": "Zoom image",
+    "resetImageZoom": "Reset image zoom"
   }
 }

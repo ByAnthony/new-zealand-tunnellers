@@ -25,7 +25,7 @@ export function Footer() {
   };
 
   return (
-    <div className={STYLES.footer}>
+    <footer className={STYLES.footer}>
       <div className={STYLES.map}>
         <div className={STYLES.links}>
           <div className={STYLES["map-link"]}>
@@ -88,6 +88,6 @@ export function Footer() {
           </Link>
         </div>
       </div>
-    </div>
+    </footer>
   );
 }

@@ -107,7 +107,7 @@ export function InfoBar({
           </div>
         </div>
         <div className={STYLES["info-bar-actions"]}>
-          <button onClick={onClose} aria-label="Close">
+          <button onClick={onClose} aria-label={t("closePanel")}>
             ×
           </button>
         </div>
@@ -140,7 +140,7 @@ export function InfoBar({
           </div>
         </div>
         <div className={STYLES["info-bar-actions"]}>
-          <button onClick={onClose} aria-label="Close">
+          <button onClick={onClose} aria-label={t("closePanel")}>
             ×
           </button>
         </div>
@@ -243,7 +243,7 @@ export function InfoBar({
         </div>
       </div>
       <div className={STYLES["info-bar-actions"]}>
-        <button onClick={onClose} aria-label="Close">
+        <button onClick={onClose} aria-label={t("closePanel")}>
           ×
         </button>
         {stackTotal && stackTotal > 1 && (
@@ -253,7 +253,7 @@ export function InfoBar({
               &nbsp;/&nbsp;
               {stackTotal}
             </span>
-            <button onClick={() => onNavigate?.(1)} aria-label="Next">
+            <button onClick={() => onNavigate?.(1)} aria-label={t("nextItem")}>
               &rarr;
             </button>
           </div>

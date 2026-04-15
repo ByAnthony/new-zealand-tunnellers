@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import React, { useState } from "react";
 import {
   TransformComponent,
@@ -25,12 +26,14 @@ export type MarkdownImgProps = Omit<
 const Controls = () => {
   const { zoomIn, resetTransform } = useControls();
   const [isZoomedIn, setIsZoomedIn] = useState(false);
+  const t = useTranslations("books");
 
   return (
     <div className={STYLES.tools}>
       {!isZoomedIn ? (
         <button
           className={STYLES.control}
+          aria-label={t("zoomImage")}
           onClick={() => {
             zoomIn(1);
             setIsZoomedIn(true);
@@ -41,6 +44,7 @@ const Controls = () => {
       ) : (
         <button
           className={`${STYLES.control} ${STYLES.reset}`}
+          aria-label={t("resetImageZoom")}
           onClick={() => {
             resetTransform();
             setIsZoomedIn(false);

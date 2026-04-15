@@ -26,13 +26,14 @@ exports[`Menu matches the snapshot 1`] = `
         class="search-form"
       >
         <input
+          aria-label="Search for a tunneller"
           id="search"
           placeholder="Search for a Tunneller"
           type="text"
           value=""
         />
         <img
-          alt="Type a name to search for a Tunneller"
+          alt="Search for a tunneller"
           class="search-form-button"
           height="20"
           placeholder="empty"

@@ -128,6 +128,7 @@ export function RollFilter({
             value={[Number(startBirthYear), Number(endBirthYear)]}
             onChange={handleBirthSliderChange}
             allowCross={false}
+            ariaLabelForHandle={[t("birthYearStart"), t("birthYearEnd")]}
             styles={{
               track: { background: "rgb(153, 131, 100)" },
               rail: { background: "rgb(64, 66, 67)" },
@@ -174,6 +175,7 @@ export function RollFilter({
             value={[Number(startDeathYear), Number(endDeathYear)]}
             onChange={handleDeathSliderChange}
             allowCross={false}
+            ariaLabelForHandle={[t("deathYearStart"), t("deathYearEnd")]}
             styles={{
               track: { background: "rgb(153, 131, 100)" },
               rail: { background: "rgb(64, 66, 67)" },
