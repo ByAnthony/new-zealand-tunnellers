@@ -238,6 +238,7 @@ export function HowToCite({
       }).format(now),
     [locale, now, userTimeZone],
   );
+  const citationAuthorPrefix = summary ? "" : "Anthony Byledbal, ";
 
   const handleCopy = () => {
     if (citationRef.current) {
@@ -284,7 +285,7 @@ export function HowToCite({
         </button>
       </h3>
       <p ref={citationRef}>
-        Anthony Byledbal,{" "}
+        {citationAuthorPrefix}
         <HowToCiteTitle
           tunneller={summary}
           title={title}

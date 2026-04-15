@@ -175,6 +175,7 @@ describe("HowToCite", () => {
     );
 
     expect(screen.getByText(/John Smith/)).toBeInTheDocument();
+    expect(screen.queryByText(/Anthony Byledbal/)).not.toBeInTheDocument();
   });
 
   test("renders non-chapter citation for a prologue path", () => {
@@ -213,6 +214,7 @@ describe("HowToCite", () => {
     expect(
       screen.getByText(/World War I Timeline of John Smith/),
     ).toBeInTheDocument();
+    expect(screen.queryByText(/Anthony Byledbal/)).not.toBeInTheDocument();
   });
 
   test("renders French timeline citation with French prefix", () => {
