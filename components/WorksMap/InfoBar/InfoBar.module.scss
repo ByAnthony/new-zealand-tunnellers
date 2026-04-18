@@ -280,13 +280,6 @@
       color: variables.$text-color;
       font-weight: 600;
     }
-
-    @include variables.hover-supported {
-      &:hover {
-        background-color: variables.$primary-dark-color;
-        border-color: variables.$secondary-color;
-      }
-    }
   }
 
   button {
@@ -294,7 +287,6 @@
     align-items: center;
     justify-content: center;
     width: 100%;
-    height: 28px;
     padding: 0;
     background-color: variables.$primary-medium-color;
     border: 1px solid variables.$primary-light-color;
