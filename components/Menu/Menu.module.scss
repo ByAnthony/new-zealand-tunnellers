@@ -112,9 +112,11 @@
         color 0.9s ease-in-out,
         background-color 0.9s ease-in-out;
 
-      &:hover {
-        color: variables.$secondary-color;
-        background-color: variables.$primary-light-color;
+      @include variables.hover-supported {
+        &:hover {
+          color: variables.$secondary-color;
+          background-color: variables.$primary-light-color;
+        }
       }
     }
   }
@@ -134,9 +136,11 @@
   rotate: 45deg;
   transition: color 0.9s ease-in-out;
 
-  &:hover {
-    color: variables.$secondary-color;
-    cursor: pointer;
+  @include variables.hover-supported {
+    &:hover {
+      color: variables.$secondary-color;
+      cursor: pointer;
+    }
   }
 }
 
@@ -152,9 +156,11 @@
     color 0.9s ease-in-out,
     background-color 0.9s ease-in-out;
 
-  &:hover {
-    color: variables.$secondary-color;
-    background-color: variables.$primary-light-color;
+  @include variables.hover-supported {
+    &:hover {
+      color: variables.$secondary-color;
+      background-color: variables.$primary-light-color;
+    }
   }
 }
 
@@ -179,11 +185,13 @@
 }
 
 .language-switcher {
+  @include variables.text-link;
+
+  display: inline-block;
   flex-shrink: 0;
   margin-left: variables.$xs-margin;
   font-size: 1rem;
-  font-weight: 500;
-  color: variables.$secondary-color;
+  line-height: 1.2;
   white-space: nowrap;
 }
 

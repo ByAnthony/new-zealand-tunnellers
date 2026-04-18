@@ -132,8 +132,10 @@
     line-height: 0.6;
     transition: color 0.9s ease-in-out;
 
-    &:hover {
-      color: variables.$text-color;
+    @include variables.hover-supported {
+      &:hover {
+        color: variables.$text-color;
+      }
     }
   }
 }
@@ -262,9 +264,11 @@
       font-weight: 600;
     }
 
-    &:hover {
-      background-color: variables.$primary-dark-color;
-      border-color: variables.$secondary-color;
+    @include variables.hover-supported {
+      &:hover {
+        background-color: variables.$primary-dark-color;
+        border-color: variables.$secondary-color;
+      }
     }
   }
 
@@ -293,9 +297,11 @@
       border-color 0.9s ease-in-out,
       background-color 0.9s ease-in-out;
 
-    &:hover {
-      background-color: variables.$primary-dark-color;
-      border-color: variables.$secondary-color;
+    @include variables.hover-supported {
+      &:hover {
+        background-color: variables.$primary-dark-color;
+        border-color: variables.$secondary-color;
+      }
     }
   }
 }

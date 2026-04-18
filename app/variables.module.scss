@@ -44,6 +44,12 @@ $border-radius: 8px;
   }
 }
 
+@mixin hover-supported {
+  @media (hover: hover) and (pointer: fine) {
+    @content;
+  }
+}
+
 @mixin component-margin {
   margin-left: $s-margin;
   margin-right: $s-margin;
@@ -116,10 +122,12 @@ $border-radius: 8px;
     color 0.9s ease-in-out,
     border-bottom 0.9s ease-in-out;
 
-  &:hover {
-    padding-bottom: 4px;
-    border-bottom: 1px solid $secondary-color;
-    color: $secondary-color;
+  @include hover-supported {
+    &:hover {
+      padding-bottom: 4px;
+      border-bottom: 1px solid $secondary-color;
+      color: $secondary-color;
+    }
   }
 }
 
@@ -159,9 +167,11 @@ $border-radius: 8px;
     font-size: 1.35rem;
   }
 
-  &:hover {
-    border: 1px solid $secondary-color;
-    background-color: $primary-dark-color;
+  @include hover-supported {
+    &:hover {
+      border: 1px solid $secondary-color;
+      background-color: $primary-dark-color;
+    }
   }
 }
 

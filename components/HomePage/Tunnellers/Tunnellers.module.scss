@@ -102,9 +102,11 @@
     font-size: 1.5rem;
   }
 
-  &:hover {
-    border-bottom: 1px solid variables.$secondary-color;
-    color: variables.$secondary-color;
+  @include variables.hover-supported {
+    &:hover {
+      border-bottom: 1px solid variables.$secondary-color;
+      color: variables.$secondary-color;
+    }
   }
 
   @include variables.desktop {

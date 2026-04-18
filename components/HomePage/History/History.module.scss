@@ -61,9 +61,11 @@
         background-color 0.9s ease-in-out;
       cursor: pointer;
 
-      &:hover {
-        border: 1px solid variables.$secondary-color;
-        background-color: variables.$primary-dark-color;
+      @include variables.hover-supported {
+        &:hover {
+          border: 1px solid variables.$secondary-color;
+          background-color: variables.$primary-dark-color;
+        }
       }
     }
   }
@@ -124,8 +126,10 @@
     }
   }
 
-  &:hover {
-    border: 1px solid variables.$secondary-color;
+  @include variables.hover-supported {
+    &:hover {
+      border: 1px solid variables.$secondary-color;
+    }
   }
 }
 
@@ -136,8 +140,10 @@
   background-color: rgba(44, 46, 47, 0.9);
   transition: background-color 0.9s ease-in-out;
 
-  &:hover {
-    background-color: rgba(29, 31, 32, 0.85);
+  @include variables.hover-supported {
+    &:hover {
+      background-color: rgba(29, 31, 32, 0.85);
+    }
   }
 }
 
