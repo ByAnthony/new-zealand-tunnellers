@@ -71,9 +71,26 @@ exports[`InfoBar matches the snapshot 1`] = `
             Coordinates
           </span>
           <span
-            class="info-bar-value"
+            class="info-bar-value-group"
           >
-            50.305000, 2.876000
+            <span
+              class="info-bar-value"
+            >
+              50.305000, 2.876000
+            </span>
+            <button
+              aria-label="Copy to clipboard"
+              class="copy-paste"
+              type="button"
+            >
+              <img
+                alt="Copy to clipboard"
+                height="12"
+                placeholder="empty"
+                src="/copy.png"
+                width="10"
+              />
+            </button>
           </span>
         </div>
       </div>
