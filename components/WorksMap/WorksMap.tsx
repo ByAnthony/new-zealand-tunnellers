@@ -209,15 +209,19 @@ export function WorksMap({
   const pendingFilterFitRef = useRef(false);
   const [stackIndex, setStackIndex] = useState(0);
   const [stackTotal, setStackTotal] = useState(0);
+  const [currentZoom, setCurrentZoom] = useState<number | null>(null);
   const [animType, setAnimType] = useState<
     "default" | "fade" | "slide-next" | "slide-prev"
   >("default");
   const exitDurationRef = useRef(EXIT_DURATION_DEFAULT);
 
   const typeColorsRef = useRef(typeColors);
-  selectedTypesRef.current = selectedTypes;
-  dateRangeRef.current = dateRange;
-  typeColorsRef.current = typeColors;
+
+  useEffect(() => {
+    selectedTypesRef.current = selectedTypes;
+    dateRangeRef.current = dateRange;
+    typeColorsRef.current = typeColors;
+  }, [selectedTypes, dateRange, typeColors]);
 
   const initialWorkId = searchParams.get("work");
   const initialWorkIdRef = useRef<number | null>(
@@ -1017,7 +1021,14 @@ export function WorksMap({
         !isDisplayedSubwayVisible(displayedSubway)) ||
       (displayedCave !== null && !isDisplayedCaveVisible(displayedCave));
     if (!hasInvalidSelection) return;
-    closeInfo();
+
+    const timeoutId = setTimeout(() => {
+      closeInfo();
+    }, 0);
+
+    return () => {
+      clearTimeout(timeoutId);
+    };
   }, [
     displayedWork,
     displayedSubway,
@@ -1171,8 +1182,6 @@ export function WorksMap({
     },
     [closeInfo, minMonth, maxMonth],
   );
-
-  const [currentZoom, setCurrentZoom] = useState<number | null>(null);
 
   const zoom = useCallback((dir: 1 | -1) => {
     mapRef.current?.[dir === 1 ? "zoomIn" : "zoomOut"]();
