@@ -51,8 +51,10 @@
     color: variables.$secondary-color !important;
     transition: all 0.9s ease-in-out;
 
-    &:hover {
-      text-decoration: none;
+    @include variables.hover-supported {
+      &:hover {
+        text-decoration: none;
+      }
     }
   }
 

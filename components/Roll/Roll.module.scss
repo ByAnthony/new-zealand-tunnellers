@@ -94,9 +94,11 @@
     background-color 0.9s ease-in-out;
   cursor: pointer;
 
-  &:hover {
-    border: 1px solid variables.$secondary-color;
-    background-color: variables.$primary-dark-color;
+  @include variables.hover-supported {
+    &:hover {
+      border: 1px solid variables.$secondary-color;
+      background-color: variables.$primary-dark-color;
+    }
   }
 }
 
@@ -173,9 +175,11 @@
       background-color 0.9s ease-in-out;
     cursor: pointer;
 
-    &:hover {
-      border: 1px solid variables.$secondary-color;
-      background-color: variables.$primary-dark-color;
+    @include variables.hover-supported {
+      &:hover {
+        border: 1px solid variables.$secondary-color;
+        background-color: variables.$primary-dark-color;
+      }
     }
 
     &--active {

@@ -18,9 +18,11 @@
     border: 1px solid variables.$primary-light-color;
     background-color: variables.$primary-medium-color;
 
-    &:hover {
-      border: 1px solid variables.$secondary-color;
-      background-color: variables.$primary-dark-color;
+    @include variables.hover-supported {
+      &:hover {
+        border: 1px solid variables.$secondary-color;
+        background-color: variables.$primary-dark-color;
+      }
     }
   }
 

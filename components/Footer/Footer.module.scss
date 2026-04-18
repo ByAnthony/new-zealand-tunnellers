@@ -61,10 +61,12 @@
         color 0.9s ease-in-out,
         border-bottom 0.9s ease-in-out;
 
-      &:hover {
-        padding-bottom: 4px;
-        border-bottom: 1px solid variables.$secondary-color;
-        color: variables.$secondary-color;
+      @include variables.hover-supported {
+        &:hover {
+          padding-bottom: 4px;
+          border-bottom: 1px solid variables.$secondary-color;
+          color: variables.$secondary-color;
+        }
       }
     }
   }
@@ -84,9 +86,11 @@
       background-color 0.9s ease-in-out;
     cursor: pointer;
 
-    &:hover {
-      border: 1px solid variables.$secondary-color;
-      background-color: variables.$primary-dark-color;
+    @include variables.hover-supported {
+      &:hover {
+        border: 1px solid variables.$secondary-color;
+        background-color: variables.$primary-dark-color;
+      }
     }
   }
 

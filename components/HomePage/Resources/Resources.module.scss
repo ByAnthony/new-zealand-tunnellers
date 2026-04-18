@@ -21,9 +21,11 @@
   border: 1px solid variables.$primary-light-dark-color;
   transition: all 0.9s ease-in-out;
 
-  &:hover {
-    border: 1px solid variables.$secondary-color;
-    background-color: variables.$primary-dark-color;
+  @include variables.hover-supported {
+    &:hover {
+      border: 1px solid variables.$secondary-color;
+      background-color: variables.$primary-dark-color;
+    }
   }
 }
 
