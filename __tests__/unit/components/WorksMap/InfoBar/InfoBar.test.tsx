@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { mockCave } from "__tests__/unit/utils/mocks/mockCave";
 import {
   mockSubway,
@@ -17,6 +17,14 @@ import { CATEGORY_COLORS } from "@/components/WorksMap/utils/markerIcons";
 
 const onClose = jest.fn();
 const colors = CATEGORY_COLORS;
+
+Object.assign(navigator, {
+  clipboard: {
+    writeText: jest.fn().mockResolvedValue("Mocked write text"),
+  },
+});
+
+global.alert = jest.fn();
 
 describe("InfoBar", () => {
   beforeEach(() => {
@@ -349,6 +357,31 @@ describe("InfoBar", () => {
     );
     fireEvent.click(screen.getByRole("button", { name: "Close" }));
     expect(onClose).toHaveBeenCalledTimes(1);
+  });
+
+  test("copies work coordinates to clipboard", async () => {
+    jest.spyOn(navigator.clipboard, "writeText").mockResolvedValue(undefined);
+
+    render(
+      <InfoBar
+        work={mockWork}
+        isExiting={false}
+        locale="en"
+        colors={colors}
+        onClose={onClose}
+      />,
+    );
+
+    fireEvent.click(screen.getByRole("button", { name: "Copy to clipboard" }));
+
+    await waitFor(() => {
+      expect(navigator.clipboard.writeText).toHaveBeenCalledWith(
+        "50.305000, 2.876000",
+      );
+      expect(window.alert).toHaveBeenCalledWith(
+        "Coordinates have been copied to clipboard",
+      );
+    });
   });
 
   describe("cave card", () => {

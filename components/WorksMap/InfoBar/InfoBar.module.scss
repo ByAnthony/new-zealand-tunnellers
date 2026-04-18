@@ -230,6 +230,23 @@
   font-weight: 400;
 }
 
+.info-bar-value-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.copy-paste {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  transform: translateY(-0.15rem);
+}
+
 .info-bar-nav {
   display: flex;
   flex-direction: column;
@@ -263,13 +280,6 @@
       color: variables.$text-color;
       font-weight: 600;
     }
-
-    @include variables.hover-supported {
-      &:hover {
-        background-color: variables.$primary-dark-color;
-        border-color: variables.$secondary-color;
-      }
-    }
   }
 
   button {
@@ -277,7 +287,6 @@
     align-items: center;
     justify-content: center;
     width: 100%;
-    height: 28px;
     padding: 0;
     background-color: variables.$primary-medium-color;
     border: 1px solid variables.$primary-light-color;

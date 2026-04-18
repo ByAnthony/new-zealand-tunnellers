@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { useTranslations } from "next-intl";
 
 import { CaveData } from "@/utils/database/queries/cavesQuery";
@@ -35,6 +36,13 @@ function getAnimClass(
   return isExiting ? styles.exit : styles.enter;
 }
 
+function formatCoordinates(
+  latitude: number | string,
+  longitude: number | string,
+) {
+  return `${Number(latitude).toFixed(6)}, ${Number(longitude).toFixed(6)}`;
+}
+
 export function InfoBar({
   work,
   cave,
@@ -49,6 +57,30 @@ export function InfoBar({
   onNavigate,
 }: Props) {
   const t = useTranslations("maps");
+  const copyCoordinatesLabel =
+    locale === "en" ? "Copy to clipboard" : "Copier dans le presse-papiers";
+
+  const handleCopy = (coordinates: string) => {
+    navigator.clipboard
+      .writeText(coordinates)
+      .then(() => {
+        alert(
+          locale === "en"
+            ? "Coordinates have been copied to clipboard"
+            : "Les coordonnees ont ete copiees dans le presse-papiers",
+        );
+      })
+      .catch((err) => {
+        alert(
+          locale === "en"
+            ? "Failed to copy to clipboard. Please try selecting and copying the text manually."
+            : "Echec de la copie dans le presse-papiers. Veuillez essayer de selectionner et de copier le texte manuellement.",
+        );
+        if (process.env.NODE_ENV === "development") {
+          console.error("Failed to copy: ", err);
+        }
+      });
+  };
 
   if (subway) {
     const name =
@@ -59,6 +91,10 @@ export function InfoBar({
       locale === "fr" ? subway.subway_note_fr : subway.subway_note_en;
     const dateStart = subway.subway_date_start;
     const dateEnd = subway.subway_date_end;
+    const coordinates = formatCoordinates(
+      subway.subway_latitude,
+      subway.subway_longitude,
+    );
     const hasTwoDates = dateStart && dateEnd && dateEnd !== dateStart;
     const [displayStart, displayEnd] =
       hasTwoDates && dateEnd < dateStart
@@ -99,9 +135,22 @@ export function InfoBar({
               <span className={STYLES["info-bar-label"]}>
                 {t("coordinates")}
               </span>
-              <span className={STYLES["info-bar-value"]}>
-                {Number(subway.subway_latitude).toFixed(6)},{" "}
-                {Number(subway.subway_longitude).toFixed(6)}
+              <span className={STYLES["info-bar-value-group"]}>
+                <span className={STYLES["info-bar-value"]}>{coordinates}</span>
+                <button
+                  type="button"
+                  className={STYLES["copy-paste"]}
+                  aria-label={copyCoordinatesLabel}
+                  onClick={() => handleCopy(coordinates)}
+                >
+                  <Image
+                    src="/copy.png"
+                    alt={copyCoordinatesLabel}
+                    width={10}
+                    height={12}
+                    placeholder="empty"
+                  />
+                </button>
               </span>
             </div>
           </div>
@@ -118,6 +167,10 @@ export function InfoBar({
   if (cave) {
     const name = locale === "fr" ? cave.cave_name_fr : cave.cave_name_en;
     const typeLabel = locale === "fr" ? cave.cave_type_fr : cave.cave_type_en;
+    const coordinates = formatCoordinates(
+      cave.cave_latitude,
+      cave.cave_longitude,
+    );
     return (
       <div
         className={`${STYLES["info-bar"]} ${getAnimClass(isExiting, animType, STYLES)}`}
@@ -132,9 +185,22 @@ export function InfoBar({
               <span className={STYLES["info-bar-label"]}>
                 {t("coordinates")}
               </span>
-              <span className={STYLES["info-bar-value"]}>
-                {Number(cave.cave_latitude).toFixed(6)},{" "}
-                {Number(cave.cave_longitude).toFixed(6)}
+              <span className={STYLES["info-bar-value-group"]}>
+                <span className={STYLES["info-bar-value"]}>{coordinates}</span>
+                <button
+                  type="button"
+                  className={STYLES["copy-paste"]}
+                  aria-label={copyCoordinatesLabel}
+                  onClick={() => handleCopy(coordinates)}
+                >
+                  <Image
+                    src="/copy.png"
+                    alt={copyCoordinatesLabel}
+                    width={10}
+                    height={12}
+                    placeholder="empty"
+                  />
+                </button>
               </span>
             </div>
           </div>
@@ -172,6 +238,10 @@ export function InfoBar({
 
   const dateStart = work.work_date_start;
   const dateEnd = work.work_date_end;
+  const coordinates = formatCoordinates(
+    work.work_latitude,
+    work.work_longitude,
+  );
   // End date may be before start due to data entry errors — always display in chronological order
   const hasTwoDates = dateStart && dateEnd && dateEnd !== dateStart;
   const [displayStart, displayEnd] =
@@ -235,9 +305,22 @@ export function InfoBar({
           )}
           <div className={STYLES["info-bar-field"]}>
             <span className={STYLES["info-bar-label"]}>{t("coordinates")}</span>
-            <span className={STYLES["info-bar-value"]}>
-              {Number(work.work_latitude).toFixed(6)},{" "}
-              {Number(work.work_longitude).toFixed(6)}
+            <span className={STYLES["info-bar-value-group"]}>
+              <span className={STYLES["info-bar-value"]}>{coordinates}</span>
+              <button
+                type="button"
+                className={STYLES["copy-paste"]}
+                aria-label={copyCoordinatesLabel}
+                onClick={() => handleCopy(coordinates)}
+              >
+                <Image
+                  src="/copy.png"
+                  alt={copyCoordinatesLabel}
+                  width={10}
+                  height={12}
+                  placeholder="empty"
+                />
+              </button>
             </span>
           </div>
         </div>
