@@ -102,6 +102,12 @@
     opacity: 0.35;
     cursor: not-allowed;
   }
+
+  &--inactive-selected {
+    background-color: variables.$primary-medium-color;
+    border-color: variables.$primary-light-color;
+    color: variables.$secondary-color;
+  }
 }
 
 .chip-dot {
