@@ -23,10 +23,19 @@ export function TypeFilter({
     const isActive = selectedTypes.has(type);
     const isDisabled =
       availableTypes !== undefined && !availableTypes.has(type);
+    const isInactiveSelected = isActive && isDisabled;
+    const className = [
+      STYLES.chip,
+      isActive ? STYLES["chip--active"] : null,
+      isDisabled ? STYLES["chip--disabled"] : null,
+      isInactiveSelected ? STYLES["chip--inactive-selected"] : null,
+    ]
+      .filter(Boolean)
+      .join(" ");
     return (
       <button
         key={type}
-        className={`${STYLES.chip} ${isActive ? STYLES["chip--active"] : ""} ${isDisabled ? STYLES["chip--disabled"] : ""}`}
+        className={className}
         aria-pressed={isActive}
         disabled={isDisabled}
         onClick={() => onToggle(type)}

@@ -114,6 +114,7 @@ describe("MapControls", () => {
         onZoom={jest.fn()}
         totalWorks={10}
         periodBounds={null}
+        clampBounds={null}
       />,
     );
   }
@@ -155,6 +156,18 @@ describe("MapControls", () => {
       screen.getByRole("button", { name: /Underground Warfare/i }),
     );
     expect(toggle).toHaveTextContent("Filters2");
+  });
+
+  test("does not count selected types that are unavailable in the current period", () => {
+    renderMapControls({
+      selectedTypes: new Set(["Dugout"]),
+      initialPeriodKey: "1916-03-16/1916-11-15",
+      computeAvailableTypes: () => new Set<string>(),
+    });
+
+    expect(
+      screen.getByRole("button", { name: "Toggle filters" }),
+    ).toHaveTextContent("Filters1");
   });
 
   test("disables periods that have no matching work for the selected pending type", () => {
