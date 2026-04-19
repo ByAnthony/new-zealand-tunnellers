@@ -80,6 +80,20 @@ jest.mock("../../../../components/WorksMap/MapControls/MapControls", () => ({
         >
           Apply Allied Offensives
         </button>
+        <button
+          onClick={() =>
+            (
+              props.onApplyFilters as (
+                _periodKey: string | null,
+                _periodStart: string | null,
+                _periodEnd: string | null,
+                _types: Set<string>,
+              ) => void
+            )(null, null, null, new Set(["Dugout"]))
+          }
+        >
+          Apply Dugout
+        </button>
       </div>
     );
   },
@@ -499,6 +513,23 @@ describe("WorksMap", () => {
 
     await waitFor(() => {
       expect(lastMapInstance?.fitBoundsCalls.at(-1)?.bounds.maxLat).toBe(12);
+    });
+  });
+
+  test("type-only filters snap the slider range to matching work dates", async () => {
+    renderWorksMap();
+
+    fireEvent.click(screen.getByRole("button", { name: "Apply Dugout" }));
+
+    await waitFor(() => {
+      expect(latestMapControlsProps?.dateRange).toEqual([
+        dateToDay("1916-11-16"),
+        dateToDay("1918-09-26"),
+      ]);
+      expect(latestMapControlsProps?.clampBounds).toEqual([
+        dateToDay("1916-11-16"),
+        dateToDay("1918-09-26"),
+      ]);
     });
   });
 });

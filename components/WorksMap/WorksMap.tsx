@@ -1170,6 +1170,36 @@ export function WorksMap({
     [works, allMonths, locale],
   );
 
+  const computeTypeBounds = useCallback(
+    (types: Set<string>): [number, number] | null => {
+      if (types.size === 0) return null;
+
+      const matchingRanges = works
+        .map((work, index) => {
+          const [cat1, cat2] = getWorkCategories(work, locale);
+          const matches =
+            (cat1 !== null && types.has(cat1)) ||
+            (cat2 !== null && types.has(cat2));
+          return matches ? allMonths[index] : null;
+        })
+        .filter((range): range is (typeof allMonths)[number] => range !== null);
+
+      if (matchingRanges.length === 0) return null;
+
+      return [
+        Math.min(...matchingRanges.map((range) => range.start)),
+        Math.max(...matchingRanges.map((range) => range.end)),
+      ];
+    },
+    [works, allMonths, locale],
+  );
+
+  const typeBounds = useMemo<[number, number] | null>(
+    () => computeTypeBounds(selectedTypes),
+    [computeTypeBounds, selectedTypes],
+  );
+  const clampBounds = periodBounds ?? typeBounds;
+
   const handleApplyFilters = useCallback(
     (
       periodKey: string | null,
@@ -1182,7 +1212,8 @@ export function WorksMap({
       setActivePeriodKey(periodKey);
       setShowFrontLines(periodKey !== null);
       if (periodKey === null) {
-        setDateRange([minMonth, maxMonth]);
+        const typeBounds = computeTypeBounds(types);
+        setDateRange(typeBounds ?? [minMonth, maxMonth]);
       } else {
         const pMin = dateToDay(periodStart!);
         const pMax = dateToDay(periodEnd!);
@@ -1191,7 +1222,7 @@ export function WorksMap({
       setSelectedTypes(types);
       pendingFilterFitRef.current = true;
     },
-    [closeInfo, minMonth, maxMonth],
+    [closeInfo, minMonth, maxMonth, computeTypeBounds],
   );
 
   const zoom = useCallback((dir: 1 | -1) => {
@@ -1231,6 +1262,7 @@ export function WorksMap({
           initialPeriodKey={initialPeriodKey}
           currentPeriodKey={activePeriodKey}
           periodBounds={periodBounds}
+          clampBounds={clampBounds}
           onApplyFilters={handleApplyFilters}
           computeAvailableTypes={computeAvailableTypes}
           computeVisibleCount={computeVisibleCount}

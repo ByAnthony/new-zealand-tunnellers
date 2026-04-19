@@ -73,6 +73,7 @@ type Props = {
   onZoom: (_dir: 1 | -1) => void;
   totalWorks: number;
   periodBounds: [number, number] | null;
+  clampBounds: [number, number] | null;
 };
 
 export function MapControls({
@@ -95,6 +96,7 @@ export function MapControls({
   onZoom,
   totalWorks,
   periodBounds,
+  clampBounds,
 }: Props) {
   const t = useTranslations("maps");
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
@@ -166,6 +168,12 @@ export function MapControls({
     return computeVisibleCount(start, end, pendingTypes);
   }, [pendingPeriod, pendingTypes, computeVisibleCount, minMonth, maxMonth]);
 
+  const activeAvailableTypes = useMemo(() => {
+    const start = periodBounds?.[0] ?? minMonth;
+    const end = periodBounds?.[1] ?? maxMonth;
+    return computeAvailableTypes(start, end);
+  }, [computeAvailableTypes, periodBounds, minMonth, maxMonth]);
+
   const availablePeriods = useMemo(
     () =>
       new Set(
@@ -188,7 +196,11 @@ export function MapControls({
     setPendingTypes(new Set());
   };
 
-  const activeFilterCount = (initialPeriodKey ? 1 : 0) + selectedTypes.size;
+  const activeSelectedTypeCount = Array.from(selectedTypes).filter((type) =>
+    activeAvailableTypes.has(type),
+  ).length;
+  const activeFilterCount =
+    (initialPeriodKey ? 1 : 0) + activeSelectedTypeCount;
 
   const relatedChapterCard =
     currentPeriodKey === "1916-03-16/1916-11-15" ? (
@@ -312,8 +324,8 @@ export function MapControls({
           onChangeComplete={onDateRangeComplete}
           minMonth={minMonth}
           maxMonth={maxMonth}
-          clampMin={periodBounds?.[0]}
-          clampMax={periodBounds?.[1]}
+          clampMin={clampBounds?.[0]}
+          clampMax={clampBounds?.[1]}
         />
       </>
     );
@@ -332,8 +344,8 @@ export function MapControls({
             onChangeComplete={onDateRangeComplete}
             minMonth={minMonth}
             maxMonth={maxMonth}
-            clampMin={periodBounds?.[0]}
-            clampMax={periodBounds?.[1]}
+            clampMin={clampBounds?.[0]}
+            clampMax={clampBounds?.[1]}
           />
         </div>
         <button

@@ -96,11 +96,11 @@ describe("Article", () => {
 
     expect(
       screen.getByRole("link", {
-        name: "Explore This Chapter on the Map",
+        name: "War Underground (16 March - 15 November 1916)",
       }),
     ).toHaveAttribute(
       "href",
-      "/maps/tunnellers-works?period=true&from=1916-03-16&to=1916-11-15",
+      "/maps/tunnellers-works?period=true&frontlines=true&from=1916-03-16&to=1916-11-15",
     );
   });
 });
