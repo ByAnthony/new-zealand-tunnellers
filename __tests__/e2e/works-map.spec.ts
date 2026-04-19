@@ -4,21 +4,7 @@ const J3_WORK_ID = 476;
 const J3_WORK_NAME = "J3";
 
 async function expectVisibleFrontLines(page: Page) {
-  await expect
-    .poll(async () => {
-      return page.locator(".leaflet-frontLinePane-pane path").evaluateAll(
-        (elements) =>
-          elements.filter((element) => {
-            const style = window.getComputedStyle(element);
-            return (
-              style.opacity !== "0" &&
-              style.visibility !== "hidden" &&
-              style.display !== "none"
-            );
-          }).length,
-      );
-    })
-    .toBeGreaterThan(0);
+  await expect(page.getByTestId("frontline-count")).not.toHaveText("0");
 }
 
 test("switching map periods replaces the active period in the URL", async ({

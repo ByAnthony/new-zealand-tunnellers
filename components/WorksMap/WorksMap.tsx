@@ -227,6 +227,12 @@ export function WorksMap({
     typeColorsRef.current = typeColors;
   }, [selectedTypes, dateRange, typeColors]);
 
+  const visibleFrontLineState = useMemo(
+    () =>
+      getVisibleFrontLines(frontLines, dateRange, showFrontLines, dateToDay),
+    [frontLines, dateRange, showFrontLines],
+  );
+
   const initialWorkId = searchParams.get("work");
   const initialWorkIdRef = useRef<number | null>(
     initialWorkId ? Number(initialWorkId) : null,
@@ -412,13 +418,7 @@ export function WorksMap({
     polylinesByWorkIdRef.current.forEach((polylines) => {
       extendWithPolylineBounds(polylines);
     });
-    const { visibleIds } = getVisibleFrontLines(
-      frontLines,
-      dateRange,
-      showFrontLines,
-      dateToDay,
-    );
-    visibleIds.forEach((id) => {
+    visibleFrontLineState.visibleIds.forEach((id) => {
       const polylines = frontLinePolylinesByIdRef.current.get(id) ?? [];
       extendWithPolylineBounds(polylines);
     });
@@ -426,7 +426,7 @@ export function WorksMap({
     map.fitBounds(bounds, {
       padding: [30, 30],
     });
-  }, [frontLines, dateRange, showFrontLines]);
+  }, [visibleFrontLineState]);
 
   const closeInfo = useCallback(() => {
     if (selectedMarkerRef.current) {
@@ -925,16 +925,9 @@ export function WorksMap({
         toggleLayer(pl, !filterActive || subwayTypeSelected),
       );
     });
-    const { visibleIds, latestIds } = getVisibleFrontLines(
-      frontLines,
-      dateRange,
-      showFrontLines,
-      dateToDay,
-    );
-
     frontLinePolylinesByIdRef.current.forEach((polylines, id) => {
-      const visible = visibleIds.has(id);
-      const isOld = visible && !latestIds.has(id);
+      const visible = visibleFrontLineState.visibleIds.has(id);
+      const isOld = visible && !visibleFrontLineState.latestIds.has(id);
       polylines.forEach((pl) => {
         if (visible) {
           pl.setStyle({
@@ -959,7 +952,7 @@ export function WorksMap({
     frontLines,
     minMonth,
     maxMonth,
-    showFrontLines,
+    visibleFrontLineState,
   ]);
 
   useEffect(() => {
@@ -1203,6 +1196,9 @@ export function WorksMap({
     <div className={STYLES.container}>
       <div ref={containerRef} className={STYLES.map} />
       <div className={STYLES["map-controls"]}>
+        <span data-testid="frontline-count" hidden>
+          {visibleFrontLineState.visibleIds.size}
+        </span>
         {(displayedWork || displayedCave || displayedSubway) && (
           <InfoBar
             work={displayedWork}
