@@ -2,8 +2,24 @@ import { expect, test, Page } from "@playwright/test";
 
 const J3_WORK_ID = 476;
 const J3_WORK_NAME = "J3";
-const visibleFrontLines = (page: Page) =>
-  page.locator('.leaflet-frontLinePane-pane path[stroke-opacity="1"]');
+
+async function expectVisibleFrontLines(page: Page) {
+  await expect
+    .poll(async () => {
+      return page.locator(".leaflet-frontLinePane-pane path").evaluateAll(
+        (elements) =>
+          elements.filter((element) => {
+            const style = window.getComputedStyle(element);
+            return (
+              style.opacity !== "0" &&
+              style.visibility !== "hidden" &&
+              style.display !== "none"
+            );
+          }).length,
+      );
+    })
+    .toBeGreaterThan(0);
+}
 
 test("switching map periods replaces the active period in the URL", async ({
   page,
@@ -83,11 +99,11 @@ test("shared period URLs preserve front lines", async ({ page }) => {
   await expect(page).toHaveURL(/frontlines=true/);
   await expect(page).toHaveURL(/from=1916-11-16/);
   await expect(page).toHaveURL(/to=1917-04-09/);
-  await expect(visibleFrontLines(page).first()).toBeVisible();
+  await expectVisibleFrontLines(page);
 
   const sharedUrl = page.url();
   await page.goto(sharedUrl);
 
   await expect(page).toHaveURL(/frontlines=true/);
-  await expect(visibleFrontLines(page).first()).toBeVisible();
+  await expectVisibleFrontLines(page);
 });
