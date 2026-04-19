@@ -1196,9 +1196,6 @@ export function WorksMap({
     <div className={STYLES.container}>
       <div ref={containerRef} className={STYLES.map} />
       <div className={STYLES["map-controls"]}>
-        <span data-testid="frontline-count" hidden>
-          {visibleFrontLineState.visibleIds.size}
-        </span>
         {(displayedWork || displayedCave || displayedSubway) && (
           <InfoBar
             work={displayedWork}
