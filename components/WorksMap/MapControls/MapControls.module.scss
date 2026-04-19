@@ -163,6 +163,40 @@
   }
 }
 
+.related-chapter-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: variables.$xxs-margin;
+  margin-bottom: variables.$xxxs-margin;
+}
+
+.related-chapter-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.7rem;
+  height: 2.7rem;
+  border: 1px solid variables.$secondary-color;
+  border-radius: 50%;
+  color: variables.$secondary-color;
+
+  svg {
+    width: 1.45rem;
+    height: 1.45rem;
+  }
+}
+
+.related-link {
+  display: inline-flex;
+  align-items: center;
+  font-size: 1rem;
+  font-weight: 500;
+  text-decoration: none;
+
+  @include variables.text-link;
+}
+
 // Dialog-specific styles
 .dialog-section {
   display: flex;

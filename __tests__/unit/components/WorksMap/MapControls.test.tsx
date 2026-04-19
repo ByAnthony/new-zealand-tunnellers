@@ -107,6 +107,7 @@ describe("MapControls", () => {
         minMonth={1}
         maxMonth={2}
         initialPeriodKey={initialPeriodKey}
+        currentPeriodKey={initialPeriodKey}
         onApplyFilters={jest.fn()}
         computeAvailableTypes={computeAvailableTypes}
         computeVisibleCount={computeVisibleCount}
@@ -185,5 +186,17 @@ describe("MapControls", () => {
         name: /Preparations for the Battle of Arras/i,
       }),
     ).toBeEnabled();
+  });
+
+  test("shows the related chapter card for the underground period", () => {
+    renderMapControls({
+      initialPeriodKey: "1916-03-16/1916-11-15",
+    });
+
+    expect(
+      screen.getByRole("link", {
+        name: "Read the related chapter",
+      }),
+    ).toHaveAttribute("href", "/history/beneath-artois-fields");
   });
 });

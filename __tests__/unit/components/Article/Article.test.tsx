@@ -82,4 +82,25 @@ describe("Article", () => {
       }),
     ).toBeNull();
   });
+
+  test("renders the map context card for Beneath Artois Fields", () => {
+    render(
+      <Article
+        article={{
+          ...mockArticle,
+          id: "beneath-artois-fields",
+          title: "Beneath Artois\\Fields",
+        }}
+      />,
+    );
+
+    expect(
+      screen.getByRole("link", {
+        name: "Explore This Chapter on the Map",
+      }),
+    ).toHaveAttribute(
+      "href",
+      "/maps/tunnellers-works?period=true&from=1916-03-16&to=1916-11-15",
+    );
+  });
 });

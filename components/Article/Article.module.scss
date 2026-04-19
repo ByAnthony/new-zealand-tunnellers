@@ -69,3 +69,66 @@
     }
   }
 }
+
+.context-map-block {
+  padding: 5px 0 0 0;
+
+  @include variables.tablet {
+    padding: variables.$m-margin 0 variables.$xs-margin 0;
+  }
+
+  @include variables.desktop {
+    padding: variables.$m-margin 0;
+    margin: 0 auto;
+    width: 42rem;
+  }
+}
+
+.context-map-header {
+  display: flex;
+  align-items: center;
+  gap: variables.$xxs-margin;
+}
+
+.context-map-title {
+  margin: 0;
+  color: variables.$text-color;
+  font-size: 1.15rem;
+  font-weight: 500;
+}
+
+.context-card-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.7rem;
+  height: 2.7rem;
+  border: 1px solid variables.$text-color;
+  border-radius: 50%;
+  color: variables.$text-color;
+
+  svg {
+    width: 1.45rem;
+    height: 1.45rem;
+  }
+}
+
+.context-link {
+  display: inline-block;
+  margin-top: variables.$xxs-margin;
+  font-size: 1rem;
+  font-weight: 500;
+  text-decoration: none;
+
+  @include variables.text-link;
+}
+
+.context-link-list {
+  margin: variables.$xxs-margin 0 0 0;
+  padding-inline-start: calc(2.7rem + #{variables.$m-margin});
+
+  li {
+    list-style: disc;
+    color: variables.$text-color;
+  }
+}

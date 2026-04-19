@@ -810,12 +810,9 @@ export function WorksMap({
     if (savedView) {
       map.setView([savedView.lat, savedView.lng], savedView.zoom);
     } else {
-      const bounds = L.latLngBounds(
-        works.map(
-          (w) => [w.work_latitude, w.work_longitude] as [number, number],
-        ),
-      );
-      map.fitBounds(bounds, { padding: [30, 30] });
+      // Defer the initial fit until visibility filters have been applied,
+      // so period links open focused on the filtered map state.
+      pendingFilterFitRef.current = true;
     }
 
     map.on("moveend", () => {
@@ -1232,6 +1229,7 @@ export function WorksMap({
           minMonth={minMonth}
           maxMonth={maxMonth}
           initialPeriodKey={initialPeriodKey}
+          currentPeriodKey={activePeriodKey}
           periodBounds={periodBounds}
           onApplyFilters={handleApplyFilters}
           computeAvailableTypes={computeAvailableTypes}

@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { useState, useEffect, useMemo } from "react";
 
@@ -10,6 +11,38 @@ import { TypeFilter } from "../TypeFilter/TypeFilter";
 import { dateToDay, formatPeriodRange } from "../utils/mapParams";
 import { MAP_PERIODS } from "../utils/periods";
 import { WorksSlider } from "../WorksSlider/WorksSlider";
+
+function BookOpenBadge() {
+  return (
+    <span className={STYLES["related-chapter-badge"]} aria-hidden="true">
+      <svg viewBox="0 0 24 24" focusable="false">
+        <path
+          d="M12 7.5c-1.7-1.2-4.1-1.8-7-1.8v11.2c2.9 0 5.3.6 7 1.8"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.7"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M12 7.5c1.7-1.2 4.1-1.8 7-1.8v11.2c-2.9 0-5.3.6-7 1.8"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.7"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M12 7.5v11.2"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.7"
+          strokeLinecap="round"
+        />
+      </svg>
+    </span>
+  );
+}
 
 type Props = {
   visibleCount: number;
@@ -23,6 +56,7 @@ type Props = {
   minMonth: number;
   maxMonth: number;
   initialPeriodKey: string | null;
+  currentPeriodKey: string | null;
   onApplyFilters: (
     _periodKey: string | null,
     _periodStart: string | null,
@@ -53,6 +87,7 @@ export function MapControls({
   minMonth,
   maxMonth,
   initialPeriodKey,
+  currentPeriodKey,
   onApplyFilters,
   computeAvailableTypes,
   computeVisibleCount,
@@ -63,6 +98,7 @@ export function MapControls({
 }: Props) {
   const t = useTranslations("maps");
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
+  const localePrefix = locale === "fr" ? "/fr" : "";
 
   // Pending state: staged while dialog is open, committed on close
   const [pendingPeriod, setPendingPeriod] = useState<string | null>(
@@ -153,6 +189,21 @@ export function MapControls({
   };
 
   const activeFilterCount = (initialPeriodKey ? 1 : 0) + selectedTypes.size;
+
+  const relatedChapterCard =
+    currentPeriodKey === "1916-03-16/1916-11-15" ? (
+      <div className={STYLES["related-chapter-row"]}>
+        <BookOpenBadge />
+        <Link
+          href={`${localePrefix}/history/beneath-artois-fields`}
+          className={STYLES["related-link"]}
+        >
+          {locale === "fr"
+            ? "Lire le chapitre lie"
+            : "Read the related chapter"}
+        </Link>
+      </div>
+    ) : null;
 
   const filtersToggleButton = (
     <button
@@ -246,6 +297,7 @@ export function MapControls({
     return (
       <>
         {filtersDialog}
+        {relatedChapterCard}
         <div className={STYLES["mobile-top"]}>
           <div className={STYLES["slider-count"]}>
             {visibleCount} {visibleCount === 1 ? t("work") : t("works")}
@@ -270,6 +322,7 @@ export function MapControls({
   return (
     <>
       {filtersDialog}
+      {relatedChapterCard}
       <div className={STYLES["controls-grid"]}>
         {filtersToggleButton}
         <div className={STYLES["slider-wrapper"]}>
