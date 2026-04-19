@@ -142,6 +142,7 @@ export function WorksMap({
   }, [works, locale]);
 
   const isPeriodParam = searchParams.get("period") === "true";
+  const isFrontLinesParam = searchParams.get("frontlines") === "true";
   const initialPeriodKey = (() => {
     if (!isPeriodParam) return null;
     const fromParam = searchParams.get("from");
@@ -153,6 +154,9 @@ export function WorksMap({
   );
   const periodKeyRef = useRef<string | null>(initialPeriodKey);
   const isPeriodActive = activePeriodKey !== null;
+  const [showFrontLines, setShowFrontLines] = useState(
+    () => isFrontLinesParam || initialPeriodKey !== null,
+  );
   const periodBounds = useMemo<[number, number] | null>(() => {
     if (!activePeriodKey) return null;
     const [start, end] = activePeriodKey.split("/");
@@ -275,6 +279,12 @@ export function WorksMap({
       params.delete("period");
     }
 
+    if (showFrontLines) {
+      params.set("frontlines", "true");
+    } else {
+      params.delete("frontlines");
+    }
+
     if (dateRange[0] !== minMonth || dateRange[1] !== maxMonth) {
       params.set("from", dayToParam(dateRange[0]));
       params.set("to", dayToParam(dateRange[1]));
@@ -315,6 +325,7 @@ export function WorksMap({
     minMonth,
     maxMonth,
     isPeriodActive,
+    showFrontLines,
     displayedWork,
     displayedCave,
     displayedSubway,
@@ -404,7 +415,7 @@ export function WorksMap({
     const { visibleIds } = getVisibleFrontLines(
       frontLines,
       dateRange,
-      isPeriodActive,
+      showFrontLines,
       dateToDay,
     );
     visibleIds.forEach((id) => {
@@ -415,7 +426,7 @@ export function WorksMap({
     map.fitBounds(bounds, {
       padding: [30, 30],
     });
-  }, [frontLines, dateRange, isPeriodActive]);
+  }, [frontLines, dateRange, showFrontLines]);
 
   const closeInfo = useCallback(() => {
     if (selectedMarkerRef.current) {
@@ -917,7 +928,7 @@ export function WorksMap({
     const { visibleIds, latestIds } = getVisibleFrontLines(
       frontLines,
       dateRange,
-      isPeriodActive,
+      showFrontLines,
       dateToDay,
     );
 
@@ -948,14 +959,14 @@ export function WorksMap({
     frontLines,
     minMonth,
     maxMonth,
-    isPeriodActive,
+    showFrontLines,
   ]);
 
   useEffect(() => {
     if (!pendingFilterFitRef.current) return;
     pendingFilterFitRef.current = false;
     fitToVisibleWorks();
-  }, [dateRange, selectedTypes, isPeriodActive, fitToVisibleWorks]);
+  }, [dateRange, selectedTypes, showFrontLines, fitToVisibleWorks]);
 
   const prevSelectedTypesRef = useRef(selectedTypes);
   useEffect(() => {
@@ -1170,6 +1181,7 @@ export function WorksMap({
       closeInfo();
       periodKeyRef.current = periodKey;
       setActivePeriodKey(periodKey);
+      setShowFrontLines(periodKey !== null);
       if (periodKey === null) {
         setDateRange([minMonth, maxMonth]);
       } else {

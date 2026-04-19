@@ -461,4 +461,17 @@ describe("WorksMap", () => {
       expect.any(Number),
     ]);
   });
+
+  test("writes a frontlines param when a period is applied so the URL is shareable", async () => {
+    renderWorksMap();
+
+    fireEvent.click(screen.getByRole("button", { name: "Apply Arras" }));
+
+    await waitFor(() => {
+      expect(window.location.search).toContain("period=true");
+      expect(window.location.search).toContain("frontlines=true");
+      expect(window.location.search).toContain("from=1916-11-16");
+      expect(window.location.search).toContain("to=1917-04-09");
+    });
+  });
 });

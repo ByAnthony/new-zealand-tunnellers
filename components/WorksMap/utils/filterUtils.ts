@@ -30,12 +30,12 @@ export function collectCategories(
 export function getVisibleFrontLines(
   frontLines: FrontLineData[],
   dateRange: [number, number],
-  isPeriodActive: boolean,
+  showFrontLines: boolean,
   dateToDay: (date: string) => number,
 ): { visibleIds: Set<number>; latestIds: Set<number> } {
   const visibleFrontLines = frontLines.filter(
     (fl) =>
-      isPeriodActive &&
+      showFrontLines &&
       dateToDay(fl.front_line_period_start) >= dateRange[0] &&
       dateToDay(fl.front_line_period_end) <= dateRange[1],
   );
