@@ -8,52 +8,8 @@ import { Dialog } from "@/components/Dialog/Dialog";
 import STYLES from "./MapControls.module.scss";
 import { TypeFilter } from "../TypeFilter/TypeFilter";
 import { dateToDay, formatPeriodRange } from "../utils/mapParams";
+import { MAP_PERIODS } from "../utils/periods";
 import { WorksSlider } from "../WorksSlider/WorksSlider";
-
-const PERIODS = [
-  {
-    key: "1916-03-16/1916-11-15",
-    start: "1916-03-16",
-    end: "1916-11-15",
-    en: "Underground Warfare",
-    fr: "Guerre souterraine",
-  },
-  {
-    key: "1916-11-16/1917-04-09",
-    start: "1916-11-16",
-    end: "1917-04-09",
-    en: "Preparations for the Battle of Arras",
-    fr: "Préparatifs de la bataille d'Arras",
-  },
-  {
-    key: "1917-04-10/1918-03-20",
-    start: "1917-04-10",
-    end: "1918-03-20",
-    en: "East of Arras Trench Works",
-    fr: "Travaux de tranchées à l'est d'Arras",
-  },
-  {
-    key: "1918-03-21/1918-07-14",
-    start: "1918-03-21",
-    end: "1918-07-14",
-    en: "1918 German Spring Offensive",
-    fr: "Offensive allemande du printemps 1918",
-  },
-  {
-    key: "1918-07-15/1918-08-21",
-    start: "1918-07-15",
-    end: "1918-08-21",
-    en: "Preparations for the Allied Offensives",
-    fr: "Préparatifs des offensives alliées",
-  },
-  {
-    key: "1918-09-26/1918-12-27",
-    start: "1918-09-26",
-    end: "1918-12-27",
-    en: "Bridging Operations",
-    fr: "Opérations de ponts",
-  },
-];
 
 type Props = {
   visibleCount: number;
@@ -121,7 +77,7 @@ export function MapControls({
   };
 
   const commitPending = (period: string | null, types: Set<string>) => {
-    const p = period ? PERIODS.find((x) => x.key === period) : null;
+    const p = period ? MAP_PERIODS.find((x) => x.key === period) : null;
     onApplyFilters(period, p?.start ?? null, p?.end ?? null, types);
   };
 
@@ -158,7 +114,7 @@ export function MapControls({
 
   const pendingAvailableTypes = useMemo(() => {
     const p = pendingPeriod
-      ? PERIODS.find((x) => x.key === pendingPeriod)
+      ? MAP_PERIODS.find((x) => x.key === pendingPeriod)
       : null;
     return p
       ? computeAvailableTypes(dateToDay(p.start), dateToDay(p.end))
@@ -167,7 +123,7 @@ export function MapControls({
 
   const pendingVisibleCount = useMemo(() => {
     const p = pendingPeriod
-      ? PERIODS.find((x) => x.key === pendingPeriod)
+      ? MAP_PERIODS.find((x) => x.key === pendingPeriod)
       : null;
     const start = p ? dateToDay(p.start) : minMonth;
     const end = p ? dateToDay(p.end) : maxMonth;
@@ -177,7 +133,7 @@ export function MapControls({
   const availablePeriods = useMemo(
     () =>
       new Set(
-        PERIODS.filter(
+        MAP_PERIODS.filter(
           ({ start, end }) =>
             computeVisibleCount(
               dateToDay(start),
@@ -252,7 +208,7 @@ export function MapControls({
           {locale === "fr" ? "Périodes" : "Time periods"}
         </h3>
         <div className={STYLES["dialog-period-grid"]}>
-          {PERIODS.map(({ key, start, end, en, fr }) => (
+          {MAP_PERIODS.map(({ key, start, end, en, fr }) => (
             <button
               key={key}
               className={`${STYLES["period-button"]} ${pendingPeriod === key ? STYLES["period-button--active"] : ""}`}
