@@ -142,6 +142,7 @@ export function WorksMap({
   }, [works, locale]);
 
   const isPeriodParam = searchParams.get("period") === "true";
+  const isFrontLinesParam = searchParams.get("frontlines") === "true";
   const initialPeriodKey = (() => {
     if (!isPeriodParam) return null;
     const fromParam = searchParams.get("from");
@@ -153,6 +154,9 @@ export function WorksMap({
   );
   const periodKeyRef = useRef<string | null>(initialPeriodKey);
   const isPeriodActive = activePeriodKey !== null;
+  const [showFrontLines, setShowFrontLines] = useState(
+    () => isFrontLinesParam || initialPeriodKey !== null,
+  );
   const periodBounds = useMemo<[number, number] | null>(() => {
     if (!activePeriodKey) return null;
     const [start, end] = activePeriodKey.split("/");
@@ -223,6 +227,12 @@ export function WorksMap({
     typeColorsRef.current = typeColors;
   }, [selectedTypes, dateRange, typeColors]);
 
+  const visibleFrontLineState = useMemo(
+    () =>
+      getVisibleFrontLines(frontLines, dateRange, showFrontLines, dateToDay),
+    [frontLines, dateRange, showFrontLines],
+  );
+
   const initialWorkId = searchParams.get("work");
   const initialWorkIdRef = useRef<number | null>(
     initialWorkId ? Number(initialWorkId) : null,
@@ -275,6 +285,12 @@ export function WorksMap({
       params.delete("period");
     }
 
+    if (showFrontLines) {
+      params.set("frontlines", "true");
+    } else {
+      params.delete("frontlines");
+    }
+
     if (dateRange[0] !== minMonth || dateRange[1] !== maxMonth) {
       params.set("from", dayToParam(dateRange[0]));
       params.set("to", dayToParam(dateRange[1]));
@@ -315,6 +331,7 @@ export function WorksMap({
     minMonth,
     maxMonth,
     isPeriodActive,
+    showFrontLines,
     displayedWork,
     displayedCave,
     displayedSubway,
@@ -401,13 +418,7 @@ export function WorksMap({
     polylinesByWorkIdRef.current.forEach((polylines) => {
       extendWithPolylineBounds(polylines);
     });
-    const { visibleIds } = getVisibleFrontLines(
-      frontLines,
-      dateRange,
-      isPeriodActive,
-      dateToDay,
-    );
-    visibleIds.forEach((id) => {
+    visibleFrontLineState.visibleIds.forEach((id) => {
       const polylines = frontLinePolylinesByIdRef.current.get(id) ?? [];
       extendWithPolylineBounds(polylines);
     });
@@ -415,7 +426,7 @@ export function WorksMap({
     map.fitBounds(bounds, {
       padding: [30, 30],
     });
-  }, [frontLines, dateRange, isPeriodActive]);
+  }, [visibleFrontLineState]);
 
   const closeInfo = useCallback(() => {
     if (selectedMarkerRef.current) {
@@ -914,16 +925,9 @@ export function WorksMap({
         toggleLayer(pl, !filterActive || subwayTypeSelected),
       );
     });
-    const { visibleIds, latestIds } = getVisibleFrontLines(
-      frontLines,
-      dateRange,
-      isPeriodActive,
-      dateToDay,
-    );
-
     frontLinePolylinesByIdRef.current.forEach((polylines, id) => {
-      const visible = visibleIds.has(id);
-      const isOld = visible && !latestIds.has(id);
+      const visible = visibleFrontLineState.visibleIds.has(id);
+      const isOld = visible && !visibleFrontLineState.latestIds.has(id);
       polylines.forEach((pl) => {
         if (visible) {
           pl.setStyle({
@@ -948,14 +952,14 @@ export function WorksMap({
     frontLines,
     minMonth,
     maxMonth,
-    isPeriodActive,
+    visibleFrontLineState,
   ]);
 
   useEffect(() => {
     if (!pendingFilterFitRef.current) return;
     pendingFilterFitRef.current = false;
     fitToVisibleWorks();
-  }, [dateRange, selectedTypes, isPeriodActive, fitToVisibleWorks]);
+  }, [dateRange, selectedTypes, showFrontLines, fitToVisibleWorks]);
 
   const prevSelectedTypesRef = useRef(selectedTypes);
   useEffect(() => {
@@ -1170,6 +1174,7 @@ export function WorksMap({
       closeInfo();
       periodKeyRef.current = periodKey;
       setActivePeriodKey(periodKey);
+      setShowFrontLines(periodKey !== null);
       if (periodKey === null) {
         setDateRange([minMonth, maxMonth]);
       } else {
