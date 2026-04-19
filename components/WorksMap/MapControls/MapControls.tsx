@@ -6,9 +6,9 @@ import { useState, useEffect, useMemo } from "react";
 import { Dialog } from "@/components/Dialog/Dialog";
 
 import STYLES from "./MapControls.module.scss";
-import { MAP_PERIODS } from "../utils/periods";
 import { TypeFilter } from "../TypeFilter/TypeFilter";
 import { dateToDay, formatPeriodRange } from "../utils/mapParams";
+import { MAP_PERIODS } from "../utils/periods";
 import { WorksSlider } from "../WorksSlider/WorksSlider";
 
 type Props = {
