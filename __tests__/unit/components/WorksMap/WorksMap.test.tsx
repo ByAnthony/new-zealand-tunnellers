@@ -6,6 +6,7 @@ import {
   waitFor,
 } from "@testing-library/react";
 
+import { dateToDay } from "@/components/WorksMap/utils/mapParams";
 import { WorksMap } from "@/components/WorksMap/WorksMap";
 import { CaveData, CavePathPoint } from "@/utils/database/queries/cavesQuery";
 import {
@@ -473,5 +474,14 @@ describe("WorksMap", () => {
       expect(window.location.search).toContain("from=1916-11-16");
       expect(window.location.search).toContain("to=1917-04-09");
     });
+  });
+
+  test("uses the earliest configured period boundary as the initial start date", () => {
+    renderWorksMap();
+
+    expect(latestMapControlsProps?.dateRange).toEqual([
+      dateToDay("1916-03-16"),
+      expect.any(Number),
+    ]);
   });
 });

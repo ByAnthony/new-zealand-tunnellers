@@ -33,6 +33,7 @@ import {
   createWorkIcon,
 } from "./utils/markerIcons";
 import { groupPathsBySegment } from "./utils/pathUtils";
+import { MAP_PERIODS } from "./utils/periods";
 import STYLES from "./WorksMap.module.scss";
 
 // Fix Leaflet default marker icons in Next.js
@@ -100,8 +101,16 @@ export function WorksMap({
       })),
     [works],
   );
-  const minMonth = Math.min(...allMonths.map((m) => m.start));
-  const maxMonth = Math.max(...allMonths.map((m) => m.end));
+  const periodDays = useMemo(
+    () =>
+      MAP_PERIODS.flatMap((period) => [
+        dateToDay(period.start),
+        dateToDay(period.end),
+      ]),
+    [],
+  );
+  const minMonth = Math.min(...allMonths.map((m) => m.start), ...periodDays);
+  const maxMonth = Math.max(...allMonths.map((m) => m.end), ...periodDays);
 
   const { types, typeColors, nameToSlug, slugToName } = useMemo(() => {
     const categorySet = new Set<string>();
