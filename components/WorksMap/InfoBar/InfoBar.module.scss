@@ -262,13 +262,17 @@
     align-items: center;
     justify-content: center;
     padding: variables.$xxxs-margin variables.$xxs-margin;
-    background: none;
+    background-color: transparent;
     border: 1px solid variables.$primary-light-color;
     border-bottom: none;
     border-radius: variables.$border-radius variables.$border-radius 0 0;
     font-size: 0.9rem;
     color: variables.$placeholder-color;
     white-space: nowrap;
+    transition:
+      border-color 0.9s ease-in-out,
+      background-color 0.9s ease-in-out,
+      color 0.9s ease-in-out;
 
     @media screen and (min-width: variables.$mobile) {
       border-bottom: 1px solid variables.$primary-light-color;
@@ -279,6 +283,7 @@
     strong {
       color: variables.$text-color;
       font-weight: 600;
+      transition: color 0.9s ease-in-out;
     }
   }
 
@@ -296,6 +301,7 @@
       width: 28px;
       border-radius: 0 variables.$border-radius variables.$border-radius 0;
     }
+
     color: variables.$secondary-color;
     font-family: variables.$main-font;
     font-size: 1.4rem;
@@ -310,6 +316,16 @@
       &:hover {
         background-color: variables.$primary-dark-color;
         border-color: variables.$secondary-color;
+      }
+    }
+  }
+
+  @include variables.hover-supported {
+    &:has(button:hover) {
+      span {
+        background-color: variables.$primary-dark-color;
+        border-color: variables.$secondary-color;
+        color: variables.$text-color;
       }
     }
   }
