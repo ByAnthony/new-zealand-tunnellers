@@ -265,7 +265,7 @@ export function MapControls({
 
   const filtersToggleButton = (
     <button
-      className={`${STYLES["period-toggle"]} ${isFiltersOpen ? STYLES["period-toggle--open"] : ""} ${activeFilterCount > 0 ? STYLES["period-toggle--active"] : ""}`}
+      className={`${STYLES["period-toggle"]} ${activeFilterCount > 0 ? STYLES["period-toggle--active"] : ""}`.trim()}
       onClick={() =>
         isFiltersOpen ? handleDialogClose() : openFiltersDialog()
       }
