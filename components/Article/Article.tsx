@@ -44,6 +44,7 @@ export function Article({ article }: Props) {
   const localePrefix = locale === "en" ? "" : `/${locale}`;
   const relatedMapPeriods = getMapPeriodsForChapter(article.id);
   const shouldShowMapCard = relatedMapPeriods.length > 0;
+  const hasMultipleMapPeriods = relatedMapPeriods.length > 1;
   const isTerminalMapCard = shouldShowMapCard && article.next === null;
   const relatedMapLabel =
     locale === "fr" ? "Explorer sur la carte" : "Explore On The Map";
@@ -82,32 +83,46 @@ export function Article({ article }: Props) {
                         {relatedMapLabel}
                       </span>
                     </span>
-                    {relatedMapPeriods.map((period) => (
-                      <Link
-                        key={period.key}
-                        href={`${localePrefix}/maps/tunnellers-works?period=true&frontlines=true&from=${period.start}&to=${period.end}`}
-                        className={STYLES["context-map-link"]}
-                      >
-                        <span className={STYLES["context-map-link-title"]}>
-                          {locale === "fr" ? period.fr : period.en}
-                        </span>
-                        <span className={STYLES["context-map-link-meta"]}>
-                          <span className={STYLES["context-link-period"]}>
-                            {formatPeriodRange(
-                              locale,
-                              period.start,
-                              period.end,
-                            )}
-                          </span>
-                        </span>
-                        <span
-                          className={STYLES["context-map-link-arrow"]}
-                          aria-hidden="true"
-                        >
-                          &rarr;
-                        </span>
-                      </Link>
-                    ))}
+                    <div
+                      className={`${STYLES["context-map-links"]} ${hasMultipleMapPeriods ? STYLES["context-map-links--multiple"] : ""}`.trim()}
+                    >
+                      {relatedMapPeriods.map((period, index) => {
+                        const positionClass = hasMultipleMapPeriods
+                          ? index === 0
+                            ? STYLES["context-map-link--first"]
+                            : index === relatedMapPeriods.length - 1
+                              ? STYLES["context-map-link--last"]
+                              : STYLES["context-map-link--middle"]
+                          : "";
+
+                        return (
+                          <Link
+                            key={period.key}
+                            href={`${localePrefix}/maps/tunnellers-works?period=true&frontlines=true&from=${period.start}&to=${period.end}`}
+                            className={`${STYLES["context-map-link"]} ${hasMultipleMapPeriods ? STYLES["context-map-link--multiple"] : ""} ${positionClass}`.trim()}
+                          >
+                            <span className={STYLES["context-map-link-title"]}>
+                              {locale === "fr" ? period.fr : period.en}
+                            </span>
+                            <span className={STYLES["context-map-link-meta"]}>
+                              <span className={STYLES["context-link-period"]}>
+                                {formatPeriodRange(
+                                  locale,
+                                  period.start,
+                                  period.end,
+                                )}
+                              </span>
+                            </span>
+                            <span
+                              className={STYLES["context-map-link-arrow"]}
+                              aria-hidden="true"
+                            >
+                              &rarr;
+                            </span>
+                          </Link>
+                        );
+                      })}
+                    </div>
                   </span>
                 </span>
               </div>
