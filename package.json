@@ -60,7 +60,7 @@
     "@types/node": "22.19.17",
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
-    "baseline-browser-mapping": "2.10.19",
+    "baseline-browser-mapping": "2.10.21",
     "eslint": "9.39.2",
     "eslint-config-next": "16.2.4",
     "eslint-config-prettier": "10.1.8",
@@ -72,6 +72,6 @@
     "jest-environment-jsdom": "30.3.0",
     "lint-staged": "16.4.0",
     "typescript": "6.0.3",
-    "typescript-eslint": "8.58.2"
+    "typescript-eslint": "8.59.0"
   }
 }
