@@ -1,0 +1,225 @@
+@use "app/variables.module.scss";
+
+.context-map-block {
+  padding: 5px 0 0 0;
+
+  @include variables.tablet {
+    padding: variables.$m-margin 0 0 0;
+  }
+
+  @include variables.desktop {
+    padding: variables.$m-margin 0 0 0;
+    margin: 0 auto;
+    width: 42rem;
+  }
+}
+
+.context-map-block--terminal {
+  padding-bottom: variables.$xs-margin;
+
+  @include variables.tablet {
+    padding-bottom: variables.$xs-margin;
+  }
+
+  @include variables.desktop {
+    padding-bottom: variables.$m-margin;
+  }
+}
+
+.context-card-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.2rem;
+  height: 2.2rem;
+  border: 1px solid variables.$text-color;
+  border-radius: 50%;
+  color: variables.$text-color;
+
+  svg {
+    width: 1.15rem;
+    height: 1.15rem;
+  }
+
+  @include variables.desktop {
+    width: 2.45rem;
+    height: 2.45rem;
+
+    svg {
+      width: 1.28rem;
+      height: 1.28rem;
+    }
+  }
+}
+
+.context-link-card {
+  display: flex;
+  align-items: center;
+  margin-top: variables.$s-margin;
+  text-decoration: none;
+  color: variables.$secondary-color;
+  @include variables.fullwidth-main-card;
+
+  @include variables.desktop {
+    margin: variables.$xs-margin 0;
+  }
+}
+
+.context-link-main {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+
+.context-link-panel {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: variables.$xxs-margin;
+  justify-content: center;
+  min-width: 0;
+}
+
+.context-link-header {
+  display: flex;
+  align-items: center;
+  gap: variables.$xs-margin;
+  align-self: flex-start;
+  padding: 0;
+}
+
+.context-link-label {
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: variables.$text-color;
+
+  @include variables.desktop {
+    font-size: 1.35rem;
+  }
+}
+
+.context-map-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.context-map-links--multiple {
+  margin-top: variables.$xxs-margin;
+}
+
+.context-map-link {
+  display: grid;
+  box-sizing: border-box;
+  align-items: center;
+  grid-template-columns: 1fr auto;
+  grid-template-areas:
+    "title arrow"
+    "meta arrow";
+  column-gap: variables.$xs-margin;
+  row-gap: 0.15rem;
+  align-self: stretch;
+  width: 100%;
+  margin-top: variables.$xxs-margin;
+  padding: 12px variables.$xs-margin;
+  font-size: 1.02rem;
+  font-weight: 500;
+  color: variables.$secondary-color;
+  text-decoration: none;
+  @include variables.featured-button-link;
+
+  @include variables.desktop {
+    grid-template-columns: auto 1fr auto;
+    grid-template-areas: "title meta arrow";
+    padding: 14px variables.$s-margin;
+    font-size: 1.12rem;
+  }
+}
+
+.context-map-link--multiple {
+  margin-top: 0;
+  padding-top: 10px;
+  padding-bottom: 10px;
+
+  @include variables.desktop {
+    grid-template-columns: minmax(0, 1.75fr) minmax(15rem, 18rem) auto;
+    grid-template-areas: "title meta arrow";
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+}
+
+.context-map-link--first {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.context-map-link--middle {
+  border-top: 0;
+  border-radius: 0;
+}
+
+.context-map-link--last {
+  border-top: 0;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.context-map-link-title {
+  grid-area: title;
+  min-width: 0;
+
+  .context-map-link--multiple & {
+    @include variables.desktop {
+      white-space: nowrap;
+      font-size: 1.04rem;
+    }
+  }
+}
+
+.context-map-link-meta {
+  grid-area: meta;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  min-width: 0;
+
+  @include variables.desktop {
+    justify-content: center;
+  }
+}
+
+.context-link-period {
+  font-size: 0.85rem;
+  font-weight: 200;
+  color: variables.$text-color;
+
+  @include variables.desktop {
+    font-size: 0.95rem;
+  }
+}
+
+.context-map-link-arrow {
+  grid-area: arrow;
+  justify-self: end;
+  align-self: center;
+  color: variables.$secondary-color;
+  font-size: 1.55rem;
+  font-weight: 200;
+  line-height: 1;
+
+  @include variables.desktop {
+    font-size: 1.7rem;
+  }
+}
+
+.context-link-list {
+  margin: variables.$xxs-margin 0 0 0;
+  padding-inline-start: 0;
+  list-style: none;
+
+  li {
+    color: variables.$text-color;
+  }
+}

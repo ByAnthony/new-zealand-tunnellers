@@ -6,6 +6,7 @@ import { useEffect } from "react";
 
 import { ArticleNextChapterButton } from "@/components/Article/ArticleNextChapterButton/ArticleNextChapterButton";
 import { ArticleNotes } from "@/components/Article/ArticleNotes/ArticleNotes";
+import { ArticleRelatedMapCard } from "@/components/Article/ArticleRelatedMapCard/ArticleRelatedMapCard";
 import { Content } from "@/components/Article/Content/Content";
 import { TopImage } from "@/components/Article/TopImage/TopImage";
 import { HowToCite } from "@/components/HowToCite/HowToCite";
@@ -14,40 +15,16 @@ import { Chapter } from "@/types/article";
 import { getMapPeriodsForChapter } from "@/utils/historyMapLinks";
 
 import STYLES from "./Article.module.scss";
-import { formatPeriodRange } from "../WorksMap/utils/mapParams";
 
 type Props = {
   article: Chapter;
 };
 
-function MapPinBadge() {
-  return (
-    <span className={STYLES["context-card-badge"]} aria-hidden="true">
-      <svg viewBox="0 0 24 24" focusable="false">
-        <path
-          d="M12 21s-5-5.6-5-10a5 5 0 1 1 10 0c0 4.4-5 10-5 10Z"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.7"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <circle cx="12" cy="11" r="1.8" fill="currentColor" />
-      </svg>
-    </span>
-  );
-}
-
 export function Article({ article }: Props) {
   const t = useTranslations("article");
   const locale = useLocale();
   const localePrefix = locale === "en" ? "" : `/${locale}`;
-  const relatedMapPeriods = getMapPeriodsForChapter(article.id);
-  const shouldShowMapCard = relatedMapPeriods.length > 0;
-  const hasMultipleMapPeriods = relatedMapPeriods.length > 1;
-  const isTerminalMapCard = shouldShowMapCard && article.next === null;
-  const relatedMapLabel =
-    locale === "fr" ? "Explorer sur la carte" : "Explore On The Map";
+  const shouldShowMapCard = getMapPeriodsForChapter(article.id).length > 0;
 
   useEffect(() => {
     localStorage.removeItem("filters");
@@ -68,68 +45,12 @@ export function Article({ article }: Props) {
         imageList={article.image.slice(1)}
         sectionList={article.section}
       />
-      {shouldShowMapCard && (
-        <div
-          className={`${STYLES["context-map-block"]} ${isTerminalMapCard ? STYLES["context-map-block--terminal"] : ""}`.trim()}
-        >
-          <ul className={STYLES["context-link-list"]}>
-            <li>
-              <div className={STYLES["context-link-card"]}>
-                <span className={STYLES["context-link-main"]}>
-                  <span className={STYLES["context-link-panel"]}>
-                    <span className={STYLES["context-link-header"]}>
-                      <MapPinBadge />
-                      <span className={STYLES["context-link-label"]}>
-                        {relatedMapLabel}
-                      </span>
-                    </span>
-                    <div
-                      className={`${STYLES["context-map-links"]} ${hasMultipleMapPeriods ? STYLES["context-map-links--multiple"] : ""}`.trim()}
-                    >
-                      {relatedMapPeriods.map((period, index) => {
-                        const positionClass = hasMultipleMapPeriods
-                          ? index === 0
-                            ? STYLES["context-map-link--first"]
-                            : index === relatedMapPeriods.length - 1
-                              ? STYLES["context-map-link--last"]
-                              : STYLES["context-map-link--middle"]
-                          : "";
-
-                        return (
-                          <Link
-                            key={period.key}
-                            href={`${localePrefix}/maps/tunnellers-works?period=true&frontlines=true&from=${period.start}&to=${period.end}`}
-                            className={`${STYLES["context-map-link"]} ${hasMultipleMapPeriods ? STYLES["context-map-link--multiple"] : ""} ${positionClass}`.trim()}
-                          >
-                            <span className={STYLES["context-map-link-title"]}>
-                              {locale === "fr" ? period.fr : period.en}
-                            </span>
-                            <span className={STYLES["context-map-link-meta"]}>
-                              <span className={STYLES["context-link-period"]}>
-                                {formatPeriodRange(
-                                  locale,
-                                  period.start,
-                                  period.end,
-                                )}
-                              </span>
-                            </span>
-                            <span
-                              className={STYLES["context-map-link-arrow"]}
-                              aria-hidden="true"
-                            >
-                              &rarr;
-                            </span>
-                          </Link>
-                        );
-                      })}
-                    </div>
-                  </span>
-                </span>
-              </div>
-            </li>
-          </ul>
-        </div>
-      )}
+      <ArticleRelatedMapCard
+        articleId={article.id}
+        hasNextChapter={article.next !== null}
+        locale={locale}
+        localePrefix={localePrefix}
+      />
       <ArticleNextChapterButton
         chapter={article.next}
         compactSpacing={shouldShowMapCard}
