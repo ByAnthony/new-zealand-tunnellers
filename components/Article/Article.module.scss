@@ -84,6 +84,18 @@
   }
 }
 
+.context-map-block--terminal {
+  padding-bottom: variables.$xs-margin;
+
+  @include variables.tablet {
+    padding-bottom: variables.$xs-margin;
+  }
+
+  @include variables.desktop {
+    padding-bottom: variables.$m-margin;
+  }
+}
+
 .context-card-badge {
   display: inline-flex;
   align-items: center;

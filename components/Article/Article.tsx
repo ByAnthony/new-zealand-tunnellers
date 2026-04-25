@@ -44,6 +44,7 @@ export function Article({ article }: Props) {
   const localePrefix = locale === "en" ? "" : `/${locale}`;
   const relatedMapPeriods = getMapPeriodsForChapter(article.id);
   const shouldShowMapCard = relatedMapPeriods.length > 0;
+  const isTerminalMapCard = shouldShowMapCard && article.next === null;
   const relatedMapLabel =
     locale === "fr" ? "Explorer sur la carte" : "Explore On The Map";
 
@@ -67,7 +68,9 @@ export function Article({ article }: Props) {
         sectionList={article.section}
       />
       {shouldShowMapCard && (
-        <div className={STYLES["context-map-block"]}>
+        <div
+          className={`${STYLES["context-map-block"]} ${isTerminalMapCard ? STYLES["context-map-block--terminal"] : ""}`.trim()}
+        >
           <ul className={STYLES["context-link-list"]}>
             <li>
               <div className={STYLES["context-link-card"]}>
