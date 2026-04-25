@@ -43,7 +43,19 @@ runs:
       shell: bash
       run: |
         mkdir -p ~/database
-        LANG="en_US.UTF-8" ; ssh -T -p 5022 deploy "export MYSQL_PWD=$PASSWORD; mysqldump -P 3306 -u $USERNAME $DATABASE" > ~/database/github_actions.sql
+        rm -f ~/database/github_actions.sql
+        for attempt in 1 2 3; do
+          if LANG="en_US.UTF-8" ssh -T -o ConnectTimeout=15 -o ConnectionAttempts=1 -p 5022 deploy "export MYSQL_PWD=$PASSWORD; mysqldump -P 3306 -u $USERNAME $DATABASE" > ~/database/github_actions.sql; then
+            exit 0
+          fi
+          echo "SSH database export failed on attempt $attempt" >&2
+          rm -f ~/database/github_actions.sql
+          if [ "$attempt" -lt 3 ]; then
+            sleep 5
+          fi
+        done
+        echo "Unable to export remote database after 3 attempts" >&2
+        exit 1
       env:
         USERNAME: ${{ inputs.username }}
         PASSWORD: ${{ inputs.password }}
