@@ -35,10 +35,17 @@ export const MAP_PERIODS = [
     fr: "Préparatifs des offensives alliées",
   },
   {
-    key: "1918-09-26/1918-12-27",
+    key: "1918-09-26/1918-11-11",
     start: "1918-09-26",
+    end: "1918-11-11",
+    en: "Military Bridging Operations",
+    fr: "Opérations de pontage militaires",
+  },
+  {
+    key: "1918-11-12/1918-12-27",
+    start: "1918-11-12",
     end: "1918-12-27",
-    en: "Bridging Operations",
-    fr: "Opérations de ponts",
+    en: "Post-Armistice Bridging Operations",
+    fr: "Opérations de pontage après l'Armistice",
   },
 ] as const;
