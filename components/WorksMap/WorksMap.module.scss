@@ -22,10 +22,10 @@
 
   @include variables.desktop {
     bottom: variables.$base-margin;
-    left: 50%;
-    right: auto;
-    width: 700px;
-    transform: translateX(-50%);
+    left: 0;
+    right: 0;
+    width: min(700px, calc(100% - (2 * variables.$base-margin)));
+    margin: 0 auto;
   }
 }
 

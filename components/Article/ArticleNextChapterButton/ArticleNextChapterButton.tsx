@@ -9,16 +9,22 @@ import STYLES from "./ArticleNextChapterButton.module.scss";
 
 type Props = {
   chapter: Next | null;
+  compactSpacing?: boolean;
 };
 
-export function ArticleNextChapterButton({ chapter }: Props) {
+export function ArticleNextChapterButton({
+  chapter,
+  compactSpacing = false,
+}: Props) {
   const t = useTranslations("article");
   const locale = useLocale();
   const localePrefix = locale === "en" ? "" : `/${locale}`;
 
   if (chapter) {
     return (
-      <div className={STYLES["button-chapter-container"]}>
+      <div
+        className={`${STYLES["button-chapter-container"]} ${compactSpacing ? STYLES["button-chapter-container--compact"] : ""}`.trim()}
+      >
         <Link
           href={`${localePrefix}/history/${chapter.url}`}
           className={STYLES["button-chapter"]}

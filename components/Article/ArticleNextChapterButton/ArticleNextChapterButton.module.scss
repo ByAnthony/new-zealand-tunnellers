@@ -15,6 +15,16 @@
   }
 }
 
+.button-chapter-container--compact {
+  @include variables.tablet {
+    padding-top: 0;
+  }
+
+  @include variables.desktop {
+    padding-top: 0;
+  }
+}
+
 .button-chapter {
   flex: 100%;
   display: flex;

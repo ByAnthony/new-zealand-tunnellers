@@ -42,6 +42,12 @@ export function Article({ article }: Props) {
   const localePrefix = locale === "en" ? "" : `/${locale}`;
   const beneathArtoisMapHref = `${localePrefix}/maps/tunnellers-works?period=true&frontlines=true&from=1916-03-16&to=1916-11-15`;
   const shouldShowMapCard = article.id === "beneath-artois-fields";
+  const relatedMapLabel =
+    locale === "fr" ? "Explorer sur la carte" : "Explore On The Map";
+  const relatedMapPeriod =
+    locale === "fr"
+      ? "16 mars - 15 novembre 1916"
+      : "16 March - 15 November 1916";
 
   useEffect(() => {
     localStorage.removeItem("filters");
@@ -64,25 +70,49 @@ export function Article({ article }: Props) {
       />
       {shouldShowMapCard && (
         <div className={STYLES["context-map-block"]}>
-          <div className={STYLES["context-map-header"]}>
-            <MapPinBadge />
-            <h2 className={STYLES["context-map-title"]}>
-              {locale === "fr" ? "Carte" : "Map"}
-            </h2>
-          </div>
           <ul className={STYLES["context-link-list"]}>
             <li>
-              <Link
-                href={beneathArtoisMapHref}
-                className={STYLES["context-link"]}
-              >
-                War Underground (16 March - 15 November 1916)
-              </Link>
+              <div className={STYLES["context-link-card"]}>
+                <span className={STYLES["context-link-main"]}>
+                  <span className={STYLES["context-link-panel"]}>
+                    <span className={STYLES["context-link-header"]}>
+                      <MapPinBadge />
+                      <span className={STYLES["context-link-label"]}>
+                        {relatedMapLabel}
+                      </span>
+                    </span>
+                    <Link
+                      href={beneathArtoisMapHref}
+                      className={STYLES["context-map-link"]}
+                    >
+                      <span className={STYLES["context-map-link-title"]}>
+                        {locale === "fr"
+                          ? "Guerre souterraine"
+                          : "Underground Warfare"}
+                      </span>
+                      <span className={STYLES["context-map-link-meta"]}>
+                        <span className={STYLES["context-link-period"]}>
+                          {relatedMapPeriod}
+                        </span>
+                      </span>
+                      <span
+                        className={STYLES["context-map-link-arrow"]}
+                        aria-hidden="true"
+                      >
+                        &rarr;
+                      </span>
+                    </Link>
+                  </span>
+                </span>
+              </div>
             </li>
           </ul>
         </div>
       )}
-      <ArticleNextChapterButton chapter={article.next} />
+      <ArticleNextChapterButton
+        chapter={article.next}
+        compactSpacing={shouldShowMapCard}
+      />
       <ArticleNotes notes={article.notes} />
       <HowToCite title={article.title} slug={article.id} />
     </div>

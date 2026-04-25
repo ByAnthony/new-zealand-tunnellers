@@ -74,48 +74,44 @@
   padding: 5px 0 0 0;
 
   @include variables.tablet {
-    padding: variables.$m-margin 0 variables.$xs-margin 0;
+    padding: variables.$m-margin 0 0 0;
   }
 
   @include variables.desktop {
-    padding: variables.$m-margin 0;
+    padding: variables.$m-margin 0 0 0;
     margin: 0 auto;
     width: 42rem;
   }
-}
-
-.context-map-header {
-  display: flex;
-  align-items: center;
-  gap: variables.$xxs-margin;
-}
-
-.context-map-title {
-  margin: 0;
-  color: variables.$text-color;
-  font-size: 1.15rem;
-  font-weight: 500;
 }
 
 .context-card-badge {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 2.7rem;
-  height: 2.7rem;
+  width: 2.2rem;
+  height: 2.2rem;
   border: 1px solid variables.$text-color;
   border-radius: 50%;
   color: variables.$text-color;
 
   svg {
-    width: 1.45rem;
-    height: 1.45rem;
+    width: 1.15rem;
+    height: 1.15rem;
+  }
+
+  @include variables.desktop {
+    width: 2.45rem;
+    height: 2.45rem;
+
+    svg {
+      width: 1.28rem;
+      height: 1.28rem;
+    }
   }
 }
 
 .context-link {
-  display: inline-block;
-  margin-top: variables.$xxs-margin;
+  display: inline;
   font-size: 1rem;
   font-weight: 500;
   text-decoration: none;
@@ -123,12 +119,114 @@
   @include variables.text-link;
 }
 
+.context-link-card {
+  display: flex;
+  align-items: center;
+  margin-top: variables.$s-margin;
+  text-decoration: none;
+  color: variables.$secondary-color;
+  @include variables.fullwidth-main-card;
+
+  @include variables.desktop {
+    margin: variables.$xs-margin 0;
+  }
+}
+
+.context-link-main {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+
+.context-link-panel {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: variables.$xxs-margin;
+  justify-content: center;
+  min-width: 0;
+}
+
+.context-link-header {
+  display: flex;
+  align-items: center;
+  gap: variables.$xs-margin;
+  align-self: flex-start;
+  padding: 0;
+}
+
+.context-link-label {
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: variables.$text-color;
+
+  @include variables.desktop {
+    font-size: 1.35rem;
+  }
+}
+
+.context-map-link {
+  display: grid;
+  box-sizing: border-box;
+  align-items: center;
+  grid-template-columns: auto 1fr auto;
+  gap: variables.$xs-margin;
+  align-self: stretch;
+  width: 100%;
+  margin-top: variables.$xxs-margin;
+  padding: 12px variables.$xs-margin;
+  font-size: 1.02rem;
+  font-weight: 500;
+  color: variables.$secondary-color;
+  text-decoration: none;
+  @include variables.featured-button-link;
+
+  @include variables.desktop {
+    padding: 14px variables.$s-margin;
+    font-size: 1.12rem;
+  }
+}
+
+.context-map-link-title {
+  min-width: 0;
+}
+
+.context-map-link-meta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+}
+
+.context-link-period {
+  font-size: 0.85rem;
+  font-weight: 200;
+  color: variables.$text-color;
+
+  @include variables.desktop {
+    font-size: 0.95rem;
+  }
+}
+
+.context-map-link-arrow {
+  justify-self: end;
+  color: variables.$secondary-color;
+  font-size: 1.55rem;
+  font-weight: 200;
+  line-height: 1;
+
+  @include variables.desktop {
+    font-size: 1.7rem;
+  }
+}
+
 .context-link-list {
   margin: variables.$xxs-margin 0 0 0;
-  padding-inline-start: calc(2.7rem + #{variables.$m-margin});
+  padding-inline-start: 0;
+  list-style: none;
 
   li {
-    list-style: disc;
     color: variables.$text-color;
   }
 }

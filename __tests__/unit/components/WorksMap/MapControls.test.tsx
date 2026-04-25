@@ -208,8 +208,26 @@ describe("MapControls", () => {
 
     expect(
       screen.getByRole("link", {
-        name: "Read the related chapter",
+        name: "About this period",
       }),
     ).toHaveAttribute("href", "/history/beneath-artois-fields");
+  });
+
+  test("dismisses the related chapter card", () => {
+    renderMapControls({
+      initialPeriodKey: "1916-03-16/1916-11-15",
+    });
+
+    fireEvent.click(
+      screen.getByRole("button", {
+        name: "Close related chapter link",
+      }),
+    );
+
+    expect(
+      screen.queryByRole("link", {
+        name: "About this period",
+      }),
+    ).toBeNull();
   });
 });
