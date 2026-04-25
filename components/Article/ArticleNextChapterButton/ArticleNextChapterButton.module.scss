@@ -16,6 +16,8 @@
 }
 
 .button-chapter-container--compact {
+  padding-top: 0;
+
   @include variables.tablet {
     padding-top: 0;
   }

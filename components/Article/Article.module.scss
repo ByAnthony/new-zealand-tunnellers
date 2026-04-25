@@ -170,8 +170,12 @@
   display: grid;
   box-sizing: border-box;
   align-items: center;
-  grid-template-columns: auto 1fr auto;
-  gap: variables.$xs-margin;
+  grid-template-columns: 1fr auto;
+  grid-template-areas:
+    "title arrow"
+    "meta arrow";
+  column-gap: variables.$xs-margin;
+  row-gap: 0.15rem;
   align-self: stretch;
   width: 100%;
   margin-top: variables.$xxs-margin;
@@ -183,20 +187,28 @@
   @include variables.featured-button-link;
 
   @include variables.desktop {
+    grid-template-columns: auto 1fr auto;
+    grid-template-areas: "title meta arrow";
     padding: 14px variables.$s-margin;
     font-size: 1.12rem;
   }
 }
 
 .context-map-link-title {
+  grid-area: title;
   min-width: 0;
 }
 
 .context-map-link-meta {
+  grid-area: meta;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   min-width: 0;
+
+  @include variables.desktop {
+    justify-content: center;
+  }
 }
 
 .context-link-period {
@@ -210,7 +222,9 @@
 }
 
 .context-map-link-arrow {
+  grid-area: arrow;
   justify-self: end;
+  align-self: center;
   color: variables.$secondary-color;
   font-size: 1.55rem;
   font-weight: 200;
