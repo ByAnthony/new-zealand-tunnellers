@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { useState, useEffect, useMemo } from "react";
 
 import { Dialog } from "@/components/Dialog/Dialog";
+import { getChapterIdForPeriod } from "@/utils/historyMapLinks";
 
 import STYLES from "./MapControls.module.scss";
 import { TypeFilter } from "../TypeFilter/TypeFilter";
@@ -45,9 +46,11 @@ function BookOpenBadge() {
 }
 
 function RelatedChapterCard({
+  chapterId,
   locale,
   localePrefix,
 }: {
+  chapterId: string;
   locale: string;
   localePrefix: string;
 }) {
@@ -71,7 +74,7 @@ function RelatedChapterCard({
           ×
         </button>
         <Link
-          href={`${localePrefix}/history/beneath-artois-fields`}
+          href={`${localePrefix}/history/${chapterId}`}
           className={STYLES["related-link"]}
         >
           <span className={STYLES["related-link-main"]}>
@@ -249,14 +252,16 @@ export function MapControls({
   const activeFilterCount =
     (initialPeriodKey ? 1 : 0) + activeSelectedTypeCount;
 
-  const relatedChapterCard =
-    currentPeriodKey === "1916-03-16/1916-11-15" ? (
-      <RelatedChapterCard
-        key={currentPeriodKey}
-        locale={locale}
-        localePrefix={localePrefix}
-      />
-    ) : null;
+  const relatedChapterId = getChapterIdForPeriod(currentPeriodKey);
+
+  const relatedChapterCard = relatedChapterId ? (
+    <RelatedChapterCard
+      key={currentPeriodKey}
+      chapterId={relatedChapterId}
+      locale={locale}
+      localePrefix={localePrefix}
+    />
+  ) : null;
 
   const filtersToggleButton = (
     <button

@@ -213,6 +213,18 @@ describe("MapControls", () => {
     ).toHaveAttribute("href", "/history/beneath-artois-fields");
   });
 
+  test("shows the related chapter card for the post-armistice bridging period", () => {
+    renderMapControls({
+      initialPeriodKey: "1918-11-12/1918-12-27",
+    });
+
+    expect(
+      screen.getByRole("link", {
+        name: "About this period",
+      }),
+    ).toHaveAttribute("href", "/history/after-the-armistice");
+  });
+
   test("dismisses the related chapter card", () => {
     renderMapControls({
       initialPeriodKey: "1916-03-16/1916-11-15",

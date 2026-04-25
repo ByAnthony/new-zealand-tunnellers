@@ -29,3 +29,33 @@ test("can navigate to next chapters", async ({ page }) => {
   ).toBeVisible();
   await expect(heading).toBeVisible();
 });
+
+test("can navigate between a history chapter and its related map period", async ({
+  page,
+}) => {
+  await page.goto("/history/beneath-artois-fields/");
+
+  await expect(
+    page.getByRole("heading", { name: "Beneath Artois Fields", exact: true }),
+  ).toBeVisible();
+
+  await page.getByRole("link", { name: /Underground Warfare/i }).click();
+
+  await page.waitForURL(
+    /\/maps\/tunnellers-works\/?\?period=true&frontlines=true&from=1916-03-16&to=1916-11-15/,
+    { waitUntil: "load" },
+  );
+  await expect(page).toHaveURL(
+    /\/maps\/tunnellers-works\/?\?period=true&frontlines=true&from=1916-03-16&to=1916-11-15/,
+  );
+
+  await page.getByRole("link", { name: "About this period" }).click();
+
+  await page.waitForURL("/history/beneath-artois-fields/", {
+    waitUntil: "load",
+  });
+  await expect(page).toHaveURL("/history/beneath-artois-fields/");
+  await expect(
+    page.getByRole("heading", { name: "Beneath Artois Fields", exact: true }),
+  ).toBeVisible();
+});

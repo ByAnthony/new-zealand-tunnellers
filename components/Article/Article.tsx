@@ -11,8 +11,10 @@ import { TopImage } from "@/components/Article/TopImage/TopImage";
 import { HowToCite } from "@/components/HowToCite/HowToCite";
 import { Title } from "@/components/Title/Title";
 import { Chapter } from "@/types/article";
+import { getMapPeriodsForChapter } from "@/utils/historyMapLinks";
 
 import STYLES from "./Article.module.scss";
+import { formatPeriodRange } from "../WorksMap/utils/mapParams";
 
 type Props = {
   article: Chapter;
@@ -40,14 +42,10 @@ export function Article({ article }: Props) {
   const t = useTranslations("article");
   const locale = useLocale();
   const localePrefix = locale === "en" ? "" : `/${locale}`;
-  const beneathArtoisMapHref = `${localePrefix}/maps/tunnellers-works?period=true&frontlines=true&from=1916-03-16&to=1916-11-15`;
-  const shouldShowMapCard = article.id === "beneath-artois-fields";
+  const relatedMapPeriods = getMapPeriodsForChapter(article.id);
+  const shouldShowMapCard = relatedMapPeriods.length > 0;
   const relatedMapLabel =
     locale === "fr" ? "Explorer sur la carte" : "Explore On The Map";
-  const relatedMapPeriod =
-    locale === "fr"
-      ? "16 mars - 15 novembre 1916"
-      : "16 March - 15 November 1916";
 
   useEffect(() => {
     localStorage.removeItem("filters");
@@ -81,27 +79,32 @@ export function Article({ article }: Props) {
                         {relatedMapLabel}
                       </span>
                     </span>
-                    <Link
-                      href={beneathArtoisMapHref}
-                      className={STYLES["context-map-link"]}
-                    >
-                      <span className={STYLES["context-map-link-title"]}>
-                        {locale === "fr"
-                          ? "Guerre souterraine"
-                          : "Underground Warfare"}
-                      </span>
-                      <span className={STYLES["context-map-link-meta"]}>
-                        <span className={STYLES["context-link-period"]}>
-                          {relatedMapPeriod}
-                        </span>
-                      </span>
-                      <span
-                        className={STYLES["context-map-link-arrow"]}
-                        aria-hidden="true"
+                    {relatedMapPeriods.map((period) => (
+                      <Link
+                        key={period.key}
+                        href={`${localePrefix}/maps/tunnellers-works?period=true&frontlines=true&from=${period.start}&to=${period.end}`}
+                        className={STYLES["context-map-link"]}
                       >
-                        &rarr;
-                      </span>
-                    </Link>
+                        <span className={STYLES["context-map-link-title"]}>
+                          {locale === "fr" ? period.fr : period.en}
+                        </span>
+                        <span className={STYLES["context-map-link-meta"]}>
+                          <span className={STYLES["context-link-period"]}>
+                            {formatPeriodRange(
+                              locale,
+                              period.start,
+                              period.end,
+                            )}
+                          </span>
+                        </span>
+                        <span
+                          className={STYLES["context-map-link-arrow"]}
+                          aria-hidden="true"
+                        >
+                          &rarr;
+                        </span>
+                      </Link>
+                    ))}
                   </span>
                 </span>
               </div>

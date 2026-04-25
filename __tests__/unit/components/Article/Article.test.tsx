@@ -95,5 +95,45 @@ describe("Article", () => {
     );
 
     expect(screen.getByText("Explore On The Map")).toBeInTheDocument();
+    expect(
+      screen.getByRole("link", { name: /Underground Warfare/i }),
+    ).toHaveAttribute(
+      "href",
+      "/maps/tunnellers-works?period=true&frontlines=true&from=1916-03-16&to=1916-11-15",
+    );
+  });
+
+  test("renders multiple map links for Always Digging", () => {
+    render(
+      <Article
+        article={{
+          ...mockArticle,
+          id: "always-digging",
+          title: "Always\\Digging",
+        }}
+      />,
+    );
+
+    expect(screen.getByText("Explore On The Map")).toBeInTheDocument();
+    expect(
+      screen.getByRole("link", { name: /East of Arras Trench Works/i }),
+    ).toHaveAttribute(
+      "href",
+      "/maps/tunnellers-works?period=true&frontlines=true&from=1917-04-10&to=1918-03-20",
+    );
+    expect(
+      screen.getByRole("link", { name: /1918 German Spring Offensive/i }),
+    ).toHaveAttribute(
+      "href",
+      "/maps/tunnellers-works?period=true&frontlines=true&from=1918-03-21&to=1918-07-14",
+    );
+    expect(
+      screen.getByRole("link", {
+        name: /Preparations for the Allied Offensives/i,
+      }),
+    ).toHaveAttribute(
+      "href",
+      "/maps/tunnellers-works?period=true&frontlines=true&from=1918-07-15&to=1918-08-21",
+    );
   });
 });
