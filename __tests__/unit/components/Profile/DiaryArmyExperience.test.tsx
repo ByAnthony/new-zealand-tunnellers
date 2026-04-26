@@ -1,10 +1,10 @@
 import { render, screen } from "@testing-library/react";
+
+import { DiaryArmyExperience } from "@/components/Profile/ProfileDiary/DiaryArmyExperience/DiaryArmyExperience";
 import {
   mockArmyExperience,
   mockArmyExperienceList,
-} from "__tests__/unit/utils/mocks/mockTunneller";
-
-import { DiaryArmyExperience } from "@/components/Profile/ProfileDiary/DiaryArmyExperience/DiaryArmyExperience";
+} from "@/test-utils/mocks/mockTunneller";
 
 const mockId = 1;
 

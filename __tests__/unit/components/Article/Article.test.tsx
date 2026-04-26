@@ -1,41 +1,8 @@
 import { render, screen } from "@testing-library/react";
-import { mockArticle } from "__tests__/unit/utils/mocks/mockArticle";
 
 import { Article } from "@/components/Article/Article";
-
-import { findElementWithText } from "../../utils/findElementWithText";
-
-jest.mock("next-intl", () => ({
-  useLocale: () => "en",
-  useTranslations:
-    (namespace: string) =>
-    (key: string, values?: Record<string, string | number>) => {
-      if (namespace === "maps") {
-        return (
-          {
-            relatedMapLabel: "Explore On The Map",
-            relatedMapLinkAria: `Explore period on the map: ${values?.period}, ${values?.dates}`,
-            "periods.undergroundWarfare": "Underground Warfare",
-            "periods.eastOfArrasTrenchWorks": "East of Arras Trench Works",
-            "periods.germanSpringOffensive1918": "1918 German Spring Offensive",
-            "periods.preparationsForTheAlliedOffensives":
-              "Preparations for the Allied Offensives",
-          }[key] ?? key
-        );
-      }
-
-      if (namespace === "article") {
-        if (key === "history") return "History";
-        if (key === "notes") return "Notes";
-        if (key === "chapter") return `Chapter ${values?.chapter}`;
-        if (key === "goToChapter") {
-          return `Go to Chapter ${values?.chapter}: ${values?.title}`;
-        }
-      }
-
-      return key;
-    },
-}));
+import { findElementWithText } from "@/test-utils/findElementWithText";
+import { mockArticle } from "@/test-utils/mocks/mockArticle";
 
 jest.useFakeTimers().setSystemTime(new Date("2023-05-04"));
 

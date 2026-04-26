@@ -15,25 +15,10 @@ export function TimelineEvents({ militaryYears }: Props) {
   const t = useTranslations("timeline");
   const locale = useLocale();
 
-  const frMonths: Record<string, string> = {
-    January: "janvier",
-    February: "février",
-    March: "mars",
-    April: "avril",
-    May: "mai",
-    June: "juin",
-    July: "juillet",
-    August: "août",
-    September: "septembre",
-    October: "octobre",
-    November: "novembre",
-    December: "décembre",
-  };
-
   const formatDayMonth = (dayMonth: string) => {
     if (locale === "en") return dayMonth;
     const [day, month] = dayMonth.split(" ");
-    return `${day} ${frMonths[month] ?? month}`;
+    return `${day} ${t(`months.${month}`)}`;
   };
 
   const { frontEvents } = militaryYears;

@@ -1,12 +1,12 @@
 import { render, screen } from "@testing-library/react";
-import { findElementWithText } from "__tests__/unit/utils/findElementWithText";
+
+import { ProfileSummary } from "@/components/Profile/ProfileSummary/ProfileSummary";
+import { findElementWithText } from "@/test-utils/findElementWithText";
 import {
   mockSummary,
   mockEmbarkationUnit,
   mockEnlistment,
-} from "__tests__/unit/utils/mocks/mockTunneller";
-
-import { ProfileSummary } from "@/components/Profile/ProfileSummary/ProfileSummary";
+} from "@/test-utils/mocks/mockTunneller";
 
 const component = (
   <ProfileSummary

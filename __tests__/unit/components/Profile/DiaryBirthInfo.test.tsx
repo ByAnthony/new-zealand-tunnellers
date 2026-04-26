@@ -1,8 +1,8 @@
 import { render, screen } from "@testing-library/react";
-import { findElementWithText } from "__tests__/unit/utils/findElementWithText";
-import { mockBirth } from "__tests__/unit/utils/mocks/mockTunneller";
 
 import { DiaryBirth } from "@/components/Profile/ProfileDiary/DiaryBirthInfo/DiaryBirthInfo";
+import { findElementWithText } from "@/test-utils/findElementWithText";
+import { mockBirth } from "@/test-utils/mocks/mockTunneller";
 
 const component = <DiaryBirth birth={mockBirth} />;
 

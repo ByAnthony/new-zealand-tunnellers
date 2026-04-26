@@ -5,10 +5,10 @@ import {
   within,
   waitFor,
 } from "@testing-library/react";
-import { mockTunnellers } from "__tests__/unit/utils/mocks/mockTunnellers";
 
 import { Roll } from "@/components/Roll/Roll";
 import { AttachedCorpsBadge } from "@/components/Roll/RollDetails/RollDetails";
+import { mockTunnellers } from "@/test-utils/mocks/mockTunnellers";
 
 const mockReplace = jest.fn();
 let mockSearchParams = new URLSearchParams();

@@ -3,8 +3,7 @@ import {
   mockFrontEventsWithDeathAfterEndOfService,
   mockFrontEventsWithTransferred,
   mockFrontEventsWithTransferToNzAndEndOfService,
-} from "__tests__/unit/utils/mocks/mockFrontEvents";
-
+} from "@/test-utils/mocks/mockFrontEvents";
 import {
   DeathData,
   Event,
