@@ -157,6 +157,13 @@
     "mapDescription": "From underground shelters to bridges, the New Zealand Tunnelling Company left its mark across the Arras front. This interactive map charts the works recorded in the company\u2019s war diary between March 1916 and December 1918 \u2014 each one precisely located using the original British Army trench map grid.",
     "mapBadge": "Map",
     "title": "Tunnellers\u2019 Works",
+    "filters": "Filters",
+    "timePeriods": "Time periods",
+    "workTypes": "Work types",
+    "relatedMapLabel": "Explore On The Map",
+    "relatedMapLinkAria": "Explore period on the map: {period}, {dates}",
+    "relatedChapterLabel": "About this period",
+    "closeRelatedChapterLink": "Close related chapter link",
     "work": "work",
     "works": "works",
     "toggleFilters": "Toggle filters",
@@ -169,7 +176,16 @@
     "date": "Work date",
     "start": "Work started",
     "end": "Ended",
-    "coordinates": "Coordinates"
+    "coordinates": "Coordinates",
+    "periods": {
+      "undergroundWarfare": "Underground Warfare",
+      "preparationsForTheBattleOfArras": "Preparations for the Battle of Arras",
+      "eastOfArrasTrenchWorks": "East of Arras Trench Works",
+      "germanSpringOffensive1918": "1918 German Spring Offensive",
+      "preparationsForTheAlliedOffensives": "Preparations for the Allied Offensives",
+      "militaryBridgingOperations": "Military Bridging Operations",
+      "postArmisticeBridgingOperations": "Post-Armistice Bridging Operations"
+    }
   },
   "books": {
     "readingProgress": "Reading progress",

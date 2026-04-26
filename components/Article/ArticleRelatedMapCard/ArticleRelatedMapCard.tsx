@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 import { getMapPeriodsForChapter } from "@/utils/historyMapLinks";
 
@@ -38,14 +39,13 @@ export function ArticleRelatedMapCard({
   locale,
   localePrefix,
 }: Props) {
+  const t = useTranslations("maps");
   const relatedMapPeriods = getMapPeriodsForChapter(articleId);
 
   if (relatedMapPeriods.length === 0) return null;
 
   const hasMultipleMapPeriods = relatedMapPeriods.length > 1;
   const isTerminalMapCard = !hasNextChapter;
-  const relatedMapLabel =
-    locale === "fr" ? "Explorer sur la carte" : "Explore On The Map";
 
   return (
     <div
@@ -59,7 +59,7 @@ export function ArticleRelatedMapCard({
                 <span className={STYLES["context-link-header"]}>
                   <MapPinBadge />
                   <span className={STYLES["context-link-label"]}>
-                    {relatedMapLabel}
+                    {t("relatedMapLabel")}
                   </span>
                 </span>
                 <div
@@ -78,10 +78,18 @@ export function ArticleRelatedMapCard({
                       <Link
                         key={period.key}
                         href={`${localePrefix}/maps/tunnellers-works?period=true&frontlines=true&from=${period.start}&to=${period.end}`}
+                        aria-label={t("relatedMapLinkAria", {
+                          period: t(`periods.${period.labelKey}`),
+                          dates: formatPeriodRange(
+                            locale,
+                            period.start,
+                            period.end,
+                          ),
+                        })}
                         className={`${STYLES["context-map-link"]} ${hasMultipleMapPeriods ? STYLES["context-map-link--multiple"] : ""} ${positionClass}`.trim()}
                       >
                         <span className={STYLES["context-map-link-title"]}>
-                          {locale === "fr" ? period.fr : period.en}
+                          {t(`periods.${period.labelKey}`)}
                         </span>
                         <span className={STYLES["context-map-link-meta"]}>
                           <span className={STYLES["context-link-period"]}>
