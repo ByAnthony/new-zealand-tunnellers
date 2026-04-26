@@ -499,6 +499,23 @@ describe("WorksMap", () => {
     ]);
   });
 
+  test("fits to the deep-linked period on initial load", async () => {
+    mockSearchParams = new URLSearchParams(
+      "period=true&frontlines=true&from=1916-11-16&to=1917-04-09",
+    );
+    window.history.replaceState(
+      {},
+      "",
+      "/maps?period=true&frontlines=true&from=1916-11-16&to=1917-04-09",
+    );
+
+    renderWorksMap();
+
+    await waitFor(() => {
+      expect(lastMapInstance?.fitBoundsCalls.at(-1)?.bounds.maxLat).toBe(12);
+    });
+  });
+
   test("type-only filters snap the slider range to matching work dates", async () => {
     renderWorksMap();
 

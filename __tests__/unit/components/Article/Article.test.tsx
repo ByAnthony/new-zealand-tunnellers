@@ -5,6 +5,38 @@ import { Article } from "@/components/Article/Article";
 
 import { findElementWithText } from "../../utils/findElementWithText";
 
+jest.mock("next-intl", () => ({
+  useLocale: () => "en",
+  useTranslations:
+    (namespace: string) =>
+    (key: string, values?: Record<string, string | number>) => {
+      if (namespace === "maps") {
+        return (
+          {
+            relatedMapLabel: "Explore On The Map",
+            relatedMapLinkAria: `Explore period on the map: ${values?.period}, ${values?.dates}`,
+            "periods.undergroundWarfare": "Underground Warfare",
+            "periods.eastOfArrasTrenchWorks": "East of Arras Trench Works",
+            "periods.germanSpringOffensive1918": "1918 German Spring Offensive",
+            "periods.preparationsForTheAlliedOffensives":
+              "Preparations for the Allied Offensives",
+          }[key] ?? key
+        );
+      }
+
+      if (namespace === "article") {
+        if (key === "history") return "History";
+        if (key === "notes") return "Notes";
+        if (key === "chapter") return `Chapter ${values?.chapter}`;
+        if (key === "goToChapter") {
+          return `Go to Chapter ${values?.chapter}: ${values?.title}`;
+        }
+      }
+
+      return key;
+    },
+}));
+
 jest.useFakeTimers().setSystemTime(new Date("2023-05-04"));
 
 describe("Article", () => {
@@ -81,5 +113,59 @@ describe("Article", () => {
         name: "Go to Chapter 3: Next Chapter",
       }),
     ).toBeNull();
+  });
+
+  test("renders the map context card for Beneath Artois Fields", () => {
+    render(
+      <Article
+        article={{
+          ...mockArticle,
+          id: "beneath-artois-fields",
+          title: "Beneath Artois\\Fields",
+        }}
+      />,
+    );
+
+    expect(screen.getByText("Explore On The Map")).toBeInTheDocument();
+    expect(
+      screen.getByRole("link", { name: /Underground Warfare/i }),
+    ).toHaveAttribute(
+      "href",
+      "/maps/tunnellers-works?period=true&frontlines=true&from=1916-03-16&to=1916-11-15",
+    );
+  });
+
+  test("renders multiple map links for Always Digging", () => {
+    render(
+      <Article
+        article={{
+          ...mockArticle,
+          id: "always-digging",
+          title: "Always\\Digging",
+        }}
+      />,
+    );
+
+    expect(screen.getByText("Explore On The Map")).toBeInTheDocument();
+    expect(
+      screen.getByRole("link", { name: /East of Arras Trench Works/i }),
+    ).toHaveAttribute(
+      "href",
+      "/maps/tunnellers-works?period=true&frontlines=true&from=1917-04-10&to=1918-03-20",
+    );
+    expect(
+      screen.getByRole("link", { name: /1918 German Spring Offensive/i }),
+    ).toHaveAttribute(
+      "href",
+      "/maps/tunnellers-works?period=true&frontlines=true&from=1918-03-21&to=1918-07-14",
+    );
+    expect(
+      screen.getByRole("link", {
+        name: /Preparations for the Allied Offensives/i,
+      }),
+    ).toHaveAttribute(
+      "href",
+      "/maps/tunnellers-works?period=true&frontlines=true&from=1918-07-15&to=1918-08-21",
+    );
   });
 });

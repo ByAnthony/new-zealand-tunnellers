@@ -9,6 +9,21 @@ import { dateToDay } from "@/components/WorksMap/utils/mapParams";
 jest.mock("next-intl", () => ({
   useTranslations: () => (key: string) =>
     ({
+      filters: "Filters",
+      timePeriods: "Time periods",
+      workTypes: "Work types",
+      relatedChapterLabel: "About this period",
+      closeRelatedChapterLink: "Close related chapter link",
+      "periods.undergroundWarfare": "Underground Warfare",
+      "periods.preparationsForTheBattleOfArras":
+        "Preparations for the Battle of Arras",
+      "periods.eastOfArrasTrenchWorks": "East of Arras Trench Works",
+      "periods.germanSpringOffensive1918": "1918 German Spring Offensive",
+      "periods.preparationsForTheAlliedOffensives":
+        "Preparations for the Allied Offensives",
+      "periods.militaryBridgingOperations": "Military Bridging Operations",
+      "periods.postArmisticeBridgingOperations":
+        "Post-Armistice Bridging Operations",
       work: "work",
       works: "works",
       toggleFilters: "Toggle filters",
@@ -107,6 +122,7 @@ describe("MapControls", () => {
         minMonth={1}
         maxMonth={2}
         initialPeriodKey={initialPeriodKey}
+        currentPeriodKey={initialPeriodKey}
         onApplyFilters={jest.fn()}
         computeAvailableTypes={computeAvailableTypes}
         computeVisibleCount={computeVisibleCount}
@@ -198,5 +214,47 @@ describe("MapControls", () => {
         name: /Preparations for the Battle of Arras/i,
       }),
     ).toBeEnabled();
+  });
+
+  test("shows the related chapter card for the underground period", () => {
+    renderMapControls({
+      initialPeriodKey: "1916-03-16/1916-11-15",
+    });
+
+    expect(
+      screen.getByRole("link", {
+        name: "About this period",
+      }),
+    ).toHaveAttribute("href", "/history/beneath-artois-fields");
+  });
+
+  test("shows the related chapter card for the post-armistice bridging period", () => {
+    renderMapControls({
+      initialPeriodKey: "1918-11-12/1918-12-27",
+    });
+
+    expect(
+      screen.getByRole("link", {
+        name: "About this period",
+      }),
+    ).toHaveAttribute("href", "/history/after-the-armistice");
+  });
+
+  test("dismisses the related chapter card", () => {
+    renderMapControls({
+      initialPeriodKey: "1916-03-16/1916-11-15",
+    });
+
+    fireEvent.click(
+      screen.getByRole("button", {
+        name: "Close related chapter link",
+      }),
+    );
+
+    expect(
+      screen.queryByRole("link", {
+        name: "About this period",
+      }),
+    ).toBeNull();
   });
 });

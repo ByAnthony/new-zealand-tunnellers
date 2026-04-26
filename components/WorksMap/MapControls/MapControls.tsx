@@ -1,15 +1,92 @@
 "use client";
 
+import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { useState, useEffect, useMemo } from "react";
 
 import { Dialog } from "@/components/Dialog/Dialog";
+import { getChapterIdForPeriod } from "@/utils/historyMapLinks";
 
 import STYLES from "./MapControls.module.scss";
 import { TypeFilter } from "../TypeFilter/TypeFilter";
 import { dateToDay, formatPeriodRange } from "../utils/mapParams";
 import { MAP_PERIODS } from "../utils/periods";
 import { WorksSlider } from "../WorksSlider/WorksSlider";
+
+function BookOpenBadge() {
+  return (
+    <span className={STYLES["related-chapter-badge"]} aria-hidden="true">
+      <svg viewBox="0 0 24 24" focusable="false">
+        <path
+          d="M12 7.5c-1.7-1.2-4.1-1.8-7-1.8v11.2c2.9 0 5.3.6 7 1.8"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.7"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M12 7.5c1.7-1.2 4.1-1.8 7-1.8v11.2c-2.9 0-5.3.6-7 1.8"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.7"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M12 7.5v11.2"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.7"
+          strokeLinecap="round"
+        />
+      </svg>
+    </span>
+  );
+}
+
+function RelatedChapterCard({
+  chapterId,
+  localePrefix,
+}: {
+  chapterId: string;
+  localePrefix: string;
+}) {
+  const t = useTranslations("maps");
+  const [isDismissed, setIsDismissed] = useState(false);
+
+  if (isDismissed) return null;
+
+  return (
+    <div className={STYLES["related-chapter-row"]}>
+      <div className={STYLES["related-chapter-group"]}>
+        <button
+          type="button"
+          className={STYLES["related-close-button"]}
+          aria-label={t("closeRelatedChapterLink")}
+          onClick={() => setIsDismissed(true)}
+        >
+          ×
+        </button>
+        <Link
+          href={`${localePrefix}/history/${chapterId}`}
+          aria-label={t("relatedChapterLabel")}
+          className={STYLES["related-link"]}
+        >
+          <span className={STYLES["related-link-main"]}>
+            <BookOpenBadge />
+            <span className={STYLES["related-link-label"]}>
+              {t("relatedChapterLabel")}
+            </span>
+          </span>
+          <span className={STYLES["related-link-arrow"]} aria-hidden="true">
+            &rarr;
+          </span>
+        </Link>
+      </div>
+    </div>
+  );
+}
 
 type Props = {
   visibleCount: number;
@@ -23,6 +100,7 @@ type Props = {
   minMonth: number;
   maxMonth: number;
   initialPeriodKey: string | null;
+  currentPeriodKey: string | null;
   onApplyFilters: (
     _periodKey: string | null,
     _periodStart: string | null,
@@ -54,6 +132,7 @@ export function MapControls({
   minMonth,
   maxMonth,
   initialPeriodKey,
+  currentPeriodKey,
   onApplyFilters,
   computeAvailableTypes,
   computeVisibleCount,
@@ -65,6 +144,7 @@ export function MapControls({
 }: Props) {
   const t = useTranslations("maps");
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
+  const localePrefix = locale === "fr" ? "/fr" : "";
 
   // Pending state: staged while dialog is open, committed on close
   const [pendingPeriod, setPendingPeriod] = useState<string | null>(
@@ -166,15 +246,25 @@ export function MapControls({
   const activeFilterCount =
     (initialPeriodKey ? 1 : 0) + activeSelectedTypeCount;
 
+  const relatedChapterId = getChapterIdForPeriod(currentPeriodKey);
+
+  const relatedChapterCard = relatedChapterId ? (
+    <RelatedChapterCard
+      key={currentPeriodKey}
+      chapterId={relatedChapterId}
+      localePrefix={localePrefix}
+    />
+  ) : null;
+
   const filtersToggleButton = (
     <button
-      className={`${STYLES["period-toggle"]} ${isFiltersOpen ? STYLES["period-toggle--open"] : ""} ${activeFilterCount > 0 ? STYLES["period-toggle--active"] : ""}`}
+      className={`${STYLES["period-toggle"]} ${activeFilterCount > 0 ? STYLES["period-toggle--active"] : ""}`.trim()}
       onClick={() =>
         isFiltersOpen ? handleDialogClose() : openFiltersDialog()
       }
       aria-label={t("toggleFilters")}
     >
-      {locale === "fr" ? "Filtres" : "Filters"}
+      {t("filters")}
       {activeFilterCount > 0 && (
         <span className={STYLES["filter-badge"]}>{activeFilterCount}</span>
       )}
@@ -208,7 +298,7 @@ export function MapControls({
       id="map-filters"
       isOpen={isFiltersOpen}
       onClose={handleDialogClose}
-      title={locale === "fr" ? "Filtres" : "Filters"}
+      title={t("filters")}
       isFooterEnabled={true}
       hasActiveFilters={hasActiveFilters}
       handleResetFilters={handleResetFilters}
@@ -216,11 +306,9 @@ export function MapControls({
       total={totalWorks}
     >
       <div className={STYLES["dialog-section"]}>
-        <h3 className={STYLES["dialog-section-title"]}>
-          {locale === "fr" ? "Périodes" : "Time periods"}
-        </h3>
+        <h3 className={STYLES["dialog-section-title"]}>{t("timePeriods")}</h3>
         <div className={STYLES["dialog-period-grid"]}>
-          {MAP_PERIODS.map(({ key, start, end, en, fr }) => (
+          {MAP_PERIODS.map(({ key, start, end, labelKey }) => (
             <button
               key={key}
               className={`${STYLES["period-button"]} ${pendingPeriod === key ? STYLES["period-button--active"] : ""}`}
@@ -231,16 +319,14 @@ export function MapControls({
                 {formatPeriodRange(locale, start, end)}
               </span>
               <span className={STYLES["period-button-title"]}>
-                {locale === "fr" ? fr : en}
+                {t(`periods.${labelKey}`)}
               </span>
             </button>
           ))}
         </div>
       </div>
       <div className={STYLES["dialog-section"]}>
-        <h3 className={STYLES["dialog-section-title"]}>
-          {locale === "fr" ? "Types de travaux" : "Work types"}
-        </h3>
+        <h3 className={STYLES["dialog-section-title"]}>{t("workTypes")}</h3>
         <div className={STYLES["dialog-chips"]}>
           <TypeFilter
             types={types}
@@ -258,33 +344,16 @@ export function MapControls({
     return (
       <>
         {filtersDialog}
-        <div className={STYLES["mobile-top"]}>
-          <div className={STYLES["slider-count"]}>
-            {visibleCount} {visibleCount === 1 ? t("work") : t("works")}
+        <div className={STYLES["controls-stack"]}>
+          {relatedChapterCard}
+          <div className={STYLES["mobile-top"]}>
+            <div className={STYLES["slider-count"]}>
+              {visibleCount} {visibleCount === 1 ? t("work") : t("works")}
+            </div>
+            {filtersToggleButton}
+            {zoomInButton}
+            {zoomOutButton}
           </div>
-          {filtersToggleButton}
-          {zoomInButton}
-          {zoomOutButton}
-        </div>
-        <WorksSlider
-          dateRange={dateRange}
-          onChange={onDateRangeChange}
-          onChangeComplete={onDateRangeComplete}
-          minMonth={minMonth}
-          maxMonth={maxMonth}
-          clampMin={clampBounds?.[0]}
-          clampMax={clampBounds?.[1]}
-        />
-      </>
-    );
-  }
-
-  return (
-    <>
-      {filtersDialog}
-      <div className={STYLES["controls-grid"]}>
-        {filtersToggleButton}
-        <div className={STYLES["slider-wrapper"]}>
           <WorksSlider
             dateRange={dateRange}
             onChange={onDateRangeChange}
@@ -295,25 +364,48 @@ export function MapControls({
             clampMax={clampBounds?.[1]}
           />
         </div>
-        <button
-          onClick={() => onZoom(1)}
-          aria-label={t("zoomIn")}
-          className={`${STYLES["zoom-btn"]} ${STYLES["zoom-in"]}`}
-          disabled={currentZoom !== null && currentZoom >= 16}
-        >
-          +
-        </button>
-        <div className={STYLES["slider-count"]}>
-          {visibleCount} {visibleCount === 1 ? t("work") : t("works")}
+      </>
+    );
+  }
+
+  return (
+    <>
+      {filtersDialog}
+      <div className={STYLES["controls-stack"]}>
+        {relatedChapterCard}
+        <div className={STYLES["controls-grid"]}>
+          {filtersToggleButton}
+          <div className={STYLES["slider-wrapper"]}>
+            <WorksSlider
+              dateRange={dateRange}
+              onChange={onDateRangeChange}
+              onChangeComplete={onDateRangeComplete}
+              minMonth={minMonth}
+              maxMonth={maxMonth}
+              clampMin={clampBounds?.[0]}
+              clampMax={clampBounds?.[1]}
+            />
+          </div>
+          <button
+            onClick={() => onZoom(1)}
+            aria-label={t("zoomIn")}
+            className={`${STYLES["zoom-btn"]} ${STYLES["zoom-in"]}`}
+            disabled={currentZoom !== null && currentZoom >= 16}
+          >
+            +
+          </button>
+          <div className={STYLES["slider-count"]}>
+            {visibleCount} {visibleCount === 1 ? t("work") : t("works")}
+          </div>
+          <button
+            onClick={() => onZoom(-1)}
+            aria-label={t("zoomOut")}
+            className={`${STYLES["zoom-btn"]} ${STYLES["zoom-out"]}`}
+            disabled={currentZoom !== null && currentZoom <= 6}
+          >
+            −
+          </button>
         </div>
-        <button
-          onClick={() => onZoom(-1)}
-          aria-label={t("zoomOut")}
-          className={`${STYLES["zoom-btn"]} ${STYLES["zoom-out"]}`}
-          disabled={currentZoom !== null && currentZoom <= 6}
-        >
-          −
-        </button>
       </div>
     </>
   );

@@ -50,52 +50,6 @@
   margin-left: variables.$xxxs-margin;
 }
 
-.period-nav {
-  display: flex;
-  align-items: stretch;
-  gap: variables.$xxxs-margin;
-}
-
-.period-arrow {
-  margin: 0;
-  flex-shrink: 0;
-  padding: 0 variables.$xxs-margin;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  align-self: stretch;
-  background-color: variables.$primary-medium-color;
-  border: 1px solid variables.$primary-light-color;
-  border-radius: variables.$border-radius;
-  color: variables.$secondary-color;
-  font-family: variables.$main-font;
-  font-size: 1.9rem;
-  font-weight: 200;
-  cursor: pointer;
-  transition:
-    border-color 0.9s ease-in-out,
-    background-color 0.9s ease-in-out;
-
-  @include variables.hover-supported {
-    &:hover:not(:disabled) {
-      background-color: variables.$primary-dark-color;
-      border: 1px solid variables.$secondary-color;
-    }
-  }
-
-  &:disabled {
-    border: 1px solid variables.$primary-light-color;
-    color: variables.$primary-light-color;
-    cursor: not-allowed;
-  }
-}
-
-.period-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: variables.$xxxs-margin;
-}
-
 .period-button {
   display: flex;
   flex-direction: column;
@@ -163,6 +117,132 @@
   }
 }
 
+.controls-stack {
+  display: flex;
+  flex-direction: column;
+  gap: variables.$xxxs-margin;
+}
+
+.related-chapter-row {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.related-chapter-group {
+  display: inline-flex;
+  align-items: stretch;
+  width: 100%;
+
+  @include variables.hover-supported {
+    &:has(.related-link:hover) .related-close-button {
+      border-color: variables.$secondary-color;
+      border-right-color: transparent;
+      background-color: variables.$primary-dark-color;
+    }
+  }
+}
+
+.related-close-button {
+  display: inline-flex;
+  box-sizing: border-box;
+  align-items: center;
+  justify-content: center;
+  width: 45px;
+  min-height: 45px;
+  align-self: stretch;
+  flex: 0 0 45px;
+  padding: 0;
+  border: 1px solid variables.$primary-light-color;
+  border-right: 0;
+  border-top-left-radius: variables.$border-radius;
+  border-bottom-left-radius: variables.$border-radius;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  background-color: variables.$primary-medium-color;
+  color: variables.$text-color;
+  font-size: 1.4rem;
+  font-weight: 200;
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    color 0.9s ease-in-out,
+    border-color 0.9s ease-in-out,
+    background-color 0.9s ease-in-out;
+
+  @include variables.hover-supported {
+    &:hover {
+      color: variables.$secondary-color;
+    }
+  }
+}
+
+.related-chapter-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.45rem;
+  height: 1.45rem;
+  color: variables.$secondary-color;
+
+  svg {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.related-link {
+  display: inline-flex;
+  width: 100%;
+  box-sizing: border-box;
+  align-items: center;
+  justify-content: center;
+  min-height: 45px;
+  padding: variables.$xxs-margin;
+  font-size: 0.95rem;
+  font-weight: 500;
+  text-decoration: none;
+  color: variables.$secondary-color;
+  @include variables.featured-button-link;
+  border-left: 0;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+
+  @include variables.desktop {
+    font-size: 0.95rem;
+  }
+
+  @include variables.hover-supported {
+    &:hover {
+      border-left: 0;
+    }
+  }
+}
+
+.related-link-main {
+  display: inline-flex;
+  align-items: center;
+  gap: variables.$xxs-margin;
+  justify-content: center;
+  flex: 1;
+  min-width: 0;
+}
+
+.related-link-label {
+  min-width: 0;
+}
+
+.related-link-arrow {
+  margin-left: auto;
+  color: variables.$secondary-color;
+  font-size: 1.55rem;
+  font-weight: 200;
+  line-height: 1;
+
+  @include variables.desktop {
+    font-size: 1.7rem;
+  }
+}
+
 // Dialog-specific styles
 .dialog-section {
   display: flex;
@@ -198,17 +278,6 @@
   display: flex;
   flex-wrap: wrap;
   gap: variables.$xxxs-margin;
-}
-
-.filter-row {
-  display: flex;
-  min-width: 0;
-  height: 45px;
-
-  > * {
-    flex: 1;
-    min-width: 0;
-  }
 }
 
 .controls-grid {
