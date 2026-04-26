@@ -162,14 +162,28 @@
 }
 
 .context-map-link--middle {
-  border-top: 0;
+  border-top: 1px solid transparent;
   border-radius: 0;
+
+  @include variables.hover-supported {
+    &:hover {
+      position: relative;
+      z-index: 1;
+    }
+  }
 }
 
 .context-map-link--last {
-  border-top: 0;
+  border-top: 1px solid transparent;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
+
+  @include variables.hover-supported {
+    &:hover {
+      position: relative;
+      z-index: 1;
+    }
+  }
 }
 
 .context-map-link-title {
