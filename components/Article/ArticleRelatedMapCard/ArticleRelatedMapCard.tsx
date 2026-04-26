@@ -46,6 +46,7 @@ export function ArticleRelatedMapCard({
 
   const hasMultipleMapPeriods = relatedMapPeriods.length > 1;
   const isTerminalMapCard = !hasNextChapter;
+  const isFrench = locale === "fr";
 
   return (
     <div
@@ -63,7 +64,7 @@ export function ArticleRelatedMapCard({
                   </span>
                 </span>
                 <div
-                  className={`${STYLES["context-map-links"]} ${hasMultipleMapPeriods ? STYLES["context-map-links--multiple"] : ""}`.trim()}
+                  className={`${STYLES["context-map-links"]} ${hasMultipleMapPeriods ? STYLES["context-map-links--multiple"] : ""} ${isFrench ? STYLES["context-map-links--fr"] : ""}`.trim()}
                 >
                   {relatedMapPeriods.map((period, index) => {
                     const positionClass = hasMultipleMapPeriods

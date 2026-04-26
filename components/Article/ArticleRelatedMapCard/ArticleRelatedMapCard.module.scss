@@ -109,6 +109,12 @@
   margin-top: variables.$xxs-margin;
 }
 
+.context-map-links--fr .context-map-link--multiple {
+  @include variables.desktop {
+    grid-template-columns: minmax(0, 1.95fr) minmax(13.5rem, 16.5rem) auto;
+  }
+}
+
 .context-map-link {
   display: grid;
   box-sizing: border-box;
