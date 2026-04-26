@@ -213,105 +213,135 @@ export const getGroupedEventsByYear = (events: Event[]) => {
   }, {});
 };
 
+const getFrontEventKey = (event: SingleEventData) =>
+  event.titleKey ?? event.title;
+
+const mergeTimelineEvents = (
+  companyEvents: SingleEventData[],
+  tunnellerEvents: SingleEventData[],
+  enlistmentEvents: SingleEventData[] | [],
+  postedEvents: SingleEventData[] | [],
+) => {
+  return tunnellerEvents
+    .concat(enlistmentEvents, postedEvents, companyEvents)
+    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+};
+
+const filterTransferredEvents = (events: SingleEventData[]) => {
+  const transferredIndex = events.findIndex(
+    (event) => getFrontEventKey(event) === "Transferred",
+  );
+  const graveReferenceIndex = events.findIndex(
+    (event) => getFrontEventKey(event) === "Grave reference",
+  );
+
+  return events.filter((_event, index) => {
+    return (
+      transferredIndex === -1 ||
+      graveReferenceIndex === -1 ||
+      index <= transferredIndex ||
+      index >= graveReferenceIndex - 2
+    );
+  });
+};
+
+const filterPostServiceEvents = (events: SingleEventData[]) => {
+  const endOfServiceIndex = events.findIndex(
+    (event) => getFrontEventKey(event) === "End of Service",
+  );
+  const diedOfDiseaseAfterServiceEnd = events.findIndex(
+    (event) => getFrontEventKey(event) === "Died of disease",
+  );
+
+  return events.filter((_event, index) => {
+    return (
+      endOfServiceIndex === -1 ||
+      diedOfDiseaseAfterServiceEnd === -1 ||
+      index <= endOfServiceIndex ||
+      index >= diedOfDiseaseAfterServiceEnd
+    );
+  });
+};
+
+const filterTransferToNewZealandEvents = (events: SingleEventData[]) => {
+  const transferredToNzIndex = events.findIndex(
+    (event) => getFrontEventKey(event) === "Transfer to New Zealand",
+  );
+  const endOfServiceIndex = events.findIndex(
+    (event) => getFrontEventKey(event) === "End of Service",
+  );
+  const diedOfDiseaseAfterServiceEnd = events.findIndex(
+    (event) => getFrontEventKey(event) === "Died of disease",
+  );
+
+  return events.filter((event, index) => {
+    return (
+      transferredToNzIndex === -1 ||
+      (endOfServiceIndex === -1 && diedOfDiseaseAfterServiceEnd === -1) ||
+      index <= transferredToNzIndex ||
+      (index >= endOfServiceIndex && endOfServiceIndex !== -1) ||
+      (index >= diedOfDiseaseAfterServiceEnd &&
+        diedOfDiseaseAfterServiceEnd !== -1) ||
+      (index > transferredToNzIndex &&
+        ((index < endOfServiceIndex && endOfServiceIndex !== -1) ||
+          (index < diedOfDiseaseAfterServiceEnd &&
+            diedOfDiseaseAfterServiceEnd !== -1)) &&
+        getFrontEventKey(event) !== "The Company" &&
+        getFrontEventKey(event) !== "Allied Attacks" &&
+        getFrontEventKey(event) !== "British Offensive" &&
+        getFrontEventKey(event) !== "Cessation of Hostilities" &&
+        getFrontEventKey(event) !== "German Attacks")
+    );
+  });
+};
+
+const mapTimelineEvents = (events: SingleEventData[]): Event[] => {
+  return events.map((event) => {
+    const dateObj: DateObj = {
+      year: getYear(event.date),
+      dayMonth: getDayMonth(event.date),
+    };
+
+    const eventDetail: EventDetail = {
+      description: event.event,
+      title: event.title,
+      titleKey: event.titleKey,
+      image: event.image,
+      imageAlt: event.imageAlt,
+      extraDescription: event.extraDescription,
+    };
+
+    return { date: dateObj, event: [eventDetail] };
+  });
+};
+
+const groupEventsForTimeline = (events: SingleEventData[]) => {
+  const mappedEvents = mapTimelineEvents(events);
+  const groupedEventsByDate = getGroupedEventsByDate(mappedEvents);
+  return getGroupedEventsByYear(groupedEventsByDate);
+};
+
 export const getFrontEvents = (
   companyEvents: SingleEventData[],
   tunnellerEvents: SingleEventData[],
   enlistmentEvents: SingleEventData[] | [],
   postedEvents: SingleEventData[] | [],
 ) => {
-  const fullTunnellerEvents: SingleEventData[] = tunnellerEvents
-    .concat(enlistmentEvents, postedEvents, companyEvents)
-    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
-
-  const key = (e: SingleEventData) => e.titleKey ?? e.title;
-
-  const transferredIndex: number = fullTunnellerEvents.findIndex(
-    (e) => key(e) === "Transferred",
+  const mergedEvents = mergeTimelineEvents(
+    companyEvents,
+    tunnellerEvents,
+    enlistmentEvents,
+    postedEvents,
+  );
+  const filteredTransferredEvents = filterTransferredEvents(mergedEvents);
+  const filteredPostServiceEvents = filterPostServiceEvents(
+    filteredTransferredEvents,
+  );
+  const filteredTransferToNewZealandEvents = filterTransferToNewZealandEvents(
+    filteredPostServiceEvents,
   );
 
-  const graveReferenceIndex: number = fullTunnellerEvents.findIndex(
-    (e) => key(e) === "Grave reference",
-  );
-
-  const transferredToNzIndex: number = fullTunnellerEvents.findIndex(
-    (e) => key(e) === "Transfer to New Zealand",
-  );
-
-  const endOfServiceIndex: number = fullTunnellerEvents.findIndex(
-    (e) => key(e) === "End of Service",
-  );
-
-  const diedOfDiseaseAfterServiceEnd: number = fullTunnellerEvents.findIndex(
-    (e) => key(e) === "Died of disease",
-  );
-
-  const filteredAfterTransferredEvents: SingleEventData[] =
-    fullTunnellerEvents.filter((event, index) => {
-      return (
-        transferredIndex === -1 ||
-        graveReferenceIndex === -1 ||
-        index <= transferredIndex ||
-        index >= graveReferenceIndex - 2
-      );
-    });
-
-  const filteredAfterEndOfServiceWarInjuries: SingleEventData[] =
-    filteredAfterTransferredEvents.filter((event, index) => {
-      return (
-        endOfServiceIndex === -1 ||
-        diedOfDiseaseAfterServiceEnd === -1 ||
-        index <= endOfServiceIndex ||
-        index >= diedOfDiseaseAfterServiceEnd
-      );
-    });
-
-  const filteredAfterTransferToNz: SingleEventData[] =
-    filteredAfterEndOfServiceWarInjuries.filter((event, index) => {
-      return (
-        transferredToNzIndex === -1 ||
-        (endOfServiceIndex === -1 && diedOfDiseaseAfterServiceEnd === -1) ||
-        index <= transferredToNzIndex ||
-        (index >= endOfServiceIndex && endOfServiceIndex !== -1) ||
-        (index >= diedOfDiseaseAfterServiceEnd &&
-          diedOfDiseaseAfterServiceEnd !== -1) ||
-        (index > transferredToNzIndex &&
-          ((index < endOfServiceIndex && endOfServiceIndex !== -1) ||
-            (index < diedOfDiseaseAfterServiceEnd &&
-              diedOfDiseaseAfterServiceEnd !== -1)) &&
-          key(event) !== "The Company" &&
-          key(event) !== "Allied Attacks" &&
-          key(event) !== "British Offensive" &&
-          key(event) !== "Cessation of Hostilities" &&
-          key(event) !== "German Attacks")
-      );
-    });
-
-  const mappedEvents: Event[] = filteredAfterTransferToNz.map(
-    (event: SingleEventData) => {
-      const dateObj: DateObj = {
-        year: getYear(event.date),
-        dayMonth: getDayMonth(event.date),
-      };
-
-      const eventDetail: EventDetail = {
-        description: event.event,
-        title: event.title,
-        titleKey: event.titleKey,
-        image: event.image,
-        imageAlt: event.imageAlt,
-        extraDescription: event.extraDescription,
-      };
-
-      return { date: dateObj, event: [eventDetail] };
-    },
-  );
-
-  const groupEventsByDate: Event[] = getGroupedEventsByDate(mappedEvents);
-
-  const groupEventsByYear: Record<string, Event[]> =
-    getGroupedEventsByYear(groupEventsByDate);
-
-  return groupEventsByYear;
+  return groupEventsForTimeline(filteredTransferToNewZealandEvents);
 };
 
 export const isDeserter = (isDeserter: number | null) => {
