@@ -2,7 +2,9 @@ import {
   getWorkCategories,
   collectCategories,
   getVisibleFrontLines,
+  getVisibleFrontLinesForPeriod,
   isWorkVisible,
+  shouldPinFrontLinesToPeriod,
 } from "@/components/WorksMap/utils/filterUtils";
 import { dateToDay } from "@/components/WorksMap/utils/mapParams";
 import { FrontLineData } from "@/utils/database/queries/frontLinesQuery";
@@ -346,5 +348,131 @@ describe("getVisibleFrontLines", () => {
 
     expect(visibleIds).toEqual(new Set([9, 10]));
     expect(latestIds).toEqual(new Set([9, 10]));
+  });
+});
+
+describe("shouldPinFrontLinesToPeriod", () => {
+  const periodBounds: [number, number] = [
+    dateToDay("1916-11-16"),
+    dateToDay("1917-04-09"),
+  ];
+
+  test("returns true when the period has a single front-line date", () => {
+    const frontLines = [
+      mockFrontLine({ front_line_id: 1, front_line_side: "british" }),
+      mockFrontLine({ front_line_id: 2, front_line_side: "german" }),
+    ];
+
+    expect(
+      shouldPinFrontLinesToPeriod(frontLines, periodBounds, dateToDay),
+    ).toBe(true);
+  });
+
+  test("returns false when the period has multiple front-line dates", () => {
+    const frontLines = [
+      mockFrontLine({
+        front_line_id: 1,
+        front_line_date: "1916-12-01",
+        front_line_side: "british",
+      }),
+      mockFrontLine({
+        front_line_id: 2,
+        front_line_date: "1916-12-01",
+        front_line_side: "german",
+      }),
+      mockFrontLine({
+        front_line_id: 3,
+        front_line_date: "1917-02-01",
+        front_line_side: "british",
+      }),
+      mockFrontLine({
+        front_line_id: 4,
+        front_line_date: "1917-02-01",
+        front_line_side: "german",
+      }),
+    ];
+
+    expect(
+      shouldPinFrontLinesToPeriod(frontLines, periodBounds, dateToDay),
+    ).toBe(false);
+  });
+});
+
+describe("getVisibleFrontLinesForPeriod", () => {
+  const periodBounds: [number, number] = [
+    dateToDay("1916-11-16"),
+    dateToDay("1917-04-09"),
+  ];
+
+  test("keeps the first front line visible before later front lines take over", () => {
+    const frontLines = [
+      mockFrontLine({
+        front_line_id: 1,
+        front_line_date: "1916-12-01",
+        front_line_side: "british",
+      }),
+      mockFrontLine({
+        front_line_id: 2,
+        front_line_date: "1916-12-01",
+        front_line_side: "german",
+      }),
+      mockFrontLine({
+        front_line_id: 3,
+        front_line_date: "1917-02-01",
+        front_line_side: "british",
+      }),
+      mockFrontLine({
+        front_line_id: 4,
+        front_line_date: "1917-02-01",
+        front_line_side: "german",
+      }),
+    ];
+
+    const { visibleIds, latestIds } = getVisibleFrontLinesForPeriod(
+      frontLines,
+      periodBounds,
+      dateToDay("1917-01-10"),
+      true,
+      dateToDay,
+    );
+
+    expect(visibleIds).toEqual(new Set([1, 2]));
+    expect(latestIds).toEqual(new Set([1, 2]));
+  });
+
+  test("includes later front lines once the slider reaches them", () => {
+    const frontLines = [
+      mockFrontLine({
+        front_line_id: 1,
+        front_line_date: "1916-12-01",
+        front_line_side: "british",
+      }),
+      mockFrontLine({
+        front_line_id: 2,
+        front_line_date: "1916-12-01",
+        front_line_side: "german",
+      }),
+      mockFrontLine({
+        front_line_id: 3,
+        front_line_date: "1917-02-01",
+        front_line_side: "british",
+      }),
+      mockFrontLine({
+        front_line_id: 4,
+        front_line_date: "1917-02-01",
+        front_line_side: "german",
+      }),
+    ];
+
+    const { visibleIds, latestIds } = getVisibleFrontLinesForPeriod(
+      frontLines,
+      periodBounds,
+      dateToDay("1917-02-10"),
+      true,
+      dateToDay,
+    );
+
+    expect(visibleIds).toEqual(new Set([1, 2, 3, 4]));
+    expect(latestIds).toEqual(new Set([3, 4]));
   });
 });

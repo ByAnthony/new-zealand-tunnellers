@@ -2,7 +2,6 @@
 
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
-import { useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState, useCallback, useMemo } from "react";
 
 import { CaveData, CavePathPoint } from "@/utils/database/queries/cavesQuery";
@@ -16,23 +15,29 @@ import {
 } from "@/utils/database/queries/subwaysQuery";
 import { WorkData, WorkPathPoint } from "@/utils/database/queries/worksQuery";
 
+import { useWorksMapDerivedState } from "./hooks/useWorksMapDerivedState";
+import { useWorksMapSelectionState } from "./hooks/useWorksMapSelectionState";
+import { useWorksMapUrlState } from "./hooks/useWorksMapUrlState";
 import { InfoBar } from "./InfoBar/InfoBar";
 import { MapControls } from "./MapControls/MapControls";
 import {
   collectCategories,
-  getVisibleFrontLines,
   getWorkCategories,
   isWorkVisible,
 } from "./utils/filterUtils";
-import { dateToDay, dayToParam, paramToDay, toSlug } from "./utils/mapParams";
+import {
+  buildCavePolygonLayers,
+  buildFrontLineLayers,
+  buildPointWorkMarkers,
+  buildSubwayPolylineLayers,
+  buildWorkPolylineLayers,
+} from "./utils/layerBuilders";
+import { dateToDay, toSlug } from "./utils/mapParams";
 import {
   CATEGORY_COLORS,
   MARKER_COLOR_ACTIVE,
-  createGroupIcon,
-  createSingleIcon,
   createWorkIcon,
 } from "./utils/markerIcons";
-import { groupPathsBySegment } from "./utils/pathUtils";
 import { MAP_PERIODS } from "./utils/periods";
 import STYLES from "./WorksMap.module.scss";
 
@@ -58,9 +63,6 @@ type Props = {
 };
 
 const COORD_TOLERANCE = 0.0001;
-const EXIT_DURATION_DEFAULT = 150;
-const EXIT_DURATION_SLIDE = 250;
-const EXIT_DURATION_FADE = 300;
 const CAVE_COLOR = "rgb(44, 46, 47)";
 const CAVE_BORDER_COLOR = "rgba(255,255,255,0.15)";
 const DEFAULT_WORK_COLOR = "rgb(113, 152, 185)";
@@ -78,8 +80,6 @@ export function WorksMap({
   frontLinePaths,
   locale,
 }: Props) {
-  const searchParams = useSearchParams();
-  const isFirstRenderRef = useRef(true);
   const mapRef = useRef<L.Map | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const markersRef = useRef<
@@ -150,84 +150,68 @@ export function WorksMap({
     };
   }, [works, locale]);
 
-  const isPeriodParam = searchParams.get("period") === "true";
-  const isFrontLinesParam = searchParams.get("frontlines") === "true";
-  const initialPeriodKey = (() => {
-    if (!isPeriodParam) return null;
-    const fromParam = searchParams.get("from");
-    const toParam = searchParams.get("to");
-    return fromParam && toParam ? `${fromParam}/${toParam}` : null;
-  })();
-  const [activePeriodKey, setActivePeriodKey] = useState<string | null>(
-    () => initialPeriodKey,
-  );
-  const periodKeyRef = useRef<string | null>(initialPeriodKey);
-  const isPeriodActive = activePeriodKey !== null;
-  const [showFrontLines, setShowFrontLines] = useState(
-    () => isFrontLinesParam || initialPeriodKey !== null,
-  );
-  const periodBounds = useMemo<[number, number] | null>(() => {
-    if (!activePeriodKey) return null;
-    const [start, end] = activePeriodKey.split("/");
-    if (!start || !end) return null;
-    return [dateToDay(start), dateToDay(end)];
-  }, [activePeriodKey]);
-
-  const [dateRange, setDateRange] = useState<[number, number]>(() => {
-    const fromParam = searchParams.get("from");
-    const toParam = searchParams.get("to");
-    const from = fromParam ? paramToDay(fromParam) : null;
-    const to = toParam ? paramToDay(toParam) : null;
-    return [
-      from !== null && from >= minMonth && from <= maxMonth ? from : minMonth,
-      to !== null && to >= minMonth && to <= maxMonth ? to : maxMonth,
-    ];
-  });
-  const [selectedTypes, setSelectedTypes] = useState<Set<string>>(() => {
-    const typesParam = searchParams.get("type");
-    if (!typesParam) return new Set<string>();
-    const matched = typesParam
-      .split(",")
-      .map((slug) => slugToName.get(slug))
-      .filter((name): name is string => name !== undefined);
-    return new Set(matched);
-  });
-  const [displayedWork, setDisplayedWork] = useState<WorkData | null>(null);
-  const [isExiting, setIsExiting] = useState(false);
-  const displayedWorkRef = useRef<WorkData | null>(null);
-  const nextWorkRef = useRef<WorkData | null>(null);
-  const exitTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const selectedMarkerRef = useRef<L.Marker | null>(null);
   const selectedPolylinesRef = useRef<L.Polyline[]>([]);
   const polylinesByWorkIdRef = useRef<Map<number, L.Polyline[]>>(new Map());
   const polylineColorByWorkIdRef = useRef<Map<number, string>>(new Map());
   const cavePolygonsByCaveIdRef = useRef<Map<number, L.Polygon[]>>(new Map());
-  const [displayedCave, setDisplayedCave] = useState<CaveData | null>(null);
-  const displayedCaveRef = useRef<CaveData | null>(null);
   const frontLinePolylinesByIdRef = useRef<Map<number, L.Polyline[]>>(
     new Map(),
   );
   const subwayPolylinesBySubwayIdRef = useRef<Map<number, L.Polyline[]>>(
     new Map(),
   );
-  const [displayedSubway, setDisplayedSubway] = useState<SubwayData | null>(
-    null,
-  );
-  const displayedSubwayRef = useRef<SubwayData | null>(null);
   const selectedTypesRef = useRef<Set<string>>(new Set());
   const dateRangeRef = useRef<[number, number]>([minMonth, maxMonth]);
-  const stackedWorksRef = useRef<WorkData[]>([]);
-  const stackIndexRef = useRef(0);
-  const pendingStackIndexRef = useRef<number | null>(null);
   const pendingFilterFitRef = useRef(false);
-  const [stackIndex, setStackIndex] = useState(0);
-  const [stackTotal, setStackTotal] = useState(0);
   const [currentZoom, setCurrentZoom] = useState<number | null>(null);
-  const [animType, setAnimType] = useState<
-    "default" | "fade" | "slide-next" | "slide-prev"
-  >("default");
-  const exitDurationRef = useRef(EXIT_DURATION_DEFAULT);
+  const {
+    displayedWork,
+    displayedWorkRef,
+    displayedCave,
+    displayedCaveRef,
+    displayedSubway,
+    displayedSubwayRef,
+    isExiting,
+    stackIndex,
+    stackTotal,
+    animType,
+    stackedWorksRef,
+    showWorkStack,
+    showSingleWork,
+    navigateWorkStack,
+    clearWorkSelection,
+    setDisplayedCaveSelection,
+    setDisplayedSubwaySelection,
+  } = useWorksMapSelectionState();
 
+  const {
+    initialPeriodKey,
+    activePeriodKey,
+    setActivePeriodKey,
+    showFrontLines,
+    setShowFrontLines,
+    periodBounds,
+    dateRange,
+    setDateRange,
+    selectedTypes,
+    setSelectedTypes,
+    initialWorkIdRef,
+    initialCaveIdRef,
+    initialSubwayIdRef,
+    initialViewRef,
+  } = useWorksMapUrlState({
+    minMonth,
+    maxMonth,
+    slugToName,
+    nameToSlug,
+    displayedWork,
+    displayedWorkRef,
+    displayedCave,
+    displayedCaveRef,
+    displayedSubway,
+    displayedSubwayRef,
+  });
   const typeColorsRef = useRef(typeColors);
 
   useEffect(() => {
@@ -236,139 +220,30 @@ export function WorksMap({
     typeColorsRef.current = typeColors;
   }, [selectedTypes, dateRange, typeColors]);
 
-  const visibleFrontLineState = useMemo(
-    () =>
-      getVisibleFrontLines(frontLines, dateRange, showFrontLines, dateToDay),
-    [frontLines, dateRange, showFrontLines],
-  );
-
-  const initialWorkId = searchParams.get("work");
-  const initialWorkIdRef = useRef<number | null>(
-    initialWorkId ? Number(initialWorkId) : null,
-  );
-  const initialCaveId = searchParams.get("cave");
-  const initialCaveIdRef = useRef<number | null>(
-    initialCaveId ? Number(initialCaveId) : null,
-  );
-  const initialSubwayId = searchParams.get("subway");
-  const initialSubwayIdRef = useRef<number | null>(
-    initialSubwayId ? Number(initialSubwayId) : null,
-  );
-  const initialLat = searchParams.get("lat");
-  const initialLng = searchParams.get("lng");
-  const initialZoom = searchParams.get("zoom");
-  const initialViewRef = useRef<{
-    lat: number;
-    lng: number;
-    zoom: number;
-  } | null>(
-    initialLat && initialLng && initialZoom
-      ? {
-          lat: Number(initialLat),
-          lng: Number(initialLng),
-          zoom: Number(initialZoom),
-        }
-      : null,
-  );
-
-  useEffect(() => {
-    if (isFirstRenderRef.current) {
-      isFirstRenderRef.current = false;
-      return;
-    }
-    const params = new URLSearchParams(window.location.search);
-
-    const slugs = Array.from(selectedTypes)
-      .map((name) => nameToSlug.get(name) ?? toSlug(name))
-      .sort()
-      .join(",");
-    if (slugs) {
-      params.set("type", slugs);
-    } else {
-      params.delete("type");
-    }
-
-    if (isPeriodActive) {
-      params.set("period", "true");
-    } else {
-      params.delete("period");
-    }
-
-    if (showFrontLines) {
-      params.set("frontlines", "true");
-    } else {
-      params.delete("frontlines");
-    }
-
-    if (dateRange[0] !== minMonth || dateRange[1] !== maxMonth) {
-      params.set("from", dayToParam(dateRange[0]));
-      params.set("to", dayToParam(dateRange[1]));
-    } else {
-      params.delete("from");
-      params.delete("to");
-    }
-
-    if (displayedWorkRef.current) {
-      params.set("work", String(displayedWorkRef.current.work_id));
-    } else {
-      params.delete("work");
-    }
-
-    if (displayedCaveRef.current) {
-      params.set("cave", String(displayedCaveRef.current.cave_id));
-    } else {
-      params.delete("cave");
-    }
-
-    if (displayedSubwayRef.current) {
-      params.set("subway", String(displayedSubwayRef.current.subway_id));
-    } else {
-      params.delete("subway");
-    }
-
-    const qs = params.toString().replace(/%2C/gi, ",");
-    const currentQs = window.location.search.replace(/^\?/, "");
-    if (qs === currentQs) return;
-    const url = qs
-      ? `${window.location.pathname}?${qs}`
-      : window.location.pathname;
-    window.history.replaceState(null, "", url);
-  }, [
-    selectedTypes,
-    nameToSlug,
+  const {
+    visibleFrontLineState,
+    isDisplayedWorkVisible,
+    isDisplayedSubwayVisible,
+    isDisplayedCaveVisible,
+    visibleSubwayIds,
+    cavesVisible,
+    visibleCount,
+    computeVisibleCount,
+    computeAvailableTypes,
+    computeTypeBounds,
+    clampBounds,
+  } = useWorksMapDerivedState({
+    works,
+    subways,
+    frontLines,
+    locale,
+    allMonths,
     dateRange,
-    minMonth,
-    maxMonth,
-    isPeriodActive,
+    selectedTypes,
+    slugToName,
+    periodBounds,
     showFrontLines,
-    displayedWork,
-    displayedCave,
-    displayedSubway,
-  ]);
-
-  const selectWork = useCallback((work: WorkData | null) => {
-    if (exitTimeoutRef.current) clearTimeout(exitTimeoutRef.current);
-    if (!displayedWorkRef.current) {
-      displayedWorkRef.current = work;
-      setDisplayedWork(work);
-      if (pendingStackIndexRef.current !== null) {
-        setStackIndex(pendingStackIndexRef.current);
-        pendingStackIndexRef.current = null;
-      }
-    } else {
-      nextWorkRef.current = work;
-      setIsExiting(true);
-      exitTimeoutRef.current = setTimeout(() => {
-        displayedWorkRef.current = nextWorkRef.current;
-        setDisplayedWork(nextWorkRef.current);
-        setIsExiting(false);
-        if (pendingStackIndexRef.current !== null) {
-          setStackIndex(pendingStackIndexRef.current);
-          pendingStackIndexRef.current = null;
-        }
-      }, exitDurationRef.current);
-    }
-  }, []);
+  });
 
   const resetSelectedPolylines = useCallback(() => {
     const selected = selectedPolylinesRef.current;
@@ -391,7 +266,7 @@ export function WorksMap({
         ) ?? [];
       polylines.forEach((pl) => pl.setStyle({ color: CAVE_COLOR, opacity: 1 }));
     }
-  }, []);
+  }, [displayedSubwayRef]);
 
   const resetSelectedCavePolylines = useCallback(() => {
     if (displayedCaveRef.current) {
@@ -407,7 +282,81 @@ export function WorksMap({
         }),
       );
     }
-  }, []);
+  }, [displayedCaveRef]);
+
+  const resetSelectedMarker = useCallback(() => {
+    if (!selectedMarkerRef.current) return;
+
+    const stack = stackedWorksRef.current;
+    const count = stack.length || 1;
+    const cats = collectCategories(stack, locale);
+    selectedMarkerRef.current.setIcon(
+      createWorkIcon(cats, count, typeColorsRef.current),
+    );
+    selectedMarkerRef.current = null;
+  }, [locale, stackedWorksRef]);
+
+  const clearCaveSelection = useCallback(
+    (clearState: boolean) => {
+      if (!displayedCaveRef.current) return;
+      resetSelectedCavePolylines();
+      if (clearState) setDisplayedCaveSelection(null);
+    },
+    [displayedCaveRef, resetSelectedCavePolylines, setDisplayedCaveSelection],
+  );
+
+  const clearSubwaySelection = useCallback(
+    (clearState: boolean) => {
+      if (!displayedSubwayRef.current) return;
+      resetSelectedSubwayPolylines();
+      if (clearState) setDisplayedSubwaySelection(null);
+    },
+    [
+      displayedSubwayRef,
+      resetSelectedSubwayPolylines,
+      setDisplayedSubwaySelection,
+    ],
+  );
+
+  const prepareForWorkSelection = useCallback(() => {
+    resetSelectedMarker();
+    resetSelectedPolylines();
+    clearCaveSelection(true);
+    clearSubwaySelection(true);
+  }, [
+    resetSelectedMarker,
+    resetSelectedPolylines,
+    clearCaveSelection,
+    clearSubwaySelection,
+  ]);
+
+  const prepareForCaveSelection = useCallback(() => {
+    resetSelectedMarker();
+    resetSelectedPolylines();
+    clearWorkSelection();
+    clearSubwaySelection(true);
+    clearCaveSelection(false);
+  }, [
+    resetSelectedMarker,
+    resetSelectedPolylines,
+    clearWorkSelection,
+    clearSubwaySelection,
+    clearCaveSelection,
+  ]);
+
+  const prepareForSubwaySelection = useCallback(() => {
+    resetSelectedMarker();
+    resetSelectedPolylines();
+    clearWorkSelection();
+    clearCaveSelection(true);
+    clearSubwaySelection(false);
+  }, [
+    resetSelectedMarker,
+    resetSelectedPolylines,
+    clearWorkSelection,
+    clearCaveSelection,
+    clearSubwaySelection,
+  ]);
 
   const fitToVisibleWorks = useCallback(() => {
     const map = mapRef.current;
@@ -438,53 +387,18 @@ export function WorksMap({
   }, [visibleFrontLineState]);
 
   const closeInfo = useCallback(() => {
-    if (selectedMarkerRef.current) {
-      const stack = stackedWorksRef.current;
-      const count = stack.length || 1;
-      const cats = collectCategories(stack, locale);
-      selectedMarkerRef.current.setIcon(
-        createWorkIcon(cats, count, typeColorsRef.current),
-      );
-      selectedMarkerRef.current = null;
-    }
+    resetSelectedMarker();
     resetSelectedPolylines();
-    if (displayedCaveRef.current) {
-      resetSelectedCavePolylines();
-      displayedCaveRef.current = null;
-      setDisplayedCave(null);
-    }
-    if (displayedSubwayRef.current) {
-      resetSelectedSubwayPolylines();
-      displayedSubwayRef.current = null;
-      setDisplayedSubway(null);
-    }
-    stackedWorksRef.current = [];
-    stackIndexRef.current = 0;
-    setStackIndex(0);
-    setStackTotal(0);
-    selectWork(null);
+    clearCaveSelection(true);
+    clearSubwaySelection(true);
+    clearWorkSelection();
   }, [
-    selectWork,
-    locale,
+    clearWorkSelection,
+    clearCaveSelection,
+    clearSubwaySelection,
+    resetSelectedMarker,
     resetSelectedPolylines,
-    resetSelectedCavePolylines,
-    resetSelectedSubwayPolylines,
   ]);
-
-  const handleNavigate = useCallback(
-    (direction: 1 | -1) => {
-      const stack = stackedWorksRef.current;
-      if (stack.length <= 1) return;
-      const newIndex =
-        (stackIndexRef.current + direction + stack.length) % stack.length;
-      stackIndexRef.current = newIndex;
-      setAnimType(direction === 1 ? "slide-next" : "slide-prev");
-      exitDurationRef.current = EXIT_DURATION_SLIDE;
-      pendingStackIndexRef.current = newIndex;
-      selectWork(stack[newIndex]);
-    },
-    [selectWork],
-  );
 
   useEffect(() => {
     const stickyEl = Array.from(
@@ -515,16 +429,6 @@ export function WorksMap({
       },
     ).addTo(map);
 
-    const initializeStack = (stackWorks: WorkData[]) => {
-      stackedWorksRef.current = stackWorks;
-      stackIndexRef.current = 0;
-      setStackIndex(0);
-      setStackTotal(stackWorks.length);
-      setAnimType("fade");
-      exitDurationRef.current = EXIT_DURATION_FADE;
-      selectWork(stackWorks[0]);
-    };
-
     const panTo = (latlng: L.LatLng) => {
       if (window.innerWidth < 512) {
         const pt = map.latLngToContainerPoint(latlng);
@@ -534,272 +438,91 @@ export function WorksMap({
       }
     };
 
-    const workIdsWithPaths = new Set(paths.map((p) => p.work_id));
-    const polylinesByWorkId = new Map<number, L.Polyline[]>();
-    const segments = groupPathsBySegment(paths, (p) => p.work_id);
-    segments.forEach(({ id: workId, points }) => {
-      const work = works.find((w) => w.work_id === workId);
-      const cat = work?.work_category_1_en ?? null;
-      const workColor =
-        cat && CATEGORY_COLORS[cat] ? CATEGORY_COLORS[cat] : DEFAULT_WORK_COLOR;
-      polylineColorByWorkIdRef.current.set(workId, workColor);
-
-      const polyline = L.polyline(points, {
-        color: workColor,
-        weight: 3,
-        opacity: 1,
-      }).addTo(map);
-      if (!polylinesByWorkId.has(workId)) polylinesByWorkId.set(workId, []);
-      polylinesByWorkId.get(workId)!.push(polyline);
-
-      if (work) {
-        polyline.on("click", (e: L.LeafletMouseEvent) => {
-          L.DomEvent.stopPropagation(e);
-          if (selectedMarkerRef.current) {
-            const prev = stackedWorksRef.current;
-            const prevCount = prev.length || 1;
-            const prevCats = collectCategories(prev, locale);
-            selectedMarkerRef.current.setIcon(
-              createWorkIcon(prevCats, prevCount, typeColorsRef.current),
-            );
-            selectedMarkerRef.current = null;
-          }
-          resetSelectedPolylines();
-          if (displayedCaveRef.current) {
-            resetSelectedCavePolylines();
-            displayedCaveRef.current = null;
-            setDisplayedCave(null);
-          }
-          if (displayedSubwayRef.current) {
-            resetSelectedSubwayPolylines();
-            displayedSubwayRef.current = null;
-            setDisplayedSubway(null);
-          }
-          const workPolylines = polylinesByWorkId.get(workId) ?? [];
+    const { workIdsWithPaths, polylinesByWorkId, polylineColorByWorkId } =
+      buildWorkPolylineLayers({
+        map,
+        paths,
+        works,
+        defaultWorkColor: DEFAULT_WORK_COLOR,
+        categoryColors: CATEGORY_COLORS,
+        onClick: ({ work, latlng, workPolylines }) => {
+          prepareForWorkSelection();
           workPolylines.forEach((pl) => {
             pl.setStyle({ color: MARKER_COLOR_ACTIVE, opacity: 1 });
           });
           selectedPolylinesRef.current = workPolylines;
-
-          panTo(e.latlng);
-          initializeStack([work]);
-        });
-      }
-    });
+          panTo(latlng);
+          showWorkStack([work]);
+        },
+      });
     polylinesByWorkIdRef.current = polylinesByWorkId;
 
-    const cavePolygonsById = new Map<number, L.Polygon[]>();
-    groupPathsBySegment(cavePaths, (p) => p.cave_id).forEach(
-      ({ id: caveId, points }) => {
-        const polygon = L.polygon(points, {
-          color: CAVE_BORDER_COLOR,
-          weight: 2,
-          opacity: 1,
-          fillColor: CAVE_COLOR,
-          fillOpacity: 1,
-        }).addTo(map);
-        if (!cavePolygonsById.has(caveId)) cavePolygonsById.set(caveId, []);
-        cavePolygonsById.get(caveId)!.push(polygon);
+    polylineColorByWorkIdRef.current = polylineColorByWorkId;
 
-        const cave = caves.find((c) => c.cave_id === caveId);
-        if (cave) {
-          polygon.on("click", (e: L.LeafletMouseEvent) => {
-            L.DomEvent.stopPropagation(e);
-            // Reset any selected work marker or polylines
-            if (selectedMarkerRef.current) {
-              const prev = stackedWorksRef.current;
-              const prevCount = prev.length || 1;
-              const prevCats = collectCategories(prev, locale);
-              selectedMarkerRef.current.setIcon(
-                createWorkIcon(prevCats, prevCount, typeColorsRef.current),
-              );
-              selectedMarkerRef.current = null;
-            }
-            resetSelectedPolylines();
-            stackedWorksRef.current = [];
-            selectWork(null);
-            if (displayedSubwayRef.current) {
-              resetSelectedSubwayPolylines();
-              displayedSubwayRef.current = null;
-              setDisplayedSubway(null);
-            }
-            if (displayedCaveRef.current) {
-              resetSelectedCavePolylines();
-            }
-            const thisCavePolygons = cavePolygonsById.get(caveId) ?? [];
-            thisCavePolygons.forEach((pl) =>
-              pl.setStyle({
-                color: MARKER_COLOR_ACTIVE,
-                fillColor: MARKER_COLOR_ACTIVE,
-                fillOpacity: 1,
-                opacity: 1,
-              }),
-            );
-            displayedCaveRef.current = cave;
-            setDisplayedCave(cave);
-            panTo(e.latlng);
-          });
-        }
+    const cavePolygonsById = buildCavePolygonLayers({
+      map,
+      cavePaths,
+      caves,
+      caveBorderColor: CAVE_BORDER_COLOR,
+      caveColor: CAVE_COLOR,
+      onClick: ({ cave, cavePolygons, latlng }) => {
+        prepareForCaveSelection();
+        cavePolygons.forEach((pl) =>
+          pl.setStyle({
+            color: MARKER_COLOR_ACTIVE,
+            fillColor: MARKER_COLOR_ACTIVE,
+            fillOpacity: 1,
+            opacity: 1,
+          }),
+        );
+        setDisplayedCaveSelection(cave);
+        panTo(latlng);
       },
-    );
+    });
     cavePolygonsByCaveIdRef.current = cavePolygonsById;
 
-    const subwayPolylinesById = new Map<number, L.Polyline[]>();
-    groupPathsBySegment(subwayPaths, (p) => p.subway_id).forEach(
-      ({ id: subwayId, points }) => {
-        const polyline = L.polyline(points, {
-          color: CAVE_COLOR,
-          weight: 3,
-          opacity: 1,
-        }).addTo(map);
-        if (!subwayPolylinesById.has(subwayId))
-          subwayPolylinesById.set(subwayId, []);
-        subwayPolylinesById.get(subwayId)!.push(polyline);
-
-        const subway = subways.find((s) => s.subway_id === subwayId);
-        if (subway) {
-          polyline.on("click", (e: L.LeafletMouseEvent) => {
-            L.DomEvent.stopPropagation(e);
-            if (selectedMarkerRef.current) {
-              const prev = stackedWorksRef.current;
-              const prevCount = prev.length || 1;
-              const prevCats = collectCategories(prev, locale);
-              selectedMarkerRef.current.setIcon(
-                createWorkIcon(prevCats, prevCount, typeColorsRef.current),
-              );
-              selectedMarkerRef.current = null;
-            }
-            resetSelectedPolylines();
-            stackedWorksRef.current = [];
-            selectWork(null);
-            if (displayedCaveRef.current) {
-              resetSelectedCavePolylines();
-              displayedCaveRef.current = null;
-              setDisplayedCave(null);
-            }
-            if (displayedSubwayRef.current) {
-              resetSelectedSubwayPolylines();
-            }
-            const thisSubwayPolylines = subwayPolylinesById.get(subwayId) ?? [];
-            thisSubwayPolylines.forEach((pl) =>
-              pl.setStyle({ color: MARKER_COLOR_ACTIVE, opacity: 1 }),
-            );
-            displayedSubwayRef.current = subway;
-            setDisplayedSubway(subway);
-            panTo(e.latlng);
-          });
-        }
+    const subwayPolylinesById = buildSubwayPolylineLayers({
+      map,
+      subwayPaths,
+      subways,
+      caveColor: CAVE_COLOR,
+      onClick: ({ subway, subwayPolylines, latlng }) => {
+        prepareForSubwaySelection();
+        subwayPolylines.forEach((pl) =>
+          pl.setStyle({ color: MARKER_COLOR_ACTIVE, opacity: 1 }),
+        );
+        setDisplayedSubwaySelection(subway);
+        panTo(latlng);
       },
-    );
+    });
     subwayPolylinesBySubwayIdRef.current = subwayPolylinesById;
 
-    // Draw front lines
-    const frontLinePolylinesById = new Map<number, L.Polyline[]>();
-    groupPathsBySegment(frontLinePaths, (p) => p.front_line_id).forEach(
-      ({ id: frontLineId, points }) => {
-        const fl = frontLines.find((f) => f.front_line_id === frontLineId);
-        if (!fl) return;
-        const color =
-          fl.front_line_side === "british"
-            ? BRITISH_LINE_COLOR
-            : GERMAN_LINE_COLOR;
-        const polyline = L.polyline(points, {
-          color,
-          weight: 2,
-          opacity: 0,
-          pane: "frontLinePane",
-          interactive: false,
-        }).addTo(map);
-        if (!frontLinePolylinesById.has(frontLineId))
-          frontLinePolylinesById.set(frontLineId, []);
-        frontLinePolylinesById.get(frontLineId)!.push(polyline);
-      },
-    );
-    frontLinePolylinesByIdRef.current = frontLinePolylinesById;
-
-    const snapCoord = (n: number) =>
-      Math.round(n / COORD_TOLERANCE) * COORD_TOLERANCE;
-    const groupMap = new Map<string, WorkData[]>();
-    works.forEach((work) => {
-      if (workIdsWithPaths.has(work.work_id)) return;
-      const key = `${snapCoord(work.work_latitude)},${snapCoord(work.work_longitude)}`;
-      const existing = groupMap.get(key);
-      if (existing) existing.push(work);
-      else groupMap.set(key, [work]);
+    const frontLinePolylinesById = buildFrontLineLayers({
+      map,
+      frontLinePaths,
+      frontLines,
+      britishLineColor: BRITISH_LINE_COLOR,
+      germanLineColor: GERMAN_LINE_COLOR,
+      pane: "frontLinePane",
     });
-    const groups = Array.from(groupMap.values());
-
-    markersRef.current = groups.map((groupWorks) => {
-      const rep = groupWorks[0];
-      const count = groupWorks.length;
-      const groupCats = collectCategories(groupWorks, locale);
-      const icon = createWorkIcon(groupCats, count, typeColorsRef.current);
-
-      const marker = L.marker([rep.work_latitude, rep.work_longitude], { icon })
-        .addTo(map)
-        .on("click", () => {
-          if (selectedMarkerRef.current) {
-            const prev = stackedWorksRef.current;
-            const prevCount = prev.length || 1;
-            const prevCats = collectCategories(prev, locale);
-            selectedMarkerRef.current.setIcon(
-              createWorkIcon(prevCats, prevCount, typeColorsRef.current),
-            );
-          }
-          resetSelectedPolylines();
-          if (displayedCaveRef.current) {
-            resetSelectedCavePolylines();
-            displayedCaveRef.current = null;
-            setDisplayedCave(null);
-          }
-          if (displayedSubwayRef.current) {
-            resetSelectedSubwayPolylines();
-            displayedSubwayRef.current = null;
-            setDisplayedSubway(null);
-          }
-
-          const filtered = groupWorks.filter((w) => {
-            const idx = works.indexOf(w);
-            const [c1, c2] = getWorkCategories(w, locale);
-            return isWorkVisible(
-              allMonths[idx].start,
-              allMonths[idx].end,
-              c1,
-              c2,
-              dateRangeRef.current,
-              selectedTypesRef.current,
-            );
-          });
-          if (filtered.length === 0) return;
-
-          marker.setIcon(
-            filtered.length === 1
-              ? createSingleIcon(MARKER_COLOR_ACTIVE, null)
-              : createGroupIcon(
-                  MARKER_COLOR_ACTIVE,
-                  filtered.length,
-                  "rgb(29,31,32)",
-                ),
-          );
-          selectedMarkerRef.current = marker;
-          panTo(marker.getLatLng());
-          initializeStack(filtered);
-        });
-
-      const worksMonths = groupWorks.map((w) => {
-        const idx = works.indexOf(w);
-        return { start: allMonths[idx].start, end: allMonths[idx].end };
-      });
-
-      const categoryPairs = groupWorks.map((w) => getWorkCategories(w, locale));
-      return {
-        marker,
-        groupWorks,
-        starts: worksMonths.map((m) => m.start),
-        ends: worksMonths.map((m) => m.end),
-        categories1: categoryPairs.map(([c1]) => c1),
-        categories2: categoryPairs.map(([, c2]) => c2),
-      };
+    frontLinePolylinesByIdRef.current = frontLinePolylinesById;
+    markersRef.current = buildPointWorkMarkers({
+      map,
+      works,
+      locale,
+      allMonths,
+      workIdsWithPaths,
+      coordTolerance: COORD_TOLERANCE,
+      typeColors: typeColorsRef.current,
+      isWorkVisible,
+      getDateRange: () => dateRangeRef.current,
+      getSelectedTypes: () => selectedTypesRef.current,
+      onClick: ({ marker, filteredWorks }) => {
+        prepareForWorkSelection();
+        selectedMarkerRef.current = marker;
+        panTo(marker.getLatLng());
+        showWorkStack(filteredWorks);
+      },
     });
 
     map.on("click", () => {
@@ -849,13 +572,18 @@ export function WorksMap({
     subwayPaths,
     locale,
     allMonths,
-    selectWork,
     closeInfo,
-    resetSelectedPolylines,
-    resetSelectedCavePolylines,
-    resetSelectedSubwayPolylines,
     frontLines,
     frontLinePaths,
+    clearWorkSelection,
+    initialViewRef,
+    prepareForCaveSelection,
+    prepareForSubwaySelection,
+    prepareForWorkSelection,
+    setDisplayedCaveSelection,
+    setDisplayedSubwaySelection,
+    showWorkStack,
+    stackedWorksRef,
   ]);
 
   useEffect(() => {
@@ -909,27 +637,12 @@ export function WorksMap({
       );
       polylines.forEach((pl) => toggleLayer(pl, visible));
     });
-    const filterActive = selectedTypes.size > 0;
-    const subwayTypeSelected = selectedTypes.has(
-      slugToName.get("subway") ?? "",
-    );
     subwayPolylinesBySubwayIdRef.current.forEach((polylines, subwayId) => {
-      const subway = subways.find((s) => s.subway_id === subwayId);
-      if (!subway) return;
-      let visible = !filterActive || subwayTypeSelected;
-      if (visible && subway.subway_date_start) {
-        const start = dateToDay(subway.subway_date_start);
-        const end = dateToDay(
-          subway.subway_date_end ?? subway.subway_date_start,
-        );
-        visible = start <= dateRange[1] && end >= dateRange[0];
-      }
+      const visible = visibleSubwayIds.has(subwayId);
       polylines.forEach((pl) => toggleLayer(pl, visible));
     });
     cavePolygonsByCaveIdRef.current.forEach((polygons) => {
-      polygons.forEach((pl) =>
-        toggleLayer(pl, !filterActive || subwayTypeSelected),
-      );
+      polygons.forEach((pl) => toggleLayer(pl, cavesVisible));
     });
     frontLinePolylinesByIdRef.current.forEach((polylines, id) => {
       const visible = visibleFrontLineState.visibleIds.has(id);
@@ -956,8 +669,8 @@ export function WorksMap({
     allMonths,
     subways,
     frontLines,
-    minMonth,
-    maxMonth,
+    visibleSubwayIds,
+    cavesVisible,
     visibleFrontLineState,
   ]);
 
@@ -973,56 +686,6 @@ export function WorksMap({
     prevSelectedTypesRef.current = selectedTypes;
     fitToVisibleWorks();
   }, [selectedTypes, fitToVisibleWorks]);
-
-  const isDisplayedWorkVisible = useCallback(
-    (work: WorkData | null): boolean => {
-      if (!work) return false;
-      const idx = works.findIndex((w) => w.work_id === work.work_id);
-      if (idx === -1) return false;
-      const [c1, c2] = getWorkCategories(work, locale);
-      return isWorkVisible(
-        allMonths[idx].start,
-        allMonths[idx].end,
-        c1,
-        c2,
-        dateRange,
-        selectedTypes,
-      );
-    },
-    [works, locale, allMonths, dateRange, selectedTypes],
-  );
-
-  const isDisplayedSubwayVisible = useCallback(
-    (subway: SubwayData | null): boolean => {
-      if (!subway) return false;
-      const filterActive = selectedTypes.size > 0;
-      const subwayTypeSelected = selectedTypes.has(
-        slugToName.get("subway") ?? "",
-      );
-      let visible = !filterActive || subwayTypeSelected;
-      if (visible && subway.subway_date_start) {
-        const start = dateToDay(subway.subway_date_start);
-        const end = dateToDay(
-          subway.subway_date_end ?? subway.subway_date_start,
-        );
-        visible = start <= dateRange[1] && end >= dateRange[0];
-      }
-      return visible;
-    },
-    [dateRange, selectedTypes, slugToName],
-  );
-
-  const isDisplayedCaveVisible = useCallback(
-    (cave: CaveData | null): boolean => {
-      if (!cave) return false;
-      const filterActive = selectedTypes.size > 0;
-      const subwayTypeSelected = selectedTypes.has(
-        slugToName.get("subway") ?? "",
-      );
-      return !filterActive || subwayTypeSelected;
-    },
-    [selectedTypes, slugToName],
-  );
 
   useEffect(() => {
     const hasInvalidSelection =
@@ -1067,8 +730,7 @@ export function WorksMap({
           polylines.forEach((pl) =>
             pl.setStyle({ color: MARKER_COLOR_ACTIVE, opacity: 1 }),
           );
-          displayedSubwayRef.current = subway;
-          setDisplayedSubway(subway);
+          setDisplayedSubwaySelection(subway);
         }
         return;
       }
@@ -1088,8 +750,7 @@ export function WorksMap({
               opacity: 1,
             }),
           );
-          displayedCaveRef.current = cave;
-          setDisplayedCave(cave);
+          setDisplayedCaveSelection(cave);
         }
         return;
       }
@@ -1113,13 +774,7 @@ export function WorksMap({
           pl.setStyle({ color: MARKER_COLOR_ACTIVE, opacity: 1 }),
         );
         selectedPolylinesRef.current = polylines;
-        stackedWorksRef.current = [work];
-        stackIndexRef.current = 0;
-        setStackIndex(0);
-        setStackTotal(1);
-        setAnimType("fade");
-        exitDurationRef.current = EXIT_DURATION_FADE;
-        selectWork(work);
+        showSingleWork(work);
       }
     }, 0);
     return () => clearTimeout(timer);
@@ -1127,78 +782,16 @@ export function WorksMap({
     subways,
     caves,
     works,
-    selectWork,
+    setDisplayedCaveSelection,
+    setDisplayedSubwaySelection,
+    showSingleWork,
     isDisplayedWorkVisible,
     isDisplayedSubwayVisible,
     isDisplayedCaveVisible,
+    initialWorkIdRef,
+    initialCaveIdRef,
+    initialSubwayIdRef,
   ]);
-
-  const computeVisibleCount = useCallback(
-    (start: number, end: number, types: Set<string>): number =>
-      works.filter((w, i) => {
-        const [cat1, cat2] = getWorkCategories(w, locale);
-        return isWorkVisible(
-          allMonths[i].start,
-          allMonths[i].end,
-          cat1,
-          cat2,
-          [start, end],
-          types,
-        );
-      }).length,
-    [works, allMonths, locale],
-  );
-
-  const visibleCount = computeVisibleCount(
-    dateRange[0],
-    dateRange[1],
-    selectedTypes,
-  );
-
-  const computeAvailableTypes = useCallback(
-    (start: number, end: number): Set<string> => {
-      const cats = new Set<string>();
-      works.forEach((w, i) => {
-        if (allMonths[i].start <= end && allMonths[i].end >= start) {
-          const [c1, c2] = getWorkCategories(w, locale);
-          if (c1) cats.add(c1);
-          if (c2) cats.add(c2);
-        }
-      });
-      return cats;
-    },
-    [works, allMonths, locale],
-  );
-
-  const computeTypeBounds = useCallback(
-    (types: Set<string>): [number, number] | null => {
-      if (types.size === 0) return null;
-
-      const matchingRanges = works
-        .map((work, index) => {
-          const [cat1, cat2] = getWorkCategories(work, locale);
-          const matches =
-            (cat1 !== null && types.has(cat1)) ||
-            (cat2 !== null && types.has(cat2));
-          return matches ? allMonths[index] : null;
-        })
-        .filter((range): range is (typeof allMonths)[number] => range !== null);
-
-      if (matchingRanges.length === 0) return null;
-
-      return [
-        Math.min(...matchingRanges.map((range) => range.start)),
-        Math.max(...matchingRanges.map((range) => range.end)),
-      ];
-    },
-    [works, allMonths, locale],
-  );
-
-  const typeBounds = useMemo<[number, number] | null>(
-    () => computeTypeBounds(selectedTypes),
-    [computeTypeBounds, selectedTypes],
-  );
-  const clampBounds = periodBounds ?? typeBounds;
 
   const handleApplyFilters = useCallback(
     (
@@ -1208,7 +801,6 @@ export function WorksMap({
       types: Set<string>,
     ) => {
       closeInfo();
-      periodKeyRef.current = periodKey;
       setActivePeriodKey(periodKey);
       setShowFrontLines(periodKey !== null);
       if (periodKey === null) {
@@ -1222,7 +814,16 @@ export function WorksMap({
       setSelectedTypes(types);
       pendingFilterFitRef.current = true;
     },
-    [closeInfo, minMonth, maxMonth, computeTypeBounds],
+    [
+      closeInfo,
+      minMonth,
+      maxMonth,
+      computeTypeBounds,
+      setActivePeriodKey,
+      setDateRange,
+      setSelectedTypes,
+      setShowFrontLines,
+    ],
   );
 
   const zoom = useCallback((dir: 1 | -1) => {
@@ -1245,7 +846,7 @@ export function WorksMap({
             onClose={closeInfo}
             stackTotal={stackTotal > 1 ? stackTotal : undefined}
             stackIndex={stackIndex}
-            onNavigate={handleNavigate}
+            onNavigate={navigateWorkStack}
           />
         )}
         <MapControls

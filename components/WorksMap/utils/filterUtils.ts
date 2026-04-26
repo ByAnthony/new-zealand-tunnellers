@@ -1,6 +1,18 @@
 import { FrontLineData } from "@/utils/database/queries/frontLinesQuery";
 import { WorkData } from "@/utils/database/queries/worksQuery";
 
+function getFrontLinesWithinPeriod(
+  frontLines: FrontLineData[],
+  periodBounds: [number, number],
+  dateToDay: (date: string) => number,
+) {
+  return frontLines.filter(
+    (frontLine) =>
+      dateToDay(frontLine.front_line_period_start) >= periodBounds[0] &&
+      dateToDay(frontLine.front_line_period_end) <= periodBounds[1],
+  );
+}
+
 export function getWorkCategories(
   work: WorkData,
   locale: string,
@@ -54,6 +66,78 @@ export function getVisibleFrontLines(
     visibleIds: new Set(visibleFrontLines.map((fl) => fl.front_line_id)),
     latestIds: new Set(latestIdBySide.values()),
   };
+}
+
+export function getVisibleFrontLinesForPeriod(
+  frontLines: FrontLineData[],
+  periodBounds: [number, number],
+  rangeEnd: number,
+  showFrontLines: boolean,
+  dateToDay: (date: string) => number,
+): { visibleIds: Set<number>; latestIds: Set<number> } {
+  if (!showFrontLines) {
+    return { visibleIds: new Set(), latestIds: new Set() };
+  }
+
+  const periodFrontLines = getFrontLinesWithinPeriod(
+    frontLines,
+    periodBounds,
+    dateToDay,
+  );
+
+  if (periodFrontLines.length === 0) {
+    return { visibleIds: new Set(), latestIds: new Set() };
+  }
+
+  const distinctDates = Array.from(
+    new Set(periodFrontLines.map((frontLine) => frontLine.front_line_date)),
+  ).sort();
+  const earliestDate = distinctDates[0];
+  const visibleFrontLines = periodFrontLines.filter((frontLine) => {
+    const frontLineDay = dateToDay(frontLine.front_line_date);
+    return (
+      frontLine.front_line_date === earliestDate || frontLineDay <= rangeEnd
+    );
+  });
+
+  const latestIdBySide = new Map<string, number>();
+  visibleFrontLines.forEach((frontLine) => {
+    const current = latestIdBySide.get(frontLine.front_line_side);
+    if (
+      current === undefined ||
+      frontLine.front_line_date >
+        visibleFrontLines.find((line) => line.front_line_id === current)!
+          .front_line_date
+    ) {
+      latestIdBySide.set(frontLine.front_line_side, frontLine.front_line_id);
+    }
+  });
+
+  return {
+    visibleIds: new Set(
+      visibleFrontLines.map((frontLine) => frontLine.front_line_id),
+    ),
+    latestIds: new Set(latestIdBySide.values()),
+  };
+}
+
+export function shouldPinFrontLinesToPeriod(
+  frontLines: FrontLineData[],
+  periodBounds: [number, number] | null,
+  dateToDay: (date: string) => number,
+): boolean {
+  if (!periodBounds) return false;
+
+  const periodFrontLines = getFrontLinesWithinPeriod(
+    frontLines,
+    periodBounds,
+    dateToDay,
+  );
+
+  return (
+    new Set(periodFrontLines.map((frontLine) => frontLine.front_line_date))
+      .size === 1
+  );
 }
 
 export function isWorkVisible(

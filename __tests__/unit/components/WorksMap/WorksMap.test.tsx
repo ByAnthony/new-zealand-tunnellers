@@ -94,6 +94,17 @@ jest.mock("../../../../components/WorksMap/MapControls/MapControls", () => ({
         >
           Apply Dugout
         </button>
+        <button
+          onClick={() => {
+            (props.onDateRangeChange as (_value: [number, number]) => void)([
+              dateToDay("1917-03-01"),
+              dateToDay("1917-03-15"),
+            ]);
+            (props.onDateRangeComplete as () => void)();
+          }}
+        >
+          Narrow Arras Range
+        </button>
       </div>
     );
   },
@@ -401,6 +412,28 @@ function renderWorksMap() {
   );
 }
 
+function findFrontLinePolyline(frontLineId: number): MockPolyline | undefined {
+  return Array.from(lastMapInstance?.layers ?? []).find((layer) => {
+    if (!(layer instanceof MockPolyline)) return false;
+
+    if (frontLineId === 1) {
+      return (
+        layer.points[0]?.[0] === 10 &&
+        layer.points[0]?.[1] === 10 &&
+        layer.points[1]?.[0] === 12 &&
+        layer.points[1]?.[1] === 12
+      );
+    }
+
+    return (
+      layer.points[0]?.[0] === 50 &&
+      layer.points[0]?.[1] === 50 &&
+      layer.points[1]?.[0] === 52 &&
+      layer.points[1]?.[1] === 52
+    );
+  }) as MockPolyline | undefined;
+}
+
 describe("WorksMap", () => {
   beforeEach(() => {
     jest.useFakeTimers();
@@ -428,6 +461,21 @@ describe("WorksMap", () => {
     );
     await waitFor(() => {
       expect(lastMapInstance?.fitBoundsCalls.at(-1)?.bounds.maxLat).toBe(52);
+    });
+  });
+
+  test("keeps the active period front line visible when the slider narrows inside the period", async () => {
+    renderWorksMap();
+
+    fireEvent.click(screen.getByRole("button", { name: "Apply Arras" }));
+    await waitFor(() => {
+      expect(findFrontLinePolyline(1)?.style.opacity).toBe(1);
+    });
+
+    fireEvent.click(screen.getByRole("button", { name: "Narrow Arras Range" }));
+
+    await waitFor(() => {
+      expect(findFrontLinePolyline(1)?.style.opacity).toBe(1);
     });
   });
 
