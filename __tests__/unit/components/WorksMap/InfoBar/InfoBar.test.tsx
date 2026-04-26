@@ -1,19 +1,19 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
-import { mockCave } from "__tests__/unit/utils/mocks/mockCave";
+
+import { InfoBar } from "@/components/WorksMap/InfoBar/InfoBar";
+import { CATEGORY_COLORS } from "@/components/WorksMap/utils/markerIcons";
+import { mockCave } from "@/test-utils/mocks/mockCave";
 import {
   mockSubway,
   mockSubwayNoDate,
   mockSubwaySingleDate,
-} from "__tests__/unit/utils/mocks/mockSubway";
+} from "@/test-utils/mocks/mockSubway";
 import {
   mockWork,
   mockWorkSingleDate,
   mockWorkTwoCategories,
   mockWorkWithType,
-} from "__tests__/unit/utils/mocks/mockWork";
-
-import { InfoBar } from "@/components/WorksMap/InfoBar/InfoBar";
-import { CATEGORY_COLORS } from "@/components/WorksMap/utils/markerIcons";
+} from "@/test-utils/mocks/mockWork";
 
 const onClose = jest.fn();
 const colors = CATEGORY_COLORS;

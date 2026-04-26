@@ -1,4 +1,6 @@
 import { render, screen } from "@testing-library/react";
+
+import { TimelineEvent } from "@/components/Timeline/TimelineEvent/TimelineEvent";
 import {
   mockEventBuried,
   mockEventCompany,
@@ -12,9 +14,7 @@ import {
   mockEventPosted,
   mockEventTitleAndDescription,
   mockEventTrained,
-} from "__tests__/unit/utils/mocks/mockFrontEvents";
-
-import { TimelineEvent } from "@/components/Timeline/TimelineEvent/TimelineEvent";
+} from "@/test-utils/mocks/mockFrontEvents";
 
 test("uses explicit imageAlt when provided for a Company event", () => {
   render(

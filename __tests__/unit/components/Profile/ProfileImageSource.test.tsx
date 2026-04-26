@@ -1,5 +1,8 @@
 import { render, screen } from "@testing-library/react";
-import { findElementWithText } from "__tests__/unit/utils/findElementWithText";
+
+import { ProfileImageSource } from "@/components/Profile/ProfileImageSource/ProfileImageSource";
+import { findElementWithText } from "@/test-utils/findElementWithText";
+import { makeMessagesTranslator } from "@/test-utils/getMessageFromMessages";
 import {
   mockImageArchives,
   mockImageAucklandLibraries,
@@ -7,9 +10,7 @@ import {
   mockImageFamily,
   mockImageNewspaper,
   mockImageTunneller,
-} from "__tests__/unit/utils/mocks/mockTunneller";
-
-import { ProfileImageSource } from "@/components/Profile/ProfileImageSource/ProfileImageSource";
+} from "@/test-utils/mocks/mockTunneller";
 
 describe("Snapshot", () => {
   test("renders the component correctly with the Auckland Library information", () => {
@@ -342,22 +343,12 @@ test("does not render component when unknown", () => {
 
 describe("French translations", () => {
   const { useTranslations, useLocale } = require("next-intl");
-  const frMessages = require("../../../../messages/fr.json");
 
   beforeEach(() => {
     (useLocale as jest.Mock).mockReturnValue("fr");
-    (useTranslations as jest.Mock).mockImplementation((namespace: string) => {
-      const ns = frMessages[namespace] || {};
-      return (key: string, values?: Record<string, string>) => {
-        let text = ns[key] ?? `${namespace}.${key}`;
-        if (values) {
-          Object.entries(values).forEach(([k, v]) => {
-            text = text.replace(`{${k}}`, String(v));
-          });
-        }
-        return text;
-      };
-    });
+    (useTranslations as jest.Mock).mockImplementation(
+      makeMessagesTranslator("fr"),
+    );
   });
 
   afterEach(() => {

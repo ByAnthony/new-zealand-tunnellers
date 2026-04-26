@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from "@testing-library/react";
-import { mockTunnellers } from "__tests__/unit/utils/mocks/mockTunnellers";
 
 import { RollDetails } from "@/components/Roll/RollDetails/RollDetails";
+import { mockTunnellers } from "@/test-utils/mocks/mockTunnellers";
 
 const tunnellers = [mockTunnellers.D[0]];
 

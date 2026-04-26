@@ -1,9 +1,8 @@
-import { mockTunnellers } from "__tests__/unit/utils/mocks/mockTunnellers";
-
 import {
   getUniqueBirthYears,
   getUniqueDeathYears,
 } from "@/components/Roll/utils/yearsUtils";
+import { mockTunnellers } from "@/test-utils/mocks/mockTunnellers";
 
 describe("getUniqueBirthYears", () => {
   test("returns unique detachments sorted correctly", () => {

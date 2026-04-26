@@ -1,6 +1,5 @@
-import { mockTunnellers } from "__tests__/unit/utils/mocks/mockTunnellers";
-
 import { getUniqueCorps } from "@/components/Roll/utils/corpsUtils";
+import { mockTunnellers } from "@/test-utils/mocks/mockTunnellers";
 import { Tunneller } from "@/types/tunnellers";
 
 describe("getUniqueDetachments", () => {

@@ -6,32 +6,6 @@ import "@testing-library/jest-dom";
 import { MapControls } from "@/components/WorksMap/MapControls/MapControls";
 import { dateToDay } from "@/components/WorksMap/utils/mapParams";
 
-jest.mock("next-intl", () => ({
-  useTranslations: () => (key: string) =>
-    ({
-      filters: "Filters",
-      timePeriods: "Time periods",
-      workTypes: "Work types",
-      relatedChapterLabel: "About this period",
-      closeRelatedChapterLink: "Close related chapter link",
-      "periods.undergroundWarfare": "Underground Warfare",
-      "periods.preparationsForTheBattleOfArras":
-        "Preparations for the Battle of Arras",
-      "periods.eastOfArrasTrenchWorks": "East of Arras Trench Works",
-      "periods.germanSpringOffensive1918": "1918 German Spring Offensive",
-      "periods.preparationsForTheAlliedOffensives":
-        "Preparations for the Allied Offensives",
-      "periods.militaryBridgingOperations": "Military Bridging Operations",
-      "periods.postArmisticeBridgingOperations":
-        "Post-Armistice Bridging Operations",
-      work: "work",
-      works: "works",
-      toggleFilters: "Toggle filters",
-      zoomIn: "Zoom in",
-      zoomOut: "Zoom out",
-    })[key] ?? key,
-}));
-
 jest.mock("../../../../components/Dialog/Dialog", () => ({
   Dialog: ({
     children,

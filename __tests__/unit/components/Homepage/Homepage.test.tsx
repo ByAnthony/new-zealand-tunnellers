@@ -1,7 +1,7 @@
 import { render, act } from "@testing-library/react";
-import { mockHistory } from "__tests__/unit/utils/mocks/mockHistory";
 
 import { HomePage } from "@/components/HomePage/HomePage";
+import { mockHistory } from "@/test-utils/mocks/mockHistory";
 import * as useWindowDimensionsHook from "@/utils/helpers/useWindowDimensions";
 
 jest.mock("@/utils/helpers/useWindowDimensions");
