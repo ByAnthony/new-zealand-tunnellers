@@ -69,11 +69,13 @@ describe("MapControls", () => {
   });
 
   function renderMapControls({
+    visibleCount = 8,
     selectedTypes = new Set<string>(),
     initialPeriodKey = null,
     computeAvailableTypes = () => new Set(["Dugout"]),
     computeVisibleCount = () => 8,
   }: {
+    visibleCount?: number;
     selectedTypes?: Set<string>;
     initialPeriodKey?: string | null;
     computeAvailableTypes?: (_start: number, _end: number) => Set<string>;
@@ -85,7 +87,7 @@ describe("MapControls", () => {
   } = {}) {
     return render(
       <MapControls
-        visibleCount={8}
+        visibleCount={visibleCount}
         locale="en"
         types={["Dugout"]}
         selectedTypes={selectedTypes}
@@ -126,6 +128,12 @@ describe("MapControls", () => {
 
     fireEvent.click(screen.getByRole("button", { name: "Dugout" }));
     expect(screen.getByTestId("dialog-count")).toHaveTextContent("3/10");
+  });
+
+  test("uses the singular work label when there are zero visible works", () => {
+    renderMapControls({ visibleCount: 0 });
+
+    expect(screen.getByText("0 work")).toBeInTheDocument();
   });
 
   test("keeps the badge count based on applied filters while the dialog is open", () => {

@@ -245,6 +245,8 @@ export function MapControls({
   ).length;
   const activeFilterCount =
     (initialPeriodKey ? 1 : 0) + activeSelectedTypeCount;
+  const workCountLabel =
+    visibleCount === 0 || visibleCount === 1 ? t("work") : t("works");
 
   const relatedChapterId = getChapterIdForPeriod(currentPeriodKey);
 
@@ -348,7 +350,7 @@ export function MapControls({
           {relatedChapterCard}
           <div className={STYLES["mobile-top"]}>
             <div className={STYLES["slider-count"]}>
-              {visibleCount} {visibleCount === 1 ? t("work") : t("works")}
+              {visibleCount} {workCountLabel}
             </div>
             {filtersToggleButton}
             {zoomInButton}
@@ -395,7 +397,7 @@ export function MapControls({
             +
           </button>
           <div className={STYLES["slider-count"]}>
-            {visibleCount} {visibleCount === 1 ? t("work") : t("works")}
+            {visibleCount} {workCountLabel}
           </div>
           <button
             onClick={() => onZoom(-1)}
