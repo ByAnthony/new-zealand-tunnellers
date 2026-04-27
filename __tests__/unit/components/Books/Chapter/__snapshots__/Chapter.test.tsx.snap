@@ -93,22 +93,15 @@ exports[`Chapter matches the snapshot 1`] = `
         </button>
       </h3>
       <p>
-        Anthony Byledbal, 
+        Anthony Byledbal, « Chapitre 1 : Les tunneliers des antipodes », in 
+        <em>
+          Les Kiwis aussi creusent des tunnels
+        </em>
+        , New Zealand Tunnellers Website, 2025 (2009), Consulté le : 1 janvier 2025. 
         <span>
-          « Chapitre 1  : Les tunneliers des antipodes », in 
-          <em>
-            Les Kiwis aussi creusent des tunnels
-          </em>
-        </span>
-        , New Zealand Tunnellers Website, 2025 (2009), Consulté le: 1 janvier 2025. 
-        <span>
-          URL:
+          URL : 
           <wbr />
-          www.nztunnellers
-          <wbr />
-          .com
-          <wbr />
-          /fr/books/kiwis-dig-tunnels-too/chapitre-1-les-tunneliers-des-antipodes
+          www.nztunnellers.com/fr/books/kiwis-dig-tunnels-too/chapitre-1-les-tunneliers-des-antipodes
         </span>
       </p>
     </div>

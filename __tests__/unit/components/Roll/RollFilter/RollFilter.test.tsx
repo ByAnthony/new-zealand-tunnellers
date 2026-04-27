@@ -8,7 +8,7 @@ const defaultProps = {
     { id: 1, label: "Main Body" },
     { id: 2, label: "1st Reinforcements" },
   ],
-  uniquecorps: [
+  uniqueCorps: [
     { id: null, label: "Tunnelling Corps" },
     { id: 5, label: "Engineers" },
   ],
@@ -50,8 +50,8 @@ const defaultProps = {
   handleBirthSliderChange: jest.fn(),
   handleDeathSliderChange: jest.fn(),
   handleRankFilter: jest.fn(),
-  handleUnknwonBirthYear: jest.fn(),
-  handleUnknwonDeathYear: jest.fn(),
+  handleUnknownBirthYear: jest.fn(),
+  handleUnknownDeathYear: jest.fn(),
 };
 
 describe("RollFilter", () => {
@@ -126,17 +126,17 @@ describe("RollFilter", () => {
     });
   });
 
-  test("calls handleUnknwonBirthYear when the unknown birth year checkbox is clicked", () => {
+  test("calls handleUnknownBirthYear when the unknown birth year checkbox is clicked", () => {
     render(<RollFilter {...defaultProps} />);
     const checkbox = screen.getByLabelText("Unknown birth year");
     fireEvent.click(checkbox);
-    expect(defaultProps.handleUnknwonBirthYear).toHaveBeenCalledWith("unknown");
+    expect(defaultProps.handleUnknownBirthYear).toHaveBeenCalledWith("unknown");
   });
 
-  test("calls handleUnknwonDeathYear when the unknown death year checkbox is clicked", () => {
+  test("calls handleUnknownDeathYear when the unknown death year checkbox is clicked", () => {
     render(<RollFilter {...defaultProps} />);
     const checkbox = screen.getByLabelText("Unknown death year");
     fireEvent.click(checkbox);
-    expect(defaultProps.handleUnknwonDeathYear).toHaveBeenCalledWith("unknown");
+    expect(defaultProps.handleUnknownDeathYear).toHaveBeenCalledWith("unknown");
   });
 });

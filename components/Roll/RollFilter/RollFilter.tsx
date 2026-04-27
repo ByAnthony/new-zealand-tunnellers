@@ -13,7 +13,7 @@ import { rankCategoryTranslationKey } from "../utils/rankUtils";
 type Props = {
   className: string;
   uniqueDetachments: FilterOption[];
-  uniquecorps: FilterOption[];
+  uniqueCorps: FilterOption[];
   uniqueBirthYears: string[];
   uniqueDeathYears: string[];
   sortedRanks: {
@@ -39,14 +39,14 @@ type Props = {
   handleBirthSliderChange: (value: number | number[]) => void;
   handleDeathSliderChange: (value: number | number[]) => void;
   handleRankFilter: (rank: { [key: string]: (number | null)[] }) => void;
-  handleUnknwonBirthYear: (unknownBirthYear: string) => void;
-  handleUnknwonDeathYear: (unknownDeathYear: string) => void;
+  handleUnknownBirthYear: (unknownBirthYear: string) => void;
+  handleUnknownDeathYear: (unknownDeathYear: string) => void;
 };
 
 export function RollFilter({
   className,
   uniqueDetachments,
-  uniquecorps,
+  uniqueCorps,
   uniqueBirthYears,
   uniqueDeathYears,
   sortedRanks,
@@ -60,8 +60,8 @@ export function RollFilter({
   handleBirthSliderChange,
   handleDeathSliderChange,
   handleRankFilter,
-  handleUnknwonBirthYear,
-  handleUnknwonDeathYear,
+  handleUnknownBirthYear,
+  handleUnknownDeathYear,
 }: Props) {
   const t = useTranslations("roll");
 
@@ -92,7 +92,7 @@ export function RollFilter({
       </div>
       <div className={STYLES.filters}>
         <h3>{t("corps")}</h3>
-        {uniquecorps.map((corps) => (
+        {uniqueCorps.map((corps) => (
           <div key={String(corps.id)}>
             <label>
               <input
@@ -149,7 +149,7 @@ export function RollFilter({
               name={"unknownBirthYear"}
               value={"unknownBirthYear"}
               onChange={() =>
-                handleUnknwonBirthYear(
+                handleUnknownBirthYear(
                   filters.unknownBirthYear === "unknown" ? "" : "unknown",
                 )
               }
@@ -196,7 +196,7 @@ export function RollFilter({
               name={"unknownDeathYear"}
               value={"unknownDeathYear"}
               onChange={() =>
-                handleUnknwonDeathYear(
+                handleUnknownDeathYear(
                   filters.unknownDeathYear === "unknown" ? "" : "unknown",
                 )
               }
