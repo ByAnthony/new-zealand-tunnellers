@@ -7,6 +7,7 @@ import { HowToCite } from "@/components/HowToCite/HowToCite";
 import { TimelineEvents } from "@/components/Timeline/TimelineEvents/TimelineEvents";
 import { Title } from "@/components/Title/Title";
 import { TunnellerProfile } from "@/types/tunneller";
+import { useStoredReturnUrl } from "@/utils/helpers/useStoredReturnUrl";
 
 import STYLES from "./Timeline.module.scss";
 
@@ -18,12 +19,7 @@ export function Timeline({ tunneller }: Props) {
   const t = useTranslations("timeline");
   const locale = useLocale();
   const localePrefix = locale === "en" ? "" : `/${locale}`;
-
-  const returnUrl =
-    typeof window !== "undefined"
-      ? (localStorage.getItem("tunnellers:return") ??
-        `${localePrefix}/tunnellers`)
-      : `${localePrefix}/tunnellers`;
+  const returnUrl = useStoredReturnUrl(`${localePrefix}/tunnellers`);
 
   return (
     <div className={STYLES.timeline}>
