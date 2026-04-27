@@ -38,6 +38,8 @@ type Props = {
   handleCorpsFilter: (corpsId: number | null) => void;
   handleBirthSliderChange: (value: number | number[]) => void;
   handleDeathSliderChange: (value: number | number[]) => void;
+  handleSliderDragStart: () => void;
+  handleSliderDragComplete: () => void;
   handleRankFilter: (rank: { [key: string]: (number | null)[] }) => void;
   handleUnknownBirthYear: (unknownBirthYear: string) => void;
   handleUnknownDeathYear: (unknownDeathYear: string) => void;
@@ -59,6 +61,8 @@ export function RollFilter({
   handleCorpsFilter,
   handleBirthSliderChange,
   handleDeathSliderChange,
+  handleSliderDragStart,
+  handleSliderDragComplete,
   handleRankFilter,
   handleUnknownBirthYear,
   handleUnknownDeathYear,
@@ -126,7 +130,9 @@ export function RollFilter({
             min={Number(uniqueBirthYears[0])}
             max={Number(uniqueBirthYears[uniqueBirthYears.length - 1])}
             value={[Number(startBirthYear), Number(endBirthYear)]}
+            onBeforeChange={handleSliderDragStart}
             onChange={handleBirthSliderChange}
+            onChangeComplete={handleSliderDragComplete}
             allowCross={false}
             ariaLabelForHandle={[t("birthYearStart"), t("birthYearEnd")]}
             styles={{
@@ -173,7 +179,9 @@ export function RollFilter({
             min={Number(uniqueDeathYears[0])}
             max={Number(uniqueDeathYears[uniqueDeathYears.length - 1])}
             value={[Number(startDeathYear), Number(endDeathYear)]}
+            onBeforeChange={handleSliderDragStart}
             onChange={handleDeathSliderChange}
+            onChangeComplete={handleSliderDragComplete}
             allowCross={false}
             ariaLabelForHandle={[t("deathYearStart"), t("deathYearEnd")]}
             styles={{
