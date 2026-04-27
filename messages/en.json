@@ -162,6 +162,9 @@
     "endOfService": "End of Service",
     "endOfServiceUK": "End of Service in the United Kingdom",
     "endOfServiceDeserter": "End of Service as deserter",
+    "transferToEngland": "Transfer to England",
+    "transferToNewZealand": "Transfer to New Zealand",
+    "transferred": "Transferred",
     "enlistedAtAge": "{title} at the age of {age}",
     "companyEventAlt": "Image for {title}",
     "companyEventAltFallback": "Company event"

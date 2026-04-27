@@ -94,6 +94,7 @@ export type SingleEventData = {
   date: string;
   event: string;
   eventKey?: string | null;
+  descriptionKey?: string | null;
   title: string | null;
   titleKey?: string | null;
   image: string | null;
@@ -209,6 +210,7 @@ export type Transport = {
 
 export type EventDetail = {
   description: string;
+  descriptionKey?: string | null;
   title: string | null;
   titleKey?: string | null;
   image: string | null;

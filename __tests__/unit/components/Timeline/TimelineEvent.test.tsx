@@ -202,3 +202,84 @@ describe("TimelineEvent with buried and grave reference", () => {
     expect(screen.getByText("1 A 26")).toBeInTheDocument();
   });
 });
+
+describe("TimelineEvent with translated helper-generated labels", () => {
+  test("renders transferred and transfer labels from titleKey", () => {
+    render(
+      <TimelineEvent
+        event={[
+          {
+            description: "1st Battalion Auckland Regiment",
+            title: null,
+            titleKey: "Transferred",
+            image: null,
+          },
+          {
+            description: "HMNZT 300 Ulimaroa",
+            title: null,
+            titleKey: "Transfer to New Zealand",
+            image: null,
+          },
+          {
+            description: "HMNZT 100 Athenic",
+            title: null,
+            titleKey: "Transfer to England",
+            image: null,
+          },
+        ]}
+        ageAtEnlistment={null}
+      />,
+    );
+
+    expect(screen.getByText("Transferred")).toBeInTheDocument();
+    expect(
+      screen.getByText("1st Battalion Auckland Regiment"),
+    ).toBeInTheDocument();
+    expect(screen.getByText("Transfer to New Zealand")).toBeInTheDocument();
+    expect(screen.getByText("HMNZT 300 Ulimaroa")).toBeInTheDocument();
+    expect(screen.getByText("Transfer to England")).toBeInTheDocument();
+    expect(screen.getByText("HMNZT 100 Athenic")).toBeInTheDocument();
+  });
+
+  test("renders UK discharge demobilization copy from descriptionKey", () => {
+    render(
+      <TimelineEvent
+        event={[
+          {
+            description: "",
+            descriptionKey: "endOfServiceUK",
+            title: null,
+            titleKey: "Demobilization",
+            image: null,
+          },
+        ]}
+        ageAtEnlistment={null}
+      />,
+    );
+
+    expect(screen.getByText("Demobilisation")).toBeInTheDocument();
+    expect(
+      screen.getByText("End of Service in the United Kingdom"),
+    ).toBeInTheDocument();
+  });
+
+  test("renders general demobilization copy from descriptionKey", () => {
+    render(
+      <TimelineEvent
+        event={[
+          {
+            description: "",
+            descriptionKey: "demobilization",
+            title: null,
+            titleKey: "End of Service",
+            image: null,
+          },
+        ]}
+        ageAtEnlistment={null}
+      />,
+    );
+
+    expect(screen.getByText("End of Service")).toBeInTheDocument();
+    expect(screen.getByText("Demobilisation")).toBeInTheDocument();
+  });
+});

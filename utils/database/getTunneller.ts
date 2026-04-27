@@ -101,8 +101,7 @@ export async function getTunneller(
     ? {
         date: profile.transport_uk_start,
         event: `${profile.transport_uk_ref} ${profile.transport_uk_vessel}`,
-        title:
-          locale === "en" ? "Transfer to England" : "Transfert en Angleterre",
+        title: null,
         titleKey: "Transfer to England",
         image: null,
       }
@@ -112,10 +111,7 @@ export async function getTunneller(
     ? {
         date: profile.transport_nz_start,
         event: `${profile.transport_nz_ref} ${profile.transport_nz_vessel}`,
-        title:
-          locale === "en"
-            ? "Transfer to New Zealand"
-            : "Transfert en Nouvelle-Zélande",
+        title: null,
         titleKey: "Transfer to New Zealand",
         image: null,
       }
@@ -126,7 +122,7 @@ export async function getTunneller(
       ? {
           date: profile.transferred_to_date,
           event: profile.transferred_to_unit,
-          title: locale === "en" ? "Transferred" : "Transféré",
+          title: null,
           titleKey: "Transferred",
           image: null,
         }
@@ -172,7 +168,6 @@ export async function getTunneller(
       profile.demobilization_date,
       profile.discharge_uk,
       profile.has_deserted,
-      locale,
     ),
   ]
     .concat(tunnellerEvents, getWarDeathEvents(death))
