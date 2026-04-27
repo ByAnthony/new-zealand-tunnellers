@@ -576,6 +576,9 @@ describe("getGroupedEventsByYear", () => {
 });
 
 describe("getFrontEvents", () => {
+  const flattenFrontEvents = (eventsByYear: Record<string, Event[]>) =>
+    Object.values(eventsByYear).flatMap((events) => events);
+
   test("should return timeline", () => {
     const mockCompanyEvent: SingleEventData = {
       date: "1916-11-11",
@@ -778,6 +781,268 @@ describe("getFrontEvents", () => {
       ).toEqual(expected);
     },
   );
+
+  test("includes posted events in the merged timeline", () => {
+    const companyEvents: SingleEventData[] = [];
+    const tunnellerEvents: SingleEventData[] = [
+      {
+        date: "1916-06-13",
+        event: "Something happened",
+        title: null,
+        image: null,
+      },
+    ];
+    const postedEvents: SingleEventData[] = [
+      {
+        date: "1915-08-01",
+        event: "Reinforcement",
+        title: "Posted",
+        image: null,
+      },
+      {
+        date: "1915-08-01",
+        event: "Camp Sling",
+        title: "Trained",
+        image: null,
+      },
+    ];
+
+    const result = getFrontEvents(
+      companyEvents,
+      tunnellerEvents,
+      [],
+      postedEvents,
+    );
+
+    expect(result["1915"]).toEqual([
+      {
+        date: { year: "1915", dayMonth: "1 August" },
+        event: [
+          { description: "Reinforcement", title: "Posted", image: null },
+          { description: "Camp Sling", title: "Trained", image: null },
+        ],
+      },
+    ]);
+  });
+
+  test("keeps company movement events before transferred when they share the same date", () => {
+    const companyEvents: SingleEventData[] = [
+      {
+        date: "1917-11-28",
+        event: "Marched in to NZ Base Depot, Etaples",
+        title: "1st Battalion Auckland Regiment",
+        image: null,
+      },
+    ];
+
+    const tunnellerEvents: SingleEventData[] = [
+      {
+        date: "1917-11-28",
+        event: "1st Battalion Auckland Regiment",
+        title: "Transferred",
+        image: null,
+      },
+    ];
+
+    const result = flattenFrontEvents(
+      getFrontEvents(companyEvents, tunnellerEvents, [], []),
+    );
+
+    expect(result).toEqual([
+      {
+        date: { year: "1917", dayMonth: "28 November" },
+        event: [
+          {
+            description: "Marched in to NZ Base Depot, Etaples",
+            title: "1st Battalion Auckland Regiment",
+            image: null,
+          },
+          {
+            description: "1st Battalion Auckland Regiment",
+            title: "Transferred",
+            image: null,
+          },
+        ],
+      },
+    ]);
+  });
+
+  test("uses titleKey when deciding transfer filtering", () => {
+    const companyEvents: SingleEventData[] = [];
+    const tunnellerEvents: SingleEventData[] = [
+      {
+        date: "1917-09-28",
+        event: "Something happened",
+        title: "Mutated transfer label",
+        titleKey: "Transferred",
+        image: null,
+      },
+      {
+        date: "1917-12-02",
+        event: "Should be removed",
+        title: null,
+        image: null,
+      },
+      {
+        date: "1918-08-10",
+        event: "Something happened",
+        title: "Killed in action",
+        image: null,
+      },
+      {
+        date: "1918-08-10",
+        event: "Something happened",
+        title: "Buried",
+        image: null,
+      },
+      {
+        date: "1918-08-10",
+        event: "Something happened",
+        title: "Localized grave label",
+        titleKey: "Grave reference",
+        image: null,
+      },
+    ];
+
+    const result = flattenFrontEvents(
+      getFrontEvents(companyEvents, tunnellerEvents, [], []),
+    );
+
+    expect(result).toEqual([
+      {
+        date: { year: "1917", dayMonth: "28 September" },
+        event: [
+          {
+            description: "Something happened",
+            title: "Mutated transfer label",
+            titleKey: "Transferred",
+            image: null,
+          },
+        ],
+      },
+      {
+        date: { year: "1918", dayMonth: "10 August" },
+        event: [
+          {
+            description: "Something happened",
+            title: "Killed in action",
+            image: null,
+          },
+          {
+            description: "Something happened",
+            title: "Buried",
+            image: null,
+          },
+          {
+            description: "Something happened",
+            title: "Localized grave label",
+            titleKey: "Grave reference",
+            image: null,
+          },
+        ],
+      },
+    ]);
+  });
+
+  test("keeps non-whitelisted company events after transfer to New Zealand but removes whitelisted ones in the current implementation", () => {
+    const mockTunnellerEvent: SingleEventData = {
+      date: "1916-06-13",
+      event: "Something happened",
+      title: null,
+      image: null,
+    };
+    const companyEvents: SingleEventData[] = [
+      {
+        date: "1917-10-28",
+        event: "Should be filtered",
+        title: "Major event",
+        image: "major.jpg",
+      },
+      {
+        date: "1917-11-28",
+        event: "Should be kept",
+        title: "The Company",
+        image: "major.jpg",
+      },
+    ];
+    const tunnellerEvents: SingleEventData[] = [
+      {
+        ...mockTunnellerEvent,
+        date: "1917-09-28",
+        title: "Transfer to New Zealand",
+      },
+      { ...mockTunnellerEvent, date: "1918-12-02", title: "End of Service" },
+    ];
+
+    const result = flattenFrontEvents(
+      getFrontEvents(companyEvents, tunnellerEvents, [], []),
+    );
+
+    expect(
+      result.some((entry) =>
+        entry.event.some(
+          (detail) =>
+            detail.title === "Major event" &&
+            detail.description === "Should be filtered",
+        ),
+      ),
+    ).toBe(true);
+    expect(
+      result.some((entry) =>
+        entry.event.some(
+          (detail) =>
+            detail.title === "The Company" &&
+            detail.description === "Should be kept",
+        ),
+      ),
+    ).toBe(false);
+  });
+
+  test("does not filter after transfer to New Zealand when no end-of-service marker exists", () => {
+    const companyEvents: SingleEventData[] = [
+      {
+        date: "1917-10-28",
+        event: "Still visible",
+        title: "Major event",
+        image: "major.jpg",
+      },
+    ];
+    const tunnellerEvents: SingleEventData[] = [
+      {
+        date: "1917-09-28",
+        event: "Something happened",
+        title: "Transfer to New Zealand",
+        image: null,
+      },
+    ];
+
+    const result = flattenFrontEvents(
+      getFrontEvents(companyEvents, tunnellerEvents, [], []),
+    );
+
+    expect(result).toEqual([
+      {
+        date: { year: "1917", dayMonth: "28 September" },
+        event: [
+          {
+            description: "Something happened",
+            title: "Transfer to New Zealand",
+            image: null,
+          },
+        ],
+      },
+      {
+        date: { year: "1917", dayMonth: "28 October" },
+        event: [
+          {
+            description: "Still visible",
+            title: "Major event",
+            image: "major.jpg",
+          },
+        ],
+      },
+    ]);
+  });
 });
 
 describe("isDeserter", () => {
