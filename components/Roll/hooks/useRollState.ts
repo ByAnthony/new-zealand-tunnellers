@@ -126,6 +126,7 @@ export function useRollState({ tunnellers, locale }: Params) {
     parsedUrlState.sortOrder,
   );
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isSliderDragging, setIsSliderDragging] = useState(false);
   const searchParamsString = searchParams.toString();
 
   useEffect(() => {
@@ -157,6 +158,7 @@ export function useRollState({ tunnellers, locale }: Params) {
       isFirstRenderRef.current = false;
       return;
     }
+    if (isSliderDragging) return;
     const qs = filtersToSearchParams(
       filters,
       currentPage,
@@ -166,7 +168,14 @@ export function useRollState({ tunnellers, locale }: Params) {
     const currentQs = window.location.search.replace(/^\?/, "");
     if (qs === currentQs) return;
     router.replace(`?${qs}`, { scroll: false });
-  }, [filters, currentPage, router, filterLookups, sortOrder]);
+  }, [
+    filters,
+    currentPage,
+    router,
+    filterLookups,
+    sortOrder,
+    isSliderDragging,
+  ]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -402,6 +411,14 @@ export function useRollState({ tunnellers, locale }: Params) {
 
   const closeDialog = useCallback(() => setIsDialogOpen(false), []);
   const openDialog = useCallback(() => setIsDialogOpen(true), []);
+  const handleSliderDragStart = useCallback(
+    () => setIsSliderDragging(true),
+    [],
+  );
+  const handleSliderDragComplete = useCallback(
+    () => setIsSliderDragging(false),
+    [],
+  );
   const handleSortToggle = useCallback(() => {
     setCurrentPage(1);
     setSortOrder((current) => (current === "asc" ? "desc" : "asc"));
@@ -422,6 +439,8 @@ export function useRollState({ tunnellers, locale }: Params) {
     handleCorpsFilter,
     handleBirthSliderChange,
     handleDeathSliderChange,
+    handleSliderDragStart,
+    handleSliderDragComplete,
     handleRankFilter,
     handleUnknownBirthYear,
     handleUnknownDeathYear,
