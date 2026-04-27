@@ -222,9 +222,33 @@ const mergeTimelineEvents = (
   enlistmentEvents: SingleEventData[] | [],
   postedEvents: SingleEventData[] | [],
 ) => {
+  const getSameDayPriority = (event: SingleEventData) => {
+    switch (getFrontEventKey(event)) {
+      case "Transferred":
+      case "Transfer to New Zealand":
+      case "End of Service":
+      case "Demobilization":
+        return 1;
+      default:
+        return 0;
+    }
+  };
+
   return tunnellerEvents
     .concat(enlistmentEvents, postedEvents, companyEvents)
-    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+    .map((event, index) => ({ event, index }))
+    .sort((a, b) => {
+      const dateDiff =
+        new Date(a.event.date).getTime() - new Date(b.event.date).getTime();
+      if (dateDiff !== 0) return dateDiff;
+
+      const priorityDiff =
+        getSameDayPriority(a.event) - getSameDayPriority(b.event);
+      if (priorityDiff !== 0) return priorityDiff;
+
+      return a.index - b.index;
+    })
+    .map(({ event }) => event);
 };
 
 const filterTransferredEvents = (events: SingleEventData[]) => {

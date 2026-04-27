@@ -825,6 +825,48 @@ describe("getFrontEvents", () => {
     ]);
   });
 
+  test("keeps company movement events before transferred when they share the same date", () => {
+    const companyEvents: SingleEventData[] = [
+      {
+        date: "1917-11-28",
+        event: "Marched in to NZ Base Depot, Etaples",
+        title: "1st Battalion Auckland Regiment",
+        image: null,
+      },
+    ];
+
+    const tunnellerEvents: SingleEventData[] = [
+      {
+        date: "1917-11-28",
+        event: "1st Battalion Auckland Regiment",
+        title: "Transferred",
+        image: null,
+      },
+    ];
+
+    const result = flattenFrontEvents(
+      getFrontEvents(companyEvents, tunnellerEvents, [], []),
+    );
+
+    expect(result).toEqual([
+      {
+        date: { year: "1917", dayMonth: "28 November" },
+        event: [
+          {
+            description: "Marched in to NZ Base Depot, Etaples",
+            title: "1st Battalion Auckland Regiment",
+            image: null,
+          },
+          {
+            description: "1st Battalion Auckland Regiment",
+            title: "Transferred",
+            image: null,
+          },
+        ],
+      },
+    ]);
+  });
+
   test("uses titleKey when deciding transfer filtering", () => {
     const companyEvents: SingleEventData[] = [];
     const tunnellerEvents: SingleEventData[] = [
