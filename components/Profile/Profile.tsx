@@ -11,6 +11,7 @@ import { ProfileSummary } from "@/components/Profile/ProfileSummary/ProfileSumma
 import { Title } from "@/components/Title/Title";
 import { TunnellerProfile } from "@/types/tunneller";
 import { displayBiographyDates } from "@/utils/helpers/roll";
+import { useStoredReturnUrl } from "@/utils/helpers/useStoredReturnUrl";
 
 import STYLES from "./Profile.module.scss";
 
@@ -22,12 +23,7 @@ export function Profile({ tunneller }: Props) {
   const t = useTranslations("profile");
   const locale = useLocale();
   const localePrefix = locale === "en" ? "" : `/${locale}`;
-
-  const returnUrl =
-    typeof window !== "undefined"
-      ? (localStorage.getItem("tunnellers:return") ??
-        `${localePrefix}/tunnellers`)
-      : `${localePrefix}/tunnellers`;
+  const returnUrl = useStoredReturnUrl(`${localePrefix}/tunnellers`);
 
   return (
     <>
