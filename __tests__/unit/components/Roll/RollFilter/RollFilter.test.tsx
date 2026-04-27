@@ -49,6 +49,8 @@ const defaultProps = {
   handleCorpsFilter: jest.fn(),
   handleBirthSliderChange: jest.fn(),
   handleDeathSliderChange: jest.fn(),
+  handleSliderDragStart: jest.fn(),
+  handleSliderDragComplete: jest.fn(),
   handleRankFilter: jest.fn(),
   handleUnknownBirthYear: jest.fn(),
   handleUnknownDeathYear: jest.fn(),
