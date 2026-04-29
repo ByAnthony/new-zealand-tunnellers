@@ -28,6 +28,9 @@ function RollStateHarness() {
       >
         change birth years
       </button>
+      <button onClick={() => rollFiltersProps.handleDetachmentFilter(1)}>
+        toggle detachment
+      </button>
       <button onClick={rollFiltersProps.handleSliderDragComplete}>
         complete drag
       </button>
@@ -69,5 +72,21 @@ describe("useRollState", () => {
     await waitFor(() => {
       expect(mockReplace).not.toHaveBeenCalled();
     });
+  });
+
+  test("updates the URL with history state when a non-slider filter is clicked", async () => {
+    render(<RollStateHarness />);
+
+    fireEvent.click(screen.getByText("toggle detachment"));
+
+    await waitFor(() => {
+      expect(window.history.replaceState).toHaveBeenCalledWith(
+        null,
+        "",
+        expect.stringContaining("?detachment=main-body"),
+      );
+    });
+
+    expect(mockReplace).not.toHaveBeenCalled();
   });
 });
