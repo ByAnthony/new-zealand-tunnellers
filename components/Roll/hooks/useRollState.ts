@@ -158,6 +158,23 @@ export function useRollState({ tunnellers, locale }: Params) {
       isFirstRenderRef.current = false;
       return;
     }
+    if (!isSliderDragging) return;
+    const qs = filtersToSearchParams(
+      filters,
+      currentPage,
+      sortOrder,
+      filterLookups,
+    );
+    const currentQs = window.location.search.replace(/^\?/, "");
+    if (qs === currentQs) return;
+    const url = qs
+      ? `${window.location.pathname}?${qs}`
+      : window.location.pathname;
+    window.history.replaceState(null, "", url);
+  }, [filters, currentPage, filterLookups, sortOrder, isSliderDragging]);
+
+  useEffect(() => {
+    if (isFirstRenderRef.current) return;
     if (isSliderDragging) return;
     const qs = filtersToSearchParams(
       filters,
