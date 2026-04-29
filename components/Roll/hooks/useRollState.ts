@@ -1,7 +1,7 @@
 "use client";
 
 import isEqual from "lodash/isEqual";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { Tunneller } from "@/types/tunnellers";
@@ -32,7 +32,6 @@ type Params = {
 
 export function useRollState({ tunnellers, locale }: Params) {
   const searchParams = useSearchParams();
-  const router = useRouter();
   const isFirstRenderRef = useRef(true);
   const previousSearchParamsRef = useRef(searchParams.toString());
 
@@ -128,6 +127,14 @@ export function useRollState({ tunnellers, locale }: Params) {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isSliderDragging, setIsSliderDragging] = useState(false);
   const searchParamsString = searchParams.toString();
+  const syncUrl = useCallback((qs: string) => {
+    const currentQs = window.location.search.replace(/^\?/, "");
+    if (qs === currentQs) return;
+    const url = qs
+      ? `${window.location.pathname}?${qs}`
+      : window.location.pathname;
+    window.history.replaceState(null, "", url);
+  }, []);
 
   useEffect(() => {
     if (previousSearchParamsRef.current === searchParamsString) return;
@@ -158,6 +165,25 @@ export function useRollState({ tunnellers, locale }: Params) {
       isFirstRenderRef.current = false;
       return;
     }
+    if (!isSliderDragging) return;
+    const qs = filtersToSearchParams(
+      filters,
+      currentPage,
+      sortOrder,
+      filterLookups,
+    );
+    syncUrl(qs);
+  }, [
+    filters,
+    currentPage,
+    filterLookups,
+    sortOrder,
+    isSliderDragging,
+    syncUrl,
+  ]);
+
+  useEffect(() => {
+    if (isFirstRenderRef.current) return;
     if (isSliderDragging) return;
     const qs = filtersToSearchParams(
       filters,
@@ -165,16 +191,14 @@ export function useRollState({ tunnellers, locale }: Params) {
       sortOrder,
       filterLookups,
     );
-    const currentQs = window.location.search.replace(/^\?/, "");
-    if (qs === currentQs) return;
-    router.replace(`?${qs}`, { scroll: false });
+    syncUrl(qs);
   }, [
     filters,
     currentPage,
-    router,
     filterLookups,
     sortOrder,
     isSliderDragging,
+    syncUrl,
   ]);
 
   useEffect(() => {
