@@ -180,13 +180,15 @@ describe("getJoinEvents", () => {
         {
           date: "2020-01-01",
           event: "Unit A",
-          title: joinType,
+          title: null,
+          titleKey: joinType,
           image: null,
         },
         {
           date: "2020-02-01",
           event: "Location A",
-          title: "Trained",
+          title: null,
+          titleKey: "Trained",
           image: null,
         },
       ];
@@ -211,13 +213,15 @@ describe("getJoinEvents", () => {
         {
           date: "2020-02-01",
           event: "Unit B",
-          title: joinType,
+          title: null,
+          titleKey: joinType,
           image: null,
         },
         {
           date: "2020-02-01",
           event: "Location B",
-          title: "Trained",
+          title: null,
+          titleKey: "Trained",
           image: null,
         },
       ];
@@ -606,8 +610,18 @@ describe("getFrontEvents", () => {
     ];
 
     const mockEnlistment: SingleEventData[] = [
-      { ...mockTunnellerEvent, date: "1915-09-01", title: "Enlisted" },
-      { ...mockTunnellerEvent, date: "1915-10-10", title: "Trained" },
+      {
+        ...mockTunnellerEvent,
+        date: "1915-09-01",
+        title: null,
+        titleKey: "Enlisted",
+      },
+      {
+        ...mockTunnellerEvent,
+        date: "1915-10-10",
+        title: null,
+        titleKey: "Trained",
+      },
     ];
 
     expect(
@@ -653,8 +667,18 @@ describe("getFrontEvents", () => {
     ];
 
     const mockEnlistment: SingleEventData[] = [
-      { ...mockTunnellerEvent, date: "1915-09-01", title: "Enlisted" },
-      { ...mockTunnellerEvent, date: "1915-10-10", title: "Trained" },
+      {
+        ...mockTunnellerEvent,
+        date: "1915-09-01",
+        title: null,
+        titleKey: "Enlisted",
+      },
+      {
+        ...mockTunnellerEvent,
+        date: "1915-10-10",
+        title: null,
+        titleKey: "Trained",
+      },
     ];
 
     expect(
@@ -698,8 +722,18 @@ describe("getFrontEvents", () => {
     ];
 
     const mockEnlistment: SingleEventData[] = [
-      { ...mockTunnellerEvent, date: "1915-09-01", title: "Enlisted" },
-      { ...mockTunnellerEvent, date: "1915-10-10", title: "Trained" },
+      {
+        ...mockTunnellerEvent,
+        date: "1915-09-01",
+        title: null,
+        titleKey: "Enlisted",
+      },
+      {
+        ...mockTunnellerEvent,
+        date: "1915-10-10",
+        title: null,
+        titleKey: "Trained",
+      },
     ];
 
     expect(
@@ -767,8 +801,18 @@ describe("getFrontEvents", () => {
       ];
 
       const mockEnlistment: SingleEventData[] = [
-        { ...mockTunnellerEvent, date: "1915-09-01", title: "Enlisted" },
-        { ...mockTunnellerEvent, date: "1915-10-10", title: "Trained" },
+        {
+          ...mockTunnellerEvent,
+          date: "1915-09-01",
+          title: null,
+          titleKey: "Enlisted",
+        },
+        {
+          ...mockTunnellerEvent,
+          date: "1915-10-10",
+          title: null,
+          titleKey: "Trained",
+        },
       ];
 
       expect(
@@ -796,13 +840,15 @@ describe("getFrontEvents", () => {
       {
         date: "1915-08-01",
         event: "Reinforcement",
-        title: "Posted",
+        title: null,
+        titleKey: "Posted",
         image: null,
       },
       {
         date: "1915-08-01",
         event: "Camp Sling",
-        title: "Trained",
+        title: null,
+        titleKey: "Trained",
         image: null,
       },
     ];
@@ -818,8 +864,18 @@ describe("getFrontEvents", () => {
       {
         date: { year: "1915", dayMonth: "1 August" },
         event: [
-          { description: "Reinforcement", title: "Posted", image: null },
-          { description: "Camp Sling", title: "Trained", image: null },
+          {
+            description: "Reinforcement",
+            title: null,
+            titleKey: "Posted",
+            image: null,
+          },
+          {
+            description: "Camp Sling",
+            title: null,
+            titleKey: "Trained",
+            image: null,
+          },
         ],
       },
     ]);
