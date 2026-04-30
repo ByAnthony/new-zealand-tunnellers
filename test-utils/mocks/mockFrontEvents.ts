@@ -178,7 +178,8 @@ export const mockFrontEventsWithCompanyEvents = {
         {
           description: "Something happened",
           image: null,
-          title: "Enlisted",
+          title: null,
+          titleKey: "Enlisted",
         },
       ],
     },
@@ -191,7 +192,8 @@ export const mockFrontEventsWithCompanyEvents = {
         {
           description: "Something happened",
           image: null,
-          title: "Trained",
+          title: null,
+          titleKey: "Trained",
         },
       ],
     },

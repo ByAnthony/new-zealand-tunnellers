@@ -47,13 +47,15 @@ export const getJoinEvents = (join: JoinEventData | null) => {
       {
         date: join.date,
         event: join.embarkationUnit,
-        title: join.isEnlisted ? "Enlisted" : "Posted",
+        title: null,
+        titleKey: join.isEnlisted ? "Enlisted" : "Posted",
         image: null,
       },
       {
         date: join.trainingStart,
         event: join.trainingLocation,
-        title: "Trained",
+        title: null,
+        titleKey: "Trained",
         image: null,
       },
     );
@@ -64,13 +66,15 @@ export const getJoinEvents = (join: JoinEventData | null) => {
       {
         date: join.date,
         event: join.embarkationUnit,
-        title: join.isEnlisted ? "Enlisted" : "Posted",
+        title: null,
+        titleKey: join.isEnlisted ? "Enlisted" : "Posted",
         image: null,
       },
       {
         date: join.date,
         event: join.trainingLocation,
-        title: "Trained",
+        title: null,
+        titleKey: "Trained",
         image: null,
       },
     );
