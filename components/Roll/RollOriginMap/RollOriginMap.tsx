@@ -21,6 +21,7 @@ type Props = {
   filters: Filters;
   defaultFilters: Filters;
   applyFilters: (_filters: Filters) => void;
+  getFilteredTunnellerCount: (_filters: Filters) => number;
   activeFilterCount: number;
   totalTunnellers: number;
 };
@@ -31,6 +32,7 @@ export function RollOriginMap({
   filters,
   defaultFilters,
   applyFilters,
+  getFilteredTunnellerCount,
   activeFilterCount,
   totalTunnellers,
 }: Props) {
@@ -43,6 +45,10 @@ export function RollOriginMap({
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [pendingFilters, setPendingFilters] = useState<Filters>(filters);
   const summary = useMemo(() => getOriginMapSummary(tunnellers), [tunnellers]);
+  const pendingFilteredCount = useMemo(
+    () => getFilteredTunnellerCount(pendingFilters),
+    [getFilteredTunnellerCount, pendingFilters],
+  );
 
   const openDialog = useCallback(() => {
     setPendingFilters(filters);
@@ -222,7 +228,7 @@ export function RollOriginMap({
         hasActiveFilters={!isEqual(pendingFilters, defaultFilters)}
         onClose={closeDialog}
         title={tRoll("filters")}
-        totalFiltered={summary.visibleCount}
+        totalFiltered={pendingFilteredCount}
         total={totalTunnellers}
       >
         <RollFilter

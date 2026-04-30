@@ -48,6 +48,7 @@ export function Roll({ tunnellers }: Props) {
     filteredGroups,
     sortedFilteredGroups,
     totalFilteredTunnellers,
+    getFilteredTunnellerCount,
     totalTunnellers,
     handleResetFilters,
     filters,
@@ -73,6 +74,7 @@ export function Roll({ tunnellers }: Props) {
         filters={filters}
         defaultFilters={defaultFilters}
         applyFilters={applyFilters}
+        getFilteredTunnellerCount={getFilteredTunnellerCount}
         activeFilterCount={activeFilterCount}
         totalTunnellers={totalTunnellers}
       />
