@@ -95,7 +95,7 @@ export const getWarDeathEvents = (death: DeathData) => {
         deathEvents.push({
           date: death.deathDate,
           event: death.deathCircumstances,
-          title: death.deathCause,
+          title: null,
           titleKey: death.deathCauseKey,
           image: null,
           extraDescription: getDeathPlaceWithoutCountry(
@@ -109,7 +109,7 @@ export const getWarDeathEvents = (death: DeathData) => {
         deathEvents.push({
           date: death.deathDate,
           event: `${death.deathLocation}${death.deathTown ? `, ${death.deathTown}` : ""}`,
-          title: death.deathCause,
+          title: null,
           titleKey: death.deathCauseKey,
           image: null,
         });
@@ -119,7 +119,7 @@ export const getWarDeathEvents = (death: DeathData) => {
         deathEvents.push({
           date: death.deathDate,
           event: `${death.deathLocation}${death.deathTown ? `, ${death.deathTown}` : ""}`,
-          title: death.deathCause,
+          title: null,
           titleKey: death.deathCauseKey,
           image: null,
           extraDescription: death.deathCircumstances
@@ -132,7 +132,7 @@ export const getWarDeathEvents = (death: DeathData) => {
         deathEvents.push({
           date: death.deathDate,
           event: `${death.deathLocation}${death.deathTown ? `, ${death.deathTown}` : ""}`,
-          title: death.deathCause,
+          title: null,
           titleKey: death.deathCauseKey,
           image: null,
         });
@@ -143,14 +143,14 @@ export const getWarDeathEvents = (death: DeathData) => {
           {
             date: death.deathDate,
             event: `${death.cemetery}, ${death.cemteryTown}`,
-            title: "Buried",
+            title: null,
             titleKey: "Buried",
             image: null,
           },
           {
             date: death.deathDate,
             event: death.grave,
-            title: "Grave reference",
+            title: null,
             titleKey: "Grave reference",
             image: null,
           },
@@ -166,7 +166,7 @@ export const getWarDeathEvents = (death: DeathData) => {
       deathEvents.push({
         date: death.deathDate,
         event: death.deathCircumstances,
-        title: death.deathCause,
+        title: null,
         titleKey: death.deathCauseKey,
         image: null,
       });

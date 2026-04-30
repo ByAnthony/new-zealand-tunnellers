@@ -254,7 +254,7 @@ describe("getWarDeathEvents", () => {
   const buried: SingleEventData = {
     date: "1916-07-01",
     event: "Thiepval Memorial, Ovilliers",
-    title: "Buried",
+    title: null,
     titleKey: "Buried",
     image: null,
   };
@@ -262,7 +262,7 @@ describe("getWarDeathEvents", () => {
   const grave: SingleEventData = {
     date: "1916-07-01",
     event: "B2",
-    title: "Grave reference",
+    title: null,
     titleKey: "Grave reference",
     image: null,
   };
@@ -272,7 +272,7 @@ describe("getWarDeathEvents", () => {
       {
         date: "1916-07-01",
         event: "Battle of the Somme",
-        title: "Killed in action",
+        title: null,
         titleKey: "Killed in action",
         image: null,
         extraDescription: "Telegraph Wood, La Boisselle",
@@ -296,7 +296,7 @@ describe("getWarDeathEvents", () => {
       {
         date: "1916-07-01",
         event: "NZEF Hospital, Arras",
-        title: "Died of wounds",
+        title: null,
         titleKey: "Died of wounds",
         image: null,
       },
@@ -319,7 +319,7 @@ describe("getWarDeathEvents", () => {
       {
         date: "1916-07-01",
         event: "NZEF Hospital",
-        title: "Died of wounds",
+        title: null,
         titleKey: "Died of wounds",
         image: null,
       },
@@ -342,7 +342,7 @@ describe("getWarDeathEvents", () => {
       {
         date: "1916-07-01",
         event: "NZEF Hospital, Arras",
-        title: "Died of disease",
+        title: null,
         titleKey: "Died of disease",
         image: null,
         extraDescription: "Spanish Flu",
@@ -366,7 +366,7 @@ describe("getWarDeathEvents", () => {
       {
         date: "1916-07-01",
         event: "NZEF Hospital",
-        title: "Died of disease",
+        title: null,
         titleKey: "Died of disease",
         image: null,
         extraDescription: "Spanish Flu",
@@ -390,7 +390,7 @@ describe("getWarDeathEvents", () => {
       {
         date: "1916-07-01",
         event: "NZEF Hospital, Arras",
-        title: "Died of disease",
+        title: null,
         titleKey: "Died of disease",
         image: null,
         extraDescription: null,
@@ -414,7 +414,7 @@ describe("getWarDeathEvents", () => {
       {
         date: "1916-07-01",
         event: "Drowned in the harbour, Boulogne",
-        title: "Died of accident",
+        title: null,
         titleKey: "Died of accident",
         image: null,
       },
@@ -437,7 +437,7 @@ describe("getWarDeathEvents", () => {
       {
         date: "1916-07-01",
         event: "Drowned in the harbour",
-        title: "Died of accident",
+        title: null,
         titleKey: "Died of accident",
         image: null,
       },
@@ -461,7 +461,7 @@ describe("getWarDeathEvents", () => {
       {
         date: "1916-07-01",
         event: "Flu",
-        title: "Died of disease",
+        title: null,
         titleKey: "Died of disease",
         image: null,
       },
@@ -661,9 +661,24 @@ describe("getFrontEvents", () => {
       { ...mockTunnellerEvent, date: "1917-09-28", title: "Transferred" },
       { ...mockTunnellerEvent, date: "1917-12-02" },
       { ...mockTunnellerEvent, date: "1918-04-05" },
-      { ...mockTunnellerEvent, date: "1918-08-10", title: "Killed in action" },
-      { ...mockTunnellerEvent, date: "1918-08-10", title: "Buried" },
-      { ...mockTunnellerEvent, date: "1918-08-10", title: "Grave reference" },
+      {
+        ...mockTunnellerEvent,
+        date: "1918-08-10",
+        title: null,
+        titleKey: "Killed in action",
+      },
+      {
+        ...mockTunnellerEvent,
+        date: "1918-08-10",
+        title: null,
+        titleKey: "Buried",
+      },
+      {
+        ...mockTunnellerEvent,
+        date: "1918-08-10",
+        title: null,
+        titleKey: "Grave reference",
+      },
     ];
 
     const mockEnlistment: SingleEventData[] = [
@@ -718,7 +733,12 @@ describe("getFrontEvents", () => {
       { ...mockTunnellerEvent, date: "1917-01-26" },
       { ...mockTunnellerEvent, date: "1917-06-28" },
       { ...mockTunnellerEvent, date: "1917-09-28", title: "End of Service" },
-      { ...mockTunnellerEvent, date: "1918-12-02", title: "Died of disease" },
+      {
+        ...mockTunnellerEvent,
+        date: "1918-12-02",
+        title: null,
+        titleKey: "Died of disease",
+      },
     ];
 
     const mockEnlistment: SingleEventData[] = [
@@ -942,13 +962,15 @@ describe("getFrontEvents", () => {
       {
         date: "1918-08-10",
         event: "Something happened",
-        title: "Killed in action",
+        title: null,
+        titleKey: "Killed in action",
         image: null,
       },
       {
         date: "1918-08-10",
         event: "Something happened",
-        title: "Buried",
+        title: null,
+        titleKey: "Buried",
         image: null,
       },
       {
@@ -981,12 +1003,14 @@ describe("getFrontEvents", () => {
         event: [
           {
             description: "Something happened",
-            title: "Killed in action",
+            title: null,
+            titleKey: "Killed in action",
             image: null,
           },
           {
             description: "Something happened",
-            title: "Buried",
+            title: null,
+            titleKey: "Buried",
             image: null,
           },
           {
