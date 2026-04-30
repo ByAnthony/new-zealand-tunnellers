@@ -55,6 +55,7 @@ export function RollOriginMap({
   );
 
   const openDialog = useCallback(() => {
+    setSelectedOrigin(null);
     setPendingFilters(filters);
     setIsDialogOpen(true);
   }, [filters]);
