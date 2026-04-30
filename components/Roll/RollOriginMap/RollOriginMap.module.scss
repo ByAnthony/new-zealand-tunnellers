@@ -1,0 +1,50 @@
+@use "app/variables.module.scss";
+
+.container {
+  position: fixed;
+  inset: 0;
+  z-index: 900;
+}
+
+.map {
+  width: 100%;
+  height: 100%;
+}
+
+:global(.leaflet-bottom.leaflet-right) {
+  left: 50%;
+  right: auto;
+  bottom: calc(variables.$m-margin / 2);
+  transform: translateX(-50%) translateY(50%);
+
+  @include variables.desktop {
+    bottom: calc(variables.$base-margin / 2);
+  }
+}
+
+:global(.leaflet-control-attribution) {
+  background-color: transparent !important;
+  color: variables.$text-color !important;
+  font-size: 0.5rem;
+  padding: 2px variables.$xxs-margin;
+  white-space: nowrap;
+
+  a {
+    color: variables.$secondary-color !important;
+    transition: all 0.9s ease-in-out;
+
+    @include variables.hover-supported {
+      &:hover {
+        text-decoration: none;
+      }
+    }
+  }
+
+  @include variables.tablet {
+    font-size: 0.6rem;
+  }
+
+  @include variables.desktop {
+    font-size: 0.7rem;
+  }
+}

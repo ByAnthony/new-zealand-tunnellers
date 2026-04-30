@@ -25,6 +25,22 @@ import {
 } from "../utils/rankUtils";
 import { getUniqueBirthYears, getUniqueDeathYears } from "../utils/yearsUtils";
 
+const ROLL_QUERY_PARAMS = [
+  "page",
+  "sort",
+  "detachment",
+  "corps",
+  "officer",
+  "nco",
+  "other-rank",
+  "birth-min",
+  "birth-max",
+  "unknown-birth",
+  "death-min",
+  "death-max",
+  "unknown-death",
+];
+
 type Params = {
   tunnellers: Record<string, Tunneller[]>;
   locale: string;
@@ -128,10 +144,16 @@ export function useRollState({ tunnellers, locale }: Params) {
   const [isSliderDragging, setIsSliderDragging] = useState(false);
   const searchParamsString = searchParams.toString();
   const syncUrl = useCallback((qs: string) => {
+    const params = new URLSearchParams(window.location.search);
+    ROLL_QUERY_PARAMS.forEach((param) => params.delete(param));
+    new URLSearchParams(qs).forEach((value, key) => {
+      params.set(key, value);
+    });
+    const nextQs = params.toString().replace(/%2C/gi, ",");
     const currentQs = window.location.search.replace(/^\?/, "");
-    if (qs === currentQs) return;
-    const url = qs
-      ? `${window.location.pathname}?${qs}`
+    if (nextQs === currentQs) return;
+    const url = nextQs
+      ? `${window.location.pathname}?${nextQs}`
       : window.location.pathname;
     window.history.replaceState(null, "", url);
   }, []);

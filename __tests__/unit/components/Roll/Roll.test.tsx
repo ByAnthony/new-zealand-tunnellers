@@ -19,6 +19,14 @@ jest.mock("next/navigation", () => ({
   useRouter: () => ({ replace: mockReplace }),
 }));
 
+jest.mock(
+  "@/components/Roll/RollOriginMap/RollOriginMap",
+  () => ({
+    RollOriginMap: () => <div data-testid="roll-origin-map" />,
+  }),
+  { virtual: true },
+);
+
 async function renderRoll() {
   const utils = render(<Roll tunnellers={mockTunnellers} />);
   await screen.findByText("Filters");
@@ -48,6 +56,15 @@ describe("Roll", () => {
 
     expect(screen.getByText(/The New Zealand/)).toBeInTheDocument();
     expect(screen.getByText(/Tunnellers/)).toBeInTheDocument();
+  });
+
+  test("renders the origin map when view map query param is present", async () => {
+    mockSearchParams = new URLSearchParams("view=map");
+
+    render(<Roll tunnellers={mockTunnellers} />);
+
+    expect(await screen.findByTestId("roll-origin-map")).toBeInTheDocument();
+    expect(screen.queryByText(/The New Zealand/)).not.toBeInTheDocument();
   });
 
   test("renders the total filtered results", async () => {

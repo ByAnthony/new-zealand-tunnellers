@@ -1,5 +1,7 @@
 "use client";
 
+import dynamic from "next/dynamic";
+import { useSearchParams } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 
 import { useRollState } from "@/components/Roll/hooks/useRollState";
@@ -13,6 +15,17 @@ import { useWindowDimensions } from "@/utils/helpers/useWindowDimensions";
 import STYLES from "./Roll.module.scss";
 import { Dialog } from "../Dialog/Dialog";
 
+const RollOriginMap = dynamic(
+  () =>
+    import("@/components/Roll/RollOriginMap/RollOriginMap").then(
+      (m) => m.RollOriginMap,
+    ),
+  {
+    ssr: false,
+    loading: () => <div style={{ minHeight: "100vh" }} />,
+  },
+);
+
 type Props = {
   tunnellers: Record<string, Tunneller[]>;
 };
@@ -20,6 +33,7 @@ type Props = {
 export function Roll({ tunnellers }: Props) {
   const t = useTranslations("roll");
   const locale = useLocale();
+  const searchParams = useSearchParams();
   const { width } = useWindowDimensions();
   const {
     currentPage,
@@ -40,12 +54,17 @@ export function Roll({ tunnellers }: Props) {
 
   const isDesktop = () => (width ? width > 896 : false);
   const desktopView = isDesktop();
+  const isMapView = searchParams.get("view") === "map";
   const resultsText =
     totalFilteredTunnellers > 1
       ? t("resultsPlural", { count: totalFilteredTunnellers })
       : t("results", { count: totalFilteredTunnellers });
   const isAscending = sortOrder === "asc";
   const sortButtonText = isAscending ? t("sortDescending") : t("sortAscending");
+
+  if (isMapView) {
+    return <RollOriginMap />;
+  }
 
   return (
     <>
