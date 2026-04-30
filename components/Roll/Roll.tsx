@@ -50,6 +50,9 @@ export function Roll({ tunnellers }: Props) {
     totalFilteredTunnellers,
     totalTunnellers,
     handleResetFilters,
+    filters,
+    defaultFilters,
+    applyFilters,
   } = useRollState({ tunnellers, locale });
 
   const isDesktop = () => (width ? width > 896 : false);
@@ -67,11 +70,10 @@ export function Roll({ tunnellers }: Props) {
       <RollOriginMap
         tunnellers={Object.fromEntries(sortedFilteredGroups)}
         rollFiltersProps={rollFiltersProps}
+        filters={filters}
+        defaultFilters={defaultFilters}
+        applyFilters={applyFilters}
         activeFilterCount={activeFilterCount}
-        isDialogOpen={isDialogOpen}
-        openDialog={openDialog}
-        closeDialog={closeDialog}
-        handleResetFilters={handleResetFilters}
         totalTunnellers={totalTunnellers}
       />
     );

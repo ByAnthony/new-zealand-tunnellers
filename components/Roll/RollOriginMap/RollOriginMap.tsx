@@ -2,6 +2,7 @@
 
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
+import isEqual from "lodash/isEqual";
 import { useTranslations } from "next-intl";
 import type { ComponentProps } from "react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
@@ -9,6 +10,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Dialog } from "@/components/Dialog/Dialog";
 import { RollFilter } from "@/components/Roll/RollFilter/RollFilter";
 import { Tunneller } from "@/types/tunnellers";
+import { Filters } from "@/utils/helpers/rollParams";
 
 import { getOriginMapSummary } from "./originMapMarkers";
 import STYLES from "./RollOriginMap.module.scss";
@@ -16,22 +18,20 @@ import STYLES from "./RollOriginMap.module.scss";
 type Props = {
   tunnellers: Record<string, Tunneller[]>;
   rollFiltersProps: Omit<ComponentProps<typeof RollFilter>, "className">;
+  filters: Filters;
+  defaultFilters: Filters;
+  applyFilters: (_filters: Filters) => void;
   activeFilterCount: number;
-  isDialogOpen: boolean;
-  openDialog: () => void;
-  closeDialog: () => void;
-  handleResetFilters: () => void;
   totalTunnellers: number;
 };
 
 export function RollOriginMap({
   tunnellers,
   rollFiltersProps,
+  filters,
+  defaultFilters,
+  applyFilters,
   activeFilterCount,
-  isDialogOpen,
-  openDialog,
-  closeDialog,
-  handleResetFilters,
   totalTunnellers,
 }: Props) {
   const tRoll = useTranslations("roll");
@@ -40,7 +40,113 @@ export function RollOriginMap({
   const markerLayerRef = useRef<L.LayerGroup | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [currentZoom, setCurrentZoom] = useState<number | null>(null);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [pendingFilters, setPendingFilters] = useState<Filters>(filters);
   const summary = useMemo(() => getOriginMapSummary(tunnellers), [tunnellers]);
+
+  const openDialog = useCallback(() => {
+    setPendingFilters(filters);
+    setIsDialogOpen(true);
+  }, [filters]);
+
+  const closeDialog = useCallback(() => {
+    setIsDialogOpen(false);
+    applyFilters(pendingFilters);
+  }, [applyFilters, pendingFilters]);
+
+  const resetPendingFilters = useCallback(() => {
+    setPendingFilters(defaultFilters);
+  }, [defaultFilters]);
+
+  const pendingRollFiltersProps = useMemo<
+    Omit<ComponentProps<typeof RollFilter>, "className">
+  >(() => {
+    const startBirthYear = pendingFilters.birthYear?.[0] ?? "";
+    const endBirthYear =
+      pendingFilters.birthYear?.[pendingFilters.birthYear.length - 1] ?? "";
+    const startDeathYear = pendingFilters.deathYear?.[0] ?? "";
+    const endDeathYear =
+      pendingFilters.deathYear?.[pendingFilters.deathYear.length - 1] ?? "";
+
+    return {
+      ...rollFiltersProps,
+      filters: pendingFilters,
+      startBirthYear,
+      endBirthYear,
+      startDeathYear,
+      endDeathYear,
+      handleDetachmentFilter: (detachmentId: number | null) => {
+        setPendingFilters((prev) => {
+          const detachmentSet = new Set(prev.detachment ?? []);
+          detachmentSet.has(detachmentId)
+            ? detachmentSet.delete(detachmentId)
+            : detachmentSet.add(detachmentId);
+          return { ...prev, detachment: Array.from(detachmentSet) };
+        });
+      },
+      handleCorpsFilter: (corpsId: number | null) => {
+        setPendingFilters((prev) => {
+          const corpsSet = new Set(prev.corps ?? []);
+          corpsSet.has(corpsId)
+            ? corpsSet.delete(corpsId)
+            : corpsSet.add(corpsId);
+          return { ...prev, corps: Array.from(corpsSet) };
+        });
+      },
+      handleBirthSliderChange: (value: number | number[]) => {
+        if (!Array.isArray(value)) return;
+        const [start, end] = value;
+        setPendingFilters((prev) => ({
+          ...prev,
+          birthYear: rollFiltersProps.uniqueBirthYears.filter(
+            (year) => year >= String(start) && year <= String(end),
+          ),
+        }));
+      },
+      handleDeathSliderChange: (value: number | number[]) => {
+        if (!Array.isArray(value)) return;
+        const [start, end] = value;
+        setPendingFilters((prev) => ({
+          ...prev,
+          deathYear: rollFiltersProps.uniqueDeathYears.filter(
+            (year) => year >= String(start) && year <= String(end),
+          ),
+        }));
+      },
+      handleSliderDragStart: () => undefined,
+      handleSliderDragComplete: () => undefined,
+      handleRankFilter: (ranksFilter: Record<string, (number | null)[]>) => {
+        setPendingFilters((prev) => {
+          const nextRanks: Record<string, (number | null)[]> = {
+            ...prev.ranks,
+          };
+          Object.entries(ranksFilter).forEach(([category, rankIds]) => {
+            const rankSet = new Set(nextRanks[category] ?? []);
+            const allSelected = rankIds.every((id) => rankSet.has(id));
+            if (allSelected) {
+              rankIds.forEach((id) => rankSet.delete(id));
+            } else {
+              rankIds.forEach((id) => rankSet.add(id));
+            }
+            nextRanks[category] = Array.from(rankSet);
+          });
+          return { ...prev, ranks: nextRanks };
+        });
+      },
+      handleUnknownBirthYear: (unknown: string) => {
+        setPendingFilters((prev) => ({
+          ...prev,
+          unknownBirthYear: unknown ? "unknown" : "",
+        }));
+      },
+      handleUnknownDeathYear: (unknown: string) => {
+        setPendingFilters((prev) => ({
+          ...prev,
+          unknownDeathYear: unknown ? "unknown" : "",
+        }));
+      },
+    };
+  }, [pendingFilters, rollFiltersProps]);
 
   const zoom = useCallback((dir: 1 | -1) => {
     mapRef.current?.[dir === 1 ? "zoomIn" : "zoomOut"]();
@@ -100,15 +206,15 @@ export function RollOriginMap({
         id="roll-origin-map-filters"
         isFooterEnabled={true}
         isOpen={isDialogOpen}
-        handleResetFilters={handleResetFilters}
-        hasActiveFilters={activeFilterCount > 0}
+        handleResetFilters={resetPendingFilters}
+        hasActiveFilters={!isEqual(pendingFilters, defaultFilters)}
         onClose={closeDialog}
         title={tRoll("filters")}
         totalFiltered={summary.visibleCount}
         total={totalTunnellers}
       >
         <RollFilter
-          {...rollFiltersProps}
+          {...pendingRollFiltersProps}
           className={STYLES["filters-container"]}
         />
       </Dialog>

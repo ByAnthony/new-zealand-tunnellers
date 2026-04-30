@@ -454,6 +454,10 @@ export function useRollState({ tunnellers, locale }: Params) {
       setFilters(defaultFilters);
     }
   }, [filters, defaultFilters]);
+  const applyFilters = useCallback((nextFilters: Filters) => {
+    setCurrentPage(1);
+    setFilters(nextFilters);
+  }, []);
 
   const closeDialog = useCallback(() => setIsDialogOpen(false), []);
   const openDialog = useCallback(() => setIsDialogOpen(true), []);
@@ -494,6 +498,8 @@ export function useRollState({ tunnellers, locale }: Params) {
 
   return {
     filters,
+    defaultFilters,
+    applyFilters,
     currentPage,
     setCurrentPage,
     sortOrder,
