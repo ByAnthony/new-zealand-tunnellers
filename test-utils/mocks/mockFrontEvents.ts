@@ -45,34 +45,40 @@ export const mockEventTitleAndDescription: EventDetail = {
 export const mockEventDiedOfDisease: EventDetail = {
   ...mockEvent,
   description: "Military Hospital",
-  title: "Died of disease",
+  title: null,
+  titleKey: "Died of disease",
   extraDescription: "Pneumonia",
 };
 export const mockEventKilledInAction: EventDetail = {
   ...mockEvent,
   description: "Killed on the battlefield",
-  title: "Killed in action",
+  title: null,
+  titleKey: "Killed in action",
   extraDescription: "Baraffles, Rebreuve-Ranchicourt",
 };
 export const mockEventDiedOfWounds: EventDetail = {
   ...mockEvent,
   description: "Somewhere on the battlefield",
-  title: "Died of wounds",
+  title: null,
+  titleKey: "Died of wounds",
 };
 export const mockEventDiedOfAccident: EventDetail = {
   ...mockEvent,
   description: "Fatal accident",
-  title: "Died of accident",
+  title: null,
+  titleKey: "Died of accident",
 };
 export const mockEventBuried: EventDetail = {
   ...mockEvent,
   description: "Cemetery, France",
-  title: "Buried",
+  title: null,
+  titleKey: "Buried",
 };
 export const mockEventGrave: EventDetail = {
   ...mockEvent,
   description: "1 A 26",
-  title: "Grave reference",
+  title: null,
+  titleKey: "Grave reference",
 };
 
 const mockDeathEvent = (deathEvent: EventDetail): Record<string, Event[]> => ({
@@ -297,17 +303,20 @@ export const mockFrontEventsWithTransferred = {
         {
           description: "Something happened",
           image: null,
-          title: "Killed in action",
+          title: null,
+          titleKey: "Killed in action",
         },
         {
           description: "Something happened",
           image: null,
-          title: "Buried",
+          title: null,
+          titleKey: "Buried",
         },
         {
           description: "Something happened",
           image: null,
-          title: "Grave reference",
+          title: null,
+          titleKey: "Grave reference",
         },
       ],
     },
@@ -342,7 +351,8 @@ export const mockFrontEventsWithDeathAfterEndOfService = {
         {
           description: "Something happened",
           image: null,
-          title: "Died of disease",
+          title: null,
+          titleKey: "Died of disease",
         },
       ],
     },

@@ -28,6 +28,14 @@ export function TimelineEvent({ event, ageAtEnlistment }: Props) {
         return t("buried");
       case "Grave reference":
         return t("graveReference");
+      case "Killed in action":
+        return t("killedInAction");
+      case "Died of wounds":
+        return t("diedOfWounds");
+      case "Died of disease":
+        return t("diedOfDisease");
+      case "Died of accident":
+        return t("diedOfAccident");
       case "Demobilization":
         return t("demobilization");
       case "End of Service":
