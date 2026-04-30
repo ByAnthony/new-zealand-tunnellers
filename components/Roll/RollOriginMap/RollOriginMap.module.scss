@@ -31,52 +31,22 @@
   display: flex;
   flex-direction: column;
   gap: variables.$xxxs-margin;
-
-  @include variables.tablet {
-    display: grid;
-    grid-template-columns: auto auto minmax(0, 1fr) minmax(0, 1fr) auto auto;
-    grid-template-rows: 45px;
-  }
-
-  @include variables.desktop {
-    display: grid;
-    grid-template-columns: auto auto minmax(0, 1fr) minmax(0, 1fr) auto auto;
-    grid-template-rows: 45px;
-  }
 }
 
 .controls-top-row {
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 45px 45px;
   gap: variables.$xxxs-margin;
-  width: 100%;
-
-  @include variables.tablet {
-    display: contents;
-  }
-
-  @include variables.desktop {
-    display: contents;
-  }
 }
 
 .stats-row {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: variables.$xxxs-margin;
-  width: 100%;
-
-  @include variables.tablet {
-    display: contents;
-  }
-
-  @include variables.desktop {
-    display: contents;
-  }
 }
 
 .filter-button,
 .roll-button {
-  flex: 1 1 auto;
   background-color: variables.$primary-medium-color;
   border: 1px solid variables.$primary-light-color;
   border-radius: variables.$border-radius;
@@ -86,18 +56,6 @@
   transition:
     border-color 0.9s ease-in-out,
     background-color 0.9s ease-in-out;
-
-  @include variables.tablet {
-    flex: initial;
-    grid-row: 1;
-    width: 140px;
-  }
-
-  @include variables.desktop {
-    flex: initial;
-    grid-row: 1;
-    width: 140px;
-  }
 
   @include variables.hover-supported {
     &:hover {
@@ -121,28 +79,8 @@
   }
 }
 
-.filter-button {
-  @include variables.tablet {
-    grid-column: 2;
-  }
-
-  @include variables.desktop {
-    grid-column: 2;
-  }
-}
-
 .roll-button {
   padding: 0 variables.$xs-margin;
-
-  @include variables.tablet {
-    grid-column: 1;
-    width: auto;
-  }
-
-  @include variables.desktop {
-    grid-column: 1;
-    width: auto;
-  }
 }
 
 .filter-badge {
@@ -204,15 +142,7 @@
 }
 
 .map-count {
-  @include variables.tablet {
-    grid-column: 3;
-    grid-row: 1;
-  }
-
   @include variables.desktop {
-    grid-column: 3;
-    grid-row: 1;
-
     .count-primary {
       font-size: 1.1rem;
     }
@@ -224,38 +154,10 @@
 }
 
 .missing-count {
-  @include variables.tablet {
-    grid-column: 4;
-    grid-row: 1;
-  }
-
   @include variables.desktop {
-    grid-column: 4;
-    grid-row: 1;
-
     .count-primary {
       font-size: 1.1rem;
     }
-  }
-}
-
-.zoom-in {
-  @include variables.tablet {
-    grid-column: 5;
-  }
-
-  @include variables.desktop {
-    grid-column: 5;
-  }
-}
-
-.zoom-out {
-  @include variables.tablet {
-    grid-column: 6;
-  }
-
-  @include variables.desktop {
-    grid-column: 6;
   }
 }
 

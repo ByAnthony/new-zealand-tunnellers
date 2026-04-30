@@ -255,7 +255,7 @@ export function RollOriginMap({
               <button
                 onClick={() => zoom(1)}
                 aria-label={tMaps("zoomIn")}
-                className={`${STYLES["zoom-button"]} ${STYLES["zoom-in"]}`}
+                className={STYLES["zoom-button"]}
                 disabled={currentZoom !== null && currentZoom >= 16}
               >
                 +
@@ -263,7 +263,7 @@ export function RollOriginMap({
               <button
                 onClick={() => zoom(-1)}
                 aria-label={tMaps("zoomOut")}
-                className={`${STYLES["zoom-button"]} ${STYLES["zoom-out"]}`}
+                className={STYLES["zoom-button"]}
                 disabled={currentZoom !== null && currentZoom <= 3}
               >
                 −
