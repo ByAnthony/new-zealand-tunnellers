@@ -7,37 +7,60 @@ export type OriginMarker = {
   count: number;
 };
 
+export type OriginMapSummary = {
+  markers: OriginMarker[];
+  visibleCount: number;
+  mappedCount: number;
+  missingOriginCount: number;
+};
+
+export function getOriginMapSummary(
+  tunnellers: Record<string, Tunneller[]>,
+): OriginMapSummary {
+  const markersByCoordinate = new Map<string, OriginMarker>();
+  const visibleTunnellers = Object.values(tunnellers).flat();
+
+  visibleTunnellers.forEach((tunneller) => {
+    const residence = tunneller.origin.residence;
+    if (
+      !residence.town ||
+      residence.latitude === null ||
+      residence.longitude === null
+    ) {
+      return;
+    }
+
+    const key = `${residence.latitude},${residence.longitude}`;
+    const marker = markersByCoordinate.get(key);
+    if (marker) {
+      marker.count += 1;
+      return;
+    }
+
+    markersByCoordinate.set(key, {
+      town: residence.town,
+      latitude: residence.latitude,
+      longitude: residence.longitude,
+      count: 1,
+    });
+  });
+
+  const markers = Array.from(markersByCoordinate.values());
+  const mappedCount = markers.reduce(
+    (total, marker) => total + marker.count,
+    0,
+  );
+
+  return {
+    markers,
+    visibleCount: visibleTunnellers.length,
+    mappedCount,
+    missingOriginCount: visibleTunnellers.length - mappedCount,
+  };
+}
+
 export function getOriginMarkers(
   tunnellers: Record<string, Tunneller[]>,
 ): OriginMarker[] {
-  const markersByCoordinate = new Map<string, OriginMarker>();
-
-  Object.values(tunnellers)
-    .flat()
-    .forEach((tunneller) => {
-      const residence = tunneller.origin.residence;
-      if (
-        !residence.town ||
-        residence.latitude === null ||
-        residence.longitude === null
-      ) {
-        return;
-      }
-
-      const key = `${residence.latitude},${residence.longitude}`;
-      const marker = markersByCoordinate.get(key);
-      if (marker) {
-        marker.count += 1;
-        return;
-      }
-
-      markersByCoordinate.set(key, {
-        town: residence.town,
-        latitude: residence.latitude,
-        longitude: residence.longitude,
-        count: 1,
-      });
-    });
-
-  return Array.from(markersByCoordinate.values());
+  return getOriginMapSummary(tunnellers).markers;
 }

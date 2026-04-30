@@ -1,7 +1,10 @@
-import { getOriginMarkers } from "@/components/Roll/RollOriginMap/originMapMarkers";
+import {
+  getOriginMapSummary,
+  getOriginMarkers,
+} from "@/components/Roll/RollOriginMap/originMapMarkers";
 import { mockTunnellers } from "@/test-utils/mocks/mockTunnellers";
 
-describe("getOriginMarkers", () => {
+describe("origin map markers", () => {
   test("groups tunnellers by residence coordinates", () => {
     expect(getOriginMarkers(mockTunnellers)).toEqual([
       {
@@ -17,5 +20,14 @@ describe("getOriginMarkers", () => {
         count: 1,
       },
     ]);
+  });
+
+  test("summarises visible, mapped, and missing origin counts", () => {
+    expect(getOriginMapSummary(mockTunnellers)).toEqual({
+      markers: getOriginMarkers(mockTunnellers),
+      visibleCount: 4,
+      mappedCount: 3,
+      missingOriginCount: 1,
+    });
   });
 });

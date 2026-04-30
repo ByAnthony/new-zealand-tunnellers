@@ -2,31 +2,58 @@
 
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
-import { useEffect, useMemo, useRef } from "react";
+import { useTranslations } from "next-intl";
+import type { ComponentProps } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
+import { Dialog } from "@/components/Dialog/Dialog";
+import { RollFilter } from "@/components/Roll/RollFilter/RollFilter";
 import { Tunneller } from "@/types/tunnellers";
 
-import { getOriginMarkers } from "./originMapMarkers";
+import { getOriginMapSummary } from "./originMapMarkers";
 import STYLES from "./RollOriginMap.module.scss";
 
 type Props = {
   tunnellers: Record<string, Tunneller[]>;
+  rollFiltersProps: Omit<ComponentProps<typeof RollFilter>, "className">;
+  activeFilterCount: number;
+  isDialogOpen: boolean;
+  openDialog: () => void;
+  closeDialog: () => void;
+  handleResetFilters: () => void;
+  totalTunnellers: number;
 };
 
-export function RollOriginMap({ tunnellers }: Props) {
+export function RollOriginMap({
+  tunnellers,
+  rollFiltersProps,
+  activeFilterCount,
+  isDialogOpen,
+  openDialog,
+  closeDialog,
+  handleResetFilters,
+  totalTunnellers,
+}: Props) {
+  const tRoll = useTranslations("roll");
+  const tMaps = useTranslations("maps");
   const mapRef = useRef<L.Map | null>(null);
+  const markerLayerRef = useRef<L.LayerGroup | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const markers = useMemo(() => getOriginMarkers(tunnellers), [tunnellers]);
+  const [currentZoom, setCurrentZoom] = useState<number | null>(null);
+  const summary = useMemo(() => getOriginMapSummary(tunnellers), [tunnellers]);
+
+  const zoom = useCallback((dir: 1 | -1) => {
+    mapRef.current?.[dir === 1 ? "zoomIn" : "zoomOut"]();
+  }, []);
 
   useEffect(() => {
     if (!containerRef.current || mapRef.current) return;
 
-    const map = L.map(containerRef.current, { zoomControl: false }).setView(
-      [-41.2865, 174.7762],
-      5,
-    );
-
-    const markerLayer = L.layerGroup().addTo(map);
+    const map = L.map(containerRef.current, {
+      maxZoom: 16,
+      minZoom: 3,
+      zoomControl: false,
+    }).setView([-41.2865, 174.7762], 5);
 
     L.tileLayer(
       "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}",
@@ -36,7 +63,24 @@ export function RollOriginMap({ tunnellers }: Props) {
       },
     ).addTo(map);
 
-    markers.forEach((marker) => {
+    markerLayerRef.current = L.layerGroup().addTo(map);
+    map.on("zoomend", () => setCurrentZoom(map.getZoom()));
+    setCurrentZoom(map.getZoom());
+    mapRef.current = map;
+
+    return () => {
+      map.remove();
+      mapRef.current = null;
+      markerLayerRef.current = null;
+    };
+  }, []);
+
+  useEffect(() => {
+    const markerLayer = markerLayerRef.current;
+    if (!markerLayer) return;
+
+    markerLayer.clearLayers();
+    summary.markers.forEach((marker) => {
       const radius = marker.count > 1 ? 8 + Math.min(marker.count, 20) : 7;
       L.circleMarker([marker.latitude, marker.longitude], {
         radius,
@@ -48,18 +92,84 @@ export function RollOriginMap({ tunnellers }: Props) {
         .bindTooltip(`${marker.town} (${marker.count})`)
         .addTo(markerLayer);
     });
-
-    mapRef.current = map;
-
-    return () => {
-      map.remove();
-      mapRef.current = null;
-    };
-  }, [markers]);
+  }, [summary.markers]);
 
   return (
-    <div className={STYLES.container} data-testid="roll-origin-map">
-      <div ref={containerRef} className={STYLES.map} />
-    </div>
+    <>
+      <Dialog
+        id="roll-origin-map-filters"
+        isFooterEnabled={true}
+        isOpen={isDialogOpen}
+        handleResetFilters={handleResetFilters}
+        hasActiveFilters={activeFilterCount > 0}
+        onClose={closeDialog}
+        title={tRoll("filters")}
+        totalFiltered={summary.visibleCount}
+        total={totalTunnellers}
+      >
+        <RollFilter
+          {...rollFiltersProps}
+          className={STYLES["filters-container"]}
+        />
+      </Dialog>
+      <div className={STYLES.container} data-testid="roll-origin-map">
+        <div ref={containerRef} className={STYLES.map} />
+        <div className={STYLES["map-controls"]}>
+          <div className={STYLES["controls-grid"]}>
+            <div className={STYLES["controls-top-row"]}>
+              <button
+                className={`${STYLES["filter-button"]} ${activeFilterCount > 0 ? STYLES["filter-button--active"] : ""}`.trim()}
+                onClick={openDialog}
+                aria-label={tMaps("toggleFilters")}
+              >
+                {tRoll("filters")}
+                {activeFilterCount > 0 && (
+                  <span className={STYLES["filter-badge"]}>
+                    {activeFilterCount}
+                  </span>
+                )}
+              </button>
+              <button
+                onClick={() => zoom(1)}
+                aria-label={tMaps("zoomIn")}
+                className={`${STYLES["zoom-button"]} ${STYLES["zoom-in"]}`}
+                disabled={currentZoom !== null && currentZoom >= 16}
+              >
+                +
+              </button>
+              <button
+                onClick={() => zoom(-1)}
+                aria-label={tMaps("zoomOut")}
+                className={`${STYLES["zoom-button"]} ${STYLES["zoom-out"]}`}
+                disabled={currentZoom !== null && currentZoom <= 3}
+              >
+                −
+              </button>
+            </div>
+            <div className={STYLES["stats-row"]}>
+              <div className={STYLES["map-count"]}>
+                <span className={STYLES["count-label"]}>
+                  {tMaps("originMappedLabel")}
+                </span>
+                <span className={STYLES["count-primary"]}>
+                  {summary.mappedCount}
+                  <span className={STYLES["count-total"]}>
+                    /{summary.visibleCount}
+                  </span>
+                </span>
+              </div>
+              <div className={STYLES["missing-count"]}>
+                <span className={STYLES["count-label"]}>
+                  {tMaps("originMissingLabel")}
+                </span>
+                <span className={STYLES["count-primary"]}>
+                  {summary.missingOriginCount}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
   );
 }

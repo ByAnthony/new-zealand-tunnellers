@@ -11,6 +11,277 @@
   height: 100%;
 }
 
+.map-controls {
+  position: absolute;
+  bottom: variables.$m-margin;
+  left: variables.$m-margin;
+  right: variables.$m-margin;
+  z-index: 1000;
+
+  @include variables.desktop {
+    bottom: variables.$base-margin;
+    left: 0;
+    right: 0;
+    width: min(700px, calc(100% - (2 * variables.$base-margin)));
+    margin: 0 auto;
+  }
+}
+
+.controls-grid {
+  display: flex;
+  flex-direction: column;
+  gap: variables.$xxxs-margin;
+
+  @include variables.tablet {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) minmax(0, 1fr) auto auto;
+    grid-template-rows: 45px;
+  }
+
+  @include variables.desktop {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) minmax(0, 1fr) auto auto;
+    grid-template-rows: 45px;
+  }
+}
+
+.controls-top-row {
+  display: flex;
+  gap: variables.$xxxs-margin;
+  width: 100%;
+
+  @include variables.tablet {
+    display: contents;
+  }
+
+  @include variables.desktop {
+    display: contents;
+  }
+}
+
+.stats-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: variables.$xxxs-margin;
+  width: 100%;
+
+  @include variables.tablet {
+    display: contents;
+  }
+
+  @include variables.desktop {
+    display: contents;
+  }
+}
+
+.filter-button {
+  flex: 1 1 auto;
+  background-color: variables.$primary-medium-color;
+  border: 1px solid variables.$primary-light-color;
+  border-radius: variables.$border-radius;
+  color: variables.$secondary-color;
+  cursor: pointer;
+  font-size: 1rem;
+  transition:
+    border-color 0.9s ease-in-out,
+    background-color 0.9s ease-in-out;
+
+  @include variables.tablet {
+    flex: initial;
+    grid-column: 1;
+    grid-row: 1;
+    width: 140px;
+  }
+
+  @include variables.desktop {
+    flex: initial;
+    grid-column: 1;
+    grid-row: 1;
+    width: 140px;
+  }
+
+  @include variables.hover-supported {
+    &:hover {
+      border-color: variables.$secondary-color;
+      background-color: variables.$primary-dark-color;
+    }
+  }
+
+  &--active {
+    background-color: variables.$secondary-color;
+    border-color: variables.$secondary-color;
+    color: variables.$primary-dark-color;
+  }
+
+  @include variables.hover-supported {
+    &--active:hover {
+      background-color: variables.$secondary-color;
+      border-color: variables.$secondary-color;
+      color: variables.$primary-dark-color;
+    }
+  }
+}
+
+.filter-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  margin-left: variables.$xxxs-margin;
+  border-radius: 50%;
+  background-color: variables.$primary-dark-color;
+  color: variables.$secondary-color;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.map-count,
+.missing-count {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: variables.$xxxs-margin;
+  height: 45px;
+  min-width: 0;
+  background-color: variables.$primary-medium-color;
+  border: 1px solid variables.$primary-light-color;
+  border-radius: variables.$border-radius;
+  color: variables.$text-color;
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: variables.$xxs-margin variables.$xs-margin;
+  text-align: center;
+}
+
+.count-primary {
+  color: variables.$text-color;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.count-total {
+  color: variables.$placeholder-color;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.count-label {
+  color: variables.$placeholder-color;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  line-height: 1;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.map-count {
+  @include variables.tablet {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  @include variables.desktop {
+    grid-column: 2;
+    grid-row: 1;
+
+    .count-primary {
+      font-size: 1.1rem;
+    }
+
+    .count-total {
+      font-size: 0.9rem;
+    }
+  }
+}
+
+.missing-count {
+  @include variables.tablet {
+    grid-column: 3;
+    grid-row: 1;
+  }
+
+  @include variables.desktop {
+    grid-column: 3;
+    grid-row: 1;
+
+    .count-primary {
+      font-size: 1.1rem;
+    }
+  }
+}
+
+.zoom-in {
+  grid-column: 3;
+  grid-row: 1;
+
+  @include variables.tablet {
+    grid-column: 4;
+  }
+
+  @include variables.desktop {
+    grid-column: 4;
+  }
+}
+
+.zoom-out {
+  grid-column: 4;
+  grid-row: 1;
+
+  @include variables.tablet {
+    grid-column: 5;
+  }
+
+  @include variables.desktop {
+    grid-column: 5;
+  }
+}
+
+.zoom-button {
+  width: 45px;
+  height: 45px;
+  background-color: variables.$primary-medium-color;
+  border: 1px solid variables.$primary-light-color;
+  border-radius: variables.$border-radius;
+  color: variables.$secondary-color;
+  cursor: pointer;
+  font-size: 1.5rem;
+  line-height: 1;
+  transition:
+    border 0.9s ease-in-out,
+    background-color 0.9s ease-in-out;
+
+  @include variables.tablet {
+    font-size: 1.6rem;
+  }
+
+  @include variables.desktop {
+    font-size: 1.7rem;
+  }
+
+  @include variables.hover-supported {
+    &:hover:not(:disabled) {
+      background-color: variables.$primary-dark-color;
+      border-color: variables.$secondary-color;
+    }
+  }
+
+  &:disabled {
+    border-color: variables.$primary-light-color;
+    color: variables.$primary-light-color;
+    cursor: not-allowed;
+  }
+}
+
+.filters-container {
+  margin: 0;
+}
+
 :global(.leaflet-bottom.leaflet-right) {
   left: 50%;
   right: auto;

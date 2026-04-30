@@ -64,7 +64,16 @@ export function Roll({ tunnellers }: Props) {
 
   if (isMapView) {
     return (
-      <RollOriginMap tunnellers={Object.fromEntries(sortedFilteredGroups)} />
+      <RollOriginMap
+        tunnellers={Object.fromEntries(sortedFilteredGroups)}
+        rollFiltersProps={rollFiltersProps}
+        activeFilterCount={activeFilterCount}
+        isDialogOpen={isDialogOpen}
+        openDialog={openDialog}
+        closeDialog={closeDialog}
+        handleResetFilters={handleResetFilters}
+        totalTunnellers={totalTunnellers}
+      />
     );
   }
 

@@ -190,6 +190,8 @@
     "toggleFilters": "Afficher ou masquer les filtres",
     "zoomIn": "Agrandir",
     "zoomOut": "Réduire",
+    "originMappedLabel": "cartographiés",
+    "originMissingLabel": "origine inconnue",
     "filterByType": "Filtrer par type",
     "closePanel": "Fermer",
     "nextItem": "Suivant",

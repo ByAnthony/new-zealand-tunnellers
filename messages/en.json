@@ -190,6 +190,8 @@
     "toggleFilters": "Toggle filters",
     "zoomIn": "Zoom in",
     "zoomOut": "Zoom out",
+    "originMappedLabel": "mapped",
+    "originMissingLabel": "unknown origin",
     "filterByType": "Filter by type",
     "closePanel": "Close",
     "nextItem": "Next",
