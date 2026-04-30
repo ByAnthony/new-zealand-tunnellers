@@ -205,7 +205,9 @@ export function RollOriginMap({
         fillColor: "rgb(153, 131, 100)",
         fillOpacity: 0.85,
       })
-        .bindTooltip(`${marker.town} (${marker.count})`)
+        .bindTooltip(`${marker.town} (${marker.count})`, {
+          className: "roll-origin-tooltip",
+        })
         .addTo(markerLayer);
     });
   }, [summary.markers]);

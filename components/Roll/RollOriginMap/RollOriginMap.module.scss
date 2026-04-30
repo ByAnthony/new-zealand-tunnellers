@@ -201,6 +201,33 @@
   margin: 0;
 }
 
+:global(.leaflet-tooltip.roll-origin-tooltip) {
+  background-color: variables.$primary-medium-color;
+  border: 1px solid variables.$primary-light-color;
+  border-radius: variables.$border-radius;
+  box-shadow: none;
+  color: variables.$text-color;
+  font-size: 0.8rem;
+  font-weight: 400;
+  padding: variables.$xxxs-margin variables.$xxs-margin;
+}
+
+:global(.leaflet-tooltip-top.roll-origin-tooltip::before) {
+  border-top-color: variables.$primary-light-color;
+}
+
+:global(.leaflet-tooltip-bottom.roll-origin-tooltip::before) {
+  border-bottom-color: variables.$primary-light-color;
+}
+
+:global(.leaflet-tooltip-left.roll-origin-tooltip::before) {
+  border-left-color: variables.$primary-light-color;
+}
+
+:global(.leaflet-tooltip-right.roll-origin-tooltip::before) {
+  border-right-color: variables.$primary-light-color;
+}
+
 :global(.leaflet-bottom.leaflet-right) {
   left: 50%;
   right: auto;
