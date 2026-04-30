@@ -1,4 +1,5 @@
 import { render, screen } from "@testing-library/react";
+import { useTranslations } from "next-intl";
 
 import { TimelineEvent } from "@/components/Timeline/TimelineEvent/TimelineEvent";
 import {
@@ -15,6 +16,48 @@ import {
   mockEventTitleAndDescription,
   mockEventTrained,
 } from "@/test-utils/mocks/mockFrontEvents";
+
+beforeEach(() => {
+  (useTranslations as jest.Mock).mockImplementation((namespace: string) => {
+    if (namespace !== "timeline") {
+      return (key: string) => key;
+    }
+
+    return (key: string, values?: Record<string, unknown>) => {
+      const translations: Record<string, string> = {
+        enlisted: "Enlisted",
+        posted: "Posted",
+        trained: "Trained",
+        killedInAction: "Killed in action",
+        diedOfWounds: "Died of wounds",
+        diedOfDisease: "Died of disease",
+        diedOfAccident: "Died of accident",
+        buried: "Buried",
+        graveReference: "Grave reference",
+        demobilization: "Demobilisation",
+        endOfService: "End of Service",
+        endOfServiceUK: "End of Service in the United Kingdom",
+        transferToEngland: "Transfer to England",
+        transferToNewZealand: "Transfer to New Zealand",
+        transferred: "Transferred",
+        companyEventAlt: "Image for {title}",
+        companyEventAltFallback: "Company event",
+      };
+
+      if (key === "enlistedAtAge") {
+        return `${values?.title} at the age of ${values?.age}`;
+      }
+
+      const translation = translations[key];
+      if (!translation) return key;
+
+      if (!values) return translation;
+      return translation.replace(/\{(\w+)\}/g, (_match, token: string) =>
+        String(values[token] ?? `{${token}}`),
+      );
+    };
+  });
+});
 
 test("uses explicit imageAlt when provided for a Company event", () => {
   render(
