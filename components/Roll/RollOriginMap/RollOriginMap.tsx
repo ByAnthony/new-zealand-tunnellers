@@ -12,7 +12,8 @@ import { RollFilter } from "@/components/Roll/RollFilter/RollFilter";
 import { Tunneller } from "@/types/tunnellers";
 import { Filters } from "@/utils/helpers/rollParams";
 
-import { getOriginMapSummary } from "./originMapMarkers";
+import { getOriginMapSummary, OriginMarker } from "./originMapMarkers";
+import { RollOriginDrawer } from "./RollOriginDrawer";
 import STYLES from "./RollOriginMap.module.scss";
 
 type Props = {
@@ -44,6 +45,9 @@ export function RollOriginMap({
   const [currentZoom, setCurrentZoom] = useState<number | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [pendingFilters, setPendingFilters] = useState<Filters>(filters);
+  const [selectedOrigin, setSelectedOrigin] = useState<OriginMarker | null>(
+    null,
+  );
   const summary = useMemo(() => getOriginMapSummary(tunnellers), [tunnellers]);
   const pendingFilteredCount = useMemo(
     () => getFilteredTunnellerCount(pendingFilters),
@@ -57,12 +61,17 @@ export function RollOriginMap({
 
   const closeDialog = useCallback(() => {
     setIsDialogOpen(false);
+    setSelectedOrigin(null);
     applyFilters(pendingFilters);
   }, [applyFilters, pendingFilters]);
 
   const resetPendingFilters = useCallback(() => {
     setPendingFilters(defaultFilters);
   }, [defaultFilters]);
+
+  const closeOriginDrawer = useCallback(() => {
+    setSelectedOrigin(null);
+  }, []);
 
   const openRollList = useCallback(() => {
     const params = new URLSearchParams(window.location.search);
@@ -169,6 +178,23 @@ export function RollOriginMap({
   }, []);
 
   useEffect(() => {
+    requestAnimationFrame(() => {
+      mapRef.current?.invalidateSize();
+    });
+  }, [selectedOrigin]);
+
+  useEffect(() => {
+    document.body.classList.toggle(
+      "roll-origin-drawer-open",
+      selectedOrigin !== null,
+    );
+
+    return () => {
+      document.body.classList.remove("roll-origin-drawer-open");
+    };
+  }, [selectedOrigin]);
+
+  useEffect(() => {
     if (!containerRef.current || mapRef.current) return;
 
     const map = L.map(containerRef.current, {
@@ -198,25 +224,54 @@ export function RollOriginMap({
   }, []);
 
   useEffect(() => {
+    const container = containerRef.current;
+    const map = mapRef.current;
+    if (!container || !map || typeof ResizeObserver === "undefined") return;
+
+    let frame: number | null = null;
+    const observer = new ResizeObserver(() => {
+      if (frame !== null) cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        map.invalidateSize();
+        frame = null;
+      });
+    });
+
+    observer.observe(container);
+
+    return () => {
+      if (frame !== null) cancelAnimationFrame(frame);
+      observer.disconnect();
+    };
+  }, []);
+
+  useEffect(() => {
     const markerLayer = markerLayerRef.current;
     if (!markerLayer) return;
 
     markerLayer.clearLayers();
     summary.markers.forEach((marker) => {
+      const isSelected =
+        selectedOrigin?.town === marker.town &&
+        selectedOrigin.latitude === marker.latitude &&
+        selectedOrigin.longitude === marker.longitude;
       const radius = marker.count > 1 ? 8 + Math.min(marker.count, 20) : 7;
-      L.circleMarker([marker.latitude, marker.longitude], {
+      const circleMarker = L.circleMarker([marker.latitude, marker.longitude], {
         radius,
-        color: "rgba(255, 255, 255, 0.85)",
-        weight: 1,
-        fillColor: "rgb(153, 131, 100)",
-        fillOpacity: 0.85,
+        color: isSelected ? "rgb(255, 255, 255)" : "rgba(255, 255, 255, 0.85)",
+        weight: isSelected ? 2 : 1,
+        fillColor: isSelected ? "rgb(255, 255, 255)" : "rgb(153, 131, 100)",
+        fillOpacity: isSelected ? 1 : 0.85,
       })
+        .on("click", () => setSelectedOrigin(marker))
         .bindTooltip(`${marker.town} (${marker.count})`, {
           className: "roll-origin-tooltip",
         })
         .addTo(markerLayer);
+
+      if (isSelected) circleMarker.bringToFront();
     });
-  }, [summary.markers]);
+  }, [selectedOrigin, summary.markers]);
 
   return (
     <>
@@ -236,8 +291,12 @@ export function RollOriginMap({
           className={STYLES["filters-container"]}
         />
       </Dialog>
-      <div className={STYLES.container} data-testid="roll-origin-map">
+      <div
+        className={`${STYLES.container} ${selectedOrigin ? STYLES["container--drawer-open"] : ""}`.trim()}
+        data-testid="roll-origin-map"
+      >
         <div ref={containerRef} className={STYLES.map} />
+        <RollOriginDrawer origin={selectedOrigin} onClose={closeOriginDrawer} />
         <div className={STYLES["map-controls"]}>
           <div className={STYLES["controls-grid"]}>
             <div className={STYLES["controls-top-row"]}>

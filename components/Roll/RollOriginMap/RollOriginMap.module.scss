@@ -1,14 +1,60 @@
 @use "app/variables.module.scss";
 
+$drawer-width: 380px;
+
+@keyframes origin-drawer-slide-in {
+  from {
+    transform: translateX(100%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
+
 .container {
   position: fixed;
   inset: 0;
   z-index: 900;
+  background-color: variables.$primary-dark-color;
+}
+
+:global(body.roll-origin-drawer-open [data-testid="menu"]) {
+  @include variables.desktop {
+    width: min(
+      variables.$inner-width,
+      calc(100vw - $drawer-width - (2 * variables.$base-margin))
+    );
+    margin-left: max(
+      variables.$base-margin,
+      calc((100vw - $drawer-width - variables.$inner-width) / 2)
+    );
+    margin-right: max(
+      variables.$base-margin,
+      calc((100vw - $drawer-width - variables.$inner-width) / 2)
+    );
+    transform: none;
+    transition:
+      opacity 0.9s ease-in-out,
+      margin 0.9s ease-in-out,
+      width 0.9s ease-in-out;
+  }
 }
 
 .map {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
+
+  @include variables.desktop {
+    width: auto;
+    transition: right 0.9s ease-in-out;
+
+    .container--drawer-open & {
+      right: $drawer-width;
+    }
+  }
 }
 
 .map-controls {
@@ -24,6 +70,17 @@
     right: 0;
     width: min(700px, calc(100% - (2 * variables.$base-margin)));
     margin: 0 auto;
+    transition:
+      right 0.9s ease-in-out,
+      width 0.9s ease-in-out;
+
+    .container--drawer-open & {
+      right: $drawer-width;
+      width: min(
+        700px,
+        calc(100% - $drawer-width - (2 * variables.$base-margin))
+      );
+    }
   }
 }
 
@@ -199,6 +256,216 @@
 
 .filters-container {
   margin: 0;
+}
+
+.origin-drawer {
+  position: absolute;
+  left: variables.$m-margin;
+  right: variables.$m-margin;
+  bottom: calc(variables.$m-margin + 100px);
+  z-index: 1001;
+  display: flex;
+  flex-direction: column;
+  max-height: 38vh;
+  overflow: hidden;
+  background-color: variables.$primary-dark-color;
+  border: 1px solid variables.$primary-light-color;
+  border-radius: variables.$border-radius;
+  animation: origin-drawer-slide-in 0.9s ease-in-out;
+
+  @include variables.tablet {
+    top: variables.$m-margin;
+    right: variables.$m-margin;
+    bottom: variables.$m-margin;
+    left: auto;
+    width: min(360px, calc(100% - (2 * variables.$m-margin)));
+    max-height: none;
+  }
+
+  @include variables.desktop {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: auto;
+    width: $drawer-width;
+    max-height: none;
+    border-top: none;
+    border-right: none;
+    border-bottom: none;
+    border-radius: 0;
+  }
+}
+
+.origin-drawer-header {
+  display: flex;
+  flex-direction: column;
+  gap: variables.$xxs-margin;
+  padding: variables.$s-margin;
+  border-bottom: 1px solid variables.$primary-medium-color;
+}
+
+.origin-drawer-title-row,
+.origin-drawer-meta-row {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.origin-drawer-title-row {
+  justify-content: space-between;
+  gap: variables.$s-margin;
+}
+
+.origin-drawer-title {
+  margin: 0;
+  color: variables.$text-color;
+  font-size: 1.4rem;
+  font-weight: 500;
+  line-height: normal;
+
+  @include variables.tablet {
+    font-size: 1.5rem;
+  }
+
+  @include variables.desktop {
+    font-size: 1.8rem;
+  }
+}
+
+.origin-drawer-count {
+  margin: 0;
+  color: variables.$text-color;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.origin-drawer-close {
+  background: none;
+  border: none;
+  color: variables.$placeholder-color;
+  cursor: pointer;
+  font-size: 1.8rem;
+  line-height: 0.8;
+  padding: 0;
+  transition: color 0.9s ease-in-out;
+
+  @include variables.hover-supported {
+    &:hover {
+      color: variables.$text-color;
+    }
+  }
+
+  &:focus-visible {
+    outline: 2px solid variables.$secondary-color;
+    outline-offset: 4px;
+  }
+}
+
+.origin-drawer-list {
+  display: flex;
+  flex-direction: column;
+  gap: variables.$xxxs-margin;
+  overflow-y: auto;
+  padding: variables.$xxs-margin;
+}
+
+.origin-drawer-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: variables.$m-margin;
+  text-decoration: none;
+
+  @include variables.featured-button-link;
+
+  &:focus-visible {
+    outline: 2px solid variables.$secondary-color;
+    outline-offset: 2px;
+  }
+
+  p {
+    text-align: left;
+  }
+}
+
+.origin-drawer-rank-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  margin: 0 0 variables.$xxs-margin 0;
+}
+
+.origin-drawer-rank {
+  color: variables.$secondary-color;
+  font-size: 0.9rem;
+  font-weight: 300;
+}
+
+.origin-drawer-forename,
+.origin-drawer-surname {
+  margin: 0;
+  color: variables.$secondary-color;
+  font-size: 1.15rem;
+}
+
+.origin-drawer-forename {
+  font-weight: 200;
+}
+
+.origin-drawer-surname {
+  font-weight: 500;
+}
+
+.origin-drawer-detachment {
+  margin: variables.$xxs-margin 0 0 0;
+  color: variables.$secondary-color;
+  font-size: 0.9rem;
+  font-weight: 300;
+
+  sup {
+    color: variables.$secondary-color;
+    font-size: 0.6rem;
+    line-height: 80%;
+    vertical-align: super;
+  }
+}
+
+.origin-drawer-dates {
+  margin: variables.$xs-margin 0 0 0;
+  color: variables.$secondary-color;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.origin-drawer-badge {
+  margin-left: variables.$xxs-margin;
+  padding: 4px 6px;
+  border-radius: 4px;
+  background-color: variables.$secondary-color;
+  color: variables.$primary-dark-color;
+  font-size: 0.65rem;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.origin-drawer-arrow {
+  @include variables.arrow-button;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: variables.$secondary-color;
+  font-size: 1.5rem;
+  line-height: 1;
+
+  @include variables.tablet {
+    font-size: 2rem;
+  }
+
+  @include variables.desktop {
+    font-size: 2.5rem;
+  }
 }
 
 :global(.leaflet-tooltip.roll-origin-tooltip) {

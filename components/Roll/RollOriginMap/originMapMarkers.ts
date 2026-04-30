@@ -5,6 +5,7 @@ export type OriginMarker = {
   latitude: number;
   longitude: number;
   count: number;
+  tunnellers: Tunneller[];
 };
 
 export type OriginMapSummary = {
@@ -34,6 +35,7 @@ export function getOriginMapSummary(
     const marker = markersByCoordinate.get(key);
     if (marker) {
       marker.count += 1;
+      marker.tunnellers.push(tunneller);
       return;
     }
 
@@ -42,6 +44,7 @@ export function getOriginMapSummary(
       latitude: residence.latitude,
       longitude: residence.longitude,
       count: 1,
+      tunnellers: [tunneller],
     });
   });
 
