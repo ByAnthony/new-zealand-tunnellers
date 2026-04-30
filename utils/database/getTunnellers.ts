@@ -7,6 +7,12 @@ import { Tunneller, TunnellerData } from "@/types/tunnellers";
 import { rollQuery } from "./queries/rollQuery";
 import { withConnection } from "./withConnection";
 
+function parseCoordinate(value: string | null): number | null {
+  if (!value) return null;
+  const coordinate = Number(value);
+  return Number.isFinite(coordinate) ? coordinate : null;
+}
+
 export async function getTunnellers(
   locale: Locale,
   connection: PoolConnection,
@@ -34,6 +40,13 @@ export async function getTunnellers(
     attachedCorps: result.attached_corps,
     corpsEn: result.corps_en,
     corpsId: result.corps_id,
+    origin: {
+      residence: {
+        town: result.residence,
+        latitude: parseCoordinate(result.residence_latitude),
+        longitude: parseCoordinate(result.residence_longitude),
+      },
+    },
   }));
 
   return tunnellers;

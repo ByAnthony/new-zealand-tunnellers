@@ -63,7 +63,9 @@ export function Roll({ tunnellers }: Props) {
   const sortButtonText = isAscending ? t("sortDescending") : t("sortAscending");
 
   if (isMapView) {
-    return <RollOriginMap />;
+    return (
+      <RollOriginMap tunnellers={Object.fromEntries(sortedFilteredGroups)} />
+    );
   }
 
   return (
