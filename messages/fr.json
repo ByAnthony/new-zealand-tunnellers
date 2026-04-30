@@ -79,6 +79,8 @@
     "includesUnknownDeathYear": "Années de décès inconnues",
     "noResults": "Aucun profil ne correspond à vos filtres",
     "clearFilters": "Supprimer les filtres",
+    "rollList": "Liste",
+    "openRollList": "Ouvrir la liste des tunneliers",
     "letter": "Lettre {letter}",
     "goToPreviousPage": "Aller à la page précédente",
     "goToPage": "Aller à la page {page}",

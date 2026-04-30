@@ -34,13 +34,13 @@
 
   @include variables.tablet {
     display: grid;
-    grid-template-columns: auto minmax(0, 1fr) minmax(0, 1fr) auto auto;
+    grid-template-columns: auto auto minmax(0, 1fr) minmax(0, 1fr) auto auto;
     grid-template-rows: 45px;
   }
 
   @include variables.desktop {
     display: grid;
-    grid-template-columns: auto minmax(0, 1fr) minmax(0, 1fr) auto auto;
+    grid-template-columns: auto auto minmax(0, 1fr) minmax(0, 1fr) auto auto;
     grid-template-rows: 45px;
   }
 }
@@ -74,7 +74,8 @@
   }
 }
 
-.filter-button {
+.filter-button,
+.roll-button {
   flex: 1 1 auto;
   background-color: variables.$primary-medium-color;
   border: 1px solid variables.$primary-light-color;
@@ -88,14 +89,12 @@
 
   @include variables.tablet {
     flex: initial;
-    grid-column: 1;
     grid-row: 1;
     width: 140px;
   }
 
   @include variables.desktop {
     flex: initial;
-    grid-column: 1;
     grid-row: 1;
     width: 140px;
   }
@@ -119,6 +118,30 @@
       border-color: variables.$secondary-color;
       color: variables.$primary-dark-color;
     }
+  }
+}
+
+.filter-button {
+  @include variables.tablet {
+    grid-column: 2;
+  }
+
+  @include variables.desktop {
+    grid-column: 2;
+  }
+}
+
+.roll-button {
+  padding: 0 variables.$xs-margin;
+
+  @include variables.tablet {
+    grid-column: 1;
+    width: auto;
+  }
+
+  @include variables.desktop {
+    grid-column: 1;
+    width: auto;
   }
 }
 
@@ -182,12 +205,12 @@
 
 .map-count {
   @include variables.tablet {
-    grid-column: 2;
+    grid-column: 3;
     grid-row: 1;
   }
 
   @include variables.desktop {
-    grid-column: 2;
+    grid-column: 3;
     grid-row: 1;
 
     .count-primary {
@@ -202,12 +225,12 @@
 
 .missing-count {
   @include variables.tablet {
-    grid-column: 3;
+    grid-column: 4;
     grid-row: 1;
   }
 
   @include variables.desktop {
-    grid-column: 3;
+    grid-column: 4;
     grid-row: 1;
 
     .count-primary {
@@ -217,28 +240,22 @@
 }
 
 .zoom-in {
-  grid-column: 3;
-  grid-row: 1;
-
   @include variables.tablet {
-    grid-column: 4;
+    grid-column: 5;
   }
 
   @include variables.desktop {
-    grid-column: 4;
+    grid-column: 5;
   }
 }
 
 .zoom-out {
-  grid-column: 4;
-  grid-row: 1;
-
   @include variables.tablet {
-    grid-column: 5;
+    grid-column: 6;
   }
 
   @include variables.desktop {
-    grid-column: 5;
+    grid-column: 6;
   }
 }
 

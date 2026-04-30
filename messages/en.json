@@ -79,6 +79,8 @@
     "includesUnknownDeathYear": "Unknown death year",
     "noResults": "Sorry, no profile matches your filters",
     "clearFilters": "Clear Filters",
+    "rollList": "List",
+    "openRollList": "Open the tunnellers roll list",
     "letter": "Letter {letter}",
     "goToPreviousPage": "Go to previous page",
     "goToPage": "Go to page {page}",

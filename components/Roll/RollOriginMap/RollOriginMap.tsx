@@ -58,6 +58,16 @@ export function RollOriginMap({
     setPendingFilters(defaultFilters);
   }, [defaultFilters]);
 
+  const openRollList = useCallback(() => {
+    const params = new URLSearchParams(window.location.search);
+    params.delete("view");
+    const qs = params.toString().replace(/%2C/gi, ",");
+    const url = qs
+      ? `${window.location.pathname}?${qs}`
+      : window.location.pathname;
+    window.history.replaceState(null, "", url);
+  }, []);
+
   const pendingRollFiltersProps = useMemo<
     Omit<ComponentProps<typeof RollFilter>, "className">
   >(() => {
@@ -223,6 +233,13 @@ export function RollOriginMap({
         <div className={STYLES["map-controls"]}>
           <div className={STYLES["controls-grid"]}>
             <div className={STYLES["controls-top-row"]}>
+              <button
+                className={STYLES["roll-button"]}
+                onClick={openRollList}
+                aria-label={tRoll("openRollList")}
+              >
+                {tRoll("rollList")}
+              </button>
               <button
                 className={`${STYLES["filter-button"]} ${activeFilterCount > 0 ? STYLES["filter-button--active"] : ""}`.trim()}
                 onClick={openDialog}
