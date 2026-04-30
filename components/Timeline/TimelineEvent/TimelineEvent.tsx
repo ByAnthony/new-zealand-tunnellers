@@ -13,38 +13,53 @@ type Props = {
   ageAtEnlistment: number | null;
 };
 
-const TITLE_TRANSLATION_KEYS: Record<string, string> = {
-  Enlisted: "enlisted",
-  Posted: "posted",
-  Trained: "trained",
-  "Killed in action": "killedInAction",
-  "Died of wounds": "diedOfWounds",
-  "Died of disease": "diedOfDisease",
-  "Died of accident": "diedOfAccident",
-  Buried: "buried",
-  "Grave reference": "graveReference",
-  Demobilization: "demobilization",
-  "End of Service": "endOfService",
-  "Transfer to England": "transferToEngland",
-  "Transfer to New Zealand": "transferToNewZealand",
-  Transferred: "transferred",
+const TITLE_CONFIG: Record<
+  string,
+  {
+    translationKey: string;
+    variant: "default" | "enlistment" | "inlineInfo" | "stacked";
+  }
+> = {
+  Enlisted: { translationKey: "enlisted", variant: "enlistment" },
+  Posted: { translationKey: "posted", variant: "enlistment" },
+  Trained: { translationKey: "trained", variant: "stacked" },
+  "Killed in action": {
+    translationKey: "killedInAction",
+    variant: "inlineInfo",
+  },
+  "Died of wounds": {
+    translationKey: "diedOfWounds",
+    variant: "inlineInfo",
+  },
+  "Died of disease": {
+    translationKey: "diedOfDisease",
+    variant: "inlineInfo",
+  },
+  "Died of accident": {
+    translationKey: "diedOfAccident",
+    variant: "inlineInfo",
+  },
+  Buried: { translationKey: "buried", variant: "stacked" },
+  "Grave reference": { translationKey: "graveReference", variant: "stacked" },
+  Demobilization: { translationKey: "demobilization", variant: "default" },
+  "End of Service": { translationKey: "endOfService", variant: "default" },
+  "Transfer to England": {
+    translationKey: "transferToEngland",
+    variant: "default",
+  },
+  "Transfer to New Zealand": {
+    translationKey: "transferToNewZealand",
+    variant: "default",
+  },
+  Transferred: { translationKey: "transferred", variant: "default" },
 };
-
-const INLINE_INFO_TITLES = new Set([
-  "Killed in action",
-  "Died of wounds",
-  "Died of disease",
-  "Died of accident",
-]);
-
-const STACKED_TITLE_TITLES = new Set(["Trained", "Buried", "Grave reference"]);
 
 export function TimelineEvent({ event, ageAtEnlistment }: Props) {
   const t = useTranslations("timeline");
 
   const getTranslatedTitle = (key: string, fallbackTitle: string | null) => {
-    const translationKey = TITLE_TRANSLATION_KEYS[key];
-    return translationKey ? t(translationKey) : fallbackTitle;
+    const config = TITLE_CONFIG[key];
+    return config ? t(config.translationKey) : fallbackTitle;
   };
 
   const getTitleWithAgeAtEnlistment = (key: string, age: number | null) => {
@@ -60,6 +75,7 @@ export function TimelineEvent({ event, ageAtEnlistment }: Props) {
       {event.map((eventDetail: EventDetail) => {
         const { title, titleKey, description, descriptionKey } = eventDetail;
         const key = titleKey ?? title;
+        const titleConfig = key ? TITLE_CONFIG[key] : undefined;
         const displayTitle = key ? getTranslatedTitle(key, title) : null;
         const displayDescription = descriptionKey
           ? t(descriptionKey)
@@ -102,7 +118,7 @@ export function TimelineEvent({ event, ageAtEnlistment }: Props) {
             );
           }
 
-          if (STACKED_TITLE_TITLES.has(key)) {
+          if (titleConfig?.variant === "stacked") {
             return (
               <div
                 key={event.indexOf(eventDetail)}
@@ -114,7 +130,7 @@ export function TimelineEvent({ event, ageAtEnlistment }: Props) {
             );
           }
 
-          if (INLINE_INFO_TITLES.has(key)) {
+          if (titleConfig?.variant === "inlineInfo") {
             return (
               <div
                 key={event.indexOf(eventDetail)}
