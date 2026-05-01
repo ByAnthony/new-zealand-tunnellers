@@ -1,5 +1,8 @@
 @use "app/variables.module.scss";
 
+$related-close-button-width: 34px;
+$related-link-main-offset: 12px;
+
 .related-chapter-row {
   display: flex;
   justify-content: flex-start;
@@ -24,10 +27,10 @@
   box-sizing: border-box;
   align-items: center;
   justify-content: center;
-  width: 45px;
+  width: $related-close-button-width;
   min-height: 45px;
   align-self: stretch;
-  flex: 0 0 45px;
+  flex: 0 0 $related-close-button-width;
   padding: 0;
   border: 1px solid variables.$primary-light-color;
   border-right: 0;
@@ -38,8 +41,8 @@
   background-color: variables.$primary-medium-color;
   color: variables.$text-color;
   font-size: 1.4rem;
-  font-weight: 200;
-  line-height: 1;
+  font-weight: 400;
+  line-height: 0;
   cursor: pointer;
   transition:
     color 0.9s ease-in-out,
@@ -73,8 +76,8 @@
   box-sizing: border-box;
   align-items: center;
   justify-content: center;
-  min-height: 45px;
-  padding: variables.$xxs-margin;
+  height: 45px;
+  padding: variables.$xxs-margin variables.$xs-margin variables.$xxs-margin 0;
   font-size: 0.95rem;
   font-weight: 500;
   text-decoration: none;
@@ -102,6 +105,7 @@
   justify-content: center;
   flex: 1;
   min-width: 0;
+  padding-right: $related-link-main-offset;
 }
 
 .related-link-label {
