@@ -573,6 +573,17 @@ button.missing-count {
   border-right-color: variables.$primary-light-color;
 }
 
+:global(
+  .leaflet-pane > svg path.leaflet-interactive:focus:not(:focus-visible)
+) {
+  outline: none;
+}
+
+:global(.leaflet-pane > svg path.leaflet-interactive:focus-visible) {
+  outline: 2px solid variables.$secondary-color;
+  outline-offset: 3px;
+}
+
 :global(.leaflet-bottom.leaflet-right) {
   left: 50%;
   right: auto;
