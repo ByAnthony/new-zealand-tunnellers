@@ -147,7 +147,17 @@ $drawer-width: 380px;
 }
 
 .roll-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: variables.$xxxs-margin;
   padding: 0 variables.$xs-margin;
+}
+
+.roll-button-icon {
+  width: 1rem;
+  height: 1rem;
+  flex: 0 0 auto;
 }
 
 .filter-badge {

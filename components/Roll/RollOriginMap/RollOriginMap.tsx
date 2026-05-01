@@ -344,6 +344,21 @@ export function RollOriginMap({
                 onClick={openRollList}
                 aria-label={tRoll("openRollList")}
               >
+                <svg
+                  className={STYLES["roll-button-icon"]}
+                  viewBox="0 0 24 24"
+                  focusable="false"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M7 7h12M7 12h12M7 17h12M4 7h.01M4 12h.01M4 17h.01"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                  />
+                </svg>
                 {tRoll("rollList")}
               </button>
               <button
