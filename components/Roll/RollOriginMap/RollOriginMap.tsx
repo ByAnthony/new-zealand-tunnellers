@@ -12,7 +12,10 @@ import { RollFilter } from "@/components/Roll/RollFilter/RollFilter";
 import { Tunneller } from "@/types/tunnellers";
 import { Filters } from "@/utils/helpers/rollParams";
 
-import { getOriginMapSummary } from "./originMapMarkers";
+import {
+  createMissingOriginMarker,
+  getOriginMapSummary,
+} from "./originMapMarkers";
 import { RollOriginDrawer } from "./RollOriginDrawer";
 import STYLES from "./RollOriginMap.module.scss";
 import { RollOriginMapControls } from "./RollOriginMapControls";
@@ -61,19 +64,13 @@ export function RollOriginMap({
   );
 
   const openMissingOriginDrawer = useCallback(() => {
-    openOriginDrawer({
-      town: tMaps("originMissingTitle"),
-      latitude: Number.NaN,
-      longitude: Number.NaN,
-      count: summary.missingOriginCount,
-      tunnellers: summary.missingOriginTunnellers,
-    });
-  }, [
-    openOriginDrawer,
-    summary.missingOriginCount,
-    summary.missingOriginTunnellers,
-    tMaps,
-  ]);
+    openOriginDrawer(
+      createMissingOriginMarker(
+        tMaps("originMissingTitle"),
+        summary.missingOriginTunnellers,
+      ),
+    );
+  }, [openOriginDrawer, summary.missingOriginTunnellers, tMaps]);
 
   const openDialog = useCallback(() => {
     closeOriginDrawer();
