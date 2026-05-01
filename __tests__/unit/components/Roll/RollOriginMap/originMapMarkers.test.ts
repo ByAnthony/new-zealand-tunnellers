@@ -1,4 +1,6 @@
 import {
+  getOriginMarkerRadius,
+  getOriginMarkerStyle,
   getOriginMapSummary,
   getOriginMarkers,
 } from "@/components/Roll/RollOriginMap/originMapMarkers";
@@ -34,6 +36,27 @@ describe("origin map markers", () => {
       mappedCount: 3,
       missingOriginCount: 1,
       missingOriginTunnellers: [mockTunnellersData[2]],
+    });
+  });
+
+  test("scales marker radius by count with a cap", () => {
+    expect(getOriginMarkerRadius(1)).toBe(7);
+    expect(getOriginMarkerRadius(2)).toBe(10);
+    expect(getOriginMarkerRadius(100)).toBe(28);
+  });
+
+  test("returns selected and default marker styles", () => {
+    expect(getOriginMarkerStyle(false)).toEqual({
+      color: "rgba(255, 255, 255, 0.85)",
+      fillColor: "rgb(153, 131, 100)",
+      fillOpacity: 0.85,
+      weight: 1,
+    });
+    expect(getOriginMarkerStyle(true)).toEqual({
+      color: "rgb(255, 255, 255)",
+      fillColor: "rgb(255, 255, 255)",
+      fillOpacity: 1,
+      weight: 2,
     });
   });
 });

@@ -14,6 +14,8 @@ import { Filters } from "@/utils/helpers/rollParams";
 
 import {
   createMissingOriginMarker,
+  getOriginMarkerRadius,
+  getOriginMarkerStyle,
   getOriginMapSummary,
 } from "./originMapMarkers";
 import { RollOriginDrawer } from "./RollOriginDrawer";
@@ -259,13 +261,9 @@ export function RollOriginMap({
         selectedOrigin?.town === marker.town &&
         selectedOrigin.latitude === marker.latitude &&
         selectedOrigin.longitude === marker.longitude;
-      const radius = marker.count > 1 ? 8 + Math.min(marker.count, 20) : 7;
       const circleMarker = L.circleMarker([marker.latitude, marker.longitude], {
-        radius,
-        color: isSelected ? "rgb(255, 255, 255)" : "rgba(255, 255, 255, 0.85)",
-        weight: isSelected ? 2 : 1,
-        fillColor: isSelected ? "rgb(255, 255, 255)" : "rgb(153, 131, 100)",
-        fillOpacity: isSelected ? 1 : 0.85,
+        radius: getOriginMarkerRadius(marker.count),
+        ...getOriginMarkerStyle(isSelected),
       })
         .on("click", () => openOriginDrawer(marker))
         .bindTooltip(`${marker.town} (${marker.count})`, {

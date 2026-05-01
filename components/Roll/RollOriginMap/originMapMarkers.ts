@@ -16,6 +16,19 @@ export type OriginMapSummary = {
   missingOriginTunnellers: Tunneller[];
 };
 
+export function getOriginMarkerRadius(count: number): number {
+  return count > 1 ? 8 + Math.min(count, 20) : 7;
+}
+
+export function getOriginMarkerStyle(isSelected: boolean) {
+  return {
+    color: isSelected ? "rgb(255, 255, 255)" : "rgba(255, 255, 255, 0.85)",
+    fillColor: isSelected ? "rgb(255, 255, 255)" : "rgb(153, 131, 100)",
+    fillOpacity: isSelected ? 1 : 0.85,
+    weight: isSelected ? 2 : 1,
+  };
+}
+
 export function createMissingOriginMarker(
   town: string,
   tunnellers: Tunneller[],
