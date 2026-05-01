@@ -12,10 +12,15 @@ import STYLES from "./RollOriginMap.module.scss";
 
 type Props = {
   origin: OriginMarker | null;
+  isClosing?: boolean;
   onClose: () => void;
 };
 
-export function RollOriginDrawer({ origin, onClose }: Props) {
+export function RollOriginDrawer({
+  origin,
+  isClosing = false,
+  onClose,
+}: Props) {
   const locale = useLocale();
   const tMaps = useTranslations("maps");
   const localePrefix = locale === "en" ? "" : `/${locale}`;
@@ -24,7 +29,7 @@ export function RollOriginDrawer({ origin, onClose }: Props) {
   const descriptionId = useId();
 
   useEffect(() => {
-    if (!origin) return;
+    if (!origin || isClosing) return;
 
     const previousActiveElement = document.activeElement;
 
@@ -43,17 +48,18 @@ export function RollOriginDrawer({ origin, onClose }: Props) {
         previousActiveElement.focus();
       }
     };
-  }, [onClose, origin]);
+  }, [isClosing, onClose, origin]);
 
   if (!origin) return null;
 
   return (
     <aside
       ref={drawerRef}
-      className={STYLES["origin-drawer"]}
-      role="dialog"
-      aria-labelledby={titleId}
-      aria-describedby={descriptionId}
+      className={`${STYLES["origin-drawer"]} ${isClosing ? STYLES["origin-drawer--closing"] : ""}`.trim()}
+      role={isClosing ? undefined : "dialog"}
+      aria-hidden={isClosing}
+      aria-labelledby={isClosing ? undefined : titleId}
+      aria-describedby={isClosing ? undefined : descriptionId}
       tabIndex={-1}
     >
       <div className={STYLES["origin-drawer-header"]}>

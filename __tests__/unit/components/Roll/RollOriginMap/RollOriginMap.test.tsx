@@ -172,4 +172,33 @@ describe("RollOriginMap", () => {
       "true",
     );
   });
+
+  test("keeps drawer cards rendered while the drawer closes", async () => {
+    render(
+      <RollOriginMap
+        tunnellers={mockTunnellers}
+        rollFiltersProps={rollFiltersProps}
+        filters={filters}
+        defaultFilters={filters}
+        applyFilters={jest.fn()}
+        getFilteredTunnellerCount={() => 4}
+        activeFilterCount={0}
+        totalTunnellers={4}
+      />,
+    );
+
+    await waitFor(() => expect(circleMarkers.length).toBeGreaterThan(0));
+
+    act(() => {
+      circleMarkers[0].handlers.click();
+    });
+
+    fireEvent.click(screen.getByRole("button", { name: "Close" }));
+
+    expect(
+      screen.queryByRole("dialog", { name: "Auckland" }),
+    ).not.toBeInTheDocument();
+    expect(screen.getByText("Emmett")).toBeInTheDocument();
+    expect(screen.getByText("Brown")).toBeInTheDocument();
+  });
 });

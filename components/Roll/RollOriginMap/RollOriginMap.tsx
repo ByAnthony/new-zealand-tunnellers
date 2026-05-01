@@ -27,6 +27,8 @@ type Props = {
   totalTunnellers: number;
 };
 
+const DRAWER_ANIMATION_MS = 900;
+
 export function RollOriginMap({
   tunnellers,
   rollFiltersProps,
@@ -42,37 +44,65 @@ export function RollOriginMap({
   const mapRef = useRef<L.Map | null>(null);
   const markerLayerRef = useRef<L.LayerGroup | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const drawerCloseTimeoutRef = useRef<number | null>(null);
   const [currentZoom, setCurrentZoom] = useState<number | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [pendingFilters, setPendingFilters] = useState<Filters>(filters);
   const [selectedOrigin, setSelectedOrigin] = useState<OriginMarker | null>(
     null,
   );
+  const [renderedOrigin, setRenderedOrigin] = useState<OriginMarker | null>(
+    null,
+  );
+  const [isDrawerClosing, setIsDrawerClosing] = useState(false);
   const summary = useMemo(() => getOriginMapSummary(tunnellers), [tunnellers]);
   const pendingFilteredCount = useMemo(
     () => getFilteredTunnellerCount(pendingFilters),
     [getFilteredTunnellerCount, pendingFilters],
   );
 
-  const openDialog = useCallback(() => {
+  const clearDrawerCloseTimeout = useCallback(() => {
+    if (drawerCloseTimeoutRef.current === null) return;
+    window.clearTimeout(drawerCloseTimeoutRef.current);
+    drawerCloseTimeoutRef.current = null;
+  }, []);
+
+  const openOriginDrawer = useCallback(
+    (origin: OriginMarker) => {
+      clearDrawerCloseTimeout();
+      setRenderedOrigin(origin);
+      setSelectedOrigin(origin);
+      setIsDrawerClosing(false);
+    },
+    [clearDrawerCloseTimeout],
+  );
+
+  const closeOriginDrawer = useCallback(() => {
+    clearDrawerCloseTimeout();
     setSelectedOrigin(null);
+    setIsDrawerClosing(true);
+    drawerCloseTimeoutRef.current = window.setTimeout(() => {
+      setRenderedOrigin(null);
+      setIsDrawerClosing(false);
+      drawerCloseTimeoutRef.current = null;
+    }, DRAWER_ANIMATION_MS);
+  }, [clearDrawerCloseTimeout]);
+
+  const openDialog = useCallback(() => {
+    closeOriginDrawer();
     setPendingFilters(filters);
     setIsDialogOpen(true);
-  }, [filters]);
+  }, [closeOriginDrawer, filters]);
 
   const closeDialog = useCallback(() => {
     setIsDialogOpen(false);
-    setSelectedOrigin(null);
+    closeOriginDrawer();
     applyFilters(pendingFilters);
-  }, [applyFilters, pendingFilters]);
+  }, [applyFilters, closeOriginDrawer, pendingFilters]);
 
   const resetPendingFilters = useCallback(() => {
     setPendingFilters(defaultFilters);
   }, [defaultFilters]);
-
-  const closeOriginDrawer = useCallback(() => {
-    setSelectedOrigin(null);
-  }, []);
 
   const openRollList = useCallback(() => {
     const params = new URLSearchParams(window.location.search);
@@ -179,6 +209,10 @@ export function RollOriginMap({
   }, []);
 
   useEffect(() => {
+    return clearDrawerCloseTimeout;
+  }, [clearDrawerCloseTimeout]);
+
+  useEffect(() => {
     requestAnimationFrame(() => {
       mapRef.current?.invalidateSize();
     });
@@ -264,7 +298,7 @@ export function RollOriginMap({
         fillColor: isSelected ? "rgb(255, 255, 255)" : "rgb(153, 131, 100)",
         fillOpacity: isSelected ? 1 : 0.85,
       })
-        .on("click", () => setSelectedOrigin(marker))
+        .on("click", () => openOriginDrawer(marker))
         .bindTooltip(`${marker.town} (${marker.count})`, {
           className: "roll-origin-tooltip",
         })
@@ -272,7 +306,7 @@ export function RollOriginMap({
 
       if (isSelected) circleMarker.bringToFront();
     });
-  }, [selectedOrigin, summary.markers]);
+  }, [openOriginDrawer, selectedOrigin, summary.markers]);
 
   return (
     <>
@@ -297,7 +331,11 @@ export function RollOriginMap({
         data-testid="roll-origin-map"
       >
         <div ref={containerRef} className={STYLES.map} />
-        <RollOriginDrawer origin={selectedOrigin} onClose={closeOriginDrawer} />
+        <RollOriginDrawer
+          origin={renderedOrigin}
+          isClosing={isDrawerClosing}
+          onClose={closeOriginDrawer}
+        />
         <div className={STYLES["map-controls"]}>
           <div className={STYLES["controls-grid"]}>
             <div className={STYLES["controls-top-row"]}>

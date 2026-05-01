@@ -12,6 +12,16 @@ $drawer-width: 380px;
   }
 }
 
+@keyframes origin-drawer-slide-out {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(100%);
+  }
+}
+
 .container {
   position: fixed;
   inset: 0;
@@ -296,6 +306,11 @@ $drawer-width: 380px;
   }
 }
 
+.origin-drawer--closing {
+  animation-name: origin-drawer-slide-out;
+  pointer-events: none;
+}
+
 .origin-drawer-header {
   display: flex;
   flex-direction: column;
@@ -364,9 +379,9 @@ $drawer-width: 380px;
 .origin-drawer-list {
   display: flex;
   flex-direction: column;
-  gap: variables.$xxxs-margin;
+  gap: variables.$xs-margin;
   overflow-y: auto;
-  padding: variables.$xxs-margin;
+  padding: variables.$xs-margin;
 }
 
 .origin-drawer-link {
