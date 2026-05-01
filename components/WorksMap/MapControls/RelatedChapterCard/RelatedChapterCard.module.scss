@@ -1,7 +1,6 @@
 @use "app/variables.module.scss";
 
-$related-close-button-width: 34px;
-$related-link-main-offset: 12px;
+$related-link-side-padding: variables.$xs-margin;
 
 .related-chapter-row {
   display: flex;
@@ -27,11 +26,10 @@ $related-link-main-offset: 12px;
   box-sizing: border-box;
   align-items: center;
   justify-content: center;
-  width: $related-close-button-width;
-  min-height: 45px;
+  height: 45px;
   align-self: stretch;
-  flex: 0 0 $related-close-button-width;
-  padding: 0;
+  flex: 0 0 auto;
+  padding: 0 0 0 $related-link-side-padding;
   border: 1px solid variables.$primary-light-color;
   border-right: 0;
   border-top-left-radius: variables.$border-radius;
@@ -77,7 +75,8 @@ $related-link-main-offset: 12px;
   align-items: center;
   justify-content: center;
   height: 45px;
-  padding: variables.$xxs-margin variables.$xs-margin variables.$xxs-margin 0;
+  padding: variables.$xxs-margin $related-link-side-padding
+    variables.$xxs-margin 0;
   font-size: 0.95rem;
   font-weight: 500;
   text-decoration: none;
@@ -105,7 +104,6 @@ $related-link-main-offset: 12px;
   justify-content: center;
   flex: 1;
   min-width: 0;
-  padding-right: $related-link-main-offset;
 }
 
 .related-link-label {
