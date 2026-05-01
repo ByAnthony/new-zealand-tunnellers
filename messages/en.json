@@ -194,6 +194,7 @@
     "zoomOut": "Zoom out",
     "originMappedLabel": "mapped",
     "originMissingLabel": "unknown origin",
+    "originMissingTitle": "Unknown Origin",
     "originDrawerLabel": "Origin",
     "originDrawerCount": "{count, plural, one {# result} other {# results}}",
     "filterByType": "Filter by type",

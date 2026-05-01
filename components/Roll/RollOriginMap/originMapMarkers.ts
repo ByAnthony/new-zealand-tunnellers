@@ -13,6 +13,7 @@ export type OriginMapSummary = {
   visibleCount: number;
   mappedCount: number;
   missingOriginCount: number;
+  missingOriginTunnellers: Tunneller[];
 };
 
 export function getOriginMapSummary(
@@ -20,6 +21,7 @@ export function getOriginMapSummary(
 ): OriginMapSummary {
   const markersByCoordinate = new Map<string, OriginMarker>();
   const visibleTunnellers = Object.values(tunnellers).flat();
+  const missingOriginTunnellers: Tunneller[] = [];
 
   visibleTunnellers.forEach((tunneller) => {
     const residence = tunneller.origin.residence;
@@ -28,6 +30,7 @@ export function getOriginMapSummary(
       residence.latitude === null ||
       residence.longitude === null
     ) {
+      missingOriginTunnellers.push(tunneller);
       return;
     }
 
@@ -59,6 +62,7 @@ export function getOriginMapSummary(
     visibleCount: visibleTunnellers.length,
     mappedCount,
     missingOriginCount: visibleTunnellers.length - mappedCount,
+    missingOriginTunnellers,
   };
 }
 

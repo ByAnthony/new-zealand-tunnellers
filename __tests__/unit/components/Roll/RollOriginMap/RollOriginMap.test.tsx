@@ -201,4 +201,27 @@ describe("RollOriginMap", () => {
     expect(screen.getByText("Emmett")).toBeInTheDocument();
     expect(screen.getByText("Brown")).toBeInTheDocument();
   });
+
+  test("opens a drawer for tunnellers without an origin", async () => {
+    render(
+      <RollOriginMap
+        tunnellers={mockTunnellers}
+        rollFiltersProps={rollFiltersProps}
+        filters={filters}
+        defaultFilters={filters}
+        applyFilters={jest.fn()}
+        getFilteredTunnellerCount={() => 4}
+        activeFilterCount={0}
+        totalTunnellers={4}
+      />,
+    );
+
+    fireEvent.click(screen.getByRole("button", { name: /unknown origin/i }));
+
+    expect(
+      screen.getByRole("dialog", { name: "Unknown Origin" }),
+    ).toBeInTheDocument();
+    expect(screen.getByText("Marty")).toBeInTheDocument();
+    expect(screen.getByText("McFly")).toBeInTheDocument();
+  });
 });

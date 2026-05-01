@@ -189,10 +189,34 @@ $drawer-width: 380px;
   border: 1px solid variables.$primary-light-color;
   border-radius: variables.$border-radius;
   color: variables.$text-color;
+  font-family: variables.$main-font;
   font-size: 0.75rem;
   font-weight: 500;
   padding: variables.$xxs-margin variables.$xs-margin;
   text-align: center;
+}
+
+button.missing-count {
+  cursor: pointer;
+  transition:
+    border-color 0.9s ease-in-out,
+    background-color 0.9s ease-in-out;
+
+  .count-label,
+  .count-primary {
+    color: variables.$secondary-color;
+  }
+
+  @include variables.hover-supported {
+    &:hover:not(:disabled) {
+      border-color: variables.$secondary-color;
+      background-color: variables.$primary-dark-color;
+    }
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+  }
 }
 
 .count-primary {

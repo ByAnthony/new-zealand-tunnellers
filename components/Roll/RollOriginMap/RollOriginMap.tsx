@@ -79,6 +79,7 @@ export function RollOriginMap({
 
   const closeOriginDrawer = useCallback(() => {
     clearDrawerCloseTimeout();
+    if (!renderedOrigin && !selectedOrigin) return;
     setSelectedOrigin(null);
     setIsDrawerClosing(true);
     drawerCloseTimeoutRef.current = window.setTimeout(() => {
@@ -86,7 +87,22 @@ export function RollOriginMap({
       setIsDrawerClosing(false);
       drawerCloseTimeoutRef.current = null;
     }, DRAWER_ANIMATION_MS);
-  }, [clearDrawerCloseTimeout]);
+  }, [clearDrawerCloseTimeout, renderedOrigin, selectedOrigin]);
+
+  const openMissingOriginDrawer = useCallback(() => {
+    openOriginDrawer({
+      town: tMaps("originMissingTitle"),
+      latitude: Number.NaN,
+      longitude: Number.NaN,
+      count: summary.missingOriginCount,
+      tunnellers: summary.missingOriginTunnellers,
+    });
+  }, [
+    openOriginDrawer,
+    summary.missingOriginCount,
+    summary.missingOriginTunnellers,
+    tMaps,
+  ]);
 
   const openDialog = useCallback(() => {
     closeOriginDrawer();
@@ -402,14 +418,19 @@ export function RollOriginMap({
                   </span>
                 </span>
               </div>
-              <div className={STYLES["missing-count"]}>
+              <button
+                type="button"
+                className={STYLES["missing-count"]}
+                onClick={openMissingOriginDrawer}
+                disabled={summary.missingOriginCount === 0}
+              >
                 <span className={STYLES["count-label"]}>
                   {tMaps("originMissingLabel")}
                 </span>
                 <span className={STYLES["count-primary"]}>
                   {summary.missingOriginCount}
                 </span>
-              </div>
+              </button>
             </div>
           </div>
         </div>

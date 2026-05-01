@@ -33,6 +33,7 @@ describe("origin map markers", () => {
       visibleCount: 4,
       mappedCount: 3,
       missingOriginCount: 1,
+      missingOriginTunnellers: [mockTunnellersData[2]],
     });
   });
 });
