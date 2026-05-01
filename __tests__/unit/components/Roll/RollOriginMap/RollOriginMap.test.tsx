@@ -186,6 +186,8 @@ describe("RollOriginMap", () => {
   });
 
   test("keeps drawer cards rendered while the drawer closes", async () => {
+    window.history.replaceState(null, "", "/tunnellers?view=map&zoom=6");
+
     render(
       <RollOriginMap
         tunnellers={mockTunnellers}
@@ -210,7 +212,7 @@ describe("RollOriginMap", () => {
     expect(
       screen.queryByRole("dialog", { name: "Auckland" }),
     ).not.toBeInTheDocument();
-    expect(window.location.search).toBe("?view=map");
+    expect(window.location.search).toBe("?view=map&zoom=6");
     expect(screen.getByText("Emmett")).toBeInTheDocument();
     expect(screen.getByText("Brown")).toBeInTheDocument();
   });
@@ -278,6 +280,33 @@ describe("RollOriginMap", () => {
     await waitFor(() => expect(maps.length).toBe(1));
 
     expect(maps[0].getZoom()).toBe(9);
+  });
+
+  test("clears map params when returning to the roll list", async () => {
+    window.history.replaceState(
+      null,
+      "",
+      "/tunnellers?view=map&zoom=9&lat=-36.8485&lng=174.7633",
+    );
+
+    render(
+      <RollOriginMap
+        tunnellers={mockTunnellers}
+        rollFiltersProps={rollFiltersProps}
+        filters={filters}
+        defaultFilters={filters}
+        applyFilters={jest.fn()}
+        getFilteredTunnellerCount={() => 4}
+        activeFilterCount={0}
+        totalTunnellers={4}
+      />,
+    );
+
+    fireEvent.click(
+      screen.getByRole("button", { name: "Open the tunnellers roll list" }),
+    );
+
+    expect(window.location.search).toBe("");
   });
 
   test("opens the matching drawer from lat and lng query params", async () => {

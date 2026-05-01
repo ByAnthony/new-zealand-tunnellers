@@ -105,7 +105,6 @@ export function RollOriginMap({
       params.delete("lat");
       params.delete("lng");
       params.delete("origin");
-      params.delete("zoom");
     });
   }, []);
 
@@ -164,6 +163,7 @@ export function RollOriginMap({
       params.delete("lat");
       params.delete("lng");
       params.delete("origin");
+      params.delete("zoom");
     });
   }, []);
 
