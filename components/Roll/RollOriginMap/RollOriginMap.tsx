@@ -15,6 +15,7 @@ import { Filters } from "@/utils/helpers/rollParams";
 import { getOriginMapSummary, OriginMarker } from "./originMapMarkers";
 import { RollOriginDrawer } from "./RollOriginDrawer";
 import STYLES from "./RollOriginMap.module.scss";
+import { RollOriginMapControls } from "./RollOriginMapControls";
 
 type Props = {
   tunnellers: Record<string, Tunneller[]>;
@@ -352,88 +353,18 @@ export function RollOriginMap({
           isClosing={isDrawerClosing}
           onClose={closeOriginDrawer}
         />
-        <div className={STYLES["map-controls"]}>
-          <div className={STYLES["controls-grid"]}>
-            <div className={STYLES["controls-top-row"]}>
-              <button
-                className={STYLES["roll-button"]}
-                onClick={openRollList}
-                aria-label={tRoll("openRollList")}
-              >
-                <svg
-                  className={STYLES["roll-button-icon"]}
-                  viewBox="0 0 24 24"
-                  focusable="false"
-                  aria-hidden="true"
-                >
-                  <path
-                    d="M7 7h12M7 12h12M7 17h12M4 7h.01M4 12h.01M4 17h.01"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                  />
-                </svg>
-                {tRoll("rollList")}
-              </button>
-              <button
-                className={`${STYLES["filter-button"]} ${activeFilterCount > 0 ? STYLES["filter-button--active"] : ""}`.trim()}
-                onClick={openDialog}
-                aria-label={tMaps("toggleFilters")}
-              >
-                {tRoll("filters")}
-                {activeFilterCount > 0 && (
-                  <span className={STYLES["filter-badge"]}>
-                    {activeFilterCount}
-                  </span>
-                )}
-              </button>
-              <button
-                onClick={() => zoom(1)}
-                aria-label={tMaps("zoomIn")}
-                className={STYLES["zoom-button"]}
-                disabled={currentZoom !== null && currentZoom >= 16}
-              >
-                +
-              </button>
-              <button
-                onClick={() => zoom(-1)}
-                aria-label={tMaps("zoomOut")}
-                className={STYLES["zoom-button"]}
-                disabled={currentZoom !== null && currentZoom <= 3}
-              >
-                −
-              </button>
-            </div>
-            <div className={STYLES["stats-row"]}>
-              <div className={STYLES["map-count"]}>
-                <span className={STYLES["count-label"]}>
-                  {tMaps("originMappedLabel")}
-                </span>
-                <span className={STYLES["count-primary"]}>
-                  {summary.mappedCount}
-                  <span className={STYLES["count-total"]}>
-                    /{summary.visibleCount}
-                  </span>
-                </span>
-              </div>
-              <button
-                type="button"
-                className={STYLES["missing-count"]}
-                onClick={openMissingOriginDrawer}
-                disabled={summary.missingOriginCount === 0}
-              >
-                <span className={STYLES["count-label"]}>
-                  {tMaps("originMissingLabel")}
-                </span>
-                <span className={STYLES["count-primary"]}>
-                  {summary.missingOriginCount}
-                </span>
-              </button>
-            </div>
-          </div>
-        </div>
+        <RollOriginMapControls
+          activeFilterCount={activeFilterCount}
+          currentZoom={currentZoom}
+          mappedCount={summary.mappedCount}
+          missingOriginCount={summary.missingOriginCount}
+          onOpenFilters={openDialog}
+          onOpenMissingOrigin={openMissingOriginDrawer}
+          onOpenRollList={openRollList}
+          onZoomIn={() => zoom(1)}
+          onZoomOut={() => zoom(-1)}
+          visibleCount={summary.visibleCount}
+        />
       </div>
     </>
   );
