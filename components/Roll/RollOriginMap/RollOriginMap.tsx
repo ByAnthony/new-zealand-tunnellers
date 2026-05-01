@@ -12,10 +12,11 @@ import { RollFilter } from "@/components/Roll/RollFilter/RollFilter";
 import { Tunneller } from "@/types/tunnellers";
 import { Filters } from "@/utils/helpers/rollParams";
 
-import { getOriginMapSummary, OriginMarker } from "./originMapMarkers";
+import { getOriginMapSummary } from "./originMapMarkers";
 import { RollOriginDrawer } from "./RollOriginDrawer";
 import STYLES from "./RollOriginMap.module.scss";
 import { RollOriginMapControls } from "./RollOriginMapControls";
+import { useOriginDrawer } from "./useOriginDrawer";
 
 type Props = {
   tunnellers: Record<string, Tunneller[]>;
@@ -27,8 +28,6 @@ type Props = {
   activeFilterCount: number;
   totalTunnellers: number;
 };
-
-const DRAWER_ANIMATION_MS = 900;
 
 export function RollOriginMap({
   tunnellers,
@@ -45,50 +44,21 @@ export function RollOriginMap({
   const mapRef = useRef<L.Map | null>(null);
   const markerLayerRef = useRef<L.LayerGroup | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const drawerCloseTimeoutRef = useRef<number | null>(null);
   const [currentZoom, setCurrentZoom] = useState<number | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [pendingFilters, setPendingFilters] = useState<Filters>(filters);
-  const [selectedOrigin, setSelectedOrigin] = useState<OriginMarker | null>(
-    null,
-  );
-  const [renderedOrigin, setRenderedOrigin] = useState<OriginMarker | null>(
-    null,
-  );
-  const [isDrawerClosing, setIsDrawerClosing] = useState(false);
+  const {
+    closeOriginDrawer,
+    isDrawerClosing,
+    openOriginDrawer,
+    renderedOrigin,
+    selectedOrigin,
+  } = useOriginDrawer();
   const summary = useMemo(() => getOriginMapSummary(tunnellers), [tunnellers]);
   const pendingFilteredCount = useMemo(
     () => getFilteredTunnellerCount(pendingFilters),
     [getFilteredTunnellerCount, pendingFilters],
   );
-
-  const clearDrawerCloseTimeout = useCallback(() => {
-    if (drawerCloseTimeoutRef.current === null) return;
-    window.clearTimeout(drawerCloseTimeoutRef.current);
-    drawerCloseTimeoutRef.current = null;
-  }, []);
-
-  const openOriginDrawer = useCallback(
-    (origin: OriginMarker) => {
-      clearDrawerCloseTimeout();
-      setRenderedOrigin(origin);
-      setSelectedOrigin(origin);
-      setIsDrawerClosing(false);
-    },
-    [clearDrawerCloseTimeout],
-  );
-
-  const closeOriginDrawer = useCallback(() => {
-    clearDrawerCloseTimeout();
-    if (!renderedOrigin && !selectedOrigin) return;
-    setSelectedOrigin(null);
-    setIsDrawerClosing(true);
-    drawerCloseTimeoutRef.current = window.setTimeout(() => {
-      setRenderedOrigin(null);
-      setIsDrawerClosing(false);
-      drawerCloseTimeoutRef.current = null;
-    }, DRAWER_ANIMATION_MS);
-  }, [clearDrawerCloseTimeout, renderedOrigin, selectedOrigin]);
 
   const openMissingOriginDrawer = useCallback(() => {
     openOriginDrawer({
@@ -226,24 +196,9 @@ export function RollOriginMap({
   }, []);
 
   useEffect(() => {
-    return clearDrawerCloseTimeout;
-  }, [clearDrawerCloseTimeout]);
-
-  useEffect(() => {
     requestAnimationFrame(() => {
       mapRef.current?.invalidateSize();
     });
-  }, [selectedOrigin]);
-
-  useEffect(() => {
-    document.body.classList.toggle(
-      "roll-origin-drawer-open",
-      selectedOrigin !== null,
-    );
-
-    return () => {
-      document.body.classList.remove("roll-origin-drawer-open");
-    };
   }, [selectedOrigin]);
 
   useEffect(() => {
