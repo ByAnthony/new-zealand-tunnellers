@@ -8,6 +8,7 @@ import {
   mockTunnellers,
   mockTunnellersData,
 } from "@/test-utils/mocks/mockTunnellers";
+import { Tunneller } from "@/types/tunnellers";
 
 describe("origin map markers", () => {
   test("groups tunnellers by residence coordinates", () => {
@@ -36,6 +37,25 @@ describe("origin map markers", () => {
       mappedCount: 3,
       missingOriginCount: 1,
       missingOriginTunnellers: [mockTunnellersData[2]],
+    });
+  });
+
+  test("treats tunnellers without an origin object as missing origin", () => {
+    const tunnellerWithoutOrigin = {
+      ...mockTunnellersData[1],
+      origin: undefined,
+    } as unknown as Tunneller;
+
+    expect(
+      getOriginMapSummary({
+        ...mockTunnellers,
+        D: [tunnellerWithoutOrigin],
+      }),
+    ).toMatchObject({
+      visibleCount: 4,
+      mappedCount: 2,
+      missingOriginCount: 2,
+      missingOriginTunnellers: [tunnellerWithoutOrigin, mockTunnellersData[2]],
     });
   });
 

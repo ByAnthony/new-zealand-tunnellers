@@ -13,6 +13,7 @@ import { Filters } from "@/utils/helpers/rollParams";
 type MarkerHandler = () => void;
 
 const circleMarkers: MockCircleMarker[] = [];
+const maps: MockMap[] = [];
 
 class MockCircleMarker {
   handlers: Record<string, MarkerHandler> = {};
@@ -51,9 +52,11 @@ class MockLayerGroup {
 }
 
 class MockMap {
+  handlers: Record<string, MarkerHandler> = {};
   zoom = 5;
 
-  setView() {
+  setView(_latlng: [number, number], zoom: number) {
+    this.zoom = zoom;
     return this;
   }
 
@@ -61,7 +64,8 @@ class MockMap {
     return this.zoom;
   }
 
-  on() {
+  on(event: string, handler: MarkerHandler) {
+    this.handlers[event] = handler;
     return this;
   }
 
@@ -75,11 +79,13 @@ class MockMap {
 
   zoomIn() {
     this.zoom += 1;
+    this.handlers.zoomend?.();
     return this;
   }
 
   zoomOut() {
     this.zoom -= 1;
+    this.handlers.zoomend?.();
     return this;
   }
 }
@@ -87,7 +93,11 @@ class MockMap {
 jest.mock("leaflet", () => ({
   __esModule: true,
   default: {
-    map: () => new MockMap(),
+    map: () => {
+      const map = new MockMap();
+      maps.push(map);
+      return map;
+    },
     tileLayer: () => ({ addTo: () => ({}) }),
     layerGroup: () => new MockLayerGroup(),
     circleMarker: (
@@ -136,6 +146,8 @@ const rollFiltersProps = {
 describe("RollOriginMap", () => {
   beforeEach(() => {
     circleMarkers.length = 0;
+    maps.length = 0;
+    window.history.replaceState(null, "", "/tunnellers?view=map");
   });
 
   test("closes the origin drawer when filters are opened", async () => {
@@ -198,8 +210,99 @@ describe("RollOriginMap", () => {
     expect(
       screen.queryByRole("dialog", { name: "Auckland" }),
     ).not.toBeInTheDocument();
+    expect(window.location.search).toBe("?view=map");
     expect(screen.getByText("Emmett")).toBeInTheDocument();
     expect(screen.getByText("Brown")).toBeInTheDocument();
+  });
+
+  test("updates the url when a marker is selected", async () => {
+    render(
+      <RollOriginMap
+        tunnellers={mockTunnellers}
+        rollFiltersProps={rollFiltersProps}
+        filters={filters}
+        defaultFilters={filters}
+        applyFilters={jest.fn()}
+        getFilteredTunnellerCount={() => 4}
+        activeFilterCount={0}
+        totalTunnellers={4}
+      />,
+    );
+
+    await waitFor(() => expect(circleMarkers.length).toBeGreaterThan(0));
+
+    act(() => {
+      circleMarkers[0].handlers.click();
+    });
+
+    expect(window.location.search).toBe("?view=map&lat=-36.8485&lng=174.7633");
+  });
+
+  test("updates the url when the map is zoomed", async () => {
+    render(
+      <RollOriginMap
+        tunnellers={mockTunnellers}
+        rollFiltersProps={rollFiltersProps}
+        filters={filters}
+        defaultFilters={filters}
+        applyFilters={jest.fn()}
+        getFilteredTunnellerCount={() => 4}
+        activeFilterCount={0}
+        totalTunnellers={4}
+      />,
+    );
+
+    await waitFor(() => expect(maps.length).toBe(1));
+
+    fireEvent.click(screen.getByRole("button", { name: "Zoom in" }));
+
+    expect(window.location.search).toBe("?view=map&zoom=6");
+  });
+
+  test("restores the map zoom from query params", async () => {
+    window.history.replaceState(null, "", "/tunnellers?view=map&zoom=9");
+
+    render(
+      <RollOriginMap
+        tunnellers={mockTunnellers}
+        rollFiltersProps={rollFiltersProps}
+        filters={filters}
+        defaultFilters={filters}
+        applyFilters={jest.fn()}
+        getFilteredTunnellerCount={() => 4}
+        activeFilterCount={0}
+        totalTunnellers={4}
+      />,
+    );
+
+    await waitFor(() => expect(maps.length).toBe(1));
+
+    expect(maps[0].getZoom()).toBe(9);
+  });
+
+  test("opens the matching drawer from lat and lng query params", async () => {
+    window.history.replaceState(
+      null,
+      "",
+      "/tunnellers?view=map&lat=-36.8485&lng=174.7633",
+    );
+
+    render(
+      <RollOriginMap
+        tunnellers={mockTunnellers}
+        rollFiltersProps={rollFiltersProps}
+        filters={filters}
+        defaultFilters={filters}
+        applyFilters={jest.fn()}
+        getFilteredTunnellerCount={() => 4}
+        activeFilterCount={0}
+        totalTunnellers={4}
+      />,
+    );
+
+    expect(
+      await screen.findByRole("dialog", { name: "Auckland" }),
+    ).toBeInTheDocument();
   });
 
   test("opens a drawer for tunnellers without an origin", async () => {
@@ -221,6 +324,7 @@ describe("RollOriginMap", () => {
     expect(
       screen.getByRole("dialog", { name: "Unknown Origin" }),
     ).toBeInTheDocument();
+    expect(window.location.search).toBe("?view=map&origin=unknown");
     expect(screen.getByText("Marty")).toBeInTheDocument();
     expect(screen.getByText("McFly")).toBeInTheDocument();
   });

@@ -50,8 +50,9 @@ export function getOriginMapSummary(
   const missingOriginTunnellers: Tunneller[] = [];
 
   visibleTunnellers.forEach((tunneller) => {
-    const residence = tunneller.origin.residence;
+    const residence = tunneller.origin?.residence;
     if (
+      !residence ||
       !residence.town ||
       residence.latitude === null ||
       residence.longitude === null

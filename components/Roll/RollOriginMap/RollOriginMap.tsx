@@ -17,6 +17,7 @@ import {
   getOriginMarkerRadius,
   getOriginMarkerStyle,
   getOriginMapSummary,
+  OriginMarker,
 } from "./originMapMarkers";
 import { RollOriginDrawer } from "./RollOriginDrawer";
 import STYLES from "./RollOriginMap.module.scss";
@@ -34,6 +35,39 @@ type Props = {
   totalTunnellers: number;
 };
 
+const UNKNOWN_ORIGIN_PARAM = "unknown";
+const DEFAULT_MAP_ZOOM = 5;
+const MAX_MAP_ZOOM = 16;
+const MIN_MAP_ZOOM = 3;
+
+function formatOriginCoordinate(coordinate: number): string {
+  return Number(coordinate.toFixed(6)).toString();
+}
+
+function formatMapZoom(zoom: number): string {
+  return Number(zoom.toFixed(2)).toString();
+}
+
+function getInitialMapZoom(): number {
+  const zoomParam = new URLSearchParams(window.location.search).get("zoom");
+  if (zoomParam === null) return DEFAULT_MAP_ZOOM;
+  const zoom = Number(zoomParam);
+  if (!Number.isFinite(zoom)) return DEFAULT_MAP_ZOOM;
+  return Math.min(MAX_MAP_ZOOM, Math.max(MIN_MAP_ZOOM, zoom));
+}
+
+function replaceRollOriginMapParams(
+  updateParams: (_params: URLSearchParams) => void,
+) {
+  const params = new URLSearchParams(window.location.search);
+  updateParams(params);
+  const qs = params.toString().replace(/%2C/gi, ",");
+  const url = qs
+    ? `${window.location.pathname}?${qs}`
+    : window.location.pathname;
+  window.history.replaceState(null, "", url);
+}
+
 export function RollOriginMap({
   tunnellers,
   rollFiltersProps,
@@ -49,6 +83,7 @@ export function RollOriginMap({
   const mapRef = useRef<L.Map | null>(null);
   const markerLayerRef = useRef<L.LayerGroup | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const hasRestoredInitialOriginRef = useRef(false);
   const [currentZoom, setCurrentZoom] = useState<number | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [pendingFilters, setPendingFilters] = useState<Filters>(filters);
@@ -65,6 +100,33 @@ export function RollOriginMap({
     [getFilteredTunnellerCount, pendingFilters],
   );
 
+  const clearOriginMapSelectionParams = useCallback(() => {
+    replaceRollOriginMapParams((params) => {
+      params.delete("lat");
+      params.delete("lng");
+      params.delete("origin");
+      params.delete("zoom");
+    });
+  }, []);
+
+  const closeOriginMapDrawer = useCallback(() => {
+    closeOriginDrawer();
+    clearOriginMapSelectionParams();
+  }, [clearOriginMapSelectionParams, closeOriginDrawer]);
+
+  const openMappedOriginDrawer = useCallback(
+    (origin: OriginMarker) => {
+      openOriginDrawer(origin);
+      replaceRollOriginMapParams((params) => {
+        params.set("view", "map");
+        params.set("lat", formatOriginCoordinate(origin.latitude));
+        params.set("lng", formatOriginCoordinate(origin.longitude));
+        params.delete("origin");
+      });
+    },
+    [openOriginDrawer],
+  );
+
   const openMissingOriginDrawer = useCallback(() => {
     openOriginDrawer(
       createMissingOriginMarker(
@@ -72,32 +134,37 @@ export function RollOriginMap({
         summary.missingOriginTunnellers,
       ),
     );
+    replaceRollOriginMapParams((params) => {
+      params.set("view", "map");
+      params.set("origin", UNKNOWN_ORIGIN_PARAM);
+      params.delete("lat");
+      params.delete("lng");
+    });
   }, [openOriginDrawer, summary.missingOriginTunnellers, tMaps]);
 
   const openDialog = useCallback(() => {
-    closeOriginDrawer();
+    closeOriginMapDrawer();
     setPendingFilters(filters);
     setIsDialogOpen(true);
-  }, [closeOriginDrawer, filters]);
+  }, [closeOriginMapDrawer, filters]);
 
   const closeDialog = useCallback(() => {
     setIsDialogOpen(false);
-    closeOriginDrawer();
+    closeOriginMapDrawer();
     applyFilters(pendingFilters);
-  }, [applyFilters, closeOriginDrawer, pendingFilters]);
+  }, [applyFilters, closeOriginMapDrawer, pendingFilters]);
 
   const resetPendingFilters = useCallback(() => {
     setPendingFilters(defaultFilters);
   }, [defaultFilters]);
 
   const openRollList = useCallback(() => {
-    const params = new URLSearchParams(window.location.search);
-    params.delete("view");
-    const qs = params.toString().replace(/%2C/gi, ",");
-    const url = qs
-      ? `${window.location.pathname}?${qs}`
-      : window.location.pathname;
-    window.history.replaceState(null, "", url);
+    replaceRollOriginMapParams((params) => {
+      params.delete("view");
+      params.delete("lat");
+      params.delete("lng");
+      params.delete("origin");
+    });
   }, []);
 
   const pendingRollFiltersProps = useMemo<
@@ -201,24 +268,70 @@ export function RollOriginMap({
   }, [selectedOrigin]);
 
   useEffect(() => {
+    if (hasRestoredInitialOriginRef.current) return;
+    hasRestoredInitialOriginRef.current = true;
+
+    const params = new URLSearchParams(window.location.search);
+
+    if (params.get("origin") === UNKNOWN_ORIGIN_PARAM) {
+      if (summary.missingOriginTunnellers.length === 0) return;
+      openOriginDrawer(
+        createMissingOriginMarker(
+          tMaps("originMissingTitle"),
+          summary.missingOriginTunnellers,
+        ),
+      );
+      return;
+    }
+
+    const latitudeParam = Number(params.get("lat"));
+    const longitudeParam = Number(params.get("lng"));
+    if (!Number.isFinite(latitudeParam) || !Number.isFinite(longitudeParam)) {
+      return;
+    }
+
+    const matchingMarker = summary.markers.find(
+      (marker) =>
+        formatOriginCoordinate(marker.latitude) ===
+          formatOriginCoordinate(latitudeParam) &&
+        formatOriginCoordinate(marker.longitude) ===
+          formatOriginCoordinate(longitudeParam),
+    );
+
+    if (matchingMarker) openOriginDrawer(matchingMarker);
+  }, [
+    openOriginDrawer,
+    summary.markers,
+    summary.missingOriginTunnellers,
+    tMaps,
+  ]);
+
+  useEffect(() => {
     if (!containerRef.current || mapRef.current) return;
 
     const map = L.map(containerRef.current, {
-      maxZoom: 16,
-      minZoom: 3,
+      maxZoom: MAX_MAP_ZOOM,
+      minZoom: MIN_MAP_ZOOM,
       zoomControl: false,
-    }).setView([-41.2865, 174.7762], 5);
+    }).setView([-41.2865, 174.7762], getInitialMapZoom());
 
     L.tileLayer(
       "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}",
       {
         attribution: "Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ",
-        maxZoom: 16,
+        maxZoom: MAX_MAP_ZOOM,
       },
     ).addTo(map);
 
     markerLayerRef.current = L.layerGroup().addTo(map);
-    map.on("zoomend", () => setCurrentZoom(map.getZoom()));
+    map.on("zoomend", () => {
+      const nextZoom = map.getZoom();
+      setCurrentZoom(nextZoom);
+      replaceRollOriginMapParams((params) => {
+        params.set("view", "map");
+        params.set("zoom", formatMapZoom(nextZoom));
+      });
+    });
     setCurrentZoom(map.getZoom());
     mapRef.current = map;
 
@@ -265,7 +378,7 @@ export function RollOriginMap({
         radius: getOriginMarkerRadius(marker.count),
         ...getOriginMarkerStyle(isSelected),
       })
-        .on("click", () => openOriginDrawer(marker))
+        .on("click", () => openMappedOriginDrawer(marker))
         .bindTooltip(`${marker.town} (${marker.count})`, {
           className: "roll-origin-tooltip",
         })
@@ -273,7 +386,7 @@ export function RollOriginMap({
 
       if (isSelected) circleMarker.bringToFront();
     });
-  }, [openOriginDrawer, selectedOrigin, summary.markers]);
+  }, [openMappedOriginDrawer, selectedOrigin, summary.markers]);
 
   return (
     <>
@@ -301,7 +414,7 @@ export function RollOriginMap({
         <RollOriginDrawer
           origin={renderedOrigin}
           isClosing={isDrawerClosing}
-          onClose={closeOriginDrawer}
+          onClose={closeOriginMapDrawer}
         />
         <RollOriginMapControls
           activeFilterCount={activeFilterCount}
