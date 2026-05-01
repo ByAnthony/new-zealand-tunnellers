@@ -22,6 +22,26 @@ $drawer-width: 380px;
   }
 }
 
+@keyframes origin-drawer-slide-up {
+  from {
+    transform: translateY(100%);
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes origin-drawer-slide-down {
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(100%);
+  }
+}
+
 .container {
   position: fixed;
   inset: 0;
@@ -313,24 +333,21 @@ button.missing-count {
   position: absolute;
   left: variables.$m-margin;
   right: variables.$m-margin;
-  bottom: calc(variables.$m-margin + 100px);
+  bottom: 0;
   z-index: 1001;
   display: flex;
   flex-direction: column;
-  max-height: 38vh;
+  max-height: 70vh;
   overflow: hidden;
   background-color: variables.$primary-dark-color;
   border: 1px solid variables.$primary-light-color;
-  border-radius: variables.$border-radius;
-  animation: origin-drawer-slide-in 0.9s ease-in-out;
+  border-radius: variables.$border-radius variables.$border-radius 0 0;
+  animation: origin-drawer-slide-up 0.9s ease-in-out;
 
   @include variables.tablet {
-    top: variables.$m-margin;
     right: variables.$m-margin;
-    bottom: variables.$m-margin;
-    left: auto;
-    width: min(360px, calc(100% - (2 * variables.$m-margin)));
-    max-height: none;
+    left: variables.$m-margin;
+    max-height: 65vh;
   }
 
   @include variables.desktop {
@@ -344,12 +361,17 @@ button.missing-count {
     border-right: none;
     border-bottom: none;
     border-radius: 0;
+    animation-name: origin-drawer-slide-in;
   }
 }
 
 .origin-drawer--closing {
-  animation-name: origin-drawer-slide-out;
+  animation-name: origin-drawer-slide-down;
   pointer-events: none;
+
+  @include variables.desktop {
+    animation-name: origin-drawer-slide-out;
+  }
 }
 
 .origin-drawer-header {

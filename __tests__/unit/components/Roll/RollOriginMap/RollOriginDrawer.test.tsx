@@ -62,4 +62,21 @@ describe("RollOriginDrawer", () => {
 
     expect(onClose).toHaveBeenCalledTimes(1);
   });
+
+  test("uses inert instead of aria-hidden while closing", () => {
+    const { container, rerender } = render(
+      <RollOriginDrawer origin={origin} onClose={jest.fn()} />,
+    );
+
+    screen.getByRole("button", { name: "Close" }).focus();
+
+    rerender(
+      <RollOriginDrawer origin={origin} isClosing onClose={jest.fn()} />,
+    );
+
+    const drawer = container.querySelector("aside");
+
+    expect(drawer).not.toHaveAttribute("aria-hidden");
+    expect(drawer).toHaveAttribute("inert");
+  });
 });

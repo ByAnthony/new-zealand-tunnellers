@@ -57,9 +57,9 @@ export function RollOriginDrawer({
       ref={drawerRef}
       className={`${STYLES["origin-drawer"]} ${isClosing ? STYLES["origin-drawer--closing"] : ""}`.trim()}
       role={isClosing ? undefined : "dialog"}
-      aria-hidden={isClosing}
       aria-labelledby={isClosing ? undefined : titleId}
       aria-describedby={isClosing ? undefined : descriptionId}
+      inert={isClosing ? true : undefined}
       tabIndex={-1}
     >
       <div className={STYLES["origin-drawer-header"]}>
