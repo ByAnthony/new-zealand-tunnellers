@@ -14,6 +14,10 @@ const origin = {
 
 describe("RollOriginDrawer", () => {
   beforeEach(() => {
+    localStorage.clear();
+    sessionStorage.clear();
+    window.history.replaceState(null, "", "/tunnellers?view=map&zoom=8");
+
     (useTranslations as jest.Mock).mockImplementation((namespace: string) => {
       if (namespace !== "maps") return (key: string) => key;
 
@@ -78,5 +82,16 @@ describe("RollOriginDrawer", () => {
 
     expect(drawer).not.toHaveAttribute("aria-hidden");
     expect(drawer).toHaveAttribute("inert");
+  });
+
+  test("saves map return URL when a result is opened", () => {
+    render(<RollOriginDrawer origin={origin} onClose={jest.fn()} />);
+
+    fireEvent.click(screen.getByRole("link", { name: /Emmett Brown/i }));
+
+    expect(localStorage.getItem("tunnellers:return")).toBe(
+      "http://localhost/tunnellers?view=map&zoom=8",
+    );
+    expect(sessionStorage.getItem("roll:view")).toBe("map");
   });
 });

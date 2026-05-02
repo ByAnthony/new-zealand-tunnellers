@@ -36,6 +36,7 @@ async function renderRoll() {
 describe("Roll", () => {
   beforeEach(() => {
     localStorage.clear();
+    sessionStorage.clear();
     mockReplace.mockReset();
     mockSearchParams = new URLSearchParams();
     window.scrollTo = jest.fn();
@@ -65,6 +66,17 @@ describe("Roll", () => {
 
     expect(await screen.findByTestId("roll-origin-map")).toBeInTheDocument();
     expect(screen.queryByText(/The New Zealand/)).not.toBeInTheDocument();
+    await waitFor(() => {
+      expect(sessionStorage.getItem("roll:view")).toBe("map");
+    });
+  });
+
+  test("stores the list view when the roll list is rendered", async () => {
+    await renderRoll();
+
+    await waitFor(() => {
+      expect(sessionStorage.getItem("roll:view")).toBe("list");
+    });
   });
 
   test("renders the total filtered results", async () => {

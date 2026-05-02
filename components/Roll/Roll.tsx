@@ -3,6 +3,7 @@
 import dynamic from "next/dynamic";
 import { useSearchParams } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
+import { useEffect } from "react";
 
 import { useRollState } from "@/components/Roll/hooks/useRollState";
 import { RollAlphabet } from "@/components/Roll/RollAlphabet/RollAlphabet";
@@ -10,6 +11,7 @@ import { RollFilter } from "@/components/Roll/RollFilter/RollFilter";
 import { RollNoResults } from "@/components/Roll/RollNoResults/RollNoResults";
 import { Title } from "@/components/Title/Title";
 import { Tunneller } from "@/types/tunnellers";
+import { saveRollView } from "@/utils/helpers/tunnellersReturn";
 import { useWindowDimensions } from "@/utils/helpers/useWindowDimensions";
 
 import STYLES from "./Roll.module.scss";
@@ -59,6 +61,11 @@ export function Roll({ tunnellers }: Props) {
   const isDesktop = () => (width ? width > 896 : false);
   const desktopView = isDesktop();
   const isMapView = searchParams.get("view") === "map";
+
+  useEffect(() => {
+    saveRollView(isMapView ? "map" : "list");
+  }, [isMapView]);
+
   const resultsText =
     totalFilteredTunnellers > 1
       ? t("resultsPlural", { count: totalFilteredTunnellers })

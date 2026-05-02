@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Tunneller } from "@/types/tunnellers";
 import { renderSuperscript } from "@/utils/helpers/article";
 import { displayBiographyDates } from "@/utils/helpers/roll";
+import { saveTunnellersReturnUrl } from "@/utils/helpers/tunnellersReturn";
 
 import STYLES from "./RollOriginMap.module.scss";
 
@@ -16,6 +17,7 @@ export function RollOriginDrawerCard({ localePrefix, tunneller }: Props) {
     <Link
       href={`${localePrefix}/tunnellers/${tunneller.slug}`}
       className={STYLES["origin-drawer-link"]}
+      onClick={() => saveTunnellersReturnUrl(window.location.href)}
     >
       <div>
         <div className={STYLES["origin-drawer-rank-wrapper"]}>
