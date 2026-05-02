@@ -1,0 +1,602 @@
+@use "app/variables.module.scss";
+
+$drawer-width: 380px;
+$drawer-desktop-top: calc((2 * variables.$base-margin) + variables.$xs-margin);
+$drawer-desktop-bottom: calc(
+  variables.$base-margin + 95px + variables.$xs-margin
+);
+
+@keyframes origin-drawer-slide-in {
+  from {
+    transform: translateX(100%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes origin-drawer-slide-out {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes origin-drawer-slide-up {
+  from {
+    transform: translateY(100%);
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes origin-drawer-slide-down {
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(100%);
+  }
+}
+
+.container {
+  position: fixed;
+  inset: 0;
+  z-index: 900;
+  background-color: variables.$primary-dark-color;
+}
+
+.map {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+
+  @include variables.desktop {
+    width: auto;
+  }
+}
+
+.map-controls {
+  position: absolute;
+  bottom: variables.$m-margin;
+  left: variables.$m-margin;
+  right: variables.$m-margin;
+  z-index: 1000;
+
+  @include variables.desktop {
+    bottom: variables.$base-margin;
+    left: 0;
+    right: 0;
+    width: min(700px, calc(100% - (2 * variables.$base-margin)));
+    margin: 0 auto;
+  }
+}
+
+.controls-grid {
+  display: flex;
+  flex-direction: column;
+  gap: variables.$xxxs-margin;
+}
+
+.controls-top-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 45px 45px;
+  gap: variables.$xxxs-margin;
+}
+
+.stats-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: variables.$xxxs-margin;
+}
+
+.filter-button,
+.roll-button {
+  background-color: variables.$primary-medium-color;
+  border: 1px solid variables.$primary-light-color;
+  border-radius: variables.$border-radius;
+  color: variables.$secondary-color;
+  cursor: pointer;
+  font-size: 1rem;
+  transition:
+    border-color 0.9s ease-in-out,
+    background-color 0.9s ease-in-out;
+
+  @include variables.hover-supported {
+    &:hover {
+      border-color: variables.$secondary-color;
+      background-color: variables.$primary-dark-color;
+    }
+  }
+
+  &--active {
+    background-color: variables.$secondary-color;
+    border-color: variables.$secondary-color;
+    color: variables.$primary-dark-color;
+  }
+
+  @include variables.hover-supported {
+    &--active:hover {
+      background-color: variables.$secondary-color;
+      border-color: variables.$secondary-color;
+      color: variables.$primary-dark-color;
+    }
+  }
+}
+
+.roll-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: variables.$xxxs-margin;
+  padding: 0 variables.$xs-margin;
+}
+
+.roll-button-icon {
+  width: 1rem;
+  height: 1rem;
+  flex: 0 0 auto;
+}
+
+.filter-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  margin-left: variables.$xxxs-margin;
+  border-radius: 50%;
+  background-color: variables.$primary-dark-color;
+  color: variables.$secondary-color;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.map-count,
+.missing-count {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: variables.$xxxs-margin;
+  height: 45px;
+  min-width: 0;
+  background-color: variables.$primary-medium-color;
+  border: 1px solid variables.$primary-light-color;
+  border-radius: variables.$border-radius;
+  color: variables.$text-color;
+  font-family: variables.$main-font;
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: variables.$xxs-margin variables.$xs-margin;
+  text-align: center;
+}
+
+button.missing-count {
+  cursor: pointer;
+  transition:
+    border-color 0.9s ease-in-out,
+    background-color 0.9s ease-in-out;
+
+  .count-label,
+  .count-primary {
+    color: variables.$secondary-color;
+  }
+
+  @include variables.hover-supported {
+    &:hover:not(:disabled) {
+      border-color: variables.$secondary-color;
+      background-color: variables.$primary-dark-color;
+    }
+  }
+
+  &:disabled {
+    background-color: rgb(24, 26, 27);
+    border-color: rgb(44, 46, 47);
+    cursor: not-allowed;
+
+    .count-label,
+    .count-primary {
+      color: rgb(44, 46, 47);
+    }
+  }
+}
+
+.count-primary {
+  color: variables.$text-color;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.count-total {
+  color: variables.$placeholder-color;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.count-label {
+  color: variables.$placeholder-color;
+  font-size: 0.7rem;
+  font-weight: 600;
+  line-height: 1;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.map-count {
+  @include variables.desktop {
+    .count-primary {
+      font-size: 1.1rem;
+    }
+
+    .count-total {
+      font-size: 0.9rem;
+    }
+  }
+}
+
+.missing-count {
+  @include variables.desktop {
+    .count-primary {
+      font-size: 1.1rem;
+    }
+  }
+}
+
+.zoom-button {
+  width: 45px;
+  height: 45px;
+  background-color: variables.$primary-medium-color;
+  border: 1px solid variables.$primary-light-color;
+  border-radius: variables.$border-radius;
+  color: variables.$secondary-color;
+  cursor: pointer;
+  font-size: 1.5rem;
+  line-height: 1;
+  transition:
+    border 0.9s ease-in-out,
+    background-color 0.9s ease-in-out;
+
+  @include variables.tablet {
+    font-size: 1.6rem;
+  }
+
+  @include variables.desktop {
+    font-size: 1.7rem;
+  }
+
+  @include variables.hover-supported {
+    &:hover:not(:disabled) {
+      background-color: variables.$primary-dark-color;
+      border-color: variables.$secondary-color;
+    }
+  }
+
+  &:disabled {
+    border-color: variables.$primary-light-color;
+    color: variables.$primary-light-color;
+    cursor: not-allowed;
+  }
+}
+
+.filters-container {
+  margin: 0;
+}
+
+.origin-drawer {
+  position: fixed;
+  left: variables.$m-margin;
+  right: variables.$m-margin;
+  bottom: 0;
+  z-index: 1001;
+  display: flex;
+  flex-direction: column;
+  max-height: 50vh;
+  overflow: hidden;
+  background-color: variables.$primary-dark-color;
+  border: 1px solid variables.$primary-light-color;
+  border-radius: variables.$border-radius variables.$border-radius 0 0;
+  animation: origin-drawer-slide-up 0.9s ease-in-out;
+
+  &:focus {
+    outline: none;
+  }
+
+  @include variables.tablet {
+    right: variables.$m-margin;
+    left: variables.$m-margin;
+    max-height: 50vh;
+  }
+
+  @include variables.desktop {
+    top: calc(($drawer-desktop-top + (100vh - $drawer-desktop-bottom)) / 2);
+    right: 0;
+    bottom: auto;
+    left: auto;
+    width: $drawer-width;
+    max-height: calc(100vh - $drawer-desktop-top - $drawer-desktop-bottom);
+    translate: 0 -50%;
+    border-right: none;
+    border-radius: variables.$border-radius 0 0 variables.$border-radius;
+    animation-name: origin-drawer-slide-in;
+  }
+}
+
+.origin-drawer--closing {
+  animation-name: origin-drawer-slide-down;
+  pointer-events: none;
+
+  @include variables.desktop {
+    animation-name: origin-drawer-slide-out;
+  }
+}
+
+.origin-drawer-header {
+  display: flex;
+  flex-direction: column;
+  gap: variables.$xxs-margin;
+  padding: variables.$s-margin;
+  border-bottom: 1px solid variables.$primary-medium-color;
+
+  @include variables.desktop {
+    background-color: rgba(24, 26, 27, 0.92);
+    border: 1px solid variables.$primary-light-color;
+    border-right: 0;
+    border-top: 0;
+  }
+}
+
+.origin-drawer-title-row,
+.origin-drawer-meta-row {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.origin-drawer-title-row {
+  justify-content: space-between;
+  gap: variables.$s-margin;
+}
+
+.origin-drawer-title {
+  margin: 0;
+  color: variables.$text-color;
+  font-size: 1.4rem;
+  font-weight: 500;
+  line-height: normal;
+
+  @include variables.tablet {
+    font-size: 1.5rem;
+  }
+
+  @include variables.desktop {
+    font-size: 1.8rem;
+  }
+}
+
+.origin-drawer-count {
+  margin: 0;
+  color: variables.$text-color;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.origin-drawer-close {
+  background: none;
+  border: none;
+  color: variables.$placeholder-color;
+  cursor: pointer;
+  font-size: 1.8rem;
+  line-height: 0.8;
+  padding: 0;
+  transition: color 0.9s ease-in-out;
+
+  @include variables.hover-supported {
+    &:hover {
+      color: variables.$text-color;
+    }
+  }
+
+  &:focus-visible {
+    outline: 2px solid variables.$secondary-color;
+    outline-offset: 4px;
+  }
+}
+
+.origin-drawer-list {
+  display: flex;
+  flex-direction: column;
+  gap: variables.$xs-margin;
+  overflow-y: auto;
+  padding: variables.$xs-margin;
+
+  @include variables.desktop {
+    background-color: variables.$primary-dark-color;
+  }
+}
+
+.origin-drawer-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: variables.$m-margin;
+  text-decoration: none;
+
+  @include variables.featured-button-link;
+
+  &:focus-visible {
+    outline: 2px solid variables.$secondary-color;
+    outline-offset: 2px;
+  }
+
+  p {
+    text-align: left;
+  }
+}
+
+.origin-drawer-rank-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  margin: 0 0 variables.$xxs-margin 0;
+}
+
+.origin-drawer-rank {
+  color: variables.$secondary-color;
+  font-size: 0.9rem;
+  font-weight: 300;
+}
+
+.origin-drawer-forename,
+.origin-drawer-surname {
+  margin: 0;
+  color: variables.$secondary-color;
+  font-size: 1.15rem;
+}
+
+.origin-drawer-forename {
+  font-weight: 200;
+}
+
+.origin-drawer-surname {
+  font-weight: 500;
+}
+
+.origin-drawer-detachment {
+  margin: variables.$xxs-margin 0 0 0;
+  color: variables.$secondary-color;
+  font-size: 0.9rem;
+  font-weight: 300;
+
+  sup {
+    color: variables.$secondary-color;
+    font-size: 0.6rem;
+    line-height: 80%;
+    vertical-align: super;
+  }
+}
+
+.origin-drawer-dates {
+  margin: variables.$xs-margin 0 0 0;
+  color: variables.$secondary-color;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.origin-drawer-badge {
+  margin-left: variables.$xxs-margin;
+  padding: 4px 6px;
+  border-radius: 4px;
+  background-color: variables.$secondary-color;
+  color: variables.$primary-dark-color;
+  font-size: 0.65rem;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.origin-drawer-arrow {
+  @include variables.arrow-button;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: variables.$secondary-color;
+  font-size: 1.5rem;
+  line-height: 1;
+
+  @include variables.tablet {
+    font-size: 2rem;
+  }
+
+  @include variables.desktop {
+    font-size: 2.5rem;
+  }
+}
+
+:global(.leaflet-tooltip.roll-origin-tooltip) {
+  background-color: variables.$primary-medium-color;
+  border: 1px solid variables.$primary-light-color;
+  border-radius: variables.$border-radius;
+  box-shadow: none;
+  color: variables.$text-color;
+  font-size: 0.8rem;
+  font-weight: 400;
+  padding: variables.$xxxs-margin variables.$xxs-margin;
+}
+
+:global(.leaflet-tooltip-top.roll-origin-tooltip::before) {
+  border-top-color: variables.$primary-light-color;
+}
+
+:global(.leaflet-tooltip-bottom.roll-origin-tooltip::before) {
+  border-bottom-color: variables.$primary-light-color;
+}
+
+:global(.leaflet-tooltip-left.roll-origin-tooltip::before) {
+  border-left-color: variables.$primary-light-color;
+}
+
+:global(.leaflet-tooltip-right.roll-origin-tooltip::before) {
+  border-right-color: variables.$primary-light-color;
+}
+
+:global(
+  .leaflet-pane > svg path.leaflet-interactive:focus:not(:focus-visible)
+) {
+  outline: none;
+}
+
+:global(.leaflet-pane > svg path.leaflet-interactive:focus-visible) {
+  outline: 2px solid variables.$secondary-color;
+  outline-offset: 3px;
+}
+
+:global(.leaflet-bottom.leaflet-right) {
+  left: 50%;
+  right: auto;
+  bottom: calc(variables.$m-margin / 2);
+  transform: translateX(-50%) translateY(50%);
+
+  @include variables.desktop {
+    bottom: calc(variables.$base-margin / 2);
+  }
+}
+
+:global(.leaflet-control-attribution) {
+  background-color: transparent !important;
+  color: variables.$text-color !important;
+  font-size: 0.5rem;
+  padding: 2px variables.$xxs-margin;
+  white-space: nowrap;
+
+  a {
+    color: variables.$secondary-color !important;
+    transition: all 0.9s ease-in-out;
+
+    @include variables.hover-supported {
+      &:hover {
+        text-decoration: none;
+      }
+    }
+  }
+
+  @include variables.tablet {
+    font-size: 0.6rem;
+  }
+
+  @include variables.desktop {
+    font-size: 0.7rem;
+  }
+}

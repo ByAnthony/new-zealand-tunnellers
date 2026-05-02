@@ -25,6 +25,22 @@ import {
 } from "../utils/rankUtils";
 import { getUniqueBirthYears, getUniqueDeathYears } from "../utils/yearsUtils";
 
+const ROLL_QUERY_PARAMS = [
+  "page",
+  "sort",
+  "detachment",
+  "corps",
+  "officer",
+  "nco",
+  "other-rank",
+  "birth-min",
+  "birth-max",
+  "unknown-birth",
+  "death-min",
+  "death-max",
+  "unknown-death",
+];
+
 type Params = {
   tunnellers: Record<string, Tunneller[]>;
   locale: string;
@@ -128,10 +144,16 @@ export function useRollState({ tunnellers, locale }: Params) {
   const [isSliderDragging, setIsSliderDragging] = useState(false);
   const searchParamsString = searchParams.toString();
   const syncUrl = useCallback((qs: string) => {
+    const params = new URLSearchParams(window.location.search);
+    ROLL_QUERY_PARAMS.forEach((param) => params.delete(param));
+    new URLSearchParams(qs).forEach((value, key) => {
+      params.set(key, value);
+    });
+    const nextQs = params.toString().replace(/%2C/gi, ",");
     const currentQs = window.location.search.replace(/^\?/, "");
-    if (qs === currentQs) return;
-    const url = qs
-      ? `${window.location.pathname}?${qs}`
+    if (nextQs === currentQs) return;
+    const url = nextQs
+      ? `${window.location.pathname}?${nextQs}`
       : window.location.pathname;
     window.history.replaceState(null, "", url);
   }, []);
@@ -242,59 +264,77 @@ export function useRollState({ tunnellers, locale }: Params) {
       filters.unknownDeathYear === "",
   ].filter(Boolean).length;
 
-  const filteredGroups: [string, Tunneller[]][] = useMemo(() => {
-    if (!hasAnyActiveFilter(filters)) return [];
+  const getFilteredGroups = useCallback(
+    (currentFilters: Filters): [string, Tunneller[]][] => {
+      if (!hasAnyActiveFilter(currentFilters)) return [];
 
-    return tunnellersList
-      .map<[string, Tunneller[]]>(([group, list]) => [
-        group,
-        list
-          .filter(
-            (tunneller) =>
-              !filters.detachment?.length ||
-              filters.detachment.includes(tunneller.detachmentId),
-          )
-          .filter((tunneller) => {
-            if (!filters.corps?.length) return true;
-            return filters.corps.includes(tunneller.corpsId);
-          })
-          .filter((tunneller) => {
-            const currentRanks = filters.ranks;
-            if (
-              !currentRanks ||
-              Object.values(currentRanks).every((arr) => arr.length === 0)
-            ) {
-              return true;
-            }
-            return Object.values(currentRanks).some((arr) =>
-              arr.includes(tunneller.rankId),
-            );
-          })
-          .filter((tunneller) => {
-            const wantsUnknown = filters.unknownBirthYear === "unknown";
-            const list = filters.birthYear ?? [];
-            if (wantsUnknown && tunneller.birthYear === null) return true;
-            if (list.length && tunneller.birthYear) {
-              return list.includes(tunneller.birthYear);
-            }
-            return !wantsUnknown && list.length === 0;
-          })
-          .filter((tunneller) => {
-            const wantsUnknown = filters.unknownDeathYear === "unknown";
-            const list = filters.deathYear ?? [];
-            if (wantsUnknown && tunneller.deathYear === null) return true;
-            if (list.length && tunneller.deathYear) {
-              return list.includes(tunneller.deathYear);
-            }
-            return !wantsUnknown && list.length === 0;
-          }),
-      ])
-      .filter(([, list]) => list.length > 0);
-  }, [filters, tunnellersList, hasAnyActiveFilter]);
+      return tunnellersList
+        .map<[string, Tunneller[]]>(([group, list]) => [
+          group,
+          list
+            .filter(
+              (tunneller) =>
+                !currentFilters.detachment?.length ||
+                currentFilters.detachment.includes(tunneller.detachmentId),
+            )
+            .filter((tunneller) => {
+              if (!currentFilters.corps?.length) return true;
+              return currentFilters.corps.includes(tunneller.corpsId);
+            })
+            .filter((tunneller) => {
+              const currentRanks = currentFilters.ranks;
+              if (
+                !currentRanks ||
+                Object.values(currentRanks).every((arr) => arr.length === 0)
+              ) {
+                return true;
+              }
+              return Object.values(currentRanks).some((arr) =>
+                arr.includes(tunneller.rankId),
+              );
+            })
+            .filter((tunneller) => {
+              const wantsUnknown =
+                currentFilters.unknownBirthYear === "unknown";
+              const list = currentFilters.birthYear ?? [];
+              if (wantsUnknown && tunneller.birthYear === null) return true;
+              if (list.length && tunneller.birthYear) {
+                return list.includes(tunneller.birthYear);
+              }
+              return !wantsUnknown && list.length === 0;
+            })
+            .filter((tunneller) => {
+              const wantsUnknown =
+                currentFilters.unknownDeathYear === "unknown";
+              const list = currentFilters.deathYear ?? [];
+              if (wantsUnknown && tunneller.deathYear === null) return true;
+              if (list.length && tunneller.deathYear) {
+                return list.includes(tunneller.deathYear);
+              }
+              return !wantsUnknown && list.length === 0;
+            }),
+        ])
+        .filter(([, list]) => list.length > 0);
+    },
+    [hasAnyActiveFilter, tunnellersList],
+  );
+
+  const filteredGroups: [string, Tunneller[]][] = useMemo(
+    () => getFilteredGroups(filters),
+    [filters, getFilteredGroups],
+  );
 
   const totalFilteredTunnellers = useMemo(
     () => filteredGroups.reduce((acc, [, list]) => acc + list.length, 0),
     [filteredGroups],
+  );
+  const getFilteredTunnellerCount = useCallback(
+    (currentFilters: Filters) =>
+      getFilteredGroups(currentFilters).reduce(
+        (acc, [, list]) => acc + list.length,
+        0,
+      ),
+    [getFilteredGroups],
   );
 
   const sortedFilteredGroups = useMemo<[string, Tunneller[]][]>(() => {
@@ -432,6 +472,10 @@ export function useRollState({ tunnellers, locale }: Params) {
       setFilters(defaultFilters);
     }
   }, [filters, defaultFilters]);
+  const applyFilters = useCallback((nextFilters: Filters) => {
+    setCurrentPage(1);
+    setFilters(nextFilters);
+  }, []);
 
   const closeDialog = useCallback(() => setIsDialogOpen(false), []);
   const openDialog = useCallback(() => setIsDialogOpen(true), []);
@@ -472,6 +516,8 @@ export function useRollState({ tunnellers, locale }: Params) {
 
   return {
     filters,
+    defaultFilters,
+    applyFilters,
     currentPage,
     setCurrentPage,
     sortOrder,
@@ -484,6 +530,7 @@ export function useRollState({ tunnellers, locale }: Params) {
     filteredGroups,
     sortedFilteredGroups,
     totalFilteredTunnellers,
+    getFilteredTunnellerCount,
     totalTunnellers,
     handleResetFilters,
   };

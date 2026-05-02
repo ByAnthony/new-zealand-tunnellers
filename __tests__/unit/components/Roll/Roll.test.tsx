@@ -11,13 +11,22 @@ import { AttachedCorpsBadge } from "@/components/Roll/RollDetails/RollDetails";
 import { mockTunnellers } from "@/test-utils/mocks/mockTunnellers";
 
 const mockReplace = jest.fn();
+const mockPush = jest.fn();
 let mockSearchParams = new URLSearchParams();
 const originalReplaceState = window.history.replaceState.bind(window.history);
 
 jest.mock("next/navigation", () => ({
   useSearchParams: () => mockSearchParams,
-  useRouter: () => ({ replace: mockReplace }),
+  useRouter: () => ({ push: mockPush, replace: mockReplace }),
 }));
+
+jest.mock(
+  "@/components/Roll/RollOriginMap/RollOriginMap",
+  () => ({
+    RollOriginMap: () => <div data-testid="roll-origin-map" />,
+  }),
+  { virtual: true },
+);
 
 async function renderRoll() {
   const utils = render(<Roll tunnellers={mockTunnellers} />);
@@ -28,7 +37,9 @@ async function renderRoll() {
 describe("Roll", () => {
   beforeEach(() => {
     localStorage.clear();
+    sessionStorage.clear();
     mockReplace.mockReset();
+    mockPush.mockReset();
     mockSearchParams = new URLSearchParams();
     window.scrollTo = jest.fn();
     window.history.replaceState = jest.fn((data, unused, url) =>
@@ -48,6 +59,40 @@ describe("Roll", () => {
 
     expect(screen.getByText(/The New Zealand/)).toBeInTheDocument();
     expect(screen.getByText(/Tunnellers/)).toBeInTheDocument();
+  });
+
+  test("renders the origin map when view map query param is present", async () => {
+    mockSearchParams = new URLSearchParams("view=map");
+
+    render(<Roll tunnellers={mockTunnellers} />);
+
+    expect(await screen.findByTestId("roll-origin-map")).toBeInTheDocument();
+    expect(screen.queryByText(/The New Zealand/)).not.toBeInTheDocument();
+    await waitFor(() => {
+      expect(sessionStorage.getItem("roll:view")).toBe("map");
+    });
+  });
+
+  test("stores the list view when the roll list is rendered", async () => {
+    await renderRoll();
+
+    await waitFor(() => {
+      expect(sessionStorage.getItem("roll:view")).toBe("list");
+    });
+  });
+
+  test("opens the origin map from the roll list", async () => {
+    mockSearchParams = new URLSearchParams("detachment=main-body&page=2");
+    originalReplaceState(null, "", "/tunnellers?detachment=main-body&page=2");
+    await renderRoll();
+
+    fireEvent.click(
+      screen.getByRole("button", { name: "Open the tunnellers roll map" }),
+    );
+
+    expect(mockPush).toHaveBeenCalledWith(
+      "/tunnellers?page=2&detachment=main-body&view=map",
+    );
   });
 
   test("renders the total filtered results", async () => {

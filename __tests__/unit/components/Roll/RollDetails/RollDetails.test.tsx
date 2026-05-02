@@ -8,6 +8,7 @@ const tunnellers = [mockTunnellers.D[0]];
 describe("RollDetails", () => {
   beforeEach(() => {
     localStorage.clear();
+    sessionStorage.clear();
   });
 
   test("saves scroll position when a link is clicked", () => {
@@ -33,6 +34,7 @@ describe("RollDetails", () => {
 
     expect(localStorage.getItem("roll:scrollY")).toBe("0");
     expect(localStorage.getItem("tunnellers:return")).not.toBeNull();
+    expect(sessionStorage.getItem("roll:view")).toBe("list");
   });
 
   afterEach(() => {

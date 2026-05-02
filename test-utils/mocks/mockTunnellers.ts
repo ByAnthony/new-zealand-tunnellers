@@ -16,6 +16,13 @@ const mockTunneller1: Tunneller = {
   attachedCorps: null,
   corpsEn: null,
   corpsId: null,
+  origin: {
+    residence: {
+      town: "Auckland",
+      latitude: -36.8485,
+      longitude: 174.7633,
+    },
+  },
 };
 
 const mockTunneller2: Tunneller = {
@@ -34,6 +41,13 @@ const mockTunneller2: Tunneller = {
   attachedCorps: null,
   corpsEn: null,
   corpsId: null,
+  origin: {
+    residence: {
+      town: "Waihi",
+      latitude: -37.3919,
+      longitude: 175.8406,
+    },
+  },
 };
 
 const mockTunneller3: Tunneller = {
@@ -52,6 +66,13 @@ const mockTunneller3: Tunneller = {
   attachedCorps: null,
   corpsEn: null,
   corpsId: null,
+  origin: {
+    residence: {
+      town: "Auckland",
+      latitude: -36.8485,
+      longitude: 174.7633,
+    },
+  },
 };
 
 const mockTunneller4: Tunneller = {
@@ -70,6 +91,13 @@ const mockTunneller4: Tunneller = {
   attachedCorps: "Army Pay Corps",
   corpsEn: "Army Pay Corps",
   corpsId: 3,
+  origin: {
+    residence: {
+      town: null,
+      latitude: null,
+      longitude: null,
+    },
+  },
 };
 
 export const mockTunnellersData: Tunneller[] = [

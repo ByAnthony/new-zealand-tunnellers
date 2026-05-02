@@ -89,4 +89,21 @@ describe("useRollState", () => {
 
     expect(mockReplace).not.toHaveBeenCalled();
   });
+
+  test("preserves non-roll query params when syncing filter state", async () => {
+    mockSearchParams = new URLSearchParams("view=map");
+    originalReplaceState(null, "", "/?view=map");
+
+    render(<RollStateHarness />);
+
+    fireEvent.click(screen.getByText("toggle detachment"));
+
+    await waitFor(() => {
+      expect(window.history.replaceState).toHaveBeenCalledWith(
+        null,
+        "",
+        expect.stringContaining("?view=map&detachment=main-body"),
+      );
+    });
+  });
 });
