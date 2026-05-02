@@ -41,6 +41,7 @@ const DRAWER_TRANSITION_MS = 900;
 const DESKTOP_DRAWER_WIDTH = 380;
 const DESKTOP_DRAWER_CENTERING_RATIO = 0.4;
 const DESKTOP_MEDIA_QUERY = "(min-width: 56rem)";
+const TABLET_MEDIA_QUERY = "(min-width: 32rem) and (max-width: 56rem)";
 const MAX_MAP_ZOOM = 16;
 const MIN_MAP_ZOOM = 3;
 
@@ -72,16 +73,26 @@ function replaceRollOriginMapParams(
   window.history.replaceState(null, "", url);
 }
 
-function getCenteredOriginView(map: L.Map, origin: OriginMarker): L.LatLng {
+function getCenteredOriginView(
+  map: L.Map,
+  origin: OriginMarker,
+  drawerHeight: number,
+): L.LatLng {
   const markerPoint = map.project([origin.latitude, origin.longitude]);
   const isDesktop =
     typeof window.matchMedia === "function" &&
     window.matchMedia(DESKTOP_MEDIA_QUERY).matches;
-  const drawerOffset = isDesktop
+  const isTablet =
+    typeof window.matchMedia === "function" &&
+    window.matchMedia(TABLET_MEDIA_QUERY).matches;
+  const xOffset = isDesktop
     ? DESKTOP_DRAWER_WIDTH * DESKTOP_DRAWER_CENTERING_RATIO
     : 0;
+  const yOffset = isTablet ? drawerHeight / 2 : 0;
 
-  return map.unproject(L.point(markerPoint.x + drawerOffset, markerPoint.y));
+  return map.unproject(
+    L.point(markerPoint.x + xOffset, markerPoint.y + yOffset),
+  );
 }
 
 export function RollOriginMap({
@@ -99,6 +110,7 @@ export function RollOriginMap({
   const mapRef = useRef<L.Map | null>(null);
   const markerLayerRef = useRef<L.LayerGroup | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const drawerRef = useRef<HTMLElement>(null);
   const hasRestoredInitialOriginRef = useRef(false);
   const [currentZoom, setCurrentZoom] = useState<number | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -288,9 +300,15 @@ export function RollOriginMap({
         Number.isFinite(selectedOrigin.latitude) &&
         Number.isFinite(selectedOrigin.longitude)
       ) {
-        map.setView(getCenteredOriginView(map, selectedOrigin), map.getZoom(), {
-          animate: true,
-        });
+        map.setView(
+          getCenteredOriginView(
+            map,
+            selectedOrigin,
+            drawerRef.current?.getBoundingClientRect().height ?? 0,
+          ),
+          map.getZoom(),
+          { animate: true },
+        );
       }
     };
 
@@ -461,6 +479,7 @@ export function RollOriginMap({
         />
       </div>
       <RollOriginDrawer
+        ref={drawerRef}
         origin={renderedOrigin}
         isClosing={isDrawerClosing}
         onClose={closeOriginMapDrawer}

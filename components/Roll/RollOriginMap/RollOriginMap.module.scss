@@ -312,7 +312,7 @@ button.missing-count {
   @include variables.tablet {
     right: variables.$m-margin;
     left: variables.$m-margin;
-    max-height: 65vh;
+    max-height: 50vh;
   }
 
   @include variables.desktop {
