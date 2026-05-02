@@ -41,7 +41,7 @@ const DRAWER_TRANSITION_MS = 900;
 const DESKTOP_DRAWER_WIDTH = 380;
 const DESKTOP_DRAWER_CENTERING_RATIO = 0.4;
 const DESKTOP_MEDIA_QUERY = "(min-width: 56rem)";
-const TABLET_MEDIA_QUERY = "(min-width: 32rem) and (max-width: 56rem)";
+const BOTTOM_DRAWER_MEDIA_QUERY = "(max-width: 56rem)";
 const MAX_MAP_ZOOM = 16;
 const MIN_MAP_ZOOM = 3;
 
@@ -82,13 +82,13 @@ function getCenteredOriginView(
   const isDesktop =
     typeof window.matchMedia === "function" &&
     window.matchMedia(DESKTOP_MEDIA_QUERY).matches;
-  const isTablet =
+  const isBottomDrawer =
     typeof window.matchMedia === "function" &&
-    window.matchMedia(TABLET_MEDIA_QUERY).matches;
+    window.matchMedia(BOTTOM_DRAWER_MEDIA_QUERY).matches;
   const xOffset = isDesktop
     ? DESKTOP_DRAWER_WIDTH * DESKTOP_DRAWER_CENTERING_RATIO
     : 0;
-  const yOffset = isTablet ? drawerHeight / 2 : 0;
+  const yOffset = isBottomDrawer ? drawerHeight / 2 : 0;
 
   return map.unproject(
     L.point(markerPoint.x + xOffset, markerPoint.y + yOffset),
