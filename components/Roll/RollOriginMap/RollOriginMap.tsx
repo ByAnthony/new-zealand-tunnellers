@@ -37,6 +37,10 @@ type Props = {
 
 const UNKNOWN_ORIGIN_PARAM = "unknown";
 const DEFAULT_MAP_ZOOM = 5;
+const DRAWER_TRANSITION_MS = 900;
+const DESKTOP_DRAWER_WIDTH = 380;
+const DESKTOP_DRAWER_CENTERING_RATIO = 0.4;
+const DESKTOP_MEDIA_QUERY = "(min-width: 56rem)";
 const MAX_MAP_ZOOM = 16;
 const MIN_MAP_ZOOM = 3;
 
@@ -66,6 +70,18 @@ function replaceRollOriginMapParams(
     ? `${window.location.pathname}?${qs}`
     : window.location.pathname;
   window.history.replaceState(null, "", url);
+}
+
+function getCenteredOriginView(map: L.Map, origin: OriginMarker): L.LatLng {
+  const markerPoint = map.project([origin.latitude, origin.longitude]);
+  const isDesktop =
+    typeof window.matchMedia === "function" &&
+    window.matchMedia(DESKTOP_MEDIA_QUERY).matches;
+  const drawerOffset = isDesktop
+    ? DESKTOP_DRAWER_WIDTH * DESKTOP_DRAWER_CENTERING_RATIO
+    : 0;
+
+  return map.unproject(L.point(markerPoint.x + drawerOffset, markerPoint.y));
 }
 
 export function RollOriginMap({
@@ -262,9 +278,29 @@ export function RollOriginMap({
   }, []);
 
   useEffect(() => {
-    requestAnimationFrame(() => {
-      mapRef.current?.invalidateSize();
-    });
+    const syncMapSize = () => {
+      const map = mapRef.current;
+      if (!map) return;
+
+      map.invalidateSize();
+      if (
+        selectedOrigin &&
+        Number.isFinite(selectedOrigin.latitude) &&
+        Number.isFinite(selectedOrigin.longitude)
+      ) {
+        map.setView(getCenteredOriginView(map, selectedOrigin), map.getZoom(), {
+          animate: true,
+        });
+      }
+    };
+
+    const frame = requestAnimationFrame(syncMapSize);
+    const timeout = window.setTimeout(syncMapSize, DRAWER_TRANSITION_MS);
+
+    return () => {
+      cancelAnimationFrame(frame);
+      window.clearTimeout(timeout);
+    };
   }, [selectedOrigin]);
 
   useEffect(() => {
@@ -411,11 +447,6 @@ export function RollOriginMap({
         data-testid="roll-origin-map"
       >
         <div ref={containerRef} className={STYLES.map} />
-        <RollOriginDrawer
-          origin={renderedOrigin}
-          isClosing={isDrawerClosing}
-          onClose={closeOriginMapDrawer}
-        />
         <RollOriginMapControls
           activeFilterCount={activeFilterCount}
           currentZoom={currentZoom}
@@ -429,6 +460,11 @@ export function RollOriginMap({
           visibleCount={summary.visibleCount}
         />
       </div>
+      <RollOriginDrawer
+        origin={renderedOrigin}
+        isClosing={isDrawerClosing}
+        onClose={closeOriginMapDrawer}
+      />
     </>
   );
 }

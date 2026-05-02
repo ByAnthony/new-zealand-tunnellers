@@ -1,6 +1,10 @@
 @use "app/variables.module.scss";
 
 $drawer-width: 380px;
+$drawer-desktop-top: calc((2 * variables.$base-margin) + variables.$xs-margin);
+$drawer-desktop-bottom: calc(
+  variables.$base-margin + 95px + variables.$xs-margin
+);
 
 @keyframes origin-drawer-slide-in {
   from {
@@ -49,28 +53,6 @@ $drawer-width: 380px;
   background-color: variables.$primary-dark-color;
 }
 
-:global(body.roll-origin-drawer-open [data-testid="menu"]) {
-  @include variables.desktop {
-    width: min(
-      variables.$inner-width,
-      calc(100vw - $drawer-width - (2 * variables.$base-margin))
-    );
-    margin-left: max(
-      variables.$base-margin,
-      calc((100vw - $drawer-width - variables.$inner-width) / 2)
-    );
-    margin-right: max(
-      variables.$base-margin,
-      calc((100vw - $drawer-width - variables.$inner-width) / 2)
-    );
-    transform: none;
-    transition:
-      opacity 0.9s ease-in-out,
-      margin 0.9s ease-in-out,
-      width 0.9s ease-in-out;
-  }
-}
-
 .map {
   position: absolute;
   inset: 0;
@@ -79,11 +61,6 @@ $drawer-width: 380px;
 
   @include variables.desktop {
     width: auto;
-    transition: right 0.9s ease-in-out;
-
-    .container--drawer-open & {
-      right: $drawer-width;
-    }
   }
 }
 
@@ -100,17 +77,6 @@ $drawer-width: 380px;
     right: 0;
     width: min(700px, calc(100% - (2 * variables.$base-margin)));
     margin: 0 auto;
-    transition:
-      right 0.9s ease-in-out,
-      width 0.9s ease-in-out;
-
-    .container--drawer-open & {
-      right: $drawer-width;
-      width: min(
-        700px,
-        calc(100% - $drawer-width - (2 * variables.$base-margin))
-      );
-    }
   }
 }
 
@@ -263,7 +229,6 @@ button.missing-count {
   color: variables.$placeholder-color;
   font-size: 0.7rem;
   font-weight: 600;
-  letter-spacing: 0.06em;
   line-height: 1;
   text-transform: uppercase;
   white-space: nowrap;
@@ -330,7 +295,7 @@ button.missing-count {
 }
 
 .origin-drawer {
-  position: absolute;
+  position: fixed;
   left: variables.$m-margin;
   right: variables.$m-margin;
   bottom: 0;
@@ -351,16 +316,15 @@ button.missing-count {
   }
 
   @include variables.desktop {
-    top: 0;
+    top: calc(($drawer-desktop-top + (100vh - $drawer-desktop-bottom)) / 2);
     right: 0;
-    bottom: 0;
+    bottom: auto;
     left: auto;
     width: $drawer-width;
-    max-height: none;
-    border-top: none;
+    max-height: calc(100vh - $drawer-desktop-top - $drawer-desktop-bottom);
+    translate: 0 -50%;
     border-right: none;
-    border-bottom: none;
-    border-radius: 0;
+    border-radius: variables.$border-radius 0 0 variables.$border-radius;
     animation-name: origin-drawer-slide-in;
   }
 }
@@ -380,6 +344,13 @@ button.missing-count {
   gap: variables.$xxs-margin;
   padding: variables.$s-margin;
   border-bottom: 1px solid variables.$primary-medium-color;
+
+  @include variables.desktop {
+    background-color: rgba(24, 26, 27, 0.92);
+    border: 1px solid variables.$primary-light-color;
+    border-right: 0;
+    border-top: 0;
+  }
 }
 
 .origin-drawer-title-row,
@@ -445,6 +416,10 @@ button.missing-count {
   gap: variables.$xs-margin;
   overflow-y: auto;
   padding: variables.$xs-margin;
+
+  @include variables.desktop {
+    background-color: variables.$primary-dark-color;
+  }
 }
 
 .origin-drawer-link {

@@ -348,10 +348,10 @@ describe("RollOriginMap", () => {
       />,
     );
 
-    fireEvent.click(screen.getByRole("button", { name: /unknown origin/i }));
+    fireEvent.click(screen.getByRole("button", { name: /unmapped/i }));
 
     expect(
-      screen.getByRole("dialog", { name: "Unknown Origin" }),
+      screen.getByRole("dialog", { name: "Unmapped" }),
     ).toBeInTheDocument();
     expect(window.location.search).toBe("?view=map&origin=unknown");
     expect(screen.getByText("Marty")).toBeInTheDocument();

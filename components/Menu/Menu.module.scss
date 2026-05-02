@@ -17,23 +17,9 @@
   }
 
   @include variables.desktop {
-    width: min(
-      variables.$inner-width,
-      calc(100vw - (2 * variables.$base-margin))
-    );
-    margin-left: max(
-      variables.$base-margin,
-      calc((100vw - variables.$inner-width) / 2)
-    );
-    margin-right: max(
-      variables.$base-margin,
-      calc((100vw - variables.$inner-width) / 2)
-    );
+    margin: 0 auto;
     top: variables.$base-margin;
-    transition:
-      opacity 0.9s ease-in-out,
-      margin 0.9s ease-in-out,
-      width 0.9s ease-in-out;
+    max-width: variables.$inner-width;
   }
 
   .logo {

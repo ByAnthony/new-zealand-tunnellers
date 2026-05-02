@@ -46,17 +46,6 @@ export function useOriginDrawer() {
     return clearDrawerCloseTimeout;
   }, [clearDrawerCloseTimeout]);
 
-  useEffect(() => {
-    document.body.classList.toggle(
-      "roll-origin-drawer-open",
-      selectedOrigin !== null,
-    );
-
-    return () => {
-      document.body.classList.remove("roll-origin-drawer-open");
-    };
-  }, [selectedOrigin]);
-
   return {
     closeOriginDrawer,
     isDrawerClosing,
