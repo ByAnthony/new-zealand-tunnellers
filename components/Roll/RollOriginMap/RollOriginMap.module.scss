@@ -309,6 +309,10 @@ button.missing-count {
   border-radius: variables.$border-radius variables.$border-radius 0 0;
   animation: origin-drawer-slide-up 0.9s ease-in-out;
 
+  &:focus {
+    outline: none;
+  }
+
   @include variables.tablet {
     right: variables.$m-margin;
     left: variables.$m-margin;
