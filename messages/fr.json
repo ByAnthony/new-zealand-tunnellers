@@ -81,6 +81,8 @@
     "clearFilters": "Supprimer les filtres",
     "rollList": "Liste",
     "openRollList": "Ouvrir la liste des tunneliers",
+    "rollMap": "Carte",
+    "openRollMap": "Ouvrir la carte des tunneliers",
     "letter": "Lettre {letter}",
     "goToPreviousPage": "Aller à la page précédente",
     "goToPage": "Aller à la page {page}",

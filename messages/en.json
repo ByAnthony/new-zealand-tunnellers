@@ -81,6 +81,8 @@
     "clearFilters": "Clear Filters",
     "rollList": "List",
     "openRollList": "Open the tunnellers roll list",
+    "rollMap": "Map",
+    "openRollMap": "Open the tunnellers roll map",
     "letter": "Letter {letter}",
     "goToPreviousPage": "Go to previous page",
     "goToPage": "Go to page {page}",

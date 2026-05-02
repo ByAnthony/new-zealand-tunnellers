@@ -1,9 +1,9 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 
 import { useRollState } from "@/components/Roll/hooks/useRollState";
 import { RollAlphabet } from "@/components/Roll/RollAlphabet/RollAlphabet";
@@ -35,6 +35,7 @@ type Props = {
 export function Roll({ tunnellers }: Props) {
   const t = useTranslations("roll");
   const locale = useLocale();
+  const router = useRouter();
   const searchParams = useSearchParams();
   const { width } = useWindowDimensions();
   const {
@@ -72,6 +73,11 @@ export function Roll({ tunnellers }: Props) {
       : t("results", { count: totalFilteredTunnellers });
   const isAscending = sortOrder === "asc";
   const sortButtonText = isAscending ? t("sortDescending") : t("sortAscending");
+  const openRollMap = useCallback(() => {
+    const url = new URL(window.location.href);
+    url.searchParams.set("view", "map");
+    router.push(`${url.pathname}${url.search}`);
+  }, [router]);
 
   if (isMapView) {
     return (
@@ -123,21 +129,31 @@ export function Roll({ tunnellers }: Props) {
             </div>
             <div className={STYLES["header-meta"]}>
               <p className={STYLES.results}>{resultsText}</p>
-              <button
-                className={STYLES["sort-button"]}
-                onClick={handleSortToggle}
-                aria-label={sortButtonText}
-              >
-                <span className={STYLES["sort-button-label"]}>
-                  <span className={STYLES["sort-button-letters"]}>
-                    <span className={STYLES["sort-button-top"]}>A</span>
-                    <span className={STYLES["sort-button-bottom"]}>Z</span>
+              <div className={STYLES["header-buttons"]}>
+                <button
+                  className={STYLES["map-button"]}
+                  onClick={openRollMap}
+                  aria-label={t("openRollMap")}
+                >
+                  <span className={STYLES["map-button-icon"]} aria-hidden />
+                  {t("rollMap")}
+                </button>
+                <button
+                  className={STYLES["sort-button"]}
+                  onClick={handleSortToggle}
+                  aria-label={sortButtonText}
+                >
+                  <span className={STYLES["sort-button-label"]}>
+                    <span className={STYLES["sort-button-letters"]}>
+                      <span className={STYLES["sort-button-top"]}>A</span>
+                      <span className={STYLES["sort-button-bottom"]}>Z</span>
+                    </span>
+                    <span className={STYLES["sort-button-arrow"]}>
+                      {isAscending ? "↓" : "↑"}
+                    </span>
                   </span>
-                  <span className={STYLES["sort-button-arrow"]}>
-                    {isAscending ? "↓" : "↑"}
-                  </span>
-                </span>
-              </button>
+                </button>
+              </div>
             </div>
           </div>
         ) : null}
@@ -147,6 +163,14 @@ export function Roll({ tunnellers }: Props) {
               <div className={STYLES["results-container"]}>
                 <p className={STYLES.results}>{resultsText}</p>
                 <div className={STYLES["mobile-actions"]}>
+                  <button
+                    className={STYLES["map-button"]}
+                    onClick={openRollMap}
+                    aria-label={t("openRollMap")}
+                  >
+                    <span className={STYLES["map-button-icon"]} aria-hidden />
+                    {t("rollMap")}
+                  </button>
                   <button
                     className={STYLES["sort-button"]}
                     onClick={handleSortToggle}
@@ -162,18 +186,18 @@ export function Roll({ tunnellers }: Props) {
                       </span>
                     </span>
                   </button>
-                  <button
-                    className={`${STYLES["filter-button"]} ${activeFilterCount > 0 ? STYLES["filter-button--active"] : ""}`}
-                    onClick={openDialog}
-                  >
-                    {t("filters")}
-                    {activeFilterCount > 0 && (
-                      <span className={STYLES["filter-button-badge"]}>
-                        {activeFilterCount}
-                      </span>
-                    )}
-                  </button>
                 </div>
+                <button
+                  className={`${STYLES["filter-button"]} ${activeFilterCount > 0 ? STYLES["filter-button--active"] : ""}`}
+                  onClick={openDialog}
+                >
+                  {t("filters")}
+                  {activeFilterCount > 0 && (
+                    <span className={STYLES["filter-button-badge"]}>
+                      {activeFilterCount}
+                    </span>
+                  )}
+                </button>
               </div>
             ) : null}
             {desktopView ? (

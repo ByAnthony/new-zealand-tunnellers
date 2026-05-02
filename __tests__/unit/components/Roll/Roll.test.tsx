@@ -11,12 +11,13 @@ import { AttachedCorpsBadge } from "@/components/Roll/RollDetails/RollDetails";
 import { mockTunnellers } from "@/test-utils/mocks/mockTunnellers";
 
 const mockReplace = jest.fn();
+const mockPush = jest.fn();
 let mockSearchParams = new URLSearchParams();
 const originalReplaceState = window.history.replaceState.bind(window.history);
 
 jest.mock("next/navigation", () => ({
   useSearchParams: () => mockSearchParams,
-  useRouter: () => ({ replace: mockReplace }),
+  useRouter: () => ({ push: mockPush, replace: mockReplace }),
 }));
 
 jest.mock(
@@ -38,6 +39,7 @@ describe("Roll", () => {
     localStorage.clear();
     sessionStorage.clear();
     mockReplace.mockReset();
+    mockPush.mockReset();
     mockSearchParams = new URLSearchParams();
     window.scrollTo = jest.fn();
     window.history.replaceState = jest.fn((data, unused, url) =>
@@ -77,6 +79,20 @@ describe("Roll", () => {
     await waitFor(() => {
       expect(sessionStorage.getItem("roll:view")).toBe("list");
     });
+  });
+
+  test("opens the origin map from the roll list", async () => {
+    mockSearchParams = new URLSearchParams("detachment=main-body&page=2");
+    originalReplaceState(null, "", "/tunnellers?detachment=main-body&page=2");
+    await renderRoll();
+
+    fireEvent.click(
+      screen.getByRole("button", { name: "Open the tunnellers roll map" }),
+    );
+
+    expect(mockPush).toHaveBeenCalledWith(
+      "/tunnellers?page=2&detachment=main-body&view=map",
+    );
   });
 
   test("renders the total filtered results", async () => {

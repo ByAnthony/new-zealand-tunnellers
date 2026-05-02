@@ -39,9 +39,16 @@
   }
 }
 
+.header-buttons {
+  display: inline-flex;
+  align-items: center;
+  gap: variables.$xxs-margin;
+}
+
 .mobile-actions {
   display: flex;
   align-items: center;
+  justify-self: center;
   gap: variables.$xxxs-margin;
 
   @include variables.desktop {
@@ -102,6 +109,54 @@
   }
 }
 
+.map-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: variables.$xxxs-margin;
+  height: 40.5px;
+  padding: 0 variables.$xs-margin;
+  font: inherit;
+  font-weight: 400;
+  color: variables.$secondary-color;
+  border: 1px solid variables.$primary-light-color;
+  border-radius: variables.$border-radius;
+  background-color: variables.$primary-medium-color;
+  transition:
+    border 0.9s ease-in-out,
+    background-color 0.9s ease-in-out;
+  cursor: pointer;
+
+  @include variables.hover-supported {
+    &:hover {
+      border: 1px solid variables.$secondary-color;
+      background-color: variables.$primary-dark-color;
+    }
+  }
+}
+
+.map-button-icon {
+  position: relative;
+  width: 0.7rem;
+  height: 0.7rem;
+  border: 2px solid currentColor;
+  border-radius: 50% 50% 50% 0;
+  rotate: -45deg;
+  translate: 0 -1px;
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0.22rem;
+    height: 0.22rem;
+    border-radius: 50%;
+    background-color: currentColor;
+    translate: -50% -50%;
+  }
+}
+
 .sort-button-label {
   display: inline-flex;
   align-items: center;
@@ -155,15 +210,15 @@
   }
 
   .results-container {
-    display: flex;
+    display: grid;
     height: variables.$base-margin;
     width: 100%;
-    flex-direction: row;
     align-items: center;
-    justify-content: space-between;
+    grid-template-columns: 1fr auto 1fr;
   }
 
   .filter-button {
+    justify-self: end;
     padding: variables.$xxs-margin variables.$xs-margin;
     font-size: 1rem;
     color: variables.$secondary-color;
