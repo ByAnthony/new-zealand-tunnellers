@@ -1,0 +1,6 @@
+@use "app/variables.module.scss";
+
+.spacer {
+  height: calc(100vh - variables.$base-margin);
+  pointer-events: none;
+}

@@ -4,6 +4,7 @@ import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import { useEffect, useRef, useState, useCallback, useMemo } from "react";
 
+import { MapPageSpacer } from "@/components/MapPageSpacer/MapPageSpacer";
 import { CaveData, CavePathPoint } from "@/utils/database/queries/cavesQuery";
 import {
   FrontLineData,
@@ -399,19 +400,6 @@ export function WorksMap({
     resetSelectedMarker,
     resetSelectedPolylines,
   ]);
-
-  useEffect(() => {
-    const stickyEl = Array.from(
-      document.querySelectorAll<HTMLElement>("*"),
-    ).find((el) => window.getComputedStyle(el).position === "sticky");
-    const stickyTop = stickyEl
-      ? parseInt(window.getComputedStyle(stickyEl).top, 10)
-      : 0;
-    if (stickyEl) stickyEl.style.marginTop = `${stickyTop}px`;
-    return () => {
-      if (stickyEl) stickyEl.style.marginTop = "";
-    };
-  }, []);
 
   useEffect(() => {
     if (!containerRef.current || mapRef.current) return;
@@ -831,47 +819,50 @@ export function WorksMap({
   }, []);
 
   return (
-    <div className={STYLES.container}>
-      <div ref={containerRef} className={STYLES.map} />
-      <div className={STYLES["map-controls"]}>
-        {(displayedWork || displayedCave || displayedSubway) && (
-          <InfoBar
-            work={displayedWork}
-            cave={displayedCave}
-            subway={displayedSubway}
-            isExiting={isExiting}
-            animType={animType}
+    <>
+      <MapPageSpacer />
+      <div className={STYLES.container}>
+        <div ref={containerRef} className={STYLES.map} />
+        <div className={STYLES["map-controls"]}>
+          {(displayedWork || displayedCave || displayedSubway) && (
+            <InfoBar
+              work={displayedWork}
+              cave={displayedCave}
+              subway={displayedSubway}
+              isExiting={isExiting}
+              animType={animType}
+              locale={locale}
+              colors={typeColors}
+              onClose={closeInfo}
+              stackTotal={stackTotal > 1 ? stackTotal : undefined}
+              stackIndex={stackIndex}
+              onNavigate={navigateWorkStack}
+            />
+          )}
+          <MapControls
+            visibleCount={visibleCount}
             locale={locale}
-            colors={typeColors}
-            onClose={closeInfo}
-            stackTotal={stackTotal > 1 ? stackTotal : undefined}
-            stackIndex={stackIndex}
-            onNavigate={navigateWorkStack}
+            types={types}
+            selectedTypes={selectedTypes}
+            typeColors={typeColors}
+            dateRange={dateRange}
+            onDateRangeChange={setDateRange}
+            onDateRangeComplete={fitToVisibleWorks}
+            minMonth={minMonth}
+            maxMonth={maxMonth}
+            initialPeriodKey={initialPeriodKey}
+            currentPeriodKey={activePeriodKey}
+            periodBounds={periodBounds}
+            clampBounds={clampBounds}
+            onApplyFilters={handleApplyFilters}
+            computeAvailableTypes={computeAvailableTypes}
+            computeVisibleCount={computeVisibleCount}
+            currentZoom={currentZoom}
+            onZoom={zoom}
+            totalWorks={works.length}
           />
-        )}
-        <MapControls
-          visibleCount={visibleCount}
-          locale={locale}
-          types={types}
-          selectedTypes={selectedTypes}
-          typeColors={typeColors}
-          dateRange={dateRange}
-          onDateRangeChange={setDateRange}
-          onDateRangeComplete={fitToVisibleWorks}
-          minMonth={minMonth}
-          maxMonth={maxMonth}
-          initialPeriodKey={initialPeriodKey}
-          currentPeriodKey={activePeriodKey}
-          periodBounds={periodBounds}
-          clampBounds={clampBounds}
-          onApplyFilters={handleApplyFilters}
-          computeAvailableTypes={computeAvailableTypes}
-          computeVisibleCount={computeVisibleCount}
-          currentZoom={currentZoom}
-          onZoom={zoom}
-          totalWorks={works.length}
-        />
+        </div>
       </div>
-    </div>
+    </>
   );
 }

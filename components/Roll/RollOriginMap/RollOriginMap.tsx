@@ -8,6 +8,7 @@ import type { ComponentProps } from "react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { Dialog } from "@/components/Dialog/Dialog";
+import { MapPageSpacer } from "@/components/MapPageSpacer/MapPageSpacer";
 import { RollFilter } from "@/components/Roll/RollFilter/RollFilter";
 import { Tunneller } from "@/types/tunnellers";
 import { Filters } from "@/utils/helpers/rollParams";
@@ -460,6 +461,7 @@ export function RollOriginMap({
           className={STYLES["filters-container"]}
         />
       </Dialog>
+      <MapPageSpacer />
       <div
         className={`${STYLES.container} ${selectedOrigin ? STYLES["container--drawer-open"] : ""}`.trim()}
         data-testid="roll-origin-map"
