@@ -13,6 +13,7 @@ export const tunnellerQuery = async (
     , t.surname
     , t.forename
     , DATE_FORMAT(t.birth_date, '%Y-%m-%d') AS birth_date
+    , CAST(COALESCE(t.birth_year, YEAR(t.birth_date)) AS CHAR) AS birth_year
     , DATE_FORMAT(t.death_date, '%Y-%m-%d') AS death_date
     , birth_country.country_${locale} AS birth_country
     , t.mother_name

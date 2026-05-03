@@ -43,6 +43,7 @@ export const mockSummary: Summary = {
 
 // Origins
 export const mockBirth: Birth = {
+  year: "1886",
   date: {
     year: "1886",
     dayMonth: "18 December",

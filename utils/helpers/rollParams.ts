@@ -7,7 +7,6 @@ export type Filters = {
   corps: (number | null)[];
   ranks: Record<string, (number | null)[]>;
   birthYear: string[];
-  unknownBirthYear: string;
   deathYear: string[];
   unknownDeathYear: string;
 };
@@ -93,7 +92,6 @@ export function searchParamsToFilters(
         }),
       ),
       birthYear,
-      unknownBirthYear: params.get("unknown-birth") === "0" ? "" : "unknown",
       deathYear,
       unknownDeathYear: params.get("unknown-death") === "0" ? "" : "unknown",
     },
@@ -143,8 +141,6 @@ export function filtersToSearchParams(
     params.set("birth-min", filters.birthYear[0]);
     params.set("birth-max", filters.birthYear[filters.birthYear.length - 1]);
   }
-
-  if (filters.unknownBirthYear === "") params.set("unknown-birth", "0");
 
   if (
     filters.deathYear.length < lookups.deathYears.length &&
