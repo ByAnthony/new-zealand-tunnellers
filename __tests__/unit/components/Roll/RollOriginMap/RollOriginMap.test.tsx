@@ -116,7 +116,6 @@ const filters: Filters = {
   corps: [],
   ranks: {},
   birthYear: [],
-  unknownBirthYear: "",
   deathYear: [],
   unknownDeathYear: "",
 };
@@ -139,7 +138,6 @@ const rollFiltersProps = {
   handleSliderDragStart: jest.fn(),
   handleSliderDragComplete: jest.fn(),
   handleRankFilter: jest.fn(),
-  handleUnknownBirthYear: jest.fn(),
   handleUnknownDeathYear: jest.fn(),
 };
 

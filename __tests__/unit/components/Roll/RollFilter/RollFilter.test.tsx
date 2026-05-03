@@ -38,7 +38,6 @@ const defaultProps = {
       "Non-Commissioned Officers": [],
       "Other Ranks": [],
     },
-    unknownBirthYear: "",
     unknownDeathYear: "",
   },
   startBirthYear: "1880",
@@ -52,7 +51,6 @@ const defaultProps = {
   handleSliderDragStart: jest.fn(),
   handleSliderDragComplete: jest.fn(),
   handleRankFilter: jest.fn(),
-  handleUnknownBirthYear: jest.fn(),
   handleUnknownDeathYear: jest.fn(),
 };
 
@@ -126,13 +124,6 @@ describe("RollFilter", () => {
     expect(defaultProps.handleRankFilter).toHaveBeenCalledWith({
       Officers: [10],
     });
-  });
-
-  test("calls handleUnknownBirthYear when the unknown birth year checkbox is clicked", () => {
-    render(<RollFilter {...defaultProps} />);
-    const checkbox = screen.getByLabelText("Unknown birth year");
-    fireEvent.click(checkbox);
-    expect(defaultProps.handleUnknownBirthYear).toHaveBeenCalledWith("unknown");
   });
 
   test("calls handleUnknownDeathYear when the unknown death year checkbox is clicked", () => {

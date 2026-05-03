@@ -230,6 +230,7 @@ The database holds data for:
 | `section_fk`                      | `tinyint`  | Foreign | `NULL`  | Sections in the Main Body                                     |
 | `attached_corps_fk`               | `tinyint`  | Foreign | `NULL`  | Attached personnel                                            |
 | `birth_date`                      | `date`     | -       | `NULL`  | Date of birth                                                 |
+| `birth_year`                      | `smallint` | -       | `NULL`  | Year of birth when full date is unknown                       |
 | `birth_country_fk`                | `tinyint`  | Foreign | `NULL`  | Country of birth                                              |
 | `mother_name`                     | `varchar`  | -       | `NULL`  | Mother's name                                                 |
 | `mother_origin_fk`                | `tinyint`  | Foreign | `NULL`  | Mother's country of origin                                    |

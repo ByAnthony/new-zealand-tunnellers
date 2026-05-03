@@ -35,7 +35,6 @@ const ROLL_QUERY_PARAMS = [
   "other-rank",
   "birth-min",
   "birth-max",
-  "unknown-birth",
   "death-min",
   "death-max",
   "unknown-death",
@@ -106,7 +105,6 @@ export function useRollState({ tunnellers, locale }: Params) {
         "Other Ranks": [],
       },
       birthYear: uniqueBirthYears,
-      unknownBirthYear: "unknown",
       deathYear: uniqueDeathYears,
       unknownDeathYear: "unknown",
     }),
@@ -238,9 +236,7 @@ export function useRollState({ tunnellers, locale }: Params) {
     );
     const detachmentActive = (currentFilters.detachment ?? []).length > 0;
     const corpsActive = (currentFilters.corps ?? []).length > 0;
-    const birthActive =
-      (currentFilters.birthYear ?? []).length > 0 ||
-      currentFilters.unknownBirthYear === "unknown";
+    const birthActive = (currentFilters.birthYear ?? []).length > 0;
     const deathActive =
       (currentFilters.deathYear ?? []).length > 0 ||
       currentFilters.unknownDeathYear === "unknown";
@@ -258,8 +254,7 @@ export function useRollState({ tunnellers, locale }: Params) {
     Object.values(filters.ranks ?? {}).some((arr) => arr.length),
     (filters.detachment ?? []).length > 0,
     (filters.corps ?? []).length > 0,
-    (filters.birthYear ?? []).length < uniqueBirthYears.length ||
-      filters.unknownBirthYear === "",
+    (filters.birthYear ?? []).length < uniqueBirthYears.length,
     (filters.deathYear ?? []).length < uniqueDeathYears.length ||
       filters.unknownDeathYear === "",
   ].filter(Boolean).length;
@@ -294,14 +289,14 @@ export function useRollState({ tunnellers, locale }: Params) {
               );
             })
             .filter((tunneller) => {
-              const wantsUnknown =
-                currentFilters.unknownBirthYear === "unknown";
               const list = currentFilters.birthYear ?? [];
-              if (wantsUnknown && tunneller.birthYear === null) return true;
+              if (tunneller.birthYear === null) {
+                return list.length === uniqueBirthYears.length;
+              }
               if (list.length && tunneller.birthYear) {
                 return list.includes(tunneller.birthYear);
               }
-              return !wantsUnknown && list.length === 0;
+              return false;
             })
             .filter((tunneller) => {
               const wantsUnknown =
@@ -316,7 +311,7 @@ export function useRollState({ tunnellers, locale }: Params) {
         ])
         .filter(([, list]) => list.length > 0);
     },
-    [hasAnyActiveFilter, tunnellersList],
+    [hasAnyActiveFilter, tunnellersList, uniqueBirthYears.length],
   );
 
   const filteredGroups: [string, Tunneller[]][] = useMemo(
@@ -406,17 +401,6 @@ export function useRollState({ tunnellers, locale }: Params) {
       setPageToFirst();
     },
     [uniqueBirthYears, setPageToFirst],
-  );
-
-  const handleUnknownBirthYear = useCallback(
-    (unknown: string) => {
-      setFilters((prev) => ({
-        ...prev,
-        unknownBirthYear: unknown ? "unknown" : "",
-      }));
-      setPageToFirst();
-    },
-    [setPageToFirst],
   );
 
   const handleDeathSliderChange = useCallback(
@@ -510,7 +494,6 @@ export function useRollState({ tunnellers, locale }: Params) {
     handleSliderDragStart,
     handleSliderDragComplete,
     handleRankFilter,
-    handleUnknownBirthYear,
     handleUnknownDeathYear,
   };
 

@@ -8,7 +8,7 @@ export const rollQuery = async (locale: Locale, connection: PoolConnection) => {
     , t.slug
     , t.surname
     , t.forename
-    , DATE_FORMAT(t.birth_date, '%Y') AS birthYear
+    , CAST(COALESCE(t.birth_year, YEAR(t.birth_date)) AS CHAR) AS birthYear
     , DATE_FORMAT(t.death_date, '%Y') AS deathYear
     , embarkation_unit.embarkation_unit_${locale} AS detachment
     , embarkation_unit.embarkation_unit_en AS detachment_en

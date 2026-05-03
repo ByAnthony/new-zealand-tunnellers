@@ -27,7 +27,6 @@ type Props = {
     ranks: {
       [key: string]: (number | null)[];
     };
-    unknownBirthYear: string;
     unknownDeathYear: string;
   };
   startBirthYear: string;
@@ -41,7 +40,6 @@ type Props = {
   handleSliderDragStart: () => void;
   handleSliderDragComplete: () => void;
   handleRankFilter: (rank: { [key: string]: (number | null)[] }) => void;
-  handleUnknownBirthYear: (unknownBirthYear: string) => void;
   handleUnknownDeathYear: (unknownDeathYear: string) => void;
 };
 
@@ -64,7 +62,6 @@ export function RollFilter({
   handleSliderDragStart,
   handleSliderDragComplete,
   handleRankFilter,
-  handleUnknownBirthYear,
   handleUnknownDeathYear,
 }: Props) {
   const t = useTranslations("roll");
@@ -146,23 +143,6 @@ export function RollFilter({
               },
             }}
           />
-        </div>
-        <div style={{ marginTop: "15px" }}>
-          <label>
-            <input
-              type="checkbox"
-              id={"unknownBirthYear"}
-              name={"unknownBirthYear"}
-              value={"unknownBirthYear"}
-              onChange={() =>
-                handleUnknownBirthYear(
-                  filters.unknownBirthYear === "unknown" ? "" : "unknown",
-                )
-              }
-              checked={filters.unknownBirthYear === "unknown" ? true : false}
-            />
-            {t("includesUnknownBirthYear")}
-          </label>
         </div>
       </div>
       <div className={STYLES.filters}>

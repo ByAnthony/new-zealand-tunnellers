@@ -16,24 +16,27 @@ export function DiaryBirth({ birth }: Props) {
   const locale = useLocale();
   const formatCountry = (country: string) =>
     locale === "fr" ? getFrenchCountryWithPrep(country) : country;
+  const birthDate = birth.date
+    ? `${birth.date.dayMonth} ${birth.date.year}`
+    : birth.year;
 
-  if (birth.date && birth.country) {
+  if (birthDate && birth.country) {
     return (
       <div className={STYLES["fullwidth-main-card"]}>
         <p>{t("bornInCountry", { country: formatCountry(birth.country) })}</p>
-        <span>{`${birth.date?.dayMonth} ${birth.date?.year}`}</span>
+        <span>{birthDate}</span>
       </div>
     );
   }
-  if (birth.date && !birth.country) {
+  if (birthDate && !birth.country) {
     return (
       <div className={STYLES["fullwidth-main-card"]}>
         <p>{t("born")}</p>
-        <span>{`${birth.date?.dayMonth} ${birth.date?.year}`}</span>
+        <span>{birthDate}</span>
       </div>
     );
   }
-  if (!birth.date && birth.country) {
+  if (!birthDate && birth.country) {
     return (
       <div className={STYLES["fullwidth-main-card"]}>
         <span>

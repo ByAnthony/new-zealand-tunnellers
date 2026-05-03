@@ -271,12 +271,6 @@ export function RollOriginMap({
           return { ...prev, ranks: nextRanks };
         });
       },
-      handleUnknownBirthYear: (unknown: string) => {
-        setPendingFilters((prev) => ({
-          ...prev,
-          unknownBirthYear: unknown ? "unknown" : "",
-        }));
-      },
       handleUnknownDeathYear: (unknown: string) => {
         setPendingFilters((prev) => ({
           ...prev,

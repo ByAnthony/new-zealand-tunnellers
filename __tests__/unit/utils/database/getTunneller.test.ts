@@ -28,6 +28,7 @@ describe("getTunneller", () => {
       forename: "John",
       surname: "Doe",
       birth_date: "1890-01-01",
+      birth_year: "1890",
       death_date: null,
       birth_country: "New Zealand",
       mother_name: null,
@@ -126,6 +127,16 @@ describe("getTunneller", () => {
         name: {
           forename: "John",
           surname: "Doe",
+        },
+        birth: "1890",
+      },
+      origins: {
+        birth: {
+          year: "1890",
+          date: {
+            year: "1890",
+            dayMonth: "1 January",
+          },
         },
       },
       militaryYears: {

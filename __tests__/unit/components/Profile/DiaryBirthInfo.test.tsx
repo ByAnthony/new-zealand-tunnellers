@@ -46,6 +46,7 @@ test("renders birth country when known but not birth date when unknown", () => {
     <DiaryBirth
       birth={{
         ...mockBirth,
+        year: null,
         date: null,
       }}
     />
@@ -59,11 +60,48 @@ test("renders birth country when known but not birth date when unknown", () => {
   expect(screen.queryByText("18 December 1886")).not.toBeInTheDocument();
 });
 
+test("renders birth year when exact birth date is unknown", () => {
+  const mockComponent = (
+    <DiaryBirth
+      birth={{
+        ...mockBirth,
+        year: "1880",
+        date: null,
+      }}
+    />
+  );
+
+  render(mockComponent);
+
+  expect(findElementWithText("Born in New Zealand")).toBeInTheDocument();
+  expect(screen.getByText("1880")).toBeInTheDocument();
+  expect(screen.queryByText("18 December 1886")).not.toBeInTheDocument();
+});
+
+test("renders birth year when exact birth date and country are unknown", () => {
+  const mockComponent = (
+    <DiaryBirth
+      birth={{
+        ...mockBirth,
+        year: "1880",
+        date: null,
+        country: null,
+      }}
+    />
+  );
+
+  render(mockComponent);
+
+  expect(findElementWithText("Born")).toBeInTheDocument();
+  expect(screen.getByText("1880")).toBeInTheDocument();
+});
+
 test("does not render the component when birth date and country are unknown", () => {
   const { container } = render(
     <DiaryBirth
       birth={{
         ...mockBirth,
+        year: null,
         date: null,
         country: null,
       }}

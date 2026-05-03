@@ -225,20 +225,6 @@ exports[`Roll matches the snapshot 1`] = `
                 />
               </div>
             </div>
-            <div
-              style="margin-top: 15px;"
-            >
-              <label>
-                <input
-                  checked=""
-                  id="unknownBirthYear"
-                  name="unknownBirthYear"
-                  type="checkbox"
-                  value="unknownBirthYear"
-                />
-                Unknown birth year
-              </label>
-            </div>
           </div>
           <div
             class="filters"
