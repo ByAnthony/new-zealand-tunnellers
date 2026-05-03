@@ -39,7 +39,7 @@ export default async function Page(props: Props) {
 
   const { forename, surname } = tunneller.summary.name;
   const rank = tunneller.militaryYears.enlistment.rank;
-  const birthDate = tunneller.origins.birth.date?.year;
+  const birthDate = tunneller.summary.birth;
   const birthPlace = tunneller.origins.birth.country;
   const deathDate = tunneller.death?.date?.year;
   const deathTown = tunneller.death?.place?.town;

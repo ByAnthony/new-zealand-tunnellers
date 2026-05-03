@@ -7,6 +7,7 @@ export type ProfileData = {
   surname: string;
   forename: string;
   birth_date: string | null;
+  birth_year: string | null;
   death_date: string | null;
   birth_country: string | null;
   mother_name: string | null;
@@ -133,6 +134,7 @@ export type Summary = {
 };
 
 export type Birth = {
+  year: string | null;
   date: DateObj | null;
   country: string | null;
 };

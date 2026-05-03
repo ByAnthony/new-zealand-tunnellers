@@ -207,11 +207,16 @@ export async function getTunneller(
         forename: profile.forename,
         surname: profile.surname,
       },
-      birth: profile.birth_date ? getYear(profile.birth_date) : null,
+      birth:
+        profile.birth_year ??
+        (profile.birth_date ? getYear(profile.birth_date) : null),
       death: profile.death_date ? getYear(profile.death_date) : null,
     },
     origins: {
       birth: {
+        year:
+          profile.birth_year ??
+          (profile.birth_date ? getYear(profile.birth_date) : null),
         date: profile.birth_date ? getDate(profile.birth_date) : null,
         country: profile.birth_country,
       },

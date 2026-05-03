@@ -35,6 +35,22 @@ describe("RollDetails", () => {
     expect(localStorage.getItem("tunnellers:return")).not.toBeNull();
   });
 
+  test("renders the birth year on the roll card", () => {
+    render(
+      <RollDetails
+        listOfTunnellers={[
+          {
+            ...tunnellers[0],
+            birthYear: "1880",
+            deathYear: null,
+          },
+        ]}
+      />,
+    );
+
+    expect(screen.getByText("1880-†?")).toBeInTheDocument();
+  });
+
   afterEach(() => {
     jest.restoreAllMocks();
   });
