@@ -14,7 +14,6 @@ import { Tunneller } from "@/types/tunnellers";
 import { Filters } from "@/utils/helpers/rollParams";
 
 import {
-  createMissingOriginMarker,
   getOriginMarkerRadius,
   getOriginMarkerStyle,
   getOriginMapSummary,
@@ -36,8 +35,8 @@ type Props = {
   totalTunnellers: number;
 };
 
-const UNKNOWN_ORIGIN_PARAM = "unknown";
 const DEFAULT_MAP_ZOOM = 5;
+const DEFAULT_MAP_CENTER: [number, number] = [-41.0, 172.4];
 const DRAWER_TRANSITION_MS = 900;
 const DESKTOP_DRAWER_WIDTH = 380;
 const DESKTOP_DRAWER_CENTERING_RATIO = 0.4;
@@ -107,7 +106,6 @@ export function RollOriginMap({
   totalTunnellers,
 }: Props) {
   const tRoll = useTranslations("roll");
-  const tMaps = useTranslations("maps");
   const mapRef = useRef<L.Map | null>(null);
   const markerLayerRef = useRef<L.LayerGroup | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -154,21 +152,6 @@ export function RollOriginMap({
     },
     [openOriginDrawer],
   );
-
-  const openMissingOriginDrawer = useCallback(() => {
-    openOriginDrawer(
-      createMissingOriginMarker(
-        tMaps("originMissingTitle"),
-        summary.missingOriginTunnellers,
-      ),
-    );
-    replaceRollOriginMapParams((params) => {
-      params.set("view", "map");
-      params.set("origin", UNKNOWN_ORIGIN_PARAM);
-      params.delete("lat");
-      params.delete("lng");
-    });
-  }, [openOriginDrawer, summary.missingOriginTunnellers, tMaps]);
 
   const openDialog = useCallback(() => {
     closeOriginMapDrawer();
@@ -322,17 +305,6 @@ export function RollOriginMap({
 
     const params = new URLSearchParams(window.location.search);
 
-    if (params.get("origin") === UNKNOWN_ORIGIN_PARAM) {
-      if (summary.missingOriginTunnellers.length === 0) return;
-      openOriginDrawer(
-        createMissingOriginMarker(
-          tMaps("originMissingTitle"),
-          summary.missingOriginTunnellers,
-        ),
-      );
-      return;
-    }
-
     const latitudeParam = Number(params.get("lat"));
     const longitudeParam = Number(params.get("lng"));
     if (!Number.isFinite(latitudeParam) || !Number.isFinite(longitudeParam)) {
@@ -348,12 +320,7 @@ export function RollOriginMap({
     );
 
     if (matchingMarker) openOriginDrawer(matchingMarker);
-  }, [
-    openOriginDrawer,
-    summary.markers,
-    summary.missingOriginTunnellers,
-    tMaps,
-  ]);
+  }, [openOriginDrawer, summary.markers]);
 
   useEffect(() => {
     if (!containerRef.current || mapRef.current) return;
@@ -362,7 +329,7 @@ export function RollOriginMap({
       maxZoom: MAX_MAP_ZOOM,
       minZoom: MIN_MAP_ZOOM,
       zoomControl: false,
-    }).setView([-41.2865, 174.7762], getInitialMapZoom());
+    }).setView(DEFAULT_MAP_CENTER, getInitialMapZoom());
 
     L.tileLayer(
       "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}",
@@ -464,10 +431,7 @@ export function RollOriginMap({
         <RollOriginMapControls
           activeFilterCount={activeFilterCount}
           currentZoom={currentZoom}
-          mappedCount={summary.mappedCount}
-          missingOriginCount={summary.missingOriginCount}
           onOpenFilters={openDialog}
-          onOpenMissingOrigin={openMissingOriginDrawer}
           onOpenRollList={openRollList}
           onZoomIn={() => zoom(1)}
           onZoomOut={() => zoom(-1)}

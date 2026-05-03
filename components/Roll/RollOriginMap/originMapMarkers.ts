@@ -29,19 +29,6 @@ export function getOriginMarkerStyle(isSelected: boolean) {
   };
 }
 
-export function createMissingOriginMarker(
-  town: string,
-  tunnellers: Tunneller[],
-): OriginMarker {
-  return {
-    town,
-    latitude: Number.NaN,
-    longitude: Number.NaN,
-    count: tunnellers.length,
-    tunnellers,
-  };
-}
-
 export function getOriginMapSummary(
   tunnellers: Record<string, Tunneller[]>,
 ): OriginMapSummary {

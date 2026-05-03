@@ -8,7 +8,7 @@ import { rollQuery } from "./queries/rollQuery";
 import { withConnection } from "./withConnection";
 
 // Bump after database changes that affect the roll/search data.
-const TUNNELLERS_CACHE_VERSION = "2026-05-03-birth-year";
+const TUNNELLERS_CACHE_VERSION = "2026-05-03-origin-map-complete";
 
 function parseCoordinate(value: string | null): number | null {
   if (!value) return null;

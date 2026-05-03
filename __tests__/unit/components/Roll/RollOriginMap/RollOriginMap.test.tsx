@@ -53,9 +53,11 @@ class MockLayerGroup {
 
 class MockMap {
   handlers: Record<string, MarkerHandler> = {};
+  latlng: [number, number] | null = null;
   zoom = 5;
 
-  setView(_latlng: [number, number], zoom: number) {
+  setView(latlng: [number, number], zoom: number) {
+    this.latlng = latlng;
     this.zoom = zoom;
     return this;
   }
@@ -259,6 +261,25 @@ describe("RollOriginMap", () => {
     expect(window.location.search).toBe("?view=map&zoom=6");
   });
 
+  test("opens centred on New Zealand", async () => {
+    render(
+      <RollOriginMap
+        tunnellers={mockTunnellers}
+        rollFiltersProps={rollFiltersProps}
+        filters={filters}
+        defaultFilters={filters}
+        applyFilters={jest.fn()}
+        getFilteredTunnellerCount={() => 4}
+        activeFilterCount={0}
+        totalTunnellers={4}
+      />,
+    );
+
+    await waitFor(() => expect(maps.length).toBe(1));
+
+    expect(maps[0].latlng).toEqual([-41, 172.4]);
+  });
+
   test("restores the map zoom from query params", async () => {
     window.history.replaceState(null, "", "/tunnellers?view=map&zoom=9");
 
@@ -332,7 +353,7 @@ describe("RollOriginMap", () => {
     ).toBeInTheDocument();
   });
 
-  test("opens a drawer for tunnellers without an origin", async () => {
+  test("does not render an unmapped origin control", () => {
     render(
       <RollOriginMap
         tunnellers={mockTunnellers}
@@ -346,13 +367,9 @@ describe("RollOriginMap", () => {
       />,
     );
 
-    fireEvent.click(screen.getByRole("button", { name: /unmapped/i }));
-
+    expect(screen.getByText("4 results")).toBeInTheDocument();
     expect(
-      screen.getByRole("dialog", { name: "Unmapped" }),
-    ).toBeInTheDocument();
-    expect(window.location.search).toBe("?view=map&origin=unknown");
-    expect(screen.getByText("Marty")).toBeInTheDocument();
-    expect(screen.getByText("McFly")).toBeInTheDocument();
+      screen.queryByRole("button", { name: /unmapped/i }),
+    ).not.toBeInTheDocument();
   });
 });

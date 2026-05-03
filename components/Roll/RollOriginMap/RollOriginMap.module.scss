@@ -86,16 +86,18 @@ $drawer-desktop-bottom: calc(
   gap: variables.$xxxs-margin;
 }
 
-.controls-top-row {
+.controls-actions-row,
+.controls-summary-row {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 45px 45px;
   gap: variables.$xxxs-margin;
 }
 
-.stats-row {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: variables.$xxxs-margin;
+.controls-actions-row {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 45px;
+}
+
+.controls-summary-row {
+  grid-template-columns: minmax(0, 1fr) 45px;
 }
 
 .filter-button,
@@ -161,13 +163,12 @@ $drawer-desktop-bottom: calc(
   line-height: 1;
 }
 
-.map-count,
-.missing-count {
+.map-count {
   box-sizing: border-box;
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   gap: variables.$xxxs-margin;
   height: 45px;
   min-width: 0;
@@ -182,76 +183,12 @@ $drawer-desktop-bottom: calc(
   text-align: center;
 }
 
-button.missing-count {
-  cursor: pointer;
-  transition:
-    border-color 0.9s ease-in-out,
-    background-color 0.9s ease-in-out;
-
-  .count-label,
-  .count-primary {
-    color: variables.$secondary-color;
-  }
-
-  @include variables.hover-supported {
-    &:hover:not(:disabled) {
-      border-color: variables.$secondary-color;
-      background-color: variables.$primary-dark-color;
-    }
-  }
-
-  &:disabled {
-    background-color: rgb(24, 26, 27);
-    border-color: rgb(44, 46, 47);
-    cursor: not-allowed;
-
-    .count-label,
-    .count-primary {
-      color: rgb(44, 46, 47);
-    }
-  }
-}
-
 .count-primary {
   color: variables.$text-color;
   font-size: 1rem;
   font-weight: 500;
   line-height: 1;
-}
-
-.count-total {
-  color: variables.$placeholder-color;
-  font-size: 0.8rem;
-  font-weight: 500;
-}
-
-.count-label {
-  color: variables.$placeholder-color;
-  font-size: 0.7rem;
-  font-weight: 600;
-  line-height: 1;
-  text-transform: uppercase;
   white-space: nowrap;
-}
-
-.map-count {
-  @include variables.desktop {
-    .count-primary {
-      font-size: 1.1rem;
-    }
-
-    .count-total {
-      font-size: 0.9rem;
-    }
-  }
-}
-
-.missing-count {
-  @include variables.desktop {
-    .count-primary {
-      font-size: 1.1rem;
-    }
-  }
 }
 
 .zoom-button {
@@ -296,16 +233,18 @@ button.missing-count {
 
 .origin-drawer {
   position: fixed;
-  left: variables.$m-margin;
-  right: variables.$m-margin;
+  left: 0;
+  right: 0;
   bottom: 0;
   z-index: 1001;
   display: flex;
   flex-direction: column;
+  width: 100%;
   max-height: 50vh;
   overflow: hidden;
   background-color: variables.$primary-dark-color;
-  border: 1px solid variables.$primary-light-color;
+  border-top: 1px solid variables.$primary-light-color;
+  border-bottom: 1px solid variables.$primary-light-color;
   border-radius: variables.$border-radius variables.$border-radius 0 0;
   animation: origin-drawer-slide-up 0.9s ease-in-out;
 
@@ -314,8 +253,6 @@ button.missing-count {
   }
 
   @include variables.tablet {
-    right: variables.$m-margin;
-    left: variables.$m-margin;
     max-height: 50vh;
   }
 
@@ -327,7 +264,7 @@ button.missing-count {
     width: $drawer-width;
     max-height: calc(100vh - $drawer-desktop-top - $drawer-desktop-bottom);
     translate: 0 -50%;
-    border-right: none;
+    border-left: 1px solid variables.$primary-light-color;
     border-radius: variables.$border-radius 0 0 variables.$border-radius;
     animation-name: origin-drawer-slide-in;
   }
@@ -347,14 +284,7 @@ button.missing-count {
   flex-direction: column;
   gap: variables.$xxs-margin;
   padding: variables.$s-margin;
-  border-bottom: 1px solid variables.$primary-medium-color;
-
-  @include variables.desktop {
-    background-color: rgba(24, 26, 27, 0.92);
-    border: 1px solid variables.$primary-light-color;
-    border-right: 0;
-    border-top: 0;
-  }
+  border-bottom: 1px solid variables.$primary-light-color;
 }
 
 .origin-drawer-title-row,

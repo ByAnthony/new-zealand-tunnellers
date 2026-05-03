@@ -7,10 +7,7 @@ import STYLES from "./RollOriginMap.module.scss";
 type Props = {
   activeFilterCount: number;
   currentZoom: number | null;
-  mappedCount: number;
-  missingOriginCount: number;
   onOpenFilters: () => void;
-  onOpenMissingOrigin: () => void;
   onOpenRollList: () => void;
   onZoomIn: () => void;
   onZoomOut: () => void;
@@ -20,10 +17,7 @@ type Props = {
 export function RollOriginMapControls({
   activeFilterCount,
   currentZoom,
-  mappedCount,
-  missingOriginCount,
   onOpenFilters,
-  onOpenMissingOrigin,
   onOpenRollList,
   onZoomIn,
   onZoomOut,
@@ -35,7 +29,7 @@ export function RollOriginMapControls({
   return (
     <div className={STYLES["map-controls"]}>
       <div className={STYLES["controls-grid"]}>
-        <div className={STYLES["controls-top-row"]}>
+        <div className={STYLES["controls-actions-row"]}>
           <button
             type="button"
             className={STYLES["roll-button"]}
@@ -81,6 +75,15 @@ export function RollOriginMapControls({
           >
             +
           </button>
+        </div>
+        <div className={STYLES["controls-summary-row"]}>
+          <div className={STYLES["map-count"]}>
+            <span className={STYLES["count-primary"]}>
+              {tRoll(visibleCount === 1 ? "results" : "resultsPlural", {
+                count: visibleCount,
+              })}
+            </span>
+          </div>
           <button
             type="button"
             onClick={onZoomOut}
@@ -89,30 +92,6 @@ export function RollOriginMapControls({
             disabled={currentZoom !== null && currentZoom <= 3}
           >
             −
-          </button>
-        </div>
-        <div className={STYLES["stats-row"]}>
-          <div className={STYLES["map-count"]}>
-            <span className={STYLES["count-label"]}>
-              {tMaps("originMappedLabel")}
-            </span>
-            <span className={STYLES["count-primary"]}>
-              {mappedCount}
-              <span className={STYLES["count-total"]}>/{visibleCount}</span>
-            </span>
-          </div>
-          <button
-            type="button"
-            className={STYLES["missing-count"]}
-            onClick={onOpenMissingOrigin}
-            disabled={missingOriginCount === 0}
-          >
-            <span className={STYLES["count-label"]}>
-              {tMaps("originMissingLabel")}
-            </span>
-            <span className={STYLES["count-primary"]}>
-              {missingOriginCount}
-            </span>
           </button>
         </div>
       </div>
