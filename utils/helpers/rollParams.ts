@@ -5,6 +5,7 @@ import { FilterOption } from "@/types/tunnellers";
 export type Filters = {
   detachment: (number | null)[];
   corps: (number | null)[];
+  maritalStatus: (number | null)[];
   ranks: Record<string, (number | null)[]>;
   birthYear: string[];
   deathYear: string[];
@@ -14,6 +15,7 @@ export type Filters = {
 export type FilterLookups = {
   detachments: FilterOption[];
   corps: FilterOption[];
+  maritalStatuses: FilterOption[];
   sortedRanks: Record<string, FilterOption[]>;
   birthYears: string[];
   deathYears: string[];
@@ -80,6 +82,10 @@ export function searchParamsToFilters(
     filters: {
       detachment: slugsToIds(params.get("detachment"), lookups.detachments),
       corps: slugsToIds(params.get("corps"), lookups.corps),
+      maritalStatus: slugsToIds(
+        params.get("marital-status"),
+        lookups.maritalStatuses,
+      ),
       ranks: Object.fromEntries(
         Object.entries(lookups.sortedRanks).map(([category, options]) => {
           const paramKey =
@@ -117,6 +123,11 @@ export function filtersToSearchParams(
   if (filters.corps.length > 0) {
     const slugs = idsToSlugs(filters.corps, lookups.corps);
     if (slugs) params.set("corps", slugs);
+  }
+
+  if (filters.maritalStatus.length > 0) {
+    const slugs = idsToSlugs(filters.maritalStatus, lookups.maritalStatuses);
+    if (slugs) params.set("marital-status", slugs);
   }
 
   const rankParamKeys: Record<string, string> = {

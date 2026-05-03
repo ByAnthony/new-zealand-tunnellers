@@ -16,6 +16,9 @@ const mockTunneller1: Tunneller = {
   attachedCorps: null,
   corpsEn: null,
   corpsId: null,
+  maritalStatus: "Married",
+  maritalStatusEn: "Married",
+  maritalStatusId: 2,
 };
 
 const mockTunneller2: Tunneller = {
@@ -34,6 +37,9 @@ const mockTunneller2: Tunneller = {
   attachedCorps: null,
   corpsEn: null,
   corpsId: null,
+  maritalStatus: "Single",
+  maritalStatusEn: "Single",
+  maritalStatusId: 1,
 };
 
 const mockTunneller3: Tunneller = {
@@ -52,6 +58,9 @@ const mockTunneller3: Tunneller = {
   attachedCorps: null,
   corpsEn: null,
   corpsId: null,
+  maritalStatus: null,
+  maritalStatusEn: null,
+  maritalStatusId: null,
 };
 
 const mockTunneller4: Tunneller = {
@@ -70,6 +79,9 @@ const mockTunneller4: Tunneller = {
   attachedCorps: "Army Pay Corps",
   corpsEn: "Army Pay Corps",
   corpsId: 3,
+  maritalStatus: "Married",
+  maritalStatusEn: "Married",
+  maritalStatusId: 2,
 };
 
 export const mockTunnellersData: Tunneller[] = [

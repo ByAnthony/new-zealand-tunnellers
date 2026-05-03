@@ -28,6 +28,9 @@ describe("getTunnellers", () => {
         attached_corps: null,
         corps_en: null,
         corps_id: null,
+        marital_status: "Married",
+        marital_status_en: "Married",
+        marital_status_id: 2,
       },
       {
         id: 2,
@@ -45,6 +48,9 @@ describe("getTunnellers", () => {
         attached_corps: null,
         corps_en: null,
         corps_id: null,
+        marital_status: "Single",
+        marital_status_en: "Single",
+        marital_status_id: 1,
       },
     ];
 
@@ -75,6 +81,9 @@ describe("getTunnellers", () => {
         attachedCorps: null,
         corpsEn: null,
         corpsId: null,
+        maritalStatus: "Married",
+        maritalStatusEn: "Married",
+        maritalStatusId: 2,
       },
       {
         id: 2,
@@ -97,6 +106,9 @@ describe("getTunnellers", () => {
         attachedCorps: null,
         corpsEn: null,
         corpsId: null,
+        maritalStatus: "Single",
+        maritalStatusEn: "Single",
+        maritalStatusId: 1,
       },
     ];
 

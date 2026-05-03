@@ -19,6 +19,10 @@ import {
   getUniqueDetachmentsEn,
 } from "../utils/detachmentUtils";
 import {
+  getUniqueMaritalStatuses,
+  getUniqueMaritalStatusesEn,
+} from "../utils/maritalStatusUtils";
+import {
   getSortedRanks,
   getUniqueRanks,
   getUniqueRanksEn,
@@ -51,6 +55,10 @@ export function useRollState({ tunnellers, locale }: Params) {
     () => getUniqueRanks(tunnellersList),
     [tunnellersList],
   );
+  const uniqueMaritalStatuses = useMemo(
+    () => getUniqueMaritalStatuses(tunnellersList),
+    [tunnellersList],
+  );
   const sortedRanks = useMemo(
     () => getSortedRanks(uniqueRanks, locale as "en" | "fr"),
     [uniqueRanks, locale],
@@ -75,6 +83,10 @@ export function useRollState({ tunnellers, locale }: Params) {
     () => getUniqueRanksEn(tunnellersList),
     [tunnellersList],
   );
+  const uniqueMaritalStatusesEn = useMemo(
+    () => getUniqueMaritalStatusesEn(tunnellersList),
+    [tunnellersList],
+  );
   const sortedRanksEn = useMemo(
     () => getSortedRanks(uniqueRanksEn, "en"),
     [uniqueRanksEn],
@@ -84,6 +96,7 @@ export function useRollState({ tunnellers, locale }: Params) {
     () => ({
       detachment: [],
       corps: [],
+      maritalStatus: [],
       ranks: {
         Officers: [],
         "Non-Commissioned Officers": [],
@@ -100,6 +113,7 @@ export function useRollState({ tunnellers, locale }: Params) {
     () => ({
       detachments: uniqueDetachmentsEn,
       corps: uniqueCorpsEn,
+      maritalStatuses: uniqueMaritalStatusesEn,
       sortedRanks: sortedRanksEn,
       birthYears: uniqueBirthYears,
       deathYears: uniqueDeathYears,
@@ -107,6 +121,7 @@ export function useRollState({ tunnellers, locale }: Params) {
     [
       uniqueDetachmentsEn,
       uniqueCorpsEn,
+      uniqueMaritalStatusesEn,
       sortedRanksEn,
       uniqueBirthYears,
       uniqueDeathYears,
@@ -215,6 +230,7 @@ export function useRollState({ tunnellers, locale }: Params) {
     );
     const detachmentActive = (currentFilters.detachment ?? []).length > 0;
     const corpsActive = (currentFilters.corps ?? []).length > 0;
+    const maritalStatusActive = (currentFilters.maritalStatus ?? []).length > 0;
     const birthActive = (currentFilters.birthYear ?? []).length > 0;
     const deathActive =
       (currentFilters.deathYear ?? []).length > 0 ||
@@ -224,6 +240,7 @@ export function useRollState({ tunnellers, locale }: Params) {
       ranksActive ||
       detachmentActive ||
       corpsActive ||
+      maritalStatusActive ||
       birthActive ||
       deathActive
     );
@@ -233,6 +250,7 @@ export function useRollState({ tunnellers, locale }: Params) {
     Object.values(filters.ranks ?? {}).some((arr) => arr.length),
     (filters.detachment ?? []).length > 0,
     (filters.corps ?? []).length > 0,
+    (filters.maritalStatus ?? []).length > 0,
     (filters.birthYear ?? []).length < uniqueBirthYears.length,
     (filters.deathYear ?? []).length < uniqueDeathYears.length ||
       filters.unknownDeathYear === "",
@@ -253,6 +271,10 @@ export function useRollState({ tunnellers, locale }: Params) {
           .filter((tunneller) => {
             if (!filters.corps?.length) return true;
             return filters.corps.includes(tunneller.corpsId);
+          })
+          .filter((tunneller) => {
+            if (!filters.maritalStatus?.length) return true;
+            return filters.maritalStatus.includes(tunneller.maritalStatusId);
           })
           .filter((tunneller) => {
             const currentRanks = filters.ranks;
@@ -350,6 +372,23 @@ export function useRollState({ tunnellers, locale }: Params) {
     [setPageToFirst],
   );
 
+  const handleMaritalStatusFilter = useCallback(
+    (maritalStatusId: number | null) => {
+      setFilters((prev) => {
+        const maritalStatusSet = new Set(prev.maritalStatus ?? []);
+        maritalStatusSet.has(maritalStatusId)
+          ? maritalStatusSet.delete(maritalStatusId)
+          : maritalStatusSet.add(maritalStatusId);
+        return {
+          ...prev,
+          maritalStatus: Array.from(maritalStatusSet),
+        };
+      });
+      setPageToFirst();
+    },
+    [setPageToFirst],
+  );
+
   const handleBirthSliderChange = useCallback(
     (value: number | number[]) => {
       if (!Array.isArray(value)) return;
@@ -437,6 +476,7 @@ export function useRollState({ tunnellers, locale }: Params) {
   const rollFiltersProps = {
     uniqueDetachments,
     uniqueCorps,
+    uniqueMaritalStatuses,
     uniqueBirthYears,
     uniqueDeathYears,
     sortedRanks,
@@ -447,6 +487,7 @@ export function useRollState({ tunnellers, locale }: Params) {
     endDeathYear,
     handleDetachmentFilter,
     handleCorpsFilter,
+    handleMaritalStatusFilter,
     handleBirthSliderChange,
     handleDeathSliderChange,
     handleSliderDragStart,

@@ -20,6 +20,9 @@ export type TunnellerData = {
   attached_corps: string | null;
   corps_en: string | null;
   corps_id: number | null;
+  marital_status: string | null;
+  marital_status_en: string | null;
+  marital_status_id: number | null;
 };
 
 // Shaped data
@@ -52,4 +55,7 @@ export type Tunneller = {
   attachedCorps: string | null;
   corpsEn: string | null;
   corpsId: number | null;
+  maritalStatus: string | null;
+  maritalStatusEn: string | null;
+  maritalStatusId: number | null;
 };

@@ -8,7 +8,7 @@ import { rollQuery } from "./queries/rollQuery";
 import { withConnection } from "./withConnection";
 
 // Bump after database changes that affect the roll/search data.
-const TUNNELLERS_CACHE_VERSION = "2026-05-03-birth-year";
+const TUNNELLERS_CACHE_VERSION = "2026-05-03-marital-status-filter";
 
 export async function getTunnellers(
   locale: Locale,
@@ -37,6 +37,9 @@ export async function getTunnellers(
     attachedCorps: result.attached_corps,
     corpsEn: result.corps_en,
     corpsId: result.corps_id,
+    maritalStatus: result.marital_status,
+    maritalStatusEn: result.marital_status_en,
+    maritalStatusId: result.marital_status_id,
   }));
 
   return tunnellers;
