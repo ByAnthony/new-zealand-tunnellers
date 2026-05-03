@@ -209,36 +209,6 @@ describe("Roll", () => {
     ).toBeInTheDocument();
   });
 
-  test("should filter unknown birth years", async () => {
-    await renderRoll();
-
-    const checkbox = screen.getByRole("checkbox", {
-      name: "Unknown birth year",
-    });
-    fireEvent.click(checkbox);
-    expect(screen.getByText("2 results")).toBeInTheDocument();
-    expect(
-      screen.queryByRole("link", {
-        name: "Sapper Emmett Brown Main Body ?-1935 →",
-      }),
-    ).not.toBeInTheDocument();
-    expect(
-      screen.getByRole("link", {
-        name: "Sapper John Doe Main Body 1886-1952 →",
-      }),
-    ).toBeInTheDocument();
-    expect(
-      screen.queryByRole("link", {
-        name: "Driver Army Pay Corps Marty McFly 5th Reinforcements ?-†? →",
-      }),
-    ).not.toBeInTheDocument();
-    expect(
-      screen.getByRole("link", {
-        name: "Sapper Biff Tanen 2nd Reinforcements 1897-†? →",
-      }),
-    ).toBeInTheDocument();
-  });
-
   test("should filter unknown death years", async () => {
     await renderRoll();
 
@@ -301,15 +271,6 @@ describe("Roll", () => {
       await renderRoll();
       const filterButton = screen.getByRole("button", { name: "Filters" });
       expect(within(filterButton).queryByText(/^\d+$/)).not.toBeInTheDocument();
-    });
-
-    test("shows badge count 1 when unknown birth year is unchecked", async () => {
-      await renderRoll();
-      fireEvent.click(
-        screen.getByRole("checkbox", { name: "Unknown birth year" }),
-      );
-      const filterButton = screen.getByRole("button", { name: /Filters/ });
-      expect(within(filterButton).getByText("1")).toBeInTheDocument();
     });
 
     test("shows badge count 1 when unknown death year is unchecked", async () => {

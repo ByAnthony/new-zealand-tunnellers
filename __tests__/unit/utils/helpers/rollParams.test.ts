@@ -33,7 +33,6 @@ const defaultFilters: Filters = {
   corps: [],
   ranks: { Officers: [], "Non-Commissioned Officers": [], "Other Ranks": [] },
   birthYear: lookups.birthYears,
-  unknownBirthYear: "unknown",
   deathYear: lookups.deathYears,
   unknownDeathYear: "unknown",
 };
@@ -93,13 +92,6 @@ describe("filtersToSearchParams", () => {
     expect(qs).not.toContain("birth-min");
   });
 
-  test("sets unknown-birth=0 when unknowns excluded", () => {
-    const filters = { ...defaultFilters, unknownBirthYear: "" };
-    expect(filtersToSearchParams(filters, 1, "asc", lookups)).toContain(
-      "unknown-birth=0",
-    );
-  });
-
   test("does not encode commas as %2C", () => {
     const filters = { ...defaultFilters, detachment: [1, 2] };
     const qs = filtersToSearchParams(filters, 1, "asc", lookups);
@@ -127,7 +119,6 @@ describe("searchParamsToFilters", () => {
     expect(sortOrder).toBe("asc");
     expect(filters.detachment).toEqual([]);
     expect(filters.birthYear).toEqual(lookups.birthYears);
-    expect(filters.unknownBirthYear).toBe("unknown");
   });
 
   test("parses descending sort", () => {
@@ -169,11 +160,6 @@ describe("searchParamsToFilters", () => {
     expect(filters.birthYear).toEqual(["1886", "1897"]);
   });
 
-  test("sets unknownBirthYear to empty when unknown-birth=0", () => {
-    const { filters } = searchParamsToFilters(make("unknown-birth=0"), lookups);
-    expect(filters.unknownBirthYear).toBe("");
-  });
-
   test("round-trips filters through serialize then parse", () => {
     const original: Filters = {
       detachment: [1, 2],
@@ -184,7 +170,6 @@ describe("searchParamsToFilters", () => {
         "Other Ranks": [4],
       },
       birthYear: ["1886", "1897"],
-      unknownBirthYear: "",
       deathYear: ["1935", "1952"],
       unknownDeathYear: "unknown",
     };
@@ -199,6 +184,5 @@ describe("searchParamsToFilters", () => {
     expect(filters.corps).toEqual([null, 2]);
     expect(filters.ranks["Officers"]).toEqual([1]);
     expect(filters.birthYear).toEqual(["1886", "1897"]);
-    expect(filters.unknownBirthYear).toBe("");
   });
 });
