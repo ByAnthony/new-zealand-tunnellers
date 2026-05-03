@@ -7,6 +7,9 @@ import { Tunneller, TunnellerData } from "@/types/tunnellers";
 import { rollQuery } from "./queries/rollQuery";
 import { withConnection } from "./withConnection";
 
+// Bump after database changes that affect the roll/search data.
+const TUNNELLERS_CACHE_VERSION = "2026-05-03-birth-year";
+
 function parseCoordinate(value: string | null): number | null {
   if (!value) return null;
   const coordinate = Number(value);
@@ -68,6 +71,6 @@ export const getCachedTunnellers = unstable_cache(
       {},
     );
   },
-  ["tunnellers"],
+  ["tunnellers", TUNNELLERS_CACHE_VERSION],
   { revalidate: false },
 );
