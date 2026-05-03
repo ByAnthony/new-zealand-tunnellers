@@ -23,7 +23,7 @@ type Props = {
   filters: {
     detachment: (number | null)[];
     corps: (number | null)[];
-    maritalStatus: (number | null)[];
+    maritalStatus: number | null;
     birthYear: string[];
     deathYear: string[];
     ranks: {
@@ -209,14 +209,9 @@ export function RollFilter({
                   name={status.label}
                   value={String(status.id)}
                   onChange={() => handleMaritalStatusFilter(status.id)}
-                  checked={
-                    filters.maritalStatus &&
-                    filters.maritalStatus.includes(status.id)
-                      ? true
-                      : false
-                  }
+                  checked={filters.maritalStatus === status.id}
                 />
-                {status.id === null ? t("unknownMaritalStatus") : status.label}
+                {status.label}
               </label>
             </div>
           ))}

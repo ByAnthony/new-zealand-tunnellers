@@ -5,7 +5,7 @@ import { FilterOption } from "@/types/tunnellers";
 export type Filters = {
   detachment: (number | null)[];
   corps: (number | null)[];
-  maritalStatus: (number | null)[];
+  maritalStatus: number | null;
   ranks: Record<string, (number | null)[]>;
   birthYear: string[];
   deathYear: string[];
@@ -54,6 +54,20 @@ function slugsToIds(
     .filter((id): id is number | null => id !== undefined);
 }
 
+function slugToId(
+  value: string | null,
+  options: FilterOption[],
+): number | null {
+  if (!value) return null;
+  const option = options.find((o) => slugify(o.label) === value);
+  return option?.id ?? null;
+}
+
+function idToSlug(id: number | null, options: FilterOption[]): string {
+  const option = options.find((o) => o.id === id);
+  return option ? slugify(option.label) : "";
+}
+
 export function searchParamsToFilters(
   params: ReadonlyURLSearchParams,
   lookups: FilterLookups,
@@ -82,7 +96,7 @@ export function searchParamsToFilters(
     filters: {
       detachment: slugsToIds(params.get("detachment"), lookups.detachments),
       corps: slugsToIds(params.get("corps"), lookups.corps),
-      maritalStatus: slugsToIds(
+      maritalStatus: slugToId(
         params.get("marital-status"),
         lookups.maritalStatuses,
       ),
@@ -125,9 +139,9 @@ export function filtersToSearchParams(
     if (slugs) params.set("corps", slugs);
   }
 
-  if (filters.maritalStatus.length > 0) {
-    const slugs = idsToSlugs(filters.maritalStatus, lookups.maritalStatuses);
-    if (slugs) params.set("marital-status", slugs);
+  if (filters.maritalStatus !== null) {
+    const slug = idToSlug(filters.maritalStatus, lookups.maritalStatuses);
+    if (slug) params.set("marital-status", slug);
   }
 
   const rankParamKeys: Record<string, string> = {

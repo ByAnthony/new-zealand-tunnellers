@@ -37,7 +37,7 @@ const defaultProps = {
   filters: {
     detachment: [],
     corps: [],
-    maritalStatus: [],
+    maritalStatus: null,
     birthYear: ["1880", "1900"],
     deathYear: ["1915", "1930"],
     ranks: {
@@ -140,6 +140,18 @@ describe("RollFilter", () => {
     const checkbox = screen.getByLabelText("Married");
     fireEvent.click(checkbox);
     expect(defaultProps.handleMaritalStatusFilter).toHaveBeenCalledWith(2);
+  });
+
+  test("marks only the selected marital status as checked", () => {
+    render(
+      <RollFilter
+        {...defaultProps}
+        filters={{ ...defaultProps.filters, maritalStatus: 2 }}
+      />,
+    );
+
+    expect(screen.getByLabelText("Married")).toBeChecked();
+    expect(screen.getByLabelText("Single")).not.toBeChecked();
   });
 
   test("calls handleRankFilter when a rank checkbox is clicked", () => {

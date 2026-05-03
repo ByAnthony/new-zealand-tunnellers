@@ -37,7 +37,7 @@ const lookups: FilterLookups = {
 const defaultFilters: Filters = {
   detachment: [],
   corps: [],
-  maritalStatus: [],
+  maritalStatus: null,
   ranks: { Officers: [], "Non-Commissioned Officers": [], "Other Ranks": [] },
   birthYear: lookups.birthYears,
   deathYear: lookups.deathYears,
@@ -88,9 +88,9 @@ describe("filtersToSearchParams", () => {
   });
 
   test("serialises marital status IDs as slugs", () => {
-    const filters = { ...defaultFilters, maritalStatus: [1, 2] };
+    const filters = { ...defaultFilters, maritalStatus: 1 };
     expect(filtersToSearchParams(filters, 1, "asc", lookups)).toContain(
-      "marital-status=single,married",
+      "marital-status=single",
     );
   });
 
@@ -133,7 +133,7 @@ describe("searchParamsToFilters", () => {
     expect(sortOrder).toBe("asc");
     expect(filters.detachment).toEqual([]);
     expect(filters.birthYear).toEqual(lookups.birthYears);
-    expect(filters.maritalStatus).toEqual([]);
+    expect(filters.maritalStatus).toBeNull();
   });
 
   test("parses descending sort", () => {
@@ -169,10 +169,10 @@ describe("searchParamsToFilters", () => {
 
   test("parses marital status slugs to IDs", () => {
     const { filters } = searchParamsToFilters(
-      make("marital-status=single,married"),
+      make("marital-status=single"),
       lookups,
     );
-    expect(filters.maritalStatus).toEqual([1, 2]);
+    expect(filters.maritalStatus).toBe(1);
   });
 
   test("parses birth year range", () => {
@@ -187,7 +187,7 @@ describe("searchParamsToFilters", () => {
     const original: Filters = {
       detachment: [1, 2],
       corps: [null, 2],
-      maritalStatus: [1],
+      maritalStatus: 1,
       ranks: {
         Officers: [1],
         "Non-Commissioned Officers": [],
@@ -206,7 +206,7 @@ describe("searchParamsToFilters", () => {
     expect(sortOrder).toBe("desc");
     expect(filters.detachment).toEqual([1, 2]);
     expect(filters.corps).toEqual([null, 2]);
-    expect(filters.maritalStatus).toEqual([1]);
+    expect(filters.maritalStatus).toBe(1);
     expect(filters.ranks["Officers"]).toEqual([1]);
     expect(filters.birthYear).toEqual(["1886", "1897"]);
   });

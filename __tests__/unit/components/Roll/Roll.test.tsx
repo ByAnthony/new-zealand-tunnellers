@@ -180,6 +180,31 @@ describe("Roll", () => {
     ).not.toBeInTheDocument();
   });
 
+  test("should select only one marital status at a time and clear when clicked again", async () => {
+    await renderRoll();
+
+    const married = screen.getByRole("checkbox", { name: "Married" });
+    const single = screen.getByRole("checkbox", { name: "Single" });
+
+    fireEvent.click(married);
+    expect(screen.getByText("2 results")).toBeInTheDocument();
+    expect(married).toBeChecked();
+
+    fireEvent.click(single);
+    expect(screen.getByText("1 result")).toBeInTheDocument();
+    expect(single).toBeChecked();
+    expect(married).not.toBeChecked();
+    expect(
+      screen.getByRole("link", {
+        name: "Sapper Biff Tanen 2nd Reinforcements 1897-†? →",
+      }),
+    ).toBeInTheDocument();
+
+    fireEvent.click(single);
+    expect(screen.getByText("4 results")).toBeInTheDocument();
+    expect(single).not.toBeChecked();
+  });
+
   test("should filter Sapper rank", async () => {
     await renderRoll();
 

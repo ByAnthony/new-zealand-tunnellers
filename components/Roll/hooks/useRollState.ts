@@ -96,7 +96,7 @@ export function useRollState({ tunnellers, locale }: Params) {
     () => ({
       detachment: [],
       corps: [],
-      maritalStatus: [],
+      maritalStatus: null,
       ranks: {
         Officers: [],
         "Non-Commissioned Officers": [],
@@ -230,7 +230,7 @@ export function useRollState({ tunnellers, locale }: Params) {
     );
     const detachmentActive = (currentFilters.detachment ?? []).length > 0;
     const corpsActive = (currentFilters.corps ?? []).length > 0;
-    const maritalStatusActive = (currentFilters.maritalStatus ?? []).length > 0;
+    const maritalStatusActive = currentFilters.maritalStatus !== null;
     const birthActive = (currentFilters.birthYear ?? []).length > 0;
     const deathActive =
       (currentFilters.deathYear ?? []).length > 0 ||
@@ -250,7 +250,7 @@ export function useRollState({ tunnellers, locale }: Params) {
     Object.values(filters.ranks ?? {}).some((arr) => arr.length),
     (filters.detachment ?? []).length > 0,
     (filters.corps ?? []).length > 0,
-    (filters.maritalStatus ?? []).length > 0,
+    filters.maritalStatus !== null,
     (filters.birthYear ?? []).length < uniqueBirthYears.length,
     (filters.deathYear ?? []).length < uniqueDeathYears.length ||
       filters.unknownDeathYear === "",
@@ -273,8 +273,8 @@ export function useRollState({ tunnellers, locale }: Params) {
             return filters.corps.includes(tunneller.corpsId);
           })
           .filter((tunneller) => {
-            if (!filters.maritalStatus?.length) return true;
-            return filters.maritalStatus.includes(tunneller.maritalStatusId);
+            if (filters.maritalStatus === null) return true;
+            return tunneller.maritalStatusId === filters.maritalStatus;
           })
           .filter((tunneller) => {
             const currentRanks = filters.ranks;
@@ -375,13 +375,10 @@ export function useRollState({ tunnellers, locale }: Params) {
   const handleMaritalStatusFilter = useCallback(
     (maritalStatusId: number | null) => {
       setFilters((prev) => {
-        const maritalStatusSet = new Set(prev.maritalStatus ?? []);
-        maritalStatusSet.has(maritalStatusId)
-          ? maritalStatusSet.delete(maritalStatusId)
-          : maritalStatusSet.add(maritalStatusId);
         return {
           ...prev,
-          maritalStatus: Array.from(maritalStatusSet),
+          maritalStatus:
+            prev.maritalStatus === maritalStatusId ? null : maritalStatusId,
         };
       });
       setPageToFirst();
