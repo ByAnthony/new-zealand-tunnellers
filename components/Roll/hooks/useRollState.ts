@@ -45,13 +45,14 @@ const ROLL_MAP_QUERY_PARAMS = ["view", "lat", "lng", "origin", "zoom"];
 type Params = {
   tunnellers: Record<string, Tunneller[]>;
   locale: string;
+  preserveMapParams?: boolean;
 };
 
-function isOriginMapMounted(): boolean {
-  return document.querySelector('[data-testid="roll-origin-map"]') !== null;
-}
-
-export function useRollState({ tunnellers, locale }: Params) {
+export function useRollState({
+  tunnellers,
+  locale,
+  preserveMapParams = false,
+}: Params) {
   const searchParams = useSearchParams();
   const isFirstRenderRef = useRef(true);
   const previousSearchParamsRef = useRef(searchParams.toString());
@@ -147,23 +148,26 @@ export function useRollState({ tunnellers, locale }: Params) {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isSliderDragging, setIsSliderDragging] = useState(false);
   const searchParamsString = searchParams.toString();
-  const syncUrl = useCallback((qs: string) => {
-    const params = new URLSearchParams(window.location.search);
-    ROLL_QUERY_PARAMS.forEach((param) => params.delete(param));
-    if (!isOriginMapMounted()) {
-      ROLL_MAP_QUERY_PARAMS.forEach((param) => params.delete(param));
-    }
-    new URLSearchParams(qs).forEach((value, key) => {
-      params.set(key, value);
-    });
-    const nextQs = params.toString().replace(/%2C/gi, ",");
-    const currentQs = window.location.search.replace(/^\?/, "");
-    if (nextQs === currentQs) return;
-    const url = nextQs
-      ? `${window.location.pathname}?${nextQs}`
-      : window.location.pathname;
-    window.history.replaceState(null, "", url);
-  }, []);
+  const syncUrl = useCallback(
+    (qs: string) => {
+      const params = new URLSearchParams(window.location.search);
+      ROLL_QUERY_PARAMS.forEach((param) => params.delete(param));
+      if (!preserveMapParams) {
+        ROLL_MAP_QUERY_PARAMS.forEach((param) => params.delete(param));
+      }
+      new URLSearchParams(qs).forEach((value, key) => {
+        params.set(key, value);
+      });
+      const nextQs = params.toString().replace(/%2C/gi, ",");
+      const currentQs = window.location.search.replace(/^\?/, "");
+      if (nextQs === currentQs) return;
+      const url = nextQs
+        ? `${window.location.pathname}?${nextQs}`
+        : window.location.pathname;
+      window.history.replaceState(null, "", url);
+    },
+    [preserveMapParams],
+  );
 
   useEffect(() => {
     if (previousSearchParamsRef.current === searchParamsString) return;

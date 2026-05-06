@@ -12,15 +12,19 @@ jest.mock("next/navigation", () => ({
   useRouter: () => ({ replace: mockReplace }),
 }));
 
-function RollStateHarness({ renderMap = false }: { renderMap?: boolean }) {
+function RollStateHarness({
+  preserveMapParams = false,
+}: {
+  preserveMapParams?: boolean;
+}) {
   const { handleResetFilters, rollFiltersProps } = useRollState({
     tunnellers: mockTunnellers,
     locale: "en",
+    preserveMapParams,
   });
 
   return (
     <div>
-      {renderMap ? <div data-testid="roll-origin-map" /> : null}
       <button onClick={rollFiltersProps.handleSliderDragStart}>
         start drag
       </button>
@@ -96,7 +100,7 @@ describe("useRollState", () => {
     mockSearchParams = new URLSearchParams("view=map");
     originalReplaceState(null, "", "/?view=map");
 
-    render(<RollStateHarness renderMap />);
+    render(<RollStateHarness preserveMapParams />);
 
     fireEvent.click(screen.getByText("toggle detachment"));
 

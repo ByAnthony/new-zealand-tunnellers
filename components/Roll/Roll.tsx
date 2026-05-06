@@ -38,6 +38,7 @@ export function Roll({ tunnellers }: Props) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { width } = useWindowDimensions();
+  const isMapView = searchParams.get("view") === "map";
   const {
     currentPage,
     setCurrentPage,
@@ -57,11 +58,10 @@ export function Roll({ tunnellers }: Props) {
     filters,
     defaultFilters,
     applyFilters,
-  } = useRollState({ tunnellers, locale });
+  } = useRollState({ tunnellers, locale, preserveMapParams: isMapView });
 
   const isDesktop = () => (width ? width > 896 : false);
   const desktopView = isDesktop();
-  const isMapView = searchParams.get("view") === "map";
 
   useEffect(() => {
     saveRollView(isMapView ? "map" : "list");

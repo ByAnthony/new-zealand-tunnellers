@@ -63,10 +63,12 @@ describe("Roll", () => {
 
   test("renders the origin map when view map query param is present", async () => {
     mockSearchParams = new URLSearchParams("view=map");
+    originalReplaceState(null, "", "/tunnellers?view=map");
 
     render(<Roll tunnellers={mockTunnellers} />);
 
     expect(await screen.findByTestId("roll-origin-map")).toBeInTheDocument();
+    expect(window.location.search).toBe("?view=map");
     expect(screen.queryByText(/The New Zealand/)).not.toBeInTheDocument();
     await waitFor(() => {
       expect(sessionStorage.getItem("roll:view")).toBe("map");
