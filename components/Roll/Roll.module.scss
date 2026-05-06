@@ -48,7 +48,6 @@
 .mobile-actions {
   display: flex;
   align-items: center;
-  justify-self: center;
   gap: variables.$xxxs-margin;
 
   @include variables.desktop {
@@ -210,15 +209,18 @@
   }
 
   .results-container {
-    display: grid;
+    display: flex;
     height: variables.$base-margin;
     width: 100%;
     align-items: center;
-    grid-template-columns: 1fr auto 1fr;
+    justify-content: space-between;
+    gap: variables.$xxxs-margin;
   }
 
   .filter-button {
-    justify-self: end;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     padding: variables.$xxs-margin variables.$xs-margin;
     font-size: 1rem;
     color: variables.$secondary-color;
@@ -241,8 +243,6 @@
       background-color: variables.$secondary-color;
       border-color: variables.$secondary-color;
       color: variables.$primary-dark-color;
-      display: flex;
-      align-items: center;
       gap: variables.$xxs-margin;
     }
 
