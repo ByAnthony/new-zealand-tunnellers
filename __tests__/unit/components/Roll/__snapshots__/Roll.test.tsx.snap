@@ -46,34 +46,48 @@ exports[`Roll matches the snapshot 1`] = `
         >
           4 results
         </p>
-        <button
-          aria-label="Z to A"
-          class="sort-button"
+        <div
+          class="header-buttons"
         >
-          <span
-            class="sort-button-label"
+          <button
+            aria-label="Open the tunnellers roll map"
+            class="map-button"
           >
             <span
-              class="sort-button-letters"
-            >
-              <span
-                class="sort-button-top"
-              >
-                A
-              </span>
-              <span
-                class="sort-button-bottom"
-              >
-                Z
-              </span>
-            </span>
+              aria-hidden="true"
+              class="map-button-icon"
+            />
+            Map
+          </button>
+          <button
+            aria-label="Z to A"
+            class="sort-button"
+          >
             <span
-              class="sort-button-arrow"
+              class="sort-button-label"
             >
-              ↓
+              <span
+                class="sort-button-letters"
+              >
+                <span
+                  class="sort-button-top"
+                >
+                  A
+                </span>
+                <span
+                  class="sort-button-bottom"
+                >
+                  Z
+                </span>
+              </span>
+              <span
+                class="sort-button-arrow"
+              >
+                ↓
+              </span>
             </span>
-          </span>
-        </button>
+          </button>
+        </div>
       </div>
     </div>
     <div

@@ -5,7 +5,7 @@ import {
   getTranslations,
   setRequestLocale,
 } from "next-intl/server";
-import { ReactNode } from "react";
+import { ReactNode, Suspense } from "react";
 
 import { Footer } from "@/components/Footer/Footer";
 import { MenuContainer } from "@/components/Menu/MenuContainer";
@@ -52,7 +52,9 @@ export default async function LocaleLayout({ children, params }: Props) {
         <NextIntlClientProvider messages={messages}>
           <MenuContainer />
           <main>{children}</main>
-          <Footer />
+          <Suspense fallback={null}>
+            <Footer />
+          </Suspense>
         </NextIntlClientProvider>
       </body>
     </html>

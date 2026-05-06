@@ -16,6 +16,21 @@ type Props = {
   tunnellers: Tunneller[];
 };
 
+const ROLL_MAP_QUERY_PARAMS = ["view", "lat", "lng", "origin", "zoom"];
+
+function getLocaleSwitchQueryString(): string {
+  const params = new URLSearchParams(window.location.search);
+  const isOriginMapMounted =
+    document.querySelector('[data-testid="roll-origin-map"]') !== null;
+
+  if (!isOriginMapMounted) {
+    ROLL_MAP_QUERY_PARAMS.forEach((param) => params.delete(param));
+  }
+
+  const qs = params.toString().replace(/%2C/gi, ",");
+  return qs ? `?${qs}` : "";
+}
+
 export function Menu({ tunnellers }: Props) {
   const t = useTranslations("menu");
   const tNav = useTranslations("nav");
@@ -254,7 +269,7 @@ export function Menu({ tunnellers }: Props) {
         className={STYLES["language-switcher"]}
         onClick={(e) => {
           e.preventDefault();
-          const qs = window.location.search;
+          const qs = getLocaleSwitchQueryString();
           router.push(qs ? `${switchLocaleBase}${qs}` : switchLocaleBase);
         }}
       >

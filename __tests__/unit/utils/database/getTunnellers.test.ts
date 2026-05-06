@@ -28,6 +28,9 @@ describe("getTunnellers", () => {
         attached_corps: null,
         corps_en: null,
         corps_id: null,
+        residence: "Auckland",
+        residence_latitude: "-36.8485",
+        residence_longitude: "174.7633",
       },
       {
         id: 2,
@@ -45,6 +48,9 @@ describe("getTunnellers", () => {
         attached_corps: null,
         corps_en: null,
         corps_id: null,
+        residence: null,
+        residence_latitude: null,
+        residence_longitude: null,
       },
     ];
 
@@ -75,6 +81,13 @@ describe("getTunnellers", () => {
         attachedCorps: null,
         corpsEn: null,
         corpsId: null,
+        origin: {
+          residence: {
+            town: "Auckland",
+            latitude: -36.8485,
+            longitude: 174.7633,
+          },
+        },
       },
       {
         id: 2,
@@ -97,6 +110,13 @@ describe("getTunnellers", () => {
         attachedCorps: null,
         corpsEn: null,
         corpsId: null,
+        origin: {
+          residence: {
+            town: null,
+            latitude: null,
+            longitude: null,
+          },
+        },
       },
     ];
 

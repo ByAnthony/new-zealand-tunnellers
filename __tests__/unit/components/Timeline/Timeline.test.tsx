@@ -7,6 +7,11 @@ import { mockTunnellerProfile } from "@/test-utils/mocks/mockTunneller";
 jest.useFakeTimers().setSystemTime(new Date("2023-05-04"));
 
 describe("Timeline", () => {
+  beforeEach(() => {
+    localStorage.clear();
+    sessionStorage.clear();
+  });
+
   test("matches the snapshot", () => {
     const { asFragment } = render(
       <Timeline tunneller={mockTunnellerProfile} />,
@@ -66,10 +71,6 @@ describe("Timeline", () => {
   });
 
   describe("back link", () => {
-    beforeEach(() => {
-      localStorage.clear();
-    });
-
     test("links to /tunnellers when no return URL is stored", () => {
       render(<Timeline tunneller={mockTunnellerProfile} />);
       expect(screen.getByText("Tunnellers")).toHaveAttribute(
@@ -79,6 +80,7 @@ describe("Timeline", () => {
     });
 
     test("links to stored return URL when available", () => {
+      sessionStorage.setItem("roll:view", "list");
       localStorage.setItem(
         "tunnellers:return",
         "/tunnellers?detachment=main-body&page=2",
@@ -87,6 +89,17 @@ describe("Timeline", () => {
       expect(screen.getByText("Tunnellers")).toHaveAttribute(
         "href",
         "/tunnellers?detachment=main-body&page=2",
+      );
+    });
+
+    test("links to map view when it is the stored roll view", () => {
+      sessionStorage.setItem("roll:view", "map");
+
+      render(<Timeline tunneller={mockTunnellerProfile} />);
+
+      expect(screen.getByText("Tunnellers")).toHaveAttribute(
+        "href",
+        "/tunnellers?view=map",
       );
     });
   });

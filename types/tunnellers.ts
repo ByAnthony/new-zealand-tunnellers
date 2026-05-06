@@ -20,6 +20,9 @@ export type TunnellerData = {
   attached_corps: string | null;
   corps_en: string | null;
   corps_id: number | null;
+  residence: string | null;
+  residence_latitude: string | null;
+  residence_longitude: string | null;
 };
 
 // Shaped data
@@ -30,6 +33,12 @@ export type Name = {
 
 type Search = {
   fullName: string;
+};
+
+export type ResidenceOrigin = {
+  town: string | null;
+  latitude: number | null;
+  longitude: number | null;
 };
 
 export type Rank = string;
@@ -52,4 +61,7 @@ export type Tunneller = {
   attachedCorps: string | null;
   corpsEn: string | null;
   corpsId: number | null;
+  origin: {
+    residence: ResidenceOrigin;
+  };
 };

@@ -19,12 +19,16 @@ export const rollQuery = async (locale: Locale, connection: PoolConnection) => {
     , attached_corps.corps_${locale} AS attached_corps
     , attached_corps.corps_en AS corps_en
     , attached_corps.corps_id AS corps_id
+    , residence.town_name AS residence
+    , residence.latitude AS residence_latitude
+    , residence.longitude AS residence_longitude
 
     FROM tunneller t
 
     LEFT JOIN embarkation_unit ON t.embarkation_unit_fk=embarkation_unit.embarkation_unit_id
     LEFT JOIN rank ON t.rank_fk=rank.rank_id
     LEFT JOIN corps attached_corps ON t.attached_corps_fk=attached_corps.corps_id
+    LEFT JOIN town residence ON t.town_fk=residence.town_id
 
     ORDER BY t.surname, t.forename ASC`;
 
