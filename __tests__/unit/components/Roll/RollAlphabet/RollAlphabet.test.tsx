@@ -24,6 +24,13 @@ const createTunnellers = (count: number): [string, Tunneller[]][] => {
     maritalStatus: "Married",
     maritalStatusEn: "Married",
     maritalStatusId: 2,
+    origin: {
+      residence: {
+        town: null,
+        latitude: null,
+        longitude: null,
+      },
+    },
   }));
   return [["D", tunnellers]];
 };

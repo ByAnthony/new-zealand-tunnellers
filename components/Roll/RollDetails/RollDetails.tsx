@@ -7,6 +7,7 @@ import { useCallback } from "react";
 import { Tunneller } from "@/types/tunnellers";
 import { renderSuperscript } from "@/utils/helpers/article";
 import { displayBiographyDates } from "@/utils/helpers/roll";
+import { saveTunnellersReturnUrl } from "@/utils/helpers/tunnellersReturn";
 
 import STYLES from "./RollDetails.module.scss";
 
@@ -29,7 +30,7 @@ export function RollDetails({ listOfTunnellers }: Props) {
   const saveScroll = useCallback(() => {
     try {
       localStorage.setItem("roll:scrollY", String(window.scrollY || 0));
-      localStorage.setItem("tunnellers:return", window.location.href);
+      saveTunnellersReturnUrl(window.location.href);
     } catch (error) {
       const errorMessage =
         error instanceof Error ? error.message : String(error);

@@ -3,6 +3,8 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import { Menu } from "@/components/Menu/Menu";
 import { mockTunnellersData } from "@/test-utils/mocks/mockTunnellers";
 
+const mockPush = jest.fn();
+
 jest.mock("next/navigation", () => ({
   ...jest.requireActual("next/navigation"),
   useRouter: jest.fn(),
@@ -13,14 +15,18 @@ const mockedUseRouter = require("next/navigation").useRouter;
 const mockedUsePathname = require("next/navigation").usePathname;
 
 mockedUseRouter.mockReturnValue({
+  push: mockPush,
   refresh: jest.fn(),
 });
 
 describe("Menu", () => {
   beforeEach(() => {
+    mockPush.mockReset();
     mockedUseRouter.mockReturnValue({
+      push: mockPush,
       refresh: jest.fn(),
     });
+    window.history.replaceState(null, "", "/");
   });
 
   afterEach(() => {
@@ -373,6 +379,47 @@ describe("Menu", () => {
 
       const link = screen.getByRole("link", { name: "English" });
       expect(link).toHaveAttribute("href", "/");
+    });
+
+    test("drops stale map params when switching locale from the roll list", () => {
+      mockedUseLocale.mockReturnValue("en");
+      mockedUsePathname.mockReturnValue("/tunnellers");
+      window.history.replaceState(
+        null,
+        "",
+        "/tunnellers?view=map&zoom=8&detachment=main-body",
+      );
+
+      render(<Menu tunnellers={mockTunnellersData} />);
+
+      fireEvent.click(screen.getByRole("link", { name: "Français" }));
+
+      expect(mockPush).toHaveBeenCalledWith(
+        "/fr/tunnellers?detachment=main-body",
+      );
+    });
+
+    test("preserves map params when switching locale from the origin map", () => {
+      mockedUseLocale.mockReturnValue("en");
+      mockedUsePathname.mockReturnValue("/tunnellers");
+      window.history.replaceState(
+        null,
+        "",
+        "/tunnellers?view=map&zoom=8&detachment=main-body",
+      );
+
+      render(
+        <>
+          <div data-testid="roll-origin-map" />
+          <Menu tunnellers={mockTunnellersData} />
+        </>,
+      );
+
+      fireEvent.click(screen.getByRole("link", { name: "Français" }));
+
+      expect(mockPush).toHaveBeenCalledWith(
+        "/fr/tunnellers?view=map&zoom=8&detachment=main-body",
+      );
     });
   });
 });

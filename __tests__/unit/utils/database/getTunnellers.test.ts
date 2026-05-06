@@ -31,6 +31,9 @@ describe("getTunnellers", () => {
         marital_status: "Married",
         marital_status_en: "Married",
         marital_status_id: 2,
+        residence: "Auckland",
+        residence_latitude: "-36.8485",
+        residence_longitude: "174.7633",
       },
       {
         id: 2,
@@ -51,6 +54,9 @@ describe("getTunnellers", () => {
         marital_status: "Single",
         marital_status_en: "Single",
         marital_status_id: 1,
+        residence: null,
+        residence_latitude: null,
+        residence_longitude: null,
       },
     ];
 
@@ -84,6 +90,13 @@ describe("getTunnellers", () => {
         maritalStatus: "Married",
         maritalStatusEn: "Married",
         maritalStatusId: 2,
+        origin: {
+          residence: {
+            town: "Auckland",
+            latitude: -36.8485,
+            longitude: 174.7633,
+          },
+        },
       },
       {
         id: 2,
@@ -109,6 +122,13 @@ describe("getTunnellers", () => {
         maritalStatus: "Single",
         maritalStatusEn: "Single",
         maritalStatusId: 1,
+        origin: {
+          residence: {
+            town: null,
+            latitude: null,
+            longitude: null,
+          },
+        },
       },
     ];
 

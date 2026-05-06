@@ -19,6 +19,13 @@ const mockTunneller1: Tunneller = {
   maritalStatus: "Married",
   maritalStatusEn: "Married",
   maritalStatusId: 2,
+  origin: {
+    residence: {
+      town: "Auckland",
+      latitude: -36.8485,
+      longitude: 174.7633,
+    },
+  },
 };
 
 const mockTunneller2: Tunneller = {
@@ -40,6 +47,13 @@ const mockTunneller2: Tunneller = {
   maritalStatus: "Single",
   maritalStatusEn: "Single",
   maritalStatusId: 1,
+  origin: {
+    residence: {
+      town: "Waihi",
+      latitude: -37.3919,
+      longitude: 175.8406,
+    },
+  },
 };
 
 const mockTunneller3: Tunneller = {
@@ -61,6 +75,13 @@ const mockTunneller3: Tunneller = {
   maritalStatus: null,
   maritalStatusEn: null,
   maritalStatusId: null,
+  origin: {
+    residence: {
+      town: "Auckland",
+      latitude: -36.8485,
+      longitude: 174.7633,
+    },
+  },
 };
 
 const mockTunneller4: Tunneller = {
@@ -82,6 +103,13 @@ const mockTunneller4: Tunneller = {
   maritalStatus: "Married",
   maritalStatusEn: "Married",
   maritalStatusId: 2,
+  origin: {
+    residence: {
+      town: null,
+      latitude: null,
+      longitude: null,
+    },
+  },
 };
 
 export const mockTunnellersData: Tunneller[] = [

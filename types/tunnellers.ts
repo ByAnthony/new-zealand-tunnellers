@@ -23,6 +23,9 @@ export type TunnellerData = {
   marital_status: string | null;
   marital_status_en: string | null;
   marital_status_id: number | null;
+  residence: string | null;
+  residence_latitude: string | null;
+  residence_longitude: string | null;
 };
 
 // Shaped data
@@ -33,6 +36,12 @@ export type Name = {
 
 type Search = {
   fullName: string;
+};
+
+export type ResidenceOrigin = {
+  town: string | null;
+  latitude: number | null;
+  longitude: number | null;
 };
 
 export type Rank = string;
@@ -58,4 +67,7 @@ export type Tunneller = {
   maritalStatus: string | null;
   maritalStatusEn: string | null;
   maritalStatusId: number | null;
+  origin: {
+    residence: ResidenceOrigin;
+  };
 };
