@@ -12,14 +12,15 @@ jest.mock("next/navigation", () => ({
   useRouter: () => ({ replace: mockReplace }),
 }));
 
-function RollStateHarness() {
-  const { rollFiltersProps } = useRollState({
+function RollStateHarness({ renderMap = false }: { renderMap?: boolean }) {
+  const { handleResetFilters, rollFiltersProps } = useRollState({
     tunnellers: mockTunnellers,
     locale: "en",
   });
 
   return (
     <div>
+      {renderMap ? <div data-testid="roll-origin-map" /> : null}
       <button onClick={rollFiltersProps.handleSliderDragStart}>
         start drag
       </button>
@@ -34,6 +35,7 @@ function RollStateHarness() {
       <button onClick={rollFiltersProps.handleSliderDragComplete}>
         complete drag
       </button>
+      <button onClick={handleResetFilters}>reset filters</button>
       <div data-testid="birth-range">
         {rollFiltersProps.startBirthYear}-{rollFiltersProps.endBirthYear}
       </div>
@@ -90,7 +92,24 @@ describe("useRollState", () => {
     expect(mockReplace).not.toHaveBeenCalled();
   });
 
-  test("preserves non-roll query params when syncing filter state", async () => {
+  test("preserves map query params when syncing filter state on the map", async () => {
+    mockSearchParams = new URLSearchParams("view=map");
+    originalReplaceState(null, "", "/?view=map");
+
+    render(<RollStateHarness renderMap />);
+
+    fireEvent.click(screen.getByText("toggle detachment"));
+
+    await waitFor(() => {
+      expect(window.history.replaceState).toHaveBeenCalledWith(
+        null,
+        "",
+        expect.stringContaining("?view=map&detachment=main-body"),
+      );
+    });
+  });
+
+  test("removes stale map query params when syncing filter state on the list", async () => {
     mockSearchParams = new URLSearchParams("view=map");
     originalReplaceState(null, "", "/?view=map");
 
@@ -102,8 +121,22 @@ describe("useRollState", () => {
       expect(window.history.replaceState).toHaveBeenCalledWith(
         null,
         "",
-        expect.stringContaining("?view=map&detachment=main-body"),
+        expect.stringContaining("?detachment=main-body"),
       );
+    });
+    expect(window.location.search).not.toContain("view=map");
+  });
+
+  test("resetting filters immediately removes stale filters and map params on the list", async () => {
+    mockSearchParams = new URLSearchParams("view=map&detachment=main-body");
+    originalReplaceState(null, "", "/?view=map&detachment=main-body");
+
+    render(<RollStateHarness />);
+
+    fireEvent.click(screen.getByText("reset filters"));
+
+    await waitFor(() => {
+      expect(window.location.search).toBe("");
     });
   });
 });

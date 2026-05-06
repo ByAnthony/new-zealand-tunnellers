@@ -40,10 +40,16 @@ const ROLL_QUERY_PARAMS = [
   "unknown-death",
 ];
 
+const ROLL_MAP_QUERY_PARAMS = ["view", "lat", "lng", "origin", "zoom"];
+
 type Params = {
   tunnellers: Record<string, Tunneller[]>;
   locale: string;
 };
+
+function isOriginMapMounted(): boolean {
+  return document.querySelector('[data-testid="roll-origin-map"]') !== null;
+}
 
 export function useRollState({ tunnellers, locale }: Params) {
   const searchParams = useSearchParams();
@@ -144,6 +150,9 @@ export function useRollState({ tunnellers, locale }: Params) {
   const syncUrl = useCallback((qs: string) => {
     const params = new URLSearchParams(window.location.search);
     ROLL_QUERY_PARAMS.forEach((param) => params.delete(param));
+    if (!isOriginMapMounted()) {
+      ROLL_MAP_QUERY_PARAMS.forEach((param) => params.delete(param));
+    }
     new URLSearchParams(qs).forEach((value, key) => {
       params.set(key, value);
     });
@@ -454,8 +463,11 @@ export function useRollState({ tunnellers, locale }: Params) {
     if (!isEqual(filters, defaultFilters)) {
       setCurrentPage(1);
       setFilters(defaultFilters);
+      syncUrl(
+        filtersToSearchParams(defaultFilters, 1, sortOrder, filterLookups),
+      );
     }
-  }, [filters, defaultFilters]);
+  }, [filters, defaultFilters, filterLookups, sortOrder, syncUrl]);
   const applyFilters = useCallback((nextFilters: Filters) => {
     setCurrentPage(1);
     setFilters(nextFilters);
