@@ -79,6 +79,20 @@ class MockMap {
     return this;
   }
 
+  project(latlng: [number, number]) {
+    return {
+      x: latlng[1] * 100,
+      y: latlng[0] * 100,
+    };
+  }
+
+  unproject(point: { x: number; y: number }) {
+    return {
+      lat: point.y / 100,
+      lng: point.x / 100,
+    };
+  }
+
   zoomIn() {
     this.zoom += 1;
     this.handlers.zoomend?.();
@@ -102,6 +116,7 @@ jest.mock("leaflet", () => ({
     },
     tileLayer: () => ({ addTo: () => ({}) }),
     layerGroup: () => new MockLayerGroup(),
+    point: (x: number, y: number) => ({ x, y }),
     circleMarker: (
       latlng: [number, number],
       options: Record<string, unknown>,
@@ -147,7 +162,18 @@ describe("RollOriginMap", () => {
   beforeEach(() => {
     circleMarkers.length = 0;
     maps.length = 0;
+    jest.useRealTimers();
     window.history.replaceState(null, "", "/tunnellers?view=map");
+    window.matchMedia = jest.fn().mockImplementation((query: string) => ({
+      matches: query === "(min-width: 56rem)",
+      media: query,
+      onchange: null,
+      addListener: jest.fn(),
+      removeListener: jest.fn(),
+      addEventListener: jest.fn(),
+      removeEventListener: jest.fn(),
+      dispatchEvent: jest.fn(),
+    }));
   });
 
   test("closes the origin drawer when filters are opened", async () => {
@@ -215,6 +241,43 @@ describe("RollOriginMap", () => {
     expect(window.location.search).toBe("?view=map&zoom=6");
     expect(screen.getByText("Emmett")).toBeInTheDocument();
     expect(screen.getByText("Brown")).toBeInTheDocument();
+  });
+
+  test("removes the desktop drawer offset when the drawer closes", async () => {
+    render(
+      <RollOriginMap
+        tunnellers={mockTunnellers}
+        rollFiltersProps={rollFiltersProps}
+        filters={filters}
+        defaultFilters={filters}
+        applyFilters={jest.fn()}
+        getFilteredTunnellerCount={() => 4}
+        activeFilterCount={0}
+        totalTunnellers={4}
+      />,
+    );
+
+    await waitFor(() => expect(circleMarkers.length).toBeGreaterThan(0));
+
+    act(() => {
+      circleMarkers[0].handlers.click();
+    });
+
+    await waitFor(() => {
+      expect(maps[0].latlng).toMatchObject({
+        lat: -36.8485,
+        lng: expect.closeTo(176.2833),
+      });
+    });
+
+    fireEvent.click(screen.getByRole("button", { name: "Close" }));
+
+    await waitFor(() => {
+      expect(maps[0].latlng).toMatchObject({
+        lat: -36.8485,
+        lng: 174.7633,
+      });
+    });
   });
 
   test("updates the url when a marker is selected", async () => {

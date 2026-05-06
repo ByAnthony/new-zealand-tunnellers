@@ -77,6 +77,7 @@ function getCenteredOriginView(
   map: L.Map,
   origin: OriginMarker,
   drawerHeight: number,
+  isDrawerOpen: boolean,
 ): L.LatLng {
   const markerPoint = map.project([origin.latitude, origin.longitude]);
   const isDesktop =
@@ -85,10 +86,11 @@ function getCenteredOriginView(
   const isBottomDrawer =
     typeof window.matchMedia === "function" &&
     window.matchMedia(BOTTOM_DRAWER_MEDIA_QUERY).matches;
-  const xOffset = isDesktop
-    ? DESKTOP_DRAWER_WIDTH * DESKTOP_DRAWER_CENTERING_RATIO
-    : 0;
-  const yOffset = isBottomDrawer ? drawerHeight / 2 : 0;
+  const xOffset =
+    isDrawerOpen && isDesktop
+      ? DESKTOP_DRAWER_WIDTH * DESKTOP_DRAWER_CENTERING_RATIO
+      : 0;
+  const yOffset = isDrawerOpen && isBottomDrawer ? drawerHeight / 2 : 0;
 
   return map.unproject(
     L.point(markerPoint.x + xOffset, markerPoint.y + yOffset),
@@ -272,17 +274,20 @@ export function RollOriginMap({
       const map = mapRef.current;
       if (!map) return;
 
+      const originToCenter =
+        selectedOrigin ?? (isDrawerClosing ? renderedOrigin : null);
       map.invalidateSize();
       if (
-        selectedOrigin &&
-        Number.isFinite(selectedOrigin.latitude) &&
-        Number.isFinite(selectedOrigin.longitude)
+        originToCenter &&
+        Number.isFinite(originToCenter.latitude) &&
+        Number.isFinite(originToCenter.longitude)
       ) {
         map.setView(
           getCenteredOriginView(
             map,
-            selectedOrigin,
+            originToCenter,
             drawerRef.current?.getBoundingClientRect().height ?? 0,
+            selectedOrigin !== null,
           ),
           map.getZoom(),
           { animate: true },
@@ -297,7 +302,7 @@ export function RollOriginMap({
       cancelAnimationFrame(frame);
       window.clearTimeout(timeout);
     };
-  }, [selectedOrigin]);
+  }, [isDrawerClosing, renderedOrigin, selectedOrigin]);
 
   useEffect(() => {
     if (hasRestoredInitialOriginRef.current) return;
