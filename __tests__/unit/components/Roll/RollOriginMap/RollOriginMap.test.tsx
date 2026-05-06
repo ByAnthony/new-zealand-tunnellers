@@ -343,6 +343,56 @@ describe("RollOriginMap", () => {
     expect(maps[0].latlng).toEqual([-41, 172.4]);
   });
 
+  test("disables zooming out at zoom 5", async () => {
+    render(
+      <RollOriginMap
+        tunnellers={mockTunnellers}
+        rollFiltersProps={rollFiltersProps}
+        filters={filters}
+        defaultFilters={filters}
+        applyFilters={jest.fn()}
+        getFilteredTunnellerCount={() => 4}
+        activeFilterCount={0}
+        totalTunnellers={4}
+      />,
+    );
+
+    await waitFor(() => expect(maps.length).toBe(1));
+
+    const zoomOut = screen.getByRole("button", { name: "Zoom out" });
+    expect(zoomOut).toBeDisabled();
+
+    fireEvent.click(zoomOut);
+
+    expect(maps[0].getZoom()).toBe(5);
+  });
+
+  test("disables zooming in at zoom 11", async () => {
+    window.history.replaceState(null, "", "/tunnellers?view=map&zoom=11");
+
+    render(
+      <RollOriginMap
+        tunnellers={mockTunnellers}
+        rollFiltersProps={rollFiltersProps}
+        filters={filters}
+        defaultFilters={filters}
+        applyFilters={jest.fn()}
+        getFilteredTunnellerCount={() => 4}
+        activeFilterCount={0}
+        totalTunnellers={4}
+      />,
+    );
+
+    await waitFor(() => expect(maps.length).toBe(1));
+
+    const zoomIn = screen.getByRole("button", { name: "Zoom in" });
+    expect(zoomIn).toBeDisabled();
+
+    fireEvent.click(zoomIn);
+
+    expect(maps[0].getZoom()).toBe(11);
+  });
+
   test("restores the map zoom from query params", async () => {
     window.history.replaceState(null, "", "/tunnellers?view=map&zoom=9");
 
@@ -362,6 +412,48 @@ describe("RollOriginMap", () => {
     await waitFor(() => expect(maps.length).toBe(1));
 
     expect(maps[0].getZoom()).toBe(9);
+  });
+
+  test("clamps the restored map zoom to the minimum zoom", async () => {
+    window.history.replaceState(null, "", "/tunnellers?view=map&zoom=3");
+
+    render(
+      <RollOriginMap
+        tunnellers={mockTunnellers}
+        rollFiltersProps={rollFiltersProps}
+        filters={filters}
+        defaultFilters={filters}
+        applyFilters={jest.fn()}
+        getFilteredTunnellerCount={() => 4}
+        activeFilterCount={0}
+        totalTunnellers={4}
+      />,
+    );
+
+    await waitFor(() => expect(maps.length).toBe(1));
+
+    expect(maps[0].getZoom()).toBe(5);
+  });
+
+  test("clamps the restored map zoom to the maximum zoom", async () => {
+    window.history.replaceState(null, "", "/tunnellers?view=map&zoom=16");
+
+    render(
+      <RollOriginMap
+        tunnellers={mockTunnellers}
+        rollFiltersProps={rollFiltersProps}
+        filters={filters}
+        defaultFilters={filters}
+        applyFilters={jest.fn()}
+        getFilteredTunnellerCount={() => 4}
+        activeFilterCount={0}
+        totalTunnellers={4}
+      />,
+    );
+
+    await waitFor(() => expect(maps.length).toBe(1));
+
+    expect(maps[0].getZoom()).toBe(11);
   });
 
   test("clears map params when returning to the roll list", async () => {

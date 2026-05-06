@@ -42,8 +42,8 @@ const DESKTOP_DRAWER_WIDTH = 380;
 const DESKTOP_DRAWER_CENTERING_RATIO = 0.4;
 const DESKTOP_MEDIA_QUERY = "(min-width: 56rem)";
 const BOTTOM_DRAWER_MEDIA_QUERY = "(max-width: 56rem)";
-const MAX_MAP_ZOOM = 16;
-const MIN_MAP_ZOOM = 3;
+const MAX_MAP_ZOOM = 11;
+const MIN_MAP_ZOOM = 5;
 
 function formatOriginCoordinate(coordinate: number): string {
   return Number(coordinate.toFixed(6)).toString();
@@ -436,6 +436,8 @@ export function RollOriginMap({
         <RollOriginMapControls
           activeFilterCount={activeFilterCount}
           currentZoom={currentZoom}
+          maxZoom={MAX_MAP_ZOOM}
+          minZoom={MIN_MAP_ZOOM}
           onOpenFilters={openDialog}
           onOpenRollList={openRollList}
           onZoomIn={() => zoom(1)}

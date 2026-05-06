@@ -7,6 +7,8 @@ import STYLES from "./RollOriginMap.module.scss";
 type Props = {
   activeFilterCount: number;
   currentZoom: number | null;
+  maxZoom: number;
+  minZoom: number;
   onOpenFilters: () => void;
   onOpenRollList: () => void;
   onZoomIn: () => void;
@@ -17,6 +19,8 @@ type Props = {
 export function RollOriginMapControls({
   activeFilterCount,
   currentZoom,
+  maxZoom,
+  minZoom,
   onOpenFilters,
   onOpenRollList,
   onZoomIn,
@@ -71,7 +75,7 @@ export function RollOriginMapControls({
             onClick={onZoomIn}
             aria-label={tMaps("zoomIn")}
             className={STYLES["zoom-button"]}
-            disabled={currentZoom !== null && currentZoom >= 16}
+            disabled={currentZoom !== null && currentZoom >= maxZoom}
           >
             +
           </button>
@@ -89,7 +93,7 @@ export function RollOriginMapControls({
             onClick={onZoomOut}
             aria-label={tMaps("zoomOut")}
             className={STYLES["zoom-button"]}
-            disabled={currentZoom !== null && currentZoom <= 3}
+            disabled={currentZoom !== null && currentZoom <= minZoom}
           >
             −
           </button>
