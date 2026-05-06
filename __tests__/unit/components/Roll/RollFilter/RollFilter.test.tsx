@@ -12,6 +12,12 @@ const defaultProps = {
     { id: null, label: "Tunnelling Corps" },
     { id: 5, label: "Engineers" },
   ],
+  uniqueMaritalStatuses: [
+    { id: 1, label: "Single" },
+    { id: 2, label: "Married" },
+    { id: 4, label: "Separated" },
+    { id: 3, label: "Widower" },
+  ],
   uniqueBirthYears: ["1880", "1890", "1900"],
   uniqueDeathYears: ["1915", "1920", "1930"],
   sortedRanks: {
@@ -31,6 +37,7 @@ const defaultProps = {
   filters: {
     detachment: [],
     corps: [],
+    maritalStatus: null,
     birthYear: ["1880", "1900"],
     deathYear: ["1915", "1930"],
     ranks: {
@@ -46,6 +53,7 @@ const defaultProps = {
   endDeathYear: "1930",
   handleDetachmentFilter: jest.fn(),
   handleCorpsFilter: jest.fn(),
+  handleMaritalStatusFilter: jest.fn(),
   handleBirthSliderChange: jest.fn(),
   handleDeathSliderChange: jest.fn(),
   handleSliderDragStart: jest.fn(),
@@ -67,6 +75,16 @@ describe("RollFilter", () => {
     expect(screen.getByText("Corps")).toBeInTheDocument();
     expect(screen.getByLabelText("Tunnelling Corps")).toBeInTheDocument();
     expect(screen.getByLabelText("Engineers")).toBeInTheDocument();
+  });
+
+  test("renders the marital status filters", () => {
+    render(<RollFilter {...defaultProps} />);
+    expect(screen.getByText("Marital Status")).toBeInTheDocument();
+    expect(screen.getByLabelText("Married")).toBeInTheDocument();
+    expect(screen.getByLabelText("Single")).toBeInTheDocument();
+    expect(screen.getByLabelText("Separated")).toBeInTheDocument();
+    expect(screen.getByLabelText("Widower")).toBeInTheDocument();
+    expect(screen.queryByLabelText("Unknown")).not.toBeInTheDocument();
   });
 
   test("renders the birth year slider", () => {
@@ -115,6 +133,25 @@ describe("RollFilter", () => {
     const checkbox = screen.getByLabelText("Tunnelling Corps");
     fireEvent.click(checkbox);
     expect(defaultProps.handleCorpsFilter).toHaveBeenCalledWith(null);
+  });
+
+  test("calls handleMaritalStatusFilter when a marital status checkbox is clicked", () => {
+    render(<RollFilter {...defaultProps} />);
+    const checkbox = screen.getByLabelText("Married");
+    fireEvent.click(checkbox);
+    expect(defaultProps.handleMaritalStatusFilter).toHaveBeenCalledWith(2);
+  });
+
+  test("marks only the selected marital status as checked", () => {
+    render(
+      <RollFilter
+        {...defaultProps}
+        filters={{ ...defaultProps.filters, maritalStatus: 2 }}
+      />,
+    );
+
+    expect(screen.getByLabelText("Married")).toBeChecked();
+    expect(screen.getByLabelText("Single")).not.toBeChecked();
   });
 
   test("calls handleRankFilter when a rank checkbox is clicked", () => {

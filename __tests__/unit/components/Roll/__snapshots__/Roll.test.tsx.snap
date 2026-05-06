@@ -296,6 +296,35 @@ exports[`Roll matches the snapshot 1`] = `
               class="filters"
             >
               <h3>
+                Marital Status
+              </h3>
+              <div>
+                <label>
+                  <input
+                    id="marital-status-1"
+                    name="Single"
+                    type="checkbox"
+                    value="1"
+                  />
+                  Single
+                </label>
+              </div>
+              <div>
+                <label>
+                  <input
+                    id="marital-status-2"
+                    name="Married"
+                    type="checkbox"
+                    value="2"
+                  />
+                  Married
+                </label>
+              </div>
+            </div>
+            <div
+              class="filters"
+            >
+              <h3>
                 Ranks
               </h3>
               <div

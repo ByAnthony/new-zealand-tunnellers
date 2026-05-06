@@ -14,6 +14,7 @@ type Props = {
   className: string;
   uniqueDetachments: FilterOption[];
   uniqueCorps: FilterOption[];
+  uniqueMaritalStatuses: FilterOption[];
   uniqueBirthYears: string[];
   uniqueDeathYears: string[];
   sortedRanks: {
@@ -22,6 +23,7 @@ type Props = {
   filters: {
     detachment: (number | null)[];
     corps: (number | null)[];
+    maritalStatus: number | null;
     birthYear: string[];
     deathYear: string[];
     ranks: {
@@ -35,6 +37,7 @@ type Props = {
   endDeathYear: string;
   handleDetachmentFilter: (detachmentId: number | null) => void;
   handleCorpsFilter: (corpsId: number | null) => void;
+  handleMaritalStatusFilter: (maritalStatusId: number | null) => void;
   handleBirthSliderChange: (value: number | number[]) => void;
   handleDeathSliderChange: (value: number | number[]) => void;
   handleSliderDragStart: () => void;
@@ -47,6 +50,7 @@ export function RollFilter({
   className,
   uniqueDetachments,
   uniqueCorps,
+  uniqueMaritalStatuses,
   uniqueBirthYears,
   uniqueDeathYears,
   sortedRanks,
@@ -57,6 +61,7 @@ export function RollFilter({
   endDeathYear,
   handleDetachmentFilter,
   handleCorpsFilter,
+  handleMaritalStatusFilter,
   handleBirthSliderChange,
   handleDeathSliderChange,
   handleSliderDragStart,
@@ -192,6 +197,24 @@ export function RollFilter({
             />
             {t("includesUnknownDeathYear")}
           </label>
+        </div>
+        <div className={STYLES.filters}>
+          <h3>{t("maritalStatuses")}</h3>
+          {uniqueMaritalStatuses.map((status) => (
+            <div key={String(status.id)}>
+              <label>
+                <input
+                  type="checkbox"
+                  id={`marital-status-${String(status.id)}`}
+                  name={status.label}
+                  value={String(status.id)}
+                  onChange={() => handleMaritalStatusFilter(status.id)}
+                  checked={filters.maritalStatus === status.id}
+                />
+                {status.label}
+              </label>
+            </div>
+          ))}
         </div>
         <div className={STYLES.filters}>
           <h3>{t("ranks")}</h3>

@@ -197,6 +197,61 @@ describe("Roll", () => {
     ).not.toBeInTheDocument();
   });
 
+  test("should filter the marital status", async () => {
+    await renderRoll();
+
+    const checkbox = screen.getByRole("checkbox", {
+      name: "Married",
+    });
+    fireEvent.click(checkbox);
+    expect(screen.getByText("2 results")).toBeInTheDocument();
+    expect(
+      screen.queryByRole("link", {
+        name: "Sapper Emmett Brown Main Body ?-1935 →",
+      }),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.getByRole("link", {
+        name: "Sapper John Doe Main Body 1886-1952 →",
+      }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("link", {
+        name: "Driver Army Pay Corps Marty McFly 5th Reinforcements ?-†? →",
+      }),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByRole("link", {
+        name: "Sapper Biff Tanen 2nd Reinforcements 1897-†? →",
+      }),
+    ).not.toBeInTheDocument();
+  });
+
+  test("should select only one marital status at a time and clear when clicked again", async () => {
+    await renderRoll();
+
+    const married = screen.getByRole("checkbox", { name: "Married" });
+    const single = screen.getByRole("checkbox", { name: "Single" });
+
+    fireEvent.click(married);
+    expect(screen.getByText("2 results")).toBeInTheDocument();
+    expect(married).toBeChecked();
+
+    fireEvent.click(single);
+    expect(screen.getByText("1 result")).toBeInTheDocument();
+    expect(single).toBeChecked();
+    expect(married).not.toBeChecked();
+    expect(
+      screen.getByRole("link", {
+        name: "Sapper Biff Tanen 2nd Reinforcements 1897-†? →",
+      }),
+    ).toBeInTheDocument();
+
+    fireEvent.click(single);
+    expect(screen.getByText("4 results")).toBeInTheDocument();
+    expect(single).not.toBeChecked();
+  });
+
   test("should filter Sapper rank", async () => {
     await renderRoll();
 
@@ -314,6 +369,13 @@ describe("Roll", () => {
       expect(within(filterButton).getByText("2")).toBeInTheDocument();
     });
 
+    test("shows badge with count 1 when marital status filter is active", async () => {
+      await renderRoll();
+      fireEvent.click(screen.getByRole("checkbox", { name: "Married" }));
+      const filterButton = screen.getByRole("button", { name: /Filters/ });
+      expect(within(filterButton).getByText("1")).toBeInTheDocument();
+    });
+
     test("does not count birth year when all years are selected by default", async () => {
       await renderRoll();
       const filterButton = screen.getByRole("button", { name: "Filters" });
@@ -385,6 +447,7 @@ describe("Roll", () => {
 
     expect(screen.getByText("Detachments")).toBeInTheDocument();
     expect(screen.getByText("Corps")).toBeInTheDocument();
+    expect(screen.getByText("Marital Status")).toBeInTheDocument();
     expect(screen.getByText("Birth")).toBeInTheDocument();
     expect(screen.getByText("Death")).toBeInTheDocument();
     expect(screen.getByText("Ranks")).toBeInTheDocument();
@@ -451,6 +514,14 @@ describe("Roll", () => {
       await renderRoll();
 
       expect(screen.getByText("1 result")).toBeInTheDocument();
+    });
+
+    test("restores valid marital status filter from URL params on mount", async () => {
+      mockSearchParams = new URLSearchParams("marital-status=married");
+
+      await renderRoll();
+
+      expect(screen.getByText("2 results")).toBeInTheDocument();
     });
 
     test("shows all results when no filter params in URL", async () => {

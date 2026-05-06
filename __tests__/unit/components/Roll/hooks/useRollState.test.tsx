@@ -36,6 +36,9 @@ function RollStateHarness({
       <button onClick={() => rollFiltersProps.handleDetachmentFilter(1)}>
         toggle detachment
       </button>
+      <button onClick={() => rollFiltersProps.handleMaritalStatusFilter(1)}>
+        toggle marital status
+      </button>
       <button onClick={rollFiltersProps.handleSliderDragComplete}>
         complete drag
       </button>
@@ -132,12 +135,31 @@ describe("useRollState", () => {
   });
 
   test("resetting filters immediately removes stale filters and map params on the list", async () => {
-    mockSearchParams = new URLSearchParams("view=map&detachment=main-body");
-    originalReplaceState(null, "", "/?view=map&detachment=main-body");
+    mockSearchParams = new URLSearchParams(
+      "view=map&detachment=main-body&marital-status=single",
+    );
+    originalReplaceState(
+      null,
+      "",
+      "/?view=map&detachment=main-body&marital-status=single",
+    );
 
     render(<RollStateHarness />);
 
     fireEvent.click(screen.getByText("reset filters"));
+
+    await waitFor(() => {
+      expect(window.location.search).toBe("");
+    });
+  });
+
+  test("removes marital status from the URL when the selected status is toggled off", async () => {
+    mockSearchParams = new URLSearchParams("marital-status=single");
+    originalReplaceState(null, "", "/?marital-status=single");
+
+    render(<RollStateHarness />);
+
+    fireEvent.click(screen.getByText("toggle marital status"));
 
     await waitFor(() => {
       expect(window.location.search).toBe("");

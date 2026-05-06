@@ -131,6 +131,7 @@ jest.mock("leaflet", () => ({
 const filters: Filters = {
   detachment: [],
   corps: [],
+  maritalStatus: null,
   ranks: {},
   birthYear: [],
   deathYear: [],
@@ -140,6 +141,7 @@ const filters: Filters = {
 const rollFiltersProps = {
   uniqueDetachments: [],
   uniqueCorps: [],
+  uniqueMaritalStatuses: [],
   uniqueBirthYears: [],
   uniqueDeathYears: [],
   sortedRanks: {},
@@ -150,6 +152,7 @@ const rollFiltersProps = {
   endDeathYear: "",
   handleDetachmentFilter: jest.fn(),
   handleCorpsFilter: jest.fn(),
+  handleMaritalStatusFilter: jest.fn(),
   handleBirthSliderChange: jest.fn(),
   handleDeathSliderChange: jest.fn(),
   handleSliderDragStart: jest.fn(),

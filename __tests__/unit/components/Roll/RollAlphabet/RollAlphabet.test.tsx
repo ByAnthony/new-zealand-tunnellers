@@ -21,6 +21,9 @@ const createTunnellers = (count: number): [string, Tunneller[]][] => {
     attachedCorps: null,
     corpsEn: null,
     corpsId: null,
+    maritalStatus: "Married",
+    maritalStatusEn: "Married",
+    maritalStatusId: 2,
     origin: {
       residence: {
         town: null,

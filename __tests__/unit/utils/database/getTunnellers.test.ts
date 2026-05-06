@@ -28,6 +28,9 @@ describe("getTunnellers", () => {
         attached_corps: null,
         corps_en: null,
         corps_id: null,
+        marital_status: "Married",
+        marital_status_en: "Married",
+        marital_status_id: 2,
         residence: "Auckland",
         residence_latitude: "-36.8485",
         residence_longitude: "174.7633",
@@ -48,6 +51,9 @@ describe("getTunnellers", () => {
         attached_corps: null,
         corps_en: null,
         corps_id: null,
+        marital_status: "Single",
+        marital_status_en: "Single",
+        marital_status_id: 1,
         residence: null,
         residence_latitude: null,
         residence_longitude: null,
@@ -81,6 +87,9 @@ describe("getTunnellers", () => {
         attachedCorps: null,
         corpsEn: null,
         corpsId: null,
+        maritalStatus: "Married",
+        maritalStatusEn: "Married",
+        maritalStatusId: 2,
         origin: {
           residence: {
             town: "Auckland",
@@ -110,6 +119,9 @@ describe("getTunnellers", () => {
         attachedCorps: null,
         corpsEn: null,
         corpsId: null,
+        maritalStatus: "Single",
+        maritalStatusEn: "Single",
+        maritalStatusId: 1,
         origin: {
           residence: {
             town: null,

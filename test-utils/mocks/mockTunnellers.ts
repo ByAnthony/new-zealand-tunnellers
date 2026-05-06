@@ -16,6 +16,9 @@ const mockTunneller1: Tunneller = {
   attachedCorps: null,
   corpsEn: null,
   corpsId: null,
+  maritalStatus: "Married",
+  maritalStatusEn: "Married",
+  maritalStatusId: 2,
   origin: {
     residence: {
       town: "Auckland",
@@ -41,6 +44,9 @@ const mockTunneller2: Tunneller = {
   attachedCorps: null,
   corpsEn: null,
   corpsId: null,
+  maritalStatus: "Single",
+  maritalStatusEn: "Single",
+  maritalStatusId: 1,
   origin: {
     residence: {
       town: "Waihi",
@@ -66,6 +72,9 @@ const mockTunneller3: Tunneller = {
   attachedCorps: null,
   corpsEn: null,
   corpsId: null,
+  maritalStatus: null,
+  maritalStatusEn: null,
+  maritalStatusId: null,
   origin: {
     residence: {
       town: "Auckland",
@@ -91,6 +100,9 @@ const mockTunneller4: Tunneller = {
   attachedCorps: "Army Pay Corps",
   corpsEn: "Army Pay Corps",
   corpsId: 3,
+  maritalStatus: "Married",
+  maritalStatusEn: "Married",
+  maritalStatusId: 2,
   origin: {
     residence: {
       town: null,
