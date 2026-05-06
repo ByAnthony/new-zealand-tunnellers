@@ -132,6 +132,26 @@ test("filters appear in URL after filtering", async ({ page }) => {
   await expect(page).toHaveURL(/detachment=/);
 });
 
+test("marital status filter updates and clears the URL", async ({ page }) => {
+  await page.goto("/tunnellers");
+
+  await page.getByLabel("Single").click();
+  await expect(page.getByText("612 results")).toBeVisible();
+  await expect(page).toHaveURL(/marital-status=single/);
+
+  await page.getByLabel("Single").click();
+  await expect(page.getByText("936 results")).toBeVisible();
+  await expect(page).not.toHaveURL(/marital-status=/);
+
+  await page.getByLabel("Single").click();
+  await expect(page.getByText("612 results")).toBeVisible();
+  await expect(page).toHaveURL(/marital-status=single/);
+
+  await page.getByRole("button", { name: "Reset filters" }).click();
+  await expect(page.getByText("936 results")).toBeVisible();
+  await expect(page).not.toHaveURL(/marital-status=/);
+});
+
 test("filters persist when switching language", async ({ page }) => {
   await page.goto("/tunnellers");
 
