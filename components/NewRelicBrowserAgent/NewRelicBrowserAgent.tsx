@@ -10,10 +10,8 @@ export function NewRelicBrowserAgent() {
   if (process.env.NODE_ENV !== "production") return null;
 
   return (
-    <script
-      id="new-relic-browser-agent"
-      type="text/javascript"
-      dangerouslySetInnerHTML={{ __html: newRelicSnippet }}
-    />
+    <script id="new-relic-browser-agent" type="text/javascript">
+      {newRelicSnippet}
+    </script>
   );
 }
