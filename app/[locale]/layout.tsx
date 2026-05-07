@@ -9,7 +9,6 @@ import { ReactNode, Suspense } from "react";
 
 import { Footer } from "@/components/Footer/Footer";
 import { MenuContainer } from "@/components/Menu/MenuContainer";
-import { NewRelicBrowserAgent } from "@/components/NewRelicBrowserAgent/NewRelicBrowserAgent";
 import { BASE_URL, ogLocale, pageUrl } from "@/utils/helpers/metadata";
 
 type Props = {
@@ -49,9 +48,6 @@ export default async function LocaleLayout({ children, params }: Props) {
 
   return (
     <html lang={locale} data-scroll-behavior="smooth">
-      <head>
-        <NewRelicBrowserAgent />
-      </head>
       <body>
         <NextIntlClientProvider messages={messages}>
           <MenuContainer />
