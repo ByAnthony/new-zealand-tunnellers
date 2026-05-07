@@ -94,8 +94,12 @@ Production requires a `.env` file because the application reads its database con
 - `MYSQL_PASSWORD`
 - `MYSQL_DATABASE`
 - `MYSQL_PORT`
+- `NEW_RELIC_LICENSE_KEY`
+- `NEW_RELIC_APP_NAME`
 
 The GitHub Actions workflow generates `.env` during the `build-production` job from repository secrets and includes it in the deployment artifact. This keeps the production file out of the repository while still allowing the deployed app to start correctly.
+
+New Relic server-side monitoring is disabled unless `NEW_RELIC_LICENSE_KEY` and `NEW_RELIC_APP_NAME` are present. Add both values as GitHub repository secrets before deploying server-side monitoring.
 
 ### Build, Test And Deploy
 
@@ -121,6 +125,7 @@ The deployment artifact must include all runtime files that the server needs:
 - `public`
 - `package.json`
 - `package-lock.json`
+- `newrelic.cjs`
 - `next.config.mjs`
 - `tsconfig.server.json`
 - `server.ts`
