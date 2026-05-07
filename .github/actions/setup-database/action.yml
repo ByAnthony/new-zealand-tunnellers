@@ -1,4 +1,4 @@
-name: Setup test database
+name: Setup database
 description: Export the remote database and import it into the local CI MariaDB service
 
 inputs:
@@ -44,8 +44,11 @@ runs:
       run: |
         mkdir -p ~/database
         rm -f ~/database/github_actions.sql
+        quoted_password="$(printf "%q" "$PASSWORD")"
+        quoted_username="$(printf "%q" "$USERNAME")"
+        quoted_database="$(printf "%q" "$DATABASE")"
         for attempt in 1 2 3; do
-          if LANG="en_US.UTF-8" ssh -T -o ConnectTimeout=15 -o ConnectionAttempts=1 -p 5022 deploy "export MYSQL_PWD=$PASSWORD; mysqldump -P 3306 -u $USERNAME $DATABASE" > ~/database/github_actions.sql; then
+          if LANG="en_US.UTF-8" ssh -T -o ConnectTimeout=15 -o ConnectionAttempts=1 -p 5022 deploy "MYSQL_PWD=$quoted_password mysqldump -P 3306 -u $quoted_username $quoted_database" > ~/database/github_actions.sql; then
             exit 0
           fi
           echo "SSH database export failed on attempt $attempt" >&2
@@ -63,7 +66,7 @@ runs:
 
     - name: Import database
       shell: bash
-      run: mysql -h 127.0.0.1 -u $USERNAME $DATABASE < ~/database/github_actions.sql
+      run: mysql -h 127.0.0.1 -u "$USERNAME" "$DATABASE" < ~/database/github_actions.sql
       env:
         USERNAME: ${{ inputs.username }}
         MYSQL_PWD: ${{ inputs.password }}
