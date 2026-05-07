@@ -1,3 +1,5 @@
+import "newrelic";
+
 import { createServer } from "http";
 import { parse } from "url";
 

@@ -93,11 +93,15 @@ jobs:
             echo "MYSQL_PASSWORD=$PASSWORD"
             echo "MYSQL_DATABASE=$DATABASE"
             echo "MYSQL_PORT=3306"
+            echo "NEW_RELIC_LICENSE_KEY=$NEW_RELIC_LICENSE_KEY"
+            echo "NEW_RELIC_APP_NAME=$NEW_RELIC_APP_NAME"
           } > .env
         env:
           USERNAME: ${{ secrets.USERNAME }}
           PASSWORD: ${{ secrets.PASSWORD }}
           DATABASE: ${{ secrets.DATABASE }}
+          NEW_RELIC_LICENSE_KEY: ${{ secrets.NEW_RELIC_LICENSE_KEY }}
+          NEW_RELIC_APP_NAME: ${{ secrets.NEW_RELIC_APP_NAME }}
 
       - name: Cache Next.js build
         uses: actions/cache@v5
@@ -122,6 +126,7 @@ jobs:
             public
             package.json
             package-lock.json
+            newrelic.cjs
             next.config.mjs
             tsconfig.server.json
             server.ts
