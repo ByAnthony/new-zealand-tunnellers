@@ -66,8 +66,8 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@v6.0.2
 
-      - name: Setup test database
-        uses: ./.github/actions/setup-test-database
+      - name: Setup database
+        uses: ./.github/actions/setup-database
         with:
           host: ${{ secrets.SERVER }}
           username: ${{ secrets.USERNAME }}
@@ -156,8 +156,8 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@v6.0.2
 
-      - name: Setup test database
-        uses: ./.github/actions/setup-test-database
+      - name: Setup database
+        uses: ./.github/actions/setup-database
         with:
           host: ${{ secrets.SERVER }}
           username: ${{ secrets.USERNAME }}

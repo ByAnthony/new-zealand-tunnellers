@@ -83,7 +83,7 @@ Setup an SSH key (without passphrase) to being able to access your server. You c
 
 This application needs database access at build time. The current workflow exports the production MariaDB database over SSH, copies the dump into the GitHub runner, and imports it into the MariaDB service used during build and E2E execution.
 
-That logic lives in the composite action at [`.github/actions/setup-test-database/action.yml`](../.github/actions/setup-test-database/action.yml).
+That logic lives in the composite action at [`.github/actions/setup-database/action.yml`](../.github/actions/setup-database/action.yml).
 
 ### Environment variables
 
