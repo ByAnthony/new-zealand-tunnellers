@@ -130,7 +130,6 @@ jobs:
             next.config.mjs
             tsconfig.server.json
             server.ts
-            .env
             i18n/request.ts
             i18n/routing.ts
             utils/imageLoader.ts
@@ -181,6 +180,23 @@ jobs:
           name: production-build
           path: .
 
+      - name: Create test .env
+        shell: bash
+        run: |
+          {
+            echo "MYSQL_HOST=127.0.0.1"
+            echo "MYSQL_USER=$USERNAME"
+            echo "MYSQL_PASSWORD=$PASSWORD"
+            echo "MYSQL_DATABASE=$DATABASE"
+            echo "MYSQL_PORT=3306"
+            echo "NEW_RELIC_LICENSE_KEY="
+            echo "NEW_RELIC_APP_NAME="
+          } > .env
+        env:
+          USERNAME: ${{ secrets.USERNAME }}
+          PASSWORD: ${{ secrets.PASSWORD }}
+          DATABASE: ${{ secrets.DATABASE }}
+
       - name: Cache Playwright browsers
         uses: actions/cache@v5
         with:
@@ -221,6 +237,26 @@ jobs:
         with:
           name: production-build
           path: .
+
+      - name: Create production .env
+        shell: bash
+        run: |
+          {
+            echo "MYSQL_HOST=127.0.0.1"
+            echo "MYSQL_USER=$USERNAME"
+            echo "MYSQL_PASSWORD=$PASSWORD"
+            echo "MYSQL_DATABASE=$DATABASE"
+            echo "MYSQL_PORT=$MYSQL_PORT"
+            echo "NEW_RELIC_LICENSE_KEY=$NEW_RELIC_LICENSE_KEY"
+            echo "NEW_RELIC_APP_NAME=$NEW_RELIC_APP_NAME"
+          } > .env
+        env:
+          MYSQL_PORT: 3306
+          USERNAME: ${{ secrets.USERNAME }}
+          PASSWORD: ${{ secrets.PASSWORD }}
+          DATABASE: ${{ secrets.DATABASE }}
+          NEW_RELIC_LICENSE_KEY: ${{ secrets.NEW_RELIC_LICENSE_KEY }}
+          NEW_RELIC_APP_NAME: ${{ secrets.NEW_RELIC_APP_NAME }}
 
       - name: Sync files
         shell: bash

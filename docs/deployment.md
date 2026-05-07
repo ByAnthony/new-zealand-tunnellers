@@ -97,7 +97,7 @@ Production requires a `.env` file because the application reads its database con
 - `NEW_RELIC_LICENSE_KEY`
 - `NEW_RELIC_APP_NAME`
 
-The GitHub Actions workflow generates `.env` during the `build-production` job from repository secrets and includes it in the deployment artifact. This keeps the production file out of the repository while still allowing the deployed app to start correctly.
+The GitHub Actions workflow generates `.env` from repository secrets inside the jobs that need it, but `.env` must not be uploaded in the deployment artifact.
 
 New Relic server-side monitoring is disabled unless `NEW_RELIC_LICENSE_KEY` and `NEW_RELIC_APP_NAME` are present. Add both values as GitHub repository secrets before deploying server-side monitoring.
 
@@ -108,7 +108,7 @@ The workflow is split into four jobs:
 1. `checks`
    Runs `npm ci`, linting, Prettier, and unit tests.
 2. `build-production`
-   Imports a copy of the production database into the CI MariaDB service, creates the production `.env`, builds the app, and uploads a single deployment artifact.
+   Imports a copy of the production database into the CI MariaDB service, creates the build-time `.env`, builds the app, and uploads a single deployment artifact without secrets.
 3. `run-e2e-tests`
    Downloads the same deployment artifact and runs Playwright against that exact build.
 4. `deployment`
@@ -129,7 +129,6 @@ The deployment artifact must include all runtime files that the server needs:
 - `next.config.mjs`
 - `tsconfig.server.json`
 - `server.ts`
-- `.env`
 - `i18n/request.ts`
 - `i18n/routing.ts`
 - `utils/imageLoader.ts`
