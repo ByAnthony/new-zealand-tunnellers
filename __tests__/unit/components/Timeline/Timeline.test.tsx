@@ -66,7 +66,7 @@ describe("Timeline", () => {
     expect(screen.queryByText(/Accessed:/)).not.toBeInTheDocument();
     expect(
       screen.getByText(
-        /URL: www.nztunnellers.com\/tunnellers\/harry-corrin--4_1415\/wwi-timeline/,
+        /Available at: www.nztunnellers.com\/tunnellers\/harry-corrin--4_1415\/wwi-timeline/,
       ),
     ).toBeInTheDocument();
   });

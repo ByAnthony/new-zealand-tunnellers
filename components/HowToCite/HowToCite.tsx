@@ -13,6 +13,7 @@ import {
   buildCitationUrl,
   formatCitationDate,
   formatBookSubpath,
+  getCitationAvailableAtLabel,
 } from "./utils/citationFormatters";
 
 type Props = {
@@ -51,12 +52,12 @@ export function HowToCiteUrl({
     pathname,
     locale,
   });
-  const urlLabel = locale === "fr" ? "URL\u00A0: " : "URL: ";
+  const availableAtLabel = getCitationAvailableAtLabel(locale);
 
   if (pathname) {
     return (
       <span>
-        {urlLabel}
+        {availableAtLabel}
         <wbr />
         {fullUrl}
       </span>
@@ -65,7 +66,7 @@ export function HowToCiteUrl({
 
   return (
     <span>
-      {urlLabel}
+      {availableAtLabel}
       <wbr />
       {fullUrl}
     </span>
@@ -125,8 +126,8 @@ export function HowToCite({
     const now = new Date();
     const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     const currentDate = formatCitationDate(now, locale, userTimeZone);
-    const urlLabel = locale === "fr" ? "URL\u00A0: " : "URL: ";
-    const citationText = `${citationAuthorPrefix}${citationTextTitle}, New Zealand Tunnellers Website (2009). ${urlLabel}${citationUrl}. ${accessedLabel}${currentDate}.`;
+    const availableAtLabel = getCitationAvailableAtLabel(locale);
+    const citationText = `${citationAuthorPrefix}${citationTextTitle}, New Zealand Tunnellers Website (2009). ${availableAtLabel}${citationUrl} (${accessedLabel}${currentDate}).`;
 
     navigator.clipboard
       .writeText(citationText)
@@ -178,14 +179,9 @@ export function HowToCite({
             <em>{bookTitle(locale)}</em>
           </>
         ) : (
-          citationTitle
+          <em>{citationTitle}</em>
         )}
-        ,{" "}
-        {citationChapterTitle ? (
-          "New Zealand Tunnellers Website"
-        ) : (
-          <em>New Zealand Tunnellers Website</em>
-        )}
+        , New Zealand Tunnellers Website
         {" (2009). "}
         <HowToCiteUrl
           tunnellerSlug={tunnellerSlug}

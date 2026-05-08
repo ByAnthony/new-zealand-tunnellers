@@ -1,3 +1,5 @@
+import enMessages from "@/messages/en.json";
+import frMessages from "@/messages/fr.json";
 import type { Summary } from "@/types/tunneller";
 import { bookTitle } from "@/utils/helpers/books/basePathUtil";
 import { displayBiographyDates } from "@/utils/helpers/roll";
@@ -19,6 +21,11 @@ type CitationUrlParams = {
   pathname?: string;
   locale?: string;
 };
+
+const messagesByLocale = {
+  en: enMessages,
+  fr: frMessages,
+} as const;
 
 export function sentenceCase(str: string): string {
   const lower = str.toLowerCase();
@@ -73,7 +80,7 @@ export function buildCitationTitle({
   }
 
   if (summary && !timeline) {
-    return `${openQuote}${summary.name.forename} ${summary.name.surname} (${displayBiographyDates(summary.birth, summary.death)})${closeQuote}`;
+    return `${summary.name.forename} ${summary.name.surname} (${displayBiographyDates(summary.birth, summary.death)})`;
   }
 
   if (summary && timeline) {
@@ -81,11 +88,11 @@ export function buildCitationTitle({
       locale === "en"
         ? "World War I Timeline of"
         : "Chronologie de la guerre de";
-    return `${openQuote}${timelineOf} ${summary.name.forename} ${summary.name.surname}${closeQuote}`;
+    return `${timelineOf} ${summary.name.forename} ${summary.name.surname}`;
   }
 
   const articleTitle = title?.replace(/\\/g, " ") ?? "";
-  return `${openQuote}${articleTitle}${closeQuote}`;
+  return articleTitle;
 }
 
 export function buildCitationUrl({
@@ -121,6 +128,14 @@ export function buildCitationUrl({
   }
 
   return `www.nztunnellers.com${localePrefix}/`;
+}
+
+export function getCitationAvailableAtLabel(locale: string): string {
+  const messages =
+    messagesByLocale[locale as keyof typeof messagesByLocale] ??
+    messagesByLocale.en;
+
+  return messages.howToCite.availableAt;
 }
 
 export function formatCitationDate(

@@ -186,13 +186,13 @@ exports[`Article matches the snapshot 1`] = `
         </button>
       </h3>
       <p>
-        Anthony Byledbal, “My Awesome Article Title”, 
+        Anthony Byledbal, 
         <em>
-          New Zealand Tunnellers Website
+          My Awesome Article Title
         </em>
-         (2009). 
+        , New Zealand Tunnellers Website (2009). 
         <span>
-          URL: 
+          Available at: 
           <wbr />
           www.nztunnellers.com/history/my-awesome-article
         </span>

@@ -2,6 +2,7 @@ import {
   buildCitationTitle,
   buildCitationUrl,
   formatBookSubpath,
+  getCitationAvailableAtLabel,
 } from "@/components/HowToCite/utils/citationFormatters";
 
 describe("citationFormatters", () => {
@@ -39,7 +40,7 @@ describe("citationFormatters", () => {
         timeline: true,
         locale: "en",
       }),
-    ).toBe("“World War I Timeline of John Doe”");
+    ).toBe("World War I Timeline of John Doe");
   });
 
   test("builds a history article URL from a title", () => {
@@ -65,5 +66,10 @@ describe("citationFormatters", () => {
     expect(
       formatBookSubpath("/book/chapter-12-bridging-at-the-end", "en"),
     ).toBe("Chapter 12: Bridging at the end");
+  });
+
+  test("gets the translated available at label", () => {
+    expect(getCitationAvailableAtLabel("en")).toBe("Available at: ");
+    expect(getCitationAvailableAtLabel("fr")).toBe("Disponible à\u00A0: ");
   });
 });

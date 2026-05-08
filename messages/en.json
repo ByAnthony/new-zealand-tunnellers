@@ -13,6 +13,9 @@
     "historyChapterDescription": "Read about {title} - history of the New Zealand Tunnellers during the First World War",
     "bookChapterDescription": "Read {title} - a chapter from Kiwis Dig Tunnels Too, about the New Zealand Tunnellers in WWI"
   },
+  "howToCite": {
+    "availableAt": "Available at: "
+  },
   "nav": {
     "history": "History",
     "tunnellers": "Tunnellers",

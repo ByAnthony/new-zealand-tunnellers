@@ -20,13 +20,15 @@ describe("HowToCite", () => {
 
     const alertSpy = jest.spyOn(window, "alert").mockImplementation(() => {});
 
-    render(<HowToCite />);
+    render(<HowToCite title="Beneath Artois Fields" />);
 
     fireEvent.click(screen.getByRole("button", { name: "Copy to clipboard" }));
 
     await waitFor(() => {
       expect(writeTextSpy).toHaveBeenCalledWith(
-        expect.stringMatching(/URL: www\.nztunnellers\.com\/\. Accessed: /),
+        expect.stringMatching(
+          /^Anthony Byledbal, Beneath Artois Fields, New Zealand Tunnellers Website \(2009\)\. Available at: www\.nztunnellers\.com\/history\/beneath-artois-fields \(Accessed: .+\)\.$/,
+        ),
       );
       expect(alertSpy).toHaveBeenCalledWith(
         "How to cite has been copied to clipboard",
@@ -65,7 +67,7 @@ describe("HowToCite", () => {
 
     const alertSpy = jest.spyOn(window, "alert").mockImplementation(() => {});
 
-    render(<HowToCite locale="fr" />);
+    render(<HowToCite title="Sous Arras" locale="fr" />);
 
     fireEvent.click(
       screen.getByRole("button", { name: "Copier dans le presse-papiers" }),
@@ -74,7 +76,7 @@ describe("HowToCite", () => {
     await waitFor(() => {
       expect(writeTextSpy).toHaveBeenCalledWith(
         expect.stringMatching(
-          /URL\u00A0: www\.nztunnellers\.com\/fr\/\. Consulté le\u00A0: /,
+          /^Anthony Byledbal, Sous Arras, New Zealand Tunnellers Website \(2009\)\. Disponible à\u00A0: www\.nztunnellers\.com\/fr\/history\/sous-arras \(Consulté le\u00A0: .+\)\.$/,
         ),
       );
       expect(alertSpy).toHaveBeenCalledWith(

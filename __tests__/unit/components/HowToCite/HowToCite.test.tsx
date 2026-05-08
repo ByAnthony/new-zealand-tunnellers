@@ -3,7 +3,7 @@ import { render } from "@testing-library/react";
 import { HowToCite } from "@/components/HowToCite/HowToCite";
 
 describe("HowToCite", () => {
-  test("italicizes the site title for regular page citations", () => {
+  test("does not italicize the site title for regular page citations", () => {
     const { container } = render(
       <HowToCite title="Beneath Artois Fields" locale="en" />,
     );
@@ -12,7 +12,11 @@ describe("HowToCite", () => {
       (element) => element.textContent,
     );
 
-    expect(emphasized).toContain("New Zealand Tunnellers Website");
+    expect(emphasized).toContain("Beneath Artois Fields");
+    expect(emphasized).not.toContain("New Zealand Tunnellers Website");
+    expect(container.querySelector("p")).toHaveTextContent(
+      "New Zealand Tunnellers Website",
+    );
   });
 
   test("italicizes the book title instead of the site title for book citations", () => {

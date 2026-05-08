@@ -349,13 +349,12 @@ exports[`Profile matches the snapshot 1`] = `
           </button>
         </h3>
         <p>
-          “John Smith (1886-1966)”, 
           <em>
-            New Zealand Tunnellers Website
+            John Smith (1886-1966)
           </em>
-           (2009). 
+          , New Zealand Tunnellers Website (2009). 
           <span>
-            URL: 
+            Available at: 
             <wbr />
             www.nztunnellers.com/tunnellers/harry-corrin--4_1415
           </span>
