@@ -8,14 +8,19 @@ updates:
     allow:
       - dependency-type: "direct"
     ignore:
+      # Keep Node types aligned with the runtime pinned in .nvmrc
       - dependency-name: "@types/node"
         update-types:
           - "version-update:semver-major"
           - "version-update:semver-minor"
-    #   - dependency-name: "eslint-plugin-react-hooks"
-    #     update-types: ["version-update:semver-major"]
-    #   - dependency-name: "lint-staged"
-    #     update-types: ["version-update:semver-major"]
+      # ESLint 10 is blocked until eslint-plugin-import/eslint-config-next support it.
+      - dependency-name: "eslint"
+        update-types:
+          - "version-update:semver-major"
+      # lint-staged 17 requires Node >=22.22.1; this project is pinned to 22.13.1.
+      - dependency-name: "lint-staged"
+        update-types:
+          - "version-update:semver-major"
     groups:
       production-dependencies:
         dependency-type: "production"
