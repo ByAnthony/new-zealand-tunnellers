@@ -66,12 +66,11 @@ This setup creates a folder according to the application root your have mentione
 
 The repository uses a single workflow at [`.github/workflows/nztunnellers.yml`](../.github/workflows/nztunnellers.yml).
 
-On `push` to `main`, the workflow currently runs four jobs:
+On `push` to `main`, the workflow currently runs three jobs:
 
 1. `checks`
 2. `build-production`
-3. `run-e2e-tests`
-4. `deployment`
+3. `deployment`
 
 On pull requests, the deployment job is skipped.
 
@@ -81,7 +80,7 @@ Setup an SSH key (without passphrase) to being able to access your server. You c
 
 ### Database
 
-This application needs database access at build time. The current workflow exports the production MariaDB database over SSH, copies the dump into the GitHub runner, and imports it into the MariaDB service used during build and E2E execution.
+This application needs database access at build time. The current workflow exports the production MariaDB database over SSH once, copies the dump into the GitHub runner, and imports it into the MariaDB service used by the combined build and E2E job.
 
 That logic lives in the composite action at [`.github/actions/setup-database/action.yml`](../.github/actions/setup-database/action.yml).
 
@@ -97,24 +96,22 @@ Production requires a `.env` file because the application reads its database con
 - `NEW_RELIC_LICENSE_KEY`
 - `NEW_RELIC_APP_NAME`
 
-The GitHub Actions workflow generates `.env` from repository secrets inside the jobs that need it, but `.env` must not be uploaded in the deployment artifact.
+The GitHub Actions workflow generates `.env` from repository secrets inside the jobs that need it, but `.env` must not be uploaded in the deployment artifact. The CI build/E2E job creates a single `.env` with database settings and blank New Relic values; the deployment job creates the production `.env` with New Relic secrets before syncing files to the server.
 
 New Relic server-side monitoring is disabled unless `NEW_RELIC_LICENSE_KEY` and `NEW_RELIC_APP_NAME` are present. Add both values as GitHub repository secrets before deploying server-side monitoring.
 
 ### Build, Test And Deploy
 
-The workflow is split into four jobs:
+The workflow is split into three jobs:
 
 1. `checks`
    Runs `npm ci`, linting, Prettier, and unit tests.
 2. `build-production`
-   Imports a copy of the production database into the CI MariaDB service, creates the build-time `.env`, builds the app, and uploads a single deployment artifact without secrets.
-3. `run-e2e-tests`
-   Downloads the same deployment artifact and runs Playwright against that exact build.
-4. `deployment`
-   Downloads the same artifact again and syncs it to the N0C server.
+   Imports a copy of the production database into the CI MariaDB service, creates the CI `.env`, builds the app, runs Playwright against that build, and uploads a single deployment artifact without secrets.
+3. `deployment`
+   Downloads the artifact, creates the production `.env`, and syncs everything to the N0C server.
 
-This means the build is created once and reused for both E2E validation and production deployment.
+This means CI calls the live database once, builds once, validates that build with E2E tests, and only uploads the artifact after the E2E suite has passed.
 
 ### Deployment Artifact
 
