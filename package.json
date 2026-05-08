@@ -58,21 +58,21 @@
     "@testing-library/react": "16.3.2",
     "@types/jest": "30.0.0",
     "@types/lodash": "4.17.24",
-    "@types/node": "22.19.17",
+    "@types/node": "22.19.18",
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
-    "baseline-browser-mapping": "2.10.24",
+    "baseline-browser-mapping": "2.10.27",
     "eslint": "9.39.2",
-    "eslint-config-next": "16.2.4",
+    "eslint-config-next": "16.2.6",
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-import": "2.32.0",
     "eslint-plugin-react-hooks": "7.1.1",
-    "globals": "17.5.0",
+    "globals": "17.6.0",
     "husky": "9.1.7",
-    "jest": "30.3.0",
-    "jest-environment-jsdom": "30.3.0",
+    "jest": "30.4.0",
+    "jest-environment-jsdom": "30.4.0",
     "lint-staged": "16.4.0",
     "typescript": "6.0.3",
-    "typescript-eslint": "8.59.1"
+    "typescript-eslint": "8.59.2"
   }
 }
