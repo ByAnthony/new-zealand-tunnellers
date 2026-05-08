@@ -139,7 +139,6 @@ export function Menu({ tunnellers }: Props) {
 
   const handleNavigation = () => {
     setDropdownVisible(false);
-    router.refresh();
   };
 
   const isMobileOrTablet = () => {

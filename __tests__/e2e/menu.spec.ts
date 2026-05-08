@@ -31,7 +31,7 @@ test("can search for a name", async ({ page }) => {
   const input = "james williamson";
   expect(search.inputValue()).toBeNull;
 
-  await search.fill(input);
+  await typeIntoSearch(search, input);
   expect(
     await page
       .getByRole("textbox", { name: "Search for a Tunneller" })
@@ -149,7 +149,7 @@ test("can go to the tunnellers page", async ({ page }) => {
   await page.goto("/");
 
   const search = page.getByPlaceholder("Search for a Tunneller");
-  await search.fill("david");
+  await typeIntoSearch(search, "david");
   await expect(
     page.getByRole("link", { name: /See David .* profile/ }).first(),
   ).toBeVisible();
