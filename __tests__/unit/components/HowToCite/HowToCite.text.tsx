@@ -161,7 +161,7 @@ describe("HowToCite", () => {
     );
 
     expect(screen.getByText(/Chapter 1:/)).toBeInTheDocument();
-    expect(screen.queryByText(/Accessed:/)).not.toBeInTheDocument();
+    expect(screen.getByText(/\(Accessed:/)).toBeInTheDocument();
   });
 
   test("renders chapter citation with chapter number and title", () => {

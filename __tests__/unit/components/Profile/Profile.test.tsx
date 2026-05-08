@@ -170,7 +170,7 @@ describe("Profile", () => {
 
     expect(findElementWithText("John Smith (1886-1966)")).toBeInTheDocument();
     expect(screen.getByText(/\(2009\)/)).toBeInTheDocument();
-    expect(screen.queryByText(/Accessed:/)).not.toBeInTheDocument();
+    expect(screen.getByText(/\(Accessed: 4 May 2023\)\./)).toBeInTheDocument();
     expect(
       screen.getByText(
         /Available at: www.nztunnellers.com\/tunnellers\/harry-corrin--4_1415/,

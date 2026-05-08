@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useLocale } from "next-intl";
-import { useMemo } from "react";
+import { useMemo, useSyncExternalStore } from "react";
 
 import type { Summary } from "@/types/tunneller";
 import { bookTitle } from "@/utils/helpers/books/basePathUtil";
@@ -35,6 +35,17 @@ type HowToCiteUrlProps = {
   pathname?: string;
   locale?: string;
 };
+
+const subscribeToCitationAccessDate = () => () => {};
+const getServerCitationAccessDate = () => null;
+
+function formatCitationAccessDate(locale: string, accessedLabel: string) {
+  const now = new Date();
+  const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const currentDate = formatCitationDate(now, locale, userTimeZone);
+
+  return ` (${accessedLabel}${currentDate}).`;
+}
 
 export function HowToCiteUrl({
   tunnellerSlug,
@@ -86,6 +97,11 @@ export function HowToCite({
   const localeFromContext = useLocale();
   const locale = localeProp ?? localeFromContext;
   const accessedLabel = locale === "en" ? "Accessed: " : "Consulté le\u00A0: ";
+  const accessDate = useSyncExternalStore(
+    subscribeToCitationAccessDate,
+    () => formatCitationAccessDate(locale, accessedLabel),
+    getServerCitationAccessDate,
+  );
   const citationAuthorPrefix = summary ? "" : "Anthony Byledbal, ";
   const citationTitle = useMemo(
     () =>
@@ -191,6 +207,7 @@ export function HowToCite({
           pathname={pathname}
           locale={locale}
         />
+        {accessDate}
       </p>
     </div>
   );

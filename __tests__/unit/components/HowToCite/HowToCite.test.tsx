@@ -1,8 +1,17 @@
 import { render } from "@testing-library/react";
+import { renderToString } from "react-dom/server";
 
 import { HowToCite } from "@/components/HowToCite/HowToCite";
 
 describe("HowToCite", () => {
+  test("omits browser-only accessed date during server rendering", () => {
+    const html = renderToString(
+      <HowToCite title="Beneath Artois Fields" locale="en" />,
+    );
+
+    expect(html).not.toContain("Accessed:");
+  });
+
   test("does not italicize the site title for regular page citations", () => {
     const { container } = render(
       <HowToCite title="Beneath Artois Fields" locale="en" />,
