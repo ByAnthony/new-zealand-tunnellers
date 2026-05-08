@@ -58,7 +58,7 @@
     "@testing-library/react": "16.3.2",
     "@types/jest": "30.0.0",
     "@types/lodash": "4.17.24",
-    "@types/node": "22.19.18",
+    "@types/node": "22.13.17",
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
     "baseline-browser-mapping": "2.10.27",
