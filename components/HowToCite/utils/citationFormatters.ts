@@ -135,14 +135,3 @@ export function formatCitationDate(
     timeZone,
   }).format(now);
 }
-
-export function formatCitationYear(
-  now: Date,
-  locale: string,
-  timeZone: string,
-) {
-  return new Intl.DateTimeFormat(locale === "en" ? "en-NZ" : "fr-FR", {
-    year: "numeric",
-    timeZone,
-  }).format(now);
-}

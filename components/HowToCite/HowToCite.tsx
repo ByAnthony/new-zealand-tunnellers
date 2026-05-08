@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useLocale } from "next-intl";
-import { useMemo, useRef } from "react";
+import { useMemo } from "react";
 
 import type { Summary } from "@/types/tunneller";
 import { bookTitle } from "@/utils/helpers/books/basePathUtil";
@@ -13,7 +13,6 @@ import {
   buildCitationUrl,
   formatCitationDate,
   formatBookSubpath,
-  formatCitationYear,
 } from "./utils/citationFormatters";
 
 type Props = {
@@ -85,21 +84,6 @@ export function HowToCite({
 }: Props) {
   const localeFromContext = useLocale();
   const locale = localeProp ?? localeFromContext;
-  const citationRef = useRef<HTMLParagraphElement>(null);
-
-  const now = useMemo(() => new Date(), []);
-  const userTimeZone = useMemo(
-    () => Intl.DateTimeFormat().resolvedOptions().timeZone,
-    [],
-  );
-  const currentDate = useMemo(
-    () => formatCitationDate(now, locale, userTimeZone),
-    [locale, now, userTimeZone],
-  );
-  const currentYear = useMemo(
-    () => formatCitationYear(now, locale, userTimeZone),
-    [locale, now, userTimeZone],
-  );
   const accessedLabel = locale === "en" ? "Accessed: " : "Consulté le\u00A0: ";
   const citationAuthorPrefix = summary ? "" : "Anthony Byledbal, ";
   const citationTitle = useMemo(
@@ -119,31 +103,51 @@ export function HowToCite({
       pathname ? (chapterTitle ?? formatBookSubpath(pathname, locale)) : null,
     [chapterTitle, pathname, locale],
   );
+  const citationTextTitle = useMemo(() => {
+    if (!citationChapterTitle) return citationTitle;
+
+    return `${locale === "en" ? "\u201C" : "«\u00A0"}${citationChapterTitle}${locale === "en" ? "\u201D" : "\u00A0»"}, in ${bookTitle(locale)}`;
+  }, [citationChapterTitle, citationTitle, locale]);
+  const citationUrl = useMemo(
+    () =>
+      buildCitationUrl({
+        tunnellerSlug,
+        title,
+        slug,
+        timeline,
+        pathname,
+        locale,
+      }),
+    [tunnellerSlug, title, slug, timeline, pathname, locale],
+  );
 
   const handleCopy = () => {
-    if (citationRef.current) {
-      const citationText = citationRef.current.innerText;
-      navigator.clipboard
-        .writeText(citationText)
-        .then(() => {
-          alert(
-            locale === "en"
-              ? "How to cite has been copied to clipboard"
-              : "Comment citer a été copié dans le presse-papiers",
-          );
-        })
-        .catch((err) => {
-          alert(
-            locale === "en"
-              ? "Failed to copy to clipboard. Please try selecting and copying the text manually."
-              : "Échec de la copie dans le presse-papiers. Veuillez essayer de sélectionner et de copier le texte manuellement.",
-          );
-          // Only log errors in development
-          if (process.env.NODE_ENV === "development") {
-            console.error("Failed to copy: ", err);
-          }
-        });
-    }
+    const now = new Date();
+    const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const currentDate = formatCitationDate(now, locale, userTimeZone);
+    const urlLabel = locale === "fr" ? "URL\u00A0: " : "URL: ";
+    const citationText = `${citationAuthorPrefix}${citationTextTitle}, New Zealand Tunnellers Website (2009). ${urlLabel}${citationUrl}. ${accessedLabel}${currentDate}.`;
+
+    navigator.clipboard
+      .writeText(citationText)
+      .then(() => {
+        alert(
+          locale === "en"
+            ? "How to cite has been copied to clipboard"
+            : "Comment citer a été copié dans le presse-papiers",
+        );
+      })
+      .catch((err) => {
+        alert(
+          locale === "en"
+            ? "Failed to copy to clipboard. Please try selecting and copying the text manually."
+            : "Échec de la copie dans le presse-papiers. Veuillez essayer de sélectionner et de copier le texte manuellement.",
+        );
+        // Only log errors in development
+        if (process.env.NODE_ENV === "development") {
+          console.error("Failed to copy: ", err);
+        }
+      });
   };
 
   return (
@@ -164,7 +168,7 @@ export function HowToCite({
           />
         </button>
       </h3>
-      <p ref={citationRef}>
+      <p>
         {citationAuthorPrefix}
         {citationChapterTitle ? (
           <>
@@ -182,9 +186,7 @@ export function HowToCite({
         ) : (
           <em>New Zealand Tunnellers Website</em>
         )}
-        {`, ${currentYear} (2009), ${accessedLabel}`}
-        {currentDate}
-        {". "}
+        {" (2009). "}
         <HowToCiteUrl
           tunnellerSlug={tunnellerSlug}
           title={title}

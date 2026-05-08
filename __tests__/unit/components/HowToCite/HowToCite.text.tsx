@@ -14,7 +14,9 @@ global.alert = jest.fn();
 
 describe("HowToCite", () => {
   test("shows English success alert on clipboard copy", async () => {
-    jest.spyOn(navigator.clipboard, "writeText").mockResolvedValue(undefined);
+    const writeTextSpy = jest
+      .spyOn(navigator.clipboard, "writeText")
+      .mockResolvedValue(undefined);
 
     const alertSpy = jest.spyOn(window, "alert").mockImplementation(() => {});
 
@@ -23,6 +25,9 @@ describe("HowToCite", () => {
     fireEvent.click(screen.getByRole("button", { name: "Copy to clipboard" }));
 
     await waitFor(() => {
+      expect(writeTextSpy).toHaveBeenCalledWith(
+        expect.stringMatching(/URL: www\.nztunnellers\.com\/\. Accessed: /),
+      );
       expect(alertSpy).toHaveBeenCalledWith(
         "How to cite has been copied to clipboard",
       );
@@ -54,7 +59,9 @@ describe("HowToCite", () => {
   });
 
   test("shows French success alert on clipboard copy", async () => {
-    jest.spyOn(navigator.clipboard, "writeText").mockResolvedValue(undefined);
+    const writeTextSpy = jest
+      .spyOn(navigator.clipboard, "writeText")
+      .mockResolvedValue(undefined);
 
     const alertSpy = jest.spyOn(window, "alert").mockImplementation(() => {});
 
@@ -65,6 +72,11 @@ describe("HowToCite", () => {
     );
 
     await waitFor(() => {
+      expect(writeTextSpy).toHaveBeenCalledWith(
+        expect.stringMatching(
+          /URL\u00A0: www\.nztunnellers\.com\/fr\/\. Consulté le\u00A0: /,
+        ),
+      );
       expect(alertSpy).toHaveBeenCalledWith(
         "Comment citer a été copié dans le presse-papiers",
       );
@@ -147,6 +159,7 @@ describe("HowToCite", () => {
     );
 
     expect(screen.getByText(/Chapter 1:/)).toBeInTheDocument();
+    expect(screen.queryByText(/Accessed:/)).not.toBeInTheDocument();
   });
 
   test("renders chapter citation with chapter number and title", () => {

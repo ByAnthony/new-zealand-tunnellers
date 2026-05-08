@@ -69,7 +69,8 @@ describe("Article", () => {
     ).toBeInTheDocument();
     expect(findElementWithText("My Awesome Article Title")).toBeInTheDocument();
     expect(screen.getByText(/history\/my-awesome-article/)).toBeInTheDocument();
-    expect(screen.getByText(/Accessed: 4 May 2023/)).toBeInTheDocument();
+    expect(screen.getByText(/\(2009\)/)).toBeInTheDocument();
+    expect(screen.queryByText(/Accessed:/)).not.toBeInTheDocument();
   });
 
   test("does not render the next chapter link when null", () => {
