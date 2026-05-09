@@ -13,6 +13,9 @@
     "historyChapterDescription": "Lire le chapitre {title} - histoire des tunneliers néo-zélandais durant la Première Guerre mondiale",
     "bookChapterDescription": "Lire {title} - un chapitre de Les Kiwis aussi creusent des tunnels, sur les tunneliers néo-zélandais"
   },
+  "howToCite": {
+    "availableAt": "Disponible à\u00A0: "
+  },
   "nav": {
     "history": "Histoire",
     "tunnellers": "Tunneliers",

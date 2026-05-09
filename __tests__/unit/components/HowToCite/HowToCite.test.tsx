@@ -12,7 +12,13 @@ describe("HowToCite", () => {
       (element) => element.textContent,
     );
 
-    expect(emphasized).toContain("New Zealand Tunnellers Website");
+    expect(emphasized).toContain("New Zealand Tunnellers");
+    expect(container.querySelector("p")).toHaveTextContent(
+      "New Zealand Tunnellers",
+    );
+    expect(container.querySelector("p")).not.toHaveTextContent(
+      "New Zealand Tunnellers Website",
+    );
   });
 
   test("italicizes the book title instead of the site title for book citations", () => {
@@ -29,8 +35,11 @@ describe("HowToCite", () => {
     );
 
     expect(emphasized).toContain("Kiwis Dig Tunnels Too");
-    expect(emphasized).not.toContain("New Zealand Tunnellers Website");
+    expect(emphasized).not.toContain("New Zealand Tunnellers");
     expect(container.querySelector("p")).toHaveTextContent(
+      "New Zealand Tunnellers",
+    );
+    expect(container.querySelector("p")).not.toHaveTextContent(
       "New Zealand Tunnellers Website",
     );
   });
