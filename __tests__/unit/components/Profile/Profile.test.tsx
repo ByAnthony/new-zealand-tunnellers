@@ -82,9 +82,7 @@ describe("Profile", () => {
       "/tunnellers/harry-corrin--4_1415/wwi-timeline",
     );
     expect(screen.getByText("World War I (1914-1918)")).toBeInTheDocument();
-    expect(
-      screen.getAllByText("New Zealand Tunnellers").length,
-    ).toBeGreaterThan(0);
+    expect(timeline).toHaveTextContent("New Zealand Tunnellers");
 
     expect(images[1]).toHaveAttribute("alt", "British War Medal ribbon");
     expect(images[1]).toHaveAttribute(
@@ -164,11 +162,13 @@ describe("Profile", () => {
     );
 
     // How to cite
+    const howToCiteHeading = screen.getByRole("heading", {
+      name: "How to cite this page Copy to clipboard",
+    });
+    expect(howToCiteHeading).toBeInTheDocument();
     expect(
-      screen.getByRole("heading", {
-        name: "How to cite this page Copy to clipboard",
-      }),
-    ).toBeInTheDocument();
+      howToCiteHeading.closest("div")?.querySelector("em"),
+    ).toHaveTextContent("New Zealand Tunnellers");
 
     expect(findElementWithText("John Smith (1886-1966)")).toBeInTheDocument();
     expect(screen.getByText(/(Accessed: 4 May 2023)/)).toBeInTheDocument();
