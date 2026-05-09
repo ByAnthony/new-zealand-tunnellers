@@ -83,6 +83,7 @@ test("renders Foreign Medal with country correctly", () => {
   const mockForeignMedal = {
     name: "Medal for Steadfastness and Loyalty",
     country: "Romania",
+    country_key: "Romania",
     image: "steadfastness-loyalty-medal.png",
     citation:
       "For distinguished services rendered during the course of the campaign",

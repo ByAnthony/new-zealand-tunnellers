@@ -72,6 +72,7 @@ const mockOrigins: Origins = {
 export const mockArmyExperience: ArmyExperience = {
   unit: "NZ Infantry",
   country: "New Zealand",
+  country_key: "New Zealand",
   conflict: null,
   duration: "12 months",
 };

@@ -15,7 +15,7 @@ const mockUseSearchParams = jest.mocked(useSearchParams);
 describe("Footer", () => {
   beforeEach(() => {
     mockUsePathname.mockReturnValue("/");
-    mockUseSearchParams.mockReturnValue(new URLSearchParams());
+    mockUseSearchParams.mockReturnValue(new URLSearchParams() as never);
   });
 
   test("matches the snapshot", () => {
@@ -43,7 +43,9 @@ describe("Footer", () => {
 
   test("does not render on the roll origin map", () => {
     mockUsePathname.mockReturnValue("/tunnellers");
-    mockUseSearchParams.mockReturnValue(new URLSearchParams("view=map"));
+    mockUseSearchParams.mockReturnValue(
+      new URLSearchParams("view=map") as never,
+    );
 
     const { container } = render(component);
 

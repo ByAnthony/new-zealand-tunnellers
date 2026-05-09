@@ -14,7 +14,7 @@ jest.mock("@/utils/database/queries/tunnellerSlugByIdQuery");
 jest.mock("@/utils/database/withConnection");
 
 describe("getTunnellerBySlug", () => {
-  const mockConnection = {};
+  const mockConnection = {} as never;
   const mockRedirect = jest.mocked(redirect);
   const mockGetTunneller = jest.mocked(getTunneller);
   const mockTunnellerSlugByIdQuery = jest.mocked(tunnellerSlugByIdQuery);

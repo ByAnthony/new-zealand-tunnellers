@@ -31,6 +31,7 @@ describe("citationFormatters", () => {
     expect(
       buildCitationTitle({
         summary: {
+          serial: "1/1000",
           name: {
             forename: "John",
             surname: "Doe",

@@ -2,6 +2,14 @@ import { getUniqueDetachments } from "@/components/Roll/utils/detachmentUtils";
 import { mockTunnellers } from "@/test-utils/mocks/mockTunnellers";
 import { Tunneller } from "@/types/tunnellers";
 
+const testOrigin = {
+  residence: {
+    town: null,
+    latitude: null,
+    longitude: null,
+  },
+};
+
 describe("getUniqueDetachments", () => {
   test("returns unique detachments sorted correctly", () => {
     const result = getUniqueDetachments(Object.entries(mockTunnellers));
@@ -41,6 +49,7 @@ describe("getUniqueDetachments", () => {
             maritalStatus: "Married",
             maritalStatusEn: "Married",
             maritalStatusId: 2,
+            origin: testOrigin,
           },
           {
             id: 2,
@@ -61,6 +70,7 @@ describe("getUniqueDetachments", () => {
             maritalStatus: "Single",
             maritalStatusEn: "Single",
             maritalStatusId: 1,
+            origin: testOrigin,
           },
           {
             id: 3,
@@ -81,6 +91,7 @@ describe("getUniqueDetachments", () => {
             maritalStatus: null,
             maritalStatusEn: null,
             maritalStatusId: null,
+            origin: testOrigin,
           },
         ],
       ],
@@ -119,6 +130,7 @@ describe("getUniqueDetachments", () => {
             maritalStatus: "Married",
             maritalStatusEn: "Married",
             maritalStatusId: 2,
+            origin: testOrigin,
           },
         ],
       ],
@@ -144,6 +156,7 @@ describe("getUniqueDetachments", () => {
             maritalStatus: "Single",
             maritalStatusEn: "Single",
             maritalStatusId: 1,
+            origin: testOrigin,
           },
         ],
       ],
