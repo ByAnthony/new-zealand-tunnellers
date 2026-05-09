@@ -118,7 +118,7 @@ export function HowToCite({
 
   const handleCopy = () => {
     if (citationRef.current) {
-      const citationText = citationRef.current.innerText;
+      const citationText = citationRef.current.textContent ?? "";
       navigator.clipboard
         .writeText(citationText)
         .then(() => {

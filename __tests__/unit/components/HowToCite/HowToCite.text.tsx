@@ -32,6 +32,58 @@ describe("HowToCite", () => {
     jest.restoreAllMocks();
   });
 
+  test("copies the same plain text rendered for a regular citation", async () => {
+    const writeTextSpy = jest
+      .spyOn(navigator.clipboard, "writeText")
+      .mockResolvedValue(undefined);
+
+    const { container } = render(
+      <HowToCite title="Beneath Artois Fields" locale="en" />,
+    );
+
+    fireEvent.click(screen.getByRole("button", { name: "Copy to clipboard" }));
+
+    await waitFor(() => {
+      expect(writeTextSpy).toHaveBeenCalledWith(
+        container.querySelector("p")?.textContent,
+      );
+    });
+
+    jest.restoreAllMocks();
+  });
+
+  test("copies the same plain text rendered for a book citation", async () => {
+    const writeTextSpy = jest
+      .spyOn(navigator.clipboard, "writeText")
+      .mockResolvedValue(undefined);
+
+    const { container } = render(
+      <HowToCite
+        chapterTitle="Prologue"
+        pathname="/books/kiwis-dig-tunnels-too/prologue/"
+        locale="en"
+      />,
+    );
+
+    fireEvent.click(screen.getByRole("button", { name: "Copy to clipboard" }));
+
+    await waitFor(() => {
+      expect(writeTextSpy).toHaveBeenCalledWith(
+        container.querySelector("p")?.textContent,
+      );
+    });
+
+    const copiedText =
+      writeTextSpy.mock.calls[writeTextSpy.mock.calls.length - 1][0];
+
+    expect(copiedText).toContain(
+      "www.nztunnellers.com/books/kiwis-dig-tunnels-too/prologue",
+    );
+    expect(copiedText).not.toContain("prologue/");
+
+    jest.restoreAllMocks();
+  });
+
   test("clipboard error", async () => {
     jest
       .spyOn(navigator.clipboard, "writeText")
