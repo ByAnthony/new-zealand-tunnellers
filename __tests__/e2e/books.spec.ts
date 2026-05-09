@@ -259,9 +259,14 @@ test("EN HowToCite: shows correct citation for a book chapter", async ({
     "Chapter 1: The Tunnellers from the Antipodes",
   );
   await expect(citation).toContainText("Kiwis Dig Tunnels Too");
-  await expect(citation).toContainText("Accessed");
+  await expect(citation).toContainText("New Zealand Tunnellers, 2009.");
+  await expect(citation).toContainText("Available at:");
+  await expect(citation).toContainText("(Accessed:");
   await expect(citation).toContainText(
     "www.nztunnellers.com/books/kiwis-dig-tunnels-too/chapter-1-the-tunnellers-from-the-antipodes",
+  );
+  await expect(citation).not.toContainText(
+    "www.nztunnellers.com/books/kiwis-dig-tunnels-too/chapter-1-the-tunnellers-from-the-antipodes/",
   );
 });
 
@@ -278,8 +283,13 @@ test("FR HowToCite: shows correct citation for a book chapter", async ({
   await expect(citation).toContainText("Anthony Byledbal");
   await expect(citation).toContainText("Les Tunneliers des antipodes");
   await expect(citation).toContainText("Les Kiwis aussi creusent des tunnels");
-  await expect(citation).toContainText("Consulté le");
+  await expect(citation).toContainText("New Zealand Tunnellers, 2009.");
+  await expect(citation).toContainText("Disponible à");
+  await expect(citation).toContainText("(Consulté le");
   await expect(citation).toContainText(
     "www.nztunnellers.com/fr/books/kiwis-dig-tunnels-too/chapter-1-the-tunnellers-from-the-antipodes",
+  );
+  await expect(citation).not.toContainText(
+    "www.nztunnellers.com/fr/books/kiwis-dig-tunnels-too/chapter-1-the-tunnellers-from-the-antipodes/",
   );
 });
