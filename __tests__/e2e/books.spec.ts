@@ -121,7 +121,7 @@ test("FR chapter: breadcrumb navigates to Resources and table of contents", asyn
 
   const resourcesLink = page.getByLabel("Aller à la section Ressources");
   await expect(resourcesLink).toBeVisible();
-  await expect(resourcesLink).toHaveAttribute("href", "/fr/#resources");
+  await expect(resourcesLink).toHaveAttribute("href", "/fr#resources");
 
   await page.getByRole("link", { name: "Aller au sommaire" }).click();
 
