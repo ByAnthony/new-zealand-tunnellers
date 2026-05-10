@@ -1,15 +1,13 @@
-import { NextRequest, NextResponse } from "next/server";
+import { legacyPermanentRedirect } from "@/utils/helpers/legacyRedirect";
 
-function redirectLegacyFrenchRollIndex(request: NextRequest) {
-  return NextResponse.redirect(new URL("/fr/tunnellers/", request.url), {
-    status: 308,
-  });
+function redirectLegacyFrenchRollIndex() {
+  return legacyPermanentRedirect("/fr/tunnellers/");
 }
 
-export function GET(request: NextRequest) {
-  return redirectLegacyFrenchRollIndex(request);
+export function GET() {
+  return redirectLegacyFrenchRollIndex();
 }
 
-export function HEAD(request: NextRequest) {
-  return redirectLegacyFrenchRollIndex(request);
+export function HEAD() {
+  return redirectLegacyFrenchRollIndex();
 }

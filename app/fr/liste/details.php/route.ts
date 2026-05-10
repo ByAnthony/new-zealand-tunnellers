@@ -1,19 +1,21 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 
-function redirectLegacyFrenchRollDetails(request: NextRequest) {
+import {
+  getLegacyTunnellerRedirectPath,
+  legacyPermanentRedirect,
+} from "@/utils/helpers/legacyRedirect";
+
+async function redirectLegacyFrenchRollDetails(request: NextRequest) {
   const id = request.nextUrl.searchParams.get("id");
-  const path =
-    id && /^\d+$/.test(id) ? `/fr/tunnellers/${id}/` : "/fr/tunnellers/";
+  const path = await getLegacyTunnellerRedirectPath(id, "fr");
 
-  return NextResponse.redirect(new URL(path, request.url), {
-    status: 308,
-  });
+  return legacyPermanentRedirect(path);
 }
 
-export function GET(request: NextRequest) {
+export async function GET(request: NextRequest) {
   return redirectLegacyFrenchRollDetails(request);
 }
 
-export function HEAD(request: NextRequest) {
+export async function HEAD(request: NextRequest) {
   return redirectLegacyFrenchRollDetails(request);
 }
