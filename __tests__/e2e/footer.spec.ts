@@ -3,7 +3,7 @@ import { test, expect } from "@playwright/test";
 test("can navigate to the history section on the homepage", async ({
   page,
 }) => {
-  await page.goto("/about-us/");
+  await page.goto("/about-us");
 
   const history = page.getByRole("link", { name: "History" });
 
@@ -16,7 +16,7 @@ test("can navigate to the history section on the homepage", async ({
 });
 
 test("can navigate to the tunnellers page", async ({ page }) => {
-  await page.goto("/about-us/");
+  await page.goto("/about-us");
 
   const tunnellers = page.getByRole("link", { name: "Tunnellers" });
 
@@ -30,7 +30,7 @@ test("can navigate to the tunnellers page", async ({ page }) => {
 test("can navigate to the resources section on the homepage", async ({
   page,
 }) => {
-  await page.goto("/about-us/");
+  await page.goto("/about-us");
 
   const resources = page.getByRole("link", { name: "Resources" });
 
@@ -43,7 +43,7 @@ test("can navigate to the resources section on the homepage", async ({
 });
 
 test("can navigate to the about us page", async ({ page }) => {
-  await page.goto("/tunnellers/");
+  await page.goto("/tunnellers");
 
   const aboutUs = page.getByRole("link", { name: "About Us" });
 
@@ -55,7 +55,7 @@ test("can navigate to the about us page", async ({ page }) => {
 });
 
 test("can click on the Artois University logo", async ({ page }) => {
-  await page.goto("/about-us/");
+  await page.goto("/about-us");
 
   const logo = page.getByLabel("Go to The Artois University website");
 
@@ -64,7 +64,7 @@ test("can click on the Artois University logo", async ({ page }) => {
 });
 
 test("can click on the irsem logo", async ({ page }) => {
-  await page.goto("/about-us/");
+  await page.goto("/about-us");
 
   const logo = page.getByLabel(
     "Go to The Institute for Strategic Research website",

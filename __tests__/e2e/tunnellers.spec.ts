@@ -1,8 +1,8 @@
 import { test, expect } from "@playwright/test";
 
 test("can change page and click on a name", async ({ page }) => {
-  await page.goto("/tunnellers/?page=36");
-  await expect(page).toHaveURL(/\/tunnellers\/\?page=36/);
+  await page.goto("/tunnellers?page=36");
+  await expect(page).toHaveURL(/\/tunnellers\?page=36/);
 
   const tunneller = page.getByRole("link", {
     name: "Sapper Claude Percival Wells",
@@ -159,7 +159,7 @@ test("filters persist when switching language", async ({ page }) => {
   await expect(page.getByText("31 results")).toBeVisible();
 
   await page.getByRole("link", { name: "Français" }).click();
-  await page.waitForURL(/\/fr\/tunnellers\//, { waitUntil: "load" });
+  await page.waitForURL(/\/fr\/tunnellers/, { waitUntil: "load" });
 
   await expect(page.getByText("31 résultats")).toBeVisible();
   await expect(page).toHaveURL(/detachment=/);

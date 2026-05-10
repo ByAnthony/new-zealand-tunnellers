@@ -9,8 +9,8 @@ test("can navigate to next chapters", async ({ page }) => {
   await chapter2Link.hover();
   await chapter2Link.click();
 
-  await page.waitForURL("/history/journey-to-war/", { waitUntil: "load" });
-  await expect(page).toHaveURL("/history/journey-to-war/");
+  await page.waitForURL("/history/journey-to-war", { waitUntil: "load" });
+  await expect(page).toHaveURL("/history/journey-to-war");
   await expect(
     page.getByRole("heading", { name: "Journey To War", exact: true }),
   ).toBeVisible();
@@ -20,10 +20,10 @@ test("can navigate to next chapters", async ({ page }) => {
   await chapter3Link.hover();
   await chapter3Link.click();
 
-  await page.waitForURL("/history/beneath-artois-fields/", {
+  await page.waitForURL("/history/beneath-artois-fields", {
     waitUntil: "load",
   });
-  await expect(page).toHaveURL("/history/beneath-artois-fields/");
+  await expect(page).toHaveURL("/history/beneath-artois-fields");
   await expect(
     page.getByRole("heading", { name: "Beneath Artois Fields", exact: true }),
   ).toBeVisible();
@@ -33,7 +33,7 @@ test("can navigate to next chapters", async ({ page }) => {
 test("can navigate between a history chapter and its related map period", async ({
   page,
 }) => {
-  await page.goto("/history/beneath-artois-fields/");
+  await page.goto("/history/beneath-artois-fields");
 
   await expect(
     page.getByRole("heading", { name: "Beneath Artois Fields", exact: true }),
@@ -51,10 +51,10 @@ test("can navigate between a history chapter and its related map period", async 
 
   await page.getByRole("link", { name: "About this period" }).click();
 
-  await page.waitForURL("/history/beneath-artois-fields/", {
+  await page.waitForURL("/history/beneath-artois-fields", {
     waitUntil: "load",
   });
-  await expect(page).toHaveURL("/history/beneath-artois-fields/");
+  await expect(page).toHaveURL("/history/beneath-artois-fields");
   await expect(
     page.getByRole("heading", { name: "Beneath Artois Fields", exact: true }),
   ).toBeVisible();

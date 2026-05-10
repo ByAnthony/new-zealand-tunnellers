@@ -54,13 +54,13 @@ test("can search and click on a name", async ({ page }) => {
   await expect(search).toHaveValue("joseph");
   await expect(page.getByTestId("dropdown")).toBeVisible();
   await Promise.all([
-    page.waitForURL("/tunnellers/joseph-kelly--37713/", {
+    page.waitForURL("/tunnellers/joseph-kelly--37713", {
       waitUntil: "domcontentloaded",
     }),
     page.getByLabel("See Joseph Kelly profile").click(),
   ]);
 
-  await expect(page).toHaveURL("/tunnellers/joseph-kelly--37713/");
+  await expect(page).toHaveURL("/tunnellers/joseph-kelly--37713");
 });
 
 test("can close the dropdown by clicking outside", async ({ page }) => {
@@ -129,14 +129,14 @@ test("can switch from English to French", async ({ page }) => {
   await page.goto("/");
 
   await page.getByRole("link", { name: "Français" }).click();
-  await page.waitForURL("/fr/", { waitUntil: "load" });
+  await page.waitForURL("/fr", { waitUntil: "load" });
 
-  await expect(page).toHaveURL("/fr/");
+  await expect(page).toHaveURL("/fr");
   await expect(page.getByRole("link", { name: "English" })).toBeVisible();
 });
 
 test("can switch from French to English", async ({ page }) => {
-  await page.goto("/fr/");
+  await page.goto("/fr");
 
   await page.getByRole("link", { name: "English" }).click();
   await page.waitForURL("/", { waitUntil: "load" });
@@ -159,6 +159,6 @@ test("can go to the tunnellers page", async ({ page }) => {
   await expect(link).toBeVisible();
 
   await link.click();
-  await expect(page).toHaveURL("/tunnellers/");
+  await expect(page).toHaveURL("/tunnellers");
   await expect(page.getByTestId("dropdown")).not.toBeVisible();
 });
