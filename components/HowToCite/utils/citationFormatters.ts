@@ -1,3 +1,5 @@
+import enMessages from "@/messages/en.json";
+import frMessages from "@/messages/fr.json";
 import type { Summary } from "@/types/tunneller";
 import { bookTitle } from "@/utils/helpers/books/basePathUtil";
 import { displayBiographyDates } from "@/utils/helpers/roll";
@@ -19,6 +21,11 @@ type CitationUrlParams = {
   pathname?: string;
   locale?: string;
 };
+
+const citationMessages = {
+  en: enMessages.howToCite,
+  fr: frMessages.howToCite,
+} as const;
 
 export function sentenceCase(str: string): string {
   const lower = str.toLowerCase();
@@ -97,7 +104,7 @@ export function buildCitationUrl({
   locale = "en",
 }: CitationUrlParams): string {
   if (pathname) {
-    return `www.nztunnellers.com${pathname}`;
+    return `www.nztunnellers.com${pathname.replace(/\/+$/, "")}`;
   }
 
   const localePrefix = locale === "en" ? "" : `/${locale}`;
@@ -123,17 +130,30 @@ export function buildCitationUrl({
   return `www.nztunnellers.com${localePrefix}/`;
 }
 
+export function getCitationAvailableAtLabel(locale: string): string {
+  const messages =
+    citationMessages[locale as keyof typeof citationMessages] ??
+    citationMessages.en;
+
+  return messages.availableAt;
+}
+
 export function formatCitationDate(
   now: Date,
   locale: string,
   timeZone: string,
 ) {
-  return new Intl.DateTimeFormat(locale === "en" ? "en-NZ" : "fr-FR", {
+  const parts = new Intl.DateTimeFormat(locale === "en" ? "en-NZ" : "fr-FR", {
     day: "numeric",
     month: "long",
     year: "numeric",
     timeZone,
-  }).format(now);
+  }).formatToParts(now);
+  const day = parts.find((part) => part.type === "day")?.value;
+  const month = parts.find((part) => part.type === "month")?.value;
+  const year = parts.find((part) => part.type === "year")?.value;
+
+  return [day, month].filter(Boolean).join("\u00A0") + (year ? ` ${year}` : "");
 }
 
 export function formatCitationYear(

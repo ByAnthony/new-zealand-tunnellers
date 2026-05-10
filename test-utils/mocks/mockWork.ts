@@ -3,6 +3,7 @@ import { WorkData } from "@/utils/database/queries/worksQuery";
 export const mockWork: WorkData = {
   work_id: 1,
   work_name: "Corona Cave",
+  work_name_fr: null,
   work_type_en: null,
   work_type_fr: null,
   work_category_1_en: "Dugout",
@@ -14,6 +15,8 @@ export const mockWork: WorkData = {
   work_date_end: "1917-07-15",
   work_latitude: 50.305,
   work_longitude: 2.876,
+  work_note_en: null,
+  work_note_fr: null,
 };
 
 export const mockWorkTwoCategories: WorkData = {

@@ -62,10 +62,10 @@ describe("Timeline", () => {
     expect(
       findElementWithText("World War I Timeline of John Smith"),
     ).toBeInTheDocument();
-    expect(screen.getByText(/Accessed: 4 May 2023/)).toBeInTheDocument();
+    expect(screen.getByText(/(Accessed: 4 May 2023)/)).toBeInTheDocument();
     expect(
       screen.getByText(
-        /URL: www.nztunnellers.com\/tunnellers\/harry-corrin--4_1415\/wwi-timeline/,
+        /Available at: www.nztunnellers.com\/tunnellers\/harry-corrin--4_1415\/wwi-timeline/,
       ),
     ).toBeInTheDocument();
   });

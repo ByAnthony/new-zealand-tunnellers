@@ -1,5 +1,7 @@
+import { PoolConnection } from "mysql2/promise";
 import { redirect } from "next/navigation";
 
+import { mockTunnellerProfile } from "@/test-utils/mocks/mockTunneller";
 import { getTunneller } from "@/utils/database/getTunneller";
 import { getTunnellerBySlug } from "@/utils/database/getTunnellerBySlug";
 import { tunnellerSlugByIdQuery } from "@/utils/database/queries/tunnellerSlugByIdQuery";
@@ -14,7 +16,7 @@ jest.mock("@/utils/database/queries/tunnellerSlugByIdQuery");
 jest.mock("@/utils/database/withConnection");
 
 describe("getTunnellerBySlug", () => {
-  const mockConnection = {};
+  const mockConnection = {} as PoolConnection;
   const mockRedirect = jest.mocked(redirect);
   const mockGetTunneller = jest.mocked(getTunneller);
   const mockTunnellerSlugByIdQuery = jest.mocked(tunnellerSlugByIdQuery);
@@ -62,8 +64,8 @@ describe("getTunnellerBySlug", () => {
   });
 
   test("returns tunneller data for non-numeric slugs", async () => {
-    const tunneller = { slug: "john-doe--1" };
-    mockGetTunneller.mockResolvedValue(tunneller as never);
+    const tunneller = { ...mockTunnellerProfile, slug: "john-doe--1" };
+    mockGetTunneller.mockResolvedValue(tunneller);
 
     await expect(getTunnellerBySlug("john-doe--1", "en")).resolves.toBe(
       tunneller,
@@ -78,9 +80,9 @@ describe("getTunnellerBySlug", () => {
   });
 
   test("falls through to getTunneller when numeric slug lookup misses", async () => {
-    const tunneller = { slug: "1" };
+    const tunneller = { ...mockTunnellerProfile, slug: "1" };
     mockTunnellerSlugByIdQuery.mockResolvedValue(null);
-    mockGetTunneller.mockResolvedValue(tunneller as never);
+    mockGetTunneller.mockResolvedValue(tunneller);
 
     await expect(getTunnellerBySlug("1", "en")).resolves.toBe(tunneller);
 

@@ -2,6 +2,14 @@ import { getUniqueCorps } from "@/components/Roll/utils/corpsUtils";
 import { mockTunnellers } from "@/test-utils/mocks/mockTunnellers";
 import { Tunneller } from "@/types/tunnellers";
 
+const testOrigin = {
+  residence: {
+    town: null,
+    latitude: null,
+    longitude: null,
+  },
+};
+
 describe("getUniqueDetachments", () => {
   test("returns unique detachments sorted correctly", () => {
     const result = getUniqueCorps(Object.entries(mockTunnellers));
@@ -40,6 +48,7 @@ describe("getUniqueDetachments", () => {
             maritalStatus: "Married",
             maritalStatusEn: "Married",
             maritalStatusId: 2,
+            origin: testOrigin,
           },
         ],
       ],
@@ -65,6 +74,7 @@ describe("getUniqueDetachments", () => {
             maritalStatus: "Single",
             maritalStatusEn: "Single",
             maritalStatusId: 1,
+            origin: testOrigin,
           },
         ],
       ],

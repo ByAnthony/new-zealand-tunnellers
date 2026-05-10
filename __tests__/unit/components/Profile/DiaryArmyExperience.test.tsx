@@ -6,11 +6,11 @@ import {
   mockArmyExperienceList,
 } from "@/test-utils/mocks/mockTunneller";
 
-const mockId = 1;
+const mockSlug = "john-smith--1_1000";
 
 const component = (
   <DiaryArmyExperience
-    tunnellerId={mockId}
+    tunnellerSlug={mockSlug}
     armyExperience={mockArmyExperienceList}
   />
 );
@@ -31,7 +31,7 @@ test("renders army experience when known", () => {
 test("renders army experience when country is United Kingdom", () => {
   const mockComponent = (
     <DiaryArmyExperience
-      tunnellerId={mockId}
+      tunnellerSlug={mockSlug}
       armyExperience={[
         {
           ...mockArmyExperience,
@@ -53,7 +53,7 @@ test("renders army experience when country is United Kingdom", () => {
 test("renders army experience when duration unknown", () => {
   const mockComponent = (
     <DiaryArmyExperience
-      tunnellerId={mockId}
+      tunnellerSlug={mockSlug}
       armyExperience={[
         {
           ...mockArmyExperience,
@@ -72,7 +72,7 @@ test("renders army experience when duration unknown", () => {
 test("renders army experience when duration unknown and country is United Kingdom", () => {
   const mockComponent = (
     <DiaryArmyExperience
-      tunnellerId={mockId}
+      tunnellerSlug={mockSlug}
       armyExperience={[
         {
           ...mockArmyExperience,
@@ -94,7 +94,7 @@ test("renders army experience when duration unknown and country is United Kingdo
 test("renders army experience when country unknown", () => {
   const mockComponent = (
     <DiaryArmyExperience
-      tunnellerId={mockId}
+      tunnellerSlug={mockSlug}
       armyExperience={[
         {
           ...mockArmyExperience,
@@ -114,7 +114,7 @@ test("renders army experience when country unknown", () => {
 test("renders army experience when country and duration unknown", () => {
   const mockComponent = (
     <DiaryArmyExperience
-      tunnellerId={mockId}
+      tunnellerSlug={mockSlug}
       armyExperience={[
         {
           ...mockArmyExperience,
@@ -136,7 +136,7 @@ test("renders army experience when country and duration unknown", () => {
 test("renders conflict experience", () => {
   const mockComponent = (
     <DiaryArmyExperience
-      tunnellerId={mockId}
+      tunnellerSlug={mockSlug}
       armyExperience={[
         {
           ...mockArmyExperience,
@@ -159,7 +159,7 @@ test("renders conflict experience", () => {
 test("renders conflict experience when duration unknown", () => {
   const mockComponent = (
     <DiaryArmyExperience
-      tunnellerId={mockId}
+      tunnellerSlug={mockSlug}
       armyExperience={[
         {
           ...mockArmyExperience,
@@ -182,7 +182,7 @@ test("renders conflict experience when duration unknown", () => {
 test("renders conflict experience when unit known", () => {
   const mockComponent = (
     <DiaryArmyExperience
-      tunnellerId={mockId}
+      tunnellerSlug={mockSlug}
       armyExperience={[
         {
           ...mockArmyExperience,
@@ -203,7 +203,7 @@ test("renders conflict experience when unit known", () => {
 });
 
 test("does not render army experience when unknown", () => {
-  render(<DiaryArmyExperience tunnellerId={mockId} armyExperience={[]} />);
+  render(<DiaryArmyExperience tunnellerSlug={mockSlug} armyExperience={[]} />);
 
   expect(screen.queryByRole("list")).not.toBeInTheDocument();
 });

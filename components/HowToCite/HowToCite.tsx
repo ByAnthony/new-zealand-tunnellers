@@ -13,7 +13,7 @@ import {
   buildCitationUrl,
   formatCitationDate,
   formatBookSubpath,
-  formatCitationYear,
+  getCitationAvailableAtLabel,
 } from "./utils/citationFormatters";
 
 type Props = {
@@ -52,12 +52,12 @@ export function HowToCiteUrl({
     pathname,
     locale,
   });
-  const urlLabel = locale === "fr" ? "URL\u00A0: " : "URL: ";
+  const availableAtLabel = getCitationAvailableAtLabel(locale);
 
   if (pathname) {
     return (
       <span>
-        {urlLabel}
+        {availableAtLabel}
         <wbr />
         {fullUrl}
       </span>
@@ -66,7 +66,7 @@ export function HowToCiteUrl({
 
   return (
     <span>
-      {urlLabel}
+      {availableAtLabel}
       <wbr />
       {fullUrl}
     </span>
@@ -96,10 +96,6 @@ export function HowToCite({
     () => formatCitationDate(now, locale, userTimeZone),
     [locale, now, userTimeZone],
   );
-  const currentYear = useMemo(
-    () => formatCitationYear(now, locale, userTimeZone),
-    [locale, now, userTimeZone],
-  );
   const accessedLabel = locale === "en" ? "Accessed: " : "Consulté le\u00A0: ";
   const citationAuthorPrefix = summary ? "" : "Anthony Byledbal, ";
   const citationTitle = useMemo(
@@ -122,7 +118,7 @@ export function HowToCite({
 
   const handleCopy = () => {
     if (citationRef.current) {
-      const citationText = citationRef.current.innerText;
+      const citationText = citationRef.current.textContent ?? "";
       navigator.clipboard
         .writeText(citationText)
         .then(() => {
@@ -178,13 +174,11 @@ export function HowToCite({
         )}
         ,{" "}
         {citationChapterTitle ? (
-          "New Zealand Tunnellers Website"
+          "New Zealand Tunnellers"
         ) : (
-          <em>New Zealand Tunnellers Website</em>
+          <em>New Zealand Tunnellers</em>
         )}
-        {`, ${currentYear} (2009), ${accessedLabel}`}
-        {currentDate}
-        {". "}
+        {", 2009. "}
         <HowToCiteUrl
           tunnellerSlug={tunnellerSlug}
           title={title}
@@ -193,6 +187,9 @@ export function HowToCite({
           pathname={pathname}
           locale={locale}
         />
+        {` (${accessedLabel}`}
+        {currentDate}
+        {")"}
       </p>
     </div>
   );

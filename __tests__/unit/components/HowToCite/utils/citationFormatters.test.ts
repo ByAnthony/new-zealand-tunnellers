@@ -2,6 +2,8 @@ import {
   buildCitationTitle,
   buildCitationUrl,
   formatBookSubpath,
+  formatCitationDate,
+  getCitationAvailableAtLabel,
 } from "@/components/HowToCite/utils/citationFormatters";
 
 describe("citationFormatters", () => {
@@ -29,6 +31,7 @@ describe("citationFormatters", () => {
     expect(
       buildCitationTitle({
         summary: {
+          serial: "1/1000",
           name: {
             forename: "John",
             surname: "Doe",
@@ -61,9 +64,29 @@ describe("citationFormatters", () => {
     ).toBe("www.nztunnellers.com/fr/tunnellers/john-doe/wwi-timeline");
   });
 
+  test("removes trailing slashes from pathname URLs", () => {
+    expect(
+      buildCitationUrl({
+        pathname: "/books/kiwis-dig-tunnels-too/prologue/",
+      }),
+    ).toBe("www.nztunnellers.com/books/kiwis-dig-tunnels-too/prologue");
+  });
+
   test("formats a chapter path fragment", () => {
     expect(
       formatBookSubpath("/book/chapter-12-bridging-at-the-end", "en"),
     ).toBe("Chapter 12: Bridging at the end");
+  });
+
+  test("gets translated available-at labels", () => {
+    expect(getCitationAvailableAtLabel("en")).toBe("Available at: ");
+    expect(getCitationAvailableAtLabel("fr")).toBe("Disponible à\u00A0: ");
+  });
+
+  test("formats citation dates with a non-breaking space between day and month", () => {
+    const date = new Date("2026-05-09T12:00:00.000Z");
+
+    expect(formatCitationDate(date, "en", "UTC")).toBe("9\u00A0May 2026");
+    expect(formatCitationDate(date, "fr", "UTC")).toBe("9\u00A0mai 2026");
   });
 });
