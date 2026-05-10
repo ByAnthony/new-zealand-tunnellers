@@ -1,0 +1,98 @@
+@use "app/variables.module.scss";
+
+.container {
+  @include variables.component-margin;
+
+  & {
+    position: relative;
+    box-sizing: border-box;
+    min-height: calc(100svh - 8rem);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-width: variables.$inner-width;
+    padding-top: variables.$l-margin;
+    padding-bottom: variables.$l-margin;
+    z-index: 0;
+  }
+
+  &::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    background-image: url("/images/not-found/Q_069984.jpg");
+    background-size: cover;
+    background-position: center;
+  }
+
+  &::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background:
+      linear-gradient(
+        90deg,
+        rgb(24 26 27 / 0.92) 0%,
+        rgb(24 26 27 / 0.78) 45%,
+        rgb(24 26 27 / 0.5) 100%
+      ),
+      rgb(24 26 27 / 0.25);
+  }
+
+  @include variables.desktop {
+    margin-left: auto;
+    margin-right: auto;
+    min-height: calc(100svh - 10rem);
+  }
+
+  h1 {
+    margin: 0;
+    font-size: 2.75rem;
+    font-weight: 500;
+    line-height: 1;
+
+    @include variables.tablet {
+      font-size: 4rem;
+    }
+
+    @include variables.desktop {
+      font-size: 5rem;
+    }
+  }
+}
+
+.copy {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: variables.$s-margin;
+  max-width: variables.$inner-width;
+  text-align: center;
+}
+
+.code {
+  margin: 0;
+  color: variables.$secondary-color;
+  font-size: 0.9rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.description {
+  max-width: 35rem;
+  margin: 0;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+.link {
+  @include variables.text-link;
+
+  & {
+    margin-top: variables.$xs-margin;
+    font-size: 1rem;
+  }
+}

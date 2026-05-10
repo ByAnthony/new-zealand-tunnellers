@@ -16,6 +16,11 @@
   "howToCite": {
     "availableAt": "Disponible à\u00A0: "
   },
+  "notFound": {
+    "title": "Tunnel introuvable",
+    "description": "Ce passage semble s'être effondré ou mener à la mauvaise tranchée.",
+    "home": "Retour à la surface"
+  },
   "nav": {
     "history": "Histoire",
     "tunnellers": "Tunneliers",

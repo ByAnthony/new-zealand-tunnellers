@@ -12,6 +12,8 @@ import { MenuContainer } from "@/components/Menu/MenuContainer";
 import { NewRelicBrowserAgent } from "@/components/NewRelicBrowserAgent/NewRelicBrowserAgent";
 import { BASE_URL, ogLocale, pageUrl } from "@/utils/helpers/metadata";
 
+import "../globals.scss";
+
 type Props = {
   children: ReactNode;
   params: Promise<{ locale: string }>;
