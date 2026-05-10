@@ -17,7 +17,7 @@
     "availableAt": "Available at: "
   },
   "notFound": {
-    "title": "Tunnel not found",
+    "title": "Tunnel Not Found",
     "description": "This passage seems to have caved in or led to the wrong trench.",
     "home": "Return to the surface"
   },
