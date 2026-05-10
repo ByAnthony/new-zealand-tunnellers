@@ -36,6 +36,7 @@ export function Menu({ tunnellers }: Props) {
   const tNav = useTranslations("nav");
   const locale = useLocale();
   const localePrefix = locale === "en" ? "" : `/${locale}`;
+  const homepageHref = locale === "en" ? "/" : localePrefix;
   const pathname = usePathname();
   const switchLocaleBase =
     locale === "en" ? `/fr${pathname}` : pathname.replace(/^\/fr/, "") || "/";
@@ -151,7 +152,7 @@ export function Menu({ tunnellers }: Props) {
       className={`${STYLES.menu} ${menuVisible ? "" : STYLES.hidden}`}
     >
       <Link
-        href={`${localePrefix}/`}
+        href={homepageHref}
         className={STYLES.logo}
         aria-label={tNav("goToHomepage")}
       >

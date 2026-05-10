@@ -13,10 +13,10 @@ const locales = ["en", "fr"];
 
 const staticRoutes = [
   "/",
-  "/tunnellers/",
-  "/about-us/",
-  "/maps/tunnellers-works/",
-  "/books/kiwis-dig-tunnels-too/",
+  "/tunnellers",
+  "/about-us",
+  "/maps/tunnellers-works",
+  "/books/kiwis-dig-tunnels-too",
 ];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -44,23 +44,23 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     for (const slug of slugs) {
       for (const locale of locales) {
-        entries.push({ url: pageUrl(locale, `/tunnellers/${slug}/`) });
+        entries.push({ url: pageUrl(locale, `/tunnellers/${slug}`) });
         entries.push({
-          url: pageUrl(locale, `/tunnellers/${slug}/wwi-timeline/`),
+          url: pageUrl(locale, `/tunnellers/${slug}/wwi-timeline`),
         });
       }
     }
 
     for (const id of articleIds) {
       for (const locale of locales) {
-        entries.push({ url: pageUrl(locale, `/history/${id}/`) });
+        entries.push({ url: pageUrl(locale, `/history/${id}`) });
       }
     }
 
     for (const id of bookChapterIds) {
       for (const locale of locales) {
         entries.push({
-          url: pageUrl(locale, `/books/kiwis-dig-tunnels-too/${id}/`),
+          url: pageUrl(locale, `/books/kiwis-dig-tunnels-too/${id}`),
         });
       }
     }

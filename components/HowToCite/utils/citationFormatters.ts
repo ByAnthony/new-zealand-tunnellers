@@ -127,7 +127,9 @@ export function buildCitationUrl({
     return `www.nztunnellers.com${localePrefix}/history/${historySlug}`;
   }
 
-  return `www.nztunnellers.com${localePrefix}/`;
+  return localePrefix
+    ? `www.nztunnellers.com${localePrefix}`
+    : "www.nztunnellers.com/";
 }
 
 export function getCitationAvailableAtLabel(locale: string): string {

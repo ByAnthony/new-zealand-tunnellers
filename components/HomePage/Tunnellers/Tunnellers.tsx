@@ -142,7 +142,7 @@ export function Tunnellers() {
       </div>
       <div className={STYLES["roll-wrapper"]}>
         <div className={STYLES["roll-container"]}>
-          <Link href={`${localePrefix}/tunnellers/`} className={STYLES.roll}>
+          <Link href={`${localePrefix}/tunnellers`} className={STYLES.roll}>
             <span className={STYLES.discover}>{t("discover")}</span>
             {t("nzTunnellers")}
           </Link>

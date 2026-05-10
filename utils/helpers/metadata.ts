@@ -1,7 +1,17 @@
 export const BASE_URL = "https://www.nztunnellers.com";
 
-export const pageUrl = (locale: string, path: string) =>
-  locale === "en" ? `${BASE_URL}${path}` : `${BASE_URL}/fr${path}`;
+const removeTrailingSlash = (path: string) =>
+  path === "/" ? "" : path.replace(/\/$/, "");
+
+export const pageUrl = (locale: string, path: string) => {
+  const normalizedPath = removeTrailingSlash(path);
+
+  if (locale === "en") {
+    return normalizedPath ? `${BASE_URL}${normalizedPath}` : `${BASE_URL}/`;
+  }
+
+  return normalizedPath ? `${BASE_URL}/fr${normalizedPath}` : `${BASE_URL}/fr`;
+};
 
 export const ogLocale = (locale: string) =>
   locale === "fr" ? "fr_FR" : "en_NZ";

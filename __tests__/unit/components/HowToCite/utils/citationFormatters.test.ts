@@ -72,6 +72,10 @@ describe("citationFormatters", () => {
     ).toBe("www.nztunnellers.com/books/kiwis-dig-tunnels-too/prologue");
   });
 
+  test("builds a French homepage URL without a trailing slash", () => {
+    expect(buildCitationUrl({ locale: "fr" })).toBe("www.nztunnellers.com/fr");
+  });
+
   test("formats a chapter path fragment", () => {
     expect(
       formatBookSubpath("/book/chapter-12-bridging-at-the-end", "en"),

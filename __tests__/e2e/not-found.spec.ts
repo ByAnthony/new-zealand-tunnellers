@@ -43,6 +43,6 @@ test("renders the French custom 404 page", async ({ page }) => {
   ).toBeVisible();
   await expect(
     page.getByRole("link", { name: "Retour à la surface" }),
-  ).toHaveAttribute("href", "/fr/");
+  ).toHaveAttribute("href", "/fr");
   await expect(page.locator("footer")).not.toBeVisible();
 });
