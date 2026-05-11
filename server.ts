@@ -26,6 +26,8 @@ const handle = app.getRequestHandler();
 
 type Locale = "en" | "fr";
 
+// Legacy PHP redirects are handled before Next.js so trailingSlash redirects
+// cannot produce absolute localhost Location headers behind the production proxy.
 function permanentRedirect(res: ServerResponse, path: string) {
   res.writeHead(308, { Location: path });
   res.end();
@@ -61,6 +63,9 @@ app.prepare().then(() => {
     const parsedUrl = parse(req.url!, true);
     const pathname = parsedUrl.pathname?.replace(/\/$/, "");
 
+    // Old roll detail pages used query-string IDs, for example:
+    // /roll/details.php?id=274 and /fr/liste/details.php?id=274.
+    // Resolve those IDs to current slug URLs and return relative redirects.
     if (pathname === "/roll/details.php") {
       const path = await getLegacyTunnellerRedirectPath(
         firstQueryValue(parsedUrl.query.id),
