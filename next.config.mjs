@@ -29,7 +29,17 @@ const nextConfig = {
         permanent: true,
       },
       {
+        source: "/roll/details.php",
+        destination: "/tunnellers/",
+        permanent: true,
+      },
+      {
         source: "/fr/liste/index.php",
+        destination: "/fr/tunnellers/",
+        permanent: true,
+      },
+      {
+        source: "/fr/liste/details.php",
         destination: "/fr/tunnellers/",
         permanent: true,
       },
