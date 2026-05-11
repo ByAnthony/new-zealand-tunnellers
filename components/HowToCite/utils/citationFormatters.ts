@@ -27,6 +27,10 @@ const citationMessages = {
   fr: frMessages.howToCite,
 } as const;
 
+function withTrailingSlash(path: string): string {
+  return path.replace(/\/+$/, "") + "/";
+}
+
 export function sentenceCase(str: string): string {
   const lower = str.toLowerCase();
   return lower.charAt(0).toUpperCase() + lower.slice(1);
@@ -104,7 +108,7 @@ export function buildCitationUrl({
   locale = "en",
 }: CitationUrlParams): string {
   if (pathname) {
-    return `www.nztunnellers.com${pathname.replace(/\/+$/, "")}`;
+    return `www.nztunnellers.com${withTrailingSlash(pathname)}`;
   }
 
   const localePrefix = locale === "en" ? "" : `/${locale}`;
@@ -116,15 +120,15 @@ export function buildCitationUrl({
       .toLowerCase();
 
   if (tunnellerSlug && timeline) {
-    return `www.nztunnellers.com${localePrefix}/tunnellers/${tunnellerSlug}/wwi-timeline`;
+    return `www.nztunnellers.com${localePrefix}/tunnellers/${tunnellerSlug}/wwi-timeline/`;
   }
 
   if (tunnellerSlug) {
-    return `www.nztunnellers.com${localePrefix}/tunnellers/${tunnellerSlug}`;
+    return `www.nztunnellers.com${localePrefix}/tunnellers/${tunnellerSlug}/`;
   }
 
   if (historySlug) {
-    return `www.nztunnellers.com${localePrefix}/history/${historySlug}`;
+    return `www.nztunnellers.com${localePrefix}/history/${historySlug}/`;
   }
 
   return `www.nztunnellers.com${localePrefix}/`;
