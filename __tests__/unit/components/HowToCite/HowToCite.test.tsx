@@ -106,9 +106,8 @@ describe("HowToCite", () => {
       writeTextSpy.mock.calls[writeTextSpy.mock.calls.length - 1][0];
 
     expect(copiedText).toContain(
-      "www.nztunnellers.com/books/kiwis-dig-tunnels-too/prologue",
+      "www.nztunnellers.com/books/kiwis-dig-tunnels-too/prologue/",
     );
-    expect(copiedText).not.toContain("prologue/");
 
     jest.restoreAllMocks();
   });

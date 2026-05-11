@@ -51,7 +51,7 @@ describe("citationFormatters", () => {
         title: "Beneath Artois Fields",
         locale: "en",
       }),
-    ).toBe("www.nztunnellers.com/history/beneath-artois-fields");
+    ).toBe("www.nztunnellers.com/history/beneath-artois-fields/");
   });
 
   test("builds a timeline URL for a French tunneller page", () => {
@@ -61,15 +61,23 @@ describe("citationFormatters", () => {
         timeline: true,
         locale: "fr",
       }),
-    ).toBe("www.nztunnellers.com/fr/tunnellers/john-doe/wwi-timeline");
+    ).toBe("www.nztunnellers.com/fr/tunnellers/john-doe/wwi-timeline/");
   });
 
-  test("removes trailing slashes from pathname URLs", () => {
+  test("keeps trailing slashes in pathname URLs", () => {
     expect(
       buildCitationUrl({
         pathname: "/books/kiwis-dig-tunnels-too/prologue/",
       }),
-    ).toBe("www.nztunnellers.com/books/kiwis-dig-tunnels-too/prologue");
+    ).toBe("www.nztunnellers.com/books/kiwis-dig-tunnels-too/prologue/");
+  });
+
+  test("adds trailing slashes to pathname URLs", () => {
+    expect(
+      buildCitationUrl({
+        pathname: "/books/kiwis-dig-tunnels-too/prologue",
+      }),
+    ).toBe("www.nztunnellers.com/books/kiwis-dig-tunnels-too/prologue/");
   });
 
   test("formats a chapter path fragment", () => {
