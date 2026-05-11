@@ -94,33 +94,21 @@ test("can reopen the dropdown by clicking the search", async ({ page }) => {
   await expect(page.getByTestId("dropdown")).toBeVisible();
 });
 
-test("can remove a name", async ({ page }) => {
-  await page.goto("/");
-
-  const search = page.getByPlaceholder("Search for a Tunneller");
-  await typeIntoSearch(search, "david");
-  await expect(search).toHaveValue("david");
-
-  await typeIntoSearch(search, "");
-  await expect(search).toHaveValue("");
-  await expect(page.getByTestId("dropdown")).not.toBeVisible();
-  await expect(search).toHaveAttribute("placeholder", "Search for a Tunneller");
-});
-
 test("can clear a name", async ({ page }) => {
   await page.goto("/");
 
   const search = page.getByPlaceholder("Search for a Tunneller");
+  const clearButton = page.getByRole("button", { name: "Clear search input" });
+
   await typeIntoSearch(search, "david");
   await expect(search).toHaveValue("david");
-  await expect(
-    page.getByRole("button", { name: "Clear search input" }),
-  ).toBeVisible();
+  await expect(clearButton).toBeVisible();
   await expect(page.getByTestId("dropdown")).toBeVisible();
 
-  const clearButton = page.getByRole("button", { name: "Clear search input" });
   await clearButton.click();
 
+  await typeIntoSearch(search, "");
+  await expect(search).toHaveValue("");
   await expect(page.getByTestId("dropdown")).not.toBeVisible();
   await expect(search).toHaveAttribute("placeholder", "Search for a Tunneller");
 });
