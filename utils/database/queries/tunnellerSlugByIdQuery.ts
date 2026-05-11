@@ -4,7 +4,7 @@ export const tunnellerSlugByIdQuery = async (
   id: string,
   connection: PoolConnection,
 ): Promise<string | null> => {
-  const query = `SELECT slug FROM tunneller WHERE id = ${id}`;
-  const [results] = await connection.execute<RowDataPacket[]>(query);
+  const query = "SELECT slug FROM tunneller WHERE id = ?";
+  const [results] = await connection.execute<RowDataPacket[]>(query, [id]);
   return results[0]?.slug ?? null;
 };

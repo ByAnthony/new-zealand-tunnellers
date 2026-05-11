@@ -18,6 +18,10 @@ describe("tunnellerSlugByIdQuery", () => {
     );
 
     expect(result).toBe("harry-corrin--4_1415");
+    expect(mockExecute).toHaveBeenCalledWith(
+      "SELECT slug FROM tunneller WHERE id = ?",
+      ["162"],
+    );
   });
 
   test("returns null when no tunneller is found for the given id", async () => {
