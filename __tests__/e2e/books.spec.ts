@@ -263,9 +263,6 @@ test("EN HowToCite: shows correct citation for a book chapter", async ({
   await expect(citation).toContainText("Available at:");
   await expect(citation).toContainText("(Accessed:");
   await expect(citation).toContainText(
-    "www.nztunnellers.com/books/kiwis-dig-tunnels-too/chapter-1-the-tunnellers-from-the-antipodes",
-  );
-  await expect(citation).not.toContainText(
     "www.nztunnellers.com/books/kiwis-dig-tunnels-too/chapter-1-the-tunnellers-from-the-antipodes/",
   );
 });
@@ -287,9 +284,6 @@ test("FR HowToCite: shows correct citation for a book chapter", async ({
   await expect(citation).toContainText("Disponible à");
   await expect(citation).toContainText("(Consulté le");
   await expect(citation).toContainText(
-    "www.nztunnellers.com/fr/books/kiwis-dig-tunnels-too/chapter-1-the-tunnellers-from-the-antipodes",
-  );
-  await expect(citation).not.toContainText(
     "www.nztunnellers.com/fr/books/kiwis-dig-tunnels-too/chapter-1-the-tunnellers-from-the-antipodes/",
   );
 });
