@@ -16,6 +16,25 @@ const nextConfig = {
     loader: "custom",
     loaderFile: "./utils/imageLoader.ts",
   },
+  async redirects() {
+    return [
+      {
+        source: "/roll/index.php",
+        destination: "/tunnellers/",
+        permanent: true,
+      },
+      {
+        source: "/roll/main.php",
+        destination: "/tunnellers/",
+        permanent: true,
+      },
+      {
+        source: "/fr/liste/index.php",
+        destination: "/fr/tunnellers/",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default withNextIntl(nextConfig);
