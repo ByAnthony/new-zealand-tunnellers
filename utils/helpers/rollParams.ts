@@ -6,6 +6,7 @@ export type Filters = {
   detachment: (number | null)[];
   corps: (number | null)[];
   maritalStatus: number | null;
+  occupationCategory: number | null;
   ranks: Record<string, (number | null)[]>;
   birthYear: string[];
   deathYear: string[];
@@ -16,6 +17,7 @@ export type FilterLookups = {
   detachments: FilterOption[];
   corps: FilterOption[];
   maritalStatuses: FilterOption[];
+  occupationCategories: FilterOption[];
   sortedRanks: Record<string, FilterOption[]>;
   birthYears: string[];
   deathYears: string[];
@@ -100,6 +102,10 @@ export function searchParamsToFilters(
         params.get("marital-status"),
         lookups.maritalStatuses,
       ),
+      occupationCategory: slugToId(
+        params.get("occupation"),
+        lookups.occupationCategories,
+      ),
       ranks: Object.fromEntries(
         Object.entries(lookups.sortedRanks).map(([category, options]) => {
           const paramKey =
@@ -142,6 +148,14 @@ export function filtersToSearchParams(
   if (filters.maritalStatus !== null) {
     const slug = idToSlug(filters.maritalStatus, lookups.maritalStatuses);
     if (slug) params.set("marital-status", slug);
+  }
+
+  if (filters.occupationCategory !== null) {
+    const slug = idToSlug(
+      filters.occupationCategory,
+      lookups.occupationCategories,
+    );
+    if (slug) params.set("occupation", slug);
   }
 
   const rankParamKeys: Record<string, string> = {

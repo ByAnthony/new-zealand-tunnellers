@@ -50,6 +50,7 @@ The tunnellers page/map, and the menu search bar use a cached tunnellers dataset
 | [religion](#religion)                             | Religion lookup                                                 |
 | [marital_status](#marital-status)                 | Marital status lookup                                           |
 | [occupation](#occupation)                         | Occupation lookup                                               |
+| [occupation_category](#occupation-category)       | Occupation category lookup used by roll filters                 |
 | [last_employer](#last-employer)                   | Last employer before enlistment lookup                          |
 | [town](#town)                                     | Town lookup with coordinates                                    |
 | [military_district](#military-district)           | Military district lookup                                        |
@@ -101,6 +102,7 @@ The tunnellers page/map, and the menu search bar use a cached tunnellers dataset
 | tunneller            | `religion_fk`               | religion               | `religion_id`               |
 | tunneller            | `marital_status_fk`         | marital_status         | `marital_status_id`         |
 | tunneller            | `occupation_fk`             | occupation             | `occupation_id`             |
+| occupation           | `occupation_category_fk`    | occupation_category    | `occupation_category_id`    |
 | tunneller            | `last_employer_fk`          | last_employer          | `last_employer_id`          |
 | tunneller            | `town_fk`                   | town                   | `town_id`                   |
 | town                 | `town_country_fk`           | country                | `country_id`                |
@@ -405,11 +407,22 @@ The tunnellers page/map, and the menu search bar use a cached tunnellers dataset
 
 ### Occupation
 
-| Column          | Type       | Key     | Default | Description           |
-| --------------- | ---------- | ------- | ------- | --------------------- |
-| `occupation_id` | `smallint` | Primary | -       | Primary key           |
-| `occupation_en` | `varchar`  | -       | -       | Occupation in English |
-| `occupation_fr` | `varchar`  | -       | -       | Occupation in French  |
+| Column                   | Type       | Key     | Default | Description                                 |
+| ------------------------ | ---------- | ------- | ------- | ------------------------------------------- |
+| `occupation_id`          | `smallint` | Primary | -       | Primary key                                 |
+| `occupation_en`          | `varchar`  | -       | -       | Occupation in English                       |
+| `occupation_fr`          | `varchar`  | -       | -       | Occupation in French                        |
+| `occupation_category_fk` | `tinyint`  | Foreign | -       | Category used by the roll occupation filter |
+
+[↑ Back to Tunnellers Tables](#tunnellers)
+
+### Occupation Category
+
+| Column                   | Type      | Key     | Default | Description                    |
+| ------------------------ | --------- | ------- | ------- | ------------------------------ |
+| `occupation_category_id` | `tinyint` | Primary | -       | Primary key                    |
+| `occupation_category_en` | `varchar` | -       | -       | Occupation category in English |
+| `occupation_category_fr` | `varchar` | -       | -       | Occupation category in French  |
 
 [↑ Back to Tunnellers Tables](#tunnellers)
 

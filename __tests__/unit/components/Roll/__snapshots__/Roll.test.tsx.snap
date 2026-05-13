@@ -296,6 +296,38 @@ exports[`Roll matches the snapshot 1`] = `
               class="filters"
             >
               <h3>
+                Occupation
+              </h3>
+              <select
+                aria-label="Occupation"
+                class="select"
+              >
+                <option
+                  value=""
+                >
+                  All occupations
+                </option>
+                <option
+                  value="1"
+                >
+                  Agriculture and forestry
+                </option>
+                <option
+                  value="2"
+                >
+                  Mining and quarrying
+                </option>
+                <option
+                  value="4"
+                >
+                  Transport and maritime
+                </option>
+              </select>
+            </div>
+            <div
+              class="filters"
+            >
+              <h3>
                 Marital Status
               </h3>
               <div>

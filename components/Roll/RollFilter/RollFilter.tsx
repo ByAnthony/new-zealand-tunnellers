@@ -15,6 +15,7 @@ type Props = {
   uniqueDetachments: FilterOption[];
   uniqueCorps: FilterOption[];
   uniqueMaritalStatuses: FilterOption[];
+  uniqueOccupationCategories: FilterOption[];
   uniqueBirthYears: string[];
   uniqueDeathYears: string[];
   sortedRanks: {
@@ -24,6 +25,7 @@ type Props = {
     detachment: (number | null)[];
     corps: (number | null)[];
     maritalStatus: number | null;
+    occupationCategory: number | null;
     birthYear: string[];
     deathYear: string[];
     ranks: {
@@ -38,6 +40,7 @@ type Props = {
   handleDetachmentFilter: (detachmentId: number | null) => void;
   handleCorpsFilter: (corpsId: number | null) => void;
   handleMaritalStatusFilter: (maritalStatusId: number | null) => void;
+  handleOccupationCategoryFilter: (occupationCategoryId: number | null) => void;
   handleBirthSliderChange: (value: number | number[]) => void;
   handleDeathSliderChange: (value: number | number[]) => void;
   handleSliderDragStart: () => void;
@@ -51,6 +54,7 @@ export function RollFilter({
   uniqueDetachments,
   uniqueCorps,
   uniqueMaritalStatuses,
+  uniqueOccupationCategories,
   uniqueBirthYears,
   uniqueDeathYears,
   sortedRanks,
@@ -62,6 +66,7 @@ export function RollFilter({
   handleDetachmentFilter,
   handleCorpsFilter,
   handleMaritalStatusFilter,
+  handleOccupationCategoryFilter,
   handleBirthSliderChange,
   handleDeathSliderChange,
   handleSliderDragStart,
@@ -197,6 +202,26 @@ export function RollFilter({
             />
             {t("includesUnknownDeathYear")}
           </label>
+        </div>
+        <div className={STYLES.filters}>
+          <h3>{t("occupationCategories")}</h3>
+          <select
+            className={STYLES.select}
+            value={filters.occupationCategory ?? ""}
+            onChange={(event) =>
+              handleOccupationCategoryFilter(
+                event.target.value === "" ? null : Number(event.target.value),
+              )
+            }
+            aria-label={t("occupationCategories")}
+          >
+            <option value="">{t("allOccupationCategories")}</option>
+            {uniqueOccupationCategories.map((category) => (
+              <option key={String(category.id)} value={String(category.id)}>
+                {category.label}
+              </option>
+            ))}
+          </select>
         </div>
         <div className={STYLES.filters}>
           <h3>{t("maritalStatuses")}</h3>

@@ -31,6 +31,9 @@ describe("getTunnellers", () => {
         marital_status: "Married",
         marital_status_en: "Married",
         marital_status_id: 2,
+        occupation_category: "Mining and quarrying",
+        occupation_category_en: "Mining and quarrying",
+        occupation_category_id: 2,
         residence: "Auckland",
         residence_latitude: "-36.8485",
         residence_longitude: "174.7633",
@@ -54,6 +57,9 @@ describe("getTunnellers", () => {
         marital_status: "Single",
         marital_status_en: "Single",
         marital_status_id: 1,
+        occupation_category: null,
+        occupation_category_en: null,
+        occupation_category_id: null,
         residence: null,
         residence_latitude: null,
         residence_longitude: null,
@@ -90,6 +96,9 @@ describe("getTunnellers", () => {
         maritalStatus: "Married",
         maritalStatusEn: "Married",
         maritalStatusId: 2,
+        occupationCategory: "Mining and quarrying",
+        occupationCategoryEn: "Mining and quarrying",
+        occupationCategoryId: 2,
         origin: {
           residence: {
             town: "Auckland",
@@ -122,6 +131,9 @@ describe("getTunnellers", () => {
         maritalStatus: "Single",
         maritalStatusEn: "Single",
         maritalStatusId: 1,
+        occupationCategory: null,
+        occupationCategoryEn: null,
+        occupationCategoryId: null,
         origin: {
           residence: {
             town: null,
