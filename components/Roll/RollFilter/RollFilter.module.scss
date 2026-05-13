@@ -32,12 +32,19 @@
   .select {
     width: 100%;
     min-height: 42px;
+    margin-bottom: 15px;
     padding: 0 12px;
     color: variables.$text-color;
     background: variables.$primary-medium-color;
     border: 1px solid variables.$primary-light-color;
     border-radius: 4px;
     font: inherit;
+
+    &:focus {
+      border-color: variables.$secondary-color;
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(153, 131, 100, 0.3);
+    }
   }
 
   label {

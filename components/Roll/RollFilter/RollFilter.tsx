@@ -124,26 +124,6 @@ export function RollFilter({
         ))}
       </div>
       <div className={STYLES.filters}>
-        <h3>{t("occupationCategories")}</h3>
-        <select
-          className={STYLES.select}
-          value={filters.occupationCategory ?? ""}
-          onChange={(event) =>
-            handleOccupationCategoryFilter(
-              event.target.value === "" ? null : Number(event.target.value),
-            )
-          }
-          aria-label={t("occupationCategories")}
-        >
-          <option value="">{t("allOccupationCategories")}</option>
-          {uniqueOccupationCategories.map((category) => (
-            <option key={String(category.id)} value={String(category.id)}>
-              {category.label}
-            </option>
-          ))}
-        </select>
-      </div>
-      <div className={STYLES.filters}>
         <h3>{t("birthYears")}</h3>
         <p>
           {startBirthYear}
@@ -222,6 +202,26 @@ export function RollFilter({
             />
             {t("includesUnknownDeathYear")}
           </label>
+        </div>
+        <div className={STYLES.filters}>
+          <h3>{t("occupationCategories")}</h3>
+          <select
+            className={STYLES.select}
+            value={filters.occupationCategory ?? ""}
+            onChange={(event) =>
+              handleOccupationCategoryFilter(
+                event.target.value === "" ? null : Number(event.target.value),
+              )
+            }
+            aria-label={t("occupationCategories")}
+          >
+            <option value="">{t("allOccupationCategories")}</option>
+            {uniqueOccupationCategories.map((category) => (
+              <option key={String(category.id)} value={String(category.id)}>
+                {category.label}
+              </option>
+            ))}
+          </select>
         </div>
         <div className={STYLES.filters}>
           <h3>{t("maritalStatuses")}</h3>
