@@ -18,7 +18,7 @@ export function Resources() {
       <h2 id="resources-title">{t("resources")}</h2>
       <div className={STYLES.actions}>
         <Link
-          href={`${localePrefix}/maps/tunnellers-works`}
+          href={`${localePrefix}/maps/tunnellers-works/`}
           className={STYLES.card}
         >
           <div className={STYLES["card-content"]}>
@@ -35,7 +35,7 @@ export function Resources() {
           </div>
         </Link>
         <Link
-          href={`${localePrefix}/books/kiwis-dig-tunnels-too`}
+          href={`${localePrefix}/books/kiwis-dig-tunnels-too/`}
           className={STYLES.card}
         >
           <div className={STYLES["card-content"]}>

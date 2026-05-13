@@ -1,11 +1,11 @@
 import { test, expect } from "@playwright/test";
 
-const EN_CONTENTS = "/books/kiwis-dig-tunnels-too";
-const FR_CONTENTS = "/fr/books/kiwis-dig-tunnels-too";
+const EN_CONTENTS = "/books/kiwis-dig-tunnels-too/";
+const FR_CONTENTS = "/fr/books/kiwis-dig-tunnels-too/";
 const EN_CHAPTER_1 =
-  "/books/kiwis-dig-tunnels-too/chapter-1-the-tunnellers-from-the-antipodes";
+  "/books/kiwis-dig-tunnels-too/chapter-1-the-tunnellers-from-the-antipodes/";
 const FR_CHAPTER_1 =
-  "/fr/books/kiwis-dig-tunnels-too/chapter-1-the-tunnellers-from-the-antipodes";
+  "/fr/books/kiwis-dig-tunnels-too/chapter-1-the-tunnellers-from-the-antipodes/";
 
 // ─── Contents page ───────────────────────────────────────────────────────────
 
@@ -139,7 +139,7 @@ test("reading progress bar is visible on chapter pages", async ({ page }) => {
 });
 
 test("sources page has no progress bar and no BookMenu", async ({ page }) => {
-  await page.goto(`${EN_CONTENTS}/sources`);
+  await page.goto(`${EN_CONTENTS}sources/`);
 
   await expect(page.getByRole("progressbar")).not.toBeAttached();
   await expect(page.getByLabel("Back to contents")).not.toBeAttached();
@@ -148,7 +148,7 @@ test("sources page has no progress bar and no BookMenu", async ({ page }) => {
 test("FR sources page has no progress bar and no BookMenu", async ({
   page,
 }) => {
-  await page.goto(`${FR_CONTENTS}/sources`);
+  await page.goto(`${FR_CONTENTS}sources/`);
 
   await expect(page.getByRole("progressbar")).not.toBeAttached();
   await expect(page.getByLabel("Retour au sommaire")).not.toBeAttached();
@@ -171,7 +171,7 @@ test("EN: next chapter button links to chapter 2", async ({ page }) => {
   await expect(nextChapterLink).toBeVisible();
   await expect(nextChapterLink).toHaveAttribute(
     "href",
-    "/books/kiwis-dig-tunnels-too/chapter-2-forging-good-soldiers",
+    "/books/kiwis-dig-tunnels-too/chapter-2-forging-good-soldiers/",
   );
 });
 
@@ -183,7 +183,7 @@ test("FR: next chapter button links to chapter 2", async ({ page }) => {
   await expect(nextChapterLink).toBeVisible();
   await expect(nextChapterLink).toHaveAttribute(
     "href",
-    "/fr/books/kiwis-dig-tunnels-too/chapter-2-forging-good-soldiers",
+    "/fr/books/kiwis-dig-tunnels-too/chapter-2-forging-good-soldiers/",
   );
 });
 

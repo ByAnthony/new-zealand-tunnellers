@@ -19,7 +19,7 @@ export function Timeline({ tunneller }: Props) {
   const t = useTranslations("timeline");
   const locale = useLocale();
   const localePrefix = locale === "en" ? "" : `/${locale}`;
-  const returnUrl = useStoredReturnUrl(`${localePrefix}/tunnellers`);
+  const returnUrl = useStoredReturnUrl(`${localePrefix}/tunnellers/`);
 
   return (
     <div className={STYLES.timeline}>
@@ -28,7 +28,7 @@ export function Timeline({ tunneller }: Props) {
           <Link href={returnUrl}>{t("tunnellers")}</Link>
           <span>/</span>
           <Link
-            href={`${localePrefix}/tunnellers/${tunneller.slug}`}
+            href={`${localePrefix}/tunnellers/${tunneller.slug}/`}
           >{`${tunneller.summary.name.forename} ${tunneller.summary.name.surname}`}</Link>
         </div>
         <div className={STYLES["main-title"]}>

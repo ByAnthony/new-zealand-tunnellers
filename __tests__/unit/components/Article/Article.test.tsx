@@ -49,7 +49,7 @@ describe("Article", () => {
     });
     expect(nextButton).toHaveAttribute(
       "href",
-      "/history/my-path-to-next-chapter",
+      "/history/my-path-to-next-chapter/",
     );
     expect(screen.getByText("Chapter 3")).toBeInTheDocument();
     expect(screen.getByText("Next Chapter")).toBeInTheDocument();
@@ -98,7 +98,7 @@ describe("Article", () => {
       screen.getByRole("link", { name: /Underground Warfare/i }),
     ).toHaveAttribute(
       "href",
-      "/maps/tunnellers-works?period=true&frontlines=true&from=1916-03-16&to=1916-11-15",
+      "/maps/tunnellers-works/?period=true&frontlines=true&from=1916-03-16&to=1916-11-15",
     );
   });
 
@@ -118,13 +118,13 @@ describe("Article", () => {
       screen.getByRole("link", { name: /East of Arras Trench Works/i }),
     ).toHaveAttribute(
       "href",
-      "/maps/tunnellers-works?period=true&frontlines=true&from=1917-04-10&to=1918-03-20",
+      "/maps/tunnellers-works/?period=true&frontlines=true&from=1917-04-10&to=1918-03-20",
     );
     expect(
       screen.getByRole("link", { name: /1918 German Spring Offensive/i }),
     ).toHaveAttribute(
       "href",
-      "/maps/tunnellers-works?period=true&frontlines=true&from=1918-03-21&to=1918-07-14",
+      "/maps/tunnellers-works/?period=true&frontlines=true&from=1918-03-21&to=1918-07-14",
     );
     expect(
       screen.getByRole("link", {
@@ -132,7 +132,7 @@ describe("Article", () => {
       }),
     ).toHaveAttribute(
       "href",
-      "/maps/tunnellers-works?period=true&frontlines=true&from=1918-07-15&to=1918-08-21",
+      "/maps/tunnellers-works/?period=true&frontlines=true&from=1918-07-15&to=1918-08-21",
     );
   });
 });

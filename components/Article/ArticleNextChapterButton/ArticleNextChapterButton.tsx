@@ -19,6 +19,7 @@ export function ArticleNextChapterButton({
   const t = useTranslations("article");
   const locale = useLocale();
   const localePrefix = locale === "en" ? "" : `/${locale}`;
+  const chapterUrl = chapter?.url.replace(/\/$/, "");
 
   if (chapter) {
     return (
@@ -26,7 +27,7 @@ export function ArticleNextChapterButton({
         className={`${STYLES["button-chapter-container"]} ${compactSpacing ? STYLES["button-chapter-container--compact"] : ""}`.trim()}
       >
         <Link
-          href={`${localePrefix}/history/${chapter.url}`}
+          href={`${localePrefix}/history/${chapterUrl}/`}
           className={STYLES["button-chapter"]}
           aria-label={t("goToChapter", {
             chapter: chapter.chapter,

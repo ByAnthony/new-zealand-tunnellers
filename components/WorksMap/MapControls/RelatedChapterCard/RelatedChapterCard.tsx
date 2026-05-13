@@ -61,7 +61,7 @@ export function RelatedChapterCard({ chapterId, localePrefix }: Props) {
           ×
         </button>
         <Link
-          href={`${localePrefix}/history/${chapterId}`}
+          href={`${localePrefix}/history/${chapterId}/`}
           aria-label={t("relatedChapterLabel")}
           className={STYLES["related-link"]}
         >

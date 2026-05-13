@@ -207,7 +207,7 @@ describe("MapControls", () => {
       screen.getByRole("link", {
         name: "About this period",
       }),
-    ).toHaveAttribute("href", "/history/beneath-artois-fields");
+    ).toHaveAttribute("href", "/history/beneath-artois-fields/");
   });
 
   test("shows the related chapter card for the post-armistice bridging period", () => {
@@ -219,7 +219,7 @@ describe("MapControls", () => {
       screen.getByRole("link", {
         name: "About this period",
       }),
-    ).toHaveAttribute("href", "/history/after-the-armistice");
+    ).toHaveAttribute("href", "/history/after-the-armistice/");
   });
 
   test("dismisses the related chapter card", () => {

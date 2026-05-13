@@ -98,7 +98,7 @@ exports[`Tunnellers Component matches snapshot for mobile viewport 1`] = `
     >
       <a
         class="roll"
-        href="/tunnellers"
+        href="/tunnellers/"
       >
         <span
           class="discover"
@@ -192,7 +192,7 @@ exports[`Tunnellers Component matches snapshot for tablet/desktop viewports 1`] 
     >
       <a
         class="roll"
-        href="/tunnellers"
+        href="/tunnellers/"
       >
         <span
           class="discover"

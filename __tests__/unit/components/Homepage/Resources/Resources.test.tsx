@@ -38,15 +38,18 @@ describe("Resources", () => {
     mockUseLocale.mockReturnValue("en");
     render(<Resources />);
     const links = screen.getAllByRole("link");
-    expect(links[0]).toHaveAttribute("href", "/maps/tunnellers-works");
-    expect(links[1]).toHaveAttribute("href", "/books/kiwis-dig-tunnels-too");
+    expect(links[0]).toHaveAttribute("href", "/maps/tunnellers-works/");
+    expect(links[1]).toHaveAttribute("href", "/books/kiwis-dig-tunnels-too/");
   });
 
   test("card links point to correct paths for French locale", () => {
     mockUseLocale.mockReturnValue("fr");
     render(<Resources />);
     const links = screen.getAllByRole("link");
-    expect(links[0]).toHaveAttribute("href", "/fr/maps/tunnellers-works");
-    expect(links[1]).toHaveAttribute("href", "/fr/books/kiwis-dig-tunnels-too");
+    expect(links[0]).toHaveAttribute("href", "/fr/maps/tunnellers-works/");
+    expect(links[1]).toHaveAttribute(
+      "href",
+      "/fr/books/kiwis-dig-tunnels-too/",
+    );
   });
 });

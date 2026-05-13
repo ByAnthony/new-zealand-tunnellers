@@ -44,7 +44,7 @@ describe("RollOriginDrawer", () => {
     expect(screen.getByText("2 results")).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /Emmett Brown/i })).toHaveAttribute(
       "href",
-      "/tunnellers/test-tunneller--1_234",
+      "/tunnellers/test-tunneller--1_234/",
     );
     expect(screen.getByRole("link", { name: /John Doe/i })).toBeInTheDocument();
   });
