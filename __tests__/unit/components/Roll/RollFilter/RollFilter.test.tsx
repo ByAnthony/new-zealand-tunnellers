@@ -95,9 +95,9 @@ describe("RollFilter", () => {
 
   test("renders the occupation category dropdown", () => {
     render(<RollFilter {...defaultProps} />);
-    expect(screen.getByText("Occupation category")).toBeInTheDocument();
+    expect(screen.getByText("Occupation")).toBeInTheDocument();
     expect(
-      screen.getByRole("combobox", { name: "Occupation category" }),
+      screen.getByRole("combobox", { name: "Occupation" }),
     ).toBeInTheDocument();
     expect(screen.getByRole("option", { name: "All occupations" }));
     expect(
@@ -162,12 +162,9 @@ describe("RollFilter", () => {
 
   test("calls handleOccupationCategoryFilter when an occupation category is selected", () => {
     render(<RollFilter {...defaultProps} />);
-    fireEvent.change(
-      screen.getByRole("combobox", { name: "Occupation category" }),
-      {
-        target: { value: "2" },
-      },
-    );
+    fireEvent.change(screen.getByRole("combobox", { name: "Occupation" }), {
+      target: { value: "2" },
+    });
     expect(defaultProps.handleOccupationCategoryFilter).toHaveBeenCalledWith(2);
   });
 
