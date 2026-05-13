@@ -22,6 +22,9 @@ export const rollQuery = async (locale: Locale, connection: PoolConnection) => {
     , marital_status.marital_status_${locale} AS marital_status
     , marital_status.marital_status_en AS marital_status_en
     , marital_status.marital_status_id AS marital_status_id
+    , occupation_category.occupation_category_${locale} AS occupation_category
+    , occupation_category.occupation_category_en AS occupation_category_en
+    , occupation_category.occupation_category_id AS occupation_category_id
     , residence.town_name AS residence
     , residence.latitude AS residence_latitude
     , residence.longitude AS residence_longitude
@@ -32,6 +35,8 @@ export const rollQuery = async (locale: Locale, connection: PoolConnection) => {
     LEFT JOIN rank ON t.rank_fk=rank.rank_id
     LEFT JOIN corps attached_corps ON t.attached_corps_fk=attached_corps.corps_id
     LEFT JOIN marital_status ON t.marital_status_fk=marital_status.marital_status_id
+    LEFT JOIN occupation ON t.occupation_fk=occupation.occupation_id
+    LEFT JOIN occupation_category ON occupation.occupation_category_fk=occupation_category.occupation_category_id
     LEFT JOIN town residence ON t.town_fk=residence.town_id
 
     ORDER BY t.surname, t.forename ASC`;

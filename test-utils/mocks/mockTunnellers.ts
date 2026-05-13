@@ -19,6 +19,9 @@ const mockTunneller1: Tunneller = {
   maritalStatus: "Married",
   maritalStatusEn: "Married",
   maritalStatusId: 2,
+  occupationCategory: "Mining and quarrying",
+  occupationCategoryEn: "Mining and quarrying",
+  occupationCategoryId: 2,
   origin: {
     residence: {
       town: "Auckland",
@@ -47,6 +50,9 @@ const mockTunneller2: Tunneller = {
   maritalStatus: "Single",
   maritalStatusEn: "Single",
   maritalStatusId: 1,
+  occupationCategory: "Agriculture and forestry",
+  occupationCategoryEn: "Agriculture and forestry",
+  occupationCategoryId: 1,
   origin: {
     residence: {
       town: "Waihi",
@@ -75,6 +81,9 @@ const mockTunneller3: Tunneller = {
   maritalStatus: null,
   maritalStatusEn: null,
   maritalStatusId: null,
+  occupationCategory: null,
+  occupationCategoryEn: null,
+  occupationCategoryId: null,
   origin: {
     residence: {
       town: "Auckland",
@@ -103,6 +112,9 @@ const mockTunneller4: Tunneller = {
   maritalStatus: "Married",
   maritalStatusEn: "Married",
   maritalStatusId: 2,
+  occupationCategory: "Transport and maritime",
+  occupationCategoryEn: "Transport and maritime",
+  occupationCategoryId: 4,
   origin: {
     residence: {
       town: null,

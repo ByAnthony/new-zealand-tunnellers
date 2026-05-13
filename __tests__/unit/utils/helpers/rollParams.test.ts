@@ -22,6 +22,10 @@ const lookups: FilterLookups = {
     { id: 4, label: "Separated" },
     { id: 3, label: "Widower" },
   ],
+  occupationCategories: [
+    { id: 1, label: "Agriculture and forestry" },
+    { id: 2, label: "Mining and quarrying" },
+  ],
   sortedRanks: {
     Officers: [
       { id: 1, label: "Major" },
@@ -38,6 +42,7 @@ const defaultFilters: Filters = {
   detachment: [],
   corps: [],
   maritalStatus: null,
+  occupationCategory: null,
   ranks: { Officers: [], "Non-Commissioned Officers": [], "Other Ranks": [] },
   birthYear: lookups.birthYears,
   deathYear: lookups.deathYears,
@@ -94,6 +99,13 @@ describe("filtersToSearchParams", () => {
     );
   });
 
+  test("serialises occupation category IDs as slugs", () => {
+    const filters = { ...defaultFilters, occupationCategory: 2 };
+    expect(filtersToSearchParams(filters, 1, "asc", lookups)).toContain(
+      "occupation=mining-and-quarrying",
+    );
+  });
+
   test("serialises birth year range", () => {
     const filters = { ...defaultFilters, birthYear: ["1886", "1897"] };
     const qs = filtersToSearchParams(filters, 1, "asc", lookups);
@@ -134,6 +146,7 @@ describe("searchParamsToFilters", () => {
     expect(filters.detachment).toEqual([]);
     expect(filters.birthYear).toEqual(lookups.birthYears);
     expect(filters.maritalStatus).toBeNull();
+    expect(filters.occupationCategory).toBeNull();
   });
 
   test("parses descending sort", () => {
@@ -175,6 +188,14 @@ describe("searchParamsToFilters", () => {
     expect(filters.maritalStatus).toBe(1);
   });
 
+  test("parses occupation category slugs to IDs", () => {
+    const { filters } = searchParamsToFilters(
+      make("occupation=mining-and-quarrying"),
+      lookups,
+    );
+    expect(filters.occupationCategory).toBe(2);
+  });
+
   test("parses birth year range", () => {
     const { filters } = searchParamsToFilters(
       make("birth-min=1886&birth-max=1897"),
@@ -188,6 +209,7 @@ describe("searchParamsToFilters", () => {
       detachment: [1, 2],
       corps: [null, 2],
       maritalStatus: 1,
+      occupationCategory: 2,
       ranks: {
         Officers: [1],
         "Non-Commissioned Officers": [],
@@ -207,6 +229,7 @@ describe("searchParamsToFilters", () => {
     expect(filters.detachment).toEqual([1, 2]);
     expect(filters.corps).toEqual([null, 2]);
     expect(filters.maritalStatus).toBe(1);
+    expect(filters.occupationCategory).toBe(2);
     expect(filters.ranks["Officers"]).toEqual([1]);
     expect(filters.birthYear).toEqual(["1886", "1897"]);
   });

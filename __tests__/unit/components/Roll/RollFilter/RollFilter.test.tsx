@@ -18,6 +18,10 @@ const defaultProps = {
     { id: 4, label: "Separated" },
     { id: 3, label: "Widower" },
   ],
+  uniqueOccupationCategories: [
+    { id: 1, label: "Agriculture and forestry" },
+    { id: 2, label: "Mining and quarrying" },
+  ],
   uniqueBirthYears: ["1880", "1890", "1900"],
   uniqueDeathYears: ["1915", "1920", "1930"],
   sortedRanks: {
@@ -38,6 +42,7 @@ const defaultProps = {
     detachment: [],
     corps: [],
     maritalStatus: null,
+    occupationCategory: null,
     birthYear: ["1880", "1900"],
     deathYear: ["1915", "1930"],
     ranks: {
@@ -54,6 +59,7 @@ const defaultProps = {
   handleDetachmentFilter: jest.fn(),
   handleCorpsFilter: jest.fn(),
   handleMaritalStatusFilter: jest.fn(),
+  handleOccupationCategoryFilter: jest.fn(),
   handleBirthSliderChange: jest.fn(),
   handleDeathSliderChange: jest.fn(),
   handleSliderDragStart: jest.fn(),
@@ -85,6 +91,18 @@ describe("RollFilter", () => {
     expect(screen.getByLabelText("Separated")).toBeInTheDocument();
     expect(screen.getByLabelText("Widower")).toBeInTheDocument();
     expect(screen.queryByLabelText("Unknown")).not.toBeInTheDocument();
+  });
+
+  test("renders the occupation category dropdown", () => {
+    render(<RollFilter {...defaultProps} />);
+    expect(screen.getByText("Occupations")).toBeInTheDocument();
+    expect(
+      screen.getByRole("combobox", { name: "Occupations" }),
+    ).toBeInTheDocument();
+    expect(screen.getByRole("option", { name: "All occupations" }));
+    expect(
+      screen.getByRole("option", { name: "Mining and quarrying" }),
+    ).toBeInTheDocument();
   });
 
   test("renders the birth year slider", () => {
@@ -140,6 +158,14 @@ describe("RollFilter", () => {
     const checkbox = screen.getByLabelText("Married");
     fireEvent.click(checkbox);
     expect(defaultProps.handleMaritalStatusFilter).toHaveBeenCalledWith(2);
+  });
+
+  test("calls handleOccupationCategoryFilter when an occupation category is selected", () => {
+    render(<RollFilter {...defaultProps} />);
+    fireEvent.change(screen.getByRole("combobox", { name: "Occupations" }), {
+      target: { value: "2" },
+    });
+    expect(defaultProps.handleOccupationCategoryFilter).toHaveBeenCalledWith(2);
   });
 
   test("marks only the selected marital status as checked", () => {

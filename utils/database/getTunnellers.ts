@@ -8,8 +8,7 @@ import { rollQuery } from "./queries/rollQuery";
 import { withConnection } from "./withConnection";
 
 // Bump after database changes that affect the roll/search data.
-const TUNNELLERS_CACHE_VERSION =
-  "2026-05-06-marital-status-origin-map-separated-fr";
+const TUNNELLERS_CACHE_VERSION = "2026-05-13-occupation-category-lookup";
 
 function parseCoordinate(value: string | null): number | null {
   if (!value) return null;
@@ -47,6 +46,9 @@ export async function getTunnellers(
     maritalStatus: result.marital_status,
     maritalStatusEn: result.marital_status_en,
     maritalStatusId: result.marital_status_id,
+    occupationCategory: result.occupation_category,
+    occupationCategoryEn: result.occupation_category_en,
+    occupationCategoryId: result.occupation_category_id,
     origin: {
       residence: {
         town: result.residence,

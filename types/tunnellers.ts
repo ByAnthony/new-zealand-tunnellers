@@ -23,6 +23,9 @@ export type TunnellerData = {
   marital_status: string | null;
   marital_status_en: string | null;
   marital_status_id: number | null;
+  occupation_category: string | null;
+  occupation_category_en: string | null;
+  occupation_category_id: number | null;
   residence: string | null;
   residence_latitude: string | null;
   residence_longitude: string | null;
@@ -67,6 +70,9 @@ export type Tunneller = {
   maritalStatus: string | null;
   maritalStatusEn: string | null;
   maritalStatusId: number | null;
+  occupationCategory?: string | null;
+  occupationCategoryEn?: string | null;
+  occupationCategoryId?: number | null;
   origin: {
     residence: ResidenceOrigin;
   };

@@ -1,0 +1,213 @@
+CREATE TABLE IF NOT EXISTS occupation_category (
+  occupation_category_id TINYINT PRIMARY KEY,
+  occupation_category_en VARCHAR(100) NOT NULL,
+  occupation_category_fr VARCHAR(100) NOT NULL
+);
+
+INSERT INTO occupation_category (
+  occupation_category_id,
+  occupation_category_en,
+  occupation_category_fr
+) VALUES
+  (1, 'Agriculture and forestry', 'Agriculture et sylviculture'),
+  (2, 'Mining and quarrying', 'Mines et carrières'),
+  (3, 'Building and public works', 'Bâtiment et travaux publics'),
+  (4, 'Transport and maritime', 'Transport et maritime'),
+  (5, 'Engineering and mechanical trades', 'Ingénierie et métiers mécaniques'),
+  (6, 'Commerce, manufacturing and trades', 'Commerce, fabrication et métiers'),
+  (7, 'Professional and public services', 'Professions et services publics'),
+  (8, 'Other occupations', 'Autres professions')
+ON DUPLICATE KEY UPDATE
+  occupation_category_en = VALUES(occupation_category_en),
+  occupation_category_fr = VALUES(occupation_category_fr);
+
+ALTER TABLE occupation
+  ADD COLUMN IF NOT EXISTS occupation_category_fk TINYINT NULL;
+
+UPDATE occupation
+SET occupation_category_fk = CASE occupation_id
+  WHEN 15 THEN 1
+  WHEN 16 THEN 1
+  WHEN 38 THEN 1
+  WHEN 39 THEN 1
+  WHEN 40 THEN 1
+  WHEN 52 THEN 1
+  WHEN 53 THEN 1
+  WHEN 54 THEN 1
+  WHEN 58 THEN 1
+  WHEN 61 THEN 1
+  WHEN 64 THEN 1
+  WHEN 103 THEN 1
+  WHEN 125 THEN 1
+  WHEN 126 THEN 1
+  WHEN 128 THEN 1
+  WHEN 147 THEN 1
+  WHEN 2 THEN 2
+  WHEN 5 THEN 2
+  WHEN 32 THEN 2
+  WHEN 62 THEN 2
+  WHEN 63 THEN 2
+  WHEN 67 THEN 2
+  WHEN 81 THEN 2
+  WHEN 82 THEN 2
+  WHEN 83 THEN 2
+  WHEN 84 THEN 2
+  WHEN 85 THEN 2
+  WHEN 86 THEN 2
+  WHEN 87 THEN 2
+  WHEN 88 THEN 2
+  WHEN 89 THEN 2
+  WHEN 90 THEN 2
+  WHEN 91 THEN 2
+  WHEN 108 THEN 2
+  WHEN 109 THEN 2
+  WHEN 110 THEN 2
+  WHEN 111 THEN 2
+  WHEN 142 THEN 2
+  WHEN 151 THEN 2
+  WHEN 11 THEN 3
+  WHEN 12 THEN 3
+  WHEN 13 THEN 3
+  WHEN 14 THEN 3
+  WHEN 19 THEN 3
+  WHEN 37 THEN 3
+  WHEN 42 THEN 3
+  WHEN 43 THEN 3
+  WHEN 66 THEN 3
+  WHEN 97 THEN 3
+  WHEN 99 THEN 3
+  WHEN 102 THEN 3
+  WHEN 104 THEN 3
+  WHEN 112 THEN 3
+  WHEN 117 THEN 3
+  WHEN 119 THEN 3
+  WHEN 120 THEN 3
+  WHEN 121 THEN 3
+  WHEN 135 THEN 3
+  WHEN 140 THEN 3
+  WHEN 152 THEN 3
+  WHEN 153 THEN 3
+  WHEN 20 THEN 4
+  WHEN 21 THEN 4
+  WHEN 23 THEN 4
+  WHEN 31 THEN 4
+  WHEN 41 THEN 4
+  WHEN 45 THEN 4
+  WHEN 48 THEN 4
+  WHEN 57 THEN 4
+  WHEN 70 THEN 4
+  WHEN 93 THEN 4
+  WHEN 96 THEN 4
+  WHEN 105 THEN 4
+  WHEN 113 THEN 4
+  WHEN 115 THEN 4
+  WHEN 116 THEN 4
+  WHEN 127 THEN 4
+  WHEN 134 THEN 4
+  WHEN 145 THEN 4
+  WHEN 149 THEN 4
+  WHEN 155 THEN 4
+  WHEN 157 THEN 4
+  WHEN 158 THEN 4
+  WHEN 3 THEN 5
+  WHEN 7 THEN 5
+  WHEN 8 THEN 5
+  WHEN 26 THEN 5
+  WHEN 27 THEN 5
+  WHEN 28 THEN 5
+  WHEN 36 THEN 5
+  WHEN 46 THEN 5
+  WHEN 47 THEN 5
+  WHEN 49 THEN 5
+  WHEN 50 THEN 5
+  WHEN 51 THEN 5
+  WHEN 55 THEN 5
+  WHEN 56 THEN 5
+  WHEN 60 THEN 5
+  WHEN 72 THEN 5
+  WHEN 73 THEN 5
+  WHEN 75 THEN 5
+  WHEN 76 THEN 5
+  WHEN 94 THEN 5
+  WHEN 95 THEN 5
+  WHEN 114 THEN 5
+  WHEN 118 THEN 5
+  WHEN 137 THEN 5
+  WHEN 148 THEN 5
+  WHEN 154 THEN 5
+  WHEN 1 THEN 6
+  WHEN 4 THEN 6
+  WHEN 6 THEN 6
+  WHEN 9 THEN 6
+  WHEN 10 THEN 6
+  WHEN 17 THEN 6
+  WHEN 18 THEN 6
+  WHEN 24 THEN 6
+  WHEN 29 THEN 6
+  WHEN 30 THEN 6
+  WHEN 33 THEN 6
+  WHEN 34 THEN 6
+  WHEN 35 THEN 6
+  WHEN 65 THEN 6
+  WHEN 68 THEN 6
+  WHEN 71 THEN 6
+  WHEN 74 THEN 6
+  WHEN 78 THEN 6
+  WHEN 79 THEN 6
+  WHEN 80 THEN 6
+  WHEN 100 THEN 6
+  WHEN 101 THEN 6
+  WHEN 107 THEN 6
+  WHEN 122 THEN 6
+  WHEN 123 THEN 6
+  WHEN 129 THEN 6
+  WHEN 131 THEN 6
+  WHEN 133 THEN 6
+  WHEN 136 THEN 6
+  WHEN 139 THEN 6
+  WHEN 144 THEN 6
+  WHEN 150 THEN 6
+  WHEN 22 THEN 7
+  WHEN 25 THEN 7
+  WHEN 44 THEN 7
+  WHEN 69 THEN 7
+  WHEN 77 THEN 7
+  WHEN 92 THEN 7
+  WHEN 106 THEN 7
+  WHEN 124 THEN 7
+  WHEN 132 THEN 7
+  WHEN 138 THEN 7
+  WHEN 141 THEN 7
+  WHEN 143 THEN 7
+  WHEN 146 THEN 7
+  WHEN 156 THEN 7
+  WHEN 59 THEN 8
+  WHEN 98 THEN 8
+  WHEN 130 THEN 8
+END
+WHERE occupation_id IN (
+  1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+  11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+  21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+  31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
+  41, 42, 43, 44, 45, 46, 47, 48, 49, 50,
+  51, 52, 53, 54, 55, 56, 57, 58, 59, 60,
+  61, 62, 63, 64, 65, 66, 67, 68, 69, 70,
+  71, 72, 73, 74, 75, 76, 77, 78, 79, 80,
+  81, 82, 83, 84, 85, 86, 87, 88, 89, 90,
+  91, 92, 93, 94, 95, 96, 97, 98, 99, 100,
+  101, 102, 103, 104, 105, 106, 107, 108, 109, 110,
+  111, 112, 113, 114, 115, 116, 117, 118, 119, 120,
+  121, 122, 123, 124, 125, 126, 127, 128, 129, 130,
+  131, 132, 133, 134, 135, 136, 137, 138, 139, 140,
+  141, 142, 143, 144, 145, 146, 147, 148, 149, 150,
+  151, 152, 153, 154, 155, 156, 157, 158
+);
+
+ALTER TABLE occupation
+  MODIFY occupation_category_fk TINYINT NOT NULL;
+
+ALTER TABLE occupation
+  ADD CONSTRAINT occupation_category_fk
+  FOREIGN KEY (occupation_category_fk)
+  REFERENCES occupation_category (occupation_category_id);

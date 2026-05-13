@@ -29,6 +29,17 @@
     transform: translate(-50%, -50%);
   }
 
+  .select {
+    width: 100%;
+    min-height: 42px;
+    padding: 0 12px;
+    color: variables.$text-color;
+    background: variables.$primary-medium-color;
+    border: 1px solid variables.$primary-light-color;
+    border-radius: 4px;
+    font: inherit;
+  }
+
   label {
     display: flex;
     align-items: center;

@@ -39,6 +39,11 @@ function RollStateHarness({
       <button onClick={() => rollFiltersProps.handleMaritalStatusFilter(1)}>
         toggle marital status
       </button>
+      <button
+        onClick={() => rollFiltersProps.handleOccupationCategoryFilter(2)}
+      >
+        select occupation category
+      </button>
       <button onClick={rollFiltersProps.handleSliderDragComplete}>
         complete drag
       </button>
@@ -163,6 +168,20 @@ describe("useRollState", () => {
 
     await waitFor(() => {
       expect(window.location.search).toBe("");
+    });
+  });
+
+  test("updates the URL when an occupation category is selected", async () => {
+    render(<RollStateHarness />);
+
+    fireEvent.click(screen.getByText("select occupation category"));
+
+    await waitFor(() => {
+      expect(window.history.replaceState).toHaveBeenCalledWith(
+        null,
+        "",
+        expect.stringContaining("?occupation=mining-and-quarrying"),
+      );
     });
   });
 });
