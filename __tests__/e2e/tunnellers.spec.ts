@@ -15,7 +15,7 @@ test("can change page and click on a name", async ({ page }) => {
 });
 
 test("can filter and adjust pagination", async ({ page }) => {
-  await page.goto("/tunnellers");
+  await page.goto("/tunnellers/");
 
   await expect(page.getByText("936 results")).toBeVisible();
 
@@ -52,7 +52,7 @@ test("can filter and adjust pagination", async ({ page }) => {
 });
 
 test("can reset filters and adjust pagination", async ({ page }) => {
-  await page.goto("/tunnellers");
+  await page.goto("/tunnellers/");
 
   await expect(page.getByText("936 results")).toBeVisible();
   await expect(
@@ -115,7 +115,7 @@ test("can reset filters and adjust pagination", async ({ page }) => {
 });
 
 test("can navigate using pagination buttons", async ({ page }) => {
-  await page.goto("/tunnellers");
+  await page.goto("/tunnellers/");
   await page.getByRole("button", { name: "2" }).click();
 
   await expect(
@@ -124,7 +124,7 @@ test("can navigate using pagination buttons", async ({ page }) => {
 });
 
 test("filters appear in URL after filtering", async ({ page }) => {
-  await page.goto("/tunnellers");
+  await page.goto("/tunnellers/");
 
   await page.getByLabel("7th Reinforcements").click();
   await expect(page.getByText("31 results")).toBeVisible();
@@ -133,7 +133,7 @@ test("filters appear in URL after filtering", async ({ page }) => {
 });
 
 test("marital status filter updates and clears the URL", async ({ page }) => {
-  await page.goto("/tunnellers");
+  await page.goto("/tunnellers/");
 
   await page.getByLabel("Single").click();
   await expect(page.getByText("612 results")).toBeVisible();
@@ -153,7 +153,7 @@ test("marital status filter updates and clears the URL", async ({ page }) => {
 });
 
 test("filters persist when switching language", async ({ page }) => {
-  await page.goto("/tunnellers");
+  await page.goto("/tunnellers/");
 
   await page.getByLabel("7th Reinforcements").click();
   await expect(page.getByText("31 results")).toBeVisible();
@@ -168,13 +168,13 @@ test("filters persist when switching language", async ({ page }) => {
 test("navigating directly to a filtered URL applies filters", async ({
   page,
 }) => {
-  await page.goto("/tunnellers");
+  await page.goto("/tunnellers/");
   await page.getByLabel("7th Reinforcements").click();
   await expect(page.getByText("31 results")).toBeVisible();
   await expect(page).toHaveURL(/detachment=/);
   const filteredUrl = page.url();
 
-  await page.goto("/tunnellers");
+  await page.goto("/tunnellers/");
   await expect(page.getByText("936 results")).toBeVisible();
 
   await page.goto(filteredUrl);
@@ -182,7 +182,7 @@ test("navigating directly to a filtered URL applies filters", async ({
 });
 
 test("back link from profile restores filters", async ({ page }) => {
-  await page.goto("/tunnellers");
+  await page.goto("/tunnellers/");
 
   await page.getByLabel("7th Reinforcements").click();
   await expect(page.getByText("31 results")).toBeVisible();
@@ -201,7 +201,7 @@ test("back link from profile restores filters", async ({ page }) => {
 });
 
 test("can navigate using previous and next buttons", async ({ page }) => {
-  await page.goto("/tunnellers");
+  await page.goto("/tunnellers/");
   await page.getByRole("button", { name: "Go to next page" }).click();
 
   await expect(
@@ -217,7 +217,7 @@ test("can navigate using previous and next buttons", async ({ page }) => {
 
 test("filter button shows no badge by default on mobile", async ({ page }) => {
   await page.setViewportSize({ width: 375, height: 812 });
-  await page.goto("/tunnellers");
+  await page.goto("/tunnellers/");
 
   const filterButton = page.getByRole("button", { name: "Filters" });
   await expect(filterButton).toBeVisible();
@@ -228,7 +228,7 @@ test("filter button shows badge after selecting a filter on mobile", async ({
   page,
 }) => {
   await page.setViewportSize({ width: 375, height: 812 });
-  await page.goto("/tunnellers");
+  await page.goto("/tunnellers/");
 
   await page.getByRole("button", { name: "Filters" }).click();
   await page.getByLabel("1st Reinforcements").click();
@@ -243,7 +243,7 @@ test("filter button badge count increases with multiple active filters on mobile
   page,
 }) => {
   await page.setViewportSize({ width: 375, height: 812 });
-  await page.goto("/tunnellers");
+  await page.goto("/tunnellers/");
 
   await page.getByRole("button", { name: "Filters" }).click();
   await page.getByLabel("1st Reinforcements").click();
@@ -258,7 +258,7 @@ test("filter button badge disappears after reset on mobile", async ({
   page,
 }) => {
   await page.setViewportSize({ width: 375, height: 812 });
-  await page.goto("/tunnellers");
+  await page.goto("/tunnellers/");
 
   await page.getByRole("button", { name: "Filters" }).click();
   await page.getByLabel("1st Reinforcements").click();
@@ -280,7 +280,7 @@ test("filter button badge disappears after reset on mobile", async ({
 test("scroll position is saved and restored when navigating", async ({
   page,
 }) => {
-  await page.goto("/tunnellers");
+  await page.goto("/tunnellers/");
   await page.getByRole("button", { name: "Go to page 2", exact: true }).click();
   await page.getByRole("button", { name: "Go to page 3", exact: true }).click();
   await page.getByRole("link", { name: "Sapper Jeremiah Branigan" }).click();

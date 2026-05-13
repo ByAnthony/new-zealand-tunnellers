@@ -37,8 +37,11 @@ export function Menu({ tunnellers }: Props) {
   const locale = useLocale();
   const localePrefix = locale === "en" ? "" : `/${locale}`;
   const pathname = usePathname();
-  const switchLocaleBase =
+  const switchLocaleBasePath =
     locale === "en" ? `/fr${pathname}` : pathname.replace(/^\/fr/, "") || "/";
+  const switchLocaleBase = switchLocaleBasePath.endsWith("/")
+    ? switchLocaleBasePath
+    : `${switchLocaleBasePath}/`;
 
   const { width } = useWindowDimensions();
   const divRef = useRef<HTMLDivElement>(null);
@@ -223,7 +226,7 @@ export function Menu({ tunnellers }: Props) {
               {filteredTunnellers.map((tunneller, index) => (
                 <li key={index}>
                   <Link
-                    href={`${localePrefix}/tunnellers/${tunneller.slug}`}
+                    href={`${localePrefix}/tunnellers/${tunneller.slug}/`}
                     aria-label={t("seeTunnellerProfile", {
                       forename: tunneller.name.forename,
                       surname: tunneller.name.surname,
@@ -250,7 +253,7 @@ export function Menu({ tunnellers }: Props) {
             </ul>
 
             <Link
-              href={`${localePrefix}/tunnellers`}
+              href={`${localePrefix}/tunnellers/`}
               className={STYLES["tunnellers-link"]}
               onClick={handleNavigation}
             >

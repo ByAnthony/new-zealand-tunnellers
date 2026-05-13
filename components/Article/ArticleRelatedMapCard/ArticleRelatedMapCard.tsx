@@ -78,7 +78,7 @@ export function ArticleRelatedMapCard({
                     return (
                       <Link
                         key={period.key}
-                        href={`${localePrefix}/maps/tunnellers-works?period=true&frontlines=true&from=${period.start}&to=${period.end}`}
+                        href={`${localePrefix}/maps/tunnellers-works/?period=true&frontlines=true&from=${period.start}&to=${period.end}`}
                         aria-label={t("relatedMapLinkAria", {
                           period: t(`periods.${period.labelKey}`),
                           dates: formatPeriodRange(

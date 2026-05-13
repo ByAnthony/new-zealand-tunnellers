@@ -424,7 +424,7 @@ exports[`Roll matches the snapshot 1`] = `
             class="tunnellers-container"
           >
             <a
-              href="/tunnellers/test-tunneller--1_234"
+              href="/tunnellers/test-tunneller--1_234/"
             >
               <div
                 class="tunneller"
@@ -486,7 +486,7 @@ exports[`Roll matches the snapshot 1`] = `
             class="tunnellers-container"
           >
             <a
-              href="/tunnellers/test-tunneller--1_234"
+              href="/tunnellers/test-tunneller--1_234/"
             >
               <div
                 class="tunneller"
@@ -548,7 +548,7 @@ exports[`Roll matches the snapshot 1`] = `
             class="tunnellers-container"
           >
             <a
-              href="/tunnellers/test-tunneller--1_234"
+              href="/tunnellers/test-tunneller--1_234/"
             >
               <div
                 class="tunneller"
@@ -615,7 +615,7 @@ exports[`Roll matches the snapshot 1`] = `
             class="tunnellers-container"
           >
             <a
-              href="/tunnellers/test-tunneller--1_234"
+              href="/tunnellers/test-tunneller--1_234/"
             >
               <div
                 class="tunneller"

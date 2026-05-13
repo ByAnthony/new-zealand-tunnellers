@@ -86,7 +86,7 @@ describe("Contents", () => {
     const prologueLink = screen.getByRole("link", { name: /Prologue/i });
     expect(prologueLink).toHaveAttribute(
       "href",
-      "/fr/books/kiwis-dig-tunnels-too/prologue",
+      "/fr/books/kiwis-dig-tunnels-too/prologue/",
     );
   });
 
@@ -97,7 +97,7 @@ describe("Contents", () => {
     });
     expect(chapterLink).toHaveAttribute(
       "href",
-      "/fr/books/kiwis-dig-tunnels-too/chapter-1-the-tunnellers-from-the-antipodes",
+      "/fr/books/kiwis-dig-tunnels-too/chapter-1-the-tunnellers-from-the-antipodes/",
     );
   });
 });

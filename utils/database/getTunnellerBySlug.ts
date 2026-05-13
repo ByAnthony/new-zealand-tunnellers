@@ -19,7 +19,7 @@ export async function getTunnellerBySlug(
         const newSlug = await tunnellerSlugByIdQuery(slug, connection);
         if (newSlug) {
           const localePrefix = locale === "en" ? "" : `/${locale}`;
-          const suffix = redirectTarget === "timeline" ? "/wwi-timeline" : "";
+          const suffix = redirectTarget === "timeline" ? "/wwi-timeline/" : "/";
           redirect(`${localePrefix}/tunnellers/${newSlug}${suffix}`);
         }
       }

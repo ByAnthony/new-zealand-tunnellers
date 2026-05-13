@@ -70,7 +70,7 @@ describe("Menu", () => {
     expect(screen.getByText("(1886-1952)")).toBeInTheDocument();
     expect(screen.getAllByRole("link")[1]).toHaveAttribute(
       "href",
-      "/tunnellers/test-tunneller--1_234",
+      "/tunnellers/test-tunneller--1_234/",
     );
   });
 
@@ -359,7 +359,7 @@ describe("Menu", () => {
 
       const link = screen.getByRole("link", { name: "Français" });
       expect(link).toBeInTheDocument();
-      expect(link).toHaveAttribute("href", "/fr/tunnellers");
+      expect(link).toHaveAttribute("href", "/fr/tunnellers/");
     });
 
     test("renders English link on French locale", () => {
@@ -369,7 +369,7 @@ describe("Menu", () => {
 
       const link = screen.getByRole("link", { name: "English" });
       expect(link).toBeInTheDocument();
-      expect(link).toHaveAttribute("href", "/tunnellers");
+      expect(link).toHaveAttribute("href", "/tunnellers/");
     });
 
     test("French switcher falls back to / when path is only /fr", () => {
@@ -395,7 +395,7 @@ describe("Menu", () => {
       fireEvent.click(screen.getByRole("link", { name: "Français" }));
 
       expect(mockPush).toHaveBeenCalledWith(
-        "/fr/tunnellers?detachment=main-body",
+        "/fr/tunnellers/?detachment=main-body",
       );
     });
 
@@ -418,7 +418,7 @@ describe("Menu", () => {
       fireEvent.click(screen.getByRole("link", { name: "Français" }));
 
       expect(mockPush).toHaveBeenCalledWith(
-        "/fr/tunnellers?view=map&zoom=8&detachment=main-body",
+        "/fr/tunnellers/?view=map&zoom=8&detachment=main-body",
       );
     });
   });

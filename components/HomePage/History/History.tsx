@@ -117,7 +117,7 @@ export function History({ articles }: Props) {
                 style={divStyle}
               >
                 <Link
-                  href={`${localePrefix}/history/${article.id}`}
+                  href={`${localePrefix}/history/${article.id}/`}
                   className={STYLES["link-button"]}
                   aria-label={tArticle("goToChapter", {
                     chapter: article.chapter,

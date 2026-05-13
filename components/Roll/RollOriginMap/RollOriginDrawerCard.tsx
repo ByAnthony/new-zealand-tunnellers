@@ -15,7 +15,7 @@ type Props = {
 export function RollOriginDrawerCard({ localePrefix, tunneller }: Props) {
   return (
     <Link
-      href={`${localePrefix}/tunnellers/${tunneller.slug}`}
+      href={`${localePrefix}/tunnellers/${tunneller.slug}/`}
       className={STYLES["origin-drawer-link"]}
       onClick={() => saveTunnellersReturnUrl(window.location.href)}
     >

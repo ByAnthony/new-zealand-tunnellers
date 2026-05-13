@@ -42,7 +42,7 @@ export function RollDetails({ listOfTunnellers }: Props) {
     <>
       {listOfTunnellers.map((tunneller: Tunneller) => (
         <Link
-          href={`${localePrefix}/tunnellers/${tunneller.slug}`}
+          href={`${localePrefix}/tunnellers/${tunneller.slug}/`}
           key={tunneller.id}
           onClick={saveScroll}
         >

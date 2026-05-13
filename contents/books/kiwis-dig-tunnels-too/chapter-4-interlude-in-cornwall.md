@@ -26,7 +26,7 @@ At the end of February, the company prepared for its final journey to war. The t
 
 New units were still arriving every week and the tunnelling companies’ equipment and organisation were gradually improving, but the situation remained precarious. Since the New Zealand company’s formation had been announced, Britain had raised a further nine tunnelling units. Canada, not waiting for the two contingents then being raised at home, drew miners from its two divisions already deployed in France and assembled them into the 3rd&nbsp;Canadian Tunnelling Company—the first Dominion unit to see action on the Western Front, at Sainte-Marie-Cappel, south of Cassel, at the end of 1915. Yet across most of the front, defensive underground systems existed only in scattered strategic positions, and tunnellers found themselves locked in fragmented local operations where the enemy still held the upper hand.[^15]
 
-<a className="button-chapter-book" href="/books/kiwis-dig-tunnels-too/chapter-5-back-to-school" aria-label="Go to chapter 5: Back to School">
+<a className="button-chapter-book" href="/books/kiwis-dig-tunnels-too/chapter-5-back-to-school/" aria-label="Go to chapter 5: Back to School">
   <div>    
     <p className="chapter">Chapter 5</p>
     <span>Back to School</span>

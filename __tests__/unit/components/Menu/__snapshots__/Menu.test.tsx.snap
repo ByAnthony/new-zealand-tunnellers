@@ -44,7 +44,7 @@ exports[`Menu matches the snapshot 1`] = `
     </div>
     <a
       class="language-switcher"
-      href="/fr"
+      href="/fr/"
     >
       Français
     </a>

@@ -28,7 +28,7 @@ const SommaireItem: React.FC<{
   const slug = href.replace(/^\.\//, "").replace(/\.md$/, "");
   const title = extractText(children).trim();
   const chap = parseChapterHeading(title, locale);
-  const fullPath = `${basePath(locale)}/${slug}`;
+  const fullPath = `${basePath(locale)}${slug}/`;
 
   if (!chap) {
     return (

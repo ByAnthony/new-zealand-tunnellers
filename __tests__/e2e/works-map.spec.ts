@@ -6,7 +6,7 @@ const J3_WORK_NAME = "J3";
 test("switching map periods replaces the active period in the URL", async ({
   page,
 }) => {
-  await page.goto("/maps/tunnellers-works");
+  await page.goto("/maps/tunnellers-works/");
 
   const filtersButton = page.getByRole("button", { name: "Filters" });
   await expect(filtersButton).toBeVisible();
@@ -39,12 +39,12 @@ test("deep-link restore opens a visible work and ignores the same work when hidd
   page,
 }) => {
   await page.goto(
-    `/maps/tunnellers-works?work=${J3_WORK_ID}&period=true&from=1916-03-16&to=1916-11-15`,
+    `/maps/tunnellers-works/?work=${J3_WORK_ID}&period=true&from=1916-03-16&to=1916-11-15`,
   );
   await expect(page.getByText(J3_WORK_NAME, { exact: true })).toBeVisible();
 
   await page.goto(
-    `/maps/tunnellers-works?work=${J3_WORK_ID}&period=true&from=1918-07-15&to=1918-08-21`,
+    `/maps/tunnellers-works/?work=${J3_WORK_ID}&period=true&from=1918-07-15&to=1918-08-21`,
   );
   await expect(page.getByText(J3_WORK_NAME, { exact: true })).not.toBeVisible();
 });
@@ -52,7 +52,7 @@ test("deep-link restore opens a visible work and ignores the same work when hidd
 test("changing to a period that excludes the selected work closes the info bar", async ({
   page,
 }) => {
-  await page.goto(`/maps/tunnellers-works?work=${J3_WORK_ID}`);
+  await page.goto(`/maps/tunnellers-works/?work=${J3_WORK_ID}`);
   await expect(page.getByText(J3_WORK_NAME, { exact: true })).toBeVisible();
 
   const filtersButton = page.getByRole("button", { name: "Filters" });

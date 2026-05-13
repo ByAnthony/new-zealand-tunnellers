@@ -121,7 +121,7 @@ export function DiaryArmyExperience({ tunnellerSlug, armyExperience }: Props) {
       <h3>{t("armyExperience")}</h3>
       <ArmyExperienceList militaryExperience={armyExperience} locale={locale} />
       <Link
-        href={`${localePrefix}/tunnellers/${tunnellerSlug}/wwi-timeline`}
+        href={`${localePrefix}/tunnellers/${tunnellerSlug}/wwi-timeline/`}
         className={STYLES_WWI["war-service"]}
         aria-label={t("openTimeline")}
       >

@@ -43,7 +43,7 @@ describe("getTunnellerBySlug", () => {
       "1",
       mockConnection,
     );
-    expect(mockRedirect).toHaveBeenCalledWith("/tunnellers/john-doe--1");
+    expect(mockRedirect).toHaveBeenCalledWith("/tunnellers/john-doe--1/");
     expect(mockGetTunneller).not.toHaveBeenCalled();
   });
 
@@ -58,7 +58,7 @@ describe("getTunnellerBySlug", () => {
     );
 
     expect(mockRedirect).toHaveBeenCalledWith(
-      "/fr/tunnellers/john-doe--1/wwi-timeline",
+      "/fr/tunnellers/john-doe--1/wwi-timeline/",
     );
     expect(mockGetTunneller).not.toHaveBeenCalled();
   });

@@ -21,7 +21,7 @@ describe("Profile", () => {
     render(<Profile tunneller={mockTunnellerProfile} />);
 
     const tunnellersLink = screen.getByText("Tunnellers");
-    expect(tunnellersLink).toHaveAttribute("href", "/tunnellers");
+    expect(tunnellersLink).toHaveAttribute("href", "/tunnellers/");
 
     const titleLineOne = screen.getByText("John");
     expect(titleLineOne).toHaveClass("forename");
@@ -79,7 +79,7 @@ describe("Profile", () => {
     });
     expect(timeline).toHaveAttribute(
       "href",
-      "/tunnellers/harry-corrin--4_1415/wwi-timeline",
+      "/tunnellers/harry-corrin--4_1415/wwi-timeline/",
     );
     expect(screen.getByText("World War I (1914-1918)")).toBeInTheDocument();
     expect(timeline).toHaveTextContent("New Zealand Tunnellers");
@@ -184,7 +184,7 @@ describe("Profile", () => {
       render(<Profile tunneller={mockTunnellerProfile} />);
       expect(screen.getByText("Tunnellers")).toHaveAttribute(
         "href",
-        "/tunnellers",
+        "/tunnellers/",
       );
     });
 
@@ -197,7 +197,7 @@ describe("Profile", () => {
       render(<Profile tunneller={mockTunnellerProfile} />);
       expect(screen.getByText("Tunnellers")).toHaveAttribute(
         "href",
-        "/tunnellers?detachment=1&page=2",
+        "/tunnellers/?detachment=1&page=2",
       );
     });
 
@@ -208,7 +208,7 @@ describe("Profile", () => {
 
       expect(screen.getByText("Tunnellers")).toHaveAttribute(
         "href",
-        "/tunnellers?view=map",
+        "/tunnellers/?view=map",
       );
     });
   });

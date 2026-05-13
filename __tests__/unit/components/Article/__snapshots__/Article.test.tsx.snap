@@ -116,7 +116,7 @@ exports[`Article matches the snapshot 1`] = `
       <a
         aria-label="Go to Chapter 3: Next Chapter"
         class="button-chapter"
-        href="/history/my-path-to-next-chapter"
+        href="/history/my-path-to-next-chapter/"
       >
         <div>
           <p

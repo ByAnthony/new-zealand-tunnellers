@@ -6,8 +6,8 @@ import {
 
 describe("basePath", () => {
   test.each([
-    { locale: "fr", expected: "/fr/books/kiwis-dig-tunnels-too" },
-    { locale: "en", expected: "/books/kiwis-dig-tunnels-too" },
+    { locale: "fr", expected: "/fr/books/kiwis-dig-tunnels-too/" },
+    { locale: "en", expected: "/books/kiwis-dig-tunnels-too/" },
   ])(
     "returns the correct URL path for locale '$locale'",
     ({ locale, expected }) => {
