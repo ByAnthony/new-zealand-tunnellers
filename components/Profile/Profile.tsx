@@ -23,7 +23,7 @@ export function Profile({ tunneller }: Props) {
   const t = useTranslations("profile");
   const locale = useLocale();
   const localePrefix = locale === "en" ? "" : `/${locale}`;
-  const returnUrl = useStoredReturnUrl(`${localePrefix}/tunnellers`);
+  const returnUrl = useStoredReturnUrl(`${localePrefix}/tunnellers/`);
 
   return (
     <>

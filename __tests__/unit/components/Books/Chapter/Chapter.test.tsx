@@ -135,7 +135,10 @@ describe("Chapter", () => {
     const bookLink = screen.getByRole("link", {
       name: "Go to the table of contents",
     });
-    expect(bookLink).toHaveAttribute("href", "/fr/books/kiwis-dig-tunnels-too");
+    expect(bookLink).toHaveAttribute(
+      "href",
+      "/fr/books/kiwis-dig-tunnels-too/",
+    );
   });
 
   test("renames 'Footnotes' heading to 'Notes'", () => {

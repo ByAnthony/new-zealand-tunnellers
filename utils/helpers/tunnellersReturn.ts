@@ -34,14 +34,25 @@ function getUrlView(url: string): RollView {
   }
 }
 
+function withTrailingSlash(url: string): string {
+  const [path, hash = ""] = url.split("#");
+  const [pathname, query = ""] = path.split("?");
+  const normalizedPathname =
+    pathname === "/" || pathname.endsWith("/") ? pathname : `${pathname}/`;
+
+  return `${normalizedPathname}${query ? `?${query}` : ""}${hash ? `#${hash}` : ""}`;
+}
+
 function withMapView(url: string): string {
   const [path, hash = ""] = url.split("#");
   const [pathname, query = ""] = path.split("?");
   const params = new URLSearchParams(query);
   params.set("view", "map");
   const search = params.toString();
+  const normalizedPathname =
+    pathname === "/" || pathname.endsWith("/") ? pathname : `${pathname}/`;
 
-  return `${pathname}${search ? `?${search}` : ""}${hash ? `#${hash}` : ""}`;
+  return `${normalizedPathname}${search ? `?${search}` : ""}${hash ? `#${hash}` : ""}`;
 }
 
 export function saveRollView(view: RollView) {
@@ -68,15 +79,15 @@ export function getTunnellersReturnUrl(fallbackUrl: string): string {
 
   if (storedView === "map") {
     return storedReturnUrl && getUrlView(storedReturnUrl) === "map"
-      ? storedReturnUrl
+      ? withTrailingSlash(storedReturnUrl)
       : withMapView(fallbackUrl);
   }
 
   if (storedView === "list") {
     return storedReturnUrl && getUrlView(storedReturnUrl) === "list"
-      ? storedReturnUrl
-      : fallbackUrl;
+      ? withTrailingSlash(storedReturnUrl)
+      : withTrailingSlash(fallbackUrl);
   }
 
-  return storedReturnUrl ?? fallbackUrl;
+  return withTrailingSlash(storedReturnUrl ?? fallbackUrl);
 }

@@ -24,7 +24,7 @@ exports[`Footer matches the snapshot 1`] = `
           class="map-link"
         >
           <a
-            href="/tunnellers"
+            href="/tunnellers/"
           >
             Tunnellers
           </a>
@@ -42,7 +42,7 @@ exports[`Footer matches the snapshot 1`] = `
           class="map-link"
         >
           <a
-            href="/about-us"
+            href="/about-us/"
           >
             About Us
           </a>

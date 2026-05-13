@@ -47,7 +47,7 @@ describe("Tunnellers Component", () => {
       name: "Discover The New Zealand Tunnellers",
     });
 
-    expect(tunnellersLink).toHaveAttribute("href", "/tunnellers");
+    expect(tunnellersLink).toHaveAttribute("href", "/tunnellers/");
   });
 
   test("renders SVG with text for width <= 512", () => {

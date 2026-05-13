@@ -45,7 +45,7 @@ exports[`History matches the snapshot 1`] = `
           <a
             aria-label="Go to Chapter 1: Where All Started"
             class="link-button"
-            href="/history/where-all-started"
+            href="/history/where-all-started/"
           >
             <div
               class="chapter-card-dimmer"
@@ -81,7 +81,7 @@ exports[`History matches the snapshot 1`] = `
           <a
             aria-label="Go to Chapter 2: The Journey Ahead"
             class="link-button"
-            href="/history/the-journey-ahead"
+            href="/history/the-journey-ahead/"
           >
             <div
               class="chapter-card-dimmer"
@@ -117,7 +117,7 @@ exports[`History matches the snapshot 1`] = `
           <a
             aria-label="Go to Chapter 3: Discovering The War"
             class="link-button"
-            href="/history/discovering-the-war"
+            href="/history/discovering-the-war/"
           >
             <div
               class="chapter-card-dimmer"
@@ -153,7 +153,7 @@ exports[`History matches the snapshot 1`] = `
           <a
             aria-label="Go to Chapter 4: Below The Surface"
             class="link-button"
-            href="/history/below-the-surface"
+            href="/history/below-the-surface/"
           >
             <div
               class="chapter-card-dimmer"
@@ -189,7 +189,7 @@ exports[`History matches the snapshot 1`] = `
           <a
             aria-label="Go to Chapter 5: Back To The Surface"
             class="link-button"
-            href="/history/back-to-the-surface"
+            href="/history/back-to-the-surface/"
           >
             <div
               class="chapter-card-dimmer"
@@ -225,7 +225,7 @@ exports[`History matches the snapshot 1`] = `
           <a
             aria-label="Go to Chapter 6: Reconversion Of Activities"
             class="link-button"
-            href="/history/reconversion-of-activities"
+            href="/history/reconversion-of-activities/"
           >
             <div
               class="chapter-card-dimmer"
@@ -261,7 +261,7 @@ exports[`History matches the snapshot 1`] = `
           <a
             aria-label="Go to Chapter 7: Returning Home"
             class="link-button"
-            href="/history/returnin-home"
+            href="/history/returnin-home/"
           >
             <div
               class="chapter-card-dimmer"

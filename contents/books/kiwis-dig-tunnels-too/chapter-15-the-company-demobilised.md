@@ -35,7 +35,7 @@ A little more than three years after the company had left for the war, the <em>I
 
 While the port of Auckland celebrated the arrival of the demobilised men, the military authorities had approved the dissolution of the Tunnelling Company. Despite the recognition it had earned from senior British commanders for its work, there were no plans to incorporate the small unit into the regular army. Its numbers could not be sustained: the industries that had loaned their workers to the war were already pressing for their return. Funds were equally short—not only to keep the company going, but to maintain the standard of expertise its work had demanded. Training regular soldiers was judged sufficient to keep the skills of sapping and mining alive within the engineers. Although the unit had existed only briefly, its story lived on in each of its members. Scattered as they were across New Zealand, the men closed the parenthesis that had carried them to the other side of the world.
 
-<a className="button-chapter-book" href="/books/kiwis-dig-tunnels-too/epilogue" aria-label="Read: Epilogue">
+<a className="button-chapter-book" href="/books/kiwis-dig-tunnels-too/epilogue/" aria-label="Read: Epilogue">
   <div>
     <span>Epilogue</span>
   </div>

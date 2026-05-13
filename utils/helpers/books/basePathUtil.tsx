@@ -7,7 +7,7 @@ export const bookFilePath = (locale: string) =>
 // URL path — always English slug, prefixed with /fr/ when French
 export const basePath = (locale: string) => {
   const localePrefix = locale === "en" ? "" : `/${locale}`;
-  return `${localePrefix}/books/kiwis-dig-tunnels-too`;
+  return `${localePrefix}/books/kiwis-dig-tunnels-too/`;
 };
 
 export const bookTitle = (locale: string) =>

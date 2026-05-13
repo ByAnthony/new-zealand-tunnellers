@@ -23,11 +23,11 @@ describe("Timeline", () => {
     render(<Timeline tunneller={mockTunnellerProfile} />);
 
     const tunnellersLink = screen.getByText("Tunnellers");
-    expect(tunnellersLink).toHaveAttribute("href", "/tunnellers");
+    expect(tunnellersLink).toHaveAttribute("href", "/tunnellers/");
     const tunnellerLink = screen.getByText("John Smith");
     expect(tunnellerLink).toHaveAttribute(
       "href",
-      "/tunnellers/harry-corrin--4_1415",
+      "/tunnellers/harry-corrin--4_1415/",
     );
 
     const titleLineOne = screen.getByText("World War I");
@@ -75,7 +75,7 @@ describe("Timeline", () => {
       render(<Timeline tunneller={mockTunnellerProfile} />);
       expect(screen.getByText("Tunnellers")).toHaveAttribute(
         "href",
-        "/tunnellers",
+        "/tunnellers/",
       );
     });
 
@@ -88,7 +88,7 @@ describe("Timeline", () => {
       render(<Timeline tunneller={mockTunnellerProfile} />);
       expect(screen.getByText("Tunnellers")).toHaveAttribute(
         "href",
-        "/tunnellers?detachment=main-body&page=2",
+        "/tunnellers/?detachment=main-body&page=2",
       );
     });
 
@@ -99,7 +99,7 @@ describe("Timeline", () => {
 
       expect(screen.getByText("Tunnellers")).toHaveAttribute(
         "href",
-        "/tunnellers?view=map",
+        "/tunnellers/?view=map",
       );
     });
   });

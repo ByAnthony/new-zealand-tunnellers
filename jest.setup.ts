@@ -8,6 +8,22 @@ jest.mock("next-intl", () => ({
   useLocale: jest.fn(() => "en"),
 }));
 
+jest.mock("next/link", () => ({
+  __esModule: true,
+  default: ({ href, children, ...props }: any) =>
+    React.createElement(
+      "a",
+      {
+        ...props,
+        href:
+          typeof href === "string"
+            ? href
+            : `${href.pathname ?? ""}${href.query ? `?${new URLSearchParams(href.query).toString()}` : ""}${href.hash ?? ""}`,
+      },
+      children,
+    ),
+}));
+
 // Mock Next.js Image component to ensure consistent snapshots across environments
 jest.mock("next/image", () => ({
   __esModule: true,
