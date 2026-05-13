@@ -14,7 +14,7 @@ async function typeIntoSearch(
 }
 
 test("can click on logo to go to home page", async ({ page }) => {
-  await page.goto("/tunnellers");
+  await page.goto("/tunnellers/");
 
   const logo = page.getByLabel("Go to the Homepage");
   await logo.click();

@@ -26,7 +26,7 @@ export function ArticleNextChapterButton({
         className={`${STYLES["button-chapter-container"]} ${compactSpacing ? STYLES["button-chapter-container--compact"] : ""}`.trim()}
       >
         <Link
-          href={`${localePrefix}/history/${chapter.url}`}
+          href={`${localePrefix}/history/${chapter.url}/`}
           className={STYLES["button-chapter"]}
           aria-label={t("goToChapter", {
             chapter: chapter.chapter,

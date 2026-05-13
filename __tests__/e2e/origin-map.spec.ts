@@ -1,7 +1,7 @@
 import { expect, Page, test } from "@playwright/test";
 
 async function openFirstOriginDrawer(page: Page) {
-  await page.goto("/tunnellers?view=map");
+  await page.goto("/tunnellers/?view=map");
   await expect(page.getByTestId("roll-origin-map")).toBeVisible();
   const firstMarker = page.locator(".leaflet-interactive").first();
   await expect(firstMarker).toBeVisible();
@@ -12,7 +12,7 @@ async function openFirstOriginDrawer(page: Page) {
 test("roll origin map shows controls without unmapped origin action", async ({
   page,
 }) => {
-  await page.goto("/tunnellers?view=map");
+  await page.goto("/tunnellers/?view=map");
 
   await expect(page.getByTestId("roll-origin-map")).toBeVisible();
   await expect(

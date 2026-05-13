@@ -49,7 +49,7 @@ describe("Article", () => {
     });
     expect(nextButton).toHaveAttribute(
       "href",
-      "/history/my-path-to-next-chapter",
+      "/history/my-path-to-next-chapter/",
     );
     expect(screen.getByText("Chapter 3")).toBeInTheDocument();
     expect(screen.getByText("Next Chapter")).toBeInTheDocument();
