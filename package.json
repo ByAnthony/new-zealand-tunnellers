@@ -32,7 +32,7 @@
     "leaflet.markercluster": "1.5.3",
     "lodash": "4.18.1",
     "mysql2": "3.22.3",
-    "newrelic": "13.20.0",
+    "newrelic": "14.0.0",
     "next": "16.2.6",
     "next-intl": "4.12.0",
     "nodemon": "3.1.14",
