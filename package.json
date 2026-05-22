@@ -59,9 +59,9 @@
     "@types/jest": "30.0.0",
     "@types/lodash": "4.17.24",
     "@types/node": "22.13.17",
-    "@types/react": "19.2.14",
+    "@types/react": "19.2.15",
     "@types/react-dom": "19.2.3",
-    "baseline-browser-mapping": "2.10.29",
+    "baseline-browser-mapping": "2.10.31",
     "eslint": "9.39.4",
     "eslint-config-next": "16.2.6",
     "eslint-config-prettier": "10.1.8",
@@ -73,6 +73,6 @@
     "jest-environment-jsdom": "30.4.1",
     "lint-staged": "16.4.0",
     "typescript": "6.0.3",
-    "typescript-eslint": "8.59.3"
+    "typescript-eslint": "8.59.4"
   }
 }
