@@ -46,7 +46,7 @@
     "rehype-raw": "^7.0.0",
     "remark-gfm": "4.0.1",
     "remark-remove-comments": "1.1.1",
-    "sass": "1.99.0",
+    "sass": "1.100.0",
     "sharp": "0.34.5",
     "ts-node": "10.9.2",
     "unist-util-visit": "5.1.0"
