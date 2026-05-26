@@ -23,6 +23,9 @@ describe("HowToCite", () => {
     );
 
     expect(emphasized).toContain("New Zealand Tunnellers");
+    expect(container.querySelector("p")).toHaveTextContent(
+      "New Zealand Tunnellers, 2009.",
+    );
   });
 
   test("italicizes the book title instead of the site title for book citations", () => {
@@ -40,6 +43,9 @@ describe("HowToCite", () => {
 
     expect(emphasized).toContain("Kiwis Dig Tunnels Too");
     expect(emphasized).not.toContain("New Zealand Tunnellers");
+    expect(container.querySelector("p")).toHaveTextContent(
+      "New Zealand Tunnellers, 2017.",
+    );
   });
 
   test("shows English success alert on clipboard copy", async () => {
