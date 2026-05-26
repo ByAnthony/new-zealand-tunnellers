@@ -36,6 +36,9 @@ type HowToCiteUrlProps = {
   locale?: string;
 };
 
+const SITE_CITATION_YEAR = "2009";
+const BOOK_CITATION_YEAR = "2017";
+
 export function HowToCiteUrl({
   tunnellerSlug,
   title,
@@ -115,6 +118,9 @@ export function HowToCite({
       pathname ? (chapterTitle ?? formatBookSubpath(pathname, locale)) : null,
     [chapterTitle, pathname, locale],
   );
+  const citationYear = citationChapterTitle
+    ? BOOK_CITATION_YEAR
+    : SITE_CITATION_YEAR;
 
   const handleCopy = () => {
     if (citationRef.current) {
@@ -178,7 +184,7 @@ export function HowToCite({
         ) : (
           <em>New Zealand Tunnellers</em>
         )}
-        {", 2009. "}
+        {`, ${citationYear}. `}
         <HowToCiteUrl
           tunnellerSlug={tunnellerSlug}
           title={title}
