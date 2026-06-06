@@ -7,7 +7,7 @@ Livre publié sur New Zealand Tunnellers – https://www.nztunnellers.com/fr/boo
 
 - AUDOIN-ROUZEAU Stéphane et BECKER Jean-Jacques (dir.), _Encyclopédie de la Grande Guerre 1914-1918. Histoire et culture_, Paris, Bayard, 2004, 1342&nbsp;p.
 - BARRIE Alexander, _War Underground: The Tunnellers of the Great War_, Londres, Frederick Muller, 1962, 284&nbsp;p.
-- BARTON Peter, DOYLE Peter et VANDEWALLE Johan, _Beneath Flanders Fields: The Tunnellers’ War 1914-18_, Gloucestershire, Spellmount Publishers, 2007 (dir. orig. 2004), 304&nbsp;p.
+- BARTON Peter, DOYLE Peter et VANDEWALLE Johan, _Beneath Flanders Fields: The Tunnellers’ War 1914-18_, Gloucestershire, Spellmount Publishers, 2007 (éd. orig. 2004), 304&nbsp;p.
 - BARTON Peter et BANNING Jeremy, _Arras, The Spring 1917 Offensive in Panoramas including Vimy Ridge and Bullecourt_, Londres, Constable, 2010, 312&nbsp;p.
 - BRIDGLAND Tony et MORGAN Anne, _Tunnel-master & Arsonist of the Great War: The Norton-Griffiths Story_, Barnsley, Pen & Swords Books, 2003, 242&nbsp;p.
 - BYLEDBAL Anthony (dir.), _Les Taupes de la Grande Guerre. Combats et combattants souterrains_, Arras, Artois Presses Université, 2015, 176&nbsp;p.
