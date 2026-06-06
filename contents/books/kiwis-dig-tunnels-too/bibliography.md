@@ -5,12 +5,12 @@ Book published on New Zealand Tunnellers website – https://www.nztunnellers.co
 
 ## Books
 
-- AUDOIN-ROUZEAU Stéphane and BECKER Jean-Jacques (dir.), _Encyclopédie de la Grande Guerre 1914-1918. Histoire et culture_, Paris, Bayard, 2004, 1342&nbsp;p.
+- AUDOIN-ROUZEAU Stéphane and BECKER Jean-Jacques (ed.), _Encyclopédie de la Grande Guerre 1914-1918. Histoire et culture_, Paris, Bayard, 2004, 1342&nbsp;p.
 - BARRIE Alexander, _War Underground: The Tunnellers of the Great War_, London, Frederick Muller, 1962, 284&nbsp;p.
 - BARTON Peter, DOYLE Peter and VANDEWALLE Johan, _Beneath Flanders Fields: The Tunnellers’ War 1914-18_, Gloucestershire, Spellmount Publishers, 2007 (orig. ed. 2004), 304&nbsp;p.
 - BARTON Peter and BANNING Jeremy, _Arras, The Spring 1917 Offensive in Panoramas including Vimy Ridge and Bullecourt_, London, Constable, 2010, 312&nbsp;p.
 - BRIDGLAND Tony and MORGAN Anne, _Tunnel-master & Arsonist of the Great War: The Norton-Griffiths Story_, Barnsley, Pen & Swords Books, 2003, 242&nbsp;p.
-- BYLEDBAL Anthony (dir.), _Les Taupes de la Grande Guerre. Combats et combattants souterrains_, Arras, Artois Presses Université, 2015, 176&nbsp;p.
+- BYLEDBAL Anthony (ed.), _Les Taupes de la Grande Guerre. Combats et combattants souterrains_, Arras, Artois Presses Université, 2015, 176&nbsp;p.
 - COQUEREL Paul, _L’Afrique du Sud des Afrikaners_, Bruxelles, Complexe, 1992, 303&nbsp;p.
 - GUSTAFSON Barry, _Labour’s Path to Political independence: The Origins and Establishment of the New Zealand Labour Party 1900-19_, Auckland, Auckland University Press, 1980, 199&nbsp;p.
 - JONES Simon, _Underground Warfare 1914-1918_, Barnsley, Pen & Sword Military, 2010, 288&nbsp;p.
@@ -20,7 +20,7 @@ Book published on New Zealand Tunnellers website – https://www.nztunnellers.co
 - PRESTON Bernard, _Hard Times on the Chain Hills_, s.l., MacManus Family, 2006, 152&nbsp;p.
 - PUGSLEY Christopher, _On the Fringe of Hell, New Zealanders and Military Discipline during the First World War_, Auckland, Hodder & Stoughton, 1991, 256&nbsp;p.
 - ———, Te Hokowhitu A Tu, _The Maori Pioneer Battalion in The First World War_, Auckland, Reed Books, 1994, 147&nbsp;p.
-- RICE Geoffrey (dir.), _The Oxford History of New Zealand_, Auckland, Oxford University Press, 1997 (1992), 755&nbsp;p.
+- RICE Geoffrey (ed.), _The Oxford History of New Zealand_, Auckland, Oxford University Press, 1997 (1992), 755&nbsp;p.
 - TOLERTON Jane, _Ettie: A life of Ettie Rout_, Auckland, Penguin Books, 1992, 283&nbsp;p.
 
 ## Articles
@@ -32,6 +32,7 @@ Book published on New Zealand Tunnellers website – https://www.nztunnellers.co
 - ———, &ldquo;Un patrimoine caché : l’héritage de la guerre des mines à Arras&rdquo; [[Online]](https://journals.openedition.org/insitu/11466). _In Situ_, 25 | 2014 [ref. 1&nbsp;March 2026].
 - ———, &ldquo;Sous l’uniforme, les fédérés rouges. L’exemple des militants et tunneliers néo-zélandais&rdquo;, in Jean-Louis Robert (ed.), _Le Syndicalisme à l’épreuve de la Premiere Guerre mondiale_, Rennes, Presses Universitaires de Rennes, 2017, p.&nbsp;65-76.
 - ———, &ldquo;Un Effort nécessaire : les quotas pour le corps des tunneliers néo-zélandais&rdquo;, in Viviane Fayaud (ed.), _Les Océaniens dans la Grande Guerre. Nation, nationalisme et sentiment d’appartenance_, Amiens, Encrage éditions, 2018, p.&nbsp;208-219.
+- ———, &ldquo;La bataille souterraine, les tunneliers néo-zélandais à Arras&rdquo;, in Michel-Pierre Chelini (ed.), _La Bataille d'Arras, au tournant de la guerre (avril-mai 1917). Perspectives européennes et canadiennes_, Bruxelles, Peter Lang Éditions Scientifiques Internationales, 2026, p.&nbsp;29-43.
 - McGIBBON Ian, &ldquo;Duigan, John Evelyn 1883-1950&rdquo; [[Online]](http://www.teara.govt.nz/en/biographies/4d24/1). _Dictionary of New Zealand Biography_ [Accessed on 1&nbsp;September 2010].
 
 ## Unpublished Thesis
