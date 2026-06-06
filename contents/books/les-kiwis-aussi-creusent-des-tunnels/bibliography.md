@@ -7,7 +7,7 @@ Livre publié sur New Zealand Tunnellers – https://www.nztunnellers.com/fr/boo
 
 - AUDOIN-ROUZEAU Stéphane et BECKER Jean-Jacques (dir.), _Encyclopédie de la Grande Guerre 1914-1918. Histoire et culture_, Paris, Bayard, 2004, 1342&nbsp;p.
 - BARRIE Alexander, _War Underground: The Tunnellers of the Great War_, Londres, Frederick Muller, 1962, 284&nbsp;p.
-- BARTON Peter, DOYLE Peter et VANDEWALLE Johan, _Beneath Flanders Fields: The Tunnellers’ War 1914-18_, Gloucestershire, Spellmount Publishers, 2007 (éd. orig. 2004), 304&nbsp;p.
+- BARTON Peter, DOYLE Peter et VANDEWALLE Johan, _Beneath Flanders Fields: The Tunnellers’ War 1914-18_, Gloucestershire, Spellmount Publishers, 2007 (dir. orig. 2004), 304&nbsp;p.
 - BARTON Peter et BANNING Jeremy, _Arras, The Spring 1917 Offensive in Panoramas including Vimy Ridge and Bullecourt_, Londres, Constable, 2010, 312&nbsp;p.
 - BRIDGLAND Tony et MORGAN Anne, _Tunnel-master & Arsonist of the Great War: The Norton-Griffiths Story_, Barnsley, Pen & Swords Books, 2003, 242&nbsp;p.
 - BYLEDBAL Anthony (dir.), _Les Taupes de la Grande Guerre. Combats et combattants souterrains_, Arras, Artois Presses Université, 2015, 176&nbsp;p.
@@ -30,8 +30,9 @@ Livre publié sur New Zealand Tunnellers – https://www.nztunnellers.com/fr/boo
 - BYLEDBAL Anthony, &laquo;&nbsp;Atypical Birth of the NZ Tunnelling Company&nbsp;&raquo;, _The Volunteers, The Journal of the New Zealand Military Historical Society_, vol. 35, 1, July 2009, p.&nbsp;15-24.
 - ———, &laquo;&nbsp;Tunnelling under Arras&nbsp;&raquo;, in Christopher Pugsley, John Crawford, Nathalie Philippe and Matthias Strohn, _The Great Adventure Ends: New Zealand and France on the Western Front_, Christchurch, John Douglas Publishing, 2013, p.&nbsp;189-209.
 - ———, &laquo;&nbsp;Un patrimoine caché : l’héritage de la guerre des mines à Arras&nbsp;&raquo; [[En ligne]](https://journals.openedition.org/insitu/11466). _In Situ_, 25 | 2014 [réf. du 1<sup>er</sup>&nbsp;mars 2026].
-- ———, &laquo;&nbsp;Sous l’uniforme, les fédérés rouges. L’exemple des militants et tunneliers néo-zélandais&nbsp;&raquo;, in Jean-Louis Robert (ed.), _Le Syndicalisme à l’épreuve de la Premiere Guerre mondiale_, Rennes, Presses Universitaires de Rennes, 2017, p.&nbsp;65-76.
-- ———, &laquo;&nbsp;Un Effort nécessaire : les quotas pour le corps des tunneliers néo-zélandais&nbsp;&raquo;, in Viviane Fayaud (ed.), _Les Océaniens dans la Grande Guerre. Nation, nationalisme et sentiment d’appartenance_, Amiens, Encrage éditions, 2018, p.&nbsp;208-219.
+- ———, &laquo;&nbsp;Sous l’uniforme, les fédérés rouges. L’exemple des militants et tunneliers néo-zélandais&nbsp;&raquo;, in Jean-Louis Robert (dir.), _Le Syndicalisme à l’épreuve de la Premiere Guerre mondiale_, Rennes, Presses Universitaires de Rennes, 2017, p.&nbsp;65-76.
+- ———, &laquo;&nbsp;Un Effort nécessaire : les quotas pour le corps des tunneliers néo-zélandais&nbsp;&raquo;, in Viviane Fayaud (dir.), _Les Océaniens dans la Grande Guerre. Nation, nationalisme et sentiment d’appartenance_, Amiens, Encrage éditions, 2018, p.&nbsp;208-219.
+- ———, &laquo;&nbsp;La bataille souterraine, les tunneliers néo-zélandais à Arras&nbsp;&raquo;, in Michel-Pierre Chelini (dir.), _La Bataille d'Arras, au tournant de la guerre (avril-mai 1917). Perspectives européennes et canadiennes_, Bruxelles, Peter Lang Éditions Scientifiques Internationales, 2026, p.&nbsp;29-43.
 - McGIBBON Ian, &laquo;&nbsp;Duigan, John Evelyn 1883-1950&nbsp;&raquo; [[En ligne]](http://ww.teara.govt.nz/en/biographies/4d24/1). _Dictionary of New Zealand Biography_ [réf. du 1<sup>er</sup>&nbsp;septembre 2010].
 
 ## Mémoire non publié
