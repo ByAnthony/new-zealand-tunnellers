@@ -25,7 +25,7 @@ jobs:
       HUSKY: 0
     steps:
       - name: Checkout source code
-        uses: actions/checkout@v6.0.3
+        uses: actions/checkout@v7.0.0
 
       - name: Setup node
         uses: actions/setup-node@v6.4.0
@@ -64,7 +64,7 @@ jobs:
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
     steps:
       - name: Checkout source code
-        uses: actions/checkout@v6.0.3
+        uses: actions/checkout@v7.0.0
 
       - name: Setup database
         uses: ./.github/actions/setup-database
