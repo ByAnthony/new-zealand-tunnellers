@@ -49,9 +49,9 @@ async function getLegacyTunnellerRedirectPath(
   }
 
   const [results] = await legacyRedirectConnection
-    .execute<
-      mysql.RowDataPacket[]
-    >("SELECT slug FROM tunneller WHERE id = ?", [id])
+    .execute<mysql.RowDataPacket[]>("SELECT slug FROM tunneller WHERE id = ?", [
+      id,
+    ])
     .catch(() => [[] as mysql.RowDataPacket[]]);
   const slug = results[0]?.slug;
 
