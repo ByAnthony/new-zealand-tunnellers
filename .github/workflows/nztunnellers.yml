@@ -147,6 +147,9 @@ jobs:
 
   deployment:
     if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+    concurrency:
+      group: production
+      cancel-in-progress: false
     runs-on: ubuntu-latest
     needs: build-production
     steps:
