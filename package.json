@@ -53,15 +53,15 @@
   },
   "devDependencies": {
     "@eslint/js": "9.39.2",
-    "@playwright/test": "1.62.1",
+    "@playwright/test": "1.63.0",
     "@testing-library/jest-dom": "7.0.1",
     "@testing-library/react": "16.3.3",
     "@types/jest": "30.0.0",
     "@types/lodash": "4.17.25",
     "@types/node": "22.13.17",
     "@types/react": "19.2.18",
-    "@types/react-dom": "19.2.5",
-    "baseline-browser-mapping": "2.11.20",
+    "@types/react-dom": "19.2.7",
+    "baseline-browser-mapping": "2.11.21",
     "eslint": "9.39.5",
     "eslint-config-next": "16.3.4",
     "eslint-config-prettier": "10.1.8",
@@ -71,8 +71,8 @@
     "husky": "9.1.7",
     "jest": "30.5.1",
     "jest-environment-jsdom": "30.5.1",
-    "lint-staged": "17.4.1",
+    "lint-staged": "17.5.0",
     "typescript": "6.0.3",
-    "typescript-eslint": "8.69.0"
+    "typescript-eslint": "8.70.0"
   }
 }
