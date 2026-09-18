@@ -61,9 +61,9 @@
     "@types/node": "22.13.17",
     "@types/react": "19.3.0",
     "@types/react-dom": "19.3.0",
-    "baseline-browser-mapping": "2.11.21",
+    "baseline-browser-mapping": "2.11.23",
     "eslint": "9.39.5",
-    "eslint-config-next": "16.3.4",
+    "eslint-config-next": "16.3.5",
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-import": "2.32.0",
     "eslint-plugin-react-hooks": "7.1.1",
@@ -71,7 +71,7 @@
     "husky": "9.1.7",
     "jest": "30.5.1",
     "jest-environment-jsdom": "30.5.1",
-    "lint-staged": "17.5.0",
+    "lint-staged": "17.5.1",
     "typescript": "6.0.3",
     "typescript-eslint": "8.70.0"
   }
