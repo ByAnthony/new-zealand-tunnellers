@@ -29,7 +29,7 @@
   }
 
   .events {
-    margin-left: 0px;
+    margin-left: 25px;
 
     @include variables.desktop {
       margin-top: variables.$xxl-margin;
@@ -42,7 +42,7 @@
 
     @include variables.desktop {
       margin: 0 auto;
-      width: 38rem;
+      width: 42.25rem;
     }
   }
 

@@ -244,7 +244,8 @@ $drawer-desktop-bottom: calc(
   overflow: hidden;
   background-color: variables.$primary-dark-color;
   border-top: 1px solid variables.$primary-light-color;
-  border-bottom: 1px solid variables.$primary-light-color;
+  border-left: 1px solid variables.$primary-light-color;
+  border-right: 1px solid variables.$primary-light-color;
   border-radius: variables.$border-radius variables.$border-radius 0 0;
   animation: origin-drawer-slide-up 0.9s ease-in-out;
 
@@ -257,26 +258,15 @@ $drawer-desktop-bottom: calc(
   }
 
   @include variables.desktop {
-    top: calc(($drawer-desktop-top + (100vh - $drawer-desktop-bottom)) / 2);
-    right: 0;
-    bottom: auto;
-    left: auto;
-    width: $drawer-width;
-    max-height: calc(100vh - $drawer-desktop-top - $drawer-desktop-bottom);
-    translate: 0 -50%;
-    border-left: 1px solid variables.$primary-light-color;
-    border-radius: variables.$border-radius 0 0 variables.$border-radius;
-    animation-name: origin-drawer-slide-in;
+    margin: 0 auto;
+    max-height: 50vh;
+    max-width: 43.75rem;
   }
 }
 
 .origin-drawer--closing {
   animation-name: origin-drawer-slide-down;
   pointer-events: none;
-
-  @include variables.desktop {
-    animation-name: origin-drawer-slide-out;
-  }
 }
 
 .origin-drawer-header {

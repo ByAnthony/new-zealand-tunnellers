@@ -332,6 +332,18 @@ describe("HowToCite", () => {
     expect(screen.queryByText(/\/en\//)).not.toBeInTheDocument();
   });
 
+  test("renders real word break tags inside citation URLs", () => {
+    const { container } = render(
+      <HowToCite title="Beneath Artois Fields" locale="en" />,
+    );
+
+    expect(container.querySelectorAll("p wbr").length).toBeGreaterThan(0);
+    expect(container.querySelector("p")?.textContent).toContain(
+      "www.nztunnellers.com/history/beneath-artois-fields/",
+    );
+    expect(container.querySelector("p")?.textContent).not.toContain("wbr");
+  });
+
   test("French URL includes /fr/ prefix for tunneller profile", () => {
     render(<HowToCite tunnellerSlug="harry-corrin--4_1415" locale="fr" />);
 

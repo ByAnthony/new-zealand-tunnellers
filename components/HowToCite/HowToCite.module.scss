@@ -10,7 +10,7 @@
   @include variables.desktop {
     margin: 0 auto;
     padding: variables.$xs-margin 0;
-    max-width: 42rem;
+    max-width: variables.$content-width;
   }
 }
 

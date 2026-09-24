@@ -14,6 +14,6 @@
   @include variables.desktop {
     margin: 0 auto;
     padding: variables.$xs-margin 0;
-    width: 42rem;
+    width: variables.$content-width;
   }
 }

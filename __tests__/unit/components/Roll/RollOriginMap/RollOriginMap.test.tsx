@@ -249,7 +249,21 @@ describe("RollOriginMap", () => {
     expect(screen.getByText("Brown")).toBeInTheDocument();
   });
 
-  test("removes the desktop drawer offset when the drawer closes", async () => {
+  test("removes the bottom drawer offset when the drawer closes", async () => {
+    const getBoundingClientRect = jest
+      .spyOn(HTMLElement.prototype, "getBoundingClientRect")
+      .mockReturnValue({
+        bottom: 200,
+        height: 200,
+        left: 0,
+        right: 0,
+        top: 0,
+        width: 0,
+        x: 0,
+        y: 0,
+        toJSON: () => ({}),
+      });
+
     render(
       <RollOriginMap
         tunnellers={mockTunnellers}
@@ -271,8 +285,8 @@ describe("RollOriginMap", () => {
 
     await waitFor(() => {
       expect(maps[0].latlng).toMatchObject({
-        lat: -36.8485,
-        lng: expect.closeTo(176.2833),
+        lat: -35.8485,
+        lng: 174.7633,
       });
     });
 
@@ -284,6 +298,8 @@ describe("RollOriginMap", () => {
         lng: 174.7633,
       });
     });
+
+    getBoundingClientRect.mockRestore();
   });
 
   test("updates the url when a marker is selected", async () => {

@@ -18,8 +18,10 @@
 
   @include variables.desktop {
     margin: 0 auto;
+    padding: 0 variables.$base-margin;
     top: variables.$base-margin;
-    max-width: variables.$inner-width;
+    max-width: variables.$max-width;
+    justify-content: space-between;
   }
 
   .logo {
@@ -27,11 +29,31 @@
     align-items: center;
     height: variables.$base-margin;
     margin-right: variables.$xs-margin;
+
+    @include variables.desktop {
+      width: variables.$l-margin;
+    }
+  }
+
+  .logo-image {
+    @include variables.tablet {
+      height: 35px;
+      width: 35px;
+    }
+
+    @include variables.desktop {
+      height: 40px;
+      width: 40px;
+    }
   }
 
   .search-form-container {
     position: relative;
     width: 100%;
+
+    @include variables.desktop {
+      width: variables.$search-bar-width;
+    }
   }
 
   .search-form {
@@ -185,6 +207,10 @@
   font-weight: 500;
   color: variables.$secondary-color;
   white-space: nowrap;
+
+  @include variables.desktop {
+    width: variables.$l-margin;
+  }
 }
 
 .hidden {

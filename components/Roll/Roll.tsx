@@ -161,32 +161,6 @@ export function Roll({ tunnellers }: Props) {
           <div className={STYLES.controls}>
             {!desktopView ? (
               <div className={STYLES["results-container"]}>
-                <p className={STYLES.results}>{resultsText}</p>
-                <div className={STYLES["mobile-actions"]}>
-                  <button
-                    className={STYLES["map-button"]}
-                    onClick={openRollMap}
-                    aria-label={t("openRollMap")}
-                  >
-                    <span className={STYLES["map-button-icon"]} aria-hidden />
-                    {t("rollMap")}
-                  </button>
-                  <button
-                    className={STYLES["sort-button"]}
-                    onClick={handleSortToggle}
-                    aria-label={sortButtonText}
-                  >
-                    <span className={STYLES["sort-button-label"]}>
-                      <span className={STYLES["sort-button-letters"]}>
-                        <span className={STYLES["sort-button-top"]}>A</span>
-                        <span className={STYLES["sort-button-bottom"]}>Z</span>
-                      </span>
-                      <span className={STYLES["sort-button-arrow"]}>
-                        {isAscending ? "↓" : "↑"}
-                      </span>
-                    </span>
-                  </button>
-                </div>
                 <button
                   className={`${STYLES["filter-button"]} ${activeFilterCount > 0 ? STYLES["filter-button--active"] : ""}`}
                   onClick={openDialog}
@@ -198,6 +172,36 @@ export function Roll({ tunnellers }: Props) {
                     </span>
                   )}
                 </button>
+                <div className={STYLES["header-meta"]}>
+                  <p className={STYLES.results}>{resultsText}</p>
+                  <div className={STYLES["header-buttons"]}>
+                    <button
+                      className={STYLES["map-button"]}
+                      onClick={openRollMap}
+                      aria-label={t("openRollMap")}
+                    >
+                      <span className={STYLES["map-button-icon"]} aria-hidden />
+                      {t("rollMap")}
+                    </button>
+                    <button
+                      className={STYLES["sort-button"]}
+                      onClick={handleSortToggle}
+                      aria-label={sortButtonText}
+                    >
+                      <span className={STYLES["sort-button-label"]}>
+                        <span className={STYLES["sort-button-letters"]}>
+                          <span className={STYLES["sort-button-top"]}>A</span>
+                          <span className={STYLES["sort-button-bottom"]}>
+                            Z
+                          </span>
+                        </span>
+                        <span className={STYLES["sort-button-arrow"]}>
+                          {isAscending ? "↓" : "↑"}
+                        </span>
+                      </span>
+                    </button>
+                  </div>
+                </div>
               </div>
             ) : null}
             {desktopView ? (

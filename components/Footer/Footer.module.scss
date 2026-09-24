@@ -9,7 +9,7 @@
   @include variables.desktop {
     margin: 0 auto;
     padding: variables.$base-margin;
-    max-width: 57rem;
+    max-width: variables.$max-width;
   }
 
   p {
@@ -101,13 +101,11 @@
     align-items: center;
 
     @include variables.tablet {
-      justify-content: center;
       gap: variables.$l-margin;
     }
 
     @include variables.desktop {
       padding-top: variables.$base-margin;
-      justify-content: center;
       gap: variables.$xl-margin;
     }
 

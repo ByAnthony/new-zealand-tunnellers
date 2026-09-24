@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useLocale } from "next-intl";
-import { useMemo, useRef } from "react";
+import { Fragment, useMemo, useRef } from "react";
 
 import type { Summary } from "@/types/tunneller";
 import { bookTitle } from "@/utils/helpers/books/basePathUtil";
@@ -38,6 +38,19 @@ type HowToCiteUrlProps = {
 
 const SITE_CITATION_YEAR = "2009";
 const BOOK_CITATION_YEAR = "2017";
+const URL_BREAK_POINTS = /^(www\.|nztunnellers\.|\/|-)$/;
+
+function BreakableCitationUrl({ url }: { url: string }) {
+  return url
+    .split(/(www\.|nztunnellers\.|\/|-)/g)
+    .filter(Boolean)
+    .map((part, index) => (
+      <Fragment key={`${part}-${index}`}>
+        {part}
+        {URL_BREAK_POINTS.test(part) ? <wbr /> : null}
+      </Fragment>
+    ));
+}
 
 export function HowToCiteUrl({
   tunnellerSlug,
@@ -62,7 +75,7 @@ export function HowToCiteUrl({
       <span>
         {availableAtLabel}
         <wbr />
-        {fullUrl}
+        <BreakableCitationUrl url={fullUrl} />
       </span>
     );
   }
@@ -71,7 +84,7 @@ export function HowToCiteUrl({
     <span>
       {availableAtLabel}
       <wbr />
-      {fullUrl}
+      <BreakableCitationUrl url={fullUrl} />
     </span>
   );
 }

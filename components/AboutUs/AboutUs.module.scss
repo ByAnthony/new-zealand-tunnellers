@@ -48,7 +48,7 @@
 .image-container {
   display: flex;
   margin: variables.$base-margin 0;
-  max-width: variables.$inner-width;
+  max-width: variables.$content-width;
   justify-content: center;
   align-items: center;
 
@@ -71,7 +71,8 @@
   border-radius: variables.$border-radius;
 
   @include variables.desktop {
-    max-width: variables.$inner-width;
+    height: variables.$image-height;
+    max-width: variables.$content-width;
   }
 }
 
@@ -114,7 +115,7 @@
     }
 
     @include variables.desktop {
-      width: 21rem;
+      width: calc(variables.$content-width/2);
       font-size: 18px;
     }
   }
@@ -141,7 +142,7 @@
     }
 
     @include variables.desktop {
-      width: 21rem;
+      width: calc(variables.$content-width/2);
       font-size: 18px;
     }
   }
