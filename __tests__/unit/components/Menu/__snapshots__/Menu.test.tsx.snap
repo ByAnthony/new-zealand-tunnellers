@@ -13,6 +13,7 @@ exports[`Menu matches the snapshot 1`] = `
     >
       <img
         alt="New Zealand Tunnellers Website - Home"
+        class="logo-image"
         height="30"
         placeholder="empty"
         src="/nzt_logo.png"

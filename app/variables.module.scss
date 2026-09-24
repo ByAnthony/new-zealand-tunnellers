@@ -3,8 +3,13 @@ $main-font: "Mona Sans";
 
 // Width
 $mobile: 32rem;
-$desktop: 56rem;
+$search-bar-width: 43.75rem;
+$content-width: 52rem;
 $inner-width: 56rem;
+$max-width: 113rem;
+
+// Height
+$image-height: 550px;
 
 // Colors
 $primary-dark-color: rgb(24, 26, 27);
@@ -33,13 +38,13 @@ $border-radius: 8px;
 
 // Component width and margin
 @mixin tablet {
-  @media screen and (min-width: $mobile) and (max-width: $desktop) {
+  @media screen and (min-width: $mobile) and (max-width: $inner-width) {
     @content;
   }
 }
 
 @mixin desktop {
-  @media screen and (min-width: $desktop) {
+  @media screen and (min-width: $inner-width) {
     @content;
   }
 }

@@ -44,8 +44,8 @@
   @include variables.desktop {
     padding-top: variables.$l-margin;
     margin: 0 auto;
-    width: 42rem;
-    max-width: variables.$inner-width;
+    width: variables.$content-width;
+    max-width: variables.$content-width;
   }
 }
 

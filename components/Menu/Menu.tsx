@@ -160,6 +160,7 @@ export function Menu({ tunnellers }: Props) {
       >
         <Image
           src="/nzt_logo.png"
+          className={STYLES["logo-image"]}
           alt={tNav("logoAlt")}
           width={30}
           height={30}

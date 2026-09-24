@@ -194,7 +194,20 @@ exports[`Article matches the snapshot 1`] = `
         <span>
           Available at: 
           <wbr />
-          www.nztunnellers.com/history/my-awesome-article/
+          www.
+          <wbr />
+          nztunnellers.
+          <wbr />
+          com/
+          <wbr />
+          history/
+          <wbr />
+          my-
+          <wbr />
+          awesome-
+          <wbr />
+          article/
+          <wbr />
         </span>
          (Accessed: 4 May 2023)
       </p>

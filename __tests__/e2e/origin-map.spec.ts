@@ -29,7 +29,9 @@ test("roll origin map shows controls without unmapped origin action", async ({
   ).not.toBeVisible();
 });
 
-test("origin drawer spans mobile and tablet widths only", async ({ page }) => {
+test("origin drawer spans mobile and tablet widths then caps on desktop", async ({
+  page,
+}) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await openFirstOriginDrawer(page);
 
@@ -55,5 +57,5 @@ test("origin drawer spans mobile and tablet widths only", async ({ page }) => {
 
   const desktopDrawer = page.getByRole("dialog");
   await expect(desktopDrawer).toBeVisible();
-  await expect(desktopDrawer).toHaveJSProperty("clientWidth", 380);
+  await expect(desktopDrawer).toHaveJSProperty("clientWidth", 700);
 });

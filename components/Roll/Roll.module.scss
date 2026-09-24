@@ -32,7 +32,7 @@
 .header-meta {
   display: flex;
   align-items: center;
-  gap: variables.$xxs-margin;
+  gap: variables.$s-margin;
 
   @include variables.desktop {
     gap: variables.$m-margin;
@@ -43,16 +43,6 @@
   display: inline-flex;
   align-items: center;
   gap: variables.$xxs-margin;
-}
-
-.mobile-actions {
-  display: flex;
-  align-items: center;
-  gap: variables.$xxxs-margin;
-
-  @include variables.desktop {
-    display: none;
-  }
 }
 
 .results {

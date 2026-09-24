@@ -38,10 +38,6 @@ type Props = {
 const DEFAULT_MAP_ZOOM = 5;
 const DEFAULT_MAP_CENTER: [number, number] = [-41.0, 172.4];
 const DRAWER_TRANSITION_MS = 900;
-const DESKTOP_DRAWER_WIDTH = 380;
-const DESKTOP_DRAWER_CENTERING_RATIO = 0.4;
-const DESKTOP_MEDIA_QUERY = "(min-width: 56rem)";
-const BOTTOM_DRAWER_MEDIA_QUERY = "(max-width: 56rem)";
 const MAX_MAP_ZOOM = 11;
 const MIN_MAP_ZOOM = 5;
 
@@ -80,21 +76,9 @@ function getCenteredOriginView(
   isDrawerOpen: boolean,
 ): L.LatLng {
   const markerPoint = map.project([origin.latitude, origin.longitude]);
-  const isDesktop =
-    typeof window.matchMedia === "function" &&
-    window.matchMedia(DESKTOP_MEDIA_QUERY).matches;
-  const isBottomDrawer =
-    typeof window.matchMedia === "function" &&
-    window.matchMedia(BOTTOM_DRAWER_MEDIA_QUERY).matches;
-  const xOffset =
-    isDrawerOpen && isDesktop
-      ? DESKTOP_DRAWER_WIDTH * DESKTOP_DRAWER_CENTERING_RATIO
-      : 0;
-  const yOffset = isDrawerOpen && isBottomDrawer ? drawerHeight / 2 : 0;
+  const yOffset = isDrawerOpen ? drawerHeight / 2 : 0;
 
-  return map.unproject(
-    L.point(markerPoint.x + xOffset, markerPoint.y + yOffset),
-  );
+  return map.unproject(L.point(markerPoint.x, markerPoint.y + yOffset));
 }
 
 export function RollOriginMap({

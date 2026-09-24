@@ -26,7 +26,8 @@
   border-radius: variables.$border-radius;
 
   @include variables.desktop {
-    max-width: variables.$inner-width;
+    height: variables.$image-height;
+    max-width: variables.$content-width;
   }
 }
 

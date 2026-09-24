@@ -23,6 +23,6 @@
 
   @include variables.desktop {
     margin: 0 auto;
-    width: 42rem;
+    width: variables.$content-width;
   }
 }
