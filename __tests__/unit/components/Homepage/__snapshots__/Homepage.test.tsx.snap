@@ -456,7 +456,7 @@ exports[`Homepage matches the snapshot for mobile viewport 1`] = `
         </a>
         <a
           class="card"
-          href="/books/kiwis-dig-tunnels-too/"
+          href="/kiwis-dig-tunnels-too/"
         >
           <div
             class="card-content"
@@ -947,7 +947,7 @@ exports[`Homepage matches the snapshot for tablet/desktop viewports 1`] = `
         </a>
         <a
           class="card"
-          href="/books/kiwis-dig-tunnels-too/"
+          href="/kiwis-dig-tunnels-too/"
         >
           <div
             class="card-content"

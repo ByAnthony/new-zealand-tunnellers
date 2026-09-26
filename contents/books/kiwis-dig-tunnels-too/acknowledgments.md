@@ -1,5 +1,5 @@
 <!-- Copyright © Anthony Byledbal, 2017–present. All rights reserved.
-Book published on New Zealand Tunnellers website – https://www.nztunnellers.com/books/kiwis-dig-tunnels-too -->
+Book published on New Zealand Tunnellers website – https://www.nztunnellers.com/kiwis-dig-tunnels-too -->
 
 # Acknowledgments
 

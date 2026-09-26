@@ -106,7 +106,7 @@ Some sources here.
 describe("Chapter", () => {
   beforeEach(() => {
     mockedUsePathname.mockReturnValue(
-      "/fr/books/kiwis-dig-tunnels-too/chapitre-1-les-tunneliers-des-antipodes",
+      "/fr/kiwis-dig-tunnels-too/chapitre-1-les-tunneliers-des-antipodes",
     );
   });
 
@@ -135,10 +135,7 @@ describe("Chapter", () => {
     const bookLink = screen.getByRole("link", {
       name: "Go to the table of contents",
     });
-    expect(bookLink).toHaveAttribute(
-      "href",
-      "/fr/books/kiwis-dig-tunnels-too/",
-    );
+    expect(bookLink).toHaveAttribute("href", "/fr/kiwis-dig-tunnels-too/");
   });
 
   test("renames 'Footnotes' heading to 'Notes'", () => {
@@ -152,7 +149,7 @@ describe("Chapter", () => {
 
   test("shows HowToCite on a regular chapter page", () => {
     mockedUsePathname.mockReturnValue(
-      "/fr/books/kiwis-dig-tunnels-too/chapitre-1-les-tunneliers-des-antipodes",
+      "/fr/kiwis-dig-tunnels-too/chapitre-1-les-tunneliers-des-antipodes",
     );
     render(<Chapter locale="fr" content={chapterContent} />);
 
@@ -162,9 +159,9 @@ describe("Chapter", () => {
   });
 
   test.each([
-    "/fr/books/kiwis-dig-tunnels-too/sources",
-    "/fr/books/kiwis-dig-tunnels-too/bibliographie",
-    "/fr/books/kiwis-dig-tunnels-too/remerciements",
+    "/fr/kiwis-dig-tunnels-too/sources",
+    "/fr/kiwis-dig-tunnels-too/bibliographie",
+    "/fr/kiwis-dig-tunnels-too/remerciements",
   ])("hides HowToCite on '%s'", (pathname) => {
     mockedUsePathname.mockReturnValue(pathname);
     render(<Chapter locale="fr" content={sourcesContent} />);
@@ -176,7 +173,7 @@ describe("Chapter", () => {
 
   test("renders English locale breadcrumb with correct aria-labels", () => {
     mockedUsePathname.mockReturnValue(
-      "/books/kiwis-dig-tunnels-too/chapter-1-the-tunnellers",
+      "/kiwis-dig-tunnels-too/chapter-1-the-tunnellers",
     );
     render(<Chapter locale="en" content={enChapterContent} />);
 

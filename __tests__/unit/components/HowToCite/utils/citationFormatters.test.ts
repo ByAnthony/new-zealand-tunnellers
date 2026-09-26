@@ -67,17 +67,17 @@ describe("citationFormatters", () => {
   test("keeps trailing slashes in pathname URLs", () => {
     expect(
       buildCitationUrl({
-        pathname: "/books/kiwis-dig-tunnels-too/prologue/",
+        pathname: "/kiwis-dig-tunnels-too/prologue/",
       }),
-    ).toBe("www.nztunnellers.com/books/kiwis-dig-tunnels-too/prologue/");
+    ).toBe("www.nztunnellers.com/kiwis-dig-tunnels-too/prologue/");
   });
 
   test("adds trailing slashes to pathname URLs", () => {
     expect(
       buildCitationUrl({
-        pathname: "/books/kiwis-dig-tunnels-too/prologue",
+        pathname: "/kiwis-dig-tunnels-too/prologue",
       }),
-    ).toBe("www.nztunnellers.com/books/kiwis-dig-tunnels-too/prologue/");
+    ).toBe("www.nztunnellers.com/kiwis-dig-tunnels-too/prologue/");
   });
 
   test("formats a chapter path fragment", () => {

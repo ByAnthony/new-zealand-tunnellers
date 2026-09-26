@@ -1,11 +1,11 @@
 import { test, expect } from "@playwright/test";
 
-const EN_CONTENTS = "/books/kiwis-dig-tunnels-too/";
-const FR_CONTENTS = "/fr/books/kiwis-dig-tunnels-too/";
+const EN_CONTENTS = "/kiwis-dig-tunnels-too/";
+const FR_CONTENTS = "/fr/kiwis-dig-tunnels-too/";
 const EN_CHAPTER_1 =
-  "/books/kiwis-dig-tunnels-too/chapter-1-the-tunnellers-from-the-antipodes/";
+  "/kiwis-dig-tunnels-too/chapter-1-the-tunnellers-from-the-antipodes/";
 const FR_CHAPTER_1 =
-  "/fr/books/kiwis-dig-tunnels-too/chapter-1-the-tunnellers-from-the-antipodes/";
+  "/fr/kiwis-dig-tunnels-too/chapter-1-the-tunnellers-from-the-antipodes/";
 
 // ─── Contents page ───────────────────────────────────────────────────────────
 
@@ -171,7 +171,7 @@ test("EN: next chapter button links to chapter 2", async ({ page }) => {
   await expect(nextChapterLink).toBeVisible();
   await expect(nextChapterLink).toHaveAttribute(
     "href",
-    "/books/kiwis-dig-tunnels-too/chapter-2-forging-good-soldiers/",
+    "/kiwis-dig-tunnels-too/chapter-2-forging-good-soldiers/",
   );
 });
 
@@ -183,7 +183,7 @@ test("FR: next chapter button links to chapter 2", async ({ page }) => {
   await expect(nextChapterLink).toBeVisible();
   await expect(nextChapterLink).toHaveAttribute(
     "href",
-    "/fr/books/kiwis-dig-tunnels-too/chapter-2-forging-good-soldiers/",
+    "/fr/kiwis-dig-tunnels-too/chapter-2-forging-good-soldiers/",
   );
 });
 
@@ -263,7 +263,7 @@ test("EN HowToCite: shows correct citation for a book chapter", async ({
   await expect(citation).toContainText("Available at:");
   await expect(citation).toContainText("(Accessed:");
   await expect(citation).toContainText(
-    "www.nztunnellers.com/books/kiwis-dig-tunnels-too/chapter-1-the-tunnellers-from-the-antipodes/",
+    "www.nztunnellers.com/kiwis-dig-tunnels-too/chapter-1-the-tunnellers-from-the-antipodes/",
   );
 });
 
@@ -284,6 +284,6 @@ test("FR HowToCite: shows correct citation for a book chapter", async ({
   await expect(citation).toContainText("Disponible à");
   await expect(citation).toContainText("(Consulté le");
   await expect(citation).toContainText(
-    "www.nztunnellers.com/fr/books/kiwis-dig-tunnels-too/chapter-1-the-tunnellers-from-the-antipodes/",
+    "www.nztunnellers.com/fr/kiwis-dig-tunnels-too/chapter-1-the-tunnellers-from-the-antipodes/",
   );
 });

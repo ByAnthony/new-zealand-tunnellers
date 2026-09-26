@@ -45,10 +45,7 @@ test("can navigate to the book from the resources section", async ({
   const bookLink = page.getByRole("link", { name: /Kiwis Dig Tunnels Too/i });
 
   await expect(bookLink).toBeVisible();
-  await expect(bookLink).toHaveAttribute(
-    "href",
-    "/books/kiwis-dig-tunnels-too/",
-  );
+  await expect(bookLink).toHaveAttribute("href", "/kiwis-dig-tunnels-too/");
 });
 
 test("French homepage loads with the correct heading", async ({ page }) => {
@@ -80,8 +77,5 @@ test("can navigate to the book from the French resources section", async ({
   });
 
   await expect(bookLink).toBeVisible();
-  await expect(bookLink).toHaveAttribute(
-    "href",
-    "/fr/books/kiwis-dig-tunnels-too/",
-  );
+  await expect(bookLink).toHaveAttribute("href", "/fr/kiwis-dig-tunnels-too/");
 });

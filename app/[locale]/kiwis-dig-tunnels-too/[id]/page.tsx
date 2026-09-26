@@ -11,7 +11,7 @@ import { jsonLdAuthor, jsonLdPublisher } from "@/utils/helpers/jsonLd";
 import { buildPageMetadata, pageUrl } from "@/utils/helpers/metadata";
 
 export function generateStaticParams() {
-  const dir = join(process.cwd(), "contents/books/kiwis-dig-tunnels-too");
+  const dir = join(process.cwd(), "contents/kiwis-dig-tunnels-too");
   const ids = readdirSync(dir)
     .filter((f) => f.endsWith(".md"))
     .map((f) => f.replace(".md", ""));
@@ -40,7 +40,7 @@ export async function generateMetadata(props: Props) {
     locale,
     title,
     description,
-    path: `/books/kiwis-dig-tunnels-too/${id}/`,
+    path: `/kiwis-dig-tunnels-too/${id}/`,
     type: "article",
   });
 }
@@ -60,7 +60,7 @@ export default async function Page(props: Props) {
       "@type": "Book",
       name: bookTitle(locale),
     },
-    url: pageUrl(locale, `/books/kiwis-dig-tunnels-too/${id}/`),
+    url: pageUrl(locale, `/kiwis-dig-tunnels-too/${id}/`),
     author: jsonLdAuthor,
     publisher: jsonLdPublisher,
   };

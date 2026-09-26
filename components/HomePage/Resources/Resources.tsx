@@ -35,7 +35,7 @@ export function Resources() {
           </div>
         </Link>
         <Link
-          href={`${localePrefix}/books/kiwis-dig-tunnels-too/`}
+          href={`${localePrefix}/kiwis-dig-tunnels-too/`}
           className={STYLES.card}
         >
           <div className={STYLES["card-content"]}>
