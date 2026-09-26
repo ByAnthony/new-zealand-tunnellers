@@ -113,15 +113,37 @@
 }
 
 .hero-link {
-  padding-bottom: variables.$xxxs-margin;
-  font-size: 1.2rem;
-  font-weight: 500;
-  width: fit-content;
-  color: variables.$text-color;
-  border-bottom: 1px solid variables.$secondary-color;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: variables.$s-margin;
+  padding: 4px 10px;
+  font-family: variables.$main-font;
+  font-size: 1rem;
+  font-weight: 400;
+  text-align: center;
+  color: variables.$secondary-color;
+  border: 1px solid variables.$primary-light-color;
+  border-radius: variables.$border-radius;
+  background-color: variables.$primary-medium-color;
   transition:
     color 0.9s ease-in-out,
-    border-bottom 0.9s ease-in-out;
+    border 0.9s ease-in-out,
+    background-color 0.9s ease-in-out;
+  cursor: pointer;
+
+  @include variables.desktop {
+    font-size: 1.1rem;
+    padding: variables.$xs-margin variables.$m-margin;
+  }
+
+  @include variables.hover-supported {
+    &:hover {
+      border: 1px solid variables.$secondary-color;
+      background-color: variables.$primary-dark-color;
+    }
+  }
 
   .arrow {
     @include variables.arrow-button;
@@ -138,16 +160,6 @@
       border-bottom: 1px solid variables.$secondary-color;
       color: variables.$secondary-color;
     }
-  }
-
-  @include variables.tablet {
-    padding-bottom: variables.$xxxs-margin;
-    font-size: 1.3rem;
-  }
-
-  @include variables.desktop {
-    padding-bottom: variables.$xxs-margin;
-    font-size: 1.5rem;
   }
 }
 

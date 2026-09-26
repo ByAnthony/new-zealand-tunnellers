@@ -48,8 +48,9 @@ exports[`KiwisDigTunnelsToo matches the snapshot 1`] = `
     <div
       class="button-wrapper"
     >
-      <button
+      <a
         class="hero-link"
+        href="/kiwis-dig-tunnels-too/"
       >
         <div
           class="hero-link-content"
@@ -96,7 +97,7 @@ exports[`KiwisDigTunnelsToo matches the snapshot 1`] = `
         >
           →
         </div>
-      </button>
+      </a>
     </div>
   </section>
 </DocumentFragment>

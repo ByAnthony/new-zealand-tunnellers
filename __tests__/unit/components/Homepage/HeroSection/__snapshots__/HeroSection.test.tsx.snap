@@ -18,8 +18,9 @@ fought underground
       <div
         class="hero-links"
       >
-        <button
+        <a
           class="hero-link"
+          href="/#history"
         >
           <div
             class="hero-link-content"
@@ -66,9 +67,10 @@ fought underground
           >
             ↓
           </div>
-        </button>
-        <button
+        </a>
+        <a
           class="hero-link"
+          href="/history/tunnellers-works"
         >
           <div
             class="hero-link-content"
@@ -86,7 +88,7 @@ fought underground
           >
             →
           </div>
-        </button>
+        </a>
       </div>
     </div>
   </div>

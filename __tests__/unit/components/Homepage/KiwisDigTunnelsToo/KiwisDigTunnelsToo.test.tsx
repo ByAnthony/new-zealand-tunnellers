@@ -1,18 +1,8 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 
 import { KiwisDigTunnelsToo } from "@/components/HomePage/KiwisDigTunnelsToo/KiwisDigTunnelsToo";
 
-const mockPush = jest.fn();
-
-jest.mock("next/navigation", () => ({
-  useRouter: () => ({ push: mockPush }),
-}));
-
 describe("KiwisDigTunnelsToo", () => {
-  beforeEach(() => {
-    mockPush.mockClear();
-  });
-
   test("matches the snapshot", () => {
     const { asFragment } = render(<KiwisDigTunnelsToo />);
     expect(asFragment()).toMatchSnapshot();
@@ -31,14 +21,12 @@ describe("KiwisDigTunnelsToo", () => {
     expect(screen.getByText("Anthony Byledbal")).toBeInTheDocument();
   });
 
-  test("navigates to the book when the start reading button is clicked", () => {
+  test("renders a link to the book", () => {
     render(<KiwisDigTunnelsToo />);
-    const startReadingButton = screen.getByRole("button", {
+    const startReadingLink = screen.getByRole("link", {
       name: /Start reading/i,
     });
 
-    fireEvent.click(startReadingButton);
-
-    expect(mockPush).toHaveBeenCalledWith("/kiwis-dig-tunnels-too/");
+    expect(startReadingLink).toHaveAttribute("href", "/kiwis-dig-tunnels-too/");
   });
 });

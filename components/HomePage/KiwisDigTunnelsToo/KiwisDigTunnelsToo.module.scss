@@ -11,40 +11,6 @@
     text-align: center;
   }
 
-  button {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    gap: variables.$s-margin;
-    padding: 4px 10px;
-    font-family: variables.$main-font;
-    font-size: 1rem;
-    font-weight: 400;
-    text-align: center;
-    color: variables.$secondary-color;
-    border: 1px solid variables.$primary-light-color;
-    border-radius: variables.$border-radius;
-    background-color: variables.$primary-medium-color;
-    transition:
-      color 0.9s ease-in-out,
-      border 0.9s ease-in-out,
-      background-color 0.9s ease-in-out;
-    cursor: pointer;
-
-    @include variables.desktop {
-      font-size: 1.1rem;
-      padding: variables.$xs-margin variables.$m-margin;
-    }
-
-    @include variables.hover-supported {
-      &:hover {
-        border: 1px solid variables.$secondary-color;
-        background-color: variables.$primary-dark-color;
-      }
-    }
-  }
-
   .arrow {
     @include variables.arrow-button;
 
@@ -133,4 +99,38 @@
   display: flex;
   align-items: center;
   gap: variables.$xxs-margin;
+}
+
+.hero-link {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: variables.$s-margin;
+  padding: 4px 10px;
+  font-family: variables.$main-font;
+  font-size: 1rem;
+  font-weight: 400;
+  text-align: center;
+  color: variables.$secondary-color;
+  border: 1px solid variables.$primary-light-color;
+  border-radius: variables.$border-radius;
+  background-color: variables.$primary-medium-color;
+  transition:
+    color 0.9s ease-in-out,
+    border 0.9s ease-in-out,
+    background-color 0.9s ease-in-out;
+  cursor: pointer;
+
+  @include variables.desktop {
+    font-size: 1.1rem;
+    padding: variables.$xs-margin variables.$m-margin;
+  }
+
+  @include variables.hover-supported {
+    &:hover {
+      border: 1px solid variables.$secondary-color;
+      background-color: variables.$primary-dark-color;
+    }
+  }
 }

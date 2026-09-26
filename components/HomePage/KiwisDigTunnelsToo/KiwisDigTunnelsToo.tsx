@@ -1,13 +1,14 @@
 import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { useTranslations } from "next-intl";
+import Link from "next/link";
+import { useLocale, useTranslations } from "next-intl";
 
 import STYLES from "./KiwisDigTunnelsToo.module.scss";
 import { BookOpenBadge } from "../../WorksMap/MapControls/RelatedChapterCard/RelatedChapterCard";
 
 export function KiwisDigTunnelsToo() {
   const t = useTranslations("homepage");
-  const router = useRouter();
+  const locale = useLocale();
+  const localePrefix = locale === "en" ? "" : `/${locale}`;
 
   return (
     <section className={STYLES.container} aria-labelledby="resources-title">
@@ -30,8 +31,8 @@ export function KiwisDigTunnelsToo() {
       </div>
       <p className={STYLES.description}>{t("bookDescription")}</p>
       <div className={STYLES["button-wrapper"]}>
-        <button
-          onClick={() => router.push(`/kiwis-dig-tunnels-too/`)}
+        <Link
+          href={`${localePrefix}/kiwis-dig-tunnels-too/`}
           className={STYLES["hero-link"]}
         >
           <div className={STYLES["hero-link-content"]}>
@@ -39,7 +40,7 @@ export function KiwisDigTunnelsToo() {
             <div>{t("bookButton")}</div>
           </div>
           <div className={STYLES.arrow}>&rarr;</div>
-        </button>
+        </Link>
       </div>
     </section>
   );

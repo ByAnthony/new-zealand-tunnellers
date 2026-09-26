@@ -1,18 +1,8 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 
 import { HeroSection } from "@/components/HomePage/HeroSection/HeroSection";
 
-const mockPush = jest.fn();
-
-jest.mock("next/navigation", () => ({
-  useRouter: () => ({ push: mockPush }),
-}));
-
 describe("HeroSection Component", () => {
-  beforeEach(() => {
-    mockPush.mockClear();
-  });
-
   test("matches snapshot", () => {
     const { asFragment } = render(<HeroSection />);
 
@@ -27,27 +17,23 @@ describe("HeroSection Component", () => {
     );
   });
 
-  test("navigates to the history section", () => {
+  test("renders a link to the history section", () => {
     render(<HeroSection />);
 
-    const historyButton = screen.getByRole("button", {
+    const historyLink = screen.getByRole("link", {
       name: /Discover the history/i,
     });
 
-    fireEvent.click(historyButton);
-
-    expect(mockPush).toHaveBeenCalledWith("/#history");
+    expect(historyLink).toHaveAttribute("href", "/#history");
   });
 
-  test("navigates to the tunnellers' works map", () => {
+  test("renders a link to the tunnellers' works map", () => {
     render(<HeroSection />);
 
-    const worksMapButton = screen.getByRole("button", {
+    const worksMapLink = screen.getByRole("link", {
       name: /Explore the tunnellers' works/i,
     });
 
-    fireEvent.click(worksMapButton);
-
-    expect(mockPush).toHaveBeenCalledWith("/history/tunnellers-works");
+    expect(worksMapLink).toHaveAttribute("href", "/history/tunnellers-works");
   });
 });
