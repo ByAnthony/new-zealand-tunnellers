@@ -34,7 +34,7 @@ describe("Footer", () => {
   });
 
   test("does not render on the works map", () => {
-    mockUsePathname.mockReturnValue("/maps/tunnellers-works");
+    mockUsePathname.mockReturnValue("/history/tunnellers-works");
 
     const { container } = render(component);
 
