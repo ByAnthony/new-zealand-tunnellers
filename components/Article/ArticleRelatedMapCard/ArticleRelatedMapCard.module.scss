@@ -1,15 +1,11 @@
 @use "app/variables.module.scss";
 
 .context-map-block {
-  padding: 5px 0 0 0;
-
-  @include variables.tablet {
-    padding: variables.$m-margin 0 0 0;
-  }
+  padding: 0 0 variables.$xxs-margin 0;
 
   @include variables.desktop {
-    padding: variables.$m-margin 0 0 0;
     margin: 0 auto;
+    padding: 0 0 variables.$s-margin 0;
     width: variables.$content-width;
   }
 }
@@ -55,14 +51,10 @@
 .context-link-card {
   display: flex;
   align-items: center;
-  margin-top: variables.$s-margin;
   text-decoration: none;
   color: variables.$secondary-color;
-  @include variables.fullwidth-main-card;
 
-  @include variables.desktop {
-    margin: variables.$xs-margin 0;
-  }
+  @include variables.fullwidth-main-card;
 }
 
 .context-link-main {
@@ -235,7 +227,6 @@
 }
 
 .context-link-list {
-  margin: variables.$xxs-margin 0 0 0;
   padding-inline-start: 0;
   list-style: none;
 
