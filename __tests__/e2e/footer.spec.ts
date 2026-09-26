@@ -27,19 +27,19 @@ test("can navigate to the tunnellers page", async ({ page }) => {
   await expect(page).toHaveURL(/tunnellers/);
 });
 
-test("can navigate to the resources section on the homepage", async ({
-  page,
-}) => {
+test("can navigate to the book page", async ({ page }) => {
   await page.goto("/about-us/");
 
-  const resources = page.getByRole("link", { name: "Resources" });
+  const book = page.getByRole("link", { name: "Kiwis Dig Tunnels Too" });
 
-  await expect(resources).toBeVisible();
-  await resources.click();
+  await expect(book).toBeVisible();
+  await book.click();
 
   await page.waitForLoadState("domcontentloaded");
-  await expect(page).toHaveURL(/#resources/);
-  await expect(page.getByText("Resources to Explore")).toBeInViewport();
+  await expect(page).toHaveURL(/kiwis-dig-tunnels-too/);
+  await expect(
+    page.getByRole("heading", { name: "Kiwis Dig Tunnels Too" }),
+  ).toBeInViewport();
 });
 
 test("can navigate to the about us page", async ({ page }) => {
