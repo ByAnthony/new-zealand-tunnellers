@@ -15,7 +15,7 @@ const staticRoutes = [
   "/",
   "/tunnellers/",
   "/about-us/",
-  "/maps/tunnellers-works/",
+  "/history/tunnellers-works/",
   "/books/kiwis-dig-tunnels-too/",
 ];
 
