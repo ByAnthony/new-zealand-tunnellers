@@ -11,7 +11,7 @@ import { jsonLdAuthor, jsonLdPublisher } from "@/utils/helpers/jsonLd";
 import { buildPageMetadata, pageUrl } from "@/utils/helpers/metadata";
 
 export function generateStaticParams() {
-  const dir = join(process.cwd(), "contents/kiwis-dig-tunnels-too");
+  const dir = join(process.cwd(), "contents/books/kiwis-dig-tunnels-too");
   const ids = readdirSync(dir)
     .filter((f) => f.endsWith(".md"))
     .map((f) => f.replace(".md", ""));
