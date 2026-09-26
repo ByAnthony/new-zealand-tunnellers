@@ -52,7 +52,7 @@ test("EN contents: clicking a chapter navigates to the correct URL", async ({
 
   await page.waitForLoadState("domcontentloaded");
   await expect(page).toHaveURL(
-    /books\/kiwis-dig-tunnels-too\/chapter-1-the-tunnellers-from-the-antipodes/,
+    /kiwis-dig-tunnels-too\/chapter-1-the-tunnellers-from-the-antipodes/,
   );
 });
 
@@ -67,7 +67,7 @@ test("FR contents: clicking a chapter navigates to the correct URL", async ({
 
   await page.waitForLoadState("domcontentloaded");
   await expect(page).toHaveURL(
-    /fr\/books\/kiwis-dig-tunnels-too\/chapter-1-the-tunnellers-from-the-antipodes/,
+    /fr\/kiwis-dig-tunnels-too\/chapter-1-the-tunnellers-from-the-antipodes/,
   );
 });
 
@@ -111,7 +111,7 @@ test("EN chapter: breadcrumb navigates to Resources and table of contents", asyn
   await page.getByRole("link", { name: "Go to the table of contents" }).click();
 
   await page.waitForLoadState("domcontentloaded");
-  await expect(page).toHaveURL(/books\/kiwis-dig-tunnels-too/);
+  await expect(page).toHaveURL(/kiwis-dig-tunnels-too/);
 });
 
 test("FR chapter: breadcrumb navigates to Resources and table of contents", async ({
@@ -126,7 +126,7 @@ test("FR chapter: breadcrumb navigates to Resources and table of contents", asyn
   await page.getByRole("link", { name: "Aller au sommaire" }).click();
 
   await page.waitForLoadState("domcontentloaded");
-  await expect(page).toHaveURL(/fr\/books\/kiwis-dig-tunnels-too/);
+  await expect(page).toHaveURL(/fr\/kiwis-dig-tunnels-too/);
 });
 
 test("reading progress bar is visible on chapter pages", async ({ page }) => {
