@@ -6,110 +6,91 @@ exports[`Homepage matches the snapshot for mobile viewport 1`] = `
     class="homepage-container"
   >
     <div
-      class="intro"
-      style="background-image: url("/images/homepage/ART_3670.jpg");"
-    >
-      <h1
-        aria-label="The Kiwis who fought beneath the no man’s land"
-        class="intro-text"
-      >
-        <svg
-          aria-hidden="true"
-          viewBox="0 0 100 125"
-        >
-          <defs>
-            <mask
-              height="125"
-              id="mask"
-              width="100"
-              x="0"
-              y="0"
-            >
-              <rect
-                fill="white"
-                height="125"
-                width="100"
-                x="0"
-                y="0"
-              />
-              <text
-                text-anchor="start"
-                x="0"
-                y="10"
-              >
-                <tspan
-                  dy="0.8em"
-                  x="0"
-                >
-                  The Kiwis
-                </tspan>
-                <tspan
-                  dy="0.8em"
-                  x="0"
-                >
-                  who
-                </tspan>
-                <tspan
-                  dy="0.8em"
-                  x="0"
-                >
-                  fought
-                </tspan>
-                <tspan
-                  dy="0.8em"
-                  x="0"
-                >
-                  beneath
-                </tspan>
-                <tspan
-                  dy="0.8em"
-                  x="0"
-                >
-                  the no
-                </tspan>
-                <tspan
-                  dy="0.8em"
-                  x="0"
-                >
-                  man’s
-                </tspan>
-                <tspan
-                  dy="0.8em"
-                  x="0"
-                >
-                  land
-                </tspan>
-              </text>
-            </mask>
-          </defs>
-          <rect
-            fill="rgb(24, 26, 27)"
-            height="125"
-            mask="url(#mask)"
-            width="100"
-            x="0"
-            y="0"
-          />
-        </svg>
-      </h1>
-    </div>
-    <div
-      class="roll-wrapper"
+      class="hero"
     >
       <div
-        class="roll-container"
+        class="hero-wrapper"
       >
-        <a
-          class="roll"
-          href="/tunnellers/"
+        <p>
+          1915-1919
+        </p>
+        <h1>
+          The Kiwis who
+fought underground
+        </h1>
+        <div
+          class="hero-links"
         >
-          <span
-            class="discover"
+          <button
+            class="hero-link"
           >
-            Discover
-          </span>
-          The New Zealand Tunnellers
-        </a>
+            <div
+              class="hero-link-content"
+            >
+              <span
+                aria-hidden="true"
+                class="related-chapter-badge"
+              >
+                <svg
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M12 7.5c-1.7-1.2-4.1-1.8-7-1.8v11.2c2.9 0 5.3.6 7 1.8"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="1.7"
+                  />
+                  <path
+                    d="M12 7.5c1.7-1.2 4.1-1.8 7-1.8v11.2c-2.9 0-5.3.6-7 1.8"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="1.7"
+                  />
+                  <path
+                    d="M12 7.5v11.2"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-width="1.7"
+                  />
+                </svg>
+              </span>
+              <div>
+                Discover the history
+              </div>
+            </div>
+            <div
+              class="arrow"
+            >
+              ↓
+            </div>
+          </button>
+          <button
+            class="hero-link"
+          >
+            <div
+              class="hero-link-content"
+            >
+              <span
+                aria-hidden="true"
+                class="map-button-icon"
+              />
+              <div>
+                Explore the tunnellers' works
+              </div>
+            </div>
+            <div
+              class="arrow"
+            >
+              →
+            </div>
+          </button>
+        </div>
       </div>
     </div>
     <div
@@ -406,103 +387,98 @@ exports[`Homepage matches the snapshot for mobile viewport 1`] = `
     <section
       aria-labelledby="resources-title"
       class="container"
-      id="resources"
     >
-      <h2
-        id="resources-title"
-      >
-        Resources to Explore
+      <h2>
+        The long story
       </h2>
       <div
-        class="actions"
+        class="title"
       >
-        <a
-          class="card"
-          href="/maps/tunnellers-works/"
+        Kiwis Dig Tunnels Too
+      </div>
+      <div
+        class="book-meta"
+      >
+        <span
+          class="by"
+        >
+          By 
+        </span>
+        <span
+          class="author"
+        >
+          Anthony Byledbal
+        </span>
+      </div>
+      <div
+        class="image-container"
+      >
+        <img
+          alt="Kiwis Dig Tunnels Too"
+          class="image"
+          height="515"
+          placeholder="empty"
+          src="/images/books/kiwis-dig-tunnels-too.jpg"
+          width="400"
+        />
+      </div>
+      <p
+        class="description"
+      >
+        Recruited for their digging skills, James Williamson, Harold Howard, George Race, and Gerald Punch, four New Zealand volunteers, are preparing to cross the oceans with their special unit to take part in the secret underground warfare. But on the other side of the world, this deadly game is already tipping in favor of the German miners.
+      </p>
+      <div
+        class="button-wrapper"
+      >
+        <button
+          class="hero-link"
         >
           <div
-            class="card-content"
+            class="hero-link-content"
           >
-            <div
-              class="card-header"
+            <span
+              aria-hidden="true"
+              class="related-chapter-badge"
             >
-              <h3
-                class="title"
+              <svg
+                focusable="false"
+                viewBox="0 0 24 24"
               >
-                Tunnellers’ Works
-              </h3>
-              <div
-                class="badge"
-              >
-                Map
-              </div>
-            </div>
-            <p
-              class="description"
-            >
-              From underground shelters to bridges, the New Zealand Tunnelling Company left its mark across the Arras front. This interactive map charts the works recorded in the company’s war diary between March 1916 and December 1918 — each one precisely located using the original British Army trench map grid.
-            </p>
-          </div>
-          <div
-            class="button-base"
-          >
-            <div
-              class="arrow"
-              style="margin-left: auto;"
-            >
-              →
-            </div>
-          </div>
-        </a>
-        <a
-          class="card"
-          href="/books/kiwis-dig-tunnels-too/"
-        >
-          <div
-            class="card-content"
-          >
-            <div
-              class="card-header"
-            >
-              <h3
-                class="title"
-              >
-                Kiwis Dig Tunnels Too
-              </h3>
-              <div
-                class="badge"
-              >
-                Book
-              </div>
-            </div>
-            <p
-              class="description"
-            >
-              Recruited for their digging skills, James Williamson, Harold Howard, George Race, and Gerald Punch—four New Zealand volunteers—are preparing to cross the oceans with their special unit to take part in this secret war. But on the other side of the world, this deadly game is already tipping in favor of the German miners.
-            </p>
-          </div>
-          <div
-            class="button-base"
-          >
+                <path
+                  d="M12 7.5c-1.7-1.2-4.1-1.8-7-1.8v11.2c2.9 0 5.3.6 7 1.8"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.7"
+                />
+                <path
+                  d="M12 7.5c1.7-1.2 4.1-1.8 7-1.8v11.2c-2.9 0-5.3.6-7 1.8"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.7"
+                />
+                <path
+                  d="M12 7.5v11.2"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-width="1.7"
+                />
+              </svg>
+            </span>
             <div>
-              <span
-                class="by"
-              >
-                By 
-              </span>
-              <span
-                class="author"
-              >
-                Anthony Byledbal
-              </span>
-            </div>
-            <div
-              class="arrow"
-            >
-              →
+              Start reading
             </div>
           </div>
-        </a>
+          <div
+            class="arrow"
+          >
+            →
+          </div>
+        </button>
       </div>
     </section>
   </div>
@@ -515,92 +491,91 @@ exports[`Homepage matches the snapshot for tablet/desktop viewports 1`] = `
     class="homepage-container"
   >
     <div
-      class="intro"
-      style="background-image: url("/images/homepage/ART_3670.jpg");"
-    >
-      <h1
-        aria-label="The Kiwis who fought beneath the no man’s land"
-        class="intro-text"
-      >
-        <svg
-          aria-hidden="true"
-          viewBox="0 0 100 60"
-        >
-          <defs>
-            <mask
-              height="60"
-              id="mask"
-              width="100"
-              x="0"
-              y="0"
-            >
-              <rect
-                fill="white"
-                height="60"
-                width="100"
-                x="0"
-                y="0"
-              />
-              <text
-                text-anchor="start"
-                x="0"
-                y="10"
-              >
-                <tspan
-                  dy="0.8em"
-                  x="0"
-                >
-                  The Kiwis
-                </tspan>
-                <tspan
-                  dy="0.8em"
-                  x="0"
-                >
-                  who fought
-                </tspan>
-                <tspan
-                  dy="0.8em"
-                  x="0"
-                >
-                  beneath the
-                </tspan>
-                <tspan
-                  dy="0.8em"
-                  x="0"
-                >
-                  no man’s land
-                </tspan>
-              </text>
-            </mask>
-          </defs>
-          <rect
-            fill="rgb(24, 26, 27)"
-            height="60"
-            mask="url(#mask)"
-            width="100"
-            x="0"
-            y="0"
-          />
-        </svg>
-      </h1>
-    </div>
-    <div
-      class="roll-wrapper"
+      class="hero"
     >
       <div
-        class="roll-container"
+        class="hero-wrapper"
       >
-        <a
-          class="roll"
-          href="/tunnellers/"
+        <p>
+          1915-1919
+        </p>
+        <h1>
+          The Kiwis who
+fought underground
+        </h1>
+        <div
+          class="hero-links"
         >
-          <span
-            class="discover"
+          <button
+            class="hero-link"
           >
-            Discover
-          </span>
-          The New Zealand Tunnellers
-        </a>
+            <div
+              class="hero-link-content"
+            >
+              <span
+                aria-hidden="true"
+                class="related-chapter-badge"
+              >
+                <svg
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M12 7.5c-1.7-1.2-4.1-1.8-7-1.8v11.2c2.9 0 5.3.6 7 1.8"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="1.7"
+                  />
+                  <path
+                    d="M12 7.5c1.7-1.2 4.1-1.8 7-1.8v11.2c-2.9 0-5.3.6-7 1.8"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="1.7"
+                  />
+                  <path
+                    d="M12 7.5v11.2"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-width="1.7"
+                  />
+                </svg>
+              </span>
+              <div>
+                Discover the history
+              </div>
+            </div>
+            <div
+              class="arrow"
+            >
+              ↓
+            </div>
+          </button>
+          <button
+            class="hero-link"
+          >
+            <div
+              class="hero-link-content"
+            >
+              <span
+                aria-hidden="true"
+                class="map-button-icon"
+              />
+              <div>
+                Explore the tunnellers' works
+              </div>
+            </div>
+            <div
+              class="arrow"
+            >
+              →
+            </div>
+          </button>
+        </div>
       </div>
     </div>
     <div
@@ -897,103 +872,98 @@ exports[`Homepage matches the snapshot for tablet/desktop viewports 1`] = `
     <section
       aria-labelledby="resources-title"
       class="container"
-      id="resources"
     >
-      <h2
-        id="resources-title"
-      >
-        Resources to Explore
+      <h2>
+        The long story
       </h2>
       <div
-        class="actions"
+        class="title"
       >
-        <a
-          class="card"
-          href="/maps/tunnellers-works/"
+        Kiwis Dig Tunnels Too
+      </div>
+      <div
+        class="book-meta"
+      >
+        <span
+          class="by"
+        >
+          By 
+        </span>
+        <span
+          class="author"
+        >
+          Anthony Byledbal
+        </span>
+      </div>
+      <div
+        class="image-container"
+      >
+        <img
+          alt="Kiwis Dig Tunnels Too"
+          class="image"
+          height="515"
+          placeholder="empty"
+          src="/images/books/kiwis-dig-tunnels-too.jpg"
+          width="400"
+        />
+      </div>
+      <p
+        class="description"
+      >
+        Recruited for their digging skills, James Williamson, Harold Howard, George Race, and Gerald Punch, four New Zealand volunteers, are preparing to cross the oceans with their special unit to take part in the secret underground warfare. But on the other side of the world, this deadly game is already tipping in favor of the German miners.
+      </p>
+      <div
+        class="button-wrapper"
+      >
+        <button
+          class="hero-link"
         >
           <div
-            class="card-content"
+            class="hero-link-content"
           >
-            <div
-              class="card-header"
+            <span
+              aria-hidden="true"
+              class="related-chapter-badge"
             >
-              <h3
-                class="title"
+              <svg
+                focusable="false"
+                viewBox="0 0 24 24"
               >
-                Tunnellers’ Works
-              </h3>
-              <div
-                class="badge"
-              >
-                Map
-              </div>
-            </div>
-            <p
-              class="description"
-            >
-              From underground shelters to bridges, the New Zealand Tunnelling Company left its mark across the Arras front. This interactive map charts the works recorded in the company’s war diary between March 1916 and December 1918 — each one precisely located using the original British Army trench map grid.
-            </p>
-          </div>
-          <div
-            class="button-base"
-          >
-            <div
-              class="arrow"
-              style="margin-left: auto;"
-            >
-              →
-            </div>
-          </div>
-        </a>
-        <a
-          class="card"
-          href="/books/kiwis-dig-tunnels-too/"
-        >
-          <div
-            class="card-content"
-          >
-            <div
-              class="card-header"
-            >
-              <h3
-                class="title"
-              >
-                Kiwis Dig Tunnels Too
-              </h3>
-              <div
-                class="badge"
-              >
-                Book
-              </div>
-            </div>
-            <p
-              class="description"
-            >
-              Recruited for their digging skills, James Williamson, Harold Howard, George Race, and Gerald Punch—four New Zealand volunteers—are preparing to cross the oceans with their special unit to take part in this secret war. But on the other side of the world, this deadly game is already tipping in favor of the German miners.
-            </p>
-          </div>
-          <div
-            class="button-base"
-          >
+                <path
+                  d="M12 7.5c-1.7-1.2-4.1-1.8-7-1.8v11.2c2.9 0 5.3.6 7 1.8"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.7"
+                />
+                <path
+                  d="M12 7.5c1.7-1.2 4.1-1.8 7-1.8v11.2c-2.9 0-5.3.6-7 1.8"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.7"
+                />
+                <path
+                  d="M12 7.5v11.2"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-width="1.7"
+                />
+              </svg>
+            </span>
             <div>
-              <span
-                class="by"
-              >
-                By 
-              </span>
-              <span
-                class="author"
-              >
-                Anthony Byledbal
-              </span>
-            </div>
-            <div
-              class="arrow"
-            >
-              →
+              Start reading
             </div>
           </div>
-        </a>
+          <div
+            class="arrow"
+          >
+            →
+          </div>
+        </button>
       </div>
     </section>
   </div>

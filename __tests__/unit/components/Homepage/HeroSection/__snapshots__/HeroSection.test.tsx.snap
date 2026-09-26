@@ -1,0 +1,94 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`HeroSection Component matches snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="hero"
+  >
+    <div
+      class="hero-wrapper"
+    >
+      <p>
+        1915-1919
+      </p>
+      <h1>
+        The Kiwis who
+fought underground
+      </h1>
+      <div
+        class="hero-links"
+      >
+        <button
+          class="hero-link"
+        >
+          <div
+            class="hero-link-content"
+          >
+            <span
+              aria-hidden="true"
+              class="related-chapter-badge"
+            >
+              <svg
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M12 7.5c-1.7-1.2-4.1-1.8-7-1.8v11.2c2.9 0 5.3.6 7 1.8"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.7"
+                />
+                <path
+                  d="M12 7.5c1.7-1.2 4.1-1.8 7-1.8v11.2c-2.9 0-5.3.6-7 1.8"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.7"
+                />
+                <path
+                  d="M12 7.5v11.2"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-width="1.7"
+                />
+              </svg>
+            </span>
+            <div>
+              Discover the history
+            </div>
+          </div>
+          <div
+            class="arrow"
+          >
+            ↓
+          </div>
+        </button>
+        <button
+          class="hero-link"
+        >
+          <div
+            class="hero-link-content"
+          >
+            <span
+              aria-hidden="true"
+              class="map-button-icon"
+            />
+            <div>
+              Explore the tunnellers' works
+            </div>
+          </div>
+          <div
+            class="arrow"
+          >
+            →
+          </div>
+        </button>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;

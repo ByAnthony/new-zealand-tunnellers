@@ -4,7 +4,7 @@
   padding-top: variables.$base-margin;
 
   @include variables.desktop {
-    padding-top: variables.$l-margin;
+    padding-top: variables.$xxl-margin;
   }
 }
 
@@ -30,8 +30,9 @@
 
   @include variables.desktop {
     margin-bottom: 30px;
-    margin-left: 0;
-    margin-right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    width: variables.$inner-width;
   }
 }
 
@@ -73,7 +74,10 @@
 
 .chapter-cards-wrapper {
   height: 490px;
-  overflow: hidden;
+
+  @include variables.desktop {
+    height: 570px;
+  }
 }
 
 .chapter-cards {
@@ -85,9 +89,19 @@
   gap: variables.$m-margin;
   overflow-x: auto;
   scroll-behavior: smooth;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 
   @include variables.desktop {
-    scroll-snap-type: x mandatory;
+    height: 490px;
+    box-sizing: border-box;
+    padding-left: calc((100vw - variables.$inner-width) / 2);
+    padding-right: calc((100vw - variables.$inner-width) / 2);
+    scroll-padding-left: calc((100vw - variables.$inner-width) / 2);
+    scroll-snap-type: x proximity;
   }
 }
 
@@ -101,6 +115,11 @@
     border 0.9s ease-in-out,
     background-color 0.9s ease-in-out;
   scroll-snap-align: start;
+
+  @include variables.desktop {
+    width: 317px;
+    height: 482px;
+  }
 
   &:first-child {
     margin-left: variables.$s-margin;
@@ -139,6 +158,11 @@
   border-radius: 6.5px;
   background-color: rgba(44, 46, 47, 0.9);
   transition: background-color 0.9s ease-in-out;
+
+  @include variables.desktop {
+    width: 317px;
+    height: 482px;
+  }
 
   @include variables.hover-supported {
     &:hover {

@@ -17,15 +17,8 @@ exports[`Chapter matches the snapshot 1`] = `
               class="link"
             >
               <a
-                aria-label="Go to the Resources section"
-                href="/fr/#resources"
-              >
-                Resources
-              </a>
-               / 
-              <a
                 aria-label="Go to the table of contents"
-                href="/fr/books/kiwis-dig-tunnels-too/"
+                href="/fr/kiwis-dig-tunnels-too/"
               >
                 Kiwis Dig Tunnels Too
               </a>
@@ -138,7 +131,7 @@ exports[`Chapter matches the snapshot 1`] = `
     <a
       aria-label="Retour au sommaire"
       class="book-menu hidden"
-      href="/fr/books/kiwis-dig-tunnels-too/"
+      href="/fr/kiwis-dig-tunnels-too/"
     >
       <span
         class="link"

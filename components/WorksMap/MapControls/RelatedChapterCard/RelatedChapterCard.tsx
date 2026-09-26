@@ -6,7 +6,7 @@ import { useState } from "react";
 
 import STYLES from "./RelatedChapterCard.module.scss";
 
-function BookOpenBadge() {
+export function BookOpenBadge() {
   return (
     <span className={STYLES["related-chapter-badge"]} aria-hidden="true">
       <svg viewBox="0 0 24 24" focusable="false">
