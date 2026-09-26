@@ -20,7 +20,7 @@ export function KiwisDigTunnelsToo() {
       </div>
       <div className={STYLES["image-container"]}>
         <Image
-          src={`/images/books/kiwis-dig-tunnels-too.jpg`}
+          src={`/images/books/kiwis-dig-tunnels-too${locale === "en" ? "_en" : ""}.jpg`}
           alt={t("bookTitle")}
           width={400}
           height={515}
