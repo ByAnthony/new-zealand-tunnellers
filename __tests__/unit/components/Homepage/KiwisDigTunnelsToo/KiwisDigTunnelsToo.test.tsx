@@ -11,7 +11,7 @@ describe("KiwisDigTunnelsToo", () => {
   test("renders the section heading", () => {
     render(<KiwisDigTunnelsToo />);
     expect(
-      screen.getByRole("heading", { name: "The long story", level: 2 }),
+      screen.getByRole("heading", { name: "The Long Story", level: 2 }),
     ).toBeInTheDocument();
   });
 
