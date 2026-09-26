@@ -1,0 +1,136 @@
+@use "app/variables.module.scss";
+
+.container {
+  @include variables.component-margin;
+
+  margin: 0 auto;
+  margin-top: variables.$l-margin;
+  width: variables.$inner-width;
+
+  h2 {
+    text-align: center;
+  }
+
+  .arrow {
+    @include variables.arrow-button;
+
+    @include variables.desktop {
+      height: 40px;
+      width: 40px;
+      font-size: 2rem;
+    }
+  }
+
+  @include variables.desktop {
+    margin-top: variables.$xxxl-margin;
+    margin-bottom: variables.$xl-margin;
+  }
+}
+
+.title {
+  text-align: center;
+  color: variables.$secondary-color;
+
+  @include variables.desktop {
+    font-size: 4rem;
+    font-weight: 500;
+  }
+}
+
+.book-meta {
+  padding: variables.$m-margin 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: variables.$xxxs-margin;
+}
+
+.by {
+  font-size: 0.8rem;
+  font-weight: 200;
+  color: variables.$text-color;
+
+  @include variables.desktop {
+    font-size: 1.2rem;
+  }
+}
+
+.author {
+  font-size: 1rem;
+  font-weight: 400;
+  color: variables.$text-color;
+
+  @include variables.desktop {
+    font-size: 1.4rem;
+  }
+}
+
+.image-container {
+  margin: variables.$m-margin 0 variables.$base-margin 0;
+}
+
+.image {
+  display: block;
+  margin: 0 auto;
+  border-radius: variables.$border-radius;
+}
+
+.description {
+  font-size: 1.3rem;
+  line-height: 1.3;
+  color: variables.$text-color;
+
+  @include variables.desktop {
+    text-align: center;
+    font-size: 1.4rem;
+    line-height: 1.6;
+  }
+}
+
+.button-wrapper {
+  margin-top: variables.$base-margin;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.hero-link-content {
+  display: flex;
+  align-items: center;
+  gap: variables.$xxs-margin;
+}
+
+.hero-link {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: variables.$s-margin;
+  padding: 4px 10px;
+  font-family: variables.$main-font;
+  font-size: 1rem;
+  font-weight: 400;
+  text-align: center;
+  color: variables.$secondary-color;
+  border: 1px solid variables.$primary-light-color;
+  border-radius: variables.$border-radius;
+  background-color: variables.$primary-medium-color;
+  transition:
+    color 0.9s ease-in-out,
+    border 0.9s ease-in-out,
+    background-color 0.9s ease-in-out;
+  cursor: pointer;
+
+  @include variables.desktop {
+    font-size: 1.1rem;
+    padding: variables.$xs-margin variables.$m-margin;
+  }
+
+  @include variables.hover-supported {
+    &:hover {
+      border: 1px solid variables.$secondary-color;
+      background-color: variables.$primary-dark-color;
+    }
+  }
+}

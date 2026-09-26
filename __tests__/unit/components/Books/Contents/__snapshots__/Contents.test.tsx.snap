@@ -10,16 +10,6 @@ exports[`Contents matches the snapshot (fr) 1`] = `
         <div
           class="header"
         >
-          <div
-            class="link"
-          >
-            <a
-              aria-label="Go to the Resources section"
-              href="/fr/#resources"
-            >
-              Resources
-            </a>
-          </div>
           <h1>
             Les Kiwis aussi creusent des tunnels
           </h1>

@@ -1,0 +1,104 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`KiwisDigTunnelsToo matches the snapshot 1`] = `
+<DocumentFragment>
+  <section
+    aria-labelledby="resources-title"
+    class="container"
+  >
+    <h2>
+      The Long Story
+    </h2>
+    <div
+      class="title"
+    >
+      Kiwis Dig Tunnels Too
+    </div>
+    <div
+      class="book-meta"
+    >
+      <span
+        class="by"
+      >
+        By 
+      </span>
+      <span
+        class="author"
+      >
+        Anthony Byledbal
+      </span>
+    </div>
+    <div
+      class="image-container"
+    >
+      <img
+        alt="Kiwis Dig Tunnels Too"
+        class="image"
+        height="515"
+        placeholder="empty"
+        src="/images/books/kiwis-dig-tunnels-too_en.jpg"
+        width="400"
+      />
+    </div>
+    <p
+      class="description"
+    >
+      Recruited for their digging skills, James Williamson, Harold Howard, George Race, and Gerald Punch, four New Zealand volunteers, are preparing to cross the oceans with their special unit to take part in the secret underground warfare. But on the other side of the world, this deadly game is already tipping in favor of the German miners.
+    </p>
+    <div
+      class="button-wrapper"
+    >
+      <a
+        class="hero-link"
+        href="/kiwis-dig-tunnels-too/"
+      >
+        <div
+          class="hero-link-content"
+        >
+          <span
+            aria-hidden="true"
+            class="related-chapter-badge"
+          >
+            <svg
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M12 7.5c-1.7-1.2-4.1-1.8-7-1.8v11.2c2.9 0 5.3.6 7 1.8"
+                fill="none"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1.7"
+              />
+              <path
+                d="M12 7.5c1.7-1.2 4.1-1.8 7-1.8v11.2c-2.9 0-5.3.6-7 1.8"
+                fill="none"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1.7"
+              />
+              <path
+                d="M12 7.5v11.2"
+                fill="none"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-width="1.7"
+              />
+            </svg>
+          </span>
+          <div>
+            Start reading
+          </div>
+        </div>
+        <div
+          class="arrow"
+        >
+          →
+        </div>
+      </a>
+    </div>
+  </section>
+</DocumentFragment>
+`;

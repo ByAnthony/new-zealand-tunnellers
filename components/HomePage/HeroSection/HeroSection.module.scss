@@ -1,0 +1,186 @@
+@use "app/variables.module.scss";
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  margin-top: calc(-1 * variables.$base-margin);
+  min-height: 100vh;
+  min-height: 100svh;
+  background-image: url("/images/homepage/ART_3670.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background-color: rgba(24, 26, 27, 0.25);
+    pointer-events: none;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background: radial-gradient(
+      circle at center,
+      rgba(24, 26, 27, 0) 0%,
+      rgba(24, 26, 27, 0) 30%,
+      rgba(24, 26, 27, 0.9) 68%,
+      variables.$primary-dark-color 100%
+    );
+    pointer-events: none;
+  }
+}
+
+.hero-wrapper {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  right: auto;
+  width: 100%;
+  bottom: variables.$base-margin;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  h1 {
+    margin-top: variables.$xxxs-margin;
+    font-weight: 500;
+    line-height: 1;
+    white-space: pre-line;
+  }
+
+  p {
+    font-size: 1.2rem;
+    font-weight: 400;
+    text-align: center;
+  }
+
+  button {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: variables.$s-margin;
+    padding: 4px 10px;
+    font-family: variables.$main-font;
+    font-size: 1rem;
+    font-weight: 400;
+    text-align: center;
+    color: variables.$secondary-color;
+    border: 1px solid variables.$primary-light-color;
+    border-radius: variables.$border-radius;
+    background-color: variables.$primary-medium-color;
+    transition:
+      color 0.9s ease-in-out,
+      border 0.9s ease-in-out,
+      background-color 0.9s ease-in-out;
+    cursor: pointer;
+
+    @include variables.desktop {
+      font-size: 1.1rem;
+      padding: variables.$xs-margin variables.$m-margin;
+    }
+
+    @include variables.hover-supported {
+      &:hover {
+        border: 1px solid variables.$secondary-color;
+        background-color: variables.$primary-dark-color;
+      }
+    }
+  }
+
+  @include variables.desktop {
+    max-width: variables.$inner-width;
+  }
+}
+
+.hero-links {
+  display: flex;
+  justify-content: center;
+  gap: variables.$xs-margin;
+}
+
+.hero-link-content {
+  display: flex;
+  align-items: center;
+  gap: variables.$xxs-margin;
+}
+
+.hero-link {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: variables.$s-margin;
+  padding: 4px 10px;
+  font-family: variables.$main-font;
+  font-size: 1rem;
+  font-weight: 400;
+  text-align: center;
+  color: variables.$secondary-color;
+  border: 1px solid variables.$primary-light-color;
+  border-radius: variables.$border-radius;
+  background-color: variables.$primary-medium-color;
+  transition:
+    color 0.9s ease-in-out,
+    border 0.9s ease-in-out,
+    background-color 0.9s ease-in-out;
+  cursor: pointer;
+
+  @include variables.desktop {
+    font-size: 1.1rem;
+    padding: variables.$xs-margin variables.$m-margin;
+  }
+
+  @include variables.hover-supported {
+    &:hover {
+      border: 1px solid variables.$secondary-color;
+      background-color: variables.$primary-dark-color;
+    }
+  }
+
+  .arrow {
+    @include variables.arrow-button;
+
+    @include variables.desktop {
+      height: 40px;
+      width: 40px;
+      font-size: 2rem;
+    }
+  }
+
+  @include variables.hover-supported {
+    &:hover {
+      border-bottom: 1px solid variables.$secondary-color;
+      color: variables.$secondary-color;
+    }
+  }
+}
+
+.map-button-icon {
+  position: relative;
+  width: 0.7rem;
+  height: 0.7rem;
+  border: 2px solid currentColor;
+  border-radius: 50% 50% 50% 0;
+  rotate: -45deg;
+  translate: 0 -1px;
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0.2rem;
+    height: 0.2rem;
+    border-radius: 50%;
+    background-color: currentColor;
+    translate: -50% -50%;
+  }
+}
