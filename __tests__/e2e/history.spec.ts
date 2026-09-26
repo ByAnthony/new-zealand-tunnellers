@@ -42,11 +42,11 @@ test("can navigate between a history chapter and its related map period", async 
   await page.getByRole("link", { name: /Underground Warfare/i }).click();
 
   await page.waitForURL(
-    /\/maps\/tunnellers-works\/?\?period=true&frontlines=true&from=1916-03-16&to=1916-11-15/,
+    /\/history\/tunnellers-works\/?\?period=true&frontlines=true&from=1916-03-16&to=1916-11-15/,
     { waitUntil: "load" },
   );
   await expect(page).toHaveURL(
-    /\/maps\/tunnellers-works\/?\?period=true&frontlines=true&from=1916-03-16&to=1916-11-15/,
+    /\/history\/tunnellers-works\/?\?period=true&frontlines=true&from=1916-03-16&to=1916-11-15/,
   );
 
   await page.getByRole("link", { name: "About this period" }).click();
