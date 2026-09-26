@@ -41,15 +41,15 @@ export function Article({ article }: Props) {
         <Title title={article.title} subTitle={article.chapter} />
       </div>
       <TopImage image={article.image[0]} />
-      <Content
-        imageList={article.image.slice(1)}
-        sectionList={article.section}
-      />
       <ArticleRelatedMapCard
         articleId={article.id}
         hasNextChapter={article.next !== null}
         locale={locale}
         localePrefix={localePrefix}
+      />
+      <Content
+        imageList={article.image.slice(1)}
+        sectionList={article.section}
       />
       <ArticleNextChapterButton
         chapter={article.next}
