@@ -1,5 +1,5 @@
 <!-- Copyright © Anthony Byledbal, 2017–aujourd’hui. Tous droits réservés.
-Livre publié sur New Zealand Tunnellers – https://www.nztunnellers.com/fr/books/kiwis-dig-tunnels-too -->
+Livre publié sur New Zealand Tunnellers – https://www.nztunnellers.com/fr/kiwis-dig-tunnels-too -->
 
 # Bibliographie
 
@@ -49,7 +49,7 @@ Livre publié sur New Zealand Tunnellers – https://www.nztunnellers.com/fr/boo
 - Base de données &laquo;&nbsp;Cenotaph&nbsp;&raquo; [[En ligne]](http://www.aucklandmuseum.com/war-memorial/online-cenotaph). Auckland, Nouvelle-Zélande&nbsp;: Musée du mémorial de guerre d’Auckland. Format World Wide Web.
 - Base de données prosopographique des tunneliers néo-zélandais [[En ligne]](http://www.nztunnellers.com/). Sitges, Espagne&nbsp;: Site Internet des tunneliers néo-zélandais. Format World Wide Web.
 
-<a className="button-chapter-book" href="/fr/books/kiwis-dig-tunnels-too/acknowledgments/" aria-label="Lire : Remerciements">
+<a className="button-chapter-book" href="/fr/kiwis-dig-tunnels-too/acknowledgments/" aria-label="Lire : Remerciements">
   <div>
     <span>Remerciements</span>
   </div>

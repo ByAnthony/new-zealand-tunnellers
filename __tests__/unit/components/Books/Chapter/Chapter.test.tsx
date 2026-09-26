@@ -106,7 +106,7 @@ Some sources here.
 describe("Chapter", () => {
   beforeEach(() => {
     mockedUsePathname.mockReturnValue(
-      "/fr/books/kiwis-dig-tunnels-too/chapitre-1-les-tunneliers-des-antipodes",
+      "/fr/kiwis-dig-tunnels-too/chapitre-1-les-tunneliers-des-antipodes",
     );
   });
 
@@ -173,7 +173,7 @@ describe("Chapter", () => {
 
   test("renders English locale breadcrumb with correct aria-labels", () => {
     mockedUsePathname.mockReturnValue(
-      "/books/kiwis-dig-tunnels-too/chapter-1-the-tunnellers",
+      "/kiwis-dig-tunnels-too/chapter-1-the-tunnellers",
     );
     render(<Chapter locale="en" content={enChapterContent} />);
 

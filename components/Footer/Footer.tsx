@@ -15,7 +15,7 @@ export function Footer() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const normalizedPathname = pathname.replace(/\/$/, "");
-  const isWorksMap = normalizedPathname.endsWith("/maps/tunnellers-works");
+  const isWorksMap = normalizedPathname.endsWith("/history/tunnellers-works");
   const isRollOriginMap =
     normalizedPathname.endsWith("/tunnellers") &&
     searchParams.get("view") === "map";
