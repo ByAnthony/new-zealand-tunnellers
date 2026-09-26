@@ -1,5 +1,5 @@
 <!-- Copyright © Anthony Byledbal, 2017–aujourd’hui. Tous droits réservés.
-Livre publié sur New Zealand Tunnellers – https://www.nztunnellers.com/fr/books/kiwis-dig-tunnels-too -->
+Livre publié sur New Zealand Tunnellers – https://www.nztunnellers.com/fr/kiwis-dig-tunnels-too -->
 
 # Sources imprimées
 
@@ -34,7 +34,7 @@ Livre publié sur New Zealand Tunnellers – https://www.nztunnellers.com/fr/boo
 
 - _Tunnellers’ Old Comrades Association_, Bulletins n°1-14, Londres, Mining Publications Limited, 1927-1939.
 
-<a className="button-chapter-book" href="/fr/books/kiwis-dig-tunnels-too/bibliography/" aria-label="Lire : Bibliographie">
+<a className="button-chapter-book" href="/fr/kiwis-dig-tunnels-too/bibliography/" aria-label="Lire : Bibliographie">
   <div>
     <span>Bibliographie</span>
   </div>

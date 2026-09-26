@@ -16,7 +16,7 @@ const staticRoutes = [
   "/tunnellers/",
   "/about-us/",
   "/history/tunnellers-works/",
-  "/books/kiwis-dig-tunnels-too/",
+  "/kiwis-dig-tunnels-too/",
 ];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -60,7 +60,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     for (const id of bookChapterIds) {
       for (const locale of locales) {
         entries.push({
-          url: pageUrl(locale, `/books/kiwis-dig-tunnels-too/${id}/`),
+          url: pageUrl(locale, `/kiwis-dig-tunnels-too/${id}/`),
         });
       }
     }

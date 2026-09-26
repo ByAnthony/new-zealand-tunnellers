@@ -95,7 +95,7 @@ describe("HowToCite", () => {
     const { container } = render(
       <HowToCite
         chapterTitle="Prologue"
-        pathname="/books/kiwis-dig-tunnels-too/prologue/"
+        pathname="/kiwis-dig-tunnels-too/prologue/"
         locale="en"
       />,
     );
@@ -112,7 +112,7 @@ describe("HowToCite", () => {
       writeTextSpy.mock.calls[writeTextSpy.mock.calls.length - 1][0];
 
     expect(copiedText).toContain(
-      "www.nztunnellers.com/books/kiwis-dig-tunnels-too/prologue/",
+      "www.nztunnellers.com/kiwis-dig-tunnels-too/prologue/",
     );
 
     jest.restoreAllMocks();
@@ -226,10 +226,7 @@ describe("HowToCite", () => {
 
   test("renders chapter citation with only a chapter number when path has no title", () => {
     render(
-      <HowToCite
-        pathname="/books/kiwis-dig-tunnels-too/chapter-1"
-        locale="en"
-      />,
+      <HowToCite pathname="/kiwis-dig-tunnels-too/chapter-1" locale="en" />,
     );
 
     expect(screen.getByText(/Chapter 1:/)).toBeInTheDocument();
@@ -238,7 +235,7 @@ describe("HowToCite", () => {
   test("renders chapter citation with chapter number and title", () => {
     render(
       <HowToCite
-        pathname="/books/kiwis-dig-tunnels-too/chapter-1-the-tunnellers-from-the-antipodes"
+        pathname="/kiwis-dig-tunnels-too/chapter-1-the-tunnellers-from-the-antipodes"
         locale="en"
       />,
     );
@@ -266,10 +263,7 @@ describe("HowToCite", () => {
 
   test("renders non-chapter citation for a prologue path", () => {
     render(
-      <HowToCite
-        pathname="/fr/books/kiwis-dig-tunnels-too/prologue"
-        locale="fr"
-      />,
+      <HowToCite pathname="/fr/kiwis-dig-tunnels-too/prologue" locale="fr" />,
     );
 
     expect(screen.getByText(/Prologue/)).toBeInTheDocument();
@@ -378,10 +372,7 @@ describe("HowToCite", () => {
 
   test("French URL includes /fr/ prefix for pathname", () => {
     render(
-      <HowToCite
-        pathname="/fr/books/kiwis-dig-tunnels-too/chapter-1"
-        locale="fr"
-      />,
+      <HowToCite pathname="/fr/kiwis-dig-tunnels-too/chapter-1" locale="fr" />,
     );
 
     expect(screen.getByText(/\/fr\//)).toBeInTheDocument();

@@ -1,5 +1,5 @@
 <!-- Copyright © Anthony Byledbal, 2017–aujourd'hui. Tous droits réservés.
-Livre publié sur New Zealand Tunnellers – https://www.nztunnellers.com/books/kiwis-dig-tunnels-too -->
+Livre publié sur New Zealand Tunnellers – https://www.nztunnellers.com/kiwis-dig-tunnels-too -->
 
 # Les Kiwis aussi creusent des tunnels
 

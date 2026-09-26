@@ -24,7 +24,7 @@ export async function generateMetadata({ params }: Props) {
     locale,
     title,
     description: tHomepage("bookDescription"),
-    path: "/books/kiwis-dig-tunnels-too/",
+    path: "/kiwis-dig-tunnels-too/",
   });
 }
 
@@ -37,7 +37,7 @@ export default async function Page({ params }: Props) {
     "@type": "Book",
     name: bookTitle(locale),
     inLanguage: locale,
-    url: pageUrl(locale, "/books/kiwis-dig-tunnels-too/"),
+    url: pageUrl(locale, "/kiwis-dig-tunnels-too/"),
     author: jsonLdAuthor,
     publisher: jsonLdPublisher,
   };

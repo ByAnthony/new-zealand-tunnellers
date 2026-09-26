@@ -39,7 +39,7 @@ describe("Resources", () => {
     render(<Resources />);
     const links = screen.getAllByRole("link");
     expect(links[0]).toHaveAttribute("href", "/history/tunnellers-works/");
-    expect(links[1]).toHaveAttribute("href", "/books/kiwis-dig-tunnels-too/");
+    expect(links[1]).toHaveAttribute("href", "/kiwis-dig-tunnels-too/");
   });
 
   test("card links point to correct paths for French locale", () => {
@@ -47,9 +47,6 @@ describe("Resources", () => {
     render(<Resources />);
     const links = screen.getAllByRole("link");
     expect(links[0]).toHaveAttribute("href", "/fr/history/tunnellers-works/");
-    expect(links[1]).toHaveAttribute(
-      "href",
-      "/fr/books/kiwis-dig-tunnels-too/",
-    );
+    expect(links[1]).toHaveAttribute("href", "/fr/kiwis-dig-tunnels-too/");
   });
 });
