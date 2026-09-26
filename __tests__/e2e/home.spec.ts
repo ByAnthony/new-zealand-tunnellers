@@ -42,7 +42,10 @@ test("can navigate to the book from the resources section", async ({
 }) => {
   await page.goto("/");
 
-  const bookLink = page.getByRole("link", { name: /Kiwis Dig Tunnels Too/i });
+  const bookLink = page.getByRole("link", {
+    name: /Kiwis Dig Tunnels Too/i,
+    exact: true,
+  });
 
   await expect(bookLink).toBeVisible();
   await expect(bookLink).toHaveAttribute("href", "/kiwis-dig-tunnels-too/");
@@ -74,6 +77,7 @@ test("can navigate to the book from the French resources section", async ({
 
   const bookLink = page.getByRole("link", {
     name: /Les Kiwis aussi creusent des tunnels/i,
+    exact: true,
   });
 
   await expect(bookLink).toBeVisible();

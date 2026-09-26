@@ -37,7 +37,9 @@ test("can navigate to the book page", async ({ page }) => {
 
   await page.waitForLoadState("domcontentloaded");
   await expect(page).toHaveURL(/kiwis-dig-tunnels-too/);
-  await expect(page.getByText("Kiwis Dig Tunnels Too")).toBeInViewport();
+  await expect(
+    page.getByRole("heading", { name: "Kiwis Dig Tunnels Too" }),
+  ).toBeInViewport();
 });
 
 test("can navigate to the about us page", async ({ page }) => {
