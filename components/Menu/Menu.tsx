@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
 
@@ -11,44 +10,22 @@ import { displayBiographyDates } from "@/utils/helpers/roll";
 import { useWindowDimensions } from "@/utils/helpers/useWindowDimensions";
 
 import STYLES from "./Menu.module.scss";
+import { NavigationDialog } from "./NavigationDialog/NavigationDialog";
 
 type Props = {
   tunnellers: Tunneller[];
 };
-
-const ROLL_MAP_QUERY_PARAMS = ["view", "lat", "lng", "origin", "zoom"];
-
-function getLocaleSwitchQueryString(): string {
-  const params = new URLSearchParams(window.location.search);
-  const isOriginMapMounted =
-    document.querySelector('[data-testid="roll-origin-map"]') !== null;
-
-  if (!isOriginMapMounted) {
-    ROLL_MAP_QUERY_PARAMS.forEach((param) => params.delete(param));
-  }
-
-  const qs = params.toString().replace(/%2C/gi, ",");
-  return qs ? `?${qs}` : "";
-}
 
 export function Menu({ tunnellers }: Props) {
   const t = useTranslations("menu");
   const tNav = useTranslations("nav");
   const locale = useLocale();
   const localePrefix = locale === "en" ? "" : `/${locale}`;
-  const pathname = usePathname();
-  const switchLocaleBasePath =
-    locale === "en" ? `/fr${pathname}` : pathname.replace(/^\/fr/, "") || "/";
-  const switchLocaleBase = switchLocaleBasePath.endsWith("/")
-    ? switchLocaleBasePath
-    : `${switchLocaleBasePath}/`;
 
   const { width } = useWindowDimensions();
   const divRef = useRef<HTMLDivElement>(null);
   const searchFormRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-
-  const router = useRouter();
 
   const [prevScrollPos, setPrevScrollPos] = useState(0);
   const [menuVisible, setMenuVisible] = useState(true);
@@ -146,6 +123,16 @@ export function Menu({ tunnellers }: Props) {
 
   const isMobileOrTablet = () => {
     return width && width < 896;
+  };
+
+  const dialogRef = useRef<HTMLDialogElement>(null);
+
+  const openMenu = () => {
+    dialogRef.current?.showModal();
+  };
+
+  const closeMenu = () => {
+    dialogRef.current?.close();
   };
 
   return (
@@ -267,17 +254,10 @@ export function Menu({ tunnellers }: Props) {
         )}
       </div>
 
-      <Link
-        href={switchLocaleBase}
-        className={STYLES["language-switcher"]}
-        onClick={(e) => {
-          e.preventDefault();
-          const qs = getLocaleSwitchQueryString();
-          router.push(qs ? `${switchLocaleBase}${qs}` : switchLocaleBase);
-        }}
-      >
-        {locale === "en" ? "Français" : "English"}
-      </Link>
+      <button type="button" onClick={openMenu} aria-label="Open menu">
+        Menu
+      </button>
+      <NavigationDialog ref={dialogRef} onClose={closeMenu} />
     </div>
   );
 }
