@@ -262,8 +262,15 @@ export function Menu({ tunnellers }: Props) {
         )}
       </div>
 
-      <button type="button" onClick={openMenu} aria-label="Open menu">
-        Menu
+      <button
+        type="button"
+        onClick={openMenu}
+        aria-label="Open menu"
+        className={STYLES["menu-toggle"]}
+      >
+        <span className={STYLES["menu-toggle__line"]} />
+        <span className={STYLES["menu-toggle__line"]} />
+        <span className={STYLES["menu-toggle__line"]} />
       </button>
       <NavigationDialog ref={dialogRef} onClose={closeMenu} />
     </div>

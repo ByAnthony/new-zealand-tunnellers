@@ -26,18 +26,11 @@
   width: 3rem;
   height: 3rem;
 
-  display: grid;
-  place-items: center;
-
   padding: 0;
   border: 0;
 
   background: transparent;
   color: variables.$secondary-color;
-
-  font-size: 2rem;
-  font-weight: 300;
-  line-height: 1;
 
   cursor: pointer;
 
@@ -45,6 +38,31 @@
 
   &:hover {
     color: #c5a46d;
+  }
+}
+
+// Static resting state = the X, so pressing Escape and reopening (or
+// prefers-reduced-motion) never leaves it stuck mid-hamburger.
+.navigation-dialog__close-line {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 24px;
+  height: 2px;
+  border-radius: 2px;
+  background: currentColor;
+
+  &:nth-child(1) {
+    transform: translate(-50%, -50%) rotate(45deg);
+  }
+
+  &:nth-child(2) {
+    opacity: 0;
+    transform: translate(-50%, -50%);
+  }
+
+  &:nth-child(3) {
+    transform: translate(-50%, -50%) rotate(-45deg);
   }
 }
 
@@ -136,6 +154,24 @@
 }
 
 .navigation-dialog[open] {
+  .navigation-dialog__close-line {
+    animation-duration: 320ms;
+    animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+    animation-fill-mode: forwards;
+
+    &:nth-child(1) {
+      animation-name: close-line-top-in;
+    }
+
+    &:nth-child(2) {
+      animation-name: close-line-middle-out;
+    }
+
+    &:nth-child(3) {
+      animation-name: close-line-bottom-in;
+    }
+  }
+
   .menu-row {
     animation: menu-item-in 750ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
 
@@ -162,6 +198,36 @@
   }
 }
 
+@keyframes close-line-top-in {
+  from {
+    transform: translate(-50%, calc(-50% - 7px)) rotate(0deg);
+  }
+
+  to {
+    transform: translate(-50%, -50%) rotate(45deg);
+  }
+}
+
+@keyframes close-line-middle-out {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes close-line-bottom-in {
+  from {
+    transform: translate(-50%, calc(-50% + 7px)) rotate(0deg);
+  }
+
+  to {
+    transform: translate(-50%, -50%) rotate(-45deg);
+  }
+}
+
 @keyframes menu-item-in {
   from {
     opacity: 0;
@@ -179,6 +245,10 @@
   .language-switcher {
     opacity: 1;
     transform: none;
+    animation: none !important;
+  }
+
+  .navigation-dialog__close-line {
     animation: none !important;
   }
 

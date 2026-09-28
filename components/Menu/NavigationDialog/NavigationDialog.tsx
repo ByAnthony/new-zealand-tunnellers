@@ -47,7 +47,9 @@ export const NavigationDialog = forwardRef<
         aria-label="Close menu"
         className={STYLES["navigation-dialog__close"]}
       >
-        ×
+        <span className={STYLES["navigation-dialog__close-line"]} />
+        <span className={STYLES["navigation-dialog__close-line"]} />
+        <span className={STYLES["navigation-dialog__close-line"]} />
       </button>
       <nav className={STYLES["menu-nav"]}>
         <div className={STYLES["menu-row"]}>
