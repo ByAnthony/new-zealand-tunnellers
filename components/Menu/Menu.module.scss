@@ -82,6 +82,9 @@
   .search-form-container {
     position: relative;
     width: 100%;
+    // Reserves the room the fixed-position .menu-toggle now sits in,
+    // since it no longer takes up space in this flex row itself.
+    margin-right: 3rem;
 
     @include variables.desktop {
       width: variables.$search-bar-width;
