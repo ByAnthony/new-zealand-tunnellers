@@ -54,7 +54,6 @@ export const NavigationDialog = forwardRef<
           <Link
             href={`${localePrefix}/#history`}
             className={STYLES["menu-primary"]}
-            onClick={onClose}
           >
             {t("history")}
           </Link>
@@ -62,7 +61,6 @@ export const NavigationDialog = forwardRef<
           <Link
             href={`${localePrefix}/history/tunnellers-works`}
             className={STYLES["menu-secondary"]}
-            onClick={onClose}
           >
             {t("tunnellersWorks")}
           </Link>
@@ -72,7 +70,6 @@ export const NavigationDialog = forwardRef<
           <Link
             href={`${localePrefix}/tunnellers`}
             className={STYLES["menu-primary"]}
-            onClick={onClose}
           >
             {t("tunnellers")}
           </Link>
@@ -80,7 +77,6 @@ export const NavigationDialog = forwardRef<
           <Link
             href={`${localePrefix}/tunnellers/?view=map`}
             className={STYLES["menu-secondary"]}
-            onClick={onClose}
           >
             {t("tunnellersOrigin")}
           </Link>
@@ -90,7 +86,6 @@ export const NavigationDialog = forwardRef<
           <Link
             href={`${localePrefix}/kiwis-dig-tunnels-too`}
             className={STYLES["menu-primary"]}
-            onClick={onClose}
           >
             {t("book")}
           </Link>
@@ -100,7 +95,6 @@ export const NavigationDialog = forwardRef<
           <Link
             href={`${localePrefix}/about-us`}
             className={STYLES["menu-primary"]}
-            onClick={onClose}
           >
             {t("aboutUs")}
           </Link>

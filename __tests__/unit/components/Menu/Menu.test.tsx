@@ -422,4 +422,26 @@ describe("Menu", () => {
       );
     });
   });
+
+  describe("Navigation dialog", () => {
+    test("stays open on link click and closes only once the route changes", () => {
+      mockedUsePathname.mockReturnValue("/");
+      const { container, rerender } = render(
+        <Menu tunnellers={mockTunnellersData} />,
+      );
+      const dialog = container.querySelector("dialog") as HTMLDialogElement;
+
+      fireEvent.click(screen.getByRole("button", { name: "Open menu" }));
+      expect(dialog.open).toBe(true);
+
+      fireEvent.click(screen.getByRole("link", { name: "Tunnellers" }));
+      // Should still be open right after the click, so the old page never
+      // shows through mid-transition.
+      expect(dialog.open).toBe(true);
+
+      mockedUsePathname.mockReturnValue("/tunnellers");
+      rerender(<Menu tunnellers={mockTunnellersData} />);
+      expect(dialog.open).toBe(false);
+    });
+  });
 });

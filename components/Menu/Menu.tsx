@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
 
@@ -126,6 +127,7 @@ export function Menu({ tunnellers }: Props) {
   };
 
   const dialogRef = useRef<HTMLDialogElement>(null);
+  const pathname = usePathname();
 
   const openMenu = () => {
     dialogRef.current?.showModal();
@@ -134,6 +136,12 @@ export function Menu({ tunnellers }: Props) {
   const closeMenu = () => {
     dialogRef.current?.close();
   };
+
+  // ponytail: close on route change (not on link click) so the dialog stays
+  // up during the transition instead of flashing the old page underneath.
+  useEffect(() => {
+    dialogRef.current?.close();
+  }, [pathname]);
 
   return (
     <div
