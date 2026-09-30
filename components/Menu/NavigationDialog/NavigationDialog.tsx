@@ -41,16 +41,31 @@ export const NavigationDialog = forwardRef<
 
   return (
     <dialog ref={ref} className={STYLES["navigation-dialog"]}>
-      <button
-        type="button"
-        onClick={onClose}
-        aria-label="Close menu"
-        className={STYLES["navigation-dialog__close"]}
-      >
-        <span className={STYLES["navigation-dialog__close-line"]} />
-        <span className={STYLES["navigation-dialog__close-line"]} />
-        <span className={STYLES["navigation-dialog__close-line"]} />
-      </button>
+      <div className={STYLES["navigation-dialog__header"]}>
+        <Link
+          href={switchLocaleBase}
+          className={STYLES["language-switcher"]}
+          onClick={(e) => {
+            e.preventDefault();
+            const qs = getLocaleSwitchQueryString();
+            router.push(qs ? `${switchLocaleBase}${qs}` : switchLocaleBase);
+          }}
+        >
+          {locale === "en" ? "Français" : "English"}
+        </Link>
+
+        <button
+          type="button"
+          onClick={onClose}
+          aria-label="Close menu"
+          className={STYLES["navigation-dialog__close"]}
+        >
+          <span className={STYLES["navigation-dialog__close-line"]} />
+          <span className={STYLES["navigation-dialog__close-line"]} />
+          <span className={STYLES["navigation-dialog__close-line"]} />
+        </button>
+      </div>
+
       <nav className={STYLES["menu-nav"]}>
         <div className={STYLES["menu-row"]}>
           <Link
@@ -101,18 +116,6 @@ export const NavigationDialog = forwardRef<
             {t("aboutUs")}
           </Link>
         </div>
-
-        <Link
-          href={switchLocaleBase}
-          className={STYLES["language-switcher"]}
-          onClick={(e) => {
-            e.preventDefault();
-            const qs = getLocaleSwitchQueryString();
-            router.push(qs ? `${switchLocaleBase}${qs}` : switchLocaleBase);
-          }}
-        >
-          {locale === "en" ? "Français" : "English"}
-        </Link>
       </nav>
     </dialog>
   );

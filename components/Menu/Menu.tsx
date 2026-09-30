@@ -268,9 +268,9 @@ export function Menu({ tunnellers }: Props) {
         aria-label="Open menu"
         className={STYLES["menu-toggle"]}
       >
-        <span className={STYLES["menu-toggle__line"]} />
-        <span className={STYLES["menu-toggle__line"]} />
-        <span className={STYLES["menu-toggle__line"]} />
+        <span className={STYLES["menu-toggle__line-1"]} />
+        <span className={STYLES["menu-toggle__line-2"]} />
+        <span className={STYLES["menu-toggle__line-3"]} />
       </button>
       <NavigationDialog ref={dialogRef} onClose={closeMenu} />
     </div>

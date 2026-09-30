@@ -48,16 +48,13 @@
   }
 
   .menu-toggle {
-    position: fixed;
-    top: 2rem;
-    right: 2rem;
-    z-index: 1001;
+    position: relative;
 
-    display: grid;
-    place-items: center;
+    margin-left: variables.$xs-margin;
 
-    width: 3rem;
-    height: 3rem;
+    width: 42px;
+    height: 35px;
+
     padding: 0;
     border: 0;
 
@@ -67,24 +64,36 @@
     cursor: pointer;
   }
 
-  .menu-toggle__line {
-    display: block;
-    width: 24px;
+  .menu-toggle__line-1,
+  .menu-toggle__line-2,
+  .menu-toggle__line-3 {
+    position: absolute;
+    left: 0;
+
     height: 2px;
     border-radius: 2px;
-    background: currentColor;
 
-    & + & {
-      margin-top: 6px;
-    }
+    background: variables.$secondary-color;
+  }
+
+  .menu-toggle__line-1 {
+    top: 8px;
+    width: 15px;
+  }
+
+  .menu-toggle__line-2 {
+    top: 16px;
+    width: 30px;
+  }
+
+  .menu-toggle__line-3 {
+    top: 24px;
+    width: 22.5px;
   }
 
   .search-form-container {
     position: relative;
     width: 100%;
-    // Reserves the room the fixed-position .menu-toggle now sits in,
-    // since it no longer takes up space in this flex row itself.
-    margin-right: 3rem;
 
     @include variables.desktop {
       width: variables.$search-bar-width;

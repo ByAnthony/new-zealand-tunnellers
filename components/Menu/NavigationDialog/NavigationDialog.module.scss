@@ -5,26 +5,34 @@
   height: 100dvh;
   max-width: none;
   max-height: none;
-
   margin: 0 auto;
   padding: 0;
   border: 0;
-
   background: variables.$primary-medium-color;
   color: variables.$secondary-color;
-
   overflow-y: auto;
-
   font-family: variables.$main-font;
 }
 
-.navigation-dialog__close {
-  position: absolute;
-  top: 2rem;
-  right: 2rem;
+.navigation-dialog__header {
+  margin-top: variables.$m-margin;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 
-  width: 3rem;
-  height: 3rem;
+  @include variables.desktop {
+    margin-top: 60px;
+    max-width: variables.$max-width;
+  }
+
+  @include variables.component-margin;
+}
+
+.navigation-dialog__close {
+  position: relative;
+
+  width: 42px;
+  height: 35px;
 
   padding: 0;
   border: 0;
@@ -33,37 +41,33 @@
   color: variables.$secondary-color;
 
   cursor: pointer;
-
-  transition: color 160ms ease;
-
-  &:hover {
-    color: #c5a46d;
-  }
 }
 
-// Static resting state = the X, so pressing Escape and reopening (or
-// prefers-reduced-motion) never leaves it stuck mid-hamburger.
 .navigation-dialog__close-line {
   position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 24px;
+  left: 0;
+
   height: 2px;
   border-radius: 2px;
-  background: currentColor;
 
-  &:nth-child(1) {
-    transform: translate(-50%, -50%) rotate(45deg);
-  }
+  background: variables.$secondary-color;
 
-  &:nth-child(2) {
-    opacity: 0;
-    transform: translate(-50%, -50%);
-  }
+  transform-origin: center;
+}
 
-  &:nth-child(3) {
-    transform: translate(-50%, -50%) rotate(-45deg);
-  }
+.navigation-dialog__close-line:nth-child(1) {
+  top: 8px;
+  width: 15px;
+}
+
+.navigation-dialog__close-line:nth-child(2) {
+  top: 16px;
+  width: 30px;
+}
+
+.navigation-dialog__close-line:nth-child(3) {
+  top: 24px;
+  width: 22.5px;
 }
 
 .menu-nav {
@@ -126,10 +130,6 @@
 }
 
 .language-switcher {
-  align-self: flex-start;
-
-  margin-top: 2.5rem;
-
   color: variables.$text-color;
   text-decoration: none;
   padding-bottom: variables.$xxxs-margin;
@@ -146,16 +146,11 @@
   &:hover {
     color: variables.$secondary-color;
   }
-
-  &:focus-visible {
-    outline: 2px solid variables.$secondary-color;
-    outline-offset: 4px;
-  }
 }
 
 .navigation-dialog[open] {
   .navigation-dialog__close-line {
-    animation-duration: 320ms;
+    animation-duration: 1000ms;
     animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
     animation-fill-mode: forwards;
 
@@ -164,7 +159,7 @@
     }
 
     &:nth-child(2) {
-      animation-name: close-line-middle-out;
+      animation-name: close-line-middle-in;
     }
 
     &:nth-child(3) {
@@ -199,32 +194,83 @@
 }
 
 @keyframes close-line-top-in {
-  from {
-    transform: translate(-50%, calc(-50% - 7px)) rotate(0deg);
+  0% {
+    top: 8px;
+    left: 0;
+    width: 15px;
+    transform: rotate(0deg);
   }
 
-  to {
-    transform: translate(-50%, -50%) rotate(45deg);
+  15% {
+    transform: rotate(-6deg);
+  }
+
+  85% {
+    top: 11px;
+    left: 3px;
+    width: 14px;
+    transform: rotate(49deg);
+  }
+
+  100% {
+    top: 11px;
+    left: 3px;
+    width: 14px;
+    transform: rotate(45deg);
   }
 }
 
-@keyframes close-line-middle-out {
-  from {
-    opacity: 1;
+@keyframes close-line-middle-in {
+  0% {
+    top: 16px;
+    left: 0;
+    width: 30px;
+    transform: rotate(0deg);
   }
 
-  to {
-    opacity: 0;
+  15% {
+    transform: rotate(6deg);
+  }
+
+  85% {
+    top: 16px;
+    left: 1px;
+    width: 28px;
+    transform: rotate(-49deg);
+  }
+
+  100% {
+    top: 16px;
+    left: 1px;
+    width: 28px;
+    transform: rotate(-45deg);
   }
 }
 
 @keyframes close-line-bottom-in {
-  from {
-    transform: translate(-50%, calc(-50% + 7px)) rotate(0deg);
+  0% {
+    top: 24px;
+    left: 0;
+    width: 22.5px;
+    transform: rotate(0deg);
   }
 
-  to {
-    transform: translate(-50%, -50%) rotate(-45deg);
+  15% {
+    transform: rotate(-6deg);
+  }
+
+  85% {
+    top: 21px;
+    left: 13px;
+    width: 14px;
+    transform: rotate(49deg);
+  }
+
+  100% {
+    top: 21px;
+    left: 13px;
+    width: 14px;
+    transform: rotate(45deg);
   }
 }
 
