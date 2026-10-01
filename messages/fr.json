@@ -28,8 +28,9 @@
     "aboutUs": "À propos",
     "goToHomepage": "Aller à la page d'accueil",
     "logoAlt": "Site des Tunneliers néo-zélandais - Accueil",
-    "tunnellersWorks": "Carte des ouvrages",
-    "tunnellersOrigin": "Carte des origines"
+    "map": "Carte",
+    "tunnellersWorks": "Ouvrages",
+    "tunnellersOrigin": "Origines"
   },
   "footer": {
     "scrollToTop": "Retourner en haut de la page",

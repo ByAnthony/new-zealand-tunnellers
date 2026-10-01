@@ -13,8 +13,15 @@ import { useWindowDimensions } from "@/utils/helpers/useWindowDimensions";
 import STYLES from "./Menu.module.scss";
 import { NavigationDialog } from "./NavigationDialog/NavigationDialog";
 
+const MENU_TOGGLE_ANIMATION_MS = 1000;
+const NAVIGATION_COVER_DELAY_MS = 500;
+
 type Props = {
   tunnellers: Tunneller[];
+};
+
+const setPageScrollLock = (isLocked: boolean) => {
+  document.body.style.overflowY = isLocked ? "hidden" : "visible";
 };
 
 export function Menu({ tunnellers }: Props) {
@@ -33,6 +40,7 @@ export function Menu({ tunnellers }: Props) {
   const [filteredTunnellers, setFilteredTunnellers] = useState<Tunneller[]>([]);
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [dropdownMaxHeight, setDropdownMaxHeight] = useState("auto");
+  const [isMenuToggleReturning, setIsMenuToggleReturning] = useState(false);
   const [query, setQuery] = useState("");
 
   useEffect(() => {
@@ -127,20 +135,82 @@ export function Menu({ tunnellers }: Props) {
   };
 
   const dialogRef = useRef<HTMLDialogElement>(null);
+  const closeDelayTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(
+    null,
+  );
+  const menuToggleAnimationTimeoutRef = useRef<ReturnType<
+    typeof setTimeout
+  > | null>(null);
   const pathname = usePathname();
 
+  const clearCloseDelayTimeout = () => {
+    if (closeDelayTimeoutRef.current) {
+      clearTimeout(closeDelayTimeoutRef.current);
+      closeDelayTimeoutRef.current = null;
+    }
+  };
+
+  const clearMenuToggleAnimationTimeout = () => {
+    if (menuToggleAnimationTimeoutRef.current) {
+      clearTimeout(menuToggleAnimationTimeoutRef.current);
+      menuToggleAnimationTimeoutRef.current = null;
+    }
+  };
+
+  const animateMenuToggleReturn = () => {
+    clearMenuToggleAnimationTimeout();
+    setIsMenuToggleReturning(true);
+    menuToggleAnimationTimeoutRef.current = setTimeout(() => {
+      setIsMenuToggleReturning(false);
+      menuToggleAnimationTimeoutRef.current = null;
+    }, MENU_TOGGLE_ANIMATION_MS);
+  };
+
+  const finishCloseMenu = ({ animateToggle = true } = {}) => {
+    dialogRef.current?.close?.();
+    dialogRef.current?.removeAttribute("open");
+    setPageScrollLock(false);
+
+    if (animateToggle) {
+      animateMenuToggleReturn();
+    }
+  };
+
   const openMenu = () => {
-    dialogRef.current?.showModal();
+    clearCloseDelayTimeout();
+    clearMenuToggleAnimationTimeout();
+    setIsMenuToggleReturning(false);
+    dialogRef.current?.showModal?.();
+    dialogRef.current?.setAttribute("open", "");
+    setPageScrollLock(true);
   };
 
   const closeMenu = () => {
-    dialogRef.current?.close();
+    if (!dialogRef.current?.open) return;
+
+    clearCloseDelayTimeout();
+    finishCloseMenu();
   };
 
-  // ponytail: close on route change (not on link click) so the dialog stays
-  // up during the transition instead of flashing the old page underneath.
+  const closeMenuAfterNavigationDelay = () => {
+    clearCloseDelayTimeout();
+    closeDelayTimeoutRef.current = setTimeout(() => {
+      closeDelayTimeoutRef.current = null;
+      closeMenu();
+    }, NAVIGATION_COVER_DELAY_MS);
+  };
+
   useEffect(() => {
-    dialogRef.current?.close();
+    clearCloseDelayTimeout();
+    dialogRef.current?.close?.();
+    dialogRef.current?.removeAttribute("open");
+    setPageScrollLock(false);
+
+    return () => {
+      clearCloseDelayTimeout();
+      clearMenuToggleAnimationTimeout();
+      setPageScrollLock(false);
+    };
   }, [pathname]);
 
   return (
@@ -267,12 +337,17 @@ export function Menu({ tunnellers }: Props) {
         onClick={openMenu}
         aria-label="Open menu"
         className={STYLES["menu-toggle"]}
+        data-menu-closed={isMenuToggleReturning ? "true" : undefined}
       >
         <span className={STYLES["menu-toggle__line-1"]} />
         <span className={STYLES["menu-toggle__line-2"]} />
         <span className={STYLES["menu-toggle__line-3"]} />
       </button>
-      <NavigationDialog ref={dialogRef} onClose={closeMenu} />
+      <NavigationDialog
+        ref={dialogRef}
+        onDeferredClose={closeMenuAfterNavigationDelay}
+        onClose={closeMenu}
+      />
     </div>
   );
 }

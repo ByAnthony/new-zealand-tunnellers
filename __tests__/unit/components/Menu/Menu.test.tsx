@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { act, fireEvent, render, screen } from "@testing-library/react";
 
 import { Menu } from "@/components/Menu/Menu";
 import { mockTunnellersData } from "@/test-utils/mocks/mockTunnellers";
@@ -22,6 +22,7 @@ mockedUseRouter.mockReturnValue({
 describe("Menu", () => {
   beforeEach(() => {
     mockPush.mockReset();
+    mockedUsePathname.mockReturnValue("/");
     mockedUseRouter.mockReturnValue({
       push: mockPush,
       refresh: jest.fn(),
@@ -30,7 +31,9 @@ describe("Menu", () => {
   });
 
   afterEach(() => {
+    jest.useRealTimers();
     jest.clearAllMocks();
+    document.body.style.overflowY = "";
   });
 
   test("matches the snapshot", () => {
@@ -351,11 +354,15 @@ describe("Menu", () => {
 
   describe("Language switcher", () => {
     const mockedUseLocale = require("next-intl").useLocale;
+    const openNavigationDialog = () => {
+      fireEvent.click(screen.getByRole("button", { name: "Open menu" }));
+    };
 
     test("renders Français link on English locale", () => {
       mockedUseLocale.mockReturnValue("en");
       mockedUsePathname.mockReturnValue("/tunnellers");
       render(<Menu tunnellers={mockTunnellersData} />);
+      openNavigationDialog();
 
       const link = screen.getByRole("link", { name: "Français" });
       expect(link).toBeInTheDocument();
@@ -366,6 +373,7 @@ describe("Menu", () => {
       mockedUseLocale.mockReturnValue("fr");
       mockedUsePathname.mockReturnValue("/fr/tunnellers");
       render(<Menu tunnellers={mockTunnellersData} />);
+      openNavigationDialog();
 
       const link = screen.getByRole("link", { name: "English" });
       expect(link).toBeInTheDocument();
@@ -376,6 +384,7 @@ describe("Menu", () => {
       mockedUseLocale.mockReturnValue("fr");
       mockedUsePathname.mockReturnValue("/fr");
       render(<Menu tunnellers={mockTunnellersData} />);
+      openNavigationDialog();
 
       const link = screen.getByRole("link", { name: "English" });
       expect(link).toHaveAttribute("href", "/");
@@ -391,6 +400,7 @@ describe("Menu", () => {
       );
 
       render(<Menu tunnellers={mockTunnellersData} />);
+      openNavigationDialog();
 
       fireEvent.click(screen.getByRole("link", { name: "Français" }));
 
@@ -414,6 +424,7 @@ describe("Menu", () => {
           <Menu tunnellers={mockTunnellersData} />
         </>,
       );
+      openNavigationDialog();
 
       fireEvent.click(screen.getByRole("link", { name: "Français" }));
 
@@ -433,15 +444,77 @@ describe("Menu", () => {
 
       fireEvent.click(screen.getByRole("button", { name: "Open menu" }));
       expect(dialog.open).toBe(true);
+      expect(document.body.style.overflowY).toBe("hidden");
 
       fireEvent.click(screen.getByRole("link", { name: "Tunnellers" }));
       // Should still be open right after the click, so the old page never
       // shows through mid-transition.
       expect(dialog.open).toBe(true);
+      expect(document.body.style.overflowY).toBe("hidden");
 
       mockedUsePathname.mockReturnValue("/tunnellers");
       rerender(<Menu tunnellers={mockTunnellersData} />);
       expect(dialog.open).toBe(false);
+      expect(document.body.style.overflowY).toBe("visible");
+    });
+
+    test("locks page scrolling while open and restores it when closed", () => {
+      jest.useFakeTimers();
+      const { container } = render(<Menu tunnellers={mockTunnellersData} />);
+      const dialog = container.querySelector("dialog") as HTMLDialogElement;
+      const menuToggle = screen.getByRole("button", { name: "Open menu" });
+
+      fireEvent.click(menuToggle);
+      expect(dialog.open).toBe(true);
+      expect(document.body.style.overflowY).toBe("hidden");
+
+      fireEvent.click(screen.getByRole("button", { name: "Close menu" }));
+      expect(dialog.open).toBe(false);
+      expect(menuToggle).toHaveAttribute("data-menu-closed", "true");
+      expect(document.body.style.overflowY).toBe("visible");
+
+      act(() => {
+        jest.advanceTimersByTime(1000);
+      });
+
+      expect(menuToggle).not.toHaveAttribute("data-menu-closed");
+    });
+
+    test("closes when the history anchor link is clicked", () => {
+      jest.useFakeTimers();
+      const { container } = render(<Menu tunnellers={mockTunnellersData} />);
+      const dialog = container.querySelector("dialog") as HTMLDialogElement;
+      const menuToggle = screen.getByRole("button", { name: "Open menu" });
+
+      fireEvent.click(menuToggle);
+      expect(dialog.open).toBe(true);
+
+      fireEvent.click(screen.getByRole("link", { name: "History" }));
+      expect(dialog.open).toBe(false);
+      expect(menuToggle).toHaveAttribute("data-menu-closed", "true");
+      expect(document.body.style.overflowY).toBe("visible");
+    });
+
+    test("stays open briefly on origin map link click before closing", () => {
+      jest.useFakeTimers();
+      mockedUsePathname.mockReturnValue("/tunnellers");
+      const { container } = render(<Menu tunnellers={mockTunnellersData} />);
+      const dialog = container.querySelector("dialog") as HTMLDialogElement;
+      const menuToggle = screen.getByRole("button", { name: "Open menu" });
+
+      fireEvent.click(menuToggle);
+      expect(dialog.open).toBe(true);
+
+      fireEvent.click(screen.getByRole("link", { name: "Map Origins" }));
+      expect(dialog.open).toBe(true);
+      expect(document.body.style.overflowY).toBe("hidden");
+
+      act(() => {
+        jest.advanceTimersByTime(500);
+      });
+      expect(dialog.open).toBe(false);
+      expect(menuToggle).toHaveAttribute("data-menu-closed", "true");
+      expect(document.body.style.overflowY).toBe("visible");
     });
   });
 });

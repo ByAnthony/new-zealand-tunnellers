@@ -74,6 +74,29 @@
     border-radius: 2px;
 
     background: variables.$secondary-color;
+    transform-origin: center;
+  }
+
+  .menu-toggle[data-menu-closed="true"] {
+    .menu-toggle__line-1,
+    .menu-toggle__line-2,
+    .menu-toggle__line-3 {
+      animation-duration: 1000ms;
+      animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+      animation-fill-mode: forwards;
+    }
+
+    .menu-toggle__line-1 {
+      animation-name: menu-toggle-line-top-return;
+    }
+
+    .menu-toggle__line-2 {
+      animation-name: menu-toggle-line-middle-return;
+    }
+
+    .menu-toggle__line-3 {
+      animation-name: menu-toggle-line-bottom-return;
+    }
   }
 
   .menu-toggle__line-1 {
@@ -261,4 +284,94 @@
   opacity: 0;
   transition: opacity 0.9s ease-in-out;
   pointer-events: none;
+}
+
+@keyframes menu-toggle-line-top-return {
+  0% {
+    top: 11px;
+    left: 3px;
+    width: 14px;
+    transform: rotate(45deg);
+  }
+
+  15% {
+    top: 11px;
+    left: 3px;
+    width: 14px;
+    transform: rotate(49deg);
+  }
+
+  85% {
+    top: 8px;
+    left: 0;
+    width: 15px;
+    transform: rotate(-6deg);
+  }
+
+  100% {
+    top: 8px;
+    left: 0;
+    width: 15px;
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes menu-toggle-line-middle-return {
+  0% {
+    top: 16px;
+    left: 1px;
+    width: 28px;
+    transform: rotate(-45deg);
+  }
+
+  15% {
+    top: 16px;
+    left: 1px;
+    width: 28px;
+    transform: rotate(-49deg);
+  }
+
+  85% {
+    top: 16px;
+    left: 0;
+    width: 30px;
+    transform: rotate(6deg);
+  }
+
+  100% {
+    top: 16px;
+    left: 0;
+    width: 30px;
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes menu-toggle-line-bottom-return {
+  0% {
+    top: 21px;
+    left: 13px;
+    width: 14px;
+    transform: rotate(45deg);
+  }
+
+  15% {
+    top: 21px;
+    left: 13px;
+    width: 14px;
+    transform: rotate(49deg);
+  }
+
+  85% {
+    top: 24px;
+    left: 0;
+    width: 22.5px;
+    transform: rotate(-6deg);
+  }
+
+  100% {
+    top: 24px;
+    left: 0;
+    width: 22.5px;
+    transform: rotate(0deg);
+  }
 }

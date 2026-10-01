@@ -6,6 +6,7 @@ import { forwardRef } from "react";
 import STYLES from "./NavigationDialog.module.scss";
 
 type NavigationDialogProps = {
+  onDeferredClose: () => void;
   onClose: () => void;
 };
 
@@ -27,7 +28,7 @@ function getLocaleSwitchQueryString(): string {
 export const NavigationDialog = forwardRef<
   HTMLDialogElement,
   NavigationDialogProps
->(({ onClose }, ref) => {
+>(({ onClose, onDeferredClose }, ref) => {
   const t = useTranslations("nav");
   const locale = useLocale();
   const localePrefix = locale === "en" ? "" : `/${locale}`;
@@ -40,7 +41,14 @@ export const NavigationDialog = forwardRef<
     : `${switchLocaleBasePath}/`;
 
   return (
-    <dialog ref={ref} className={STYLES["navigation-dialog"]}>
+    <dialog
+      ref={ref}
+      className={STYLES["navigation-dialog"]}
+      onCancel={(event) => {
+        event.preventDefault();
+        onClose();
+      }}
+    >
       <div className={STYLES["navigation-dialog__header"]}>
         <Link
           href={switchLocaleBase}
@@ -53,7 +61,6 @@ export const NavigationDialog = forwardRef<
         >
           {locale === "en" ? "Français" : "English"}
         </Link>
-
         <button
           type="button"
           onClick={onClose}
@@ -71,14 +78,16 @@ export const NavigationDialog = forwardRef<
           <Link
             href={`${localePrefix}/#history`}
             className={STYLES["menu-primary"]}
+            onClick={onClose}
           >
             {t("history")}
           </Link>
-
+          <span className={STYLES["menu-connector"]} />
           <Link
             href={`${localePrefix}/history/tunnellers-works`}
             className={STYLES["menu-secondary"]}
           >
+            <span className={STYLES["map-label"]}>{t("map")}</span>
             {t("tunnellersWorks")}
           </Link>
         </div>
@@ -90,11 +99,13 @@ export const NavigationDialog = forwardRef<
           >
             {t("tunnellers")}
           </Link>
-
+          <span className={STYLES["menu-connector"]} />
           <Link
             href={`${localePrefix}/tunnellers/?view=map`}
             className={STYLES["menu-secondary"]}
+            onClick={onDeferredClose}
           >
+            <span className={STYLES["map-label"]}>{t("map")}</span>
             {t("tunnellersOrigin")}
           </Link>
         </div>
