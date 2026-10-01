@@ -200,6 +200,20 @@ export function Menu({ tunnellers }: Props) {
     }, NAVIGATION_COVER_DELAY_MS);
   };
 
+  const normalizePathname = (value: string) =>
+    value.length > 1 ? value.replace(/\/$/, "") : value;
+
+  const handleDialogNavigation = (href: string) => {
+    const targetUrl = new URL(href, window.location.origin);
+
+    if (normalizePathname(targetUrl.pathname) === normalizePathname(pathname)) {
+      closeMenuAfterNavigationDelay();
+      return;
+    }
+
+    clearCloseDelayTimeout();
+  };
+
   useEffect(() => {
     clearCloseDelayTimeout();
     dialogRef.current?.close?.();
@@ -345,7 +359,7 @@ export function Menu({ tunnellers }: Props) {
       </button>
       <NavigationDialog
         ref={dialogRef}
-        onDeferredClose={closeMenuAfterNavigationDelay}
+        onNavigate={handleDialogNavigation}
         onClose={closeMenu}
       />
     </div>

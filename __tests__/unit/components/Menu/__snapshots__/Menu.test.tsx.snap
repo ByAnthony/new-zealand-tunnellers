@@ -111,6 +111,11 @@ exports[`Menu matches the snapshot 1`] = `
               Map
             </span>
             Works
+            <span
+              class="arrow"
+            >
+              →
+            </span>
           </a>
         </div>
         <div
@@ -135,6 +140,11 @@ exports[`Menu matches the snapshot 1`] = `
               Map
             </span>
             Origins
+            <span
+              class="arrow"
+            >
+              →
+            </span>
           </a>
         </div>
         <div

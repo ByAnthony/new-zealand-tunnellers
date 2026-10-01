@@ -480,7 +480,7 @@ describe("Menu", () => {
       expect(menuToggle).not.toHaveAttribute("data-menu-closed");
     });
 
-    test("closes when the history anchor link is clicked", () => {
+    test("stays open briefly on history anchor link click before closing", () => {
       jest.useFakeTimers();
       const { container } = render(<Menu tunnellers={mockTunnellersData} />);
       const dialog = container.querySelector("dialog") as HTMLDialogElement;
@@ -490,6 +490,12 @@ describe("Menu", () => {
       expect(dialog.open).toBe(true);
 
       fireEvent.click(screen.getByRole("link", { name: "History" }));
+      expect(dialog.open).toBe(true);
+      expect(document.body.style.overflowY).toBe("hidden");
+
+      act(() => {
+        jest.advanceTimersByTime(500);
+      });
       expect(dialog.open).toBe(false);
       expect(menuToggle).toHaveAttribute("data-menu-closed", "true");
       expect(document.body.style.overflowY).toBe("visible");
@@ -505,7 +511,7 @@ describe("Menu", () => {
       fireEvent.click(menuToggle);
       expect(dialog.open).toBe(true);
 
-      fireEvent.click(screen.getByRole("link", { name: "Map Origins" }));
+      fireEvent.click(screen.getByRole("link", { name: /Map Origins/ }));
       expect(dialog.open).toBe(true);
       expect(document.body.style.overflowY).toBe("hidden");
 

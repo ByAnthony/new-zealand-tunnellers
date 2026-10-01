@@ -128,7 +128,7 @@
   width: fit-content;
   color: variables.$text-color;
   text-decoration: none;
-  font-size: 2.25rem;
+  font-size: 2rem;
   font-weight: 400;
   line-height: 0.95;
   letter-spacing: -0.03em;
@@ -158,7 +158,7 @@
 .map-label {
   color: variables.$primary-light-color;
   margin-right: variables.$xs-margin;
-  font-size: 0.7rem;
+  font-size: 0.65rem;
   font-weight: 500;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -167,6 +167,9 @@
 
   border: 1px solid variables.$primary-light-color;
   border-radius: 4px;
+  transition:
+    border-color 160ms ease,
+    color 160ms ease;
 }
 
 .menu-secondary {
@@ -176,12 +179,25 @@
   color: variables.$text-color;
   text-decoration: none;
 
-  font-size: 1.45rem;
+  font-size: 1.4rem;
   font-weight: 400;
+  transition: color 160ms ease;
 
   &:hover {
     color: variables.$secondary-color;
+
+    .arrow {
+      color: variables.$secondary-color;
+    }
   }
+}
+
+.arrow {
+  margin-left: variables.$xxs-margin;
+  font-size: 1.8rem;
+  line-height: 1;
+  color: variables.$text-color;
+  transition: color 160ms ease;
 }
 
 .language-switcher {
@@ -327,6 +343,96 @@
     left: 13px;
     width: 14px;
     transform: rotate(45deg);
+  }
+}
+
+@keyframes close-line-top-out {
+  0% {
+    top: 11px;
+    left: 3px;
+    width: 14px;
+    transform: rotate(45deg);
+  }
+
+  15% {
+    top: 11px;
+    left: 3px;
+    width: 14px;
+    transform: rotate(49deg);
+  }
+
+  85% {
+    top: 8px;
+    left: 0;
+    width: 15px;
+    transform: rotate(-6deg);
+  }
+
+  100% {
+    top: 8px;
+    left: 0;
+    width: 15px;
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes close-line-middle-out {
+  0% {
+    top: 16px;
+    left: 1px;
+    width: 28px;
+    transform: rotate(-45deg);
+  }
+
+  15% {
+    top: 16px;
+    left: 1px;
+    width: 28px;
+    transform: rotate(-49deg);
+  }
+
+  85% {
+    top: 16px;
+    left: 0;
+    width: 30px;
+    transform: rotate(6deg);
+  }
+
+  100% {
+    top: 16px;
+    left: 0;
+    width: 30px;
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes close-line-bottom-out {
+  0% {
+    top: 21px;
+    left: 13px;
+    width: 14px;
+    transform: rotate(45deg);
+  }
+
+  15% {
+    top: 21px;
+    left: 13px;
+    width: 14px;
+    transform: rotate(49deg);
+  }
+
+  85% {
+    top: 24px;
+    left: 0;
+    width: 22.5px;
+    transform: rotate(-6deg);
+  }
+
+  100% {
+    top: 24px;
+    left: 0;
+    width: 22.5px;
+    transform: rotate(0deg);
   }
 }
 

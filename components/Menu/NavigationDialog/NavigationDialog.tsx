@@ -6,7 +6,7 @@ import { forwardRef } from "react";
 import STYLES from "./NavigationDialog.module.scss";
 
 type NavigationDialogProps = {
-  onDeferredClose: () => void;
+  onNavigate: (href: string) => void;
   onClose: () => void;
 };
 
@@ -28,7 +28,7 @@ function getLocaleSwitchQueryString(): string {
 export const NavigationDialog = forwardRef<
   HTMLDialogElement,
   NavigationDialogProps
->(({ onClose, onDeferredClose }, ref) => {
+>(({ onClose, onNavigate }, ref) => {
   const t = useTranslations("nav");
   const locale = useLocale();
   const localePrefix = locale === "en" ? "" : `/${locale}`;
@@ -39,6 +39,12 @@ export const NavigationDialog = forwardRef<
   const switchLocaleBase = switchLocaleBasePath.endsWith("/")
     ? switchLocaleBasePath
     : `${switchLocaleBasePath}/`;
+  const historyHref = `${localePrefix}/#history`;
+  const tunnellersWorksHref = `${localePrefix}/history/tunnellers-works`;
+  const tunnellersHref = `${localePrefix}/tunnellers`;
+  const tunnellersOriginHref = `${localePrefix}/tunnellers/?view=map`;
+  const bookHref = `${localePrefix}/kiwis-dig-tunnels-too`;
+  const aboutHref = `${localePrefix}/about-us`;
 
   return (
     <dialog
@@ -56,7 +62,9 @@ export const NavigationDialog = forwardRef<
           onClick={(e) => {
             e.preventDefault();
             const qs = getLocaleSwitchQueryString();
-            router.push(qs ? `${switchLocaleBase}${qs}` : switchLocaleBase);
+            const href = qs ? `${switchLocaleBase}${qs}` : switchLocaleBase;
+            onNavigate(href);
+            router.push(href);
           }}
         >
           {locale === "en" ? "Français" : "English"}
@@ -76,44 +84,49 @@ export const NavigationDialog = forwardRef<
       <nav className={STYLES["menu-nav"]}>
         <div className={STYLES["menu-row"]}>
           <Link
-            href={`${localePrefix}/#history`}
+            href={historyHref}
             className={STYLES["menu-primary"]}
-            onClick={onClose}
+            onClick={() => onNavigate(historyHref)}
           >
             {t("history")}
           </Link>
           <span className={STYLES["menu-connector"]} />
           <Link
-            href={`${localePrefix}/history/tunnellers-works`}
+            href={tunnellersWorksHref}
             className={STYLES["menu-secondary"]}
+            onClick={() => onNavigate(tunnellersWorksHref)}
           >
             <span className={STYLES["map-label"]}>{t("map")}</span>
             {t("tunnellersWorks")}
+            <span className={STYLES.arrow}>&rarr;</span>
           </Link>
         </div>
 
         <div className={STYLES["menu-row"]}>
           <Link
-            href={`${localePrefix}/tunnellers`}
+            href={tunnellersHref}
             className={STYLES["menu-primary"]}
+            onClick={() => onNavigate(tunnellersHref)}
           >
             {t("tunnellers")}
           </Link>
           <span className={STYLES["menu-connector"]} />
           <Link
-            href={`${localePrefix}/tunnellers/?view=map`}
+            href={tunnellersOriginHref}
             className={STYLES["menu-secondary"]}
-            onClick={onDeferredClose}
+            onClick={() => onNavigate(tunnellersOriginHref)}
           >
             <span className={STYLES["map-label"]}>{t("map")}</span>
             {t("tunnellersOrigin")}
+            <span className={STYLES.arrow}>&rarr;</span>
           </Link>
         </div>
 
         <div className={STYLES["menu-row"]}>
           <Link
-            href={`${localePrefix}/kiwis-dig-tunnels-too`}
+            href={bookHref}
             className={STYLES["menu-primary"]}
+            onClick={() => onNavigate(bookHref)}
           >
             {t("book")}
           </Link>
@@ -121,8 +134,9 @@ export const NavigationDialog = forwardRef<
 
         <div className={STYLES["menu-row"]}>
           <Link
-            href={`${localePrefix}/about-us`}
+            href={aboutHref}
             className={STYLES["menu-primary"]}
+            onClick={() => onNavigate(aboutHref)}
           >
             {t("aboutUs")}
           </Link>
