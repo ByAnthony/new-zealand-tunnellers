@@ -147,6 +147,18 @@
   opacity: 0;
 }
 
+@media screen and (orientation: landscape) and (max-height: 32rem) {
+  .menu-nav {
+    justify-content: center;
+    padding-top: variables.$xs-margin;
+    padding-bottom: variables.$xs-margin;
+  }
+
+  .menu-row {
+    padding: variables.$xs-margin 0;
+  }
+}
+
 .menu-primary {
   display: inline-block;
   width: fit-content;

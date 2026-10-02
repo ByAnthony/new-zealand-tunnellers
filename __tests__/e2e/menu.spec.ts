@@ -14,7 +14,11 @@ async function waitForDialogRowsToSettle(
       rows.length > 0 &&
       rows.every((row) => {
         const styles = window.getComputedStyle(row);
-        return styles.opacity === "1" && styles.transform === "none";
+        const translateY =
+          styles.transform === "none"
+            ? 0
+            : new DOMMatrixReadOnly(styles.transform).m42;
+        return Number(styles.opacity) >= 0.99 && Math.abs(translateY) < 0.5;
       })
     );
   });
@@ -166,8 +170,12 @@ test("menu connector stays fixed when hovering dialog links", async ({
   await waitForDialogRowsToSettle(page);
 
   const connector = page.locator('[class*="menu-connector"]').first();
-  const historyLink = page.getByRole("link", { name: "History" });
-  const worksLink = page.getByRole("link", { name: /Works/ });
+  const historyLink = page
+    .getByTestId("menu")
+    .getByRole("link", { name: "History" });
+  const worksLink = page
+    .getByTestId("menu")
+    .getByRole("link", { name: /Works/ });
 
   await expect(connector).toBeVisible();
   const initialBox = await connector.boundingBox();
@@ -184,6 +192,31 @@ test("menu connector stays fixed when hovering dialog links", async ({
   expect(secondaryHoverBox).not.toBeNull();
   expect(secondaryHoverBox!.x).toBeCloseTo(initialBox!.x, 0);
   expect(secondaryHoverBox!.width).toBeCloseTo(initialBox!.width, 0);
+});
+
+test("menu rows stay below the header in mobile landscape", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 844, height: 390 });
+  await page.goto("/");
+
+  await openNavigationDialog(page);
+  await waitForDialogRowsToSettle(page);
+
+  const header = page.locator('[class*="navigation-dialog__header"]');
+  const historyLink = page
+    .getByTestId("menu")
+    .getByRole("link", { name: "History" });
+
+  await expect(historyLink).toBeVisible();
+  const headerBox = await header.boundingBox();
+  const historyBox = await historyLink.boundingBox();
+
+  expect(headerBox).not.toBeNull();
+  expect(historyBox).not.toBeNull();
+  expect(historyBox!.y).toBeGreaterThanOrEqual(
+    headerBox!.y + headerBox!.height,
+  );
 });
 
 test("can go to the tunnellers page", async ({ page }) => {
