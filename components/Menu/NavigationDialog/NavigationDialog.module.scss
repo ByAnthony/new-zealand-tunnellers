@@ -180,7 +180,6 @@
 
   @include variables.desktop {
     font-size: 2rem;
-    font-weight: 400;
   }
 }
 
@@ -190,7 +189,7 @@
   margin: 0 variables.$s-margin;
   background-image: radial-gradient(
     circle,
-    variables.$primary-light-color 1px,
+    variables.$primary-extra-light-color 1px,
     transparent 1.5px
   );
   background-size: 12px 2px;
@@ -198,14 +197,14 @@
 }
 
 .map-label {
-  color: variables.$primary-light-color;
+  color: variables.$primary-extra-light-color;
   margin-right: variables.$xxs-margin;
   font-size: 0.6rem;
   font-weight: 500;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   padding: 0.2rem 0.4rem;
-  border: 1px solid variables.$primary-light-color;
+  border: 1px solid variables.$primary-extra-light-color;
   border-radius: 4px;
   transition: all 0.9s ease-in-out;
 

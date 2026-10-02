@@ -15,13 +15,28 @@ import { NavigationDialog } from "./NavigationDialog/NavigationDialog";
 
 const MENU_TOGGLE_ANIMATION_MS = 1000;
 const NAVIGATION_COVER_DELAY_MS = 500;
+let lockedPageScrollY = 0;
 
 type Props = {
   tunnellers: Tunneller[];
 };
 
 const setPageScrollLock = (isLocked: boolean) => {
-  document.body.style.overflowY = isLocked ? "hidden" : "visible";
+  if (isLocked) {
+    lockedPageScrollY = window.scrollY;
+    document.body.style.overflowY = "hidden";
+    document.body.style.position = "fixed";
+    document.body.style.top = `-${lockedPageScrollY}px`;
+    document.body.style.width = "100%";
+    return;
+  }
+
+  const scrollY = lockedPageScrollY;
+  document.body.style.overflowY = "visible";
+  document.body.style.position = "";
+  document.body.style.top = "";
+  document.body.style.width = "";
+  window.scrollTo(0, scrollY);
 };
 
 export function Menu({ tunnellers }: Props) {

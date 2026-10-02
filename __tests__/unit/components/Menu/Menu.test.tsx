@@ -27,6 +27,7 @@ describe("Menu", () => {
       push: mockPush,
       refresh: jest.fn(),
     });
+    window.scrollTo = jest.fn();
     window.history.replaceState(null, "", "/");
   });
 
@@ -34,6 +35,9 @@ describe("Menu", () => {
     jest.useRealTimers();
     jest.clearAllMocks();
     document.body.style.overflowY = "";
+    document.body.style.position = "";
+    document.body.style.top = "";
+    document.body.style.width = "";
   });
 
   test("matches the snapshot", () => {
@@ -445,17 +449,25 @@ describe("Menu", () => {
       fireEvent.click(screen.getByRole("button", { name: "Open menu" }));
       expect(dialog.open).toBe(true);
       expect(document.body.style.overflowY).toBe("hidden");
+      expect(document.body.style.position).toBe("fixed");
+      expect(document.body.style.top).toBe(`-${window.scrollY}px`);
+      expect(document.body.style.width).toBe("100%");
 
       fireEvent.click(screen.getByRole("link", { name: "Tunnellers" }));
       // Should still be open right after the click, so the old page never
       // shows through mid-transition.
       expect(dialog.open).toBe(true);
       expect(document.body.style.overflowY).toBe("hidden");
+      expect(document.body.style.position).toBe("fixed");
+      expect(document.body.style.width).toBe("100%");
 
       mockedUsePathname.mockReturnValue("/tunnellers");
       rerender(<Menu tunnellers={mockTunnellersData} />);
       expect(dialog.open).toBe(false);
       expect(document.body.style.overflowY).toBe("visible");
+      expect(document.body.style.position).toBe("");
+      expect(document.body.style.top).toBe("");
+      expect(document.body.style.width).toBe("");
     });
 
     test("locks page scrolling while open and restores it when closed", () => {
@@ -467,11 +479,17 @@ describe("Menu", () => {
       fireEvent.click(menuToggle);
       expect(dialog.open).toBe(true);
       expect(document.body.style.overflowY).toBe("hidden");
+      expect(document.body.style.position).toBe("fixed");
+      expect(document.body.style.top).toBe(`-${window.scrollY}px`);
+      expect(document.body.style.width).toBe("100%");
 
       fireEvent.click(screen.getByRole("button", { name: "Close menu" }));
       expect(dialog.open).toBe(false);
       expect(menuToggle).toHaveAttribute("data-menu-closed", "true");
       expect(document.body.style.overflowY).toBe("visible");
+      expect(document.body.style.position).toBe("");
+      expect(document.body.style.top).toBe("");
+      expect(document.body.style.width).toBe("");
 
       act(() => {
         jest.advanceTimersByTime(1000);
@@ -492,6 +510,8 @@ describe("Menu", () => {
       fireEvent.click(screen.getByRole("link", { name: "History" }));
       expect(dialog.open).toBe(true);
       expect(document.body.style.overflowY).toBe("hidden");
+      expect(document.body.style.position).toBe("fixed");
+      expect(document.body.style.width).toBe("100%");
 
       act(() => {
         jest.advanceTimersByTime(500);
@@ -499,6 +519,8 @@ describe("Menu", () => {
       expect(dialog.open).toBe(false);
       expect(menuToggle).toHaveAttribute("data-menu-closed", "true");
       expect(document.body.style.overflowY).toBe("visible");
+      expect(document.body.style.position).toBe("");
+      expect(document.body.style.width).toBe("");
     });
 
     test("stays open briefly on origin map link click before closing", () => {
@@ -514,6 +536,8 @@ describe("Menu", () => {
       fireEvent.click(screen.getByRole("link", { name: /Map Origins/ }));
       expect(dialog.open).toBe(true);
       expect(document.body.style.overflowY).toBe("hidden");
+      expect(document.body.style.position).toBe("fixed");
+      expect(document.body.style.width).toBe("100%");
 
       act(() => {
         jest.advanceTimersByTime(500);
@@ -521,6 +545,8 @@ describe("Menu", () => {
       expect(dialog.open).toBe(false);
       expect(menuToggle).toHaveAttribute("data-menu-closed", "true");
       expect(document.body.style.overflowY).toBe("visible");
+      expect(document.body.style.position).toBe("");
+      expect(document.body.style.width).toBe("");
     });
   });
 });
