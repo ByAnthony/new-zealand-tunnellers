@@ -1,5 +1,25 @@
 import { test, expect } from "@playwright/test";
 
+async function openNavigationDialog(page: import("@playwright/test").Page) {
+  await page.getByRole("button", { name: "Open menu" }).click();
+  await expect(page.getByRole("button", { name: "Close menu" })).toBeVisible();
+}
+
+async function waitForDialogRowsToSettle(
+  page: import("@playwright/test").Page,
+) {
+  await page.waitForFunction(() => {
+    const rows = Array.from(document.querySelectorAll('[class*="menu-row"]'));
+    return (
+      rows.length > 0 &&
+      rows.every((row) => {
+        const styles = window.getComputedStyle(row);
+        return styles.opacity === "1" && styles.transform === "none";
+      })
+    );
+  });
+}
+
 async function typeIntoSearch(
   search: import("@playwright/test").Locator,
   value: string,
@@ -116,21 +136,54 @@ test("can clear a name", async ({ page }) => {
 test("can switch from English to French", async ({ page }) => {
   await page.goto("/");
 
+  await openNavigationDialog(page);
   await page.getByRole("link", { name: "Français" }).click();
   await page.waitForURL("/fr/", { waitUntil: "load" });
 
   await expect(page).toHaveURL("/fr/");
+  await openNavigationDialog(page);
   await expect(page.getByRole("link", { name: "English" })).toBeVisible();
 });
 
 test("can switch from French to English", async ({ page }) => {
   await page.goto("/fr/");
 
+  await openNavigationDialog(page);
   await page.getByRole("link", { name: "English" }).click();
   await page.waitForURL("/", { waitUntil: "load" });
 
   await expect(page).toHaveURL("/");
+  await openNavigationDialog(page);
   await expect(page.getByRole("link", { name: "Français" })).toBeVisible();
+});
+
+test("menu connector stays fixed when hovering dialog links", async ({
+  page,
+}) => {
+  await page.goto("/");
+
+  await openNavigationDialog(page);
+  await waitForDialogRowsToSettle(page);
+
+  const connector = page.locator('[class*="menu-connector"]').first();
+  const historyLink = page.getByRole("link", { name: "History" });
+  const worksLink = page.getByRole("link", { name: /Works/ });
+
+  await expect(connector).toBeVisible();
+  const initialBox = await connector.boundingBox();
+  expect(initialBox).not.toBeNull();
+
+  await historyLink.hover();
+  const primaryHoverBox = await connector.boundingBox();
+  expect(primaryHoverBox).not.toBeNull();
+  expect(primaryHoverBox!.x).toBeCloseTo(initialBox!.x, 0);
+  expect(primaryHoverBox!.width).toBeCloseTo(initialBox!.width, 0);
+
+  await worksLink.hover();
+  const secondaryHoverBox = await connector.boundingBox();
+  expect(secondaryHoverBox).not.toBeNull();
+  expect(secondaryHoverBox!.x).toBeCloseTo(initialBox!.x, 0);
+  expect(secondaryHoverBox!.width).toBeCloseTo(initialBox!.width, 0);
 });
 
 test("can go to the tunnellers page", async ({ page }) => {

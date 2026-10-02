@@ -16,6 +16,10 @@
   font-family: variables.$main-font;
 }
 
+.navigation-dialog::backdrop {
+  background: transparent;
+}
+
 .navigation-dialog:not([open]) {
   display: none;
 }
@@ -61,9 +65,7 @@
   border-bottom: 1px solid variables.$secondary-color;
   font-size: 1rem;
   font-weight: 400;
-  opacity: 0;
-  transform: translateY(16px);
-  transition: color 160ms ease;
+  transition: all 0.9s ease-in-out;
 
   &:hover {
     color: variables.$secondary-color;
@@ -154,11 +156,11 @@
   font-weight: 400;
   line-height: 0.95;
   letter-spacing: -0.03em;
-
-  transition: color 160ms ease;
+  transition: all 0.9s ease-in-out;
 
   &:hover {
     color: variables.$secondary-color;
+    transform: translateX(variables.$xxs-margin);
   }
 
   @include variables.tablet {
@@ -174,13 +176,11 @@
   flex: 1;
   height: 2px;
   margin: 0 variables.$s-margin;
-
   background-image: radial-gradient(
     circle,
     variables.$primary-light-color 1px,
     transparent 1.5px
   );
-
   background-size: 12px 2px;
   background-repeat: repeat-x;
 }
@@ -195,9 +195,7 @@
   padding: 0.2rem 0.4rem;
   border: 1px solid variables.$primary-light-color;
   border-radius: 4px;
-  transition:
-    border-color 160ms ease,
-    color 160ms ease;
+  transition: all 0.9s ease-in-out;
 
   @include variables.desktop {
     margin-right: variables.$xs-margin;
@@ -209,16 +207,15 @@
 .menu-secondary {
   display: flex;
   align-items: center;
-
   color: variables.$text-color;
   text-decoration: none;
-
   font-size: 1.2rem;
   font-weight: 400;
-  transition: color 160ms ease;
+  transition: all 0.9s ease-in-out;
 
   &:hover {
     color: variables.$secondary-color;
+    transform: translateX(-#{variables.$xxs-margin});
 
     .arrow {
       color: variables.$secondary-color;
@@ -235,7 +232,7 @@
   font-size: 1.8rem;
   line-height: 1;
   color: variables.$text-color;
-  transition: color 160ms ease;
+  transition: all 0.9s ease-in-out;
 
   @include variables.desktop {
     margin-left: variables.$xxs-margin;
@@ -280,10 +277,17 @@
       animation-delay: 480ms;
     }
   }
+}
 
-  .language-switcher {
-    animation: menu-item-in 650ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
-    animation-delay: 600ms;
+@keyframes menu-item-in {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
@@ -458,35 +462,14 @@
   }
 }
 
-@keyframes menu-item-in {
-  from {
-    opacity: 0;
-    transform: translateY(24px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   .menu-row,
-  .language-switcher {
-    opacity: 1;
-    transform: none;
-    animation: none !important;
-  }
-
   .navigation-dialog__close-line {
     animation: none !important;
   }
 
-  .menu-secondary {
-    transition: none;
-
-    &:hover {
-      transform: none;
-    }
+  .menu-row {
+    opacity: 1;
+    transform: none;
   }
 }
