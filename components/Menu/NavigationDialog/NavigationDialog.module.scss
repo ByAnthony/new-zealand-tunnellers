@@ -172,7 +172,10 @@
 
   &:hover {
     color: variables.$secondary-color;
-    transform: translateX(variables.$xxs-margin);
+
+    @include variables.desktop {
+      transform: translateX(variables.$xxs-margin);
+    }
   }
 
   @include variables.tablet {
@@ -227,10 +230,13 @@
 
   &:hover {
     color: variables.$secondary-color;
-    transform: translateX(-#{variables.$xxs-margin});
 
     .arrow {
       color: variables.$secondary-color;
+    }
+
+    @include variables.desktop {
+      transform: translateX(-#{variables.$xxs-margin});
     }
   }
 
