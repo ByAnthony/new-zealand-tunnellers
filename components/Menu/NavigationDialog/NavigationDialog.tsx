@@ -1,3 +1,6 @@
+"use client";
+
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
@@ -30,6 +33,7 @@ export const NavigationDialog = forwardRef<
   NavigationDialogProps
 >(({ onClose, onNavigate }, ref) => {
   const t = useTranslations("nav");
+  const tNav = useTranslations("nav");
   const locale = useLocale();
   const localePrefix = locale === "en" ? "" : `/${locale}`;
   const pathname = usePathname();
@@ -39,6 +43,8 @@ export const NavigationDialog = forwardRef<
   const switchLocaleBase = switchLocaleBasePath.endsWith("/")
     ? switchLocaleBasePath
     : `${switchLocaleBasePath}/`;
+
+  const homeHref = `${localePrefix}/`;
   const historyHref = `${localePrefix}/#history`;
   const tunnellersWorksHref = `${localePrefix}/history/tunnellers-works`;
   const tunnellersHref = `${localePrefix}/tunnellers`;
@@ -57,18 +63,22 @@ export const NavigationDialog = forwardRef<
     >
       <div className={STYLES["navigation-dialog__header"]}>
         <Link
-          href={switchLocaleBase}
-          className={STYLES["language-switcher"]}
-          onClick={(e) => {
-            e.preventDefault();
-            const qs = getLocaleSwitchQueryString();
-            const href = qs ? `${switchLocaleBase}${qs}` : switchLocaleBase;
-            onNavigate(href);
-            router.push(href);
-          }}
+          href={`${localePrefix}/`}
+          className={STYLES.logo}
+          aria-label={tNav("goToHomepage")}
+          onClick={() => onNavigate(homeHref)}
         >
-          {locale === "en" ? "Français" : "English"}
+          <Image
+            src="/nzt_logo.png"
+            className={STYLES["logo-image"]}
+            alt={tNav("logoAlt")}
+            width={30}
+            height={30}
+            priority
+            placeholder="empty"
+          />
         </Link>
+
         <button
           type="button"
           onClick={onClose}
@@ -129,17 +139,30 @@ export const NavigationDialog = forwardRef<
             {t("book")}
           </Link>
         </div>
-
-        <div className={STYLES["menu-row"]}>
-          <Link
-            href={aboutHref}
-            className={STYLES["menu-primary"]}
-            onClick={() => onNavigate(aboutHref)}
-          >
-            {t("aboutUs")}
-          </Link>
-        </div>
       </nav>
+
+      <div className={STYLES["menu-footer"]}>
+        <Link
+          href={aboutHref}
+          className={STYLES["language-switcher"]}
+          onClick={() => onNavigate(aboutHref)}
+        >
+          {t("aboutUs")}
+        </Link>
+        <Link
+          href={switchLocaleBase}
+          className={STYLES["language-switcher"]}
+          onClick={(e) => {
+            e.preventDefault();
+            const qs = getLocaleSwitchQueryString();
+            const href = qs ? `${switchLocaleBase}${qs}` : switchLocaleBase;
+            onNavigate(href);
+            router.push(href);
+          }}
+        >
+          {locale === "en" ? "Français" : "English"}
+        </Link>
+      </div>
     </dialog>
   );
 });

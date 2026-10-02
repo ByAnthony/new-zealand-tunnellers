@@ -27,7 +27,7 @@
 .navigation-dialog__header {
   position: relative;
   box-sizing: border-box;
-  margin-top: 34px;
+  margin-top: 26px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -37,25 +37,29 @@
 
   @include variables.desktop {
     width: calc(100% - #{variables.$base-margin * 2});
-    margin-top: 59px;
+    margin-top: 51px;
     margin-left: auto;
     margin-right: auto;
     max-width: variables.$max-width;
   }
 }
 
-.language-switcher {
-  display: inline-block;
-  color: variables.$text-color;
-  text-decoration: none;
-  padding-bottom: variables.$xxxs-margin;
-  border-bottom: 1px solid variables.$secondary-color;
-  font-size: 1.1rem;
-  font-weight: 400;
-  transition: all 0.9s ease-in-out;
+.logo {
+  display: flex;
+  align-items: center;
+  height: variables.$base-margin;
+  margin-right: variables.$xs-margin;
+}
 
-  &:hover {
-    color: variables.$secondary-color;
+.logo-image {
+  @include variables.tablet {
+    height: 35px;
+    width: 35px;
+  }
+
+  @include variables.desktop {
+    height: 40px;
+    width: 40px;
   }
 }
 
@@ -74,7 +78,7 @@
   }
 
   @include variables.desktop {
-    width: 42px;
+    width: 30px;
   }
 }
 
@@ -216,6 +220,37 @@
 
   @include variables.desktop {
     font-size: 1.4rem;
+  }
+}
+
+.menu-footer {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: variables.$s-margin;
+
+  @include variables.component-margin;
+
+  @include variables.tablet {
+    padding-bottom: variables.$m-margin;
+  }
+
+  @include variables.desktop {
+    padding-bottom: variables.$base-margin;
+  }
+}
+
+.language-switcher {
+  display: inline-block;
+  color: variables.$text-color;
+  text-decoration: none;
+  padding-bottom: variables.$xxxs-margin;
+  border-bottom: 1px solid variables.$secondary-color;
+  font-size: 1.1rem;
+  font-weight: 400;
+  transition: all 0.9s ease-in-out;
+
+  &:hover {
+    color: variables.$secondary-color;
   }
 }
 
