@@ -63,16 +63,12 @@
   text-decoration: none;
   padding-bottom: variables.$xxxs-margin;
   border-bottom: 1px solid variables.$secondary-color;
-  font-size: 1rem;
+  font-size: 1.1rem;
   font-weight: 400;
   transition: all 0.9s ease-in-out;
 
   &:hover {
     color: variables.$secondary-color;
-  }
-
-  @include variables.desktop {
-    font-size: 1.1rem;
   }
 }
 
@@ -165,7 +161,7 @@
   color: variables.$text-color;
   text-decoration: none;
   font-size: 1.6rem;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 0.95;
   letter-spacing: -0.03em;
   transition: all 0.9s ease-in-out;
@@ -184,6 +180,7 @@
 
   @include variables.desktop {
     font-size: 2rem;
+    font-weight: 400;
   }
 }
 
