@@ -34,10 +34,10 @@ exports[`KiwisDigTunnelsToo matches the snapshot 1`] = `
       <img
         alt="Kiwis Dig Tunnels Too"
         class="image"
-        height="515"
+        height="500"
         placeholder="empty"
         src="/images/books/kiwis-dig-tunnels-too_en.jpg"
-        width="400"
+        width="375"
       />
     </div>
     <p

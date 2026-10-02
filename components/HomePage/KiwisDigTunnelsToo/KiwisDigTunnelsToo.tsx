@@ -22,8 +22,8 @@ export function KiwisDigTunnelsToo() {
         <Image
           src={`/images/books/kiwis-dig-tunnels-too${locale === "en" ? "_en" : ""}.jpg`}
           alt={t("bookTitle")}
-          width={400}
-          height={515}
+          width={375}
+          height={500}
           className={STYLES.image}
           priority={true}
           placeholder="empty"

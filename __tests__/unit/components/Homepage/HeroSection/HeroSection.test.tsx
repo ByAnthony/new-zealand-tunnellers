@@ -21,7 +21,7 @@ describe("HeroSection Component", () => {
     render(<HeroSection />);
 
     const historyLink = screen.getByRole("link", {
-      name: /Discover the history/i,
+      name: /Discover their history/i,
     });
 
     expect(historyLink).toHaveAttribute("href", "/#history");
@@ -31,7 +31,7 @@ describe("HeroSection Component", () => {
     render(<HeroSection />);
 
     const worksMapLink = screen.getByRole("link", {
-      name: /Explore the tunnellers' works/i,
+      name: /Explore their works/i,
     });
 
     expect(worksMapLink).toHaveAttribute("href", "/history/tunnellers-works");
