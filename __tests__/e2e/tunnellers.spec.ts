@@ -158,9 +158,14 @@ test("filters persist when switching language", async ({ page }) => {
   await page.getByLabel("7th Reinforcements").click();
   await expect(page.getByText("31 results")).toBeVisible();
 
-  await page.getByRole("link", { name: "Français" }).click();
-  await page.waitForURL(/\/fr\/tunnellers\//, { waitUntil: "load" });
+  await page.getByRole("button", { name: "Open menu" }).click();
+  await expect(page.getByRole("button", { name: "Close menu" })).toBeVisible();
+  await page
+    .getByTestId("menu")
+    .getByRole("link", { name: "Français" })
+    .click();
 
+  await expect(page).toHaveURL(/\/fr\/tunnellers\//);
   await expect(page.getByText("31 résultats")).toBeVisible();
   await expect(page).toHaveURL(/detachment=/);
 });
