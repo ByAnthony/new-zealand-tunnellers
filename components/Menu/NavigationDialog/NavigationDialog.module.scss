@@ -28,22 +28,10 @@
   position: relative;
   box-sizing: border-box;
   margin-top: 34px;
-  padding: 0 0 variables.$m-margin 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
   background-color: none;
-
-  &::after {
-    content: "";
-    position: absolute;
-    right: 50%;
-    bottom: 0;
-    width: 100dvw;
-    height: 1px;
-    background: variables.$primary-light-color;
-    transform: translateX(50%);
-  }
 
   @include variables.component-margin;
 
@@ -53,7 +41,6 @@
     margin-left: auto;
     margin-right: auto;
     max-width: variables.$max-width;
-    padding: 0 0 variables.$base-margin 0;
   }
 }
 
@@ -163,7 +150,6 @@
   font-size: 1.6rem;
   font-weight: 500;
   line-height: 0.95;
-  letter-spacing: -0.03em;
   transition: all 0.9s ease-in-out;
 
   &:hover {
@@ -197,7 +183,7 @@
   margin-right: variables.$xxs-margin;
   font-size: 0.6rem;
   font-weight: 500;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   padding: 0.2rem 0.4rem;
   border: 1px solid variables.$primary-extra-light-color;
@@ -230,18 +216,6 @@
 
   @include variables.desktop {
     font-size: 1.4rem;
-  }
-}
-
-.arrow {
-  margin-left: variables.$xxxs-margin;
-  font-size: 1.8rem;
-  line-height: 1;
-  color: variables.$text-color;
-  transition: all 0.9s ease-in-out;
-
-  @include variables.desktop {
-    margin-left: variables.$xxs-margin;
   }
 }
 

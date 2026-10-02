@@ -98,7 +98,6 @@ export const NavigationDialog = forwardRef<
           >
             <span className={STYLES["map-label"]}>{t("map")}</span>
             {t("tunnellersWorks")}
-            <span className={STYLES.arrow}>&rarr;</span>
           </Link>
         </div>
 
@@ -118,7 +117,6 @@ export const NavigationDialog = forwardRef<
           >
             <span className={STYLES["map-label"]}>{t("map")}</span>
             {t("tunnellersOrigin")}
-            <span className={STYLES.arrow}>&rarr;</span>
           </Link>
         </div>
 
