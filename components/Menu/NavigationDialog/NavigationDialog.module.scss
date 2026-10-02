@@ -23,7 +23,8 @@
 .navigation-dialog__header {
   position: relative;
   box-sizing: border-box;
-  margin-top: 35px;
+  margin-top: 34px;
+  padding: 0 0 variables.$m-margin 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -44,11 +45,32 @@
 
   @include variables.desktop {
     width: calc(100% - #{variables.$base-margin * 2});
-    margin-top: 60px;
+    margin-top: 59px;
     margin-left: auto;
     margin-right: auto;
     max-width: variables.$max-width;
     padding: 0 0 variables.$base-margin 0;
+  }
+}
+
+.language-switcher {
+  display: inline-block;
+  color: variables.$text-color;
+  text-decoration: none;
+  padding-bottom: variables.$xxxs-margin;
+  border-bottom: 1px solid variables.$secondary-color;
+  font-size: 1rem;
+  font-weight: 400;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: color 160ms ease;
+
+  &:hover {
+    color: variables.$secondary-color;
+  }
+
+  @include variables.desktop {
+    font-size: 1.1rem;
   }
 }
 
@@ -63,7 +85,7 @@
   cursor: pointer;
 
   @include variables.tablet {
-    width: 35px;
+    width: 34px;
   }
 
   @include variables.desktop {
@@ -128,7 +150,7 @@
   width: fit-content;
   color: variables.$text-color;
   text-decoration: none;
-  font-size: 2rem;
+  font-size: 1.6rem;
   font-weight: 400;
   line-height: 0.95;
   letter-spacing: -0.03em;
@@ -137,6 +159,14 @@
 
   &:hover {
     color: variables.$secondary-color;
+  }
+
+  @include variables.tablet {
+    font-size: 1.8rem;
+  }
+
+  @include variables.desktop {
+    font-size: 2rem;
   }
 }
 
@@ -157,19 +187,23 @@
 
 .map-label {
   color: variables.$primary-light-color;
-  margin-right: variables.$xs-margin;
-  font-size: 0.65rem;
+  margin-right: variables.$xxs-margin;
+  font-size: 0.6rem;
   font-weight: 500;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-
-  padding: 0.3rem 0.5rem;
-
+  padding: 0.2rem 0.4rem;
   border: 1px solid variables.$primary-light-color;
   border-radius: 4px;
   transition:
     border-color 160ms ease,
     color 160ms ease;
+
+  @include variables.desktop {
+    margin-right: variables.$xs-margin;
+    font-size: 0.65rem;
+    padding: 0.3rem 0.5rem;
+  }
 }
 
 .menu-secondary {
@@ -179,7 +213,7 @@
   color: variables.$text-color;
   text-decoration: none;
 
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   font-weight: 400;
   transition: color 160ms ease;
 
@@ -190,33 +224,21 @@
       color: variables.$secondary-color;
     }
   }
+
+  @include variables.desktop {
+    font-size: 1.4rem;
+  }
 }
 
 .arrow {
-  margin-left: variables.$xxs-margin;
+  margin-left: variables.$xxxs-margin;
   font-size: 1.8rem;
   line-height: 1;
   color: variables.$text-color;
   transition: color 160ms ease;
-}
 
-.language-switcher {
-  display: inline-block;
-  color: variables.$text-color;
-  text-decoration: none;
-  padding-bottom: variables.$xxxs-margin;
-  border-bottom: 1px solid variables.$secondary-color;
-
-  font-size: 1rem;
-  font-weight: 400;
-
-  opacity: 0;
-  transform: translateY(16px);
-
-  transition: color 160ms ease;
-
-  &:hover {
-    color: variables.$secondary-color;
+  @include variables.desktop {
+    margin-left: variables.$xxs-margin;
   }
 }
 
