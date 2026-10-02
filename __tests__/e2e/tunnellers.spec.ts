@@ -157,13 +157,16 @@ test("filters persist when switching language", async ({ page }) => {
 
   await page.getByLabel("7th Reinforcements").click();
   await expect(page.getByText("31 results")).toBeVisible();
+  await expect(page).toHaveURL(/detachment=/);
 
   await page.getByRole("button", { name: "Open menu" }).click();
   await expect(page.getByRole("button", { name: "Close menu" })).toBeVisible();
-  await page
+  const frenchLink = page
     .getByTestId("menu")
-    .getByRole("link", { name: "Français" })
-    .click();
+    .getByRole("link", { name: "Français" });
+  await expect(frenchLink).toBeVisible();
+  await frenchLink.focus();
+  await frenchLink.press("Enter");
 
   await expect(page).toHaveURL(/\/fr\/tunnellers\//);
   await expect(page.getByText("31 résultats")).toBeVisible();
@@ -208,12 +211,14 @@ test("back link from profile restores filters", async ({ page }) => {
 test("can navigate using previous and next buttons", async ({ page }) => {
   await page.goto("/tunnellers/");
   await page.getByRole("button", { name: "Go to next page" }).click();
+  await expect(page).toHaveURL(/page=2/);
 
   await expect(
     page.getByRole("link", { name: "Sapper Joseph Wilson Barker" }),
   ).toBeVisible();
 
   await page.getByRole("button", { name: "Go to previous page" }).click();
+  await expect(page).not.toHaveURL(/page=2/);
 
   await expect(
     page.getByRole("link", { name: "Sapper Marcus Claude Abbott" }),
