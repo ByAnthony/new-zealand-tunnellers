@@ -21,7 +21,10 @@ type Props = {
   tunnellers: Tunneller[];
 };
 
-const setPageScrollLock = (isLocked: boolean) => {
+const setPageScrollLock = (
+  isLocked: boolean,
+  { restoreScroll = true } = {},
+) => {
   if (isLocked) {
     lockedPageScrollY = window.scrollY;
     document.body.style.overflowY = "hidden";
@@ -36,7 +39,15 @@ const setPageScrollLock = (isLocked: boolean) => {
   document.body.style.position = "";
   document.body.style.top = "";
   document.body.style.width = "";
-  window.scrollTo(0, scrollY);
+
+  if (restoreScroll) {
+    window.scrollTo(0, scrollY);
+  }
+};
+
+const scrollToHashTarget = (hash: string) => {
+  const targetId = decodeURIComponent(hash.replace(/^#/, ""));
+  document.getElementById(targetId)?.scrollIntoView();
 };
 
 export function Menu({ tunnellers }: Props) {
@@ -181,10 +192,20 @@ export function Menu({ tunnellers }: Props) {
     }, MENU_TOGGLE_ANIMATION_MS);
   };
 
-  const finishCloseMenu = ({ animateToggle = true } = {}) => {
+  const finishCloseMenu = ({
+    animateToggle = true,
+    hashTarget,
+  }: {
+    animateToggle?: boolean;
+    hashTarget?: string;
+  } = {}) => {
     dialogRef.current?.close?.();
     dialogRef.current?.removeAttribute("open");
-    setPageScrollLock(false);
+    setPageScrollLock(false, { restoreScroll: !hashTarget });
+
+    if (hashTarget) {
+      scrollToHashTarget(hashTarget);
+    }
 
     if (animateToggle) {
       animateMenuToggleReturn();
@@ -207,11 +228,13 @@ export function Menu({ tunnellers }: Props) {
     finishCloseMenu();
   };
 
-  const closeMenuAfterNavigationDelay = () => {
+  const closeMenuAfterNavigationDelay = (hashTarget?: string) => {
     clearCloseDelayTimeout();
     closeDelayTimeoutRef.current = setTimeout(() => {
       closeDelayTimeoutRef.current = null;
-      closeMenu();
+      if (!dialogRef.current?.open) return;
+
+      finishCloseMenu({ hashTarget });
     }, NAVIGATION_COVER_DELAY_MS);
   };
 
@@ -222,7 +245,7 @@ export function Menu({ tunnellers }: Props) {
     const targetUrl = new URL(href, window.location.origin);
 
     if (normalizePathname(targetUrl.pathname) === normalizePathname(pathname)) {
-      closeMenuAfterNavigationDelay();
+      closeMenuAfterNavigationDelay(targetUrl.hash || undefined);
       return;
     }
 
@@ -230,17 +253,25 @@ export function Menu({ tunnellers }: Props) {
   };
 
   useEffect(() => {
+    const hashTarget = window.location.hash || undefined;
+
     clearCloseDelayTimeout();
     dialogRef.current?.close?.();
     dialogRef.current?.removeAttribute("open");
-    setPageScrollLock(false);
+    setPageScrollLock(false, { restoreScroll: !hashTarget });
 
+    if (hashTarget) {
+      requestAnimationFrame(() => scrollToHashTarget(hashTarget));
+    }
+  }, [pathname]);
+
+  useEffect(() => {
     return () => {
       clearCloseDelayTimeout();
       clearMenuToggleAnimationTimeout();
       setPageScrollLock(false);
     };
-  }, [pathname]);
+  }, []);
 
   return (
     <div

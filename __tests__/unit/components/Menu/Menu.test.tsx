@@ -38,6 +38,9 @@ describe("Menu", () => {
     document.body.style.position = "";
     document.body.style.top = "";
     document.body.style.width = "";
+    document.querySelectorAll("#history").forEach((element) => {
+      element.remove();
+    });
   });
 
   test("matches the snapshot", () => {
@@ -500,12 +503,18 @@ describe("Menu", () => {
 
     test("stays open briefly on history anchor link click before closing", () => {
       jest.useFakeTimers();
+      const historyTarget = document.createElement("section");
+      historyTarget.id = "history";
+      historyTarget.scrollIntoView = jest.fn();
+      document.body.appendChild(historyTarget);
+
       const { container } = render(<Menu tunnellers={mockTunnellersData} />);
       const dialog = container.querySelector("dialog") as HTMLDialogElement;
       const menuToggle = screen.getByRole("button", { name: "Open menu" });
 
       fireEvent.click(menuToggle);
       expect(dialog.open).toBe(true);
+      (window.scrollTo as jest.Mock).mockClear();
 
       fireEvent.click(screen.getByRole("link", { name: "History" }));
       expect(dialog.open).toBe(true);
@@ -521,6 +530,46 @@ describe("Menu", () => {
       expect(document.body.style.overflowY).toBe("visible");
       expect(document.body.style.position).toBe("");
       expect(document.body.style.width).toBe("");
+      expect(window.scrollTo).not.toHaveBeenCalled();
+      expect(historyTarget.scrollIntoView).toHaveBeenCalledTimes(1);
+    });
+
+    test("scrolls the history anchor after navigating to the homepage", () => {
+      const requestAnimationFrameSpy = jest
+        .spyOn(window, "requestAnimationFrame")
+        .mockImplementation((callback) => {
+          callback(0);
+          return 0;
+        });
+      const historyTarget = document.createElement("section");
+      historyTarget.id = "history";
+      historyTarget.scrollIntoView = jest.fn();
+      document.body.appendChild(historyTarget);
+      mockedUsePathname.mockReturnValue("/tunnellers");
+      window.history.replaceState(null, "", "/tunnellers/");
+
+      const { container, rerender } = render(
+        <Menu tunnellers={mockTunnellersData} />,
+      );
+      const dialog = container.querySelector("dialog") as HTMLDialogElement;
+
+      fireEvent.click(screen.getByRole("button", { name: "Open menu" }));
+      expect(dialog.open).toBe(true);
+      (window.scrollTo as jest.Mock).mockClear();
+
+      fireEvent.click(screen.getByRole("link", { name: "History" }));
+      expect(dialog.open).toBe(true);
+
+      window.history.replaceState(null, "", "/#history");
+      mockedUsePathname.mockReturnValue("/");
+      rerender(<Menu tunnellers={mockTunnellersData} />);
+
+      expect(dialog.open).toBe(false);
+      expect(document.body.style.overflowY).toBe("visible");
+      expect(window.scrollTo).not.toHaveBeenCalled();
+      expect(historyTarget.scrollIntoView).toHaveBeenCalledTimes(1);
+
+      requestAnimationFrameSpy.mockRestore();
     });
 
     test("stays open briefly on origin map link click before closing", () => {

@@ -29,10 +29,6 @@
     align-items: center;
     height: variables.$base-margin;
     margin-right: variables.$xs-margin;
-
-    @include variables.desktop {
-      width: variables.$l-margin;
-    }
   }
 
   .logo-image {
