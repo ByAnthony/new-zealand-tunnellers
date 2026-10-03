@@ -151,7 +151,7 @@
   width: fit-content;
   color: variables.$text-color;
   text-decoration: none;
-  font-size: 1.6rem;
+  font-size: 1.5rem;
   font-weight: 500;
   line-height: 0.95;
   transition: all 0.9s ease-in-out;
@@ -161,7 +161,7 @@
   }
 
   @include variables.tablet {
-    font-size: 1.8rem;
+    font-size: 1.75rem;
   }
 
   @include variables.desktop {
