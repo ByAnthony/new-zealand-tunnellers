@@ -10,7 +10,7 @@
   margin: 0 auto;
   padding: 0;
   border: 0;
-  background: variables.$primary-medium-color;
+  background: variables.$primary-dark-color;
   color: variables.$secondary-color;
   overflow: hidden;
   font-family: variables.$main-font;
@@ -122,8 +122,16 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 2.25rem 0;
+  padding: 1.3rem 0;
   opacity: 0;
+
+  @include variables.tablet {
+    padding: 1.7rem 0;
+  }
+
+  @include variables.desktop {
+    padding: 2rem 0;
+  }
 }
 
 @media screen and (orientation: landscape) and (max-height: 32rem) {
@@ -143,9 +151,9 @@
   width: fit-content;
   color: variables.$text-color;
   text-decoration: none;
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   font-weight: 500;
-  line-height: 0.95;
+  line-height: 1;
   transition: all 0.9s ease-in-out;
 
   &:hover {
@@ -153,7 +161,7 @@
   }
 
   @include variables.tablet {
-    font-size: 1.75rem;
+    font-size: 1.9rem;
   }
 
   @include variables.desktop {
@@ -205,8 +213,9 @@
   &:hover {
     color: variables.$secondary-color;
 
-    .arrow {
+    .map-label {
       color: variables.$secondary-color;
+      border-color: variables.$secondary-color;
     }
   }
 
@@ -218,12 +227,12 @@
 .menu-footer {
   display: flex;
   justify-content: space-between;
-  padding-bottom: variables.$s-margin;
+  padding-bottom: variables.$m-margin;
 
   @include variables.component-margin;
 
   @include variables.tablet {
-    padding-bottom: variables.$m-margin;
+    padding-bottom: variables.$base-margin;
   }
 
   @include variables.desktop {
