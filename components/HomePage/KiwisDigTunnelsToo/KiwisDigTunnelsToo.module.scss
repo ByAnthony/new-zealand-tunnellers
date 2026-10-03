@@ -2,10 +2,8 @@
 
 .container {
   @include variables.component-margin;
-
   margin: 0 auto;
   margin-top: variables.$l-margin;
-  width: variables.$inner-width;
 
   h2 {
     text-align: center;
@@ -24,6 +22,7 @@
   @include variables.desktop {
     margin-top: variables.$xxxl-margin;
     margin-bottom: variables.$xl-margin;
+    width: variables.$inner-width;
   }
 }
 

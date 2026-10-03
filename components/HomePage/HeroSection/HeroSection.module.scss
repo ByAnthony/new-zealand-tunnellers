@@ -7,7 +7,7 @@
   min-height: 100vh;
   min-height: 100svh;
   background-image: url("/images/homepage/ART_3670.jpg");
-  background-position: center;
+  background-position: 18% 50%;
   background-repeat: no-repeat;
   background-size: cover;
 
@@ -34,6 +34,14 @@
     );
     pointer-events: none;
   }
+
+  @include variables.tablet {
+    background-position: 25% 50%;
+  }
+
+  @include variables.desktop {
+    background-position: center;
+  }
 }
 
 .hero-wrapper {
@@ -50,9 +58,14 @@
 
   h1 {
     margin-top: variables.$xxxs-margin;
+    margin-bottom: variables.$base-margin;
     font-weight: 500;
     line-height: 1;
     white-space: pre-line;
+
+    @include variables.desktop {
+      margin-bottom: variables.$base-margin;
+    }
   }
 
   p {
@@ -95,8 +108,13 @@
     }
   }
 
+  @include variables.tablet {
+    bottom: variables.$m-margin;
+  }
+
   @include variables.desktop {
     max-width: variables.$inner-width;
+    bottom: variables.$base-margin;
   }
 }
 
