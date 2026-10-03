@@ -122,8 +122,16 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 2.25rem 0;
+  padding: 1.3rem 0;
   opacity: 0;
+
+  @include variables.tablet {
+    padding: 1.7rem 0;
+  }
+
+  @include variables.desktop {
+    padding: 2rem 0;
+  }
 }
 
 @media screen and (orientation: landscape) and (max-height: 32rem) {
