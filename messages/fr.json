@@ -30,7 +30,8 @@
     "logoAlt": "Site des Tunneliers néo-zélandais - Accueil",
     "map": "Carte",
     "tunnellersWorks": "Ouvrages",
-    "tunnellersOrigin": "Origines"
+    "tunnellersOrigin": "Origines",
+    "closeMenu": "Fermer le menu"
   },
   "footer": {
     "scrollToTop": "Retourner en haut de la page",
@@ -44,7 +45,8 @@
     "clearSearch": "Effacer la recherche",
     "searchAlt": "Rechercher un tunnelier",
     "seeAllTunnellers": "Voir tous les tunneliers",
-    "seeTunnellerProfile": "Voir le profil de {forename} {surname}"
+    "seeTunnellerProfile": "Voir le profil de {forename} {surname}",
+    "openMenu": "Ouvrir le menu"
   },
   "homepage": {
     "historyOfTheCompany": "Histoire de la Compagnie",

@@ -395,7 +395,7 @@ export function Menu({ tunnellers }: Props) {
       <button
         type="button"
         onClick={openMenu}
-        aria-label="Open menu"
+        aria-label={t("openMenu")}
         className={STYLES["menu-toggle"]}
         data-menu-closed={isMenuToggleReturning ? "true" : undefined}
       >

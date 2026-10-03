@@ -81,7 +81,7 @@ export const NavigationDialog = forwardRef<
         <button
           type="button"
           onClick={onClose}
-          aria-label="Close menu"
+          aria-label={t("closeMenu")}
           className={STYLES["navigation-dialog__close"]}
         >
           <span className={STYLES["navigation-dialog__close-line"]} />
