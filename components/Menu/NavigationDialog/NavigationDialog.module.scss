@@ -226,12 +226,12 @@
 .menu-footer {
   display: flex;
   justify-content: space-between;
-  padding-bottom: variables.$s-margin;
+  padding-bottom: variables.$m-margin;
 
   @include variables.component-margin;
 
   @include variables.tablet {
-    padding-bottom: variables.$m-margin;
+    padding-bottom: variables.$base-margin;
   }
 
   @include variables.desktop {
