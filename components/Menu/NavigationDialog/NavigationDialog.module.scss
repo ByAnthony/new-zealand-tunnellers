@@ -65,21 +65,13 @@
 
 .navigation-dialog__close {
   position: relative;
-  width: 33px;
+  width: 30px;
   height: 35px;
   padding: 0;
   border: 0;
   background: transparent;
   color: variables.$secondary-color;
   cursor: pointer;
-
-  @include variables.tablet {
-    width: 34px;
-  }
-
-  @include variables.desktop {
-    width: 30px;
-  }
 }
 
 .navigation-dialog__close-line {
