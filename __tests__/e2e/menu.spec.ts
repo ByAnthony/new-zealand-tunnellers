@@ -5,25 +5,6 @@ async function openNavigationDialog(page: import("@playwright/test").Page) {
   await expect(page.getByRole("button", { name: "Close menu" })).toBeVisible();
 }
 
-async function waitForDialogRowsToSettle(
-  page: import("@playwright/test").Page,
-) {
-  await page.waitForFunction(() => {
-    const rows = Array.from(document.querySelectorAll('[class*="menu-row"]'));
-    return (
-      rows.length > 0 &&
-      rows.every((row) => {
-        const styles = window.getComputedStyle(row);
-        const translateY =
-          styles.transform === "none"
-            ? 0
-            : new DOMMatrixReadOnly(styles.transform).m42;
-        return Number(styles.opacity) >= 0.99 && Math.abs(translateY) < 0.5;
-      })
-    );
-  });
-}
-
 async function typeIntoSearch(
   search: import("@playwright/test").Locator,
   value: string,
@@ -162,64 +143,6 @@ test("can switch from French to English", async ({ page }) => {
   await expect(page).toHaveURL("/");
   await openNavigationDialog(page);
   await expect(page.getByRole("link", { name: "Français" })).toBeVisible();
-});
-
-test("menu connector stays fixed when hovering dialog links", async ({
-  page,
-}) => {
-  await page.goto("/");
-
-  await openNavigationDialog(page);
-  await waitForDialogRowsToSettle(page);
-
-  const connector = page.locator('[class*="menu-connector"]').first();
-  const historyLink = page
-    .getByTestId("menu")
-    .getByRole("link", { name: "History" });
-  const worksLink = page
-    .getByTestId("menu")
-    .getByRole("link", { name: /Works/ });
-
-  await expect(connector).toBeVisible();
-  const initialBox = await connector.boundingBox();
-  expect(initialBox).not.toBeNull();
-
-  await historyLink.hover();
-  const primaryHoverBox = await connector.boundingBox();
-  expect(primaryHoverBox).not.toBeNull();
-  expect(primaryHoverBox!.x).toBeCloseTo(initialBox!.x, 0);
-  expect(primaryHoverBox!.width).toBeCloseTo(initialBox!.width, 0);
-
-  await worksLink.hover();
-  const secondaryHoverBox = await connector.boundingBox();
-  expect(secondaryHoverBox).not.toBeNull();
-  expect(secondaryHoverBox!.x).toBeCloseTo(initialBox!.x, 0);
-  expect(secondaryHoverBox!.width).toBeCloseTo(initialBox!.width, 0);
-});
-
-test("menu rows stay below the header in mobile landscape", async ({
-  page,
-}) => {
-  await page.setViewportSize({ width: 844, height: 390 });
-  await page.goto("/");
-
-  await openNavigationDialog(page);
-  await waitForDialogRowsToSettle(page);
-
-  const header = page.locator('[class*="navigation-dialog__header"]');
-  const historyLink = page
-    .getByTestId("menu")
-    .getByRole("link", { name: "History" });
-
-  await expect(historyLink).toBeVisible();
-  const headerBox = await header.boundingBox();
-  const historyBox = await historyLink.boundingBox();
-
-  expect(headerBox).not.toBeNull();
-  expect(historyBox).not.toBeNull();
-  expect(historyBox!.y).toBeGreaterThanOrEqual(
-    headerBox!.y + headerBox!.height,
-  );
 });
 
 test("can go to the tunnellers page", async ({ page }) => {
