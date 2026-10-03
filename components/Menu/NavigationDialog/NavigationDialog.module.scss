@@ -213,8 +213,9 @@
   &:hover {
     color: variables.$secondary-color;
 
-    .arrow {
+    .map-label {
       color: variables.$secondary-color;
+      border-color: variables.$secondary-color;
     }
   }
 
