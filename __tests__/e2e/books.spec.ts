@@ -212,9 +212,25 @@ test("progress ring shows tick after scrolling to the bottom of a chapter", asyn
   await page.goto(EN_CHAPTER_1);
 
   await expect(page.locator(".footnotes").last()).toBeAttached();
+  await expect(page.getByRole("progressbar")).toBeAttached();
   await page.evaluate(() => {
-    window.scrollTo(0, document.body.scrollHeight);
+    window.scrollTo({
+      top: document.documentElement.scrollHeight,
+      behavior: "instant",
+    });
   });
+  await expect
+    .poll(() =>
+      page.evaluate(() => {
+        const footnotes = document.querySelector(".footnotes");
+        return (
+          window.scrollY > 0 &&
+          footnotes !== null &&
+          footnotes.getBoundingClientRect().top <= window.innerHeight
+        );
+      }),
+    )
+    .toBe(true);
   await expect
     .poll(
       () =>

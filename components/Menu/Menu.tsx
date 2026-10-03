@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
 
@@ -11,25 +11,44 @@ import { displayBiographyDates } from "@/utils/helpers/roll";
 import { useWindowDimensions } from "@/utils/helpers/useWindowDimensions";
 
 import STYLES from "./Menu.module.scss";
+import { NavigationDialog } from "./NavigationDialog/NavigationDialog";
+
+const MENU_TOGGLE_ANIMATION_MS = 1000;
+const NAVIGATION_COVER_DELAY_MS = 500;
+let lockedPageScrollY = 0;
 
 type Props = {
   tunnellers: Tunneller[];
 };
 
-const ROLL_MAP_QUERY_PARAMS = ["view", "lat", "lng", "origin", "zoom"];
-
-function getLocaleSwitchQueryString(): string {
-  const params = new URLSearchParams(window.location.search);
-  const isOriginMapMounted =
-    document.querySelector('[data-testid="roll-origin-map"]') !== null;
-
-  if (!isOriginMapMounted) {
-    ROLL_MAP_QUERY_PARAMS.forEach((param) => params.delete(param));
+const setPageScrollLock = (
+  isLocked: boolean,
+  { restoreScroll = true } = {},
+) => {
+  if (isLocked) {
+    lockedPageScrollY = window.scrollY;
+    document.body.style.overflowY = "hidden";
+    document.body.style.position = "fixed";
+    document.body.style.top = `-${lockedPageScrollY}px`;
+    document.body.style.width = "100%";
+    return;
   }
 
-  const qs = params.toString().replace(/%2C/gi, ",");
-  return qs ? `?${qs}` : "";
-}
+  const scrollY = lockedPageScrollY;
+  document.body.style.overflowY = "visible";
+  document.body.style.position = "";
+  document.body.style.top = "";
+  document.body.style.width = "";
+
+  if (restoreScroll) {
+    window.scrollTo(0, scrollY);
+  }
+};
+
+const scrollToHashTarget = (hash: string) => {
+  const targetId = decodeURIComponent(hash.replace(/^#/, ""));
+  document.getElementById(targetId)?.scrollIntoView();
+};
 
 export function Menu({ tunnellers }: Props) {
   const t = useTranslations("menu");
@@ -37,36 +56,43 @@ export function Menu({ tunnellers }: Props) {
   const locale = useLocale();
   const localePrefix = locale === "en" ? "" : `/${locale}`;
   const pathname = usePathname();
-  const switchLocaleBasePath =
-    locale === "en" ? `/fr${pathname}` : pathname.replace(/^\/fr/, "") || "/";
-  const switchLocaleBase = switchLocaleBasePath.endsWith("/")
-    ? switchLocaleBasePath
-    : `${switchLocaleBasePath}/`;
 
   const { width } = useWindowDimensions();
   const divRef = useRef<HTMLDivElement>(null);
   const searchFormRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const router = useRouter();
-
-  const [prevScrollPos, setPrevScrollPos] = useState(0);
-  const [menuVisible, setMenuVisible] = useState(true);
+  const prevScrollPos = useRef(0);
+  const [menuVisibility, setMenuVisibility] = useState({
+    pathname,
+    visible: true,
+  });
+  const menuVisible =
+    menuVisibility.pathname !== pathname || menuVisibility.visible;
   const [filteredTunnellers, setFilteredTunnellers] = useState<Tunneller[]>([]);
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [dropdownMaxHeight, setDropdownMaxHeight] = useState("auto");
+  const [isMenuToggleReturning, setIsMenuToggleReturning] = useState(false);
   const [query, setQuery] = useState("");
 
   useEffect(() => {
+    prevScrollPos.current = window.scrollY;
+
     const handleScroll = () => {
       const currentScrollPos = window.scrollY;
-      setMenuVisible(prevScrollPos > currentScrollPos);
-      setPrevScrollPos(currentScrollPos);
+      if (currentScrollPos === prevScrollPos.current) return;
+
+      setMenuVisibility({
+        pathname,
+        visible:
+          currentScrollPos <= 0 || prevScrollPos.current > currentScrollPos,
+      });
+      prevScrollPos.current = currentScrollPos;
     };
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [prevScrollPos]);
+  }, [pathname]);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -147,6 +173,118 @@ export function Menu({ tunnellers }: Props) {
   const isMobileOrTablet = () => {
     return width && width < 896;
   };
+
+  const dialogRef = useRef<HTMLDialogElement>(null);
+  const closeDelayTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(
+    null,
+  );
+  const menuToggleAnimationTimeoutRef = useRef<ReturnType<
+    typeof setTimeout
+  > | null>(null);
+
+  const clearCloseDelayTimeout = () => {
+    if (closeDelayTimeoutRef.current) {
+      clearTimeout(closeDelayTimeoutRef.current);
+      closeDelayTimeoutRef.current = null;
+    }
+  };
+
+  const clearMenuToggleAnimationTimeout = () => {
+    if (menuToggleAnimationTimeoutRef.current) {
+      clearTimeout(menuToggleAnimationTimeoutRef.current);
+      menuToggleAnimationTimeoutRef.current = null;
+    }
+  };
+
+  const animateMenuToggleReturn = () => {
+    clearMenuToggleAnimationTimeout();
+    setIsMenuToggleReturning(true);
+    menuToggleAnimationTimeoutRef.current = setTimeout(() => {
+      setIsMenuToggleReturning(false);
+      menuToggleAnimationTimeoutRef.current = null;
+    }, MENU_TOGGLE_ANIMATION_MS);
+  };
+
+  const finishCloseMenu = ({
+    animateToggle = true,
+    hashTarget,
+  }: {
+    animateToggle?: boolean;
+    hashTarget?: string;
+  } = {}) => {
+    dialogRef.current?.close?.();
+    dialogRef.current?.removeAttribute("open");
+    setPageScrollLock(false, { restoreScroll: !hashTarget });
+
+    if (hashTarget) {
+      scrollToHashTarget(hashTarget);
+    }
+
+    if (animateToggle) {
+      animateMenuToggleReturn();
+    }
+  };
+
+  const openMenu = () => {
+    clearCloseDelayTimeout();
+    clearMenuToggleAnimationTimeout();
+    setIsMenuToggleReturning(false);
+    dialogRef.current?.showModal?.();
+    dialogRef.current?.setAttribute("open", "");
+    setPageScrollLock(true);
+  };
+
+  const closeMenu = () => {
+    if (!dialogRef.current?.open) return;
+
+    clearCloseDelayTimeout();
+    finishCloseMenu();
+  };
+
+  const closeMenuAfterNavigationDelay = (hashTarget?: string) => {
+    clearCloseDelayTimeout();
+    closeDelayTimeoutRef.current = setTimeout(() => {
+      closeDelayTimeoutRef.current = null;
+      if (!dialogRef.current?.open) return;
+
+      finishCloseMenu({ hashTarget });
+    }, NAVIGATION_COVER_DELAY_MS);
+  };
+
+  const normalizePathname = (value: string) =>
+    value.length > 1 ? value.replace(/\/$/, "") : value;
+
+  const handleDialogNavigation = (href: string) => {
+    const targetUrl = new URL(href, window.location.origin);
+
+    if (normalizePathname(targetUrl.pathname) === normalizePathname(pathname)) {
+      closeMenuAfterNavigationDelay(targetUrl.hash || undefined);
+      return;
+    }
+
+    clearCloseDelayTimeout();
+  };
+
+  useEffect(() => {
+    const hashTarget = window.location.hash || undefined;
+
+    clearCloseDelayTimeout();
+    dialogRef.current?.close?.();
+    dialogRef.current?.removeAttribute("open");
+    setPageScrollLock(false, { restoreScroll: false });
+
+    if (hashTarget) {
+      requestAnimationFrame(() => scrollToHashTarget(hashTarget));
+    }
+  }, [pathname]);
+
+  useEffect(() => {
+    return () => {
+      clearCloseDelayTimeout();
+      clearMenuToggleAnimationTimeout();
+      setPageScrollLock(false);
+    };
+  }, []);
 
   return (
     <div
@@ -267,17 +405,22 @@ export function Menu({ tunnellers }: Props) {
         )}
       </div>
 
-      <Link
-        href={switchLocaleBase}
-        className={STYLES["language-switcher"]}
-        onClick={(e) => {
-          e.preventDefault();
-          const qs = getLocaleSwitchQueryString();
-          router.push(qs ? `${switchLocaleBase}${qs}` : switchLocaleBase);
-        }}
+      <button
+        type="button"
+        onClick={openMenu}
+        aria-label={t("openMenu")}
+        className={STYLES["menu-toggle"]}
+        data-menu-closed={isMenuToggleReturning ? "true" : undefined}
       >
-        {locale === "en" ? "Français" : "English"}
-      </Link>
+        <span className={STYLES["menu-toggle__line-1"]} />
+        <span className={STYLES["menu-toggle__line-2"]} />
+        <span className={STYLES["menu-toggle__line-3"]} />
+      </button>
+      <NavigationDialog
+        ref={dialogRef}
+        onNavigate={handleDialogNavigation}
+        onClose={closeMenu}
+      />
     </div>
   );
 }

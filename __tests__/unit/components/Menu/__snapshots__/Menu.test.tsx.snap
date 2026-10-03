@@ -43,12 +43,136 @@ exports[`Menu matches the snapshot 1`] = `
         />
       </div>
     </div>
-    <a
-      class="language-switcher"
-      href="/fr/"
+    <button
+      aria-label="Open menu"
+      class="menu-toggle"
+      type="button"
     >
-      Français
-    </a>
+      <span
+        class="menu-toggle__line-1"
+      />
+      <span
+        class="menu-toggle__line-2"
+      />
+      <span
+        class="menu-toggle__line-3"
+      />
+    </button>
+    <dialog
+      class="navigation-dialog"
+    >
+      <div
+        class="navigation-dialog__header"
+      >
+        <a
+          aria-label="Go to the Homepage"
+          class="logo"
+          href="/"
+        >
+          <img
+            alt="New Zealand Tunnellers Website - Home"
+            class="logo-image"
+            height="30"
+            placeholder="empty"
+            src="/nzt_logo.png"
+            width="30"
+          />
+        </a>
+        <button
+          aria-label="Close menu"
+          class="navigation-dialog__close"
+          type="button"
+        >
+          <span
+            class="navigation-dialog__close-line"
+          />
+          <span
+            class="navigation-dialog__close-line"
+          />
+          <span
+            class="navigation-dialog__close-line"
+          />
+        </button>
+      </div>
+      <nav
+        class="menu-nav"
+      >
+        <div
+          class="menu-row"
+        >
+          <a
+            class="menu-primary"
+            href="/#history"
+          >
+            History
+          </a>
+          <span
+            class="menu-connector"
+          />
+          <a
+            class="menu-secondary"
+            href="/history/tunnellers-works"
+          >
+            <span
+              class="map-label"
+            >
+              Map
+            </span>
+            Works
+          </a>
+        </div>
+        <div
+          class="menu-row"
+        >
+          <a
+            class="menu-primary"
+            href="/tunnellers"
+          >
+            Tunnellers
+          </a>
+          <span
+            class="menu-connector"
+          />
+          <a
+            class="menu-secondary"
+            href="/tunnellers/?view=map"
+          >
+            <span
+              class="map-label"
+            >
+              Map
+            </span>
+            Origins
+          </a>
+        </div>
+        <div
+          class="menu-row"
+        >
+          <a
+            class="menu-primary"
+            href="/kiwis-dig-tunnels-too"
+          >
+            Kiwis Dig Tunnels Too
+          </a>
+        </div>
+      </nav>
+      <div
+        class="menu-footer"
+      >
+        <a
+          class="language-switcher"
+          href="/about-us"
+        >
+          About Us
+        </a>
+        <a
+          class="language-switcher"
+          href="/fr/"
+        >
+          Français
+        </a>
+      </div>
+    </dialog>
   </div>
 </DocumentFragment>
 `;

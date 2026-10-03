@@ -1,5 +1,7 @@
 import { test, expect } from "@playwright/test";
 
+import { makeMessagesTranslator } from "../../test-utils/getMessageFromMessages";
+
 test("can change page and click on a name", async ({ page }) => {
   await page.goto("/tunnellers/?page=36");
   await expect(page).toHaveURL(/\/tunnellers\/\?page=36/);
@@ -153,14 +155,27 @@ test("marital status filter updates and clears the URL", async ({ page }) => {
 });
 
 test("filters persist when switching language", async ({ page }) => {
+  const translate = makeMessagesTranslator("en");
   await page.goto("/tunnellers/");
 
   await page.getByLabel("7th Reinforcements").click();
   await expect(page.getByText("31 results")).toBeVisible();
+  await expect(page).toHaveURL(/detachment=/);
 
-  await page.getByRole("link", { name: "Français" }).click();
-  await page.waitForURL(/\/fr\/tunnellers\//, { waitUntil: "load" });
+  await page
+    .getByRole("button", { name: translate("menu")("openMenu") })
+    .click();
+  await expect(
+    page.getByRole("button", { name: translate("nav")("closeMenu") }),
+  ).toBeVisible();
+  const frenchLink = page
+    .getByTestId("menu")
+    .getByRole("link", { name: "Français" });
+  await expect(frenchLink).toBeVisible();
+  await frenchLink.focus();
+  await frenchLink.press("Enter");
 
+  await expect(page).toHaveURL(/\/fr\/tunnellers\//);
   await expect(page.getByText("31 résultats")).toBeVisible();
   await expect(page).toHaveURL(/detachment=/);
 });
@@ -203,12 +218,14 @@ test("back link from profile restores filters", async ({ page }) => {
 test("can navigate using previous and next buttons", async ({ page }) => {
   await page.goto("/tunnellers/");
   await page.getByRole("button", { name: "Go to next page" }).click();
+  await expect(page).toHaveURL(/page=2/);
 
   await expect(
     page.getByRole("link", { name: "Sapper Joseph Wilson Barker" }),
   ).toBeVisible();
 
   await page.getByRole("button", { name: "Go to previous page" }).click();
+  await expect(page).not.toHaveURL(/page=2/);
 
   await expect(
     page.getByRole("link", { name: "Sapper Marcus Claude Abbott" }),
