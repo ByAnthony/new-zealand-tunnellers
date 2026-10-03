@@ -28,6 +28,11 @@ describe("Menu", () => {
       refresh: jest.fn(),
     });
     window.scrollTo = jest.fn();
+    Object.defineProperty(window, "scrollY", {
+      value: 0,
+      configurable: true,
+      writable: true,
+    });
     window.history.replaceState(null, "", "/");
   });
 
@@ -101,6 +106,31 @@ describe("Menu", () => {
 
     fireEvent.scroll(window, { target: { scrollY: 75 } });
     expect(screen.getByTestId("menu")).toHaveClass("menu");
+  });
+
+  test("stays visible when a scroll event fires at the top", () => {
+    render(<Menu tunnellers={mockTunnellersData} />);
+
+    fireEvent.scroll(window, { target: { scrollY: 0 } });
+
+    expect(screen.getByTestId("menu")).not.toHaveClass("hidden");
+  });
+
+  test("resets visibility and scroll tracking when navigating to a map", () => {
+    const { rerender } = render(<Menu tunnellers={mockTunnellersData} />);
+
+    fireEvent.scroll(window, { target: { scrollY: 100 } });
+    expect(screen.getByTestId("menu")).toHaveClass("hidden");
+    (window.scrollTo as jest.Mock).mockClear();
+
+    mockedUsePathname.mockReturnValue("/history/tunnellers-works");
+    rerender(<Menu tunnellers={mockTunnellersData} />);
+
+    expect(screen.getByTestId("menu")).not.toHaveClass("hidden");
+    expect(window.scrollTo).not.toHaveBeenCalled();
+
+    fireEvent.scroll(window, { target: { scrollY: 100 } });
+    expect(screen.getByTestId("menu")).not.toHaveClass("hidden");
   });
 
   describe("Keyboard", () => {
@@ -453,7 +483,7 @@ describe("Menu", () => {
       expect(dialog.open).toBe(true);
       expect(document.body.style.overflowY).toBe("hidden");
       expect(document.body.style.position).toBe("fixed");
-      expect(document.body.style.top).toBe(`-${window.scrollY}px`);
+      expect(document.body.style.top).toBe(`${-window.scrollY}px`);
       expect(document.body.style.width).toBe("100%");
 
       fireEvent.click(screen.getByRole("link", { name: "Tunnellers" }));
@@ -483,7 +513,7 @@ describe("Menu", () => {
       expect(dialog.open).toBe(true);
       expect(document.body.style.overflowY).toBe("hidden");
       expect(document.body.style.position).toBe("fixed");
-      expect(document.body.style.top).toBe(`-${window.scrollY}px`);
+      expect(document.body.style.top).toBe(`${-window.scrollY}px`);
       expect(document.body.style.width).toBe("100%");
 
       fireEvent.click(screen.getByRole("button", { name: "Close menu" }));

@@ -55,14 +55,20 @@ export function Menu({ tunnellers }: Props) {
   const tNav = useTranslations("nav");
   const locale = useLocale();
   const localePrefix = locale === "en" ? "" : `/${locale}`;
+  const pathname = usePathname();
 
   const { width } = useWindowDimensions();
   const divRef = useRef<HTMLDivElement>(null);
   const searchFormRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const [prevScrollPos, setPrevScrollPos] = useState(0);
-  const [menuVisible, setMenuVisible] = useState(true);
+  const prevScrollPos = useRef(0);
+  const [menuVisibility, setMenuVisibility] = useState({
+    pathname,
+    visible: true,
+  });
+  const menuVisible =
+    menuVisibility.pathname !== pathname || menuVisibility.visible;
   const [filteredTunnellers, setFilteredTunnellers] = useState<Tunneller[]>([]);
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [dropdownMaxHeight, setDropdownMaxHeight] = useState("auto");
@@ -70,15 +76,23 @@ export function Menu({ tunnellers }: Props) {
   const [query, setQuery] = useState("");
 
   useEffect(() => {
+    prevScrollPos.current = window.scrollY;
+
     const handleScroll = () => {
       const currentScrollPos = window.scrollY;
-      setMenuVisible(prevScrollPos > currentScrollPos);
-      setPrevScrollPos(currentScrollPos);
+      if (currentScrollPos === prevScrollPos.current) return;
+
+      setMenuVisibility({
+        pathname,
+        visible:
+          currentScrollPos <= 0 || prevScrollPos.current > currentScrollPos,
+      });
+      prevScrollPos.current = currentScrollPos;
     };
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [prevScrollPos]);
+  }, [pathname]);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -167,7 +181,6 @@ export function Menu({ tunnellers }: Props) {
   const menuToggleAnimationTimeoutRef = useRef<ReturnType<
     typeof setTimeout
   > | null>(null);
-  const pathname = usePathname();
 
   const clearCloseDelayTimeout = () => {
     if (closeDelayTimeoutRef.current) {
@@ -258,7 +271,7 @@ export function Menu({ tunnellers }: Props) {
     clearCloseDelayTimeout();
     dialogRef.current?.close?.();
     dialogRef.current?.removeAttribute("open");
-    setPageScrollLock(false, { restoreScroll: !hashTarget });
+    setPageScrollLock(false, { restoreScroll: false });
 
     if (hashTarget) {
       requestAnimationFrame(() => scrollToHashTarget(hashTarget));
