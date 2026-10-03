@@ -227,6 +227,9 @@
   }
 
   @include variables.desktop {
+    margin: 0 auto;
+    width: calc(100% - #{variables.$base-margin * 2});
+    max-width: variables.$max-width;
     padding-bottom: variables.$base-margin;
   }
 }
