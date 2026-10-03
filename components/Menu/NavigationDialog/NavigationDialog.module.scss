@@ -1,0 +1,485 @@
+@use "app/variables.module.scss";
+
+.navigation-dialog {
+  width: 100dvw;
+  height: 100dvh;
+  max-width: none;
+  max-height: none;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  padding: 0;
+  border: 0;
+  background: variables.$primary-medium-color;
+  color: variables.$secondary-color;
+  overflow: hidden;
+  font-family: variables.$main-font;
+}
+
+.navigation-dialog::backdrop {
+  background: transparent;
+}
+
+.navigation-dialog:not([open]) {
+  display: none;
+}
+
+.navigation-dialog__header {
+  position: relative;
+  box-sizing: border-box;
+  margin-top: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: none;
+
+  @include variables.component-margin;
+
+  @include variables.desktop {
+    width: calc(100% - #{variables.$base-margin * 2});
+    margin-top: 51px;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: variables.$max-width;
+  }
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  height: variables.$base-margin;
+  margin-right: variables.$xs-margin;
+}
+
+.logo-image {
+  @include variables.tablet {
+    height: 35px;
+    width: 35px;
+  }
+
+  @include variables.desktop {
+    height: 40px;
+    width: 40px;
+  }
+}
+
+.navigation-dialog__close {
+  position: relative;
+  width: 30px;
+  height: 35px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: variables.$secondary-color;
+  cursor: pointer;
+}
+
+.navigation-dialog__close-line {
+  position: absolute;
+  left: 0;
+  height: 3px;
+  border-radius: 3px;
+  background: variables.$secondary-color;
+  transform-origin: center;
+}
+
+.navigation-dialog__close-line:nth-child(1) {
+  top: 8px;
+  width: 15px;
+}
+
+.navigation-dialog__close-line:nth-child(2) {
+  top: 16px;
+  width: 30px;
+}
+
+.navigation-dialog__close-line:nth-child(3) {
+  top: 24px;
+  width: 22.5px;
+}
+
+.menu-nav {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow-y: auto;
+
+  @include variables.component-margin;
+
+  @include variables.desktop {
+    padding-bottom: 30px;
+    width: calc(100% - #{variables.$base-margin * 2});
+    margin-left: auto;
+    margin-right: auto;
+    max-width: variables.$max-width;
+  }
+}
+
+.menu-row {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2.25rem 0;
+  opacity: 0;
+}
+
+@media screen and (orientation: landscape) and (max-height: 32rem) {
+  .menu-nav {
+    justify-content: center;
+    padding-top: variables.$xs-margin;
+    padding-bottom: variables.$xs-margin;
+  }
+
+  .menu-row {
+    padding: variables.$xs-margin 0;
+  }
+}
+
+.menu-primary {
+  display: inline-block;
+  width: fit-content;
+  color: variables.$text-color;
+  text-decoration: none;
+  font-size: 1.5rem;
+  font-weight: 500;
+  line-height: 0.95;
+  transition: all 0.9s ease-in-out;
+
+  &:hover {
+    color: variables.$secondary-color;
+  }
+
+  @include variables.tablet {
+    font-size: 1.75rem;
+  }
+
+  @include variables.desktop {
+    font-size: 2rem;
+  }
+}
+
+.menu-connector {
+  flex: 1;
+  height: 2px;
+  margin: 0 variables.$s-margin;
+  background-image: radial-gradient(
+    circle,
+    variables.$primary-extra-light-color 1px,
+    transparent 1.5px
+  );
+  background-size: 12px 2px;
+  background-repeat: repeat-x;
+}
+
+.map-label {
+  color: variables.$primary-extra-light-color;
+  margin-right: variables.$xxs-margin;
+  font-size: 0.6rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.4rem;
+  border: 1px solid variables.$primary-extra-light-color;
+  border-radius: 4px;
+  transition: all 0.9s ease-in-out;
+
+  @include variables.desktop {
+    margin-right: variables.$xs-margin;
+    font-size: 0.65rem;
+    padding: 0.3rem 0.5rem;
+  }
+}
+
+.menu-secondary {
+  display: flex;
+  align-items: center;
+  color: variables.$text-color;
+  text-decoration: none;
+  font-size: 1.2rem;
+  font-weight: 400;
+  transition: all 0.9s ease-in-out;
+
+  &:hover {
+    color: variables.$secondary-color;
+
+    .arrow {
+      color: variables.$secondary-color;
+    }
+  }
+
+  @include variables.desktop {
+    font-size: 1.4rem;
+  }
+}
+
+.menu-footer {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: variables.$s-margin;
+
+  @include variables.component-margin;
+
+  @include variables.tablet {
+    padding-bottom: variables.$m-margin;
+  }
+
+  @include variables.desktop {
+    margin: 0 auto;
+    width: calc(100% - #{variables.$base-margin * 2});
+    max-width: variables.$max-width;
+    padding-bottom: variables.$base-margin;
+  }
+}
+
+.language-switcher {
+  display: inline-block;
+  color: variables.$text-color;
+  text-decoration: none;
+  padding-bottom: variables.$xxxs-margin;
+  border-bottom: 1px solid variables.$secondary-color;
+  font-size: 1.1rem;
+  font-weight: 400;
+  transition: all 0.9s ease-in-out;
+
+  &:hover {
+    color: variables.$secondary-color;
+  }
+}
+
+.navigation-dialog[open] {
+  .navigation-dialog__close-line {
+    animation-duration: 1000ms;
+    animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+    animation-fill-mode: forwards;
+
+    &:nth-child(1) {
+      animation-name: close-line-top-in;
+    }
+
+    &:nth-child(2) {
+      animation-name: close-line-middle-in;
+    }
+
+    &:nth-child(3) {
+      animation-name: close-line-bottom-in;
+    }
+  }
+
+  .menu-row {
+    animation: menu-item-in 750ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+
+    &:nth-child(1) {
+      animation-delay: 120ms;
+    }
+
+    &:nth-child(2) {
+      animation-delay: 240ms;
+    }
+
+    &:nth-child(3) {
+      animation-delay: 360ms;
+    }
+
+    &:nth-child(4) {
+      animation-delay: 480ms;
+    }
+  }
+}
+
+@keyframes menu-item-in {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes close-line-top-in {
+  0% {
+    top: 8px;
+    left: 0;
+    width: 15px;
+    transform: rotate(0deg);
+  }
+
+  15% {
+    transform: rotate(-6deg);
+  }
+
+  85% {
+    top: 11px;
+    left: 3px;
+    width: 14px;
+    transform: rotate(49deg);
+  }
+
+  100% {
+    top: 11px;
+    left: 3px;
+    width: 14px;
+    transform: rotate(45deg);
+  }
+}
+
+@keyframes close-line-middle-in {
+  0% {
+    top: 16px;
+    left: 0;
+    width: 30px;
+    transform: rotate(0deg);
+  }
+
+  15% {
+    transform: rotate(6deg);
+  }
+
+  85% {
+    top: 16px;
+    left: 1px;
+    width: 28px;
+    transform: rotate(-49deg);
+  }
+
+  100% {
+    top: 16px;
+    left: 1px;
+    width: 28px;
+    transform: rotate(-45deg);
+  }
+}
+
+@keyframes close-line-bottom-in {
+  0% {
+    top: 24px;
+    left: 0;
+    width: 22.5px;
+    transform: rotate(0deg);
+  }
+
+  15% {
+    transform: rotate(-6deg);
+  }
+
+  85% {
+    top: 21px;
+    left: 13px;
+    width: 14px;
+    transform: rotate(49deg);
+  }
+
+  100% {
+    top: 21px;
+    left: 13px;
+    width: 14px;
+    transform: rotate(45deg);
+  }
+}
+
+@keyframes close-line-top-out {
+  0% {
+    top: 11px;
+    left: 3px;
+    width: 14px;
+    transform: rotate(45deg);
+  }
+
+  15% {
+    top: 11px;
+    left: 3px;
+    width: 14px;
+    transform: rotate(49deg);
+  }
+
+  85% {
+    top: 8px;
+    left: 0;
+    width: 15px;
+    transform: rotate(-6deg);
+  }
+
+  100% {
+    top: 8px;
+    left: 0;
+    width: 15px;
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes close-line-middle-out {
+  0% {
+    top: 16px;
+    left: 1px;
+    width: 28px;
+    transform: rotate(-45deg);
+  }
+
+  15% {
+    top: 16px;
+    left: 1px;
+    width: 28px;
+    transform: rotate(-49deg);
+  }
+
+  85% {
+    top: 16px;
+    left: 0;
+    width: 30px;
+    transform: rotate(6deg);
+  }
+
+  100% {
+    top: 16px;
+    left: 0;
+    width: 30px;
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes close-line-bottom-out {
+  0% {
+    top: 21px;
+    left: 13px;
+    width: 14px;
+    transform: rotate(45deg);
+  }
+
+  15% {
+    top: 21px;
+    left: 13px;
+    width: 14px;
+    transform: rotate(49deg);
+  }
+
+  85% {
+    top: 24px;
+    left: 0;
+    width: 22.5px;
+    transform: rotate(-6deg);
+  }
+
+  100% {
+    top: 24px;
+    left: 0;
+    width: 22.5px;
+    transform: rotate(0deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .menu-row,
+  .navigation-dialog__close-line {
+    animation: none !important;
+  }
+
+  .menu-row {
+    opacity: 1;
+    transform: none;
+  }
+}
