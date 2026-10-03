@@ -33,7 +33,6 @@ export const NavigationDialog = forwardRef<
   NavigationDialogProps
 >(({ onClose, onNavigate }, ref) => {
   const t = useTranslations("nav");
-  const tNav = useTranslations("nav");
   const locale = useLocale();
   const localePrefix = locale === "en" ? "" : `/${locale}`;
   const pathname = usePathname();
@@ -65,13 +64,13 @@ export const NavigationDialog = forwardRef<
         <Link
           href={`${localePrefix}/`}
           className={STYLES.logo}
-          aria-label={tNav("goToHomepage")}
+          aria-label={t("goToHomepage")}
           onClick={() => onNavigate(homeHref)}
         >
           <Image
             src="/nzt_logo.png"
             className={STYLES["logo-image"]}
-            alt={tNav("logoAlt")}
+            alt={t("logoAlt")}
             width={30}
             height={30}
             priority

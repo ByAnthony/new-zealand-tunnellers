@@ -40,7 +40,10 @@ async function typeIntoSearch(
 test("can click on logo to go to home page", async ({ page }) => {
   await page.goto("/tunnellers/");
 
-  const logo = page.getByLabel("Go to the Homepage");
+  const logo = page.getByRole("link", {
+    name: "Go to the Homepage",
+    exact: true,
+  });
   await logo.click();
 
   await expect(page).toHaveURL("/");
