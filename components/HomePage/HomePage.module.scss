@@ -2,8 +2,4 @@
 
 .homepage-container {
   margin: 0 auto;
-
-  @include variables.desktop {
-    width: variables.$inner-width;
-  }
 }

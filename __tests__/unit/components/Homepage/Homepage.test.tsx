@@ -5,6 +5,9 @@ import { mockHistory } from "@/test-utils/mocks/mockHistory";
 import * as useWindowDimensionsHook from "@/utils/helpers/useWindowDimensions";
 
 jest.mock("@/utils/helpers/useWindowDimensions");
+jest.mock("next/navigation", () => ({
+  useRouter: () => ({ push: jest.fn() }),
+}));
 
 describe("Homepage", () => {
   const mockHomepage = {

@@ -88,6 +88,8 @@ describe("History", () => {
       fireEvent.click(rightButton);
       fireEvent.click(rightButton);
       fireEvent.click(rightButton);
+      fireEvent.click(rightButton);
+      fireEvent.click(rightButton);
 
       expect(rightButton).toBeDisabled();
     });

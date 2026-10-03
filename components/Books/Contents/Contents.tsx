@@ -63,22 +63,12 @@ const SommaireItem: React.FC<{
 };
 
 const MainTitle: React.FC<{
-  locale: string;
   children: ReactNode;
-}> = ({ locale, children }) => {
+}> = ({ children }) => {
   const t = useTranslations("books");
-  const localePrefix = locale === "en" ? "" : `/${locale}`;
 
   return (
     <div className={STYLES.header}>
-      <div className={STYLES.link}>
-        <Link
-          href={`${localePrefix}/#resources`}
-          aria-label={t("goToResources")}
-        >
-          {t("resources")}
-        </Link>
-      </div>
       <h1>{children}</h1>
       <div className={STYLES.author}>
         <div>
@@ -95,9 +85,7 @@ export const Contents: React.FC<Props> = ({ locale, content }) => {
       <ReactMarkdown
         remarkPlugins={[remarkGfm, remarkRemoveComments]}
         components={{
-          h1: ({ children }) => (
-            <MainTitle locale={locale}>{children}</MainTitle>
-          ),
+          h1: ({ children }) => <MainTitle>{children}</MainTitle>,
           a: ({ href, children }) => (
             <SommaireItem locale={locale} href={href ?? ""}>
               {children}

@@ -2,9 +2,9 @@
 
 import { useEffect } from "react";
 
+import { HeroSection } from "@/components/HomePage/HeroSection/HeroSection";
 import { History } from "@/components/HomePage/History/History";
-import { Resources } from "@/components/HomePage/Resources/Resources";
-import { Tunnellers } from "@/components/HomePage/Tunnellers/Tunnellers";
+import { KiwisDigTunnelsToo } from "@/components/HomePage/KiwisDigTunnelsToo/KiwisDigTunnelsToo";
 import { HistoryChapter } from "@/types/homepage";
 
 import STYLES from "./HomePage.module.scss";
@@ -24,9 +24,9 @@ export function HomePage({ homepage }: Props) {
 
   return (
     <div className={STYLES["homepage-container"]}>
-      <Tunnellers />
+      <HeroSection />
       <History articles={homepage.historyChapters} />
-      <Resources />
+      <KiwisDigTunnelsToo />
     </div>
   );
 }
