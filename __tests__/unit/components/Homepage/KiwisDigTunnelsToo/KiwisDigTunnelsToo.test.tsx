@@ -24,7 +24,7 @@ describe("KiwisDigTunnelsToo", () => {
   test("renders a link to the book", () => {
     render(<KiwisDigTunnelsToo />);
     const startReadingLink = screen.getByRole("link", {
-      name: /Read the Book/i,
+      name: /Read the book/i,
     });
 
     expect(startReadingLink).toHaveAttribute("href", "/kiwis-dig-tunnels-too/");

@@ -2,6 +2,13 @@
 
 .homepage-container {
   margin: 0 auto;
+}
+
+.homepage-content {
+  position: relative;
+  z-index: 1;
+  display: flow-root;
+  background-color: variables.$primary-dark-color;
 
   @include variables.desktop {
     > :not(:global(#history)) {

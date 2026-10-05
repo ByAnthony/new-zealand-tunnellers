@@ -2,9 +2,9 @@
 
 import { useEffect } from "react";
 
+import { HeroSection } from "@/components/HomePage/HeroSection/HeroSection";
 import { History } from "@/components/HomePage/History/History";
 import { KiwisDigTunnelsToo } from "@/components/HomePage/KiwisDigTunnelsToo/KiwisDigTunnelsToo";
-import { Tunnellers } from "@/components/HomePage/Tunnellers/Tunnellers";
 import { HistoryChapter } from "@/types/homepage";
 
 import STYLES from "./HomePage.module.scss";
@@ -24,9 +24,11 @@ export function HomePage({ homepage }: Props) {
 
   return (
     <div className={STYLES["homepage-container"]}>
-      <Tunnellers />
-      <History articles={homepage.historyChapters} />
-      <KiwisDigTunnelsToo />
+      <HeroSection />
+      <div className={STYLES["homepage-content"]}>
+        <History articles={homepage.historyChapters} />
+        <KiwisDigTunnelsToo />
+      </div>
     </div>
   );
 }

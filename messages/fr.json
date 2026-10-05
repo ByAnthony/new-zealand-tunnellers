@@ -49,12 +49,12 @@
     "openMenu": "Ouvrir le menu"
   },
   "homepage": {
+    "heroTitle": "Les Kiwis qui ont\n combattu sous terre",
+    "heroTunnellers": "Découvrir les tunneliers",
+    "heroHistory": "Explorer leur histoire",
     "historyOfTheCompany": "Histoire de la Compagnie",
     "seePreviousChapters": "Voir les chapitres précédents",
     "seeNextChapters": "Voir les chapitres suivants",
-    "svgLabel": "Les Kiwis qui ont lutté sous le no man\u2019s land",
-    "discover": "Découvrir",
-    "nzTunnellers": "Les Tunneliers néo-zélandais",
     "bookIntro": "La longue lecture",
     "bookTitle": "Les Kiwis aussi\n creusent des tunnels",
     "bookBadge": "Livre",

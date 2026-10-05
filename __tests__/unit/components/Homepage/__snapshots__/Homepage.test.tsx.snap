@@ -6,468 +6,423 @@ exports[`Homepage matches the snapshot for mobile viewport 1`] = `
     class="homepage-container"
   >
     <div
-      class="intro"
-      style="background-image: url("/images/homepage/ART_3670.jpg");"
-    >
-      <h1
-        aria-label="The Kiwis who fought beneath the no man’s land"
-        class="intro-text"
-      >
-        <svg
-          aria-hidden="true"
-          viewBox="0 0 100 125"
-        >
-          <defs>
-            <mask
-              height="125"
-              id="mask"
-              width="100"
-              x="0"
-              y="0"
-            >
-              <rect
-                fill="white"
-                height="125"
-                width="100"
-                x="0"
-                y="0"
-              />
-              <text
-                text-anchor="start"
-                x="0"
-                y="10"
-              >
-                <tspan
-                  dy="0.8em"
-                  x="0"
-                >
-                  The Kiwis
-                </tspan>
-                <tspan
-                  dy="0.8em"
-                  x="0"
-                >
-                  who
-                </tspan>
-                <tspan
-                  dy="0.8em"
-                  x="0"
-                >
-                  fought
-                </tspan>
-                <tspan
-                  dy="0.8em"
-                  x="0"
-                >
-                  beneath
-                </tspan>
-                <tspan
-                  dy="0.8em"
-                  x="0"
-                >
-                  the no
-                </tspan>
-                <tspan
-                  dy="0.8em"
-                  x="0"
-                >
-                  man’s
-                </tspan>
-                <tspan
-                  dy="0.8em"
-                  x="0"
-                >
-                  land
-                </tspan>
-              </text>
-            </mask>
-          </defs>
-          <rect
-            fill="rgb(24, 26, 27)"
-            height="125"
-            mask="url(#mask)"
-            width="100"
-            x="0"
-            y="0"
-          />
-        </svg>
-      </h1>
-    </div>
-    <div
-      class="roll-wrapper"
+      class="hero"
+      id="hero"
     >
       <div
-        class="roll-container"
-      >
-        <a
-          class="roll"
-          href="/tunnellers/"
-        >
-          <span
-            class="discover"
-          >
-            Discover
-          </span>
-          The New Zealand Tunnellers
-        </a>
-      </div>
-    </div>
-    <div
-      class="history-chapter"
-      id="history"
-    >
-      <div
-        class="chapter-cards-wrapper"
+        class="hero-wrapper"
       >
         <div
-          class="chapter-cards-menu"
+          class="hero-heading"
         >
-          <h2>
-            History of the Company
-          </h2>
-          <div
-            class="chapter-cards-nav"
+          <p>
+            1915-1919
+          </p>
+          <h1>
+            The Kiwis who
+ fought underground
+          </h1>
+        </div>
+        <div
+          class="hero-links"
+        >
+          <a
+            class="hero-main-link"
+            href="/tunnellers/"
           >
-            <button
-              aria-label="See previous chapters"
-              disabled=""
-              style="color: rgb(44, 46, 47); border-color: rgb(44, 46, 47); background-color: rgb(24, 26, 27); cursor: not-allowed;"
-              type="button"
+            <div
+              class="hero-link-content"
             >
-              ←
-            </button>
-            <button
-              aria-label="See next chapters"
-              type="button"
+              <div>
+                Discover the tunnellers
+              </div>
+            </div>
+            <div
+              class="arrow"
             >
               →
-            </button>
-          </div>
-        </div>
-        <div
-          class="chapter-cards"
-          data-testid="chapters-scroll"
-        >
-          <div
-            class="chapter-card"
-            style="background-image: url("/images/history/where-all-started.jpg"); background-size: cover; background-position: center center;"
+            </div>
+          </a>
+          <a
+            class="hero-link"
+            href="#history"
           >
-            <a
-              aria-label="Go to Chapter 1: Where All Started"
-              class="link-button"
-              href="/history/where-all-started/"
+            <div
+              class="hero-link-content"
             >
-              <div
-                class="chapter-card-dimmer"
-              >
-                <div
-                  class="chapter-card-content"
-                >
-                  <div>
-                    <span
-                      class="title-line-1"
-                    >
-                      Where All
-                    </span>
-                    <span
-                      class="title-line-2"
-                    >
-                      Started
-                    </span>
-                    <span
-                      class="title-line-3"
-                    >
-                      Chapter 1
-                    </span>
-                  </div>
-                </div>
+              <div>
+                Explore their history
               </div>
-            </a>
-          </div>
-          <div
-            class="chapter-card"
-            style="background-image: url("/images/history/the-journey-ahead.jpg"); background-size: cover; background-position: center center;"
-          >
-            <a
-              aria-label="Go to Chapter 2: The Journey Ahead"
-              class="link-button"
-              href="/history/the-journey-ahead/"
+            </div>
+            <div
+              class="arrow"
             >
-              <div
-                class="chapter-card-dimmer"
-              >
-                <div
-                  class="chapter-card-content"
-                >
-                  <div>
-                    <span
-                      class="title-line-1"
-                    >
-                      The Journey
-                    </span>
-                    <span
-                      class="title-line-2"
-                    >
-                      Ahead
-                    </span>
-                    <span
-                      class="title-line-3"
-                    >
-                      Chapter 2
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </a>
-          </div>
-          <div
-            class="chapter-card"
-            style="background-image: url("/images/history/discovering-the-war.jpg"); background-size: cover; background-position: center center;"
-          >
-            <a
-              aria-label="Go to Chapter 3: Discovering The War"
-              class="link-button"
-              href="/history/discovering-the-war/"
-            >
-              <div
-                class="chapter-card-dimmer"
-              >
-                <div
-                  class="chapter-card-content"
-                >
-                  <div>
-                    <span
-                      class="title-line-1"
-                    >
-                      Discovering
-                    </span>
-                    <span
-                      class="title-line-2"
-                    >
-                      The War
-                    </span>
-                    <span
-                      class="title-line-3"
-                    >
-                      Chapter 3
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </a>
-          </div>
-          <div
-            class="chapter-card"
-            style="background-image: url("/images/history/below-the-surface.jpg"); background-size: cover; background-position: center center;"
-          >
-            <a
-              aria-label="Go to Chapter 4: Below The Surface"
-              class="link-button"
-              href="/history/below-the-surface/"
-            >
-              <div
-                class="chapter-card-dimmer"
-              >
-                <div
-                  class="chapter-card-content"
-                >
-                  <div>
-                    <span
-                      class="title-line-1"
-                    >
-                      Below
-                    </span>
-                    <span
-                      class="title-line-2"
-                    >
-                      The Surface
-                    </span>
-                    <span
-                      class="title-line-3"
-                    >
-                      Chapter 4
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </a>
-          </div>
-          <div
-            class="chapter-card"
-            style="background-image: url("/images/history/back-to-the-surface.jpg"); background-size: cover; background-position: center center;"
-          >
-            <a
-              aria-label="Go to Chapter 5: Back To The Surface"
-              class="link-button"
-              href="/history/back-to-the-surface/"
-            >
-              <div
-                class="chapter-card-dimmer"
-              >
-                <div
-                  class="chapter-card-content"
-                >
-                  <div>
-                    <span
-                      class="title-line-1"
-                    >
-                      Back
-                    </span>
-                    <span
-                      class="title-line-2"
-                    >
-                      To The Surface
-                    </span>
-                    <span
-                      class="title-line-3"
-                    >
-                      Chapter 5
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </a>
-          </div>
-          <div
-            class="chapter-card"
-            style="background-image: url("/images/history/reconversion-of-activities.jpg"); background-size: cover; background-position: center center;"
-          >
-            <a
-              aria-label="Go to Chapter 6: Reconversion Of Activities"
-              class="link-button"
-              href="/history/reconversion-of-activities/"
-            >
-              <div
-                class="chapter-card-dimmer"
-              >
-                <div
-                  class="chapter-card-content"
-                >
-                  <div>
-                    <span
-                      class="title-line-1"
-                    >
-                      Reconversion
-                    </span>
-                    <span
-                      class="title-line-2"
-                    >
-                      Of Activities
-                    </span>
-                    <span
-                      class="title-line-3"
-                    >
-                      Chapter 6
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </a>
-          </div>
-          <div
-            class="chapter-card"
-            style="background-image: url("/images/history/returning-home.jpg"); background-size: cover; background-position: center center;"
-          >
-            <a
-              aria-label="Go to Chapter 7: Returning Home"
-              class="link-button"
-              href="/history/returnin-home/"
-            >
-              <div
-                class="chapter-card-dimmer"
-              >
-                <div
-                  class="chapter-card-content"
-                >
-                  <div>
-                    <span
-                      class="title-line-1"
-                    >
-                      Returning
-                    </span>
-                    <span
-                      class="title-line-2"
-                    >
-                      Home
-                    </span>
-                    <span
-                      class="title-line-3"
-                    >
-                      Chapter 7
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </a>
-          </div>
+              ↓
+            </div>
+          </a>
         </div>
       </div>
     </div>
-    <section
-      aria-labelledby="resources-title"
-      class="container"
+    <div
+      class="homepage-content"
     >
-      <h2>
-        The Long Read
-      </h2>
       <div
-        class="title"
+        class="history-chapter"
+        id="history"
       >
-        Kiwis Dig Tunnels Too
-      </div>
-      <div
-        class="book-meta"
-      >
-        <span
-          class="by"
-        >
-          By 
-        </span>
-        <span
-          class="author"
-        >
-          Anthony Byledbal
-        </span>
-      </div>
-      <div
-        class="image-container"
-      >
-        <img
-          alt="Kiwis Dig Tunnels Too"
-          class="image"
-          height="250"
-          placeholder="empty"
-          src="/images/books/artwork.jpg"
-          width="325"
-        />
-      </div>
-      <p
-        class="description"
-      >
-        Recruited for their digging skills, four New Zealand volunteers — James Williamson, Harold Howard, George Race, and Gerald Punch — are preparing to cross the oceans to fight in the underground warfare. But on the other side of the world, this deadly game is already tipping in favor of the German miners.
-      </p>
-      <div
-        class="button-wrapper"
-      >
-        <a
-          class="hero-link"
-          href="/kiwis-dig-tunnels-too/"
+        <div
+          class="chapter-cards-wrapper"
         >
           <div
-            class="hero-link-content"
+            class="chapter-cards-menu"
           >
-            <div>
-              Read the Book
+            <h2>
+              History of the Company
+            </h2>
+            <div
+              class="chapter-cards-nav"
+            >
+              <button
+                aria-label="See previous chapters"
+                disabled=""
+                style="color: rgb(44, 46, 47); border-color: rgb(44, 46, 47); background-color: rgb(24, 26, 27); cursor: not-allowed;"
+                type="button"
+              >
+                ←
+              </button>
+              <button
+                aria-label="See next chapters"
+                type="button"
+              >
+                →
+              </button>
             </div>
           </div>
           <div
-            class="arrow"
+            class="chapter-cards"
+            data-testid="chapters-scroll"
           >
-            →
+            <div
+              class="chapter-card"
+              style="background-image: url("/images/history/where-all-started.jpg"); background-size: cover; background-position: center center;"
+            >
+              <a
+                aria-label="Go to Chapter 1: Where All Started"
+                class="link-button"
+                href="/history/where-all-started/"
+              >
+                <div
+                  class="chapter-card-dimmer"
+                >
+                  <div
+                    class="chapter-card-content"
+                  >
+                    <div>
+                      <span
+                        class="title-line-1"
+                      >
+                        Where All
+                      </span>
+                      <span
+                        class="title-line-2"
+                      >
+                        Started
+                      </span>
+                      <span
+                        class="title-line-3"
+                      >
+                        Chapter 1
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
+            <div
+              class="chapter-card"
+              style="background-image: url("/images/history/the-journey-ahead.jpg"); background-size: cover; background-position: center center;"
+            >
+              <a
+                aria-label="Go to Chapter 2: The Journey Ahead"
+                class="link-button"
+                href="/history/the-journey-ahead/"
+              >
+                <div
+                  class="chapter-card-dimmer"
+                >
+                  <div
+                    class="chapter-card-content"
+                  >
+                    <div>
+                      <span
+                        class="title-line-1"
+                      >
+                        The Journey
+                      </span>
+                      <span
+                        class="title-line-2"
+                      >
+                        Ahead
+                      </span>
+                      <span
+                        class="title-line-3"
+                      >
+                        Chapter 2
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
+            <div
+              class="chapter-card"
+              style="background-image: url("/images/history/discovering-the-war.jpg"); background-size: cover; background-position: center center;"
+            >
+              <a
+                aria-label="Go to Chapter 3: Discovering The War"
+                class="link-button"
+                href="/history/discovering-the-war/"
+              >
+                <div
+                  class="chapter-card-dimmer"
+                >
+                  <div
+                    class="chapter-card-content"
+                  >
+                    <div>
+                      <span
+                        class="title-line-1"
+                      >
+                        Discovering
+                      </span>
+                      <span
+                        class="title-line-2"
+                      >
+                        The War
+                      </span>
+                      <span
+                        class="title-line-3"
+                      >
+                        Chapter 3
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
+            <div
+              class="chapter-card"
+              style="background-image: url("/images/history/below-the-surface.jpg"); background-size: cover; background-position: center center;"
+            >
+              <a
+                aria-label="Go to Chapter 4: Below The Surface"
+                class="link-button"
+                href="/history/below-the-surface/"
+              >
+                <div
+                  class="chapter-card-dimmer"
+                >
+                  <div
+                    class="chapter-card-content"
+                  >
+                    <div>
+                      <span
+                        class="title-line-1"
+                      >
+                        Below
+                      </span>
+                      <span
+                        class="title-line-2"
+                      >
+                        The Surface
+                      </span>
+                      <span
+                        class="title-line-3"
+                      >
+                        Chapter 4
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
+            <div
+              class="chapter-card"
+              style="background-image: url("/images/history/back-to-the-surface.jpg"); background-size: cover; background-position: center center;"
+            >
+              <a
+                aria-label="Go to Chapter 5: Back To The Surface"
+                class="link-button"
+                href="/history/back-to-the-surface/"
+              >
+                <div
+                  class="chapter-card-dimmer"
+                >
+                  <div
+                    class="chapter-card-content"
+                  >
+                    <div>
+                      <span
+                        class="title-line-1"
+                      >
+                        Back
+                      </span>
+                      <span
+                        class="title-line-2"
+                      >
+                        To The Surface
+                      </span>
+                      <span
+                        class="title-line-3"
+                      >
+                        Chapter 5
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
+            <div
+              class="chapter-card"
+              style="background-image: url("/images/history/reconversion-of-activities.jpg"); background-size: cover; background-position: center center;"
+            >
+              <a
+                aria-label="Go to Chapter 6: Reconversion Of Activities"
+                class="link-button"
+                href="/history/reconversion-of-activities/"
+              >
+                <div
+                  class="chapter-card-dimmer"
+                >
+                  <div
+                    class="chapter-card-content"
+                  >
+                    <div>
+                      <span
+                        class="title-line-1"
+                      >
+                        Reconversion
+                      </span>
+                      <span
+                        class="title-line-2"
+                      >
+                        Of Activities
+                      </span>
+                      <span
+                        class="title-line-3"
+                      >
+                        Chapter 6
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
+            <div
+              class="chapter-card"
+              style="background-image: url("/images/history/returning-home.jpg"); background-size: cover; background-position: center center;"
+            >
+              <a
+                aria-label="Go to Chapter 7: Returning Home"
+                class="link-button"
+                href="/history/returnin-home/"
+              >
+                <div
+                  class="chapter-card-dimmer"
+                >
+                  <div
+                    class="chapter-card-content"
+                  >
+                    <div>
+                      <span
+                        class="title-line-1"
+                      >
+                        Returning
+                      </span>
+                      <span
+                        class="title-line-2"
+                      >
+                        Home
+                      </span>
+                      <span
+                        class="title-line-3"
+                      >
+                        Chapter 7
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
           </div>
-        </a>
+        </div>
       </div>
-    </section>
+      <section
+        aria-labelledby="resources-title"
+        class="container"
+      >
+        <h2>
+          The Long Read
+        </h2>
+        <div
+          class="title"
+        >
+          Kiwis Dig Tunnels Too
+        </div>
+        <div
+          class="book-meta"
+        >
+          <span
+            class="by"
+          >
+            By 
+          </span>
+          <span
+            class="author"
+          >
+            Anthony Byledbal
+          </span>
+        </div>
+        <div
+          class="image-container"
+        >
+          <img
+            alt="Kiwis Dig Tunnels Too"
+            class="image"
+            height="250"
+            placeholder="empty"
+            src="/images/books/artwork.jpg"
+            width="325"
+          />
+        </div>
+        <p
+          class="description"
+        >
+          Recruited for their digging skills, four New Zealand volunteers — James Williamson, Harold Howard, George Race, and Gerald Punch — are preparing to cross the oceans to fight in the underground warfare. But on the other side of the world, this deadly game is already tipping in favor of the German miners.
+        </p>
+        <div
+          class="button-wrapper"
+        >
+          <a
+            class="hero-link"
+            href="/kiwis-dig-tunnels-too/"
+          >
+            <div
+              class="hero-link-content"
+            >
+              <div>
+                Read the book
+              </div>
+            </div>
+            <div
+              class="arrow"
+            >
+              →
+            </div>
+          </a>
+        </div>
+      </section>
+    </div>
   </div>
 </DocumentFragment>
 `;
@@ -478,450 +433,423 @@ exports[`Homepage matches the snapshot for tablet/desktop viewports 1`] = `
     class="homepage-container"
   >
     <div
-      class="intro"
-      style="background-image: url("/images/homepage/ART_3670.jpg");"
-    >
-      <h1
-        aria-label="The Kiwis who fought beneath the no man’s land"
-        class="intro-text"
-      >
-        <svg
-          aria-hidden="true"
-          viewBox="0 0 100 60"
-        >
-          <defs>
-            <mask
-              height="60"
-              id="mask"
-              width="100"
-              x="0"
-              y="0"
-            >
-              <rect
-                fill="white"
-                height="60"
-                width="100"
-                x="0"
-                y="0"
-              />
-              <text
-                text-anchor="start"
-                x="0"
-                y="10"
-              >
-                <tspan
-                  dy="0.8em"
-                  x="0"
-                >
-                  The Kiwis
-                </tspan>
-                <tspan
-                  dy="0.8em"
-                  x="0"
-                >
-                  who fought
-                </tspan>
-                <tspan
-                  dy="0.8em"
-                  x="0"
-                >
-                  beneath the
-                </tspan>
-                <tspan
-                  dy="0.8em"
-                  x="0"
-                >
-                  no man’s land
-                </tspan>
-              </text>
-            </mask>
-          </defs>
-          <rect
-            fill="rgb(24, 26, 27)"
-            height="60"
-            mask="url(#mask)"
-            width="100"
-            x="0"
-            y="0"
-          />
-        </svg>
-      </h1>
-    </div>
-    <div
-      class="roll-wrapper"
+      class="hero"
+      id="hero"
     >
       <div
-        class="roll-container"
-      >
-        <a
-          class="roll"
-          href="/tunnellers/"
-        >
-          <span
-            class="discover"
-          >
-            Discover
-          </span>
-          The New Zealand Tunnellers
-        </a>
-      </div>
-    </div>
-    <div
-      class="history-chapter"
-      id="history"
-    >
-      <div
-        class="chapter-cards-wrapper"
+        class="hero-wrapper"
       >
         <div
-          class="chapter-cards-menu"
+          class="hero-heading"
         >
-          <h2>
-            History of the Company
-          </h2>
-          <div
-            class="chapter-cards-nav"
+          <p>
+            1915-1919
+          </p>
+          <h1>
+            The Kiwis who
+ fought underground
+          </h1>
+        </div>
+        <div
+          class="hero-links"
+        >
+          <a
+            class="hero-main-link"
+            href="/tunnellers/"
           >
-            <button
-              aria-label="See previous chapters"
-              disabled=""
-              style="color: rgb(44, 46, 47); border-color: rgb(44, 46, 47); background-color: rgb(24, 26, 27); cursor: not-allowed;"
-              type="button"
+            <div
+              class="hero-link-content"
             >
-              ←
-            </button>
-            <button
-              aria-label="See next chapters"
-              type="button"
+              <div>
+                Discover the tunnellers
+              </div>
+            </div>
+            <div
+              class="arrow"
             >
               →
-            </button>
-          </div>
-        </div>
-        <div
-          class="chapter-cards"
-          data-testid="chapters-scroll"
-        >
-          <div
-            class="chapter-card"
-            style="background-image: url("/images/history/where-all-started.jpg"); background-size: cover; background-position: center center;"
+            </div>
+          </a>
+          <a
+            class="hero-link"
+            href="#history"
           >
-            <a
-              aria-label="Go to Chapter 1: Where All Started"
-              class="link-button"
-              href="/history/where-all-started/"
+            <div
+              class="hero-link-content"
             >
-              <div
-                class="chapter-card-dimmer"
-              >
-                <div
-                  class="chapter-card-content"
-                >
-                  <div>
-                    <span
-                      class="title-line-1"
-                    >
-                      Where All
-                    </span>
-                    <span
-                      class="title-line-2"
-                    >
-                      Started
-                    </span>
-                    <span
-                      class="title-line-3"
-                    >
-                      Chapter 1
-                    </span>
-                  </div>
-                </div>
+              <div>
+                Explore their history
               </div>
-            </a>
-          </div>
-          <div
-            class="chapter-card"
-            style="background-image: url("/images/history/the-journey-ahead.jpg"); background-size: cover; background-position: center center;"
-          >
-            <a
-              aria-label="Go to Chapter 2: The Journey Ahead"
-              class="link-button"
-              href="/history/the-journey-ahead/"
+            </div>
+            <div
+              class="arrow"
             >
-              <div
-                class="chapter-card-dimmer"
-              >
-                <div
-                  class="chapter-card-content"
-                >
-                  <div>
-                    <span
-                      class="title-line-1"
-                    >
-                      The Journey
-                    </span>
-                    <span
-                      class="title-line-2"
-                    >
-                      Ahead
-                    </span>
-                    <span
-                      class="title-line-3"
-                    >
-                      Chapter 2
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </a>
-          </div>
-          <div
-            class="chapter-card"
-            style="background-image: url("/images/history/discovering-the-war.jpg"); background-size: cover; background-position: center center;"
-          >
-            <a
-              aria-label="Go to Chapter 3: Discovering The War"
-              class="link-button"
-              href="/history/discovering-the-war/"
-            >
-              <div
-                class="chapter-card-dimmer"
-              >
-                <div
-                  class="chapter-card-content"
-                >
-                  <div>
-                    <span
-                      class="title-line-1"
-                    >
-                      Discovering
-                    </span>
-                    <span
-                      class="title-line-2"
-                    >
-                      The War
-                    </span>
-                    <span
-                      class="title-line-3"
-                    >
-                      Chapter 3
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </a>
-          </div>
-          <div
-            class="chapter-card"
-            style="background-image: url("/images/history/below-the-surface.jpg"); background-size: cover; background-position: center center;"
-          >
-            <a
-              aria-label="Go to Chapter 4: Below The Surface"
-              class="link-button"
-              href="/history/below-the-surface/"
-            >
-              <div
-                class="chapter-card-dimmer"
-              >
-                <div
-                  class="chapter-card-content"
-                >
-                  <div>
-                    <span
-                      class="title-line-1"
-                    >
-                      Below
-                    </span>
-                    <span
-                      class="title-line-2"
-                    >
-                      The Surface
-                    </span>
-                    <span
-                      class="title-line-3"
-                    >
-                      Chapter 4
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </a>
-          </div>
-          <div
-            class="chapter-card"
-            style="background-image: url("/images/history/back-to-the-surface.jpg"); background-size: cover; background-position: center center;"
-          >
-            <a
-              aria-label="Go to Chapter 5: Back To The Surface"
-              class="link-button"
-              href="/history/back-to-the-surface/"
-            >
-              <div
-                class="chapter-card-dimmer"
-              >
-                <div
-                  class="chapter-card-content"
-                >
-                  <div>
-                    <span
-                      class="title-line-1"
-                    >
-                      Back
-                    </span>
-                    <span
-                      class="title-line-2"
-                    >
-                      To The Surface
-                    </span>
-                    <span
-                      class="title-line-3"
-                    >
-                      Chapter 5
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </a>
-          </div>
-          <div
-            class="chapter-card"
-            style="background-image: url("/images/history/reconversion-of-activities.jpg"); background-size: cover; background-position: center center;"
-          >
-            <a
-              aria-label="Go to Chapter 6: Reconversion Of Activities"
-              class="link-button"
-              href="/history/reconversion-of-activities/"
-            >
-              <div
-                class="chapter-card-dimmer"
-              >
-                <div
-                  class="chapter-card-content"
-                >
-                  <div>
-                    <span
-                      class="title-line-1"
-                    >
-                      Reconversion
-                    </span>
-                    <span
-                      class="title-line-2"
-                    >
-                      Of Activities
-                    </span>
-                    <span
-                      class="title-line-3"
-                    >
-                      Chapter 6
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </a>
-          </div>
-          <div
-            class="chapter-card"
-            style="background-image: url("/images/history/returning-home.jpg"); background-size: cover; background-position: center center;"
-          >
-            <a
-              aria-label="Go to Chapter 7: Returning Home"
-              class="link-button"
-              href="/history/returnin-home/"
-            >
-              <div
-                class="chapter-card-dimmer"
-              >
-                <div
-                  class="chapter-card-content"
-                >
-                  <div>
-                    <span
-                      class="title-line-1"
-                    >
-                      Returning
-                    </span>
-                    <span
-                      class="title-line-2"
-                    >
-                      Home
-                    </span>
-                    <span
-                      class="title-line-3"
-                    >
-                      Chapter 7
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </a>
-          </div>
+              ↓
+            </div>
+          </a>
         </div>
       </div>
     </div>
-    <section
-      aria-labelledby="resources-title"
-      class="container"
+    <div
+      class="homepage-content"
     >
-      <h2>
-        The Long Read
-      </h2>
       <div
-        class="title"
+        class="history-chapter"
+        id="history"
       >
-        Kiwis Dig Tunnels Too
-      </div>
-      <div
-        class="book-meta"
-      >
-        <span
-          class="by"
-        >
-          By 
-        </span>
-        <span
-          class="author"
-        >
-          Anthony Byledbal
-        </span>
-      </div>
-      <div
-        class="image-container"
-      >
-        <img
-          alt="Kiwis Dig Tunnels Too"
-          class="image"
-          height="250"
-          placeholder="empty"
-          src="/images/books/artwork.jpg"
-          width="325"
-        />
-      </div>
-      <p
-        class="description"
-      >
-        Recruited for their digging skills, four New Zealand volunteers — James Williamson, Harold Howard, George Race, and Gerald Punch — are preparing to cross the oceans to fight in the underground warfare. But on the other side of the world, this deadly game is already tipping in favor of the German miners.
-      </p>
-      <div
-        class="button-wrapper"
-      >
-        <a
-          class="hero-link"
-          href="/kiwis-dig-tunnels-too/"
+        <div
+          class="chapter-cards-wrapper"
         >
           <div
-            class="hero-link-content"
+            class="chapter-cards-menu"
           >
-            <div>
-              Read the Book
+            <h2>
+              History of the Company
+            </h2>
+            <div
+              class="chapter-cards-nav"
+            >
+              <button
+                aria-label="See previous chapters"
+                disabled=""
+                style="color: rgb(44, 46, 47); border-color: rgb(44, 46, 47); background-color: rgb(24, 26, 27); cursor: not-allowed;"
+                type="button"
+              >
+                ←
+              </button>
+              <button
+                aria-label="See next chapters"
+                type="button"
+              >
+                →
+              </button>
             </div>
           </div>
           <div
-            class="arrow"
+            class="chapter-cards"
+            data-testid="chapters-scroll"
           >
-            →
+            <div
+              class="chapter-card"
+              style="background-image: url("/images/history/where-all-started.jpg"); background-size: cover; background-position: center center;"
+            >
+              <a
+                aria-label="Go to Chapter 1: Where All Started"
+                class="link-button"
+                href="/history/where-all-started/"
+              >
+                <div
+                  class="chapter-card-dimmer"
+                >
+                  <div
+                    class="chapter-card-content"
+                  >
+                    <div>
+                      <span
+                        class="title-line-1"
+                      >
+                        Where All
+                      </span>
+                      <span
+                        class="title-line-2"
+                      >
+                        Started
+                      </span>
+                      <span
+                        class="title-line-3"
+                      >
+                        Chapter 1
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
+            <div
+              class="chapter-card"
+              style="background-image: url("/images/history/the-journey-ahead.jpg"); background-size: cover; background-position: center center;"
+            >
+              <a
+                aria-label="Go to Chapter 2: The Journey Ahead"
+                class="link-button"
+                href="/history/the-journey-ahead/"
+              >
+                <div
+                  class="chapter-card-dimmer"
+                >
+                  <div
+                    class="chapter-card-content"
+                  >
+                    <div>
+                      <span
+                        class="title-line-1"
+                      >
+                        The Journey
+                      </span>
+                      <span
+                        class="title-line-2"
+                      >
+                        Ahead
+                      </span>
+                      <span
+                        class="title-line-3"
+                      >
+                        Chapter 2
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
+            <div
+              class="chapter-card"
+              style="background-image: url("/images/history/discovering-the-war.jpg"); background-size: cover; background-position: center center;"
+            >
+              <a
+                aria-label="Go to Chapter 3: Discovering The War"
+                class="link-button"
+                href="/history/discovering-the-war/"
+              >
+                <div
+                  class="chapter-card-dimmer"
+                >
+                  <div
+                    class="chapter-card-content"
+                  >
+                    <div>
+                      <span
+                        class="title-line-1"
+                      >
+                        Discovering
+                      </span>
+                      <span
+                        class="title-line-2"
+                      >
+                        The War
+                      </span>
+                      <span
+                        class="title-line-3"
+                      >
+                        Chapter 3
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
+            <div
+              class="chapter-card"
+              style="background-image: url("/images/history/below-the-surface.jpg"); background-size: cover; background-position: center center;"
+            >
+              <a
+                aria-label="Go to Chapter 4: Below The Surface"
+                class="link-button"
+                href="/history/below-the-surface/"
+              >
+                <div
+                  class="chapter-card-dimmer"
+                >
+                  <div
+                    class="chapter-card-content"
+                  >
+                    <div>
+                      <span
+                        class="title-line-1"
+                      >
+                        Below
+                      </span>
+                      <span
+                        class="title-line-2"
+                      >
+                        The Surface
+                      </span>
+                      <span
+                        class="title-line-3"
+                      >
+                        Chapter 4
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
+            <div
+              class="chapter-card"
+              style="background-image: url("/images/history/back-to-the-surface.jpg"); background-size: cover; background-position: center center;"
+            >
+              <a
+                aria-label="Go to Chapter 5: Back To The Surface"
+                class="link-button"
+                href="/history/back-to-the-surface/"
+              >
+                <div
+                  class="chapter-card-dimmer"
+                >
+                  <div
+                    class="chapter-card-content"
+                  >
+                    <div>
+                      <span
+                        class="title-line-1"
+                      >
+                        Back
+                      </span>
+                      <span
+                        class="title-line-2"
+                      >
+                        To The Surface
+                      </span>
+                      <span
+                        class="title-line-3"
+                      >
+                        Chapter 5
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
+            <div
+              class="chapter-card"
+              style="background-image: url("/images/history/reconversion-of-activities.jpg"); background-size: cover; background-position: center center;"
+            >
+              <a
+                aria-label="Go to Chapter 6: Reconversion Of Activities"
+                class="link-button"
+                href="/history/reconversion-of-activities/"
+              >
+                <div
+                  class="chapter-card-dimmer"
+                >
+                  <div
+                    class="chapter-card-content"
+                  >
+                    <div>
+                      <span
+                        class="title-line-1"
+                      >
+                        Reconversion
+                      </span>
+                      <span
+                        class="title-line-2"
+                      >
+                        Of Activities
+                      </span>
+                      <span
+                        class="title-line-3"
+                      >
+                        Chapter 6
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
+            <div
+              class="chapter-card"
+              style="background-image: url("/images/history/returning-home.jpg"); background-size: cover; background-position: center center;"
+            >
+              <a
+                aria-label="Go to Chapter 7: Returning Home"
+                class="link-button"
+                href="/history/returnin-home/"
+              >
+                <div
+                  class="chapter-card-dimmer"
+                >
+                  <div
+                    class="chapter-card-content"
+                  >
+                    <div>
+                      <span
+                        class="title-line-1"
+                      >
+                        Returning
+                      </span>
+                      <span
+                        class="title-line-2"
+                      >
+                        Home
+                      </span>
+                      <span
+                        class="title-line-3"
+                      >
+                        Chapter 7
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
           </div>
-        </a>
+        </div>
       </div>
-    </section>
+      <section
+        aria-labelledby="resources-title"
+        class="container"
+      >
+        <h2>
+          The Long Read
+        </h2>
+        <div
+          class="title"
+        >
+          Kiwis Dig Tunnels Too
+        </div>
+        <div
+          class="book-meta"
+        >
+          <span
+            class="by"
+          >
+            By 
+          </span>
+          <span
+            class="author"
+          >
+            Anthony Byledbal
+          </span>
+        </div>
+        <div
+          class="image-container"
+        >
+          <img
+            alt="Kiwis Dig Tunnels Too"
+            class="image"
+            height="250"
+            placeholder="empty"
+            src="/images/books/artwork.jpg"
+            width="325"
+          />
+        </div>
+        <p
+          class="description"
+        >
+          Recruited for their digging skills, four New Zealand volunteers — James Williamson, Harold Howard, George Race, and Gerald Punch — are preparing to cross the oceans to fight in the underground warfare. But on the other side of the world, this deadly game is already tipping in favor of the German miners.
+        </p>
+        <div
+          class="button-wrapper"
+        >
+          <a
+            class="hero-link"
+            href="/kiwis-dig-tunnels-too/"
+          >
+            <div
+              class="hero-link-content"
+            >
+              <div>
+                Read the book
+              </div>
+            </div>
+            <div
+              class="arrow"
+            >
+              →
+            </div>
+          </a>
+        </div>
+      </section>
+    </div>
   </div>
 </DocumentFragment>
 `;

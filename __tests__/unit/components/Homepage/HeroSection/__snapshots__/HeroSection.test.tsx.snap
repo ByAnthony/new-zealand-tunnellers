@@ -1,0 +1,64 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`HeroSection Component matches snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="hero"
+    id="hero"
+  >
+    <div
+      class="hero-wrapper"
+    >
+      <div
+        class="hero-heading"
+      >
+        <p>
+          1915-1919
+        </p>
+        <h1>
+          The Kiwis who
+ fought underground
+        </h1>
+      </div>
+      <div
+        class="hero-links"
+      >
+        <a
+          class="hero-main-link"
+          href="/tunnellers/"
+        >
+          <div
+            class="hero-link-content"
+          >
+            <div>
+              Discover the tunnellers
+            </div>
+          </div>
+          <div
+            class="arrow"
+          >
+            →
+          </div>
+        </a>
+        <a
+          class="hero-link"
+          href="#history"
+        >
+          <div
+            class="hero-link-content"
+          >
+            <div>
+              Explore their history
+            </div>
+          </div>
+          <div
+            class="arrow"
+          >
+            ↓
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
