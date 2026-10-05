@@ -2,4 +2,12 @@
 
 .homepage-container {
   margin: 0 auto;
+
+  @include variables.desktop {
+    > :not(:global(#history)) {
+      margin-left: auto;
+      margin-right: auto;
+      width: variables.$inner-width;
+    }
+  }
 }

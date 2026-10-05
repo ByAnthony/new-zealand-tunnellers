@@ -106,6 +106,7 @@
 }
 
 .chapter-card {
+  flex-shrink: 0;
   height: 400px;
   width: 275px;
   border: 1px solid variables.$primary-light-color;
