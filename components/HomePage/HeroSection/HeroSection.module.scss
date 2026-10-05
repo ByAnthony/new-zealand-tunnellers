@@ -9,7 +9,7 @@
   min-height: 100vh;
   min-height: 100svh;
   background-image: url("/images/homepage/ART_3670.jpg");
-  background-position: 25%;
+  background-position: 20% 0%;
   background-repeat: no-repeat;
   background-size: cover;
 
@@ -35,10 +35,6 @@
       variables.$primary-dark-color 100%
     );
     pointer-events: none;
-  }
-
-  @include variables.tablet {
-    background-position: 25% 50%;
   }
 
   @include variables.desktop {
