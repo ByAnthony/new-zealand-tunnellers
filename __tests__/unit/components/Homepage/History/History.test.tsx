@@ -78,19 +78,47 @@ describe("History", () => {
       expect(leftButton).toBeEnabled();
     });
 
-    test("right button is disabled when isLastCard is true", () => {
-      render(<History articles={mockHistory} />);
+    test.each([1, 2, 3, mockHistory.length])(
+      "right button is disabled when isLastCard is true (%i visible cards)",
+      (visibleCards) => {
+        render(<History articles={mockHistory} />);
 
-      const rightButton = screen.getByRole("button", {
-        name: /See next chapters/i,
-      });
-      fireEvent.click(rightButton);
-      fireEvent.click(rightButton);
-      fireEvent.click(rightButton);
-      fireEvent.click(rightButton);
+        const container = screen.getByTestId("chapters-scroll");
+        const cardWidth = 300;
+        const gap = 25;
+        const padding = 100;
+        const cardStep = cardWidth + gap;
+        const scrollTo = jest.fn();
+        container.scrollTo = scrollTo;
+        container.style.gap = `${gap}px`;
+        container.style.paddingLeft = `${padding}px`;
+        container.style.paddingRight = `${padding}px`;
+        Object.defineProperty(container.firstElementChild, "offsetWidth", {
+          value: cardWidth,
+        });
+        Object.defineProperty(container, "clientWidth", {
+          value: visibleCards * cardStep + padding * 2,
+        });
+        fireEvent(window, new Event("resize"));
 
-      expect(rightButton).toBeDisabled();
-    });
+        const rightButton = screen.getByRole("button", {
+          name: /See next chapters/i,
+        });
+        const lastCardIndex = mockHistory.length - visibleCards;
+
+        for (let nextIndex = 1; nextIndex <= lastCardIndex; nextIndex++) {
+          expect(rightButton).toBeEnabled();
+          fireEvent.click(rightButton);
+          expect(scrollTo).toHaveBeenNthCalledWith(nextIndex, {
+            left: nextIndex * cardStep,
+          });
+        }
+
+        expect(rightButton).toBeDisabled();
+        fireEvent.click(rightButton);
+        expect(scrollTo).toHaveBeenCalledTimes(lastCardIndex);
+      },
+    );
 
     test("can click on navigation buttons to show next/previous chapters", () => {
       render(<History articles={mockHistory} />);
