@@ -20,10 +20,10 @@ export function KiwisDigTunnelsToo() {
       <div className={STYLES["image-container"]}>
         <Image
           src={`/images/books/artwork.jpg`}
+          className={STYLES.image}
           alt={t("bookTitle")}
           width={325}
           height={250}
-          className={STYLES.image}
           priority={true}
           placeholder="empty"
         />

@@ -109,18 +109,18 @@
 
 .description {
   font-size: 1.25rem;
-  line-height: 1.75rem;
+  line-height: 1.8rem;
   text-align: center;
   color: variables.$text-color;
 
   @include variables.tablet {
     font-size: 1.3rem;
-    line-height: 1.8rem;
+    line-height: 1.9rem;
   }
 
   @include variables.desktop {
     font-size: 1.4rem;
-    line-height: 2rem;
+    line-height: 2.2rem;
   }
 }
 
@@ -138,12 +138,13 @@
 }
 
 .hero-link {
+  width: 200px;
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   gap: variables.$s-margin;
-  padding: variables.$xxs-margin variables.$s-margin;
+  padding: variables.$xs-margin variables.$m-margin;
   font-family: variables.$main-font;
   font-size: 1.1rem;
   font-weight: 400;
@@ -156,12 +157,13 @@
   cursor: pointer;
 
   @include variables.tablet {
-    padding: variables.$xs-margin variables.$m-margin;
+    width: 225px;
     font-size: 1.2rem;
   }
 
   @include variables.desktop {
-    padding: variables.$xs-margin variables.$m-margin;
+    width: 250px;
+    padding: variables.$s-margin variables.$m-margin;
     font-size: 1.3rem;
   }
 
