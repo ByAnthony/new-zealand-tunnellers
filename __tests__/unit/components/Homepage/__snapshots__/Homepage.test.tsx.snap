@@ -457,7 +457,7 @@ exports[`Homepage matches the snapshot for mobile viewport 1`] = `
             class="hero-link-content"
           >
             <div>
-              Start reading
+              Read the Book
             </div>
           </div>
           <div
@@ -911,7 +911,7 @@ exports[`Homepage matches the snapshot for tablet/desktop viewports 1`] = `
             class="hero-link-content"
           >
             <div>
-              Start reading
+              Read the Book
             </div>
           </div>
           <div
