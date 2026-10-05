@@ -180,25 +180,3 @@
     }
   }
 }
-
-.map-button-icon {
-  position: relative;
-  width: 0.7rem;
-  height: 0.7rem;
-  border: 2px solid currentColor;
-  border-radius: 50% 50% 50% 0;
-  rotate: -45deg;
-  translate: 0 -1px;
-
-  &::after {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0.2rem;
-    height: 0.2rem;
-    border-radius: 50%;
-    background-color: currentColor;
-    translate: -50% -50%;
-  }
-}

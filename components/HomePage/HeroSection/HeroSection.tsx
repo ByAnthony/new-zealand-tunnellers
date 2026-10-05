@@ -26,7 +26,6 @@ export function HeroSection() {
               className={STYLES["hero-link"]}
             >
               <div className={STYLES["hero-link-content"]}>
-                <span className={STYLES["map-button-icon"]} aria-hidden />
                 <div>{t("worksMap")}</div>
               </div>
               <div className={STYLES.arrow}>&rarr;</div>
