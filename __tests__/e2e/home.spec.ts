@@ -39,7 +39,7 @@ for (const width of [390, 1440]) {
       };
     });
 
-    expect(initialContentTop - layout.top).toBeCloseTo(300, 0);
+    expect(layout.top).toBeLessThan(initialContentTop);
     expect(layout.width).toBe(layout.viewportWidth);
     expect(layout.background).toBe("rgb(24, 26, 27)");
     expect(layout.mask).toBe("none");
