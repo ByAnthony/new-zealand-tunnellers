@@ -32,6 +32,7 @@
 .reading-time {
   margin: 0 auto;
   margin-top: variables.$xs-margin;
+  margin-bottom: variables.$base-margin;
   padding: variables.$xxxs-margin variables.$xs-margin;
   font-size: 0.9rem;
   font-weight: 300;
@@ -41,7 +42,12 @@
   border-radius: variables.$border-radius;
   width: fit-content;
 
+  @include variables.tablet {
+    margin-bottom: variables.$l-margin;
+  }
+
   @include variables.desktop {
+    margin-bottom: variables.$l-margin;
     font-size: 1rem;
   }
 }

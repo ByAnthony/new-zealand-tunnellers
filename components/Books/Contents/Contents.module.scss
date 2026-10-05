@@ -3,9 +3,7 @@
 .container {
   @include variables.component-margin;
 
-  & {
-    margin-top: variables.$l-margin;
-  }
+  margin-top: variables.$xxl-margin;
 
   h1 {
     margin: variables.$base-margin 0;
@@ -37,13 +35,9 @@
     }
   }
 
-  @include variables.tablet {
-    margin-top: variables.$xl-margin;
-  }
-
   @include variables.desktop {
-    padding-top: variables.$l-margin;
     margin: 0 auto;
+    margin-top: variables.$xxxl-margin;
     width: variables.$content-width;
     max-width: variables.$content-width;
   }

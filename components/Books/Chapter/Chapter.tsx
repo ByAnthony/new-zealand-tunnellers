@@ -37,19 +37,11 @@ const MainTitle: React.FC<{
   const t = useTranslations("books");
   const title = extractText(children).trim();
   const chapter = parseChapterHeading(title, locale);
-  const localePrefix = locale === "en" ? "" : `/${locale}`;
 
   return (
     <>
       <div className={STYLES.header}>
         <div className={STYLES.link}>
-          <Link
-            href={`${localePrefix}/#resources`}
-            aria-label={t("goToResources")}
-          >
-            {t("resources")}
-          </Link>{" "}
-          /{" "}
           <Link href={basePath(locale)} aria-label={t("goToTableOfContents")}>
             {t("title")}
           </Link>
