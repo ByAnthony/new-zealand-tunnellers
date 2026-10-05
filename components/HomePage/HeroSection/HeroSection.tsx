@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useTranslations } from "next-intl";
 
 import STYLES from "./HeroSection.module.scss";
-import { BookOpenBadge } from "../../WorksMap/MapControls/RelatedChapterCard/RelatedChapterCard";
 
 export function HeroSection() {
   const t = useTranslations("homepage");
@@ -18,7 +17,6 @@ export function HeroSection() {
           <div className={STYLES["hero-links"]}>
             <Link href="/#history" className={STYLES["hero-link"]}>
               <div className={STYLES["hero-link-content"]}>
-                <BookOpenBadge />
                 <div>{t("history")}</div>
               </div>
               <div className={STYLES.arrow}>&darr;</div>
