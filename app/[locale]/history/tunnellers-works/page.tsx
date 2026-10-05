@@ -71,7 +71,7 @@ export async function generateMetadata({ params }: Props) {
     locale,
     title: `${t("map")} - New Zealand Tunnellers`,
     description: tMaps("mapDescription"),
-    path: "/tunnellers-works/",
+    path: "/history/tunnellers-works/",
   });
 }
 
