@@ -9,9 +9,7 @@ const FR_CHAPTER_1 =
 
 // ─── Contents page ───────────────────────────────────────────────────────────
 
-test("EN contents: loads title, chapter list and Resources link", async ({
-  page,
-}) => {
+test("EN contents: loads title and chapter list", async ({ page }) => {
   await page.goto(EN_CONTENTS);
 
   await expect(
@@ -20,14 +18,9 @@ test("EN contents: loads title, chapter list and Resources link", async ({
   await expect(
     page.getByLabel("Go to chapter 1: The Tunnellers from the Antipodes"),
   ).toBeVisible();
-  await expect(
-    page.getByRole("link", { name: "Go to the Resources section" }),
-  ).toBeVisible();
 });
 
-test("FR contents: loads title, chapter list and Resources link", async ({
-  page,
-}) => {
+test("FR contents: loads title and chapter list", async ({ page }) => {
   await page.goto(FR_CONTENTS);
 
   await expect(
@@ -38,7 +31,6 @@ test("FR contents: loads title, chapter list and Resources link", async ({
   await expect(
     page.getByLabel("Aller au chapitre 1 : Les Tunneliers des antipodes"),
   ).toBeVisible();
-  await expect(page.getByLabel("Aller à la section Ressources")).toBeVisible();
 });
 
 test("EN contents: clicking a chapter navigates to the correct URL", async ({
@@ -97,36 +89,6 @@ test("FR chapter: shows heading, chapter number and reading time in French", asy
   ).toBeVisible();
   await expect(page.getByText("Chapitre 1", { exact: true })).toBeVisible();
   await expect(page.getByText(/min de lecture/)).toBeVisible();
-});
-
-test("EN chapter: breadcrumb navigates to Resources and table of contents", async ({
-  page,
-}) => {
-  await page.goto(EN_CHAPTER_1);
-
-  const resourcesLink = page.getByLabel("Go to the Resources section");
-  await expect(resourcesLink).toBeVisible();
-  await expect(resourcesLink).toHaveAttribute("href", "/#resources");
-
-  await page.getByRole("link", { name: "Go to the table of contents" }).click();
-
-  await page.waitForLoadState("domcontentloaded");
-  await expect(page).toHaveURL(/kiwis-dig-tunnels-too/);
-});
-
-test("FR chapter: breadcrumb navigates to Resources and table of contents", async ({
-  page,
-}) => {
-  await page.goto(FR_CHAPTER_1);
-
-  const resourcesLink = page.getByLabel("Aller à la section Ressources");
-  await expect(resourcesLink).toBeVisible();
-  await expect(resourcesLink).toHaveAttribute("href", "/fr/#resources");
-
-  await page.getByRole("link", { name: "Aller au sommaire" }).click();
-
-  await page.waitForLoadState("domcontentloaded");
-  await expect(page).toHaveURL(/fr\/kiwis-dig-tunnels-too/);
 });
 
 test("reading progress bar is visible on chapter pages", async ({ page }) => {

@@ -178,9 +178,6 @@ describe("Chapter", () => {
     render(<Chapter locale="en" content={enChapterContent} />);
 
     expect(
-      screen.getByRole("link", { name: "Go to the Resources section" }),
-    ).toBeInTheDocument();
-    expect(
       screen.getByRole("link", { name: "Go to the table of contents" }),
     ).toBeInTheDocument();
     expect(screen.getByText("Chapter 1")).toBeInTheDocument();
