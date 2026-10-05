@@ -55,11 +55,11 @@
     "heroTitle": "The Kiwis who\nfought underground",
     "history": "Discover their history",
     "worksMap": "Explore their works",
-    "read": "The Long Story",
     "bookTitle": "Kiwis Dig Tunnels Too",
-    "bookDescription": "Recruited for their digging skills, James Williamson, Harold Howard, George Race, and Gerald Punch, four New Zealand volunteers, are preparing to cross the oceans with their special unit to take part in the secret underground warfare. But on the other side of the world, this deadly game is already tipping in favor of the German miners.",
+    "bookIntro": "The Long Read",
+    "bookDescription": "Recruited for their digging skills, four New Zealand volunteers — James Williamson, Harold Howard, George Race, and Gerald Punch — are preparing to cross the oceans to fight in the underground warfare. But on the other side of the world, this deadly game is already tipping in favor of the German miners.",
     "bookBy": "By ",
-    "bookButton": "Start reading"
+    "bookLink": "Read the Book"
   },
   "aboutUs": {
     "contactByEmail": "Open your email app to contact New Zealand Tunnellers",

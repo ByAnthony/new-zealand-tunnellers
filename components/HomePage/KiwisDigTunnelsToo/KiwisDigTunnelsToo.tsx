@@ -3,7 +3,6 @@ import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
 
 import STYLES from "./KiwisDigTunnelsToo.module.scss";
-import { BookOpenBadge } from "../../WorksMap/MapControls/RelatedChapterCard/RelatedChapterCard";
 
 export function KiwisDigTunnelsToo() {
   const t = useTranslations("homepage");
@@ -12,7 +11,7 @@ export function KiwisDigTunnelsToo() {
 
   return (
     <section className={STYLES.container} aria-labelledby="resources-title">
-      <h2>{t("read")}</h2>
+      <h2>{t("bookIntro")}</h2>
       <div className={STYLES.title}>{t("bookTitle")}</div>
       <div className={STYLES["book-meta"]}>
         <span className={STYLES.by}>{t("bookBy")}</span>
@@ -20,11 +19,11 @@ export function KiwisDigTunnelsToo() {
       </div>
       <div className={STYLES["image-container"]}>
         <Image
-          src={`/images/books/kiwis-dig-tunnels-too${locale === "en" ? "_en" : ""}.jpg`}
-          alt={t("bookTitle")}
-          width={375}
-          height={500}
+          src={`/images/books/artwork.jpg`}
           className={STYLES.image}
+          alt={t("bookTitle")}
+          width={325}
+          height={250}
           priority={true}
           placeholder="empty"
         />
@@ -36,8 +35,7 @@ export function KiwisDigTunnelsToo() {
           className={STYLES["hero-link"]}
         >
           <div className={STYLES["hero-link-content"]}>
-            <BookOpenBadge />
-            <div>{t("bookButton")}</div>
+            <div>{t("bookLink")}</div>
           </div>
           <div className={STYLES.arrow}>&rarr;</div>
         </Link>

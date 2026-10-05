@@ -11,7 +11,7 @@ describe("KiwisDigTunnelsToo", () => {
   test("renders the section heading", () => {
     render(<KiwisDigTunnelsToo />);
     expect(
-      screen.getByRole("heading", { name: "The Long Story", level: 2 }),
+      screen.getByRole("heading", { name: "The Long Read", level: 2 }),
     ).toBeInTheDocument();
   });
 
@@ -24,7 +24,7 @@ describe("KiwisDigTunnelsToo", () => {
   test("renders a link to the book", () => {
     render(<KiwisDigTunnelsToo />);
     const startReadingLink = screen.getByRole("link", {
-      name: /Start reading/i,
+      name: /Read the Book/i,
     });
 
     expect(startReadingLink).toHaveAttribute("href", "/kiwis-dig-tunnels-too/");
