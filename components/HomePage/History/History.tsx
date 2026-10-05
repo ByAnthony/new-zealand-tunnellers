@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { HistoryChapter } from "@/types/homepage";
 
@@ -12,25 +12,79 @@ type Props = {
   articles: HistoryChapter[];
 };
 
+function getChapterCardStep(container: HTMLDivElement): number {
+  const firstCard = container.firstElementChild;
+  if (!(firstCard instanceof HTMLElement)) return 0;
+
+  const gap = Number.parseFloat(window.getComputedStyle(container).gap) || 0;
+  return firstCard.offsetWidth + gap;
+}
+
+function getLastChapterCardIndex(
+  container: HTMLDivElement,
+  totalCards: number,
+): number {
+  const cardStep = getChapterCardStep(container);
+  if (cardStep === 0) return Math.max(0, totalCards - 3);
+
+  const computedStyle = window.getComputedStyle(container);
+  const horizontalPadding =
+    (Number.parseFloat(computedStyle.paddingLeft) || 0) +
+    (Number.parseFloat(computedStyle.paddingRight) || 0);
+  const visibleWidth = container.clientWidth - horizontalPadding;
+  if (visibleWidth <= 0) return Math.max(0, totalCards - 3);
+
+  const visibleCards = Math.max(1, Math.floor(visibleWidth / cardStep));
+  return Math.max(0, totalCards - visibleCards);
+}
+
+function getCurrentChapterCardIndex(
+  scrollLeft: number,
+  cardStep: number,
+  lastCardIndex: number,
+): number {
+  const nextIndex = Math.round(scrollLeft / cardStep);
+  return Math.max(0, Math.min(nextIndex, lastCardIndex));
+}
+
 export function History({ articles }: Props) {
   const t = useTranslations("homepage");
   const tArticle = useTranslations("article");
   const locale = useLocale();
   const localePrefix = locale === "en" ? "" : `/${locale}`;
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [lastCardIndex, setLastCardIndex] = useState(() =>
+    Math.max(0, articles.length - 3),
+  );
   const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const updateLastCardIndex = () => {
+      if (!containerRef.current) return;
+      setLastCardIndex(
+        getLastChapterCardIndex(containerRef.current, articles.length),
+      );
+    };
+
+    updateLastCardIndex();
+    window.addEventListener("resize", updateLastCardIndex);
+    return () => window.removeEventListener("resize", updateLastCardIndex);
+  }, [articles.length]);
 
   const scrollClick = (index: number) => {
     if (containerRef.current) {
+      const cardStep = getChapterCardStep(containerRef.current);
+      const nextIndex = Math.max(0, Math.min(index, lastCardIndex));
+
       containerRef.current.scrollTo({
-        left: index * (containerRef.current.clientWidth / 3),
+        left: nextIndex * cardStep,
       });
     }
   };
 
   const handleScrollLeft = () => {
     if (containerRef.current) {
-      const previousIndex = currentIndex - 1;
+      const previousIndex = Math.max(0, currentIndex - 1);
       scrollClick(previousIndex);
       setCurrentIndex(previousIndex);
     }
@@ -38,7 +92,7 @@ export function History({ articles }: Props) {
 
   const handleScrollRight = () => {
     if (containerRef.current) {
-      const nextIndex = currentIndex + 1;
+      const nextIndex = Math.min(lastCardIndex, currentIndex + 1);
       scrollClick(nextIndex);
       setCurrentIndex(nextIndex);
     }
@@ -46,16 +100,22 @@ export function History({ articles }: Props) {
 
   const handleScroll = () => {
     if (containerRef.current) {
-      const { scrollLeft, clientWidth } = containerRef.current;
-      const cardWidth = clientWidth / 3;
-      const nextIndex = Math.round(scrollLeft / cardWidth);
+      const { clientWidth, scrollLeft, scrollWidth } = containerRef.current;
+      const cardStep = getChapterCardStep(containerRef.current);
+      if (cardStep === 0) return;
+
+      const maxScrollLeft = scrollWidth - clientWidth;
+      const nextIndex =
+        maxScrollLeft > 0 && scrollLeft >= maxScrollLeft - 1
+          ? lastCardIndex
+          : getCurrentChapterCardIndex(scrollLeft, cardStep, lastCardIndex);
       if (currentIndex !== nextIndex) {
         setCurrentIndex(nextIndex);
       }
     }
   };
 
-  const isLastCard = currentIndex === articles.length - 3;
+  const isLastCard = currentIndex >= lastCardIndex;
   const isFirstCard = currentIndex === 0;
 
   const buttonDisabledStyle = {
