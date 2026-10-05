@@ -10,6 +10,9 @@ exports[`Contents matches the snapshot (fr) 1`] = `
         <div
           class="header"
         >
+          <div
+            class="link"
+          />
           <h1>
             Les Kiwis aussi creusent des tunnels
           </h1>

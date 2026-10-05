@@ -69,6 +69,7 @@ const MainTitle: React.FC<{
 
   return (
     <div className={STYLES.header}>
+      <div className={STYLES.link}></div>
       <h1>{children}</h1>
       <div className={STYLES.author}>
         <div>
