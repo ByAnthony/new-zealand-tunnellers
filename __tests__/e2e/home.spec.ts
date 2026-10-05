@@ -1,5 +1,52 @@
 import { test, expect } from "@playwright/test";
 
+for (const width of [390, 1440]) {
+  test(`hero stays pinned while content scrolls over it (${width}px)`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto("/");
+
+    const hero = page.locator("#hero");
+    const content = page.locator("#history").locator("..");
+    await expect(hero).toBeVisible();
+    const initialContentTop = await content.evaluate(
+      (element) => element.getBoundingClientRect().top,
+    );
+
+    await page.evaluate(() => {
+      window.scrollTo({ top: 300, behavior: "instant" });
+    });
+
+    await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(300);
+    await expect
+      .poll(() =>
+        hero.evaluate((element) => element.getBoundingClientRect().top),
+      )
+      .toBe(0);
+    const layout = await content.evaluate((element) => {
+      const bounds = element.getBoundingClientRect();
+      const style = window.getComputedStyle(element);
+      return {
+        top: bounds.top,
+        width: bounds.width,
+        viewportWidth: document.documentElement.clientWidth,
+        background: style.backgroundColor,
+        mask: style.maskImage,
+        coversHero: element.contains(
+          document.elementFromPoint(bounds.width / 2, bounds.top + 5),
+        ),
+      };
+    });
+
+    expect(initialContentTop - layout.top).toBeCloseTo(300, 0);
+    expect(layout.width).toBe(layout.viewportWidth);
+    expect(layout.background).toBe("rgb(24, 26, 27)");
+    expect(layout.mask).toBe("none");
+    expect(layout.coversHero).toBe(true);
+  });
+}
+
 test("homepage loads with the correct heading", async ({ page }) => {
   await page.goto("/");
 

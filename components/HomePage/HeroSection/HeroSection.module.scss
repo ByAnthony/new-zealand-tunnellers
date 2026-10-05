@@ -1,7 +1,9 @@
 @use "app/variables.module.scss";
 
 .hero {
-  position: relative;
+  position: sticky;
+  top: 0;
+  z-index: 0;
   overflow: hidden;
   margin-top: calc(-1 * variables.$base-margin);
   min-height: 100vh;

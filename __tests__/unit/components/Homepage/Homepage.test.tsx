@@ -23,6 +23,18 @@ describe("Homepage", () => {
     return render(<HomePage homepage={mockHomepage} />);
   };
 
+  test("renders the following sections in a covering layer outside the hero", () => {
+    const { container } = renderWithMockedDimensions(1440, 900);
+    const hero = container.querySelector("#hero");
+    const history = container.querySelector("#history");
+
+    expect(hero).toBeInTheDocument();
+    expect(history).toBeInTheDocument();
+    expect(history?.parentElement).toHaveClass("homepage-content");
+    expect(hero?.nextElementSibling).toBe(history?.parentElement);
+    expect(history?.parentElement?.children).toHaveLength(2);
+  });
+
   test("matches the snapshot for mobile viewport", async () => {
     const { asFragment } = renderWithMockedDimensions(500, 800);
 

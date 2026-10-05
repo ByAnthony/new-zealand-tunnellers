@@ -25,8 +25,10 @@ export function HomePage({ homepage }: Props) {
   return (
     <div className={STYLES["homepage-container"]}>
       <HeroSection />
-      <History articles={homepage.historyChapters} />
-      <KiwisDigTunnelsToo />
+      <div className={STYLES["homepage-content"]}>
+        <History articles={homepage.historyChapters} />
+        <KiwisDigTunnelsToo />
+      </div>
     </div>
   );
 }
