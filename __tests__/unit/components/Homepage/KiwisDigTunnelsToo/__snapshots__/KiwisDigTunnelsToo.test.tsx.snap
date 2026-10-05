@@ -1,0 +1,71 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`KiwisDigTunnelsToo matches the snapshot 1`] = `
+<DocumentFragment>
+  <section
+    aria-labelledby="resources-title"
+    class="container"
+  >
+    <h2>
+      The Long Read
+    </h2>
+    <div
+      class="title"
+    >
+      Kiwis Dig Tunnels Too
+    </div>
+    <div
+      class="book-meta"
+    >
+      <span
+        class="by"
+      >
+        By 
+      </span>
+      <span
+        class="author"
+      >
+        Anthony Byledbal
+      </span>
+    </div>
+    <div
+      class="image-container"
+    >
+      <img
+        alt="Kiwis Dig Tunnels Too"
+        class="image"
+        height="250"
+        placeholder="empty"
+        src="/images/books/artwork.jpg"
+        width="325"
+      />
+    </div>
+    <p
+      class="description"
+    >
+      Recruited for their digging skills, four New Zealand volunteers — James Williamson, Harold Howard, George Race, and Gerald Punch — are preparing to cross the oceans to fight in the underground warfare. But on the other side of the world, this deadly game is already tipping in favor of the German miners.
+    </p>
+    <div
+      class="button-wrapper"
+    >
+      <a
+        class="hero-link"
+        href="/kiwis-dig-tunnels-too/"
+      >
+        <div
+          class="hero-link-content"
+        >
+          <div>
+            Read the Book
+          </div>
+        </div>
+        <div
+          class="arrow"
+        >
+          →
+        </div>
+      </a>
+    </div>
+  </section>
+</DocumentFragment>
+`;

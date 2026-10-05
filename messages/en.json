@@ -55,11 +55,11 @@
     "svgLabel": "The Kiwis who fought beneath the no man\u2019s land",
     "discover": "Discover",
     "nzTunnellers": "The New Zealand Tunnellers",
-    "resources": "Resources to Explore",
     "bookTitle": "Kiwis Dig Tunnels Too",
-    "bookBadge": "Book",
-    "bookDescription": "Recruited for their digging skills, James Williamson, Harold Howard, George Race, and Gerald Punch—four New Zealand volunteers—are preparing to cross the oceans with their special unit to take part in this secret war. But on the other side of the world, this deadly game is already tipping in favor of the German miners.",
-    "bookBy": "By "
+    "bookIntro": "The Long Read",
+    "bookDescription": "Recruited for their digging skills, four New Zealand volunteers — James Williamson, Harold Howard, George Race, and Gerald Punch — are preparing to cross the oceans to fight in the underground warfare. But on the other side of the world, this deadly game is already tipping in favor of the German miners.",
+    "bookBy": "By ",
+    "bookLink": "Read the Book"
   },
   "aboutUs": {
     "contactByEmail": "Open your email app to contact New Zealand Tunnellers",

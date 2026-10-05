@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 
 import { History } from "@/components/HomePage/History/History";
-import { Resources } from "@/components/HomePage/Resources/Resources";
+import { KiwisDigTunnelsToo } from "@/components/HomePage/KiwisDigTunnelsToo/KiwisDigTunnelsToo";
 import { Tunnellers } from "@/components/HomePage/Tunnellers/Tunnellers";
 import { HistoryChapter } from "@/types/homepage";
 
@@ -26,7 +26,7 @@ export function HomePage({ homepage }: Props) {
     <div className={STYLES["homepage-container"]}>
       <Tunnellers />
       <History articles={homepage.historyChapters} />
-      <Resources />
+      <KiwisDigTunnelsToo />
     </div>
   );
 }

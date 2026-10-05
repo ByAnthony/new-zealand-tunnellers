@@ -1,0 +1,177 @@
+@use "app/variables.module.scss";
+
+.container {
+  margin: 0 auto;
+  margin-top: variables.$xl-margin;
+
+  @include variables.component-margin;
+
+  h2 {
+    text-align: center;
+  }
+
+  .arrow {
+    @include variables.arrow-button;
+
+    margin-top: 0;
+
+    @include variables.desktop {
+      height: 40px;
+      width: 40px;
+      font-size: 2rem;
+    }
+  }
+
+  @include variables.tablet {
+    margin-top: variables.$xxl-margin;
+    margin-bottom: variables.$base-margin;
+  }
+
+  @include variables.desktop {
+    margin-top: variables.$xxxl-margin;
+    margin-bottom: variables.$base-margin;
+    width: variables.$inner-width;
+  }
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: 500;
+  text-align: center;
+  white-space: pre-line;
+
+  @include variables.tablet {
+    font-size: 3rem;
+  }
+
+  @include variables.desktop {
+    font-size: 4rem;
+  }
+}
+
+.book-meta {
+  padding: variables.$m-margin 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: baseline;
+  gap: variables.$xxxs-margin;
+}
+
+.by {
+  font-size: 0.9rem;
+  font-weight: 200;
+  color: variables.$text-color;
+
+  @include variables.tablet {
+    font-size: 1rem;
+  }
+
+  @include variables.desktop {
+    font-size: 1.2rem;
+  }
+}
+
+.author {
+  font-size: 1.1rem;
+  font-weight: 400;
+  color: variables.$text-color;
+
+  @include variables.tablet {
+    font-size: 1.2rem;
+  }
+
+  @include variables.desktop {
+    font-size: 1.4rem;
+  }
+}
+
+.image-container {
+  margin: variables.$m-margin 0 variables.$base-margin 0;
+}
+
+.image {
+  display: block;
+  margin: 0 auto;
+  border-radius: variables.$border-radius;
+  height: 325px;
+  width: 250px;
+
+  @include variables.tablet {
+    height: 350px;
+    width: 275px;
+  }
+
+  @include variables.desktop {
+    height: 400px;
+    width: 300px;
+  }
+}
+
+.description {
+  font-size: 1.25rem;
+  line-height: 1.8rem;
+  text-align: center;
+  color: variables.$text-color;
+
+  @include variables.tablet {
+    font-size: 1.3rem;
+    line-height: 1.9rem;
+  }
+
+  @include variables.desktop {
+    font-size: 1.4rem;
+    line-height: 2.2rem;
+  }
+}
+
+.button-wrapper {
+  margin-top: variables.$base-margin;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.hero-link-content {
+  display: flex;
+  align-items: center;
+  gap: variables.$xxs-margin;
+}
+
+.hero-link {
+  width: 200px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: variables.$s-margin;
+  padding: variables.$xs-margin variables.$m-margin;
+  font-family: variables.$main-font;
+  font-size: 1.1rem;
+  font-weight: 400;
+  text-align: center;
+  color: variables.$secondary-color;
+  border: 1px solid variables.$primary-light-color;
+  border-radius: variables.$border-radius;
+  background-color: variables.$primary-medium-color;
+  transition: all 0.9s ease-in-out;
+  cursor: pointer;
+
+  @include variables.tablet {
+    width: 225px;
+    font-size: 1.2rem;
+  }
+
+  @include variables.desktop {
+    width: 250px;
+    padding: variables.$s-margin variables.$m-margin;
+    font-size: 1.3rem;
+  }
+
+  @include variables.hover-supported {
+    &:hover {
+      border: 1px solid variables.$secondary-color;
+      background-color: variables.$primary-dark-color;
+    }
+  }
+}
