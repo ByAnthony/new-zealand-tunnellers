@@ -7,7 +7,7 @@
   min-height: 100vh;
   min-height: 100svh;
   background-image: url("/images/homepage/ART_3670.jpg");
-  background-position: 18% 50%;
+  background-position: 25%;
   background-repeat: no-repeat;
   background-size: cover;
 
@@ -16,7 +16,7 @@
     position: absolute;
     inset: 0;
     z-index: 0;
-    background-color: rgba(24, 26, 27, 0.25);
+    background-color: rgba(24, 26, 27, 0.3);
     pointer-events: none;
   }
 
@@ -28,8 +28,8 @@
     background: radial-gradient(
       circle at center,
       rgba(24, 26, 27, 0) 0%,
-      rgba(24, 26, 27, 0) 30%,
-      rgba(24, 26, 27, 0.9) 68%,
+      rgba(24, 26, 27, 0) 45%,
+      rgba(24, 26, 27, 0.9) 65%,
       variables.$primary-dark-color 100%
     );
     pointer-events: none;
@@ -46,65 +46,43 @@
 
 .hero-wrapper {
   position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  right: auto;
-  width: 100%;
-  bottom: variables.$base-margin;
+  left: 0;
+  right: 0;
+  bottom: variables.$m-margin;
   z-index: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  container-type: inline-size;
+
+  @include variables.component-margin;
 
   h1 {
     margin-top: variables.$xxxs-margin;
-    margin-bottom: variables.$base-margin;
+    margin-bottom: 35px;
     font-weight: 500;
-    line-height: 1;
+    line-height: 0.9;
     white-space: pre-line;
 
+    @include variables.tablet {
+      margin-bottom: 40px;
+    }
+
     @include variables.desktop {
-      margin-bottom: variables.$base-margin;
+      margin-bottom: 0;
+      font-size: clamp(1.5rem, 5.5cqi, 4.5rem);
+      text-align: left;
+      overflow-wrap: anywhere;
     }
   }
 
   p {
-    font-size: 1.2rem;
-    font-weight: 400;
+    font-size: 1.3rem;
+    font-weight: 500;
     text-align: center;
-  }
-
-  button {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    gap: variables.$s-margin;
-    padding: 4px 10px;
-    font-family: variables.$main-font;
-    font-size: 1rem;
-    font-weight: 400;
-    text-align: center;
-    color: variables.$secondary-color;
-    border: 1px solid variables.$primary-light-color;
-    border-radius: variables.$border-radius;
-    background-color: variables.$primary-medium-color;
-    transition:
-      color 0.9s ease-in-out,
-      border 0.9s ease-in-out,
-      background-color 0.9s ease-in-out;
-    cursor: pointer;
 
     @include variables.desktop {
-      font-size: 1.1rem;
-      padding: variables.$xs-margin variables.$m-margin;
-    }
-
-    @include variables.hover-supported {
-      &:hover {
-        border: 1px solid variables.$secondary-color;
-        background-color: variables.$primary-dark-color;
-      }
+      text-align: left;
     }
   }
 
@@ -113,47 +91,58 @@
   }
 
   @include variables.desktop {
-    max-width: variables.$inner-width;
-    bottom: variables.$base-margin;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 22rem);
+    align-items: end;
+    margin: 0 auto;
+    padding: 0 variables.$base-margin;
+    max-width: variables.$max-width;
+    bottom: 60px;
   }
 }
 
 .hero-links {
-  display: flex;
-  justify-content: center;
-  gap: variables.$xs-margin;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: variables.$xxxs-margin;
+
+  @include variables.desktop {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }
 
 .hero-link-content {
   display: flex;
   align-items: center;
-  gap: variables.$xxs-margin;
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
-.hero-link {
+.hero-main-link {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
-  gap: variables.$s-margin;
-  padding: 4px 10px;
+  justify-content: space-between;
+  padding: variables.$xxs-margin variables.$s-margin;
   font-family: variables.$main-font;
-  font-size: 1rem;
+  font-size: 1.1rem;
   font-weight: 400;
-  text-align: center;
-  color: variables.$secondary-color;
-  border: 1px solid variables.$primary-light-color;
+  text-align: left;
+  line-height: 1;
+  color: variables.$primary-dark-color;
+  border: 1px solid variables.$secondary-color;
   border-radius: variables.$border-radius;
-  background-color: variables.$primary-medium-color;
-  transition:
-    color 0.9s ease-in-out,
-    border 0.9s ease-in-out,
-    background-color 0.9s ease-in-out;
+  background-color: variables.$secondary-color;
+  transition: all 0.9s ease-in-out;
   cursor: pointer;
 
+  @include variables.tablet {
+    font-size: 1.2rem;
+  }
+
   @include variables.desktop {
-    font-size: 1.1rem;
-    padding: variables.$xs-margin variables.$m-margin;
+    padding: variables.$xxs-margin variables.$s-margin;
+    font-size: 1.3rem;
   }
 
   @include variables.hover-supported {
@@ -166,9 +155,89 @@
   .arrow {
     @include variables.arrow-button;
 
+    margin-top: 0px;
+    height: 30px;
+    width: 30px;
+    line-height: 1;
+    font-size: 1.8rem;
+
+    @include variables.tablet {
+      height: 40px;
+      width: 40px;
+      line-height: 1.2;
+      font-size: 2rem;
+    }
+
     @include variables.desktop {
       height: 40px;
       width: 40px;
+      line-height: 1.25;
+      font-size: 2rem;
+    }
+  }
+
+  @include variables.hover-supported {
+    &:hover {
+      border-bottom: 1px solid variables.$secondary-color;
+      color: variables.$secondary-color;
+    }
+  }
+}
+
+.hero-link {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: variables.$xs-margin variables.$s-margin;
+  font-family: variables.$main-font;
+  font-size: 1.1rem;
+  font-weight: 400;
+  text-align: left;
+  line-height: 1;
+  color: variables.$secondary-color;
+  border: 1px solid variables.$primary-light-color;
+  border-radius: variables.$border-radius;
+  background-color: variables.$primary-medium-color;
+  transition: all 0.9s ease-in-out;
+  cursor: pointer;
+
+  @include variables.tablet {
+    font-size: 1.2rem;
+  }
+
+  @include variables.desktop {
+    padding: variables.$xxs-margin variables.$s-margin;
+    font-size: 1.3rem;
+  }
+
+  @include variables.hover-supported {
+    &:hover {
+      border: 1px solid variables.$secondary-color;
+      background-color: variables.$primary-dark-color;
+    }
+  }
+
+  .arrow {
+    @include variables.arrow-button;
+
+    margin-top: 0px;
+    height: 30px;
+    width: 30px;
+    line-height: 1;
+    font-size: 1.8rem;
+
+    @include variables.tablet {
+      height: 40px;
+      width: 40px;
+      line-height: 1.2;
+      font-size: 2rem;
+    }
+
+    @include variables.desktop {
+      height: 40px;
+      width: 40px;
+      line-height: 1.25;
       font-size: 2rem;
     }
   }
