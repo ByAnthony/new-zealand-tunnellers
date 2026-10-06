@@ -24,6 +24,7 @@ exports[`HeroSection Component matches snapshot 1`] = `
         class="hero-links"
       >
         <a
+          aria-label="Discover the tunnellers"
           class="hero-main-link"
           href="/tunnellers/"
         >
@@ -41,6 +42,7 @@ exports[`HeroSection Component matches snapshot 1`] = `
           </div>
         </a>
         <a
+          aria-label="Explore their history"
           class="hero-link"
           href="#history"
         >
