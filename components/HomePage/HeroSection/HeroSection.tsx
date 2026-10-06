@@ -74,13 +74,18 @@ export function HeroSection() {
             <Link
               href={`${localePrefix}/tunnellers/`}
               className={STYLES["hero-main-link"]}
+              aria-label={t("heroTunnellers")}
             >
               <div className={STYLES["hero-link-content"]}>
                 <div>{t("heroTunnellers")}</div>
               </div>
               <div className={STYLES.arrow}>&rarr;</div>
             </Link>
-            <a href="#history" className={STYLES["hero-link"]}>
+            <a
+              href="#history"
+              className={STYLES["hero-link"]}
+              aria-label={t("heroHistory")}
+            >
               <div className={STYLES["hero-link-content"]}>
                 <div>{t("heroHistory")}</div>
               </div>

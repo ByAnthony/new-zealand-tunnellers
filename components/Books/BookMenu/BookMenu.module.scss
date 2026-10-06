@@ -44,7 +44,25 @@
   .arrow {
     @include variables.arrow-button;
 
-    margin-top: 0;
+    margin-top: 0px;
+    height: 30px;
+    width: 30px;
+    line-height: 1;
+    font-size: 1.8rem;
+
+    @include variables.tablet {
+      height: 40px;
+      width: 40px;
+      line-height: 1.2;
+      font-size: 2rem;
+    }
+
+    @include variables.desktop {
+      height: 40px;
+      width: 40px;
+      line-height: 1.25;
+      font-size: 2rem;
+    }
   }
 
   .link {

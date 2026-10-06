@@ -27,6 +27,7 @@ exports[`Homepage matches the snapshot for mobile viewport 1`] = `
           class="hero-links"
         >
           <a
+            aria-label="Discover the tunnellers"
             class="hero-main-link"
             href="/tunnellers/"
           >
@@ -44,6 +45,7 @@ exports[`Homepage matches the snapshot for mobile viewport 1`] = `
             </div>
           </a>
           <a
+            aria-label="Explore their history"
             class="hero-link"
             href="#history"
           >
@@ -454,6 +456,7 @@ exports[`Homepage matches the snapshot for tablet/desktop viewports 1`] = `
           class="hero-links"
         >
           <a
+            aria-label="Discover the tunnellers"
             class="hero-main-link"
             href="/tunnellers/"
           >
@@ -471,6 +474,7 @@ exports[`Homepage matches the snapshot for tablet/desktop viewports 1`] = `
             </div>
           </a>
           <a
+            aria-label="Explore their history"
             class="hero-link"
             href="#history"
           >
