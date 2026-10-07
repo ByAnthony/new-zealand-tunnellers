@@ -40,14 +40,14 @@
   align-items: center;
   justify-content: center;
   color: variables.$secondary-color;
-  font-size: 1.8rem;
+  font-size: 1.5rem;
   font-family: inherit;
 
   @include variables.tablet {
-    font-size: 2rem;
+    font-size: 1.8rem;
   }
 
   @include variables.desktop {
-    font-size: 2rem;
+    font-size: 1.8rem;
   }
 }
