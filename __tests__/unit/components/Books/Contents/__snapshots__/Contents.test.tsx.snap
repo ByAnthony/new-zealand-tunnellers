@@ -36,13 +36,11 @@ exports[`Contents matches the snapshot (fr) 1`] = `
           class="button-chapter"
           href="/fr/kiwis-dig-tunnels-too/prologue/"
         >
-          <div>
-            <span
-              class="titre-container"
-            >
-              Prologue
-            </span>
-          </div>
+          <span
+            class="entry-title"
+          >
+            Prologue
+          </span>
           <div
             aria-hidden="true"
             class="ring"
@@ -62,16 +60,17 @@ exports[`Contents matches the snapshot (fr) 1`] = `
           class="button-chapter"
           href="/fr/kiwis-dig-tunnels-too/chapter-1-the-tunnellers-from-the-antipodes/"
         >
-          <div>
-            <p
-              class="chapter"
-            >
-              Chapter 1
-            </p>
-            <span>
-              Les tunneliers des antipodes
-            </span>
-          </div>
+          <span
+            aria-hidden="true"
+            class="chapter"
+          >
+            1
+          </span>
+          <span
+            class="entry-title"
+          >
+            Les tunneliers des antipodes
+          </span>
           <div
             aria-hidden="true"
             class="ring"
@@ -91,16 +90,17 @@ exports[`Contents matches the snapshot (fr) 1`] = `
           class="button-chapter"
           href="/fr/kiwis-dig-tunnels-too/chapter-2-forging-good-soldiers/"
         >
-          <div>
-            <p
-              class="chapter"
-            >
-              Chapter 2
-            </p>
-            <span>
-              En faire de bons soldats
-            </span>
-          </div>
+          <span
+            aria-hidden="true"
+            class="chapter"
+          >
+            2
+          </span>
+          <span
+            class="entry-title"
+          >
+            En faire de bons soldats
+          </span>
           <div
             aria-hidden="true"
             class="ring"
@@ -120,13 +120,11 @@ exports[`Contents matches the snapshot (fr) 1`] = `
           class="button-chapter"
           href="/fr/kiwis-dig-tunnels-too/sources/"
         >
-          <div>
-            <span
-              class="titre-container"
-            >
-              Sources
-            </span>
-          </div>
+          <span
+            class="entry-title"
+          >
+            Sources
+          </span>
           <div
             aria-hidden="true"
             class="ring"
@@ -139,6 +137,26 @@ exports[`Contents matches the snapshot (fr) 1`] = `
             </div>
           </div>
         </a>
+      </div>
+      <div
+        class="contents-layout"
+      >
+        <div
+          class="artwork"
+        >
+          <img
+            alt=""
+            height="250"
+            sizes="(min-width: 896px) 360px, 280px"
+            src="/images/books/artwork.jpg"
+            width="325"
+          />
+        </div>
+        <ul>
+          <li>
+            Contents entry
+          </li>
+        </ul>
       </div>
     </div>
   </div>

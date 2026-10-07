@@ -22,6 +22,7 @@ jest.mock("react-markdown", () => ({
             );
           return <span key={i}>{line}</span>;
         })}
+        {components?.ul && components.ul({ children: <li>Contents entry</li> })}
       </div>
     );
   },
@@ -61,9 +62,18 @@ describe("Contents", () => {
     ).toBeInTheDocument();
   });
 
+  test("renders the artwork beside the contents list", () => {
+    render(<Contents locale="en" content={enContent} />);
+    const artwork = screen.getByAltText("");
+    expect(artwork).toHaveAttribute("width", "325");
+    expect(artwork.closest(".contents-layout")).toContainElement(
+      screen.getByRole("list"),
+    );
+  });
+
   test("renders chapter links with chapter number for fr", () => {
     render(<Contents locale="fr" content={frContent} />);
-    expect(screen.getByText("Chapter 1")).toBeInTheDocument();
+    expect(screen.getByText("1")).toHaveAttribute("aria-hidden", "true");
     expect(
       screen.getByText("Les tunneliers des antipodes"),
     ).toBeInTheDocument();
@@ -71,7 +81,7 @@ describe("Contents", () => {
 
   test("renders chapter links with chapter number for en", () => {
     render(<Contents locale="en" content={enContent} />);
-    expect(screen.getByText("Chapter 1")).toBeInTheDocument();
+    expect(screen.getByText("1")).toHaveAttribute("aria-hidden", "true");
     expect(screen.getByText("The tunnellers")).toBeInTheDocument();
   });
 

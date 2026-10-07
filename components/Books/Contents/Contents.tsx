@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import React, { ReactNode } from "react";
@@ -37,9 +38,7 @@ const SommaireItem: React.FC<{
         className={STYLES["button-chapter"]}
         aria-label={t("read", { title })}
       >
-        <div>
-          <span className={STYLES["titre-container"]}>{title}</span>
-        </div>
+        <span className={STYLES["entry-title"]}>{title}</span>
         <ChapterProgressRing pathname={fullPath} />
       </Link>
     );
@@ -51,12 +50,12 @@ const SommaireItem: React.FC<{
       className={STYLES["button-chapter"]}
       aria-label={t("goToChapter", { chapter: chap.number, title: chap.text })}
     >
-      <div>
-        <p className={STYLES.chapter}>
-          {t("chapter")} {chap.number}
-        </p>
-        {chap.text && <span>{chap.text}</span>}
-      </div>
+      <span className={STYLES.chapter} aria-hidden="true">
+        {chap.number}
+      </span>
+      <span className={STYLES["entry-title"]}>
+        {chap.text || `${t("chapter")} ${chap.number}`}
+      </span>
       <ChapterProgressRing pathname={fullPath} />
     </Link>
   );
@@ -87,6 +86,20 @@ export const Contents: React.FC<Props> = ({ locale, content }) => {
         remarkPlugins={[remarkGfm, remarkRemoveComments]}
         components={{
           h1: ({ children }) => <MainTitle>{children}</MainTitle>,
+          ul: ({ children }) => (
+            <div className={STYLES["contents-layout"]}>
+              <div className={STYLES.artwork}>
+                <Image
+                  src="/images/books/artwork.jpg"
+                  alt=""
+                  width={325}
+                  height={250}
+                  sizes="(min-width: 896px) 360px, 280px"
+                />
+              </div>
+              <ul>{children}</ul>
+            </div>
+          ),
           a: ({ href, children }) => (
             <SommaireItem locale={locale} href={href ?? ""}>
               {children}
