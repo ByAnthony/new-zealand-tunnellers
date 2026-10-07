@@ -3,7 +3,9 @@
 .container {
   @include variables.component-margin;
 
-  margin-top: variables.$xxl-margin;
+  display: flex;
+  flex-direction: column;
+  margin-top: variables.$m-margin;
 
   h1 {
     margin: variables.$base-margin 0;
@@ -24,22 +26,78 @@
   }
 
   h2 {
+    order: 1;
+
     @include variables.desktop {
-      margin: variables.$xl-margin 0 variables.$m-margin 0;
+      margin: variables.$base-margin 0 variables.$m-margin 0;
+      margin-left: calc(
+        (100% - variables.$base-margin) / 3 + variables.$base-margin
+      );
     }
   }
 
   ul {
+    padding: 0;
+    border-top: 1px solid variables.$primary-light-color;
+
     li {
       list-style: none;
+      margin: 0;
+      padding: 0;
+      border-bottom: 1px solid variables.$primary-light-color;
     }
   }
 
   @include variables.desktop {
+    display: block;
     margin: 0 auto;
     margin-top: variables.$xxxl-margin;
-    width: variables.$content-width;
-    max-width: variables.$content-width;
+    width: calc(100% - 2 * variables.$base-margin);
+    max-width: 72rem;
+  }
+}
+
+.contents-layout {
+  display: contents;
+
+  > ul {
+    order: 2;
+    min-width: 0;
+    margin: 0;
+  }
+
+  @include variables.desktop {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+    gap: variables.$base-margin;
+    align-items: start;
+  }
+}
+
+.artwork {
+  width: 100%;
+  max-width: 250px;
+  align-self: center;
+  justify-self: center;
+
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    border-radius: variables.$border-radius;
+    margin-bottom: variables.$base-margin;
+
+    @include variables.desktop {
+      margin-bottom: 0;
+    }
+  }
+
+  @include variables.desktop {
+    align-self: start;
+    position: sticky;
+    top: variables.$xxl-margin;
+    max-width: none;
   }
 }
 
@@ -68,7 +126,7 @@
   }
 
   @include variables.desktop {
-    font-size: 2rem;
+    font-size: 1.75rem;
   }
 }
 
@@ -105,31 +163,44 @@
 }
 
 .button-chapter {
-  @include variables.featured-button-link;
-  flex: 100%;
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 2rem minmax(0, 1fr) 32px;
   align-items: center;
-  margin: variables.$xs-margin 0;
-  padding: 30px variables.$s-margin;
-  font-size: 1.25rem;
-  color: variables.$secondary-color;
+  padding: variables.$xxs-margin;
+  box-sizing: border-box;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: variables.$text-color;
+  transition: all 0.9s ease-in-out;
 
   .chapter {
-    margin: 0 0;
-    padding-bottom: variables.$xxs-margin;
-    color: variables.$secondary-color;
+    color: variables.$text-color;
+    font-weight: 700;
+    transition: all 0.9s ease-in-out;
   }
 
-  span {
-    font-weight: 500;
+  .entry-title {
+    font-weight: 400;
+    overflow-wrap: anywhere;
   }
 
-  .arrow {
-    @include variables.arrow-button;
+  > .entry-title:first-child {
+    grid-column: 2;
+  }
+
+  @include variables.hover-supported {
+    &:hover {
+      color: variables.$secondary-color;
+
+      .chapter {
+        color: variables.$secondary-color;
+      }
+    }
   }
 
   @include variables.desktop {
-    padding: variables.$padding-card;
+    grid-template-columns: 2.5rem minmax(0, 1fr) 32px;
+    min-height: 64px;
+    font-size: 1.15rem;
   }
 }
