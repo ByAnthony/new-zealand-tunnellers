@@ -168,7 +168,7 @@
   align-items: center;
   padding: variables.$xxs-margin;
   box-sizing: border-box;
-  font-size: 1rem;
+  font-size: 1.15rem;
   line-height: 1.5;
   color: variables.$text-color;
   transition: all 0.9s ease-in-out;
@@ -201,6 +201,6 @@
   @include variables.desktop {
     grid-template-columns: 2.5rem minmax(0, 1fr) 32px;
     min-height: 64px;
-    font-size: 1.15rem;
+    font-size: 1.25rem;
   }
 }
