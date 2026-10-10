@@ -1,5 +1,4 @@
 import Image from "next/image";
-import Link from "next/link";
 import { useTranslations } from "next-intl";
 import React, { ReactNode } from "react";
 import ReactMarkdown from "react-markdown";
@@ -7,6 +6,7 @@ import remarkGfm from "remark-gfm";
 import remarkRemoveComments from "remark-remove-comments";
 
 import { ChapterProgressRing } from "@/components/Books/ChapterProgressRing/ChapterProgressRing";
+import { OfflineBookToggle } from "@/components/Books/OfflineBookToggle/OfflineBookToggle";
 import { basePath } from "@/utils/helpers/books/basePathUtil";
 import {
   extractText,
@@ -33,19 +33,19 @@ const SommaireItem: React.FC<{
 
   if (!chap) {
     return (
-      <Link
+      <a
         href={fullPath}
         className={STYLES["button-chapter"]}
         aria-label={t("read", { title })}
       >
         <span className={STYLES["entry-title"]}>{title}</span>
         <ChapterProgressRing pathname={fullPath} />
-      </Link>
+      </a>
     );
   }
 
   return (
-    <Link
+    <a
       href={fullPath}
       className={STYLES["button-chapter"]}
       aria-label={t("goToChapter", { chapter: chap.number, title: chap.text })}
@@ -57,13 +57,11 @@ const SommaireItem: React.FC<{
         {chap.text || `${t("chapter")} ${chap.number}`}
       </span>
       <ChapterProgressRing pathname={fullPath} />
-    </Link>
+    </a>
   );
 };
 
-const MainTitle: React.FC<{
-  children: ReactNode;
-}> = ({ children }) => {
+const MainTitle: React.FC<{ children: ReactNode }> = ({ children }) => {
   const t = useTranslations("books");
 
   return (
@@ -80,12 +78,26 @@ const MainTitle: React.FC<{
 };
 
 export const Contents: React.FC<Props> = ({ locale, content }) => {
+  const pagePaths = [
+    basePath(locale),
+    ...Array.from(
+      content.matchAll(/^\s*-\s+\[[^\]]+\]\(\.\/([^)\s]+)\.md\)\s*$/gm),
+      ([, slug]) => `${basePath(locale)}${slug}/`,
+    ),
+  ];
+
   return (
     <div className={STYLES.container}>
       <ReactMarkdown
         remarkPlugins={[remarkGfm, remarkRemoveComments]}
         components={{
           h1: ({ children }) => <MainTitle>{children}</MainTitle>,
+          h2: ({ children }) => (
+            <div className={STYLES["contents-heading"]}>
+              <h2>{children}</h2>
+              <OfflineBookToggle locale={locale} pagePaths={pagePaths} />
+            </div>
+          ),
           ul: ({ children }) => (
             <div className={STYLES["contents-layout"]}>
               <div className={STYLES.artwork}>

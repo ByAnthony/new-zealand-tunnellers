@@ -1,0 +1,96 @@
+@use "app/variables.module.scss";
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: variables.$xxs-margin variables.$s-margin;
+}
+
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: variables.$xxs-margin;
+  color: variables.$text-color;
+  cursor: pointer;
+  min-width: 0;
+
+  &:hover .input:checked ~ .switch {
+    background-color: variables.$secondary-color;
+  }
+}
+
+.label {
+  text-align: right;
+}
+
+.input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  clip-path: inset(50%);
+
+  &:checked ~ .switch {
+    border-color: variables.$primary-light-color;
+    background-color: variables.$secondary-color;
+
+    &::after {
+      transform: translateX(16px);
+    }
+  }
+
+  &:focus-visible ~ .switch {
+    outline: 2px solid variables.$secondary-color;
+    outline-offset: 3px;
+  }
+
+  &:disabled ~ .switch {
+    opacity: 0.65;
+  }
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  flex: 0 0 auto;
+  width: 38px;
+  height: 20px;
+  border: 1px solid variables.$primary-light-color;
+  border-radius: 11px;
+  background-color: variables.$primary-medium-color;
+  transition: all 0.9s ease-in-out;
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background-color: white;
+    transition: all 0.9s ease-in-out;
+  }
+}
+
+.input:checked + .switch::after {
+  background-color: variables.$primary-dark-color;
+}
+
+.status {
+  flex-basis: 100%;
+  color: variables.$text-color;
+  font-size: 1rem;
+  text-align: right;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .switch,
+  .switch::after {
+    transition: none;
+  }
+}
