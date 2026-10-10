@@ -242,6 +242,11 @@
     "read": "Read: {title}",
     "goToChapter": "Go to chapter {chapter}: {title}",
     "zoomImage": "Zoom image",
-    "resetImageZoom": "Reset image zoom"
+    "resetImageZoom": "Reset image zoom",
+    "offlineReading": "Offline reading",
+    "offlineSavingPages": "Saving page {current} of {total}",
+    "offlineSavingAssets": "Saving images and other files...",
+    "offlineDownloadFailed": "Download failed. Check your connection and try again.",
+    "offlineUnavailable": "Offline downloads are unavailable in this browser"
   }
 }

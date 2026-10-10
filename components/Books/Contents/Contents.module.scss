@@ -25,17 +25,6 @@
     }
   }
 
-  h2 {
-    order: 1;
-
-    @include variables.desktop {
-      margin: variables.$base-margin 0 variables.$m-margin 0;
-      margin-left: calc(
-        (100% - variables.$base-margin) / 3 + variables.$base-margin
-      );
-    }
-  }
-
   ul {
     padding: 0;
     border-top: 1px solid variables.$primary-light-color;
@@ -54,6 +43,27 @@
     margin-top: variables.$xxxl-margin;
     width: calc(100% - 2 * variables.$base-margin);
     max-width: 72rem;
+  }
+}
+
+.contents-heading {
+  order: 1;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: variables.$xs-margin;
+  margin: variables.$s-margin 0;
+
+  h2 {
+    margin: 0;
+  }
+
+  @include variables.desktop {
+    margin: variables.$base-margin 0 variables.$m-margin;
+    margin-left: calc(
+      (100% - variables.$base-margin) / 3 + variables.$base-margin
+    );
   }
 }
 
