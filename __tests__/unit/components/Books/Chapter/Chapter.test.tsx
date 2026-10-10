@@ -138,6 +138,39 @@ describe("Chapter", () => {
     expect(bookLink).toHaveAttribute("href", "/fr/kiwis-dig-tunnels-too/");
   });
 
+  test.each([
+    ["en", "Chapter 2: Forging Good Soldiers"],
+    ["fr", "Chapitre 2 : En faire de bons soldats"],
+  ])("renders the vignette above chapter 2 in %s", (locale, title) => {
+    render(<Chapter locale={locale} content={`# ${title}`} />);
+
+    const vignette = screen.getByAltText("");
+    expect(vignette).toHaveAttribute("src", "/images/books/vignette-2.png");
+    expect(vignette.nextElementSibling).toBe(
+      screen.getByRole("heading", { level: 1 }),
+    );
+  });
+
+  test("renders the matching vignette on other chapters", () => {
+    render(<Chapter locale="en" content={enChapterContent} />);
+    expect(screen.getByAltText("")).toHaveAttribute(
+      "src",
+      "/images/books/vignette-1.png",
+    );
+  });
+
+  test.each([
+    "/kiwis-dig-tunnels-too/sources",
+    "/kiwis-dig-tunnels-too/printed-sources",
+    "/kiwis-dig-tunnels-too/bibliography",
+    "/kiwis-dig-tunnels-too/acknowledgments",
+  ])("does not render a vignette on '%s'", (pathname) => {
+    mockedUsePathname.mockReturnValue(pathname);
+    render(<Chapter locale="en" content={sourcesContent} />);
+
+    expect(screen.queryByAltText("")).not.toBeInTheDocument();
+  });
+
   test("renames 'Footnotes' heading to 'Notes'", () => {
     render(<Chapter locale="fr" content={chapterContent} />);
 
