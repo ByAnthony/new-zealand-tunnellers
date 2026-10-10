@@ -26,6 +26,13 @@ exports[`Chapter matches the snapshot 1`] = `
             <div
               class="main-title"
             >
+              <img
+                alt=""
+                class="vignette"
+                height="100"
+                src="/images/books/vignette-1.png"
+                width="120"
+              />
               <h1>
                 Les tunneliers des antipodes
               </h1>

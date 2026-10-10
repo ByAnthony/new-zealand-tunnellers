@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
@@ -38,6 +39,14 @@ const MainTitle: React.FC<{
   const title = extractText(children).trim();
   const chapter = parseChapterHeading(title, locale);
 
+  const pathname = usePathname();
+  const slug = /\/(prologue|epilogue)\/?$/.exec(pathname)?.[1];
+  const vignetteName = chapter
+    ? `vignette-${chapter.number}`
+    : readingTime !== undefined && slug
+      ? `vignette-${slug}`
+      : undefined;
+
   return (
     <>
       <div className={STYLES.header}>
@@ -47,6 +56,15 @@ const MainTitle: React.FC<{
           </Link>
         </div>
         <div className={STYLES["main-title"]}>
+          {vignetteName && (
+            <Image
+              src={`/images/books/${vignetteName}.png`}
+              className={STYLES.vignette}
+              alt=""
+              width={120}
+              height={100}
+            />
+          )}
           <h1>{chapter !== null ? chapter.text : title}</h1>
           {chapter?.number && (
             <div className={STYLES["title-line-3"]}>
