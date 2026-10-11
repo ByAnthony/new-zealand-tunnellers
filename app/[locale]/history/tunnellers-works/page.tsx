@@ -1,4 +1,4 @@
-import { getTranslations, setRequestLocale } from "next-intl/server";
+import { getTranslations } from "next-intl/server";
 import { Suspense } from "react";
 
 import { WorksMapContainer } from "@/components/WorksMap/WorksMapContainer";
@@ -77,7 +77,6 @@ export async function generateMetadata({ params }: Props) {
 
 export default async function Page({ params }: Props) {
   const { locale } = await params;
-  setRequestLocale(locale);
 
   const {
     works,

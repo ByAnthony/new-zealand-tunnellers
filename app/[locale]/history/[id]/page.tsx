@@ -1,4 +1,4 @@
-import { getTranslations, setRequestLocale } from "next-intl/server";
+import { getTranslations } from "next-intl/server";
 
 import { Article } from "@/components/Article/Article";
 import {
@@ -85,7 +85,6 @@ export async function generateMetadata(props: Props) {
 
 export default async function Page(props: Props) {
   const { id, locale } = await props.params;
-  setRequestLocale(locale);
   const article: Chapter = await getData(id, locale);
 
   const jsonLd = {

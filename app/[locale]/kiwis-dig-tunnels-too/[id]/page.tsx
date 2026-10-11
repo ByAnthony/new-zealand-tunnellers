@@ -1,7 +1,7 @@
 import { readdirSync } from "fs";
 import { join } from "path";
 
-import { getTranslations, setRequestLocale } from "next-intl/server";
+import { getTranslations } from "next-intl/server";
 
 import { Chapter } from "@/components/Books/Chapter/Chapter";
 import { Locale } from "@/types/locale";
@@ -47,7 +47,6 @@ export async function generateMetadata(props: Props) {
 
 export default async function Page(props: Props) {
   const { id, locale } = await props.params;
-  setRequestLocale(locale);
   const markdownContent = await readBookMarkdown(locale, id);
   const chapterTitle = getTitleFromMarkdown(markdownContent) ?? "";
 
