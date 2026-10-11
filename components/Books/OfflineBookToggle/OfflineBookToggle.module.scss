@@ -9,20 +9,35 @@
 }
 
 .toggle {
+  position: relative;
   display: inline-flex;
   align-items: center;
   gap: variables.$xxs-margin;
+  min-height: 38px;
+  padding: variables.$xxxs-margin variables.$xs-margin;
+  overflow: hidden;
+  border: 1px solid variables.$primary-light-color;
+  border-radius: variables.$border-radius;
+  background-color: variables.$primary-dark-color;
   color: variables.$text-color;
   cursor: pointer;
   min-width: 0;
+}
 
-  &:hover .input:checked ~ .switch {
-    background-color: variables.$secondary-color;
-  }
+.saved {
+  border-color: variables.$secondary-color;
+  background-color: variables.$secondary-color;
+  color: variables.$primary-dark-color;
 }
 
 .label {
-  text-align: right;
+  position: relative;
+  z-index: 1;
+  text-align: left;
+}
+
+.accentLabel {
+  color: variables.$text-color;
 }
 
 .input {
@@ -35,9 +50,6 @@
   clip-path: inset(50%);
 
   &:checked ~ .switch {
-    border-color: variables.$primary-light-color;
-    background-color: variables.$secondary-color;
-
     &::after {
       transform: translateX(16px);
     }
@@ -47,14 +59,11 @@
     outline: 2px solid variables.$secondary-color;
     outline-offset: 3px;
   }
-
-  &:disabled ~ .switch {
-    opacity: 0.65;
-  }
 }
 
 .switch {
   position: relative;
+  z-index: 3;
   display: inline-block;
   flex: 0 0 auto;
   width: 38px;
@@ -72,13 +81,52 @@
     width: 14px;
     height: 14px;
     border-radius: 50%;
-    background-color: white;
+    background-color: variables.$text-color;
     transition: all 0.9s ease-in-out;
   }
 }
 
-.input:checked + .switch::after {
-  background-color: variables.$primary-dark-color;
+.progressTrack {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.progressFill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  overflow: hidden;
+  background-color: variables.$secondary-color;
+  transition: width 0.9s ease-in-out;
+}
+
+.progressLabel {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: variables.$xs-margin;
+  display: flex;
+  align-items: center;
+  color: variables.$primary-dark-color;
+  white-space: nowrap;
+}
+
+.label,
+.progressLabel {
+  font-weight: 400;
+}
+
+.visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  clip-path: inset(50%);
 }
 
 .status {
@@ -90,7 +138,8 @@
 
 @media (prefers-reduced-motion: reduce) {
   .switch,
-  .switch::after {
+  .switch::after,
+  .progressFill {
     transition: none;
   }
 }

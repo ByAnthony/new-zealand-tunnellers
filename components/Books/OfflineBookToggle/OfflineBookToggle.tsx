@@ -49,6 +49,7 @@ export function OfflineBookToggle({ locale, pagePaths }: Props) {
   const [phase, setPhase] = useState<Phase>("checking");
   const [isSaved, setIsSaved] = useState(false);
   const [completedPages, setCompletedPages] = useState(0);
+  const [progressPercent, setProgressPercent] = useState(0);
   const pathsKey = pagePaths.join("\n");
   const cacheName = `${CACHE_NAME_PREFIX}${locale}`;
 
@@ -62,7 +63,6 @@ export function OfflineBookToggle({ locale, pagePaths }: Props) {
       }
 
       try {
-        await navigator.serviceWorker.register("/service-worker.js");
         await navigator.serviceWorker.ready;
         const cache = await caches.open(cacheName);
         const savedUrls = await readSavedUrls(cache, locale);
@@ -87,9 +87,12 @@ export function OfflineBookToggle({ locale, pagePaths }: Props) {
       .map((path) => new URL(path, window.location.origin));
     const cachedUrls = new Set<string>();
     const assets = new Map<string, URL>();
+    let completedPageCount = 0;
+    let completedAssetCount = 0;
 
     setPhase("pages");
     setCompletedPages(0);
+    setProgressPercent(0);
 
     try {
       await navigator.serviceWorker.register("/service-worker.js");
@@ -131,10 +134,17 @@ export function OfflineBookToggle({ locale, pagePaths }: Props) {
           }
         });
 
-        setCompletedPages((completed) => completed + 1);
+        completedPageCount += 1;
+        setCompletedPages(completedPageCount);
+        const pageProgress =
+          pageUrls.length > 0
+            ? (completedPageCount / pageUrls.length) * 50
+            : 50;
+        setProgressPercent((current) => Math.max(current, pageProgress));
       }
 
       setPhase("assets");
+      setProgressPercent(assets.size > 0 ? 50 : 100);
       const pendingAssets = [...assets.values()];
       while (pendingAssets.length > 0) {
         const assetUrl = pendingAssets.shift()!;
@@ -160,6 +170,10 @@ export function OfflineBookToggle({ locale, pagePaths }: Props) {
             }
           }
         }
+
+        completedAssetCount += 1;
+        const assetProgress = 50 + (completedAssetCount / assets.size) * 50;
+        setProgressPercent((current) => Math.max(current, assetProgress));
       }
 
       const manifest = manifestUrl(locale);
@@ -180,8 +194,24 @@ export function OfflineBookToggle({ locale, pagePaths }: Props) {
 
   const removeBook = async () => {
     setPhase("removing");
+    setProgressPercent(100);
+
     try {
-      await caches.delete(cacheName);
+      const [deleteResult] = await Promise.allSettled([
+        caches.delete(cacheName),
+        new Promise<void>((resolve) => {
+          const duration = window.matchMedia?.(
+            "(prefers-reduced-motion: reduce)",
+          ).matches
+            ? 0
+            : 900;
+          window.setTimeout(() => {
+            setProgressPercent(0);
+            window.setTimeout(resolve, duration);
+          }, 0);
+        }),
+      ]);
+      if (deleteResult.status === "rejected") throw deleteResult.reason;
       setIsSaved(false);
       setPhase("ready");
     } catch {
@@ -215,41 +245,74 @@ export function OfflineBookToggle({ locale, pagePaths }: Props) {
   }
 
   const isDownloading = phase === "pages" || phase === "assets";
+  const isShowingProgress = isDownloading || phase === "removing";
   const isDisabled = phase !== "ready" && phase !== "error";
-  const showStatusInLabel = isDownloading;
-  const secondaryStatus = showStatusInLabel ? "" : status;
+  const visibleStatus = phase === "error" ? status : "";
 
   if (phase === "unsupported") return null;
 
   return (
     <div className={STYLES.container}>
-      <label className={STYLES.toggle}>
+      <label
+        className={`${STYLES.toggle} ${
+          isSaved && phase !== "removing" ? STYLES.saved : ""
+        }`.trim()}
+      >
         <input
           className={STYLES.input}
           type="checkbox"
-          checked={isSaved || isDownloading}
+          checked={isSaved && phase !== "removing"}
           disabled={isDisabled}
           onChange={(event) => handleChange(event.currentTarget.checked)}
           aria-label={t("offlineReading")}
-          aria-describedby={secondaryStatus ? "offline-book-status" : undefined}
         />
+        {isShowingProgress && (
+          <span
+            className={STYLES.progressTrack}
+            role="progressbar"
+            aria-label={t("offlineReading")}
+            aria-valuemin={0}
+            aria-valuemax={100}
+            aria-valuenow={progressPercent}
+            aria-valuetext={status}
+          >
+            <span
+              className={STYLES.progressFill}
+              style={{ width: `${progressPercent}%` }}
+              aria-hidden="true"
+            >
+              <span className={STYLES.progressLabel}>
+                {t("offlineReading")}
+              </span>
+            </span>
+          </span>
+        )}
         <span
-          className={STYLES.label}
-          role={showStatusInLabel ? "status" : undefined}
-          aria-live={showStatusInLabel ? "polite" : undefined}
+          className={`${STYLES.label} ${
+            !isSaved || phase === "removing" ? STYLES.accentLabel : ""
+          }`}
         >
-          {showStatusInLabel ? status : t("offlineReading")}
+          {t("offlineReading")}
         </span>
         <span className={STYLES.switch} aria-hidden="true" />
       </label>
-      {secondaryStatus && (
+      {isDownloading && (
+        <span
+          className={STYLES.visuallyHidden}
+          role="status"
+          aria-live="polite"
+        >
+          {status}
+        </span>
+      )}
+      {visibleStatus && (
         <span
           className={STYLES.status}
           id="offline-book-status"
           role="status"
           aria-live="polite"
         >
-          {secondaryStatus}
+          {visibleStatus}
         </span>
       )}
     </div>
