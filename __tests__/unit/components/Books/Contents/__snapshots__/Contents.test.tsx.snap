@@ -37,38 +37,6 @@ exports[`Contents matches the snapshot (fr) 1`] = `
           <h2>
             Sommaire
           </h2>
-          <div
-            class="container"
-          >
-            <label
-              class="toggle"
-            >
-              <input
-                aria-describedby="offline-book-status"
-                aria-label="Offline reading"
-                class="input"
-                disabled=""
-                type="checkbox"
-              />
-              <span
-                class="label"
-              >
-                Offline reading
-              </span>
-              <span
-                aria-hidden="true"
-                class="switch"
-              />
-            </label>
-            <span
-              aria-live="polite"
-              class="status"
-              id="offline-book-status"
-              role="status"
-            >
-              Offline downloads are unavailable in this browser
-            </span>
-          </div>
         </div>
       </div>
       <div>

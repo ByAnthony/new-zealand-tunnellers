@@ -247,7 +247,6 @@
     "offlineReading": "Lecture hors ligne",
     "offlineSavingPages": "Téléchargement de la page {current} sur {total}",
     "offlineSavingAssets": "Téléchargement des images...",
-    "offlineDownloadFailed": "Échec du téléchargement. Vérifiez votre connexion et réessayez.",
-    "offlineUnavailable": "Le téléchargement hors ligne n'est pas disponible dans ce navigateur"
+    "offlineDownloadFailed": "Échec du téléchargement. Vérifiez votre connexion et réessayez."
   }
 }

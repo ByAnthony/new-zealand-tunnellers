@@ -198,26 +198,28 @@ export function OfflineBookToggle({ locale, pagePaths }: Props) {
     }
   };
 
-  const status =
-    phase === "pages"
-      ? t("offlineSavingPages", {
-          current: completedPages,
-          total: pagePaths.length,
-        })
-      : phase === "assets"
-        ? t("offlineSavingAssets")
-        : phase === "removing"
-          ? t("offlineRemoving")
-          : phase === "unsupported"
-            ? t("offlineUnavailable")
-            : phase === "error"
-              ? t("offlineDownloadFailed")
-              : "";
+  let status = "";
+  switch (phase) {
+    case "pages":
+      status = t("offlineSavingPages", {
+        current: completedPages,
+        total: pagePaths.length,
+      });
+      break;
+    case "assets":
+      status = t("offlineSavingAssets");
+      break;
+    case "error":
+      status = t("offlineDownloadFailed");
+      break;
+  }
 
   const isDownloading = phase === "pages" || phase === "assets";
   const isDisabled = phase !== "ready" && phase !== "error";
   const showStatusInLabel = isDownloading;
   const secondaryStatus = showStatusInLabel ? "" : status;
+
+  if (phase === "unsupported") return null;
 
   return (
     <div className={STYLES.container}>

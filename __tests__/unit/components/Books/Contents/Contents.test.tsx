@@ -55,6 +55,18 @@ const enContent = `# Kiwis Dig Tunnels Too
 - [Sources](./sources.md)
 `;
 
+const restoreProperty = (
+  target: object,
+  property: PropertyKey,
+  descriptor: PropertyDescriptor | undefined,
+) => {
+  if (descriptor) {
+    Object.defineProperty(target, property, descriptor);
+  } else {
+    Reflect.deleteProperty(target, property);
+  }
+};
+
 describe("Contents", () => {
   test("matches the snapshot (fr)", () => {
     const { asFragment } = render(<Contents locale="fr" content={frContent} />);
@@ -70,13 +82,39 @@ describe("Contents", () => {
     ).toBeInTheDocument();
   });
 
-  test("places the offline reading toggle beside the contents heading", () => {
-    render(<Contents locale="en" content={enContent} />);
-    const heading = screen.getByRole("heading", { name: "Contents" });
-    const toggle = screen.getByRole("checkbox", { name: "Offline reading" });
+  test("places the offline reading toggle beside the contents heading", async () => {
+    const originalCaches = Object.getOwnPropertyDescriptor(window, "caches");
+    const originalServiceWorker = Object.getOwnPropertyDescriptor(
+      navigator,
+      "serviceWorker",
+    );
+    const cache = { match: jest.fn().mockResolvedValue(undefined) };
 
-    expect(heading.parentElement).toHaveClass("contents-heading");
-    expect(heading.parentElement).toContainElement(toggle);
+    Object.defineProperty(window, "caches", {
+      configurable: true,
+      value: { open: jest.fn().mockResolvedValue(cache) },
+    });
+    Object.defineProperty(navigator, "serviceWorker", {
+      configurable: true,
+      value: {
+        register: jest.fn().mockResolvedValue(undefined),
+        ready: Promise.resolve(undefined),
+      },
+    });
+
+    try {
+      render(<Contents locale="en" content={enContent} />);
+      const heading = screen.getByRole("heading", { name: "Contents" });
+      const toggle = await screen.findByRole("checkbox", {
+        name: "Read offline",
+      });
+
+      expect(heading.parentElement).toHaveClass("contents-heading");
+      expect(heading.parentElement).toContainElement(toggle);
+    } finally {
+      restoreProperty(window, "caches", originalCaches);
+      restoreProperty(navigator, "serviceWorker", originalServiceWorker);
+    }
   });
 
   test("renders the artwork beside the contents list", () => {

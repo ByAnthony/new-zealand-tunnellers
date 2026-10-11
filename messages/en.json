@@ -246,7 +246,6 @@
     "offlineReading": "Read offline",
     "offlineSavingPages": "Saving page {current} of {total}",
     "offlineSavingAssets": "Saving images...",
-    "offlineDownloadFailed": "Download failed. Check your connection and try again.",
-    "offlineUnavailable": "Offline downloads are unavailable in this browser"
+    "offlineDownloadFailed": "Download failed. Check your connection and try again."
   }
 }
