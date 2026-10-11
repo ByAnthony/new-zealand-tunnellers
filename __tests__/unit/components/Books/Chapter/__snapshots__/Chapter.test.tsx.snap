@@ -30,6 +30,7 @@ exports[`Chapter matches the snapshot 1`] = `
                 alt=""
                 class="vignette"
                 height="100"
+                placeholder="empty"
                 src="/images/books/vignette-1.png"
                 width="120"
               />
