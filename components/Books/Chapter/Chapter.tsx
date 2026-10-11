@@ -63,6 +63,8 @@ const MainTitle: React.FC<{
               alt=""
               width={120}
               height={100}
+              priority={true}
+              placeholder="empty"
             />
           )}
           <h1>{chapter !== null ? chapter.text : title}</h1>
