@@ -245,8 +245,8 @@
     "zoomImage": "Agrandir l'image",
     "resetImageZoom": "Réinitialiser le zoom de l'image",
     "offlineReading": "Lecture hors ligne",
-    "offlineSavingPages": "Enregistrement de la page {current} sur {total}",
-    "offlineSavingAssets": "Enregistrement des images et autres fichiers...",
+    "offlineSavingPages": "Téléchargement de la page {current} sur {total}",
+    "offlineSavingAssets": "Téléchargement des images...",
     "offlineDownloadFailed": "Échec du téléchargement. Vérifiez votre connexion et réessayez.",
     "offlineUnavailable": "Le téléchargement hors ligne n'est pas disponible dans ce navigateur"
   }
