@@ -220,7 +220,7 @@ describe("OfflineBookToggle", () => {
       text: jest
         .fn()
         .mockResolvedValue(
-          '<img src="/image-one.jpg"><img src="/image-two.jpg">',
+          '<img src="/image-one.jpg"><img src="/image-two.jpg"><img src="https://external.example/image.jpg">',
         ),
     } as unknown as Response;
     const imageResponse = {
@@ -252,5 +252,54 @@ describe("OfflineBookToggle", () => {
         "75",
       ),
     );
+    expect(
+      fetchMock.mock.calls.some(([url]) =>
+        new URL(String(url), window.location.origin).origin.startsWith(
+          "https://external.example",
+        ),
+      ),
+    ).toBe(false);
+  });
+
+  test("shows a visible error and allows retry after a page download fails", async () => {
+    const cache = {
+      match: jest.fn().mockResolvedValue(undefined),
+      put: jest.fn(),
+    };
+    Object.defineProperty(window, "caches", {
+      configurable: true,
+      value: {
+        open: jest.fn().mockResolvedValue(cache),
+        delete: jest.fn().mockResolvedValue(true),
+      },
+    });
+    Object.defineProperty(navigator, "serviceWorker", {
+      configurable: true,
+      value: {
+        register: jest.fn().mockResolvedValue(undefined),
+        ready: Promise.resolve(undefined),
+      },
+    });
+    Object.defineProperty(globalThis, "fetch", {
+      configurable: true,
+      value: jest.fn().mockResolvedValue({ ok: false }),
+    });
+
+    render(<OfflineBookToggle locale="en" pagePaths={["/book/chapter-1/"]} />);
+
+    const toggle = await screen.findByRole("checkbox", {
+      name: "Read offline",
+    });
+    await waitFor(() => expect(toggle).toBeEnabled());
+    fireEvent.click(toggle);
+
+    expect(
+      await screen.findByText(
+        "Download failed. Check your connection and try again.",
+      ),
+    ).toHaveAttribute("role", "status");
+    expect(toggle).toBeEnabled();
+    expect(toggle).not.toBeChecked();
+    expect(screen.queryByRole("progressbar")).not.toBeInTheDocument();
   });
 });
