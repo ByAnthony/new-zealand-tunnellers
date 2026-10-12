@@ -6,6 +6,7 @@ describe("OfflineBookToggle", () => {
   let originalCaches: PropertyDescriptor | undefined;
   let originalServiceWorker: PropertyDescriptor | undefined;
   let originalFetch: PropertyDescriptor | undefined;
+  let originalMatchMedia: PropertyDescriptor | undefined;
 
   beforeEach(() => {
     originalCaches = Object.getOwnPropertyDescriptor(window, "caches");
@@ -14,6 +15,7 @@ describe("OfflineBookToggle", () => {
       "serviceWorker",
     );
     originalFetch = Object.getOwnPropertyDescriptor(globalThis, "fetch");
+    originalMatchMedia = Object.getOwnPropertyDescriptor(window, "matchMedia");
   });
 
   afterEach(() => {
@@ -33,6 +35,12 @@ describe("OfflineBookToggle", () => {
       Object.defineProperty(globalThis, "fetch", originalFetch);
     } else {
       Reflect.deleteProperty(globalThis, "fetch");
+    }
+
+    if (originalMatchMedia) {
+      Object.defineProperty(window, "matchMedia", originalMatchMedia);
+    } else {
+      Reflect.deleteProperty(window, "matchMedia");
     }
   });
 
@@ -261,7 +269,7 @@ describe("OfflineBookToggle", () => {
     ).toBe(false);
   });
 
-  test("shows a visible error and allows retry after a page download fails", async () => {
+  test("shows a download error and retries downloading", async () => {
     const cache = {
       match: jest.fn().mockResolvedValue(undefined),
       put: jest.fn(),
@@ -280,9 +288,13 @@ describe("OfflineBookToggle", () => {
         ready: Promise.resolve(undefined),
       },
     });
+    const fetchMock = jest
+      .fn()
+      .mockResolvedValueOnce({ ok: false })
+      .mockImplementation(() => new Promise<Response>(() => {}));
     Object.defineProperty(globalThis, "fetch", {
       configurable: true,
-      value: jest.fn().mockResolvedValue({ ok: false }),
+      value: fetchMock,
     });
 
     render(<OfflineBookToggle locale="en" pagePaths={["/book/chapter-1/"]} />);
@@ -293,13 +305,70 @@ describe("OfflineBookToggle", () => {
     await waitFor(() => expect(toggle).toBeEnabled());
     fireEvent.click(toggle);
 
+    expect(await screen.findByRole("alert")).toHaveTextContent(
+      "Download failed",
+    );
+    const retry = screen.getByRole("button", { name: "Retry download" });
+    fireEvent.click(retry);
+    expect(await screen.findByRole("progressbar")).toBeInTheDocument();
+    await waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(2));
     expect(
-      await screen.findByText(
-        "Download failed. Check your connection and try again.",
-      ),
-    ).toHaveAttribute("role", "status");
-    expect(toggle).toBeEnabled();
-    expect(toggle).not.toBeChecked();
-    expect(screen.queryByRole("progressbar")).not.toBeInTheDocument();
+      screen.queryByRole("button", { name: "Retry download" }),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: "Retry download" }),
+    ).not.toBeInTheDocument();
+  });
+
+  test("shows a removal error and retries removing", async () => {
+    const cache = {
+      match: jest
+        .fn()
+        .mockResolvedValueOnce({
+          json: jest.fn().mockResolvedValue(["/book/chapter-1/"]),
+        })
+        .mockResolvedValueOnce(true),
+    };
+    const deleteMock = jest
+      .fn()
+      .mockRejectedValueOnce(new Error("Unable to remove cache"))
+      .mockResolvedValue(true);
+    Object.defineProperty(window, "caches", {
+      configurable: true,
+      value: {
+        open: jest.fn().mockResolvedValue(cache),
+        delete: deleteMock,
+      },
+    });
+    Object.defineProperty(navigator, "serviceWorker", {
+      configurable: true,
+      value: {
+        register: jest.fn().mockResolvedValue(undefined),
+        ready: Promise.resolve(undefined),
+      },
+    });
+    Object.defineProperty(window, "matchMedia", {
+      configurable: true,
+      value: jest.fn().mockReturnValue({ matches: true }),
+    });
+
+    render(<OfflineBookToggle locale="en" pagePaths={[]} />);
+
+    const toggle = await screen.findByRole("checkbox", {
+      name: "Read offline",
+    });
+    await waitFor(() => expect(toggle).toBeChecked());
+    fireEvent.click(toggle);
+
+    expect(await screen.findByRole("alert")).toHaveTextContent(
+      "Removal failed",
+    );
+    fireEvent.click(screen.getByRole("button", { name: "Retry removal" }));
+    await waitFor(() => expect(deleteMock).toHaveBeenCalledTimes(2));
+    await waitFor(() =>
+      expect(
+        screen.getByRole("checkbox", { name: "Read offline" }),
+      ).not.toBeChecked(),
+    );
   });
 });

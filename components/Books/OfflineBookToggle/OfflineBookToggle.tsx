@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 
@@ -18,7 +19,8 @@ type Phase =
   | "assets"
   | "removing"
   | "ready"
-  | "error"
+  | "download-error"
+  | "removal-error"
   | "unsupported";
 
 const manifestUrl = (locale: string) =>
@@ -188,7 +190,7 @@ export function OfflineBookToggle({ locale, pagePaths }: Props) {
     } catch {
       await caches.delete(cacheName);
       setIsSaved(false);
-      setPhase("error");
+      setPhase("download-error");
     }
   };
 
@@ -215,12 +217,12 @@ export function OfflineBookToggle({ locale, pagePaths }: Props) {
       setIsSaved(false);
       setPhase("ready");
     } catch {
-      setPhase("error");
+      setPhase("removal-error");
     }
   };
 
   const handleChange = (checked: boolean) => {
-    if (phase !== "ready" && phase !== "error") return;
+    if (phase !== "ready") return;
     if (checked) {
       void saveBook();
     } else {
@@ -239,63 +241,94 @@ export function OfflineBookToggle({ locale, pagePaths }: Props) {
     case "assets":
       status = t("offlineSavingAssets");
       break;
-    case "error":
+    case "download-error":
       status = t("offlineDownloadFailed");
+      break;
+    case "removal-error":
+      status = t("offlineRemovalFailed");
       break;
   }
 
   const isDownloading = phase === "pages" || phase === "assets";
   const isShowingProgress = isDownloading || phase === "removing";
-  const isDisabled = phase !== "ready" && phase !== "error";
-  const visibleStatus = phase === "error" ? status : "";
+  const isError = phase === "download-error" || phase === "removal-error";
+  const retryLabel =
+    phase === "download-error"
+      ? t("offlineRetryDownload")
+      : t("offlineRetryRemoval");
+  const isDisabled = phase !== "ready";
 
   if (phase === "unsupported") return null;
 
   return (
     <div className={STYLES.container}>
-      <label
-        className={`${STYLES.toggle} ${
-          isSaved && phase !== "removing" ? STYLES.saved : ""
-        }`.trim()}
-      >
-        <input
-          className={STYLES.input}
-          type="checkbox"
-          checked={isSaved && phase !== "removing"}
-          disabled={isDisabled}
-          onChange={(event) => handleChange(event.currentTarget.checked)}
-          aria-label={t("offlineReading")}
-        />
-        {isShowingProgress && (
-          <span
-            className={STYLES.progressTrack}
-            role="progressbar"
-            aria-label={t("offlineReading")}
-            aria-valuemin={0}
-            aria-valuemax={100}
-            aria-valuenow={progressPercent}
-            aria-valuetext={status}
+      {isError ? (
+        <div className={`${STYLES.toggle} ${STYLES.error}`}>
+          <span className={STYLES.errorMessage} role="alert">
+            {status}
+          </span>
+          <button
+            className={STYLES.retry}
+            type="button"
+            aria-label={retryLabel}
+            onClick={() =>
+              phase === "download-error" ? void saveBook() : void removeBook()
+            }
           >
+            <Image
+              className={STYLES.retryIcon}
+              src="/images/books/retry.png"
+              alt=""
+              width={759}
+              height={759}
+            />
+          </button>
+        </div>
+      ) : (
+        <label
+          className={`${STYLES.toggle} ${
+            isSaved && phase !== "removing" ? STYLES.saved : ""
+          }`.trim()}
+        >
+          <input
+            className={STYLES.input}
+            type="checkbox"
+            checked={isSaved && phase !== "removing"}
+            disabled={isDisabled}
+            onChange={(event) => handleChange(event.currentTarget.checked)}
+            aria-label={t("offlineReading")}
+          />
+          {isShowingProgress && (
             <span
-              className={STYLES.progressFill}
-              style={{ width: `${progressPercent}%` }}
-              aria-hidden="true"
+              className={STYLES.progressTrack}
+              role="progressbar"
+              aria-label={t("offlineReading")}
+              aria-valuemin={0}
+              aria-valuemax={100}
+              aria-valuenow={progressPercent}
+              aria-valuetext={status}
             >
-              <span className={STYLES.progressLabel}>
-                {t("offlineReading")}
+              <span
+                className={STYLES.progressFill}
+                style={{ width: `${progressPercent}%` }}
+                aria-hidden="true"
+              >
+                <span className={STYLES.progressLabel}>
+                  {t("offlineReading")}
+                </span>
               </span>
             </span>
+          )}
+          <span
+            className={`${STYLES.label} ${
+              !isSaved || phase === "removing" ? STYLES.accentLabel : ""
+            }`}
+          >
+            {t("offlineReading")}
           </span>
-        )}
-        <span
-          className={`${STYLES.label} ${
-            !isSaved || phase === "removing" ? STYLES.accentLabel : ""
-          }`}
-        >
-          {t("offlineReading")}
-        </span>
-        <span className={STYLES.switch} aria-hidden="true" />
-      </label>
+          <span className={STYLES.switch} aria-hidden="true" />
+        </label>
+      )}
       {isDownloading && (
         <span
           className={STYLES.visuallyHidden}
@@ -303,16 +336,6 @@ export function OfflineBookToggle({ locale, pagePaths }: Props) {
           aria-live="polite"
         >
           {status}
-        </span>
-      )}
-      {visibleStatus && (
-        <span
-          className={STYLES.status}
-          id="offline-book-status"
-          role="status"
-          aria-live="polite"
-        >
-          {visibleStatus}
         </span>
       )}
     </div>

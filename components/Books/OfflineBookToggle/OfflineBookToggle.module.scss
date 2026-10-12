@@ -18,7 +18,7 @@
   overflow: hidden;
   border: 1px solid variables.$primary-light-color;
   border-radius: variables.$border-radius;
-  background-color: variables.$primary-dark-color;
+  background-color: variables.$primary-medium-color;
   color: variables.$text-color;
   cursor: pointer;
   min-width: 0;
@@ -28,6 +28,41 @@
   border-color: variables.$secondary-color;
   background-color: variables.$secondary-color;
   color: variables.$primary-dark-color;
+}
+
+.error {
+  justify-content: space-between;
+}
+
+.errorMessage {
+  min-width: 0;
+  color: variables.$text-color;
+  font-weight: 400;
+}
+
+.retry {
+  display: grid;
+  flex: 0 0 auto;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  place-items: center;
+  border: 1px solid variables.$secondary-color;
+  border-radius: 50%;
+  background-color: variables.$primary-dark-color;
+  color: variables.$secondary-color;
+  cursor: pointer;
+
+  &:focus-visible {
+    outline: 2px solid variables.$secondary-color;
+    outline-offset: 2px;
+  }
+}
+
+.retryIcon {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
 }
 
 .label {
@@ -127,13 +162,6 @@
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   clip-path: inset(50%);
-}
-
-.status {
-  flex-basis: 100%;
-  color: variables.$text-color;
-  font-size: 1rem;
-  text-align: right;
 }
 
 @media (prefers-reduced-motion: reduce) {
