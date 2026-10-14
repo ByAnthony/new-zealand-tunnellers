@@ -3,12 +3,14 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { OfflineBookToggle } from "@/components/Books/OfflineBookToggle/OfflineBookToggle";
 
 describe("OfflineBookToggle", () => {
+  const savedMarkerKey = "nzt-offline-book-saved-v1-en";
   let originalCaches: PropertyDescriptor | undefined;
   let originalServiceWorker: PropertyDescriptor | undefined;
   let originalFetch: PropertyDescriptor | undefined;
   let originalMatchMedia: PropertyDescriptor | undefined;
 
   beforeEach(() => {
+    window.localStorage.removeItem(savedMarkerKey);
     originalCaches = Object.getOwnPropertyDescriptor(window, "caches");
     originalServiceWorker = Object.getOwnPropertyDescriptor(
       navigator,
@@ -19,6 +21,7 @@ describe("OfflineBookToggle", () => {
   });
 
   afterEach(() => {
+    window.localStorage.removeItem(savedMarkerKey);
     if (originalCaches) {
       Object.defineProperty(window, "caches", originalCaches);
     } else {
@@ -84,6 +87,64 @@ describe("OfflineBookToggle", () => {
         screen.getByRole("checkbox", { name: "Read offline" }),
       ).toBeEnabled(),
     );
+  });
+
+  test("shows the switch on immediately from the saved marker while cache is checked", () => {
+    window.localStorage.setItem(savedMarkerKey, "true");
+    Object.defineProperty(window, "caches", {
+      configurable: true,
+      value: { open: jest.fn(() => new Promise(() => {})) },
+    });
+    Object.defineProperty(navigator, "serviceWorker", {
+      configurable: true,
+      value: { ready: new Promise(() => {}) },
+    });
+
+    render(<OfflineBookToggle locale="en" pagePaths={[]} />);
+
+    const toggle = screen.getByRole("checkbox", { name: "Read offline" });
+    expect(toggle).toBeChecked();
+    expect(toggle).toBeDisabled();
+  });
+
+  test("renders server-confirmed saved state as checked before cache verification", () => {
+    Object.defineProperty(window, "caches", {
+      configurable: true,
+      value: { open: jest.fn(() => new Promise(() => {})) },
+    });
+    Object.defineProperty(navigator, "serviceWorker", {
+      configurable: true,
+      value: { ready: new Promise(() => {}) },
+    });
+
+    render(
+      <OfflineBookToggle locale="en" pagePaths={[]} initiallySaved={true} />,
+    );
+
+    const toggle = screen.getByRole("checkbox", { name: "Read offline" });
+    expect(toggle).toBeChecked();
+    expect(toggle).toBeDisabled();
+  });
+
+  test("clears a stale saved marker when the offline cache is missing", async () => {
+    window.localStorage.setItem(savedMarkerKey, "true");
+    const cache = { match: jest.fn().mockResolvedValue(undefined) };
+    Object.defineProperty(window, "caches", {
+      configurable: true,
+      value: { open: jest.fn().mockResolvedValue(cache) },
+    });
+    Object.defineProperty(navigator, "serviceWorker", {
+      configurable: true,
+      value: { ready: Promise.resolve(undefined) },
+    });
+
+    render(<OfflineBookToggle locale="en" pagePaths={[]} />);
+
+    const toggle = screen.getByRole("checkbox", { name: "Read offline" });
+    expect(toggle).toBeChecked();
+    await waitFor(() => expect(toggle).toBeEnabled());
+    expect(toggle).not.toBeChecked();
+    expect(window.localStorage.getItem(savedMarkerKey)).toBeNull();
   });
 
   test("uses the saved appearance when the offline copy is complete", async () => {

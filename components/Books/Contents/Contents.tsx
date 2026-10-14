@@ -18,6 +18,7 @@ import STYLES from "./Contents.module.scss";
 type Props = {
   locale: string;
   content: string;
+  initiallySaved?: boolean;
 };
 
 const SommaireItem: React.FC<{
@@ -77,7 +78,11 @@ const MainTitle: React.FC<{ children: ReactNode }> = ({ children }) => {
   );
 };
 
-export const Contents: React.FC<Props> = ({ locale, content }) => {
+export const Contents: React.FC<Props> = ({
+  locale,
+  content,
+  initiallySaved = false,
+}) => {
   const pagePaths = [
     basePath(locale),
     ...Array.from(
@@ -95,7 +100,11 @@ export const Contents: React.FC<Props> = ({ locale, content }) => {
           h2: ({ children }) => (
             <div className={STYLES["contents-heading"]}>
               <h2>{children}</h2>
-              <OfflineBookToggle locale={locale} pagePaths={pagePaths} />
+              <OfflineBookToggle
+                locale={locale}
+                pagePaths={pagePaths}
+                initiallySaved={initiallySaved}
+              />
             </div>
           ),
           ul: ({ children }) => (

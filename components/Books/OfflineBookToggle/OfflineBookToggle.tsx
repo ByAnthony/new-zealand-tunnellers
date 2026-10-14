@@ -3,15 +3,50 @@
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import type { CSSProperties } from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
+
+import { offlineBookSavedKey } from "@/utils/helpers/books/offlineBookSavedKey";
 
 import STYLES from "./OfflineBookToggle.module.scss";
 
 const CACHE_NAME_PREFIX = "nzt-offline-book-v1-";
+const useClientLayoutEffect =
+  typeof window === "undefined" ? useEffect : useLayoutEffect;
+
+const getSavedMarker = (locale: string): boolean => {
+  try {
+    return window.localStorage.getItem(offlineBookSavedKey(locale)) === "true";
+  } catch {
+    return false;
+  }
+};
+
+const setSavedMarker = (locale: string, isSaved: boolean): void => {
+  const key = offlineBookSavedKey(locale);
+
+  try {
+    if (isSaved) {
+      window.localStorage.setItem(key, "true");
+    } else {
+      window.localStorage.removeItem(key);
+    }
+  } catch {
+    // Continue with the cookie when local storage is unavailable.
+  }
+
+  try {
+    const maxAge = isSaved ? 60 * 60 * 24 * 365 : 0;
+    const secure = window.location.protocol === "https:" ? "; Secure" : "";
+    document.cookie = `${key}=${isSaved ? "true" : ""}; Max-Age=${maxAge}; Path=/; SameSite=Lax${secure}`;
+  } catch {
+    // Cache Storage is still verified directly on page load.
+  }
+};
 
 type Props = {
   locale: string;
   pagePaths: string[];
+  initiallySaved?: boolean;
 };
 
 type Phase =
@@ -47,14 +82,22 @@ const readSavedUrls = async (cache: Cache, locale: string) => {
   return allPresent.every(Boolean) ? savedUrls : undefined;
 };
 
-export function OfflineBookToggle({ locale, pagePaths }: Props) {
+export function OfflineBookToggle({
+  locale,
+  pagePaths,
+  initiallySaved = false,
+}: Props) {
   const t = useTranslations("books");
   const [phase, setPhase] = useState<Phase>("checking");
-  const [isSaved, setIsSaved] = useState(false);
+  const [isSaved, setIsSaved] = useState(initiallySaved);
   const [completedPages, setCompletedPages] = useState(0);
   const [progressPercent, setProgressPercent] = useState(0);
   const pathsKey = pagePaths.join("\n");
   const cacheName = `${CACHE_NAME_PREFIX}${locale}`;
+
+  useClientLayoutEffect(() => {
+    if (getSavedMarker(locale)) setIsSaved(true);
+  }, [initiallySaved, locale]);
 
   useEffect(() => {
     let isCurrent = true;
@@ -71,6 +114,7 @@ export function OfflineBookToggle({ locale, pagePaths }: Props) {
         const savedUrls = await readSavedUrls(cache, locale);
         if (isCurrent) {
           setIsSaved(Boolean(savedUrls));
+          setSavedMarker(locale, Boolean(savedUrls));
           setPhase("ready");
         }
       } catch {
@@ -188,10 +232,12 @@ export function OfflineBookToggle({ locale, pagePaths }: Props) {
           headers: { "Content-Type": "application/json" },
         }),
       );
+      setSavedMarker(locale, true);
       setProgressPercent(100);
       setIsSaved(true);
       setPhase("ready");
     } catch {
+      setSavedMarker(locale, false);
       await caches.delete(cacheName);
       setIsSaved(false);
       setPhase("download-error");
@@ -203,6 +249,7 @@ export function OfflineBookToggle({ locale, pagePaths }: Props) {
 
     try {
       await caches.delete(cacheName);
+      setSavedMarker(locale, false);
       setIsSaved(false);
       setPhase("ready");
     } catch {
