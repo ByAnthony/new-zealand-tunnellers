@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useTranslations } from "next-intl";
+import type { CSSProperties } from "react";
 import { useEffect, useState } from "react";
 
 import STYLES from "./OfflineBookToggle.module.scss";
@@ -51,6 +52,7 @@ export function OfflineBookToggle({ locale, pagePaths }: Props) {
   const [phase, setPhase] = useState<Phase>("checking");
   const [isSaved, setIsSaved] = useState(false);
   const [completedPages, setCompletedPages] = useState(0);
+  const [progressPercent, setProgressPercent] = useState(0);
   const pathsKey = pagePaths.join("\n");
   const cacheName = `${CACHE_NAME_PREFIX}${locale}`;
 
@@ -89,9 +91,11 @@ export function OfflineBookToggle({ locale, pagePaths }: Props) {
     const cachedUrls = new Set<string>();
     const assets = new Map<string, URL>();
     let completedPageCount = 0;
+    let completedAssetCount = 0;
 
     setPhase("pages");
     setCompletedPages(0);
+    setProgressPercent(0);
 
     try {
       await navigator.serviceWorker.register("/service-worker.js");
@@ -135,10 +139,15 @@ export function OfflineBookToggle({ locale, pagePaths }: Props) {
 
         completedPageCount += 1;
         setCompletedPages(completedPageCount);
+        const pageProgress = pageUrls.length
+          ? (completedPageCount / pageUrls.length) * 50
+          : 50;
+        setProgressPercent((current) => Math.max(current, pageProgress));
       }
 
       setPhase("assets");
       const pendingAssets = [...assets.values()];
+      if (pendingAssets.length === 0) setProgressPercent(99);
       while (pendingAssets.length > 0) {
         const assetUrl = pendingAssets.shift()!;
         if (cachedUrls.has(assetUrl.href)) continue;
@@ -163,6 +172,13 @@ export function OfflineBookToggle({ locale, pagePaths }: Props) {
             }
           }
         }
+
+        completedAssetCount += 1;
+        const assetProgress =
+          50 + (completedAssetCount / Math.max(assets.size, 1)) * 49;
+        setProgressPercent((current) =>
+          Math.max(current, Math.min(assetProgress, 99)),
+        );
       }
 
       const manifest = manifestUrl(locale);
@@ -172,6 +188,7 @@ export function OfflineBookToggle({ locale, pagePaths }: Props) {
           headers: { "Content-Type": "application/json" },
         }),
       );
+      setProgressPercent(100);
       setIsSaved(true);
       setPhase("ready");
     } catch {
@@ -266,12 +283,33 @@ export function OfflineBookToggle({ locale, pagePaths }: Props) {
             aria-label={t("offlineReading")}
           />
           <span
-            className={`${STYLES.downloadArrow} ${
-              isSaved ? STYLES.downloadComplete : ""
+            className={`${STYLES.downloadIndicator} ${
+              isDownloading ? STYLES.downloading : ""
             }`}
-            aria-hidden="true"
+            style={
+              isDownloading
+                ? ({
+                    "--download-progress": `${progressPercent}%`,
+                  } as CSSProperties)
+                : undefined
+            }
+            role={isDownloading ? "progressbar" : undefined}
+            aria-label={isDownloading ? t("offlineReading") : undefined}
+            aria-valuemin={isDownloading ? 0 : undefined}
+            aria-valuemax={isDownloading ? 100 : undefined}
+            aria-valuenow={
+              isDownloading ? Math.round(progressPercent) : undefined
+            }
+            aria-valuetext={isDownloading ? status : undefined}
           >
-            {isSaved ? "✓" : "↓"}
+            <span
+              className={`${STYLES.downloadArrow} ${
+                isSaved ? STYLES.downloadComplete : ""
+              }`}
+              aria-hidden="true"
+            >
+              {isSaved ? "✓" : "↓"}
+            </span>
           </span>
           <span
             className={`${STYLES.label} ${

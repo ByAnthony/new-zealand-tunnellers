@@ -190,6 +190,10 @@ describe("OfflineBookToggle", () => {
     expect(await screen.findByRole("status")).toHaveTextContent(
       "Saving page 0 of 1",
     );
+    expect(await screen.findByRole("progressbar")).toHaveAttribute(
+      "aria-valuenow",
+      "0",
+    );
     expect(screen.getByText("Read offline")).toHaveClass("label");
     expect(toggle).toBeChecked();
     expect(toggle).toBeDisabled();
@@ -250,6 +254,9 @@ describe("OfflineBookToggle", () => {
     await waitFor(() =>
       expect(screen.getByRole("status")).toHaveTextContent("Saving images..."),
     );
+    expect(
+      Number(screen.getByRole("progressbar").getAttribute("aria-valuenow")),
+    ).toBeGreaterThan(50);
     expect(toggle).toBeChecked();
     expect(
       fetchMock.mock.calls.some(([url]) =>
@@ -304,6 +311,7 @@ describe("OfflineBookToggle", () => {
     expect(await screen.findByRole("status")).toHaveTextContent(
       "Saving page 0 of 1",
     );
+    expect(await screen.findByRole("progressbar")).toBeInTheDocument();
     await waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(2));
     expect(
       screen.queryByRole("button", { name: "Retry download" }),
