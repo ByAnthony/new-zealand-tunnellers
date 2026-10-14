@@ -24,12 +24,6 @@
   min-width: 0;
 }
 
-.saved {
-  border-color: variables.$secondary-color;
-  background-color: variables.$secondary-color;
-  color: variables.$primary-dark-color;
-}
-
 .error {
   justify-content: space-between;
 }
@@ -71,6 +65,37 @@
   text-align: left;
 }
 
+.downloadArrow {
+  @include variables.arrow-button;
+
+  display: grid;
+  flex: 0 0 auto;
+  width: 24px;
+  height: 24px;
+  place-items: center;
+  color: variables.$text-color;
+  background-color: variables.$primary-medium-color;
+  border: 1px solid variables.$text-color;
+  font-size: 1.2rem;
+  font-weight: 300;
+  line-height: 1;
+  transition: none;
+
+  @include variables.tablet {
+    width: 24px;
+    height: 24px;
+  }
+
+  @include variables.desktop {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+.downloadComplete {
+  font-size: 0.8rem;
+}
+
 .accentLabel {
   color: variables.$text-color;
 }
@@ -85,6 +110,8 @@
   clip-path: inset(50%);
 
   &:checked ~ .switch {
+    background-color: variables.$secondary-color;
+
     &::after {
       transform: translateX(16px);
     }
@@ -116,40 +143,12 @@
     width: 14px;
     height: 14px;
     border-radius: 50%;
-    background-color: variables.$text-color;
+    background-color: white;
     transition: all 0.9s ease-in-out;
   }
 }
 
-.progressTrack {
-  position: absolute;
-  z-index: 2;
-  inset: 0;
-  overflow: hidden;
-  pointer-events: none;
-}
-
-.progressFill {
-  position: absolute;
-  inset: 0 auto 0 0;
-  overflow: hidden;
-  background-color: variables.$secondary-color;
-  transition: width 0.9s ease-in-out;
-}
-
-.progressLabel {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: variables.$xs-margin;
-  display: flex;
-  align-items: center;
-  color: variables.$primary-dark-color;
-  white-space: nowrap;
-}
-
-.label,
-.progressLabel {
+.label {
   font-weight: 400;
 }
 
@@ -166,8 +165,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .switch,
-  .switch::after,
-  .progressFill {
+  .switch::after {
     transition: none;
   }
 }

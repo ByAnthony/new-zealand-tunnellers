@@ -111,6 +111,7 @@ describe("Contents", () => {
 
       expect(heading.parentElement).toHaveClass("contents-heading");
       expect(heading.parentElement).toContainElement(toggle);
+      expect(toggle.parentElement).toHaveTextContent("Read offline");
     } finally {
       restoreProperty(window, "caches", originalCaches);
       restoreProperty(navigator, "serviceWorker", originalServiceWorker);

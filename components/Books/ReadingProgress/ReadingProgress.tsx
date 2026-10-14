@@ -18,6 +18,7 @@ export const ReadingProgress = () => {
 
   useEffect(() => {
     let cleanup: (() => void) | null = null;
+    let restoreFrame: number | null = null;
 
     const attach = (button: Element) => {
       const getTotalScrollable = () => {
@@ -28,8 +29,10 @@ export const ReadingProgress = () => {
 
       const saved = getChapterProgress(pathname);
       const total0 = getTotalScrollable();
+      const hasSavedPosition = saved > 0 && total0 > 0;
 
-      if (saved > 0 && total0 > 0) {
+      if (hasSavedPosition) {
+        setProgress(saved);
         window.scrollTo({ top: (saved / 100) * total0, behavior: "auto" });
       }
 
@@ -44,12 +47,18 @@ export const ReadingProgress = () => {
 
       window.addEventListener("scroll", update, { passive: true });
       window.addEventListener("resize", update);
-      update();
+      if (hasSavedPosition) {
+        restoreFrame = window.requestAnimationFrame(update);
+      } else {
+        update();
+      }
 
-      cleanup = () => window.removeEventListener("scroll", update);
       cleanup = () => {
         window.removeEventListener("scroll", update);
         window.removeEventListener("resize", update);
+        if (restoreFrame !== null) {
+          window.cancelAnimationFrame(restoreFrame);
+        }
       };
     };
 

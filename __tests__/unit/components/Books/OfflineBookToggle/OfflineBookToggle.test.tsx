@@ -113,7 +113,9 @@ describe("OfflineBookToggle", () => {
       name: "Read offline",
     });
     await waitFor(() => expect(toggle).toBeChecked());
-    expect(toggle.closest("label")).toHaveClass("saved");
+    expect(toggle.closest("label")).toHaveClass("toggle");
+    expect(toggle.closest("label")).not.toHaveClass("saved");
+    expect(screen.getByText("✓")).toBeInTheDocument();
   });
 
   test("moves the switch off immediately when removing the offline copy", async () => {
@@ -150,15 +152,10 @@ describe("OfflineBookToggle", () => {
 
     expect(toggle).not.toBeChecked();
     expect(toggle).toBeDisabled();
-    const progress = await screen.findByRole("progressbar");
-    expect(progress).toHaveAttribute("aria-valuenow", "100");
-    await waitFor(
-      () => expect(progress).toHaveAttribute("aria-valuenow", "0"),
-      { timeout: 1500 },
-    );
+    expect(screen.queryByRole("progressbar")).not.toBeInTheDocument();
   });
 
-  test("keeps its label fixed and shows page progress while saving", async () => {
+  test("keeps its label fixed and announces page progress while saving", async () => {
     const cache = {
       match: jest.fn().mockResolvedValue(undefined),
       put: jest.fn(),
@@ -190,19 +187,15 @@ describe("OfflineBookToggle", () => {
     await waitFor(() => expect(toggle).toBeEnabled());
     fireEvent.click(toggle);
 
-    expect(await screen.findByRole("progressbar")).toHaveAttribute(
-      "aria-valuenow",
-      "0",
+    expect(await screen.findByRole("status")).toHaveTextContent(
+      "Saving page 0 of 1",
     );
-    const labels = screen.getAllByText("Read offline");
-    expect(labels).toHaveLength(2);
-    expect(labels[0]).toHaveClass("progressLabel");
-    expect(labels[1]).toHaveClass("accentLabel");
-    expect(toggle).not.toBeChecked();
+    expect(screen.getByText("Read offline")).toHaveClass("label");
+    expect(toggle).toBeChecked();
     expect(toggle).toBeDisabled();
   });
 
-  test("continues progress through downloaded assets", async () => {
+  test("announces asset status while downloading assets", async () => {
     const cache = {
       match: jest.fn().mockResolvedValue(undefined),
       put: jest.fn(),
@@ -255,11 +248,9 @@ describe("OfflineBookToggle", () => {
     fireEvent.click(toggle);
 
     await waitFor(() =>
-      expect(screen.getByRole("progressbar")).toHaveAttribute(
-        "aria-valuenow",
-        "75",
-      ),
+      expect(screen.getByRole("status")).toHaveTextContent("Saving images..."),
     );
+    expect(toggle).toBeChecked();
     expect(
       fetchMock.mock.calls.some(([url]) =>
         new URL(String(url), window.location.origin).origin.startsWith(
@@ -310,7 +301,9 @@ describe("OfflineBookToggle", () => {
     );
     const retry = screen.getByRole("button", { name: "Retry download" });
     fireEvent.click(retry);
-    expect(await screen.findByRole("progressbar")).toBeInTheDocument();
+    expect(await screen.findByRole("status")).toHaveTextContent(
+      "Saving page 0 of 1",
+    );
     await waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(2));
     expect(
       screen.queryByRole("button", { name: "Retry download" }),
