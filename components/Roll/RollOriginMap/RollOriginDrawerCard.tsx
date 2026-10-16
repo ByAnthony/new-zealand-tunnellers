@@ -43,7 +43,7 @@ export function RollOriginDrawerCard({ localePrefix, tunneller }: Props) {
           {displayBiographyDates(tunneller.birthYear, tunneller.deathYear)}
         </p>
       </div>
-      <div className={STYLES["origin-drawer-arrow"]}>&rarr;</div>
+      <div className={STYLES.arrow}>&rarr;</div>
     </Link>
   );
 }

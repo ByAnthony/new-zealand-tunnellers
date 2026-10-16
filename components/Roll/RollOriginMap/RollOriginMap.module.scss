@@ -355,6 +355,10 @@ $drawer-desktop-bottom: calc(
 
   @include variables.featured-button-link;
 
+  @include variables.desktop {
+    padding: variables.$padding-card;
+  }
+
   &:focus-visible {
     outline: 2px solid variables.$secondary-color;
     outline-offset: 2px;
@@ -377,6 +381,14 @@ $drawer-desktop-bottom: calc(
   color: variables.$secondary-color;
   font-size: 0.9rem;
   font-weight: 300;
+
+  @include variables.tablet {
+    font-size: 1rem;
+  }
+
+  @include variables.desktop {
+    font-size: 1rem;
+  }
 }
 
 .origin-drawer-forename,
@@ -384,6 +396,10 @@ $drawer-desktop-bottom: calc(
   margin: 0;
   color: variables.$secondary-color;
   font-size: 1.15rem;
+
+  @include variables.desktop {
+    font-size: 1.3rem;
+  }
 }
 
 .origin-drawer-forename {
@@ -400,11 +416,27 @@ $drawer-desktop-bottom: calc(
   font-size: 0.9rem;
   font-weight: 300;
 
+  @include variables.tablet {
+    font-size: 1rem;
+  }
+
+  @include variables.desktop {
+    font-size: 1rem;
+  }
+
   sup {
     color: variables.$secondary-color;
     font-size: 0.6rem;
     line-height: 80%;
     vertical-align: super;
+
+    @include variables.tablet {
+      font-size: 0.7rem;
+    }
+
+    @include variables.desktop {
+      font-size: 0.7rem;
+    }
   }
 }
 
@@ -413,6 +445,15 @@ $drawer-desktop-bottom: calc(
   color: variables.$secondary-color;
   font-size: 1.1rem;
   font-weight: 500;
+
+  @include variables.tablet {
+    margin-top: variables.$s-margin;
+  }
+
+  @include variables.desktop {
+    margin-top: variables.$m-margin;
+    font-size: 1.2rem;
+  }
 }
 
 .origin-drawer-badge {
@@ -424,25 +465,18 @@ $drawer-desktop-bottom: calc(
   font-size: 0.65rem;
   font-weight: 500;
   text-transform: uppercase;
-}
-
-.origin-drawer-arrow {
-  @include variables.arrow-button;
-
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  color: variables.$secondary-color;
-  font-size: 1.5rem;
-  line-height: 1;
 
   @include variables.tablet {
-    font-size: 2rem;
+    font-size: 0.75rem;
   }
 
   @include variables.desktop {
-    font-size: 2.5rem;
+    font-size: 0.75rem;
   }
+}
+
+.arrow {
+  @include variables.arrow-button;
 }
 
 :global(.leaflet-tooltip.roll-origin-tooltip) {
