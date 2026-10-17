@@ -244,7 +244,7 @@
     "goToChapter": "Aller au chapitre {chapter} : {title}",
     "zoomImage": "Agrandir l'image",
     "resetImageZoom": "Réinitialiser le zoom de l'image",
-    "offlineReading": "Lecture hors ligne",
+    "offlineReading": "Lire hors ligne",
     "offlineSavingPages": "Téléchargement de la page {current} sur {total}",
     "offlineSavingAssets": "Téléchargement des images...",
     "offlineDownloadFailed": "Échec du téléchargement",
