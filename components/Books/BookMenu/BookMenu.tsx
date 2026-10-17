@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useState } from "react";
 
 import { basePath } from "@/utils/helpers/books/basePathUtil";
@@ -27,7 +26,7 @@ export function BookMenu({ locale }: Props) {
   }, [prevBookScrollPos]);
 
   return (
-    <Link
+    <a
       className={`${STYLES["book-menu"]} ${!bookMenuVisible ? "" : STYLES.hidden}`}
       href={basePath(locale)}
       aria-label={locale === "fr" ? "Retour au sommaire" : "Back to contents"}
@@ -36,6 +35,6 @@ export function BookMenu({ locale }: Props) {
         {locale === "fr" ? "Sommaire" : "Contents"}
       </span>
       <div className={STYLES.arrow}>&rarr;</div>
-    </Link>
+    </a>
   );
 }
