@@ -438,6 +438,49 @@ describe("OfflineBookToggle", () => {
     ).not.toBeInTheDocument();
   });
 
+  test("shows the download error when the failed cache cannot be cleared", async () => {
+    const cache = { match: jest.fn().mockResolvedValue(undefined) };
+    const deleteMock = jest
+      .fn()
+      .mockRejectedValue(new Error("Unable to remove cache"));
+    Object.defineProperty(window, "caches", {
+      configurable: true,
+      value: {
+        open: jest.fn().mockResolvedValue(cache),
+        delete: deleteMock,
+      },
+    });
+    Object.defineProperty(navigator, "serviceWorker", {
+      configurable: true,
+      value: {
+        register: jest.fn().mockResolvedValue(undefined),
+        getRegistration: jest.fn().mockResolvedValue(undefined),
+        ready: Promise.resolve(undefined),
+      },
+    });
+    const consoleErrorSpy = jest
+      .spyOn(console, "error")
+      .mockImplementation(() => {});
+
+    render(<OfflineBookToggle locale="en" pagePaths={[]} />);
+
+    const toggle = await screen.findByRole("checkbox", {
+      name: "Read offline",
+    });
+    await waitFor(() => expect(toggle).toBeEnabled());
+    fireEvent.click(toggle);
+
+    expect(await screen.findByRole("alert")).toHaveTextContent(
+      "Download failed",
+    );
+    expect(deleteMock).toHaveBeenCalledTimes(2);
+    expect(consoleErrorSpy).toHaveBeenCalledWith(
+      "Failed to clear an incomplete offline book cache",
+      expect.any(Error),
+    );
+    consoleErrorSpy.mockRestore();
+  });
+
   test("shows a removal error and retries removing", async () => {
     const cache = {
       match: jest

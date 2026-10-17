@@ -239,7 +239,14 @@ export function OfflineBookToggle({
       setPhase("ready");
     } catch {
       setSavedMarker(locale, false);
-      await caches.delete(cacheName);
+      try {
+        await caches.delete(cacheName);
+      } catch (cleanupError) {
+        console.error(
+          "Failed to clear an incomplete offline book cache",
+          cleanupError,
+        );
+      }
       setIsSaved(false);
       setPhase("download-error");
     }
