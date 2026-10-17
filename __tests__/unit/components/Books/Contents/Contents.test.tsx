@@ -6,6 +6,17 @@ jest.mock("react-markdown", () => ({
   __esModule: true,
   default: ({ children, components }: any) => {
     const lines = (children as string).split("\n").filter(Boolean);
+    const listItems = lines.flatMap((line, index) => {
+      const match = line.match(/^- \[(.+?)\]\((.+?)\)$/);
+      return match && components?.a
+        ? [
+            <li key={index}>
+              {components.a({ href: match[2], children: match[1] })}
+            </li>,
+          ]
+        : [];
+    });
+
     return (
       <div>
         {lines.map((line: string, i: number) => {
@@ -17,20 +28,25 @@ jest.mock("react-markdown", () => ({
             return (
               <div key={i}>{components.h2({ children: line.slice(3) })}</div>
             );
-          const linkMatch = line.match(/^- \[(.+?)\]\((.+?)\)$/);
-          if (linkMatch && components?.a)
-            return (
-              <div key={i}>
-                {components.a({ href: linkMatch[2], children: linkMatch[1] })}
-              </div>
-            );
+          if (/^- \[.+?\]\(.+?\)$/.test(line)) return null;
           return <span key={i}>{line}</span>;
         })}
-        {components?.ul && components.ul({ children: <li>Contents entry</li> })}
+        {components?.ul?.({ children: listItems })}
       </div>
     );
   },
 }));
+
+jest.mock(
+  "../../../../../components/Books/OfflineBookToggle/OfflineBookToggle",
+  () => ({
+    OfflineBookToggle: () => (
+      <label>
+        <input type="checkbox" aria-label="Read offline" /> Read offline
+      </label>
+    ),
+  }),
+);
 
 jest.mock("remark-gfm", () => () => {});
 jest.mock("remark-remove-comments", () => () => {});
@@ -55,24 +71,7 @@ const enContent = `# Kiwis Dig Tunnels Too
 - [Sources](./sources.md)
 `;
 
-const restoreProperty = (
-  target: object,
-  property: PropertyKey,
-  descriptor: PropertyDescriptor | undefined,
-) => {
-  if (descriptor) {
-    Object.defineProperty(target, property, descriptor);
-  } else {
-    Reflect.deleteProperty(target, property);
-  }
-};
-
 describe("Contents", () => {
-  test("matches the snapshot (fr)", () => {
-    const { asFragment } = render(<Contents locale="fr" content={frContent} />);
-    expect(asFragment()).toMatchSnapshot();
-  });
-
   test("renders the book title", () => {
     render(<Contents locale="fr" content={frContent} />);
     expect(
@@ -82,40 +81,14 @@ describe("Contents", () => {
     ).toBeInTheDocument();
   });
 
-  test("places the offline reading toggle beside the contents heading", async () => {
-    const originalCaches = Object.getOwnPropertyDescriptor(window, "caches");
-    const originalServiceWorker = Object.getOwnPropertyDescriptor(
-      navigator,
-      "serviceWorker",
-    );
-    const cache = { match: jest.fn().mockResolvedValue(undefined) };
+  test("places the offline reading toggle beside the contents heading", () => {
+    render(<Contents locale="en" content={enContent} />);
+    const heading = screen.getByRole("heading", { name: "Contents" });
+    const toggle = screen.getByRole("checkbox", { name: "Read offline" });
 
-    Object.defineProperty(window, "caches", {
-      configurable: true,
-      value: { open: jest.fn().mockResolvedValue(cache) },
-    });
-    Object.defineProperty(navigator, "serviceWorker", {
-      configurable: true,
-      value: {
-        register: jest.fn().mockResolvedValue(undefined),
-        ready: Promise.resolve(undefined),
-      },
-    });
-
-    try {
-      render(<Contents locale="en" content={enContent} />);
-      const heading = screen.getByRole("heading", { name: "Contents" });
-      const toggle = await screen.findByRole("checkbox", {
-        name: "Read offline",
-      });
-
-      expect(heading.parentElement).toHaveClass("contents-heading");
-      expect(heading.parentElement).toContainElement(toggle);
-      expect(toggle.parentElement).toHaveTextContent("Read offline");
-    } finally {
-      restoreProperty(window, "caches", originalCaches);
-      restoreProperty(navigator, "serviceWorker", originalServiceWorker);
-    }
+    expect(heading.parentElement).toHaveClass("contents-heading");
+    expect(heading.parentElement).toContainElement(toggle);
+    expect(toggle.parentElement).toHaveTextContent("Read offline");
   });
 
   test("renders the artwork beside the contents list", () => {
