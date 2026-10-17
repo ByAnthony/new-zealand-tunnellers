@@ -56,6 +56,7 @@ describe("OfflineBookToggle", () => {
       configurable: true,
       value: {
         register: jest.fn().mockRejectedValue(new Error("Unsupported")),
+        getRegistration: jest.fn().mockResolvedValue(undefined),
       },
     });
 
@@ -76,6 +77,7 @@ describe("OfflineBookToggle", () => {
       configurable: true,
       value: {
         register: jest.fn().mockResolvedValue(undefined),
+        getRegistration: jest.fn().mockResolvedValue(undefined),
         ready: Promise.resolve(undefined),
       },
     });
@@ -89,6 +91,46 @@ describe("OfflineBookToggle", () => {
     );
   });
 
+  test("allows a first-time download before a service worker is ready", async () => {
+    const cache = {
+      match: jest.fn().mockResolvedValue(undefined),
+      put: jest.fn(),
+    };
+    const register = jest.fn().mockResolvedValue(undefined);
+    Object.defineProperty(window, "caches", {
+      configurable: true,
+      value: {
+        open: jest.fn().mockResolvedValue(cache),
+        delete: jest.fn().mockResolvedValue(true),
+      },
+    });
+    Object.defineProperty(navigator, "serviceWorker", {
+      configurable: true,
+      value: {
+        getRegistration: jest.fn().mockResolvedValue(undefined),
+        register,
+        ready: new Promise(() => {}),
+      },
+    });
+    Object.defineProperty(globalThis, "fetch", {
+      configurable: true,
+      value: jest.fn(() => new Promise<Response>(() => {})),
+    });
+
+    render(<OfflineBookToggle locale="en" pagePaths={["/book/chapter-1/"]} />);
+
+    const toggle = await screen.findByRole("checkbox", {
+      name: "Read offline",
+    });
+    await waitFor(() => expect(toggle).toBeEnabled());
+    fireEvent.click(toggle);
+
+    expect(await screen.findByRole("status")).toHaveTextContent(
+      "Saving page 0 of 1",
+    );
+    expect(register).toHaveBeenCalledWith("/service-worker.js");
+  });
+
   test("shows the switch on immediately from the saved marker while cache is checked", () => {
     window.localStorage.setItem(savedMarkerKey, "true");
     Object.defineProperty(window, "caches", {
@@ -97,7 +139,10 @@ describe("OfflineBookToggle", () => {
     });
     Object.defineProperty(navigator, "serviceWorker", {
       configurable: true,
-      value: { ready: new Promise(() => {}) },
+      value: {
+        getRegistration: jest.fn().mockResolvedValue({}),
+        ready: new Promise(() => {}),
+      },
     });
 
     render(<OfflineBookToggle locale="en" pagePaths={[]} />);
@@ -114,7 +159,10 @@ describe("OfflineBookToggle", () => {
     });
     Object.defineProperty(navigator, "serviceWorker", {
       configurable: true,
-      value: { ready: new Promise(() => {}) },
+      value: {
+        getRegistration: jest.fn().mockResolvedValue({}),
+        ready: new Promise(() => {}),
+      },
     });
 
     render(
@@ -135,7 +183,10 @@ describe("OfflineBookToggle", () => {
     });
     Object.defineProperty(navigator, "serviceWorker", {
       configurable: true,
-      value: { ready: Promise.resolve(undefined) },
+      value: {
+        getRegistration: jest.fn().mockResolvedValue(undefined),
+        ready: Promise.resolve(undefined),
+      },
     });
 
     render(<OfflineBookToggle locale="en" pagePaths={[]} />);
@@ -164,6 +215,7 @@ describe("OfflineBookToggle", () => {
       configurable: true,
       value: {
         register: jest.fn().mockResolvedValue(undefined),
+        getRegistration: jest.fn().mockResolvedValue(undefined),
         ready: Promise.resolve(undefined),
       },
     });
@@ -199,6 +251,7 @@ describe("OfflineBookToggle", () => {
       configurable: true,
       value: {
         register: jest.fn().mockResolvedValue(undefined),
+        getRegistration: jest.fn().mockResolvedValue(undefined),
         ready: Promise.resolve(undefined),
       },
     });
@@ -232,6 +285,7 @@ describe("OfflineBookToggle", () => {
       configurable: true,
       value: {
         register: jest.fn().mockResolvedValue(undefined),
+        getRegistration: jest.fn().mockResolvedValue(undefined),
         ready: Promise.resolve(undefined),
       },
     });
@@ -276,6 +330,7 @@ describe("OfflineBookToggle", () => {
       configurable: true,
       value: {
         register: jest.fn().mockResolvedValue(undefined),
+        getRegistration: jest.fn().mockResolvedValue(undefined),
         ready: Promise.resolve(undefined),
       },
     });
@@ -344,6 +399,7 @@ describe("OfflineBookToggle", () => {
       configurable: true,
       value: {
         register: jest.fn().mockResolvedValue(undefined),
+        getRegistration: jest.fn().mockResolvedValue(undefined),
         ready: Promise.resolve(undefined),
       },
     });
@@ -406,6 +462,7 @@ describe("OfflineBookToggle", () => {
       configurable: true,
       value: {
         register: jest.fn().mockResolvedValue(undefined),
+        getRegistration: jest.fn().mockResolvedValue(undefined),
         ready: Promise.resolve(undefined),
       },
     });

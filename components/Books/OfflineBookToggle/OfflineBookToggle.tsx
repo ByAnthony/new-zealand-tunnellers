@@ -109,7 +109,8 @@ export function OfflineBookToggle({
       }
 
       try {
-        await navigator.serviceWorker.ready;
+        const registration = await navigator.serviceWorker.getRegistration();
+        if (registration) await navigator.serviceWorker.ready;
         const cache = await caches.open(cacheName);
         const savedUrls = await readSavedUrls(cache, locale);
         if (isCurrent) {
