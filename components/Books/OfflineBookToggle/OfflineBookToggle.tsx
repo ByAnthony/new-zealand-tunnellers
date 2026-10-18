@@ -162,6 +162,12 @@ export function OfflineBookToggle({
       await navigator.locks.request(
         `${CACHE_LOCK_PREFIX}${locale}`,
         async () => {
+          for (const previousCacheName of await getLocaleCacheNames(locale)) {
+            const previousCache = await caches.open(previousCacheName);
+            if (!(await previousCache.match(manifestUrl(locale)))) {
+              await caches.delete(previousCacheName);
+            }
+          }
           const cacheName = `${CACHE_NAME_PREFIX}${locale}-${crypto.randomUUID()}`;
           const cachedUrls = new Set<string>();
           const assets = new Map<string, URL>();
