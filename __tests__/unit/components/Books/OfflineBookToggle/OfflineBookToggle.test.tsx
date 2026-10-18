@@ -6,6 +6,7 @@ describe("OfflineBookToggle", () => {
   const savedMarkerKey = "nzt-offline-book-saved-v1-en";
   let originalCaches: PropertyDescriptor | undefined;
   let originalServiceWorker: PropertyDescriptor | undefined;
+  let originalLocks: PropertyDescriptor | undefined;
   let originalFetch: PropertyDescriptor | undefined;
   let originalMatchMedia: PropertyDescriptor | undefined;
 
@@ -16,6 +17,13 @@ describe("OfflineBookToggle", () => {
       navigator,
       "serviceWorker",
     );
+    originalLocks = Object.getOwnPropertyDescriptor(navigator, "locks");
+    Object.defineProperty(navigator, "locks", {
+      configurable: true,
+      value: {
+        request: (_name: string, callback: () => Promise<void>) => callback(),
+      },
+    });
     originalFetch = Object.getOwnPropertyDescriptor(globalThis, "fetch");
     originalMatchMedia = Object.getOwnPropertyDescriptor(window, "matchMedia");
   });
@@ -34,6 +42,12 @@ describe("OfflineBookToggle", () => {
       Reflect.deleteProperty(navigator, "serviceWorker");
     }
 
+    if (originalLocks) {
+      Object.defineProperty(navigator, "locks", originalLocks);
+    } else {
+      Reflect.deleteProperty(navigator, "locks");
+    }
+
     if (originalFetch) {
       Object.defineProperty(globalThis, "fetch", originalFetch);
     } else {
@@ -47,10 +61,14 @@ describe("OfflineBookToggle", () => {
     }
   });
 
-  test("renders nothing when service worker setup fails", async () => {
+  test("shows a download error when service worker registration fails", async () => {
     Object.defineProperty(window, "caches", {
       configurable: true,
-      value: { open: jest.fn() },
+      value: {
+        keys: jest.fn().mockResolvedValue([]),
+        open: jest.fn(),
+        delete: jest.fn().mockResolvedValue(true),
+      },
     });
     Object.defineProperty(navigator, "serviceWorker", {
       configurable: true,
@@ -60,18 +78,25 @@ describe("OfflineBookToggle", () => {
       },
     });
 
-    const { container } = render(
-      <OfflineBookToggle locale="en" pagePaths={[]} />,
+    render(<OfflineBookToggle locale="en" pagePaths={[]} />);
+    const toggle = await screen.findByRole("checkbox", {
+      name: "Read offline",
+    });
+    await waitFor(() => expect(toggle).toBeEnabled());
+    fireEvent.click(toggle);
+    expect(await screen.findByRole("alert")).toHaveTextContent(
+      "Download failed",
     );
-
-    await waitFor(() => expect(container).toBeEmptyDOMElement());
   });
 
   test("renders the toggle when offline support is available", async () => {
     const cache = { match: jest.fn().mockResolvedValue(undefined) };
     Object.defineProperty(window, "caches", {
       configurable: true,
-      value: { open: jest.fn().mockResolvedValue(cache) },
+      value: {
+        keys: jest.fn().mockResolvedValue(["nzt-offline-book-v1-en"]),
+        open: jest.fn().mockResolvedValue(cache),
+      },
     });
     Object.defineProperty(navigator, "serviceWorker", {
       configurable: true,
@@ -100,6 +125,7 @@ describe("OfflineBookToggle", () => {
     Object.defineProperty(window, "caches", {
       configurable: true,
       value: {
+        keys: jest.fn().mockResolvedValue(["nzt-offline-book-v1-en"]),
         open: jest.fn().mockResolvedValue(cache),
         delete: jest.fn().mockResolvedValue(true),
       },
@@ -135,7 +161,10 @@ describe("OfflineBookToggle", () => {
     window.localStorage.setItem(savedMarkerKey, "true");
     Object.defineProperty(window, "caches", {
       configurable: true,
-      value: { open: jest.fn(() => new Promise(() => {})) },
+      value: {
+        keys: jest.fn().mockResolvedValue(["nzt-offline-book-v1-en"]),
+        open: jest.fn(() => new Promise(() => {})),
+      },
     });
     Object.defineProperty(navigator, "serviceWorker", {
       configurable: true,
@@ -155,7 +184,10 @@ describe("OfflineBookToggle", () => {
   test("renders server-confirmed saved state as checked before cache verification", () => {
     Object.defineProperty(window, "caches", {
       configurable: true,
-      value: { open: jest.fn(() => new Promise(() => {})) },
+      value: {
+        keys: jest.fn().mockResolvedValue(["nzt-offline-book-v1-en"]),
+        open: jest.fn(() => new Promise(() => {})),
+      },
     });
     Object.defineProperty(navigator, "serviceWorker", {
       configurable: true,
@@ -179,7 +211,10 @@ describe("OfflineBookToggle", () => {
     const cache = { match: jest.fn().mockResolvedValue(undefined) };
     Object.defineProperty(window, "caches", {
       configurable: true,
-      value: { open: jest.fn().mockResolvedValue(cache) },
+      value: {
+        keys: jest.fn().mockResolvedValue(["nzt-offline-book-v1-en"]),
+        open: jest.fn().mockResolvedValue(cache),
+      },
     });
     Object.defineProperty(navigator, "serviceWorker", {
       configurable: true,
@@ -209,7 +244,10 @@ describe("OfflineBookToggle", () => {
     };
     Object.defineProperty(window, "caches", {
       configurable: true,
-      value: { open: jest.fn().mockResolvedValue(cache) },
+      value: {
+        keys: jest.fn().mockResolvedValue(["nzt-offline-book-v1-en"]),
+        open: jest.fn().mockResolvedValue(cache),
+      },
     });
     Object.defineProperty(navigator, "serviceWorker", {
       configurable: true,
@@ -243,6 +281,7 @@ describe("OfflineBookToggle", () => {
     Object.defineProperty(window, "caches", {
       configurable: true,
       value: {
+        keys: jest.fn().mockResolvedValue(["nzt-offline-book-v1-en"]),
         open: jest.fn().mockResolvedValue(cache),
         delete: jest.fn(() => new Promise<boolean>(() => {})),
       },
@@ -277,6 +316,7 @@ describe("OfflineBookToggle", () => {
     Object.defineProperty(window, "caches", {
       configurable: true,
       value: {
+        keys: jest.fn().mockResolvedValue(["nzt-offline-book-v1-en"]),
         open: jest.fn().mockResolvedValue(cache),
         delete: jest.fn().mockResolvedValue(true),
       },
@@ -322,6 +362,7 @@ describe("OfflineBookToggle", () => {
     Object.defineProperty(window, "caches", {
       configurable: true,
       value: {
+        keys: jest.fn().mockResolvedValue(["nzt-offline-book-v1-en"]),
         open: jest.fn().mockResolvedValue(cache),
         delete: jest.fn().mockResolvedValue(true),
       },
@@ -391,6 +432,7 @@ describe("OfflineBookToggle", () => {
     Object.defineProperty(window, "caches", {
       configurable: true,
       value: {
+        keys: jest.fn().mockResolvedValue(["nzt-offline-book-v1-en"]),
         open: jest.fn().mockResolvedValue(cache),
         delete: jest.fn().mockResolvedValue(true),
       },
@@ -446,6 +488,7 @@ describe("OfflineBookToggle", () => {
     Object.defineProperty(window, "caches", {
       configurable: true,
       value: {
+        keys: jest.fn().mockResolvedValue(["nzt-offline-book-v1-en"]),
         open: jest.fn().mockResolvedValue(cache),
         delete: deleteMock,
       },
@@ -473,12 +516,73 @@ describe("OfflineBookToggle", () => {
     expect(await screen.findByRole("alert")).toHaveTextContent(
       "Download failed",
     );
-    expect(deleteMock).toHaveBeenCalledTimes(2);
+    expect(deleteMock).toHaveBeenCalledTimes(1);
     expect(consoleErrorSpy).toHaveBeenCalledWith(
       "Failed to clear an incomplete offline book cache",
       expect.any(Error),
     );
     consoleErrorSpy.mockRestore();
+  });
+
+  test("preserves a saved copy when a later download fails", async () => {
+    const savedCacheName = "nzt-offline-book-v1-en";
+    const savedCache = {
+      match: jest
+        .fn()
+        .mockResolvedValueOnce({
+          json: jest.fn().mockResolvedValue(["/book/chapter-1/"]),
+        })
+        .mockResolvedValueOnce(true),
+    };
+    const incompleteCache = {
+      match: jest.fn().mockResolvedValue(undefined),
+      put: jest.fn(),
+    };
+    const cacheMap = new Map<string, Cache>();
+    const deleteMock = jest.fn(async (cacheName: string) =>
+      cacheMap.delete(cacheName),
+    );
+    Object.defineProperty(window, "caches", {
+      configurable: true,
+      value: {
+        keys: jest.fn(async () => [...cacheMap.keys()]),
+        open: jest.fn(async (cacheName: string) => {
+          if (!cacheMap.has(cacheName)) {
+            cacheMap.set(cacheName, incompleteCache as unknown as Cache);
+          }
+          return cacheMap.get(cacheName);
+        }),
+        delete: deleteMock,
+      },
+    });
+    Object.defineProperty(navigator, "serviceWorker", {
+      configurable: true,
+      value: {
+        register: jest.fn().mockResolvedValue(undefined),
+        getRegistration: jest.fn().mockResolvedValue(undefined),
+        ready: Promise.resolve(undefined),
+      },
+    });
+    Object.defineProperty(globalThis, "fetch", {
+      configurable: true,
+      value: jest.fn().mockResolvedValue({ ok: false }),
+    });
+
+    render(<OfflineBookToggle locale="en" pagePaths={["/book/chapter-1/"]} />);
+
+    const toggle = await screen.findByRole("checkbox", {
+      name: "Read offline",
+    });
+    await waitFor(() => expect(toggle).toBeEnabled());
+    cacheMap.set(savedCacheName, savedCache as unknown as Cache);
+    fireEvent.click(toggle);
+
+    expect(await screen.findByRole("alert")).toHaveTextContent(
+      "Download failed",
+    );
+    expect(cacheMap.has(savedCacheName)).toBe(true);
+    expect(deleteMock).toHaveBeenCalledTimes(1);
+    expect(deleteMock.mock.calls[0][0]).not.toBe(savedCacheName);
   });
 
   test("shows a removal error and retries removing", async () => {
@@ -497,6 +601,7 @@ describe("OfflineBookToggle", () => {
     Object.defineProperty(window, "caches", {
       configurable: true,
       value: {
+        keys: jest.fn().mockResolvedValue(["nzt-offline-book-v1-en"]),
         open: jest.fn().mockResolvedValue(cache),
         delete: deleteMock,
       },

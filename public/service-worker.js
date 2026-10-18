@@ -24,9 +24,16 @@ self.addEventListener("fetch", (event) => {
       );
 
       for (const cacheName of cacheNames) {
-        const response = await (
-          await caches.open(cacheName)
-        ).match(request, {
+        const cache = await caches.open(cacheName);
+        const locale = cacheName
+          .slice(OFFLINE_CACHE_PREFIX.length)
+          .split("-")[0];
+        const manifest = await cache.match(
+          `/__offline-book-cache__/manifest-${locale}`,
+        );
+        if (!manifest) continue;
+
+        const response = await cache.match(request, {
           ignoreVary: true,
         });
         if (response) return response;

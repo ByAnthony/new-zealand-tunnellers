@@ -44,7 +44,10 @@ const config: Config = {
   coveragePathIgnorePatterns: [
     "<rootDir>/node_modules/",
     "<rootDir>/__tests__/e2e/",
+    "<rootDir>/components/NewRelicBrowserAgent/",
     "<rootDir>/utils/database/queries/",
+    "<rootDir>/utils/helpers/jsonLd.ts",
+    "<rootDir>/utils/helpers/metadata.ts",
     "<rootDir>/__tests__/unit/utils/mocks/",
     "<rootDir>/__tests__/unit/utils/findElementWithText.ts",
     "<rootDir>/components/WorksMap/WorksMap.tsx",

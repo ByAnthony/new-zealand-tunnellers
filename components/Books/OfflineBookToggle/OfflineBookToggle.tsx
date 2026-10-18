@@ -10,6 +10,7 @@ import { offlineBookSavedKey } from "@/utils/helpers/books/offlineBookSavedKey";
 import STYLES from "./OfflineBookToggle.module.scss";
 
 const CACHE_NAME_PREFIX = "nzt-offline-book-v1-";
+const CACHE_LOCK_PREFIX = "nzt-offline-book-lock-v1-";
 const useClientLayoutEffect =
   typeof window === "undefined" ? useEffect : useLayoutEffect;
 
@@ -82,6 +83,23 @@ const readSavedUrls = async (cache: Cache, locale: string) => {
   return allPresent.every(Boolean) ? savedUrls : undefined;
 };
 
+const getLocaleCacheNames = async (locale: string) => {
+  const legacyCacheName = `${CACHE_NAME_PREFIX}${locale}`;
+  return (await caches.keys()).filter(
+    (name) =>
+      name === legacyCacheName || name.startsWith(`${legacyCacheName}-`),
+  );
+};
+
+const findSavedCache = async (locale: string) => {
+  for (const cacheName of await getLocaleCacheNames(locale)) {
+    const cache = await caches.open(cacheName);
+    const savedUrls = await readSavedUrls(cache, locale);
+    if (savedUrls) return { cacheName, savedUrls };
+  }
+  return undefined;
+};
+
 export function OfflineBookToggle({
   locale,
   pagePaths,
@@ -93,7 +111,6 @@ export function OfflineBookToggle({
   const [completedPages, setCompletedPages] = useState(0);
   const [progressPercent, setProgressPercent] = useState(0);
   const pathsKey = pagePaths.join("\n");
-  const cacheName = `${CACHE_NAME_PREFIX}${locale}`;
 
   useClientLayoutEffect(() => {
     if (getSavedMarker(locale)) setIsSaved(true);
@@ -103,7 +120,11 @@ export function OfflineBookToggle({
     let isCurrent = true;
 
     const checkOfflineCopy = async () => {
-      if (!("serviceWorker" in navigator) || !("caches" in window)) {
+      if (
+        !("serviceWorker" in navigator) ||
+        !("caches" in window) ||
+        !("locks" in navigator)
+      ) {
         if (isCurrent) setPhase("unsupported");
         return;
       }
@@ -111,11 +132,10 @@ export function OfflineBookToggle({
       try {
         const registration = await navigator.serviceWorker.getRegistration();
         if (registration) await navigator.serviceWorker.ready;
-        const cache = await caches.open(cacheName);
-        const savedUrls = await readSavedUrls(cache, locale);
+        const savedCopy = await findSavedCache(locale);
         if (isCurrent) {
-          setIsSaved(Boolean(savedUrls));
-          setSavedMarker(locale, Boolean(savedUrls));
+          setIsSaved(Boolean(savedCopy));
+          setSavedMarker(locale, Boolean(savedCopy));
           setPhase("ready");
         }
       } catch {
@@ -127,127 +147,178 @@ export function OfflineBookToggle({
     return () => {
       isCurrent = false;
     };
-  }, [cacheName, locale]);
+  }, [locale]);
 
   const saveBook = async () => {
     const pageUrls = pathsKey
       .split("\n")
       .map((path) => new URL(path, window.location.origin));
-    const cachedUrls = new Set<string>();
-    const assets = new Map<string, URL>();
-    let completedPageCount = 0;
-    let completedAssetCount = 0;
 
     setPhase("pages");
     setCompletedPages(0);
     setProgressPercent(0);
 
     try {
-      await navigator.serviceWorker.register("/service-worker.js");
-      await navigator.serviceWorker.ready;
-      await caches.delete(cacheName);
-      const cache = await caches.open(cacheName);
+      await navigator.locks.request(
+        `${CACHE_LOCK_PREFIX}${locale}`,
+        async () => {
+          const cacheName = `${CACHE_NAME_PREFIX}${locale}-${crypto.randomUUID()}`;
+          const cachedUrls = new Set<string>();
+          const assets = new Map<string, URL>();
+          let completedPageCount = 0;
+          let completedAssetCount = 0;
 
-      for (const pageUrl of pageUrls) {
-        const response = await fetch(pageUrl, { cache: "reload" });
-        if (!response.ok) throw new Error("Unable to download a book page");
+          try {
+            await navigator.serviceWorker.register("/service-worker.js");
+            await navigator.serviceWorker.ready;
+            const cache = await caches.open(cacheName);
 
-        await cache.put(pageUrl, response.clone());
-        cachedUrls.add(pageUrl.href);
+            for (const pageUrl of pageUrls) {
+              const response = await fetch(pageUrl, { cache: "reload" });
+              if (!response.ok) {
+                throw new Error("Unable to download a book page");
+              }
 
-        const document = new DOMParser().parseFromString(
-          await response.text(),
-          "text/html",
-        );
-        const pageResources = document.querySelectorAll(
-          "img[src], img[srcset], source[src], source[srcset], script[src], link[rel~='stylesheet'][href], link[rel~='preload'][href], video[poster]",
-        );
+              await cache.put(pageUrl, response.clone());
+              cachedUrls.add(pageUrl.href);
 
-        pageResources.forEach((element) => {
-          const candidates = [
-            element.getAttribute("src"),
-            element.getAttribute("href"),
-            element.getAttribute("poster"),
-            ...(element.getAttribute("srcset") ?? "")
-              .split(",")
-              .map((candidate) => candidate.trim().split(/\s+/, 1)[0]),
-          ];
+              const document = new DOMParser().parseFromString(
+                await response.text(),
+                "text/html",
+              );
+              const pageResources = document.querySelectorAll(
+                "img[src], img[srcset], source[src], source[srcset], script[src], link[rel~='stylesheet'][href], link[rel~='preload'][href], video[poster]",
+              );
 
-          for (const candidate of candidates) {
-            if (!candidate) continue;
-            const resourceUrl = sameOriginUrl(candidate, pageUrl.href);
-            if (resourceUrl && !cachedUrls.has(resourceUrl.href)) {
-              assets.set(resourceUrl.href, resourceUrl);
+              pageResources.forEach((element) => {
+                const candidates = [
+                  element.getAttribute("src"),
+                  element.getAttribute("href"),
+                  element.getAttribute("poster"),
+                  ...(element.getAttribute("srcset") ?? "")
+                    .split(",")
+                    .map((candidate) => candidate.trim().split(/\s+/, 1)[0]),
+                ];
+
+                for (const candidate of candidates) {
+                  if (!candidate) continue;
+                  const resourceUrl = sameOriginUrl(candidate, pageUrl.href);
+                  if (resourceUrl && !cachedUrls.has(resourceUrl.href)) {
+                    assets.set(resourceUrl.href, resourceUrl);
+                  }
+                }
+              });
+
+              completedPageCount += 1;
+              setCompletedPages(completedPageCount);
+              const pageProgress = pageUrls.length
+                ? (completedPageCount / pageUrls.length) * 50
+                : 50;
+              setProgressPercent((current) => Math.max(current, pageProgress));
             }
-          }
-        });
 
-        completedPageCount += 1;
-        setCompletedPages(completedPageCount);
-        const pageProgress = pageUrls.length
-          ? (completedPageCount / pageUrls.length) * 50
-          : 50;
-        setProgressPercent((current) => Math.max(current, pageProgress));
-      }
+            setPhase("assets");
+            const pendingAssets = [...assets.values()];
+            if (pendingAssets.length === 0) setProgressPercent(99);
+            while (pendingAssets.length > 0) {
+              const assetUrl = pendingAssets.shift()!;
+              if (cachedUrls.has(assetUrl.href)) continue;
 
-      setPhase("assets");
-      const pendingAssets = [...assets.values()];
-      if (pendingAssets.length === 0) setProgressPercent(99);
-      while (pendingAssets.length > 0) {
-        const assetUrl = pendingAssets.shift()!;
-        if (cachedUrls.has(assetUrl.href)) continue;
+              const response = await fetch(assetUrl, { cache: "reload" });
+              if (!response.ok) {
+                throw new Error("Unable to download a book asset");
+              }
+              await cache.put(assetUrl, response.clone());
+              cachedUrls.add(assetUrl.href);
 
-        const response = await fetch(assetUrl, { cache: "reload" });
-        if (!response.ok) throw new Error("Unable to download a book asset");
-        await cache.put(assetUrl, response.clone());
-        cachedUrls.add(assetUrl.href);
+              if (response.headers.get("content-type")?.includes("text/css")) {
+                const css = await response.text();
+                const cssUrls = css.matchAll(
+                  /url\((?:"|')?([^"')]+)(?:"|')?\)/g,
+                );
+                for (const [, cssUrl] of cssUrls) {
+                  const resourceUrl = sameOriginUrl(cssUrl, assetUrl.href);
+                  if (
+                    resourceUrl &&
+                    !cachedUrls.has(resourceUrl.href) &&
+                    !assets.has(resourceUrl.href)
+                  ) {
+                    assets.set(resourceUrl.href, resourceUrl);
+                    pendingAssets.push(resourceUrl);
+                  }
+                }
+              }
 
-        if (response.headers.get("content-type")?.includes("text/css")) {
-          const css = await response.text();
-          const cssUrls = css.matchAll(/url\((?:"|')?([^"')]+)(?:"|')?\)/g);
-          for (const [, cssUrl] of cssUrls) {
-            const resourceUrl = sameOriginUrl(cssUrl, assetUrl.href);
-            if (
-              resourceUrl &&
-              !cachedUrls.has(resourceUrl.href) &&
-              !assets.has(resourceUrl.href)
-            ) {
-              assets.set(resourceUrl.href, resourceUrl);
-              pendingAssets.push(resourceUrl);
+              completedAssetCount += 1;
+              const assetProgress =
+                50 + (completedAssetCount / Math.max(assets.size, 1)) * 49;
+              setProgressPercent((current) =>
+                Math.max(current, Math.min(assetProgress, 99)),
+              );
             }
+
+            const manifest = manifestUrl(locale);
+            await cache.put(
+              manifest,
+              new Response(JSON.stringify([...cachedUrls]), {
+                headers: { "Content-Type": "application/json" },
+              }),
+            );
+
+            try {
+              for (const previousCacheName of await getLocaleCacheNames(
+                locale,
+              )) {
+                if (previousCacheName === cacheName) continue;
+                try {
+                  await caches.delete(previousCacheName);
+                } catch (cleanupError) {
+                  console.error(
+                    "Failed to clear a previous offline book cache",
+                    cleanupError,
+                  );
+                }
+              }
+            } catch (cleanupError) {
+              console.error(
+                "Failed to list previous offline book caches",
+                cleanupError,
+              );
+            }
+
+            setSavedMarker(locale, true);
+            setProgressPercent(100);
+            setIsSaved(true);
+            setPhase("ready");
+          } catch {
+            try {
+              await caches.delete(cacheName);
+            } catch (cleanupError) {
+              console.error(
+                "Failed to clear an incomplete offline book cache",
+                cleanupError,
+              );
+            }
+
+            try {
+              const previousCopy = await findSavedCache(locale);
+              setSavedMarker(locale, Boolean(previousCopy));
+              setIsSaved(Boolean(previousCopy));
+            } catch (lookupError) {
+              console.error(
+                "Failed to verify the existing offline book cache",
+                lookupError,
+              );
+            }
+            setPhase("download-error");
           }
-        }
-
-        completedAssetCount += 1;
-        const assetProgress =
-          50 + (completedAssetCount / Math.max(assets.size, 1)) * 49;
-        setProgressPercent((current) =>
-          Math.max(current, Math.min(assetProgress, 99)),
-        );
-      }
-
-      const manifest = manifestUrl(locale);
-      await cache.put(
-        manifest,
-        new Response(JSON.stringify([...cachedUrls]), {
-          headers: { "Content-Type": "application/json" },
-        }),
+        },
       );
-      setSavedMarker(locale, true);
-      setProgressPercent(100);
-      setIsSaved(true);
-      setPhase("ready");
-    } catch {
-      setSavedMarker(locale, false);
-      try {
-        await caches.delete(cacheName);
-      } catch (cleanupError) {
-        console.error(
-          "Failed to clear an incomplete offline book cache",
-          cleanupError,
-        );
-      }
-      setIsSaved(false);
+    } catch (lockError) {
+      console.error(
+        "Failed to coordinate the offline book download",
+        lockError,
+      );
       setPhase("download-error");
     }
   };
@@ -256,7 +327,14 @@ export function OfflineBookToggle({
     setPhase("removing");
 
     try {
-      await caches.delete(cacheName);
+      await navigator.locks.request(
+        `${CACHE_LOCK_PREFIX}${locale}`,
+        async () => {
+          for (const cacheName of await getLocaleCacheNames(locale)) {
+            await caches.delete(cacheName);
+          }
+        },
+      );
       setSavedMarker(locale, false);
       setIsSaved(false);
       setPhase("ready");
