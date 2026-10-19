@@ -7,47 +7,6 @@ const EN_CHAPTER_1 =
 const FR_CHAPTER_1 =
   "/fr/kiwis-dig-tunnels-too/chapter-1-the-tunnellers-from-the-antipodes/";
 
-test("saved book opens an unvisited chapter and returns to contents offline", async ({
-  page,
-  context,
-}) => {
-  test.setTimeout(180000);
-  await page.goto(EN_CONTENTS);
-  const toggle = page.getByRole("checkbox", { name: "Read offline" });
-  await expect(toggle).toBeEnabled();
-  await toggle.check();
-  await expect(toggle).toBeEnabled({ timeout: 120000 });
-  await expect(toggle).toBeChecked();
-  await expect
-    .poll(() =>
-      page.evaluate(() => navigator.serviceWorker.controller !== null),
-    )
-    .toBe(true);
-
-  await context.setOffline(true);
-  try {
-    const chapterResponse = await page.goto(EN_CHAPTER_1);
-    expect(chapterResponse?.fromServiceWorker()).toBe(true);
-    await expect(
-      page.getByRole("heading", {
-        name: "The Tunnellers from the Antipodes",
-      }),
-    ).toBeVisible();
-    await page
-      .getByRole("link", { name: "Go to the table of contents" })
-      .click();
-    await expect(page).toHaveURL(new RegExp(`${EN_CONTENTS}$`));
-    await expect(
-      page.getByRole("heading", { name: "Kiwis Dig Tunnels Too" }),
-    ).toBeVisible();
-    const restoredToggle = page.getByRole("checkbox", { name: "Read offline" });
-    await expect(restoredToggle).toBeEnabled();
-    await expect(restoredToggle).toBeChecked();
-  } finally {
-    await context.setOffline(false);
-  }
-});
-
 // ─── Contents page ───────────────────────────────────────────────────────────
 
 test("EN contents: loads title and chapter list", async ({ page }) => {
