@@ -44,11 +44,15 @@ const config: Config = {
   coveragePathIgnorePatterns: [
     "<rootDir>/node_modules/",
     "<rootDir>/__tests__/e2e/",
-    "<rootDir>/utils/database/queries/",
     "<rootDir>/__tests__/unit/utils/mocks/",
     "<rootDir>/__tests__/unit/utils/findElementWithText.ts",
+    "<rootDir>/components/Menu/MenuContainer.tsx",
+    "<rootDir>/components/NewRelicBrowserAgent/",
     "<rootDir>/components/WorksMap/WorksMap.tsx",
     "<rootDir>/components/WorksMap/WorksMapContainer.tsx",
+    "<rootDir>/utils/database/queries/",
+    "<rootDir>/utils/helpers/jsonLd.ts",
+    "<rootDir>/utils/helpers/metadata.ts",
   ],
 
   // Indicates which provider should be used to instrument code for coverage
