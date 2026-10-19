@@ -110,7 +110,6 @@ export function OfflineBookToggle({
   const [isSaved, setIsSaved] = useState(initiallySaved);
   const [completedPages, setCompletedPages] = useState(0);
   const [progressPercent, setProgressPercent] = useState(0);
-  const pathsKey = pagePaths.join("\n");
 
   useClientLayoutEffect(() => {
     if (getSavedMarker(locale)) setIsSaved(true);
@@ -150,9 +149,9 @@ export function OfflineBookToggle({
   }, [locale]);
 
   const saveBook = async () => {
-    const pageUrls = pathsKey
-      .split("\n")
-      .map((path) => new URL(path, window.location.origin));
+    const pageUrls = pagePaths.map(
+      (path) => new URL(path, window.location.origin),
+    );
 
     setPhase("pages");
     setCompletedPages(0);

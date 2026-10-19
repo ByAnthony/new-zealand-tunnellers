@@ -50,6 +50,8 @@ const MainTitle: React.FC<{
     <>
       <div className={STYLES.header}>
         <div className={STYLES.link}>
+          {/* Intentionally using an anchor tag instead of <Link>
+              to ensure proper navigation for offline contents */}
           <a href={basePath(locale)} aria-label={t("goToTableOfContents")}>
             {t("title")}
           </a>

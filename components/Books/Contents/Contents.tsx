@@ -34,6 +34,8 @@ const SommaireItem: React.FC<{
 
   if (!chap) {
     return (
+      // Intentionally using an anchor tag instead of <Link>
+      // to ensure proper navigation for offline contents
       <a
         href={fullPath}
         className={STYLES["button-chapter"]}
@@ -46,6 +48,8 @@ const SommaireItem: React.FC<{
   }
 
   return (
+    // Intentionally using an anchor tag instead of <Link>
+    // to ensure proper navigation for offline contents
     <a
       href={fullPath}
       className={STYLES["button-chapter"]}

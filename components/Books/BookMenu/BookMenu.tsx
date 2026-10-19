@@ -26,6 +26,8 @@ export function BookMenu({ locale }: Props) {
   }, [prevBookScrollPos]);
 
   return (
+    // Intentionally using an anchor tag instead of <Link>
+    // to ensure proper navigation for offline contents
     <a
       className={`${STYLES["book-menu"]} ${!bookMenuVisible ? "" : STYLES.hidden}`}
       href={basePath(locale)}
