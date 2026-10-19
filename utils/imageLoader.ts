@@ -11,5 +11,6 @@ export default function imageLoader({
   // prod testing on /staging
   // return `https://nztunnellers.com/staging${src}?w=${width}&q=75`;
   // live prod
-  return `https://nztunnellers.com/${src}?w=${width}&q=75`;
+  const path = src.startsWith("/") ? src : `/${src}`;
+  return `https://www.nztunnellers.com${path}?w=${width}&q=75`;
 }
