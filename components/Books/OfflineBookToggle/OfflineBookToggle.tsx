@@ -9,6 +9,7 @@ import { offlineBookSavedKey } from "@/utils/helpers/books/offlineBookSavedKey";
 
 import STYLES from "./OfflineBookToggle.module.scss";
 
+// Keep in sync with service-worker.js
 const CACHE_NAME_PREFIX = "nzt-offline-book-v1-";
 const CACHE_LOCK_PREFIX = "nzt-offline-book-lock-v1-";
 const useClientLayoutEffect =

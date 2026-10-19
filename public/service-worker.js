@@ -1,3 +1,4 @@
+// Keep in sync with OfflineBookToggle.tsx
 const OFFLINE_CACHE_PREFIX = "nzt-offline-book-v1-";
 
 self.addEventListener("install", () => {
