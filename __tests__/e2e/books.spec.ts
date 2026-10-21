@@ -66,7 +66,7 @@ test("FR contents: clicking a chapter navigates to the correct URL", async ({
 test("EN contents: page saves the book for offline reading", async ({
   page,
 }) => {
-  test.setTimeout(120000);
+  test.setTimeout(40000);
   await page.goto(EN_CONTENTS);
 
   const toggle = page.getByRole("checkbox", { name: "Read offline" });
@@ -74,22 +74,22 @@ test("EN contents: page saves the book for offline reading", async ({
   await page.getByText("Read offline").click();
 
   // The download runs in the background; wait for it to complete.
-  await expect(page.getByText("✓")).toBeVisible({ timeout: 90000 });
+  await expect(page.getByText("✓")).toBeVisible({ timeout: 20000 });
   await expect(toggle).toBeChecked();
 });
 
 test("FR contents: page saves the book for offline reading", async ({
   page,
 }) => {
-  test.setTimeout(120000);
+  test.setTimeout(40000);
   await page.goto(FR_CONTENTS);
 
-  const toggle = page.getByRole("checkbox", { name: "Read offline" });
+  const toggle = page.getByRole("checkbox", { name: "Lire hors ligne" });
   await expect(toggle).toBeEnabled();
-  await page.getByText("Read offline").click();
+  await page.getByText("Lire hors ligne").click();
 
   // The download runs in the background; wait for it to complete.
-  await expect(page.getByText("✓")).toBeVisible({ timeout: 90000 });
+  await expect(page.getByText("✓")).toBeVisible({ timeout: 20000 });
   await expect(toggle).toBeChecked();
 });
 
