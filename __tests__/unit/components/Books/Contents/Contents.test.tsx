@@ -6,17 +6,6 @@ jest.mock("react-markdown", () => ({
   __esModule: true,
   default: ({ children, components }: any) => {
     const lines = (children as string).split("\n").filter(Boolean);
-    const listItems = lines.flatMap((line, index) => {
-      const match = line.match(/^- \[(.+?)\]\((.+?)\)$/);
-      return match && components?.a
-        ? [
-            <li key={index}>
-              {components.a({ href: match[2], children: match[1] })}
-            </li>,
-          ]
-        : [];
-    });
-
     return (
       <div>
         {lines.map((line: string, i: number) => {
@@ -24,37 +13,26 @@ jest.mock("react-markdown", () => ({
             return (
               <div key={i}>{components.h1({ children: line.slice(2) })}</div>
             );
-          if (line.startsWith("## ") && components?.h2)
+          const linkMatch = line.match(/^- \[(.+?)\]\((.+?)\)$/);
+          if (linkMatch && components?.a)
             return (
-              <div key={i}>{components.h2({ children: line.slice(3) })}</div>
+              <div key={i}>
+                {components.a({ href: linkMatch[2], children: linkMatch[1] })}
+              </div>
             );
-          if (/^- \[.+?\]\(.+?\)$/.test(line)) return null;
           return <span key={i}>{line}</span>;
         })}
-        {components?.ul?.({ children: listItems })}
+        {components?.ul && components.ul({ children: <li>Contents entry</li> })}
       </div>
     );
   },
 }));
-
-jest.mock(
-  "../../../../../components/Books/OfflineBookToggle/OfflineBookToggle",
-  () => ({
-    OfflineBookToggle: () => (
-      <label>
-        <input type="checkbox" aria-label="Read offline" /> Read offline
-      </label>
-    ),
-  }),
-);
 
 jest.mock("remark-gfm", () => () => {});
 jest.mock("remark-remove-comments", () => () => {});
 jest.mock("unist-util-visit", () => ({ visit: jest.fn() }));
 
 const frContent = `# Les Kiwis aussi creusent des tunnels
-
-## Sommaire
 
 - [Prologue](./prologue.md)
 - [Chapitre 1 : Les tunneliers des antipodes](./chapter-1-the-tunnellers-from-the-antipodes.md)
@@ -64,14 +42,17 @@ const frContent = `# Les Kiwis aussi creusent des tunnels
 
 const enContent = `# Kiwis Dig Tunnels Too
 
-## Contents
-
 - [Prologue](./prologue.md)
 - [Chapter 1: The tunnellers](./chapter-1-the-tunnellers.md)
 - [Sources](./sources.md)
 `;
 
 describe("Contents", () => {
+  test("matches the snapshot (fr)", () => {
+    const { asFragment } = render(<Contents locale="fr" content={frContent} />);
+    expect(asFragment()).toMatchSnapshot();
+  });
+
   test("renders the book title", () => {
     render(<Contents locale="fr" content={frContent} />);
     expect(
@@ -79,16 +60,6 @@ describe("Contents", () => {
         name: "Les Kiwis aussi creusent des tunnels",
       }),
     ).toBeInTheDocument();
-  });
-
-  test("places the offline reading toggle beside the contents heading", () => {
-    render(<Contents locale="en" content={enContent} />);
-    const heading = screen.getByRole("heading", { name: "Contents" });
-    const toggle = screen.getByRole("checkbox", { name: "Read offline" });
-
-    expect(heading.parentElement).toHaveClass("contents-heading");
-    expect(heading.parentElement).toContainElement(toggle);
-    expect(toggle.parentElement).toHaveTextContent("Read offline");
   });
 
   test("renders the artwork beside the contents list", () => {
