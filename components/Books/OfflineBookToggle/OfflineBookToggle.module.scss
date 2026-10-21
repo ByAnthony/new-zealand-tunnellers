@@ -14,11 +14,7 @@
   align-items: center;
   gap: variables.$xxs-margin;
   min-height: 38px;
-  padding: variables.$xxxs-margin variables.$xs-margin;
   overflow: hidden;
-  border: 1px solid variables.$primary-light-color;
-  border-radius: variables.$border-radius;
-  background-color: variables.$primary-medium-color;
   color: variables.$text-color;
   cursor: pointer;
   min-width: 0;
@@ -41,9 +37,6 @@
   height: 30px;
   padding: 0;
   place-items: center;
-  border: 1px solid variables.$secondary-color;
-  border-radius: 50%;
-  background-color: variables.$primary-dark-color;
   color: variables.$secondary-color;
   cursor: pointer;
 
@@ -91,7 +84,6 @@
   height: 24px;
   place-items: center;
   color: variables.$text-color;
-  background-color: variables.$primary-medium-color;
   border: 1px solid variables.$text-color;
   font-size: 1.2rem;
   font-weight: 300;
