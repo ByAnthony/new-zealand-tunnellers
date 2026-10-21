@@ -242,6 +242,13 @@
     "read": "Read: {title}",
     "goToChapter": "Go to chapter {chapter}: {title}",
     "zoomImage": "Zoom image",
-    "resetImageZoom": "Reset image zoom"
+    "resetImageZoom": "Reset image zoom",
+    "offlineReading": "Read offline",
+    "offlineSavingPages": "Saving page {current} of {total}",
+    "offlineSavingAssets": "Saving images...",
+    "offlineDownloadFailed": "Download failed",
+    "offlineRemovalFailed": "Removal failed",
+    "offlineRetryDownload": "Retry download",
+    "offlineRetryRemoval": "Retry removal"
   }
 }
