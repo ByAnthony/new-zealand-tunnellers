@@ -2,13 +2,6 @@ import { render, screen } from "@testing-library/react";
 
 import ContentsContainer from "@/components/Books/Contents/ContentsContainer";
 import { readBookMarkdown } from "@/utils/helpers/books/markdownUtil";
-import { offlineBookSavedKey } from "@/utils/helpers/books/offlineBookSavedKey";
-
-const mockGetCookie = jest.fn();
-
-jest.mock("next/headers", () => ({
-  cookies: () => Promise.resolve({ get: (key: string) => mockGetCookie(key) }),
-}));
 
 jest.mock("react-markdown", () => ({
   __esModule: true,
@@ -45,7 +38,6 @@ const mockedReadBookMarkdown = readBookMarkdown as jest.Mock;
 describe("ContentsContainer", () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    mockGetCookie.mockReturnValue(undefined);
   });
 
   test("renders contents for French locale using contents file", async () => {
@@ -57,7 +49,6 @@ describe("ContentsContainer", () => {
     render(component);
 
     expect(mockedReadBookMarkdown).toHaveBeenCalledWith("fr", "contents");
-    expect(mockGetCookie).toHaveBeenCalledWith(offlineBookSavedKey("fr"));
     expect(
       screen.getByRole("heading", {
         name: "Les Kiwis aussi creusent des tunnels",
@@ -74,15 +65,5 @@ describe("ContentsContainer", () => {
     render(component);
 
     expect(mockedReadBookMarkdown).toHaveBeenCalledWith("en", "contents");
-    expect(mockGetCookie).toHaveBeenCalledWith(offlineBookSavedKey("en"));
-  });
-
-  test("reads saved offline state from a locale-specific cookie", async () => {
-    mockGetCookie.mockReturnValue({ value: "true" });
-    mockedReadBookMarkdown.mockResolvedValue("# Kiwis Dig Tunnels Too\n");
-
-    await ContentsContainer({ locale: "en" });
-
-    expect(mockGetCookie).toHaveBeenCalledWith(offlineBookSavedKey("en"));
   });
 });

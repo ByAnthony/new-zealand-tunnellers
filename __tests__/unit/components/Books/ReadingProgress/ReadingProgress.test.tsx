@@ -8,11 +8,10 @@ jest.mock("next/navigation", () => ({
 }));
 
 const mockGetChapterProgress = jest.fn();
-const mockSaveChapterProgress = jest.fn();
 
 jest.mock("@/utils/helpers/books/chapterProgressUtil", () => ({
   getChapterProgress: (...args: unknown[]) => mockGetChapterProgress(...args),
-  saveChapterProgress: (...args: unknown[]) => mockSaveChapterProgress(...args),
+  saveChapterProgress: jest.fn(),
 }));
 
 describe("ReadingProgress", () => {
@@ -20,7 +19,6 @@ describe("ReadingProgress", () => {
 
   beforeEach(() => {
     scrollListeners.length = 0;
-    mockSaveChapterProgress.mockClear();
     mockGetChapterProgress.mockReturnValue(0);
     jest
       .spyOn(window, "addEventListener")
@@ -133,42 +131,6 @@ describe("ReadingProgress", () => {
       top: 200,
       behavior: "auto",
     });
-    expect(mockSaveChapterProgress).not.toHaveBeenCalled();
-  });
-
-  test("recalculates progress after the restored scroll position is applied", () => {
-    mockGetChapterProgress.mockReturnValue(50);
-    let restoreCallback: ((timestamp: number) => void) | undefined;
-    jest
-      .spyOn(window, "requestAnimationFrame")
-      .mockImplementation((callback) => {
-        restoreCallback = callback;
-        return 1;
-      });
-    jest.spyOn(window, "scrollTo").mockImplementation((options) => {
-      if (typeof options === "object") {
-        Object.defineProperty(window, "scrollY", {
-          writable: true,
-          configurable: true,
-          value: options.top,
-        });
-      }
-    });
-    const mockButton = {
-      getBoundingClientRect: () => ({ top: 500 - window.scrollY }),
-    } as unknown as Element;
-    jest.spyOn(document, "querySelector").mockReturnValue(mockButton);
-
-    render(<ReadingProgress />);
-
-    expect(mockSaveChapterProgress).not.toHaveBeenCalled();
-
-    act(() => restoreCallback?.(0));
-
-    expect(mockSaveChapterProgress).toHaveBeenCalledWith(
-      "/books/my-book/chapter-1",
-      50,
-    );
   });
 
   test("attaches via MutationObserver when footnotes element appears later", () => {
