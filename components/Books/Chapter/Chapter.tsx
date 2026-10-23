@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
 import React, { ReactNode } from "react";
 import ReactMarkdown from "react-markdown";
@@ -26,23 +25,24 @@ import { ImageZoom } from "../ImageZoom/ImageZoom";
 
 type Props = {
   locale: string;
+  slug: string;
   content: string;
 };
 
 const MainTitle: React.FC<{
   children: ReactNode;
   locale: string;
+  slug: string;
   readingTime?: number;
-}> = ({ children, locale, readingTime }) => {
+}> = ({ children, locale, slug, readingTime }) => {
   const t = useTranslations("books");
   const title = extractText(children).trim();
   const chapter = parseChapterHeading(title, locale);
 
-  const pathname = usePathname();
-  const slug = /\/(prologue|epilogue)\/?$/.exec(pathname)?.[1];
+  const isPrologueOrEpilogue = slug === "prologue" || slug === "epilogue";
   const vignetteName = chapter
     ? `vignette-${chapter.number}`
-    : readingTime !== undefined && slug
+    : readingTime !== undefined && isPrologueOrEpilogue
       ? `vignette-${slug}`
       : undefined;
 
@@ -149,7 +149,8 @@ function isReadingPage(pathname: string): boolean {
 }
 
 export const Chapter = (props: Props) => {
-  const pathname = usePathname();
+  // Built from props so static HTML and hydration share the public URL.
+  const pathname = `${basePath(props.locale)}${props.slug}/`;
   const readingTime = isReadingPage(pathname)
     ? calculateReadingTime(props.content)
     : undefined;
@@ -167,7 +168,11 @@ export const Chapter = (props: Props) => {
           rehypePlugins={[rehypeRaw, rehypeRemoveFootnoteBackrefs]}
           components={{
             h1: ({ children }) => (
-              <MainTitle locale={props.locale} readingTime={readingTime}>
+              <MainTitle
+                locale={props.locale}
+                slug={props.slug}
+                readingTime={readingTime}
+              >
                 {children}
               </MainTitle>
             ),

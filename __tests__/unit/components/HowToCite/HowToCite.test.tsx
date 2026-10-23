@@ -13,6 +13,28 @@ Object.assign(navigator, {
 global.alert = jest.fn();
 
 describe("HowToCite", () => {
+  test("omits the access date from server HTML and adds it after hydration", async () => {
+    const { renderToString } = await import("react-dom/server");
+    const { hydrateRoot } = await import("react-dom/client");
+    const { act } = await import("react");
+    const element = <HowToCite title="Beneath Artois Fields" locale="en" />;
+    const container = document.createElement("div");
+    container.innerHTML = renderToString(element);
+    document.body.appendChild(container);
+    expect(container).not.toHaveTextContent("Accessed");
+
+    const onRecoverableError = jest.fn();
+    let root: ReturnType<typeof hydrateRoot> | undefined;
+    await act(async () => {
+      root = hydrateRoot(container, element, { onRecoverableError });
+    });
+
+    expect(onRecoverableError).not.toHaveBeenCalled();
+    expect(container).toHaveTextContent(/\(Accessed: .+ \d{4}\)/);
+    act(() => root?.unmount());
+    container.remove();
+  });
+
   test("italicizes the site title for regular page citations", () => {
     const { container } = render(
       <HowToCite title="Beneath Artois Fields" locale="en" />,

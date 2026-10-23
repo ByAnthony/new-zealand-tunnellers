@@ -70,7 +70,7 @@ export default async function Page(props: Props) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <Chapter locale={locale} content={markdownContent} />
+      <Chapter locale={locale} slug={id} content={markdownContent} />
     </>
   );
 }
