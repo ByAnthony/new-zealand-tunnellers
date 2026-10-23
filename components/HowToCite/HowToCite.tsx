@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useLocale } from "next-intl";
-import { Fragment, useMemo, useRef } from "react";
+import { Fragment, useMemo, useRef, useSyncExternalStore } from "react";
 
 import type { Summary } from "@/types/tunneller";
 import { bookTitle } from "@/utils/helpers/books/basePathUtil";
@@ -39,6 +39,18 @@ type HowToCiteUrlProps = {
 const SITE_CITATION_YEAR = "2009";
 const BOOK_CITATION_YEAR = "2017";
 const URL_BREAK_POINTS = /^(www\.|nztunnellers\.|\/|-)$/;
+
+const subscribeToNothing = () => () => {};
+
+// Static pages are prerendered at build time, so the reader's access date is
+// only known in the browser. The server snapshot keeps hydration consistent.
+function useIsClient() {
+  return useSyncExternalStore(
+    subscribeToNothing,
+    () => true,
+    () => false,
+  );
+}
 
 function BreakableCitationUrl({ url }: { url: string }) {
   return url
@@ -103,14 +115,17 @@ export function HowToCite({
   const locale = localeProp ?? localeFromContext;
   const citationRef = useRef<HTMLParagraphElement>(null);
 
-  const now = useMemo(() => new Date(), []);
-  const userTimeZone = useMemo(
-    () => Intl.DateTimeFormat().resolvedOptions().timeZone,
-    [],
-  );
+  const isClient = useIsClient();
   const currentDate = useMemo(
-    () => formatCitationDate(now, locale, userTimeZone),
-    [locale, now, userTimeZone],
+    () =>
+      isClient
+        ? formatCitationDate(
+            new Date(),
+            locale,
+            Intl.DateTimeFormat().resolvedOptions().timeZone,
+          )
+        : null,
+    [isClient, locale],
   );
   const accessedLabel = locale === "en" ? "Accessed: " : "Consulté le\u00A0: ";
   const citationAuthorPrefix = summary ? "" : "Anthony Byledbal, ";
@@ -206,9 +221,13 @@ export function HowToCite({
           pathname={pathname}
           locale={locale}
         />
-        {` (${accessedLabel}`}
-        {currentDate}
-        {")"}
+        {currentDate && (
+          <>
+            {` (${accessedLabel}`}
+            {currentDate}
+            {")"}
+          </>
+        )}
       </p>
     </div>
   );
