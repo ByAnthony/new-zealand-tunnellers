@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { act, render, screen } from "@testing-library/react";
 import React from "react";
 
 import { ChapterProgressRing } from "@/components/Books/ChapterProgressRing/ChapterProgressRing";
@@ -50,6 +50,21 @@ describe("ChapterProgressRing", () => {
     expect(mockGetChapterProgress).toHaveBeenCalledWith(
       "/books/my-book/chapter-2",
     );
+  });
+
+  test("refreshes progress when the contents page is restored from browser history", () => {
+    mockGetChapterProgress.mockReturnValueOnce(0).mockReturnValueOnce(100);
+
+    render(<ChapterProgressRing pathname="/books/my-book/chapter-1" />);
+
+    expect(screen.getByText("→")).toBeInTheDocument();
+
+    act(() => {
+      window.dispatchEvent(new Event("pageshow"));
+    });
+
+    expect(screen.getByText("✓")).toBeInTheDocument();
+    expect(screen.queryByText("→")).not.toBeInTheDocument();
   });
 
   test("renders the CSS ring element", () => {
