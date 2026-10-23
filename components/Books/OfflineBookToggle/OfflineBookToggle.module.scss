@@ -8,6 +8,10 @@
   gap: variables.$xxs-margin variables.$s-margin;
 }
 
+.checking {
+  visibility: hidden;
+}
+
 .toggle {
   position: relative;
   display: inline-flex;
@@ -134,7 +138,6 @@
   border: 1px solid variables.$primary-light-color;
   border-radius: 11px;
   background-color: variables.$primary-medium-color;
-  transition: all 0.9s ease-in-out;
 
   &::after {
     content: "";
@@ -145,7 +148,14 @@
     height: 14px;
     border-radius: 50%;
     background-color: white;
-    transition: all 0.9s ease-in-out;
+  }
+}
+
+.interactive .switch {
+  transition: background-color 0.9s ease-in-out;
+
+  &::after {
+    transition: transform 0.9s ease-in-out;
   }
 }
 
@@ -165,8 +175,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .switch,
-  .switch::after {
+  .interactive .switch,
+  .interactive .switch::after {
     transition: none;
   }
 }

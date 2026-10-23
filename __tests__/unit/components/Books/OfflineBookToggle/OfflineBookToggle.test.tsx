@@ -162,6 +162,7 @@ describe("OfflineBookToggle", () => {
     expect(await screen.findByRole("status")).toHaveTextContent(
       "Saving page 0 of 1",
     );
+    expect(toggle.closest("label")?.parentElement).toHaveClass("interactive");
     await waitFor(() =>
       expect(register).toHaveBeenCalledWith("/service-worker.js"),
     );
@@ -233,7 +234,7 @@ describe("OfflineBookToggle", () => {
     );
   });
 
-  test("shows the switch on immediately from the saved marker while cache is checked", () => {
+  test("restores the saved marker while keeping the control hidden during verification", () => {
     window.localStorage.setItem(savedMarkerKey, "true");
     Object.defineProperty(window, "caches", {
       configurable: true,
@@ -255,6 +256,11 @@ describe("OfflineBookToggle", () => {
     const toggle = screen.getByRole("checkbox", { name: "Read offline" });
     expect(toggle).toBeChecked();
     expect(toggle).toBeDisabled();
+    expect(toggle.closest("label")?.parentElement).toHaveClass("checking");
+    expect(toggle.closest("label")?.parentElement).toHaveAttribute(
+      "aria-busy",
+      "true",
+    );
   });
 
   test("renders server-confirmed saved state as checked before cache verification", () => {
@@ -343,6 +349,10 @@ describe("OfflineBookToggle", () => {
     expect(toggle.closest("label")).toHaveClass("toggle");
     expect(toggle.closest("label")).not.toHaveClass("saved");
     expect(screen.getByText("✓")).toBeInTheDocument();
+    const container = toggle.closest("label")?.parentElement;
+    expect(container).not.toHaveClass("checking");
+    expect(container).not.toHaveClass("interactive");
+    expect(container).toHaveAttribute("aria-busy", "false");
   });
 
   test("moves the switch off immediately when removing the offline copy", async () => {

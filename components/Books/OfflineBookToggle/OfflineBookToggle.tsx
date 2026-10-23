@@ -111,6 +111,7 @@ export function OfflineBookToggle({
   const [isSaved, setIsSaved] = useState(initiallySaved);
   const [completedPages, setCompletedPages] = useState(0);
   const [progressPercent, setProgressPercent] = useState(0);
+  const [hasInteracted, setHasInteracted] = useState(false);
 
   useClientLayoutEffect(() => {
     if (getSavedMarker(locale)) setIsSaved(true);
@@ -351,6 +352,7 @@ export function OfflineBookToggle({
 
   const handleChange = (checked: boolean) => {
     if (phase !== "ready") return;
+    setHasInteracted(true);
     if (checked) {
       void saveBook();
     } else {
@@ -388,7 +390,12 @@ export function OfflineBookToggle({
   if (phase === "unsupported") return null;
 
   return (
-    <div className={STYLES.container}>
+    <div
+      className={`${STYLES.container} ${
+        phase === "checking" ? STYLES.checking : ""
+      } ${hasInteracted ? STYLES.interactive : ""}`}
+      aria-busy={phase === "checking"}
+    >
       {isError ? (
         <div className={`${STYLES.toggle} ${STYLES.error}`}>
           <span className={STYLES.errorMessage} role="alert">
