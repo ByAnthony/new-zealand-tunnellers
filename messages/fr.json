@@ -243,6 +243,13 @@
     "read": "Lire : {title}",
     "goToChapter": "Aller au chapitre {chapter} : {title}",
     "zoomImage": "Agrandir l'image",
-    "resetImageZoom": "Réinitialiser le zoom de l'image"
+    "resetImageZoom": "Réinitialiser le zoom de l'image",
+    "offlineReading": "Lire hors ligne",
+    "offlineSavingPages": "Téléchargement de la page {current} sur {total}",
+    "offlineSavingAssets": "Téléchargement des images...",
+    "offlineDownloadFailed": "Échec du téléchargement",
+    "offlineRemovalFailed": "Échec de la suppression",
+    "offlineRetryDownload": "Réessayer le téléchargement",
+    "offlineRetryRemoval": "Réessayer la suppression"
   }
 }
