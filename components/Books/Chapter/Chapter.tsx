@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
 import React, { ReactNode } from "react";
@@ -50,11 +51,9 @@ const MainTitle: React.FC<{
     <>
       <div className={STYLES.header}>
         <div className={STYLES.link}>
-          {/* Intentionally using an anchor tag instead of <Link>
-              to ensure proper navigation for offline contents */}
-          <a href={basePath(locale)} aria-label={t("goToTableOfContents")}>
+          <Link href={basePath(locale)} aria-label={t("goToTableOfContents")}>
             {t("title")}
-          </a>
+          </Link>
         </div>
         <div className={STYLES["main-title"]}>
           {vignetteName && (

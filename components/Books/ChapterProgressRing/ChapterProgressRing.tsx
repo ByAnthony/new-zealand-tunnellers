@@ -16,9 +16,6 @@ export const ChapterProgressRing = ({ pathname }: Props) => {
   useEffect(() => {
     const handleUpdate = () => setProgress(getChapterProgress(pathname));
     handleUpdate();
-    window.addEventListener("pageshow", handleUpdate);
-
-    return () => window.removeEventListener("pageshow", handleUpdate);
   }, [pathname]);
 
   const isComplete = progress === 100;

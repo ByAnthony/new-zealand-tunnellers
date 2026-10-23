@@ -130,11 +130,8 @@ The deployment artifact must include all runtime files that the server needs:
 - `i18n/routing.ts`
 - `utils/imageLoader.ts`
 - `messages`
-- `contents`
 
 Because `.next` is a hidden directory, `actions/upload-artifact` must be configured with `include-hidden-files: true`. Without that option, the production build output is skipped and the application cannot start.
-
-The `contents` directory is required at runtime because book pages read Markdown files from disk. The contents page also reads cookies, so a successful build does not guarantee that its Markdown will be available when a reader opens it. CI E2E tests run in the full checkout before artifact upload and therefore do not detect missing files in the deployment artifact.
 
 ### Sync Files
 

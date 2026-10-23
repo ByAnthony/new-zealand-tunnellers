@@ -134,7 +134,6 @@ jobs:
             .next
             dist
             public
-            contents
             package.json
             package-lock.json
             newrelic.cjs
