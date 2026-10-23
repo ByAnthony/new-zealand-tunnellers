@@ -16,6 +16,23 @@ const nextConfig = {
     loader: "custom",
     loaderFile: "./utils/imageLoader.ts",
   },
+  async headers() {
+    // Public images rarely change; rename a file when replacing its content.
+    const imageCacheHeaders = [
+      {
+        key: "Cache-Control",
+        value: "public, max-age=604800, stale-while-revalidate=86400",
+      },
+    ];
+
+    return [
+      { source: "/images/:path*", headers: imageCacheHeaders },
+      {
+        source: "/:file(nzt_logo|search|copy|apple-touch-icon.*)\\.png",
+        headers: imageCacheHeaders,
+      },
+    ];
+  },
   async redirects() {
     return [
       {
