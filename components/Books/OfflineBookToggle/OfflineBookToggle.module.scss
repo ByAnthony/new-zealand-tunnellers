@@ -71,7 +71,7 @@
   background: conic-gradient(
     from 0deg,
     variables.$text-color var(--download-progress),
-    variables.$primary-medium-color 0
+    variables.$primary-dark-color 0
   );
 }
 
@@ -89,22 +89,12 @@
   font-weight: 300;
   line-height: 1;
   transition: none;
-
-  @include variables.tablet {
-    width: 24px;
-    height: 24px;
-  }
-
-  @include variables.desktop {
-    width: 24px;
-    height: 24px;
-  }
 }
 
 .downloadComplete {
   border: 3px solid variables.$text-color;
   font-size: 0.9rem;
-  font-weight: 700;
+  font-weight: 500;
 }
 
 .accentLabel {
