@@ -49,6 +49,7 @@ describe("ImageZoom", () => {
     const zoomIn = jest.fn();
     const resetTransform = jest.fn();
 
+    // eslint-disable-next-line @eslint-react/no-unnecessary-use-prefix -- must keep the name of the mocked library export
     jest.requireMock("react-zoom-pan-pinch").useControls = () => ({
       zoomIn,
       resetTransform,
@@ -83,6 +84,7 @@ describe("ImageZoom", () => {
     const zoomIn = jest.fn();
     const resetTransform = jest.fn();
 
+    // eslint-disable-next-line @eslint-react/no-unnecessary-use-prefix -- must keep the name of the mocked library export
     jest.requireMock("react-zoom-pan-pinch").useControls = () => ({
       zoomIn,
       resetTransform,

@@ -14,26 +14,26 @@ jest.mock("react-markdown", () => ({
     const lines = (children as string).split("\n").filter(Boolean);
     return (
       <div>
-        {lines.map((line: string, i: number) => {
+        {lines.map((line: string) => {
           if (line.startsWith("# ") && components?.h1)
             return (
-              <div key={i}>{components.h1({ children: line.slice(2) })}</div>
+              <div key={line}>{components.h1({ children: line.slice(2) })}</div>
             );
           if (line.startsWith("## ") && components?.h2)
             return (
-              <div key={i}>{components.h2({ children: line.slice(3) })}</div>
+              <div key={line}>{components.h2({ children: line.slice(3) })}</div>
             );
           const linkMatch = line.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
           if (linkMatch && components?.a)
             return (
-              <div key={i}>
+              <div key={line}>
                 {components.a({ href: linkMatch[2], children: linkMatch[1] })}
               </div>
             );
           const footnoteItemMatch = line.match(/^\[\^(\d+)\]: (.+)$/);
           if (footnoteItemMatch && components?.li)
             return (
-              <div key={i}>
+              <div key={line}>
                 {components.li({
                   node: {
                     properties: {
@@ -46,9 +46,9 @@ jest.mock("react-markdown", () => ({
             );
           if (line.startsWith("- ") && components?.li)
             return (
-              <div key={i}>{components.li({ children: line.slice(2) })}</div>
+              <div key={line}>{components.li({ children: line.slice(2) })}</div>
             );
-          return <span key={i}>{line}</span>;
+          return <span key={line}>{line}</span>;
         })}
       </div>
     );
