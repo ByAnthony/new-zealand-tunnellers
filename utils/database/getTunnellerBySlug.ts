@@ -31,9 +31,8 @@ export async function getTunnellerBySlug(
       throw error;
     }
 
-    const errorMessage = error instanceof Error ? error.message : String(error);
     const context =
       redirectTarget === "timeline" ? "Timeline data" : "Tunneller data";
-    throw new Error(`Failed to fetch ${context}: ${errorMessage}`);
+    throw new Error(`Failed to fetch ${context}`, { cause: error });
   }
 }

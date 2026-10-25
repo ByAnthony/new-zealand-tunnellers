@@ -16,7 +16,6 @@ export const readBookMarkdown = async (
     const fileContent = await fs.readFile(filePath, "utf-8");
     return fileContent;
   } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : String(error);
-    throw new Error(`Failed to read markdown file: ${errorMessage}`);
+    throw new Error(`Failed to read markdown file`, { cause: error });
   }
 };
