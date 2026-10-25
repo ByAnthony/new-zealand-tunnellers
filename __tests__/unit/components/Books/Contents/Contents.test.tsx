@@ -6,11 +6,11 @@ jest.mock("react-markdown", () => ({
   __esModule: true,
   default: ({ children, components }: any) => {
     const lines = (children as string).split("\n").filter(Boolean);
-    const listItems = lines.flatMap((line, index) => {
+    const listItems = lines.flatMap((line) => {
       const match = line.match(/^- \[(.+?)\]\((.+?)\)$/);
       return match && components?.a
         ? [
-            <li key={index}>
+            <li key={match[1]}>
               {components.a({ href: match[2], children: match[1] })}
             </li>,
           ]
@@ -19,17 +19,17 @@ jest.mock("react-markdown", () => ({
 
     return (
       <div>
-        {lines.map((line: string, i: number) => {
+        {lines.map((line: string) => {
           if (line.startsWith("# ") && components?.h1)
             return (
-              <div key={i}>{components.h1({ children: line.slice(2) })}</div>
+              <div key={line}>{components.h1({ children: line.slice(2) })}</div>
             );
           if (line.startsWith("## ") && components?.h2)
             return (
-              <div key={i}>{components.h2({ children: line.slice(3) })}</div>
+              <div key={line}>{components.h2({ children: line.slice(3) })}</div>
             );
           if (/^- \[.+?\]\(.+?\)$/.test(line)) return null;
-          return <span key={i}>{line}</span>;
+          return <span key={line}>{line}</span>;
         })}
         {components?.ul?.({ children: listItems })}
       </div>
