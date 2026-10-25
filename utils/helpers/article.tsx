@@ -2,11 +2,23 @@ import Link from "next/link";
 
 import { ArticleReferenceData } from "@/types/article";
 
+// Character offset of a segment at `index` within `parts`: the combined
+// length of the segments before it.
+const charOffsetIn = (parts: string[], index: number) =>
+  parts.slice(0, index).reduce((sum, part) => sum + part.length, 0);
+
 export const renderSuperscript = (text: string) => {
   const parts = text.split(/(\^\w+)/g);
   if (parts.length === 1) return text;
-  return parts.map((part, i) =>
-    part.startsWith("^") ? <sup key={i}>{part.slice(1)}</sup> : part,
+
+  // Only the <sup> elements need keys; their character offset in the source
+  // text is a stable, unique identity even when the same "^\d+" recurs.
+  return parts.map((part, index) =>
+    part.startsWith("^") ? (
+      <sup key={`sup-${charOffsetIn(parts, index)}`}>{part.slice(1)}</sup>
+    ) : (
+      part
+    ),
   );
 };
 

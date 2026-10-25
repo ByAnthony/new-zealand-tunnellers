@@ -52,12 +52,19 @@ function useIsClient() {
   );
 }
 
+// Character offset of a split segment in the source string: the combined
+// length of the segments before it. Split segments like "/" and "-" can
+// recur, so that offset is a stable, unique key where neither the segment
+// content nor the array index qualifies.
+const charOffsetIn = (parts: string[], index: number) =>
+  parts.slice(0, index).reduce((sum, part) => sum + part.length, 0);
+
 function BreakableCitationUrl({ url }: { url: string }) {
   return url
     .split(/(www\.|nztunnellers\.|\/|-)/g)
     .filter(Boolean)
-    .map((part, index) => (
-      <Fragment key={`${part}-${index}`}>
+    .map((part, index, segments) => (
+      <Fragment key={`segment-${charOffsetIn(segments, index)}`}>
         {part}
         {URL_BREAK_POINTS.test(part) ? <wbr /> : null}
       </Fragment>

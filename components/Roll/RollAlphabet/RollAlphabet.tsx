@@ -63,32 +63,38 @@ export function RollAlphabet({ tunnellers, currentPage, onPageChange }: Props) {
     }, 0);
   };
 
-  const getPaginationButtons = () => {
-    const buttons = [];
+  type PaginationButton = { id: string; value: number | "..." };
+
+  const getPaginationButtons = (): PaginationButton[] => {
+    const buttons: PaginationButton[] = [];
+    const pushPage = (value: number) =>
+      buttons.push({ id: `page-${value}`, value });
+    const pushEllipsis = (side: "leading" | "trailing") =>
+      buttons.push({ id: `ellipsis-${side}`, value: "..." });
     const maxVisiblePages = 2;
 
     if (totalPages <= maxVisiblePages + 4) {
       for (let i = 1; i <= totalPages; i++) {
-        buttons.push(i);
+        pushPage(i);
       }
     } else {
-      buttons.push(1);
+      pushPage(1);
 
       if (currentPage > maxVisiblePages + 1) {
-        buttons.push("...");
+        pushEllipsis("leading");
       }
 
       const start = Math.max(2, currentPage - 1);
       const end = Math.min(totalPages - 1, currentPage + 1);
       for (let i = start; i <= end; i++) {
-        buttons.push(i);
+        pushPage(i);
       }
 
       if (currentPage < totalPages - maxVisiblePages) {
-        buttons.push("...");
+        pushEllipsis("trailing");
       }
 
-      buttons.push(totalPages);
+      pushPage(totalPages);
     }
 
     return buttons;
@@ -122,28 +128,28 @@ export function RollAlphabet({ tunnellers, currentPage, onPageChange }: Props) {
         >
           <span className={STYLES["previous-arrow"]}>&#8227;</span>
         </button>
-        {getPaginationButtons().map((button, index) =>
-          typeof button === "number" ? (
+        {getPaginationButtons().map(({ id, value }) =>
+          typeof value === "number" ? (
             <button
-              key={index}
-              disabled={button === currentPage}
-              onClick={() => handlePageClick(button)}
+              key={id}
+              disabled={value === currentPage}
+              onClick={() => handlePageClick(value)}
               className={`${
-                button === currentPage
+                value === currentPage
                   ? STYLES.active
                   : STYLES["pagination-button"]
               }`}
-              aria-label={t("goToPage", { page: button })}
+              aria-label={t("goToPage", { page: value })}
             >
-              {button}
+              {value}
             </button>
           ) : (
             <span
-              key={index}
+              key={id}
               className={STYLES["pagination-ellipsis"]}
               aria-hidden="true"
             >
-              {button}
+              {value}
             </span>
           ),
         )}
