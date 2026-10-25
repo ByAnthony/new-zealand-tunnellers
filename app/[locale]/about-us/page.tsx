@@ -37,8 +37,7 @@ async function getData(locale: Locale) {
       return article;
     });
   } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : String(error);
-    throw new Error(`Failed to fetch About Us data: ${errorMessage}`);
+    throw new Error("Failed to fetch About Us data", { cause: error });
   }
 }
 

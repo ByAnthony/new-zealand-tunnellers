@@ -42,16 +42,20 @@ describe("readBookMarkdown", () => {
   test("throws a readable error when the file is not found", async () => {
     mockedReadFile.mockRejectedValue(new Error("ENOENT: no such file"));
 
-    await expect(readBookMarkdown("fr", "missing-chapter")).rejects.toThrow(
-      "Failed to read markdown file: ENOENT: no such file",
-    );
+    await expect(
+      readBookMarkdown("fr", "missing-chapter"),
+    ).rejects.toMatchObject({
+      message: "Failed to read markdown file",
+      cause: new Error("ENOENT: no such file"),
+    });
   });
 
   test("throws a readable error for non-Error rejections", async () => {
     mockedReadFile.mockRejectedValue("unexpected failure");
 
-    await expect(readBookMarkdown("fr", "bad-chapter")).rejects.toThrow(
-      "Failed to read markdown file: unexpected failure",
-    );
+    await expect(readBookMarkdown("fr", "bad-chapter")).rejects.toMatchObject({
+      message: "Failed to read markdown file",
+      cause: "unexpected failure",
+    });
   });
 });
