@@ -54,6 +54,7 @@
   "devDependencies": {
     "@eslint-react/eslint-plugin": "5.28.8",
     "@eslint/js": "10.0.1",
+    "@next/eslint-plugin-next": "16.4.2",
     "@playwright/test": "1.64.1",
     "@testing-library/jest-dom": "7.0.1",
     "@testing-library/react": "16.3.3",
@@ -64,7 +65,6 @@
     "@types/react-dom": "19.3.0",
     "baseline-browser-mapping": "2.11.30",
     "eslint": "10.13.0",
-    "eslint-config-next": "16.4.2",
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-import-x": "4.17.1",
     "eslint-plugin-react-hooks": "7.1.1",

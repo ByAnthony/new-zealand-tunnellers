@@ -57,9 +57,9 @@ This document outlines the dependencies used in the New Zealand Tunnellers proje
 
 - **`eslint`**: JavaScript/TypeScript linting utility. ESLint 10 removed internal plugin APIs, which [`eslint-plugin-react`](https://github.com/jsx-eslint/eslint-plugin-react) has not caught up with yet, so the project does not use `eslint-plugin-react` and its JSX-safety rules come from `@eslint-react/eslint-plugin` instead;
 - **`@eslint/js`**: ESLint core recommended rules;
-- **`eslint-config-next`**: ESLint configuration optimized for Next.js projects;
+- **`@next/eslint-plugin-next`**: Next.js-specific ESLint rules (`@next/next/*`), including the `core-web-vitals` preset. Declared explicitly in `devDependencies` rather than relying on `eslint-config-next` to install it transitively;
 - **`eslint-config-prettier`**: Disables ESLint rules that conflict with Prettier;
-- **`eslint-plugin-import-x`**: Maintained fork of `eslint-plugin-import` for import/export syntax validation, including `import/order`. Registered under the `import` plugin name in [`eslint.config.mjs`](../eslint.config.mjs), so the rules keep the `import/` prefix. `eslint-config-next` still pulls in `eslint-plugin-import` transitively, but this project does not use it;
+- **`eslint-plugin-import-x`**: Maintained fork of `eslint-plugin-import` for import/export syntax validation, including `import/order`. Registered under the `import` plugin name in [`eslint.config.mjs`](../eslint.config.mjs), so the rules keep the `import/` prefix;
 - **`@eslint-react/eslint-plugin`**: Community-maintained React/JSX rule set (flat config, ESLint 10 compatible), used in place of the incompatible `eslint-plugin-react`. Runs the `recommended-typescript` preset in warning mode;
 - **`eslint-plugin-react-hooks`**: ESLint rules for React Hooks best practices;
 - **`globals`**: ESLint global variables helper;
