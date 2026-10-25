@@ -8,10 +8,9 @@ The database holds data for:
 
 ## Tunnellers Cache
 
-The tunnellers page/map, and the menu search bar use a cached tunnellers dataset from [`getCachedTunnellers`](../utils/database/getTunnellers.ts#L11). The cache key includes `TUNNELLERS_CACHE_VERSION`.
-
-> [!NOTE]
-> After importing database changes that affect tunnellers page/map and search data, bump `TUNNELLERS_CACHE_VERSION` before deploying. Use a date-based value followed by the reason, such as `YYYY-MM-DD-reason` so that the cache refresh is easy to understand later.
+The tunnellers page/map and menu search use a cached dataset. See
+[Tunnellers data](./caching.md#tunnellers-data-cache) for its cache key, lifetime, and
+the required refresh procedure after database updates.
 
 ## History
 
