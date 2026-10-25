@@ -159,6 +159,20 @@ Notes:
 - `.next/cache` is excluded because it is build cache and not required at runtime;
 - `tmp/` is excluded because it is managed by N0C and is used for restarts.
 
+### Caches
+
+The [CI workflow](../.github/workflows/nztunnellers.yml) caches npm downloads via
+`setup-node`, `.next/cache` via `actions/cache`, and Playwright browser binaries.
+The Next.js cache key uses the lockfile and JavaScript/TypeScript source hashes,
+with a lockfile-based restore prefix. Restoring this cache can also restore
+persistent Next.js data; this is another reason to version the tunnellers key
+described in [Caching](./caching.md).
+
+Deployment sync excludes `.next/cache/**`. This does not clear an existing server
+cache, and a restart is not a universal cache reset. Browser HTTP caches, saved
+offline books, and localStorage live on readers' devices and are untouched by
+server deployments.
+
 ### Restart server automatically
 
 N0C uses `nodevenv` to set the desired Node.js version for your web application. Therefore, when connecting to your server, run:
