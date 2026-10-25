@@ -10,12 +10,12 @@ Clearing one does not clear the others.
 
 ## Overview
 
-| Layer                                | What it stores                                                    | Lifetime                                                           | How to refresh                                               |
-| ------------------------------------ | ----------------------------------------------------------------- | ------------------------------------------------------------------ | ------------------------------------------------------------ |
-| Browser HTTP cache: public images    | Images under `/images/` and selected root PNG icons               | One week fresh, then up to one extra day of stale-while-revalidate | Change the image URL, normally by renaming the file          |
-| Tunnellers data cache                | Tunnellers dataset used by the roll, map, and menu search         | No timed revalidation                                              | Bump `TUNNELLERS_CACHE_VERSION` and rebuild/deploy           |
-| Browser Cache Storage                | A downloaded offline book and its dependencies                    | No application-defined expiry                                      | Turn Read offline off, then on again while online            |
-| Browser storage and cookies          | Reading progress, offline status hints, and navigation state      | Depends on storage type                                            | Use the relevant UI or clear the specific storage entry      |
+| Layer                             | What it stores                                               | Lifetime                                                           | How to refresh                                          |
+| --------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------------ | ------------------------------------------------------- |
+| Browser HTTP cache: public images | Images under `/images/` and selected root PNG icons          | One week fresh, then up to one extra day of stale-while-revalidate | Change the image URL, normally by renaming the file     |
+| Tunnellers data cache             | Tunnellers dataset used by the roll, map, and menu search    | No timed revalidation                                              | Bump `TUNNELLERS_CACHE_VERSION` and rebuild/deploy      |
+| Browser Cache Storage             | A downloaded offline book and its dependencies               | No application-defined expiry                                      | Turn Read offline off, then on again while online       |
+| Browser storage and cookies       | Reading progress, offline status hints, and navigation state | Depends on storage type                                            | Use the relevant UI or clear the specific storage entry |
 
 ## Browser image caching
 

@@ -9,7 +9,7 @@ The database holds data for:
 ## Tunnellers Cache
 
 The tunnellers page/map and menu search use a cached dataset. See
-[Tunnellers data](./caching.md#tunnellers-data) for its cache key, lifetime, and
+[Tunnellers data](./caching.md#tunnellers-data-cache) for its cache key, lifetime, and
 the required refresh procedure after database updates.
 
 ## History
