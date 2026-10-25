@@ -37,7 +37,9 @@ export function usePendingMapFilters({
   const [pendingPeriod, setPendingPeriod] = useState<string | null>(
     initialPeriodKey,
   );
-  const [pendingTypes, setPendingTypes] = useState<Set<string>>(new Set());
+  const [pendingTypes, setPendingTypes] = useState<Set<string>>(
+    () => new Set(),
+  );
 
   const openFiltersDialog = useCallback(() => {
     setPendingPeriod(initialPeriodKey);

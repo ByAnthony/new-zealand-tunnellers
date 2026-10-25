@@ -23,6 +23,33 @@ import {
 import STYLES from "./Chapter.module.scss";
 import { ImageZoom } from "../ImageZoom/ImageZoom";
 
+// Builds the same flattened list of children as React.Children.toArray
+// (nested arrays/iterables traversed, nullish/boolean children skipped)
+// without the passed-key rewriting that toArray performs.
+function flattenChildren(
+  children: ReactNode,
+): Exclude<ReactNode, null | undefined | boolean>[] {
+  const items: Exclude<ReactNode, null | undefined | boolean>[] = [];
+  const walk = (node: ReactNode) => {
+    if (node === null || node === undefined || typeof node === "boolean")
+      return;
+    if (Array.isArray(node)) {
+      node.forEach(walk);
+      return;
+    }
+    if (
+      typeof node === "object" &&
+      Symbol.iterator in (node as Record<symbol, unknown> | Iterable<ReactNode>)
+    ) {
+      for (const child of node as Iterable<ReactNode>) walk(child);
+      return;
+    }
+    items.push(node as Exclude<ReactNode, null | undefined | boolean>);
+  };
+  walk(children);
+  return items;
+}
+
 type Props = {
   locale: string;
   slug: string;
@@ -115,7 +142,7 @@ const FootnoteItem: React.FC<
   if (!m) return <li {...props}>{children}</li>;
 
   const number = m[1];
-  const arr = React.Children.toArray(children);
+  const arr = flattenChildren(children);
   const first = arr[0];
 
   let inlineContent = children;

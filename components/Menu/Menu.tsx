@@ -62,7 +62,7 @@ export function Menu({ tunnellers }: Props) {
   const searchFormRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const prevScrollPos = useRef(0);
+  const prevScrollPosRef = useRef(0);
   const [menuVisibility, setMenuVisibility] = useState({
     pathname,
     visible: true,
@@ -76,18 +76,18 @@ export function Menu({ tunnellers }: Props) {
   const [query, setQuery] = useState("");
 
   useEffect(() => {
-    prevScrollPos.current = window.scrollY;
+    prevScrollPosRef.current = window.scrollY;
 
     const handleScroll = () => {
       const currentScrollPos = window.scrollY;
-      if (currentScrollPos === prevScrollPos.current) return;
+      if (currentScrollPos === prevScrollPosRef.current) return;
 
       setMenuVisibility({
         pathname,
         visible:
-          currentScrollPos <= 0 || prevScrollPos.current > currentScrollPos,
+          currentScrollPos <= 0 || prevScrollPosRef.current > currentScrollPos,
       });
-      prevScrollPos.current = currentScrollPos;
+      prevScrollPosRef.current = currentScrollPos;
     };
 
     window.addEventListener("scroll", handleScroll);
