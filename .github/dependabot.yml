@@ -13,10 +13,6 @@ updates:
         update-types:
           - "version-update:semver-major"
           - "version-update:semver-minor"
-      # ESLint 10 is blocked until eslint-plugin-import/eslint-config-next support it.
-      - dependency-name: "eslint"
-        update-types:
-          - "version-update:semver-major"
     groups:
       production-dependencies:
         dependency-type: "production"
