@@ -53,7 +53,6 @@ export default defineConfig([
       ...reactHooksPlugin.configs.recommended.rules,
       ...nextPlugin.configs.recommended.rules,
       ...nextPlugin.configs["core-web-vitals"].rules,
-      "react/react-in-jsx-scope": "off",
     },
     settings: {
       react: { version: "detect" },
