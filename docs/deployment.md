@@ -51,12 +51,8 @@ Server entry point is `server.ts` in development and `dist/server.js` in product
 
 #### Image caching
 
-`next.config.mjs` serves `public/images/**` and the root PNG icons with
-`Cache-Control: public, max-age=604800, stale-while-revalidate=86400`. Browsers
-reuse these images for a week without checking the server. When replacing an
-image, give it a new filename so readers do not keep the old version.
-`service-worker.js` is intentionally excluded so service worker updates are
-picked up immediately.
+See [Caching](./caching.md) for image cache headers, filename changes when
+replacing images, offline book refreshes, and the effects of a deployment.
 
 ### N0C setup
 
