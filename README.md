@@ -22,4 +22,5 @@ This project is built using **Next.js**, **MariaDB**, **Typescript**, **Sass** a
 - [**Database**](./docs/database.md) — stores and serves structured data for the web application
 - [**Testing**](./docs/testing.md) — test structure, tools, and instructions
 - [**Deployment**](./docs/deployment.md) — production deployment through N0C
+- [**Caching**](./docs/caching.md) — cache lifetimes, deployment behaviour, and refreshing content
 - [**Dependencies**](./docs/dependencies.md) — external npm packages and their purpose

@@ -51,12 +51,8 @@ Server entry point is `server.ts` in development and `dist/server.js` in product
 
 #### Image caching
 
-`next.config.mjs` serves `public/images/**` and the root PNG icons with
-`Cache-Control: public, max-age=604800, stale-while-revalidate=86400`. Browsers
-reuse these images for a week without checking the server. When replacing an
-image, give it a new filename so readers do not keep the old version.
-`service-worker.js` is intentionally excluded so service worker updates are
-picked up immediately.
+See [Caching](./caching.md) for image cache headers, filename changes when
+replacing images, offline book refreshes, and the effects of a deployment.
 
 ### N0C setup
 
@@ -162,6 +158,20 @@ Notes:
 - `--delete` removes stale files from previous deployments;
 - `.next/cache` is excluded because it is build cache and not required at runtime;
 - `tmp/` is excluded because it is managed by N0C and is used for restarts.
+
+### Caches
+
+The [CI workflow](../.github/workflows/nztunnellers.yml) caches npm downloads via
+`setup-node`, `.next/cache` via `actions/cache`, and Playwright browser binaries.
+The Next.js cache key uses the lockfile and JavaScript/TypeScript source hashes,
+with a lockfile-based restore prefix. Restoring this cache can also restore
+persistent Next.js data; this is another reason to version the tunnellers key
+described in [Caching](./caching.md).
+
+Deployment sync excludes `.next/cache/**`. This does not clear an existing server
+cache, and a restart is not a universal cache reset. Browser HTTP caches, saved
+offline books, and localStorage live on readers' devices and are untouched by
+server deployments.
 
 ### Restart server automatically
 
