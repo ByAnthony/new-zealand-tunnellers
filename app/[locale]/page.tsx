@@ -45,8 +45,7 @@ async function getData(locale: Locale) {
       };
     });
   } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : String(error);
-    throw new Error(`Failed to fetch Homepage data: ${errorMessage}`);
+    throw new Error("Failed to fetch Homepage data", { cause: error });
   }
 }
 

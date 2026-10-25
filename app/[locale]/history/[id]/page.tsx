@@ -53,8 +53,7 @@ async function getData(id: string, locale: Locale) {
       return article;
     });
   } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : String(error);
-    throw new Error(`Failed to fetch Chapter data: ${errorMessage}`);
+    throw new Error("Failed to fetch Chapter data", { cause: error });
   }
 }
 

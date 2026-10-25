@@ -43,7 +43,12 @@ describe("readBookMarkdown", () => {
     mockedReadFile.mockRejectedValue(new Error("ENOENT: no such file"));
 
     await expect(readBookMarkdown("fr", "missing-chapter")).rejects.toThrow(
-      "Failed to read markdown file: ENOENT: no such file",
+      expect.objectContaining({
+        message: "Failed to read markdown file",
+        cause: expect.objectContaining({
+          message: "ENOENT: no such file",
+        }),
+      }),
     );
   });
 
@@ -51,7 +56,10 @@ describe("readBookMarkdown", () => {
     mockedReadFile.mockRejectedValue("unexpected failure");
 
     await expect(readBookMarkdown("fr", "bad-chapter")).rejects.toThrow(
-      "Failed to read markdown file: unexpected failure",
+      expect.objectContaining({
+        message: "Failed to read markdown file",
+        cause: "unexpected failure",
+      }),
     );
   });
 });

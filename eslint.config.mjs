@@ -1,9 +1,9 @@
 import js from "@eslint/js";
+import eslintReact from "@eslint-react/eslint-plugin";
 import nextPlugin from "@next/eslint-plugin-next";
 import { defineConfig, globalIgnores } from "eslint/config";
 import prettier from "eslint-config-prettier/flat";
-import importPlugin from "eslint-plugin-import";
-import reactPlugin from "eslint-plugin-react";
+import importPlugin from "eslint-plugin-import-x";
 import reactHooksPlugin from "eslint-plugin-react-hooks";
 import globals from "globals";
 import tseslint from "typescript-eslint";
@@ -46,16 +46,13 @@ export default defineConfig([
   // React & Next.js rules
   {
     plugins: {
-      react: reactPlugin,
       "react-hooks": reactHooksPlugin,
       "@next/next": nextPlugin,
     },
     rules: {
-      ...reactPlugin.configs.recommended.rules,
       ...reactHooksPlugin.configs.recommended.rules,
       ...nextPlugin.configs.recommended.rules,
       ...nextPlugin.configs["core-web-vitals"].rules,
-      "react/react-in-jsx-scope": "off",
     },
     settings: {
       react: { version: "detect" },
@@ -89,6 +86,9 @@ export default defineConfig([
       "no-console": ["warn", { allow: ["warn", "error"] }],
     },
   },
+
+  // ESLint React (@eslint-react): maintained JSX safety rules for React 19
+  eslintReact.configs["recommended-typescript"],
 
   // Jest globals only in tests
   {

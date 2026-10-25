@@ -32,9 +32,7 @@ export function RollDetails({ listOfTunnellers }: Props) {
       localStorage.setItem("roll:scrollY", String(window.scrollY || 0));
       saveTunnellersReturnUrl(window.location.href);
     } catch (error) {
-      const errorMessage =
-        error instanceof Error ? error.message : String(error);
-      throw new Error(`Failed to save scroll position: ${errorMessage}`);
+      throw new Error("Failed to save scroll position", { cause: error });
     }
   }, []);
 

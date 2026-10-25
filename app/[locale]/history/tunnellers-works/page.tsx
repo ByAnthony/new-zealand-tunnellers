@@ -57,8 +57,7 @@ async function getData() {
       };
     });
   } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : String(error);
-    throw new Error(`Failed to fetch works data: ${errorMessage}`);
+    throw new Error("Failed to fetch works data", { cause: error });
   }
 }
 
