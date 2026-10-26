@@ -68,7 +68,7 @@ runs:
       shell: bash
       run: |
         apt-get update && apt-get install -y --no-install-recommends mariadb-client
-        mysql -h 127.0.0.1 -u "$USERNAME" "$DATABASE" < ~/database/github_actions.sql
+        mysql -h mariadb -u "$USERNAME" "$DATABASE" < ~/database/github_actions.sql
       env:
         USERNAME: ${{ inputs.username }}
         MYSQL_PWD: ${{ inputs.password }}

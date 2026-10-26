@@ -90,7 +90,7 @@ jobs:
         shell: bash
         run: |
           {
-            echo "MYSQL_HOST=127.0.0.1"
+            echo "MYSQL_HOST=mariadb"
             echo "MYSQL_USER=$USERNAME"
             echo "MYSQL_PASSWORD=$PASSWORD"
             echo "MYSQL_DATABASE=$DATABASE"
