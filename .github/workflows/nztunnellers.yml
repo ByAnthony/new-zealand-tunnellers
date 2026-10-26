@@ -49,6 +49,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: checks
     timeout-minutes: 60
+    container:
+      image: mcr.microsoft.com/playwright:v1.64.1
     env:
       HUSKY: 0
     services:
@@ -88,7 +90,7 @@ jobs:
         shell: bash
         run: |
           {
-            echo "MYSQL_HOST=127.0.0.1"
+            echo "MYSQL_HOST=mariadb"
             echo "MYSQL_USER=$USERNAME"
             echo "MYSQL_PASSWORD=$PASSWORD"
             echo "MYSQL_DATABASE=$DATABASE"
@@ -112,17 +114,11 @@ jobs:
       - name: Build web app
         run: npm run build
 
-      - name: Cache Playwright browsers
-        uses: actions/cache@v6
-        with:
-          path: ~/.cache/ms-playwright
-          key: ${{ runner.os }}-playwright-${{ hashFiles('**/package-lock.json') }}
-
-      - name: Install playwright browsers
-        run: npx playwright install --with-deps
-
       - name: Run end-to-end tests
         run: npx playwright test
+        env:
+          HOME: /root
+          DOCKER_CONFIG: /tmp/docker-config
 
       - name: Upload deployment artifact
         uses: actions/upload-artifact@v7

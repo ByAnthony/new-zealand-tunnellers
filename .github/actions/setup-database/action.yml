@@ -31,7 +31,7 @@ runs:
         Host deploy
           HostName $SSH_HOST
           User $SSH_USER
-          IdentityFile ~/.ssh/deploy.key
+          IdentityFile $HOME/.ssh/deploy.key
           StrictHostKeyChecking no
         END
       env:
@@ -48,7 +48,7 @@ runs:
         quoted_username="$(printf "%q" "$USERNAME")"
         quoted_database="$(printf "%q" "$DATABASE")"
         for attempt in 1 2 3; do
-          if LANG="en_US.UTF-8" ssh -T -o ConnectTimeout=15 -o ConnectionAttempts=1 -p 5022 deploy "MYSQL_PWD=$quoted_password mysqldump -P 3306 -u $quoted_username $quoted_database" > ~/database/github_actions.sql; then
+          if LANG="en_US.UTF-8" ssh -F $HOME/.ssh/config -T -o ConnectTimeout=15 -o ConnectionAttempts=1 -p 5022 deploy "MYSQL_PWD=$quoted_password mysqldump -P 3306 -u $quoted_username $quoted_database" > ~/database/github_actions.sql; then
             exit 0
           fi
           echo "SSH database export failed on attempt $attempt" >&2
@@ -66,7 +66,9 @@ runs:
 
     - name: Import database
       shell: bash
-      run: mysql -h 127.0.0.1 -u "$USERNAME" "$DATABASE" < ~/database/github_actions.sql
+      run: |
+        apt-get update && apt-get install -y --no-install-recommends mariadb-client
+        mysql -h mariadb -u "$USERNAME" "$DATABASE" < ~/database/github_actions.sql
       env:
         USERNAME: ${{ inputs.username }}
         MYSQL_PWD: ${{ inputs.password }}
