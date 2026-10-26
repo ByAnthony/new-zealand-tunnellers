@@ -4,11 +4,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
-import { forwardRef } from "react";
+import { Ref } from "react";
 
 import STYLES from "./NavigationDialog.module.scss";
 
 type NavigationDialogProps = {
+  ref?: Ref<HTMLDialogElement>;
   onNavigate: (href: string) => void;
   onClose: () => void;
 };
@@ -28,10 +29,11 @@ function getLocaleSwitchQueryString(): string {
   return qs ? `?${qs}` : "";
 }
 
-export const NavigationDialog = forwardRef<
-  HTMLDialogElement,
-  NavigationDialogProps
->(({ onClose, onNavigate }, ref) => {
+export const NavigationDialog = ({
+  ref,
+  onClose,
+  onNavigate,
+}: NavigationDialogProps) => {
   const t = useTranslations("nav");
   const locale = useLocale();
   const localePrefix = locale === "en" ? "" : `/${locale}`;
@@ -164,6 +166,6 @@ export const NavigationDialog = forwardRef<
       </div>
     </dialog>
   );
-});
+};
 
 NavigationDialog.displayName = "NavigationDialog";
