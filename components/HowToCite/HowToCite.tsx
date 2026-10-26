@@ -53,11 +53,12 @@ function useIsClient() {
 }
 
 function BreakableCitationUrl({ url }: { url: string }) {
+  let key = 0;
   return url
     .split(/(www\.|nztunnellers\.|\/|-)/g)
     .filter(Boolean)
-    .map((part, index) => (
-      <Fragment key={`${part}-${index}`}>
+    .map((part) => (
+      <Fragment key={key++}>
         {part}
         {URL_BREAK_POINTS.test(part) ? <wbr /> : null}
       </Fragment>

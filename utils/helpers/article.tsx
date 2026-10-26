@@ -5,8 +5,10 @@ import { ArticleReferenceData } from "@/types/article";
 export const renderSuperscript = (text: string) => {
   const parts = text.split(/(\^\w+)/g);
   if (parts.length === 1) return text;
-  return parts.map((part, i) =>
-    part.startsWith("^") ? <sup key={i}>{part.slice(1)}</sup> : part,
+
+  let key = 0;
+  return parts.map((part) =>
+    part.startsWith("^") ? <sup key={key++}>{part.slice(1)}</sup> : part,
   );
 };
 
