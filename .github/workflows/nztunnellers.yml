@@ -116,6 +116,8 @@ jobs:
 
       - name: Run end-to-end tests
         run: npx playwright test
+        env:
+          HOME: /root
 
       - name: Upload deployment artifact
         uses: actions/upload-artifact@v7
