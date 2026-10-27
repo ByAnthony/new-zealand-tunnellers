@@ -162,7 +162,7 @@ Notes:
 ### Caches
 
 The [CI workflow](../.github/workflows/nztunnellers.yml) caches npm downloads via
-`setup-node`, `.next/cache` via `actions/cache`, and Playwright browser binaries.
+`setup-node`, `.next/cache` via `actions/cache`.
 The Next.js cache key uses the lockfile and JavaScript/TypeScript source hashes,
 with a lockfile-based restore prefix. Restoring this cache can also restore
 persistent Next.js data; this is another reason to version the tunnellers key
