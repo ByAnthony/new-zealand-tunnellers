@@ -71,7 +71,12 @@ export function Menu({ tunnellers }: Props) {
     menuVisibility.pathname !== pathname || menuVisibility.visible;
   const [filteredTunnellers, setFilteredTunnellers] = useState<Tunneller[]>([]);
   const [dropdownVisible, setDropdownVisible] = useState(false);
-  const [dropdownMaxHeight, setDropdownMaxHeight] = useState("auto");
+  const [dropdownMaxHeight, setDropdownMaxHeight] = useState(() => {
+    if (typeof window === "undefined" || !window.visualViewport) {
+      return "auto";
+    }
+    return `${window.visualViewport.height - 100}px`;
+  });
   const [isMenuToggleReturning, setIsMenuToggleReturning] = useState(false);
   const [query, setQuery] = useState("");
 
@@ -133,7 +138,6 @@ export function Menu({ tunnellers }: Props) {
     };
 
     window.visualViewport?.addEventListener("resize", handleResize);
-    handleResize();
     return () =>
       window.visualViewport?.removeEventListener("resize", handleResize);
   }, []);
