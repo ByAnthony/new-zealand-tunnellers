@@ -6,10 +6,10 @@ type WindowDimentions = {
 };
 
 export const useWindowDimensions = (): WindowDimentions => {
-  const [windowDimensions, setWindowDimensions] = useState<WindowDimentions>({
-    width: undefined,
-    height: undefined,
-  });
+  const [windowDimensions, setWindowDimensions] = useState<WindowDimentions>(() => ({
+    width: typeof window === "undefined" ? undefined : window.innerWidth,
+    height: typeof window === "undefined" ? undefined : window.innerHeight,
+  }));
 
   useEffect(() => {
     function handleResize(): void {
@@ -18,7 +18,6 @@ export const useWindowDimensions = (): WindowDimentions => {
         height: window.innerHeight,
       });
     }
-    handleResize();
     window.addEventListener("resize", handleResize);
     return (): void => window.removeEventListener("resize", handleResize);
   }, []);
