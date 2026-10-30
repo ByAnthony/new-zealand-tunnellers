@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import type { CSSProperties } from "react";
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { offlineBookSavedKey } from "@/utils/helpers/books/offlineBookSavedKey";
 
@@ -12,8 +12,6 @@ import STYLES from "./OfflineBookToggle.module.scss";
 // Keep in sync with service-worker.js
 const CACHE_NAME_PREFIX = "nzt-offline-book-v1-";
 const CACHE_LOCK_PREFIX = "nzt-offline-book-lock-v1-";
-const useClientLayoutEffect =
-  typeof window === "undefined" ? useEffect : useLayoutEffect;
 
 const getSavedMarker = (locale: string): boolean => {
   try {
@@ -108,14 +106,13 @@ export function OfflineBookToggle({
 }: Props) {
   const t = useTranslations("books");
   const [phase, setPhase] = useState<Phase>("checking");
-  const [isSaved, setIsSaved] = useState(initiallySaved);
+  const [isSaved, setIsSaved] = useState(() => {
+    if (initiallySaved) return true;
+    return getSavedMarker(locale);
+  });
   const [completedPages, setCompletedPages] = useState(0);
   const [progressPercent, setProgressPercent] = useState(0);
   const [hasInteracted, setHasInteracted] = useState(false);
-
-  useClientLayoutEffect(() => {
-    if (getSavedMarker(locale)) setIsSaved(true);
-  }, [initiallySaved, locale]);
 
   useEffect(() => {
     let isCurrent = true;
