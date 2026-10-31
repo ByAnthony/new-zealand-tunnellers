@@ -32,7 +32,6 @@ export const ReadingProgress = () => {
       const hasSavedPosition = saved > 0 && total0 > 0;
 
       if (hasSavedPosition) {
-        setProgress(saved);
         window.scrollTo({ top: (saved / 100) * total0, behavior: "auto" });
       }
 
