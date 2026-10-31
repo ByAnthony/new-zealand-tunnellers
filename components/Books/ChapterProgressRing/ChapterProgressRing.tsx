@@ -14,6 +14,8 @@ export const ChapterProgressRing = ({ pathname }: Props) => {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
+    // Reading localStorage must happen after hydration
+    // eslint-disable-next-line @eslint-react/set-state-in-effect
     const handleUpdate = () => setProgress(getChapterProgress(pathname));
     handleUpdate();
     window.addEventListener("pageshow", handleUpdate);
