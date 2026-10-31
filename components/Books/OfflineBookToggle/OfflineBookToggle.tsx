@@ -114,6 +114,8 @@ export function OfflineBookToggle({
   const [hasInteracted, setHasInteracted] = useState(false);
 
   useClientLayoutEffect(() => {
+    // localStorage is client-only; the cookie-backed initial value keeps hydration stable
+    // eslint-disable-next-line @eslint-react/set-state-in-effect
     if (getSavedMarker(locale)) setIsSaved(true);
   }, [initiallySaved, locale]);
 
