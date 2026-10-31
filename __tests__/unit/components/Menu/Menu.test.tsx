@@ -33,7 +33,48 @@ describe("Menu", () => {
       configurable: true,
       writable: true,
     });
+    Object.defineProperty(window, "innerWidth", {
+      value: 1024,
+      configurable: true,
+    });
     window.history.replaceState(null, "", "/");
+  });
+
+  describe("Visual viewport", () => {
+    test("uses the visual viewport height for the dropdown", () => {
+      Object.defineProperty(window, "innerWidth", {
+        value: 800,
+        configurable: true,
+      });
+      const mockViewport = {
+        height: 600,
+        addEventListener: jest.fn(),
+        removeEventListener: jest.fn(),
+      };
+
+      Object.defineProperty(window, "visualViewport", {
+        value: mockViewport,
+        configurable: true,
+      });
+
+      render(<Menu tunnellers={mockTunnellersData} />);
+      fireEvent.change(screen.getByRole("textbox"), {
+        target: { value: "John" },
+      });
+
+      expect(mockViewport.addEventListener).toHaveBeenCalledWith(
+        "resize",
+        expect.any(Function),
+      );
+      expect(screen.getByTestId("dropdown")).toHaveStyle({
+        maxHeight: "500px",
+      });
+
+      Object.defineProperty(window, "visualViewport", {
+        value: undefined,
+        configurable: true,
+      });
+    });
   });
 
   afterEach(() => {

@@ -170,11 +170,6 @@
     border-radius: variables.$border-radius;
     border: 1px solid variables.$primary-light-color;
     background-color: variables.$primary-medium-color;
-    max-height: calc(100vh - 100px);
-
-    @include variables.desktop {
-      max-height: 343px;
-    }
 
     .surname {
       font-weight: 500;
