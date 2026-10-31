@@ -200,8 +200,9 @@ This restarts the application after a new rollout.
 
 ## Updating Node.js
 
-- In **Node.js**, change the node version to the latest in your already created web application:
+- In **Node.js**, click "Stop" button and change the node version to the latest in your already created web application:
   - Under the hood N0C will create a new folder with the new node version: `nodevenv/${folder-where-your-application-lives}/${new-node-version}/bin/activate`.
+- After changing the node version, click "Start" button
 - Raise a PR to update to the new version.
 - Update the `${new-node-version}` in the [GitHub Actions workflow](https://github.com/ByAnthony/new-zealand-tunnellers/blob/7f5556524cc5f7731ed1554f7b1814a5e8580dc6/.github/workflows/nztunnellers.yml#L130);
 - Redeploy.
