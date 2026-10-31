@@ -13,6 +13,9 @@ export const useWindowDimensions = (): WindowDimentions => {
 
   useEffect(() => {
     function handleResize(): void {
+      // window genuinely doesn't exist on the server,
+      // so state must start undefined and sync after mount.
+      // eslint-disable-next-line @eslint-react/set-state-in-effect
       setWindowDimensions({
         width: window.innerWidth,
         height: window.innerHeight,
