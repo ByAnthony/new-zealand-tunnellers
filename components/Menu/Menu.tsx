@@ -8,7 +8,6 @@ import { useEffect, useRef, useState } from "react";
 
 import { Tunneller } from "@/types/tunnellers";
 import { displayBiographyDates } from "@/utils/helpers/roll";
-import { useWindowDimensions } from "@/utils/helpers/useWindowDimensions";
 
 import STYLES from "./Menu.module.scss";
 import { NavigationDialog } from "./NavigationDialog/NavigationDialog";
@@ -57,7 +56,6 @@ export function Menu({ tunnellers }: Props) {
   const localePrefix = locale === "en" ? "" : `/${locale}`;
   const pathname = usePathname();
 
-  const { width } = useWindowDimensions();
   const divRef = useRef<HTMLDivElement>(null);
   const searchFormRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -71,12 +69,6 @@ export function Menu({ tunnellers }: Props) {
     menuVisibility.pathname !== pathname || menuVisibility.visible;
   const [filteredTunnellers, setFilteredTunnellers] = useState<Tunneller[]>([]);
   const [dropdownVisible, setDropdownVisible] = useState(false);
-  const [dropdownMaxHeight, setDropdownMaxHeight] = useState(() => {
-    if (typeof window === "undefined" || !window.visualViewport) {
-      return "auto";
-    }
-    return `${window.visualViewport.height - 100}px`;
-  });
   const [isMenuToggleReturning, setIsMenuToggleReturning] = useState(false);
   const [query, setQuery] = useState("");
 
@@ -129,19 +121,6 @@ export function Menu({ tunnellers }: Props) {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.visualViewport) {
-        const availableHeight = window.visualViewport.height - 100;
-        setDropdownMaxHeight(`${availableHeight}px`);
-      }
-    };
-
-    window.visualViewport?.addEventListener("resize", handleResize);
-    return () =>
-      window.visualViewport?.removeEventListener("resize", handleResize);
-  }, []);
-
   const handleSearch = (search: string) => {
     const searchParts = search.toLowerCase().split(" ");
 
@@ -172,10 +151,6 @@ export function Menu({ tunnellers }: Props) {
 
   const handleNavigation = () => {
     setDropdownVisible(false);
-  };
-
-  const isMobileOrTablet = () => {
-    return width && width < 896;
   };
 
   const dialogRef = useRef<HTMLDialogElement>(null);
@@ -357,14 +332,7 @@ export function Menu({ tunnellers }: Props) {
         </div>
 
         {dropdownVisible && filteredTunnellers.length > 0 && (
-          <div
-            className={STYLES.dropdown}
-            ref={divRef}
-            data-testid="dropdown"
-            style={{
-              maxHeight: isMobileOrTablet() ? dropdownMaxHeight : "343px",
-            }}
-          >
+          <div className={STYLES.dropdown} ref={divRef} data-testid="dropdown">
             <ul>
               {filteredTunnellers.map((tunneller) => (
                 <li key={tunneller.slug}>

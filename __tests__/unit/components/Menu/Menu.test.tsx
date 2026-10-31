@@ -287,35 +287,6 @@ describe("Menu", () => {
     });
   });
 
-  describe("Visual viewport", () => {
-    test("sets dropdown max height from visualViewport on mount", () => {
-      const mockViewport = {
-        height: 600,
-        addEventListener: jest.fn(),
-        removeEventListener: jest.fn(),
-      };
-
-      Object.defineProperty(window, "visualViewport", {
-        value: mockViewport,
-        configurable: true,
-        writable: true,
-      });
-
-      render(<Menu tunnellers={mockTunnellersData} />);
-
-      expect(mockViewport.addEventListener).toHaveBeenCalledWith(
-        "resize",
-        expect.any(Function),
-      );
-
-      Object.defineProperty(window, "visualViewport", {
-        value: null,
-        configurable: true,
-        writable: true,
-      });
-    });
-  });
-
   describe("Clear Button", () => {
     test("can clear the search input", () => {
       render(<Menu tunnellers={mockTunnellersData} />);
