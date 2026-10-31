@@ -198,7 +198,7 @@ touch ~/${folder-where-your-application-lives}/tmp/restart.txt
 
 This restarts the application after a new rollout.
 
-### Updating Node.js
+## Updating Node.js
 
 - In **Node.js**, change the node version to the latest in your already created web application:
   - Under the hood N0C will create a new folder with the new node version: `nodevenv/${folder-where-your-application-lives}/${new-node-version}/bin/activate`.
