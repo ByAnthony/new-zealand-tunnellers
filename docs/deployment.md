@@ -69,7 +69,7 @@ This setup creates a folder according to the application root your have mentione
 
 ## GitHub Actions
 
-The repository uses a single workflow at [`.github/workflows/nztunnellers.yml`](../.github/workflows/nztunnellers.yml).
+The repository uses the deployment workflow at `.github/workflows/nztunnellers.yml` and a scheduled runtime check at `.github/workflows/check-production-node.yml`.
 
 On `push` to `main`, the workflow currently runs three jobs:
 
@@ -77,7 +77,7 @@ On `push` to `main`, the workflow currently runs three jobs:
 2. `build-production`
 3. `deployment`
 
-On pull requests, the deployment job is skipped.
+On pull requests, the deployment job is skipped. A manually dispatched run from `main` and deploys, which is useful when a database-only change needs a new build.
 
 ### SSH key
 
@@ -181,7 +181,7 @@ N0C uses `nodevenv` to set the desired Node.js version for your web application.
 source nodevenv/${folder-where-your-application-lives}/${node-version}/bin/activate
 ```
 
-**Note**: the Node version should just be `22` if you are using a `22.x.x` release.
+**Note**: the version directory is the Node major version. For example, use `24` for a `24.x.x` release.
 
 Then:
 
@@ -200,9 +200,17 @@ This restarts the application after a new rollout.
 
 ## Updating Node.js
 
-- In **Node.js**, click "Stop" button and change the node version to the latest in your already created web application:
-  - Under the hood N0C will create a new folder with the new node version: `nodevenv/${folder-where-your-application-lives}/${new-node-version}/bin/activate`.
-- After changing the node version, click "Start" button
-- Raise a PR to update to the new version.
-- Update the `${new-node-version}` in the [GitHub Actions workflow](https://github.com/ByAnthony/new-zealand-tunnellers/blob/7f5556524cc5f7731ed1554f7b1814a5e8580dc6/.github/workflows/nztunnellers.yml#L130);
-- Redeploy.
+### Production Node version check
+
+[`check-production-node.yml`](../.github/workflows/check-production-node.yml) runs every Monday at 09:00 UTC and can be run manually. It lists the Node versions exposed by N0C for the production app and fails unless the exact version in `.nvmrc` is available.
+
+Enable failed GitHub Actions notifications at [GitHub notification settings](https://github.com/settings/notifications) to be alerted when N0C upgrades or removes the configured Node version.
+
+### Update Checklist
+
+- [ ] Go to the "Languages" section in N0C and click on **Node.js**;
+- [ ] Click "Stop" button and change the node version to the latest in your already created web application. Under the hood N0C will create a new folder with the new node version: `nodevenv/${folder-where-your-application-lives}/${new-node-version}/bin/activate`;
+- [ ] Click "Start" button for the application;
+- [ ] Manually trigger [`check-production-node.yml`](../.github/workflows/check-production-node.yml) to identify the new version used on the server;
+- [ ] Raise a PR to update to the new version. Update the `${new-node-version}` in the [GitHub Actions workflow](https://github.com/ByAnthony/new-zealand-tunnellers/blob/7f5556524cc5f7731ed1554f7b1814a5e8580dc6/.github/workflows/nztunnellers.yml#L130);
+- [ ] Redeploy.
