@@ -212,5 +212,7 @@ Enable failed GitHub Actions notifications at [GitHub notification settings](htt
 - [ ] Click "Stop" button and change the node version to the latest in your already created web application. Under the hood N0C will create a new folder with the new node version: `nodevenv/${folder-where-your-application-lives}/${new-node-version}/bin/activate`;
 - [ ] Click "Start" button for the application;
 - [ ] Manually trigger [`check-production-node.yml`](../.github/workflows/check-production-node.yml) to identify the new version used on the server;
-- [ ] Raise a PR to update to the new version. Update the `${new-node-version}` in the [GitHub Actions workflow](https://github.com/ByAnthony/new-zealand-tunnellers/blob/7f5556524cc5f7731ed1554f7b1814a5e8580dc6/.github/workflows/nztunnellers.yml#L130);
+- [ ] Raise a PR to update to the new version, including:
+  - [ ] Update the `${new-node-version}` in the [GitHub Actions workflow](https://github.com/ByAnthony/new-zealand-tunnellers/blob/7f5556524cc5f7731ed1554f7b1814a5e8580dc6/.github/workflows/nztunnellers.yml#L130);
+  - [ ] Updating `@types/node` to the new compatible version.
 - [ ] Redeploy.
