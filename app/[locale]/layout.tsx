@@ -27,6 +27,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     metadataBase: new URL(BASE_URL),
     title: "New Zealand Tunnellers",
     description: t("description"),
+    icons: {
+      icon: "/favicon.ico",
+      apple: "/apple-touch-icon.png",
+    },
     openGraph: {
       title: "New Zealand Tunnellers",
       description: t("description"),
