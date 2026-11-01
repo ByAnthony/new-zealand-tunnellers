@@ -1,42 +1,41 @@
 name: Check production Node version
 
 on:
-  schedule:
-    - cron: "0 9 * * 1"
-  workflow_dispatch:
+    schedule:
+        - cron: "0 9 * * 1"
+    workflow_dispatch:
 
 permissions:
-  contents: read
+    contents: read
 
 jobs:
-  check-node-version:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v7.0.1
+    check-node-version:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v7.0.1
 
-      - name: Compare production Node version
-        env:
-          SSH_HOST: ${{ secrets.SERVER }}
-          SSH_USER: ${{ secrets.USERNAME }}
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          SERVER_DIR: ${{ secrets.SERVER_DIR }}
-        run: |
-          expected="v$(tr -d '\r\n' < .nvmrc)"
-          major="${expected#v}"
-          major="${major%%.*}"
+            - name: Compare production Node version
+              env:
+                  SSH_HOST: ${{ secrets.SERVER }}
+                  SSH_USER: ${{ secrets.USERNAME }}
+                  SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+                  SERVER_DIR: ${{ secrets.SERVER_DIR }}
+              run: |
+                  expected="v$(tr -d '\r\n' < .nvmrc)"
 
-          mkdir -p ~/.ssh
-          printf '%s' "$SSH_PRIVATE_KEY" > ~/.ssh/deploy.key
-          chmod 600 ~/.ssh/deploy.key
+                  mkdir -p ~/.ssh
+                  printf '%s' "$SSH_PRIVATE_KEY" > ~/.ssh/deploy.key
+                  chmod 600 ~/.ssh/deploy.key
 
-          actual="$(ssh -T -i ~/.ssh/deploy.key -p 5022 \
-            -o StrictHostKeyChecking=accept-new \
-            "$SSH_USER@$SSH_HOST" \
-            "nodevenv/$SERVER_DIR/$major/bin/node --version")"
+                  versions="$(ssh -T -i ~/.ssh/deploy.key -p 5022 \
+                    -o StrictHostKeyChecking=accept-new \
+                    "$SSH_USER@$SSH_HOST" \
+                    'for node in nodevenv/'"$SERVER_DIR"'/*/bin/node; do [ -x "$node" ] && "$node" --version; done')"
 
-          test "$actual" = "$expected" || {
-            echo "Production runs $actual; .nvmrc expects $expected"
-            exit 1
-          }
+                  printf 'Available production Node versions:\n%s\n' "$versions"
+                  printf '%s\n' "$versions" | grep -Fx "$expected" >/dev/null || {
+                    echo ".nvmrc expects $expected"
+                    exit 1
+                  }
 
-          echo "Production Node version: $actual"
+                  echo "Expected Node version is available: $expected"
