@@ -1,3 +1,4 @@
+import { noticeError } from "newrelic";
 import { redirect } from "next/navigation";
 
 import { Locale } from "@/types/locale";
@@ -33,6 +34,7 @@ export async function getTunnellerBySlug(
 
     const context =
       redirectTarget === "timeline" ? "Timeline data" : "Tunneller data";
+    noticeError(error as Error, { slug, locale, redirectTarget });
     throw new Error(`Failed to fetch ${context}`, { cause: error });
   }
 }

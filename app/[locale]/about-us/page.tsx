@@ -1,3 +1,4 @@
+import { noticeError } from "newrelic";
 import { getTranslations } from "next-intl/server";
 
 import { AboutUs } from "@/components/AboutUs/AboutUs";
@@ -37,6 +38,7 @@ async function getData(locale: Locale) {
       return article;
     });
   } catch (error) {
+    noticeError(error as Error, { locale });
     throw new Error("Failed to fetch About Us data", { cause: error });
   }
 }

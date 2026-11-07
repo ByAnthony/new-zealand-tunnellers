@@ -1,3 +1,4 @@
+import { noticeError } from "newrelic";
 import { getTranslations } from "next-intl/server";
 import { Suspense } from "react";
 
@@ -57,6 +58,7 @@ async function getData() {
       };
     });
   } catch (error) {
+    noticeError(error as Error);
     throw new Error("Failed to fetch works data", { cause: error });
   }
 }

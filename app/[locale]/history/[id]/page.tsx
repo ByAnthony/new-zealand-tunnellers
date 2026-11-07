@@ -1,3 +1,4 @@
+import { noticeError } from "newrelic";
 import { getTranslations } from "next-intl/server";
 
 import { Article } from "@/components/Article/Article";
@@ -53,6 +54,7 @@ async function getData(id: string, locale: Locale) {
       return article;
     });
   } catch (error) {
+    noticeError(error as Error, { id, locale });
     throw new Error("Failed to fetch Chapter data", { cause: error });
   }
 }
