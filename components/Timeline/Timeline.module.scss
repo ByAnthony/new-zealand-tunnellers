@@ -29,8 +29,6 @@
   }
 
   .events {
-    margin-left: 25px;
-
     @include variables.desktop {
       margin-top: variables.$xxl-margin;
     }
