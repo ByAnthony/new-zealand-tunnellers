@@ -1,6 +1,8 @@
 import fs from "fs/promises";
 import path from "path";
 
+import { noticeError } from "newrelic";
+
 import { bookFilePath } from "./basePathUtil";
 
 export const readBookMarkdown = async (
@@ -16,6 +18,7 @@ export const readBookMarkdown = async (
     const fileContent = await fs.readFile(filePath, "utf-8");
     return fileContent;
   } catch (error) {
+    noticeError(error as Error, { locale, filename });
     throw new Error(`Failed to read markdown file`, { cause: error });
   }
 };

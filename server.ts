@@ -5,6 +5,7 @@ import { parse } from "url";
 
 import { loadEnvConfig } from "@next/env";
 import mysql from "mysql2/promise";
+import { noticeError } from "newrelic";
 import next from "next";
 
 loadEnvConfig(process.cwd());
@@ -52,7 +53,10 @@ async function getLegacyTunnellerRedirectPath(
     .execute<mysql.RowDataPacket[]>("SELECT slug FROM tunneller WHERE id = ?", [
       id,
     ])
-    .catch(() => [[] as mysql.RowDataPacket[]]);
+    .catch((error) => {
+      noticeError(error as Error, { id, locale });
+      return [[] as mysql.RowDataPacket[]];
+    });
   const slug = results[0]?.slug;
 
   return slug ? `${localePrefix}/tunnellers/${slug}/` : rollPath;
