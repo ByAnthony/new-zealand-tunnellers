@@ -1,3 +1,4 @@
+import { noticeError } from "newrelic";
 import { getTranslations } from "next-intl/server";
 
 import { HomePage } from "@/components/HomePage/HomePage";
@@ -45,6 +46,7 @@ async function getData(locale: Locale) {
       };
     });
   } catch (error) {
+    noticeError(error as Error, { locale });
     throw new Error("Failed to fetch Homepage data", { cause: error });
   }
 }

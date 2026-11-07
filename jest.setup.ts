@@ -3,6 +3,10 @@ import React from "react";
 
 import { makeMessagesTranslator } from "./test-utils/getMessageFromMessages";
 
+jest.mock("newrelic", () => ({
+  noticeError: jest.fn(),
+}));
+
 jest.mock("next-intl", () => ({
   useTranslations: jest.fn(makeMessagesTranslator("en")),
   useLocale: jest.fn(() => "en"),
