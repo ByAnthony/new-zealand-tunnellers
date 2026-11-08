@@ -8,18 +8,26 @@ import {
 } from "@/types/article";
 import { Locale } from "@/types/locale";
 
+function validateLocale(locale: string): "en" | "fr" {
+  if (locale !== "en" && locale !== "fr") {
+    throw new Error("Invalid locale.");
+  }
+  return locale;
+}
+
 export const chapterQuery = async (
   id: string,
   locale: Locale,
   connection: PoolConnection,
 ) => {
+  locale = validateLocale(locale);
   const query = `SELECT
     article.string_id AS id
     , article.id AS chapter
     , article.title_${locale} AS title
     , article.notes_${locale} AS notes
     FROM article
-    WHERE article.string_id="${id}"`;
+    WHERE article.string_id = ?`;
 
   const [results] = await connection.execute<(ArticleData & RowDataPacket)[]>(
     query,
@@ -33,12 +41,13 @@ export const sectionsQuery = async (
   locale: Locale,
   connection: PoolConnection,
 ) => {
+  locale = validateLocale(locale);
   const query = `SELECT
     article_section.title_${locale} AS title
     , article_section.text_${locale} AS text
     FROM article_section
     JOIN article_section_join ON article_section_join.section_id=article_section.id
-    WHERE article_section_join.article_id="${id}"`;
+    WHERE article_section_join.article_id = ?`;
 
   const [results] = await connection.execute<(SectionData & RowDataPacket)[]>(
     query,
@@ -52,6 +61,7 @@ export const imagesQuery = async (
   locale: Locale,
   connection: PoolConnection,
 ) => {
+  locale = validateLocale(locale);
   const query = `SELECT
     article_image.file AS file
     , article_image.title_${locale} AS title
@@ -60,7 +70,7 @@ export const imagesQuery = async (
     , article_image.alt_${locale} AS alt
     FROM article_image
     JOIN article_image_join ON article_image_join.image_id=article_image.id
-    WHERE article_image_join.article_id="${id}"`;
+    WHERE article_image_join.article_id = ?`;
 
   const [results] = await connection.execute<(ImageData & RowDataPacket)[]>(
     query,
@@ -73,6 +83,7 @@ export const nextArticleQuery = async (
   locale: Locale,
   connection: PoolConnection,
 ) => {
+  locale = validateLocale(locale);
   const query = `SELECT
     article.string_id AS id
     , article.id AS chapter

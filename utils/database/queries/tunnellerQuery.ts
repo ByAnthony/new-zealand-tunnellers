@@ -8,6 +8,10 @@ export const tunnellerQuery = async (
   locale: Locale,
   connection: PoolConnection,
 ) => {
+  if (locale !== "en" && locale !== "fr") {
+    throw new Error("Invalid locale.");
+  }
+
   const query = `SELECT t.id
     , t.slug
     , t.surname
@@ -123,9 +127,11 @@ export const tunnellerQuery = async (
     LEFT JOIN newspaper_name ON newspaper_name.newspaper_name_id=newspaper.newspaper_name_fk
     LEFT JOIN book ON book.book_id=t.image_source_book_fk
 
-    WHERE t.slug='${slug}'`;
+    WHERE t.slug = ?`;
 
-  const [results] =
-    await connection.execute<(ProfileData & RowDataPacket)[]>(query);
+  const [results] = await connection.execute<(ProfileData & RowDataPacket)[]>(
+    query,
+    [slug],
+  );
   return results[0];
 };
