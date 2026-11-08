@@ -98,6 +98,7 @@ export default defineConfig([
       "**/*.spec.{js,jsx,ts,tsx}",
       "**/jest.setup.{js,ts}",
       "**/setupTests.{js,ts}",
+      "test-utils/**/*.ts",
     ],
     languageOptions: { globals: { ...globals.jest } },
   },
