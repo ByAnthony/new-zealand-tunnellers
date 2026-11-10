@@ -55,7 +55,7 @@ jobs:
       HUSKY: 0
     services:
       mariadb:
-        image: mariadb:10.6.21
+        image: mariadb:10.11.19
         ports:
           - 3306:3306
         env:
