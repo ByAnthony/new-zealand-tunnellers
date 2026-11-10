@@ -30,8 +30,9 @@ const config: Config = {
   // An array of glob patterns indicating a set of files for which coverage information should be collected
   collectCoverageFrom: [
     "components/**/*.{ts,tsx}",
-    "utils/**/*.{ts,tsx}",
-    "!utils/database/**",
+    "utils/*.{ts,tsx}",
+    "utils/!(database)/**/*.{ts,tsx}",
+    "utils/database/queries/{historyChapterQuery,tunnellerQuery}.ts",
     "!**/*.module.scss",
     "!**/__snapshots__/**",
     "!**/node_modules/**",
@@ -50,7 +51,6 @@ const config: Config = {
     "<rootDir>/components/NewRelicBrowserAgent/",
     "<rootDir>/components/WorksMap/WorksMap.tsx",
     "<rootDir>/components/WorksMap/WorksMapContainer.tsx",
-    "<rootDir>/utils/database/queries/",
     "<rootDir>/utils/helpers/jsonLd.ts",
     "<rootDir>/utils/helpers/metadata.ts",
   ],
