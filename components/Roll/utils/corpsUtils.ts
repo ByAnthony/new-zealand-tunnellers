@@ -16,7 +16,7 @@ export const getUniqueCorps = (
         seen.add(id);
         result.push({
           id,
-          label: id === null ? "Tunnelling Corps" : (item.attachedCorps ?? ""),
+          label: id === null ? "Engineers Corps" : (item.attachedCorps ?? ""),
         });
       }
     });
@@ -43,7 +43,7 @@ export const getUniqueCorpsEn = (
         seen.add(id);
         result.push({
           id,
-          label: id === null ? "Tunnelling Corps" : (item.corpsEn ?? ""),
+          label: id === null ? "Engineers Corps" : (item.corpsEn ?? ""),
         });
       }
     });

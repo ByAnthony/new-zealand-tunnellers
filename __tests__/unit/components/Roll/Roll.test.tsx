@@ -493,10 +493,10 @@ describe("Roll", () => {
     expect(mockReplace).not.toHaveBeenCalled();
   });
 
-  test("should filter Tunnelling Corps shows only tunnellers without attached corps", async () => {
+  test("should filter Engineers Corps shows only tunnellers without attached corps", async () => {
     await renderRoll();
 
-    const checkbox = screen.getByRole("checkbox", { name: "Tunnelling Corps" });
+    const checkbox = screen.getByRole("checkbox", { name: "Engineers Corps" });
     fireEvent.click(checkbox);
 
     expect(screen.getByText("3 results")).toBeInTheDocument();

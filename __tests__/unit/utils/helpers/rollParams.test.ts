@@ -10,10 +10,10 @@ const lookups: FilterLookups = {
     { id: 1, label: "Main Body" },
     { id: 2, label: "2nd Reinforcements" },
     { id: 3, label: "7th Reinforcements" },
-    { id: null, label: "Tunnelling Corps" },
+    { id: null, label: "Engineers Corps" },
   ],
   corps: [
-    { id: null, label: "Tunnelling Corps" },
+    { id: null, label: "Engineers Corps" },
     { id: 2, label: "Army Pay Corps" },
   ],
   maritalStatuses: [
@@ -78,17 +78,17 @@ describe("filtersToSearchParams", () => {
     );
   });
 
-  test("serialises null ID as slug for Tunnelling Corps", () => {
+  test("serialises null ID as slug for Engineers Corps", () => {
     const filters = { ...defaultFilters, corps: [null] };
     expect(filtersToSearchParams(filters, 1, "asc", lookups)).toContain(
-      "corps=tunnelling-corps",
+      "corps=engineers-corps",
     );
   });
 
   test("serialises mixed null and numeric corps IDs as slugs", () => {
     const filters = { ...defaultFilters, corps: [null, 2] };
     expect(filtersToSearchParams(filters, 1, "asc", lookups)).toContain(
-      "corps=tunnelling-corps,army-pay-corps",
+      "corps=engineers-corps,army-pay-corps",
     );
   });
 
@@ -172,9 +172,9 @@ describe("searchParamsToFilters", () => {
     expect(filters.detachment).toEqual([1, 2]);
   });
 
-  test("parses tunnelling-corps slug to null", () => {
+  test("parses engineers-corps slug to null", () => {
     const { filters } = searchParamsToFilters(
-      make("corps=tunnelling-corps"),
+      make("corps=engineers-corps"),
       lookups,
     );
     expect(filters.corps).toEqual([null]);

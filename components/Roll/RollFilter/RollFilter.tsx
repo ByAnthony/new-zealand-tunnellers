@@ -118,7 +118,7 @@ export function RollFilter({
                     : false
                 }
               />
-              {corps.id === null ? t("tunnellingCorps") : corps.label}
+              {corps.id === null ? t("engineersCorps") : corps.label}
             </label>
           </div>
         ))}

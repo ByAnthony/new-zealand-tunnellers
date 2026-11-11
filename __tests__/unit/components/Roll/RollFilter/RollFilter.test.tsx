@@ -9,7 +9,7 @@ const defaultProps = {
     { id: 2, label: "1st Reinforcements" },
   ],
   uniqueCorps: [
-    { id: null, label: "Tunnelling Corps" },
+    { id: null, label: "Engineers Corps" },
     { id: 5, label: "Engineers" },
   ],
   uniqueMaritalStatuses: [
@@ -79,7 +79,7 @@ describe("RollFilter", () => {
   test("renders the corps filters", () => {
     render(<RollFilter {...defaultProps} />);
     expect(screen.getByText("Corps")).toBeInTheDocument();
-    expect(screen.getByLabelText("Tunnelling Corps")).toBeInTheDocument();
+    expect(screen.getByLabelText("Engineers Corps")).toBeInTheDocument();
     expect(screen.getByLabelText("Engineers")).toBeInTheDocument();
   });
 
@@ -148,7 +148,7 @@ describe("RollFilter", () => {
 
   test("calls handleCorpsFilter when a corps checkbox is clicked", () => {
     render(<RollFilter {...defaultProps} />);
-    const checkbox = screen.getByLabelText("Tunnelling Corps");
+    const checkbox = screen.getByLabelText("Engineers Corps");
     fireEvent.click(checkbox);
     expect(defaultProps.handleCorpsFilter).toHaveBeenCalledWith(null);
   });

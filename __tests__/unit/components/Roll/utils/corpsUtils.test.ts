@@ -14,7 +14,7 @@ describe("getUniqueDetachments", () => {
   test("returns unique detachments sorted correctly", () => {
     const result = getUniqueCorps(Object.entries(mockTunnellers));
     expect(result).toEqual([
-      { id: null, label: "Tunnelling Corps" },
+      { id: null, label: "Engineers Corps" },
       { id: 3, label: "Army Pay Corps" },
     ]);
   });
@@ -24,7 +24,7 @@ describe("getUniqueDetachments", () => {
     expect(result).toEqual([]);
   });
 
-  test("sorts multiple non-Tunnelling Corps entries alphabetically", () => {
+  test("sorts multiple non-Engineers Corps entries alphabetically", () => {
     const tunnellers: [string, Tunneller[]][] = [
       [
         "A",

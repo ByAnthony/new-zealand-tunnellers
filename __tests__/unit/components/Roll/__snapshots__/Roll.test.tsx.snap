@@ -154,11 +154,11 @@ exports[`Roll matches the snapshot 1`] = `
               <label>
                 <input
                   id="null"
-                  name="Tunnelling Corps"
+                  name="Engineers Corps"
                   type="checkbox"
                   value="null"
                 />
-                Tunnelling Corps
+                Engineers Corps
               </label>
             </div>
             <div>
