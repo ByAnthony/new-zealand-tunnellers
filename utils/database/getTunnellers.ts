@@ -8,7 +8,7 @@ import { rollQuery } from "./queries/rollQuery";
 import { withConnection } from "./withConnection";
 
 // Bump after database changes that affect the roll/search data.
-const TUNNELLERS_CACHE_VERSION = "2026-05-13-occupation-category-lookup";
+const TUNNELLERS_CACHE_VERSION = "2026-11-13-update-tunneller-data";
 
 function parseCoordinate(value: string | null): number | null {
   if (!value) return null;
