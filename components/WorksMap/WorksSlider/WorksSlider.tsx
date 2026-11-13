@@ -3,8 +3,9 @@ import Slider from "rc-slider";
 import { useState } from "react";
 import "rc-slider/assets/index.css";
 
+import { formatDay } from "@/components/WorksMap/utils/mapParams";
+
 import STYLES from "./WorksSlider.module.scss";
-import { formatDay } from "../utils/mapParams";
 
 const COLOR_SECONDARY = "rgb(153, 131, 100)";
 const COLOR_RAIL = "rgb(64, 66, 67)";

@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import { useCallback, useEffect } from "react";
 
+import { Dialog } from "@/components/Dialog/Dialog";
 import { useRollState } from "@/components/Roll/hooks/useRollState";
 import { RollAlphabet } from "@/components/Roll/RollAlphabet/RollAlphabet";
 import { RollFilter } from "@/components/Roll/RollFilter/RollFilter";
@@ -15,7 +16,6 @@ import { saveRollView } from "@/utils/helpers/tunnellersReturn";
 import { useWindowDimensions } from "@/utils/helpers/useWindowDimensions";
 
 import STYLES from "./Roll.module.scss";
-import { Dialog } from "../Dialog/Dialog";
 
 const RollOriginMap = dynamic(
   () =>

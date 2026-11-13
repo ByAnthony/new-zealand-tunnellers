@@ -1,12 +1,12 @@
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 
+import { formatDateParam } from "@/components/WorksMap/utils/mapParams";
 import { CaveData } from "@/utils/database/queries/cavesQuery";
 import { SubwayData } from "@/utils/database/queries/subwaysQuery";
 import { WorkData } from "@/utils/database/queries/worksQuery";
 
 import STYLES from "./InfoBar.module.scss";
-import { formatDateParam } from "../utils/mapParams";
 
 type Props = {
   work: WorkData | null;

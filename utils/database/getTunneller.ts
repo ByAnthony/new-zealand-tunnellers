@@ -14,14 +14,6 @@ import {
   TunnellerProfile,
 } from "@/types/tunneller";
 
-import { armyExperienceQuery } from "./queries/armyExperienceQuery";
-import { companyEventsQuery } from "./queries/companyEventsQuery";
-import { imageSourceBookAuthorsQuery } from "./queries/imageSourceBookAuthorsQuery";
-import { londonGazetteQuery } from "./queries/londonGazetteQuery";
-import { medalsQuery } from "./queries/medalsQuery";
-import { nzArchivesQuery } from "./queries/nzArchivesQuery";
-import { tunnellerEventsQuery } from "./queries/tunnellerEventsQuery";
-import { tunnellerQuery } from "./queries/tunnellerQuery";
 import { getYear, getDate, getAge } from "../helpers/date";
 import {
   getDeath,
@@ -64,6 +56,14 @@ import {
   getNominalRoll,
   getLondonGazette,
 } from "../helpers/sources";
+import { armyExperienceQuery } from "./queries/armyExperienceQuery";
+import { companyEventsQuery } from "./queries/companyEventsQuery";
+import { imageSourceBookAuthorsQuery } from "./queries/imageSourceBookAuthorsQuery";
+import { londonGazetteQuery } from "./queries/londonGazetteQuery";
+import { medalsQuery } from "./queries/medalsQuery";
+import { nzArchivesQuery } from "./queries/nzArchivesQuery";
+import { tunnellerEventsQuery } from "./queries/tunnellerEventsQuery";
+import { tunnellerQuery } from "./queries/tunnellerQuery";
 
 export async function getTunneller(
   slug: string,

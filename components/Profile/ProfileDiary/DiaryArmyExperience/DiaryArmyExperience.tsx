@@ -6,8 +6,8 @@ import { useLocale, useTranslations } from "next-intl";
 import { ArmyExperience } from "@/types/tunneller";
 import { getFrenchCountryWithPrep } from "@/utils/helpers/country";
 
-import STYLES_WWI from "./DiaryArmyExperience.module.scss";
 import STYLES from "../ProfileDiary.module.scss";
+import STYLES_WWI from "./DiaryArmyExperience.module.scss";
 
 type Props = {
   tunnellerSlug: string;

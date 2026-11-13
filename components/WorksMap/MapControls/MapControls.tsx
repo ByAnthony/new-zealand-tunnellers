@@ -4,15 +4,15 @@ import { useTranslations } from "next-intl";
 import { useState, useEffect, useMemo } from "react";
 
 import { Dialog } from "@/components/Dialog/Dialog";
+import { usePendingMapFilters } from "@/components/WorksMap/MapControls/hooks/usePendingMapFilters";
+import { RelatedChapterCard } from "@/components/WorksMap/MapControls/RelatedChapterCard/RelatedChapterCard";
+import { TypeFilter } from "@/components/WorksMap/TypeFilter/TypeFilter";
+import { formatPeriodRange } from "@/components/WorksMap/utils/mapParams";
+import { MAP_PERIODS } from "@/components/WorksMap/utils/periods";
+import { WorksSlider } from "@/components/WorksMap/WorksSlider/WorksSlider";
 import { getChapterIdForPeriod } from "@/utils/historyMapLinks";
 
-import { usePendingMapFilters } from "./hooks/usePendingMapFilters";
 import STYLES from "./MapControls.module.scss";
-import { RelatedChapterCard } from "./RelatedChapterCard/RelatedChapterCard";
-import { TypeFilter } from "../TypeFilter/TypeFilter";
-import { formatPeriodRange } from "../utils/mapParams";
-import { MAP_PERIODS } from "../utils/periods";
-import { WorksSlider } from "../WorksSlider/WorksSlider";
 
 type Props = {
   visibleCount: number;
