@@ -21,6 +21,8 @@ jobs:
   checks:
     runs-on: ubuntu-latest
     timeout-minutes: 5
+    outputs:
+      playwright-version: ${{ steps.playwright-version.outputs.version }}
     env:
       HUSKY: 0
     steps:
@@ -36,6 +38,10 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Read Playwright version
+        id: playwright-version
+        run: node -e 'console.log("version=" + require("./package.json").devDependencies["@playwright/test"])' >> "$GITHUB_OUTPUT"
+
       - name: Lint code
         run: npm run lint
 
@@ -50,7 +56,7 @@ jobs:
     needs: checks
     timeout-minutes: 60
     container:
-      image: mcr.microsoft.com/playwright:v1.64.1
+      image: mcr.microsoft.com/playwright:v${{ needs.checks.outputs.playwright-version }}
     env:
       HUSKY: 0
     services:
