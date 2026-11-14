@@ -2,19 +2,18 @@
 
 import { useCallback, useMemo } from "react";
 
-import { CaveData } from "@/utils/database/queries/cavesQuery";
-import { FrontLineData } from "@/utils/database/queries/frontLinesQuery";
-import { SubwayData } from "@/utils/database/queries/subwaysQuery";
-import { WorkData } from "@/utils/database/queries/worksQuery";
-
 import {
   getVisibleFrontLines,
   getVisibleFrontLinesForPeriod,
   getWorkCategories,
   isWorkVisible,
   shouldPinFrontLinesToPeriod,
-} from "../utils/filterUtils";
-import { dateToDay } from "../utils/mapParams";
+} from "@/components/WorksMap/utils/filterUtils";
+import { dateToDay } from "@/components/WorksMap/utils/mapParams";
+import { CaveData } from "@/utils/database/queries/cavesQuery";
+import { FrontLineData } from "@/utils/database/queries/frontLinesQuery";
+import { SubwayData } from "@/utils/database/queries/subwaysQuery";
+import { WorkData } from "@/utils/database/queries/worksQuery";
 
 type Params = {
   works: WorkData[];

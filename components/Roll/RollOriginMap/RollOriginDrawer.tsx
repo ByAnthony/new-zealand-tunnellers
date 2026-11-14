@@ -3,8 +3,9 @@
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useId, useRef, Ref } from "react";
 
-import { OriginMarker } from "./originMapMarkers";
-import { RollOriginDrawerCard } from "./RollOriginDrawerCard";
+import { OriginMarker } from "@/components/Roll/RollOriginMap/originMapMarkers";
+import { RollOriginDrawerCard } from "@/components/Roll/RollOriginMap/RollOriginDrawerCard";
+
 import STYLES from "./RollOriginMap.module.scss";
 
 type Props = {

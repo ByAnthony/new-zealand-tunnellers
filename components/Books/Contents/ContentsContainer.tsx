@@ -1,9 +1,8 @@
 import { cookies } from "next/headers";
 
+import { Contents } from "@/components/Books/Contents/Contents";
 import { readBookMarkdown } from "@/utils/helpers/books/markdownUtil";
 import { offlineBookSavedKey } from "@/utils/helpers/books/offlineBookSavedKey";
-
-import { Contents } from "./Contents";
 
 type Props = {
   locale: string;

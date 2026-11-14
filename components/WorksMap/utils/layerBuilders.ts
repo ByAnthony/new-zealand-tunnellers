@@ -1,5 +1,15 @@
 import L from "leaflet";
 
+import {
+  collectCategories,
+  getWorkCategories,
+} from "@/components/WorksMap/utils/filterUtils";
+import {
+  createGroupIcon,
+  createSingleIcon,
+  createWorkIcon,
+} from "@/components/WorksMap/utils/markerIcons";
+import { groupPathsBySegment } from "@/components/WorksMap/utils/pathUtils";
 import { CaveData, CavePathPoint } from "@/utils/database/queries/cavesQuery";
 import {
   FrontLineData,
@@ -10,14 +20,6 @@ import {
   SubwayPathPoint,
 } from "@/utils/database/queries/subwaysQuery";
 import { WorkData, WorkPathPoint } from "@/utils/database/queries/worksQuery";
-
-import { collectCategories, getWorkCategories } from "./filterUtils";
-import {
-  createGroupIcon,
-  createSingleIcon,
-  createWorkIcon,
-} from "./markerIcons";
-import { groupPathsBySegment } from "./pathUtils";
 
 export type WorkMarkerEntry = {
   marker: L.Marker;
