@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 
-import { makeMessagesTranslator } from "../../test-utils/getMessageFromMessages";
+import { makeMessagesTranslator } from "@/test-utils/getMessageFromMessages";
 
 test("can change page and click on a name", async ({ page }) => {
   await page.goto("/tunnellers/?page=36");

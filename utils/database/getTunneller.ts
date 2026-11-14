@@ -13,15 +13,22 @@ import {
   DeathData,
   TunnellerProfile,
 } from "@/types/tunneller";
-
-import { getYear, getDate, getAge } from "../helpers/date";
+import { armyExperienceQuery } from "@/utils/database/queries/armyExperienceQuery";
+import { companyEventsQuery } from "@/utils/database/queries/companyEventsQuery";
+import { imageSourceBookAuthorsQuery } from "@/utils/database/queries/imageSourceBookAuthorsQuery";
+import { londonGazetteQuery } from "@/utils/database/queries/londonGazetteQuery";
+import { medalsQuery } from "@/utils/database/queries/medalsQuery";
+import { nzArchivesQuery } from "@/utils/database/queries/nzArchivesQuery";
+import { tunnellerEventsQuery } from "@/utils/database/queries/tunnellerEventsQuery";
+import { tunnellerQuery } from "@/utils/database/queries/tunnellerQuery";
+import { getYear, getDate, getAge } from "@/utils/helpers/date";
 import {
   getDeath,
   isWarInjuriesDeathAfterWar,
   getDeathPlace,
   getDeathCause,
   getCemetery,
-} from "../helpers/death";
+} from "@/utils/helpers/death";
 import {
   getImage,
   getImageSource,
@@ -32,7 +39,7 @@ import {
   getImageSourceBook,
   getImageSourceBookAuthors,
   getImageSourceBookPage,
-} from "../helpers/image";
+} from "@/utils/helpers/image";
 import {
   getDemobilization,
   getWarDeathEvents,
@@ -47,23 +54,15 @@ import {
   isDeathWar,
   getDemobilizationSummaryInfo,
   getDischargedCountry,
-} from "../helpers/militaryYears";
-import { getParent, getNzResident } from "../helpers/origin";
-import { getArmyExperience } from "../helpers/preWarYears";
+} from "@/utils/helpers/militaryYears";
+import { getParent, getNzResident } from "@/utils/helpers/origin";
+import { getArmyExperience } from "@/utils/helpers/preWarYears";
 import {
   getNzArchives,
   getAwmm,
   getNominalRoll,
   getLondonGazette,
-} from "../helpers/sources";
-import { armyExperienceQuery } from "./queries/armyExperienceQuery";
-import { companyEventsQuery } from "./queries/companyEventsQuery";
-import { imageSourceBookAuthorsQuery } from "./queries/imageSourceBookAuthorsQuery";
-import { londonGazetteQuery } from "./queries/londonGazetteQuery";
-import { medalsQuery } from "./queries/medalsQuery";
-import { nzArchivesQuery } from "./queries/nzArchivesQuery";
-import { tunnellerEventsQuery } from "./queries/tunnellerEventsQuery";
-import { tunnellerQuery } from "./queries/tunnellerQuery";
+} from "@/utils/helpers/sources";
 
 export async function getTunneller(
   slug: string,

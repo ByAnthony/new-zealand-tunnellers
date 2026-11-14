@@ -29,8 +29,7 @@ import {
   Training,
   Transport,
   TunnellerProfile,
-} from "@/types/tunneller";
-
+} from "../../types/tunneller";
 import { mockFrontEvents } from "./mockFrontEvents";
 
 // Summary

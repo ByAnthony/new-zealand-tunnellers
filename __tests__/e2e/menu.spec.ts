@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 
-import { makeMessagesTranslator } from "../../test-utils/getMessageFromMessages";
+import { makeMessagesTranslator } from "@/test-utils/getMessageFromMessages";
 
 const translate = makeMessagesTranslator("en");
 const menu = translate("menu");

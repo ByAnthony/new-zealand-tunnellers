@@ -1,4 +1,4 @@
-import { Detachment, Name } from "./tunnellers";
+import { Detachment, Name } from "@/types/tunnellers";
 
 // Database extract
 export type ProfileData = {
