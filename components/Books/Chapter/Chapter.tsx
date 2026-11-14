@@ -9,6 +9,7 @@ import remarkGfm from "remark-gfm";
 import remarkRemoveComments from "remark-remove-comments";
 
 import { BookMenu } from "@/components/Books/BookMenu/BookMenu";
+import { ImageZoom } from "@/components/Books/ImageZoom/ImageZoom";
 import { ReadingProgress } from "@/components/Books/ReadingProgress/ReadingProgress";
 import { HowToCite } from "@/components/HowToCite/HowToCite";
 import { basePath } from "@/utils/helpers/books/basePathUtil";
@@ -21,7 +22,6 @@ import {
 } from "@/utils/helpers/books/titleUtil";
 
 import STYLES from "./Chapter.module.scss";
-import { ImageZoom } from "../ImageZoom/ImageZoom";
 
 // Builds the same flattened list of children as React.Children.toArray
 // (nested arrays/iterables traversed, nullish/boolean children skipped)

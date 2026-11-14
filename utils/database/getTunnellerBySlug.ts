@@ -2,10 +2,9 @@ import { noticeError } from "newrelic";
 import { redirect } from "next/navigation";
 
 import { Locale } from "@/types/locale";
-
-import { getTunneller } from "./getTunneller";
-import { tunnellerSlugByIdQuery } from "./queries/tunnellerSlugByIdQuery";
-import { withConnection } from "./withConnection";
+import { getTunneller } from "@/utils/database/getTunneller";
+import { tunnellerSlugByIdQuery } from "@/utils/database/queries/tunnellerSlugByIdQuery";
+import { withConnection } from "@/utils/database/withConnection";
 
 type RedirectTarget = "profile" | "timeline";
 

@@ -4,8 +4,8 @@ import Image from "next/image";
 
 import { Medal } from "@/types/tunneller";
 
-import OTHER_MEDALS_STYLES from "./DiaryMedal.module.scss";
 import STYLES from "../ProfileDiary.module.scss";
+import OTHER_MEDALS_STYLES from "./DiaryMedal.module.scss";
 
 type Props = {
   medals: Medal[] | [];
