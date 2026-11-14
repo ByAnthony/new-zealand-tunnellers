@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom";
 import React from "react";
 
-import { makeMessagesTranslator } from "./test-utils/getMessageFromMessages";
+import { makeMessagesTranslator } from "@/test-utils/getMessageFromMessages";
 
 jest.mock("newrelic", () => ({
   noticeError: jest.fn(),

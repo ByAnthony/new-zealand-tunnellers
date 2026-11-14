@@ -2,7 +2,7 @@
 
 import { useSyncExternalStore } from "react";
 
-import { getTunnellersReturnUrl } from "./tunnellersReturn";
+import { getTunnellersReturnUrl } from "@/utils/helpers/tunnellersReturn";
 
 const subscribeToNothing = () => () => {};
 

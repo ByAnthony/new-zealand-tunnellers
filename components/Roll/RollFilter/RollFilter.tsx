@@ -4,11 +4,11 @@ import { useTranslations } from "next-intl";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 
+import { rankCategoryTranslationKey } from "@/components/Roll/utils/rankUtils";
 import { FilterOption } from "@/types/tunnellers";
 import { renderSuperscript } from "@/utils/helpers/article";
 
 import STYLES from "./RollFilter.module.scss";
-import { rankCategoryTranslationKey } from "../utils/rankUtils";
 
 type Props = {
   className: string;

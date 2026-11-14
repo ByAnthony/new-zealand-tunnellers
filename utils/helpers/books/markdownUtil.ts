@@ -3,7 +3,7 @@ import path from "path";
 
 import { noticeError } from "newrelic";
 
-import { bookFilePath } from "./basePathUtil";
+import { bookFilePath } from "@/utils/helpers/books/basePathUtil";
 
 export const readBookMarkdown = async (
   locale: string,

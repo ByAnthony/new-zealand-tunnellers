@@ -3,10 +3,10 @@
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 
+import { formatPeriodRange } from "@/components/WorksMap/utils/mapParams";
 import { getMapPeriodsForChapter } from "@/utils/historyMapLinks";
 
 import STYLES from "./ArticleRelatedMapCard.module.scss";
-import { formatPeriodRange } from "../../WorksMap/utils/mapParams";
 
 type Props = {
   articleId: string;

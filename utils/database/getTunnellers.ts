@@ -3,9 +3,8 @@ import { unstable_cache } from "next/cache";
 
 import { Locale } from "@/types/locale";
 import { Tunneller, TunnellerData } from "@/types/tunnellers";
-
-import { rollQuery } from "./queries/rollQuery";
-import { withConnection } from "./withConnection";
+import { rollQuery } from "@/utils/database/queries/rollQuery";
+import { withConnection } from "@/utils/database/withConnection";
 
 // Bump after database changes that affect the roll/search data.
 const TUNNELLERS_CACHE_VERSION = "2026-11-13-update-tunneller-data";
