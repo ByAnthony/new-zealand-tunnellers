@@ -1,8 +1,10 @@
 import type { PoolConnection } from "mysql2/promise";
 
+import {
+  mockDatabase,
+  type DatabaseExec,
+} from "@/test-utils/mocks/mockDatabase";
 import type { Locale } from "@/types/locale";
-
-import { mockDatabase, type DatabaseExec } from "./mocks/mockDatabase";
 
 export type SqlCase = Readonly<{ type: string; val: string }>;
 export type BadLoc = Readonly<{ type: string; loc: string }>;

@@ -2,7 +2,7 @@ import { locale } from "next/root-params";
 import { hasLocale } from "next-intl";
 import { getRequestConfig } from "next-intl/server";
 
-import { routing } from "./routing";
+import { routing } from "@/i18n/routing";
 
 export default getRequestConfig(async ({ locale: overrideLocale }) => {
   const paramLocale = overrideLocale ?? (await locale());

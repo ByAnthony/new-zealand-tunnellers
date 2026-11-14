@@ -2,8 +2,8 @@
 
 import { useCallback, useMemo, useState } from "react";
 
-import { dateToDay } from "../../utils/mapParams";
-import { MAP_PERIODS } from "../../utils/periods";
+import { dateToDay } from "@/components/WorksMap/utils/mapParams";
+import { MAP_PERIODS } from "@/components/WorksMap/utils/periods";
 
 type Params = {
   initialPeriodKey: string | null;
