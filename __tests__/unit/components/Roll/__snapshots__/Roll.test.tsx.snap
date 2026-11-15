@@ -118,6 +118,10 @@ exports[`Roll matches the snapshot 1`] = `
                   type="checkbox"
                   value="1"
                 />
+                <span
+                  aria-hidden="true"
+                  class="checkbox"
+                />
                 Main Body
               </label>
             </div>
@@ -129,6 +133,10 @@ exports[`Roll matches the snapshot 1`] = `
                   type="checkbox"
                   value="2"
                 />
+                <span
+                  aria-hidden="true"
+                  class="checkbox"
+                />
                 2nd Reinforcements
               </label>
             </div>
@@ -139,6 +147,10 @@ exports[`Roll matches the snapshot 1`] = `
                   name="5th Reinforcements"
                   type="checkbox"
                   value="5"
+                />
+                <span
+                  aria-hidden="true"
+                  class="checkbox"
                 />
                 5th Reinforcements
               </label>
@@ -158,6 +170,10 @@ exports[`Roll matches the snapshot 1`] = `
                   type="checkbox"
                   value="null"
                 />
+                <span
+                  aria-hidden="true"
+                  class="checkbox"
+                />
                 Engineers Corps
               </label>
             </div>
@@ -168,6 +184,10 @@ exports[`Roll matches the snapshot 1`] = `
                   name="Army Pay Corps"
                   type="checkbox"
                   value="3"
+                />
+                <span
+                  aria-hidden="true"
+                  class="checkbox"
                 />
                 Army Pay Corps
               </label>
@@ -289,6 +309,10 @@ exports[`Roll matches the snapshot 1`] = `
                   type="checkbox"
                   value="unknownDeathYear"
                 />
+                <span
+                  aria-hidden="true"
+                  class="checkbox"
+                />
                 Unknown death year
               </label>
             </div>
@@ -338,6 +362,10 @@ exports[`Roll matches the snapshot 1`] = `
                     type="checkbox"
                     value="1"
                   />
+                  <span
+                    aria-hidden="true"
+                    class="checkbox"
+                  />
                   Single
                 </label>
               </div>
@@ -348,6 +376,10 @@ exports[`Roll matches the snapshot 1`] = `
                     name="Married"
                     type="checkbox"
                     value="2"
+                  />
+                  <span
+                    aria-hidden="true"
+                    class="checkbox"
                   />
                   Married
                 </label>
@@ -371,6 +403,10 @@ exports[`Roll matches the snapshot 1`] = `
                     type="checkbox"
                     value="Other Ranks"
                   />
+                  <span
+                    aria-hidden="true"
+                    class="checkbox"
+                  />
                   Other Ranks
                 </label>
                 <div
@@ -382,6 +418,10 @@ exports[`Roll matches the snapshot 1`] = `
                       name="Sapper"
                       type="checkbox"
                       value="1"
+                    />
+                    <span
+                      aria-hidden="true"
+                      class="checkbox"
                     />
                     Sapper
                   </label>
@@ -395,6 +435,10 @@ exports[`Roll matches the snapshot 1`] = `
                       name="Driver"
                       type="checkbox"
                       value="2"
+                    />
+                    <span
+                      aria-hidden="true"
+                      class="checkbox"
                     />
                     Driver
                   </label>
