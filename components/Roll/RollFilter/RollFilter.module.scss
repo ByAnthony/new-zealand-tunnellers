@@ -70,6 +70,7 @@
     display: flex;
     align-items: center;
     padding-bottom: 9px;
+    -webkit-tap-highlight-color: transparent;
 
     @include variables.desktop {
       padding-bottom: 7px;
