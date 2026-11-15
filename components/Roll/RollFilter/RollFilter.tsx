@@ -96,6 +96,7 @@ export function RollFilter({
                     : false
                 }
               />
+              <span className={STYLES.checkbox} aria-hidden="true" />
               {renderSuperscript(detachment.label)}
             </label>
           </div>
@@ -118,6 +119,7 @@ export function RollFilter({
                     : false
                 }
               />
+              <span className={STYLES.checkbox} aria-hidden="true" />
               {corps.id === null ? t("engineersCorps") : corps.label}
             </label>
           </div>
@@ -200,6 +202,7 @@ export function RollFilter({
               }
               checked={filters.unknownDeathYear === "unknown" ? true : false}
             />
+            <span className={STYLES.checkbox} aria-hidden="true" />
             {t("includesUnknownDeathYear")}
           </label>
         </div>
@@ -236,6 +239,7 @@ export function RollFilter({
                   onChange={() => handleMaritalStatusFilter(status.id)}
                   checked={filters.maritalStatus === status.id}
                 />
+                <span className={STYLES.checkbox} aria-hidden="true" />
                 {status.label}
               </label>
             </div>
@@ -264,6 +268,7 @@ export function RollFilter({
                       : false
                   }
                 />
+                <span className={STYLES.checkbox} aria-hidden="true" />
                 {t(rankCategoryTranslationKey[category] ?? category)}
               </label>
               {ranks.map((rank) => (
@@ -285,6 +290,7 @@ export function RollFilter({
                           : false
                       }
                     />
+                    <span className={STYLES.checkbox} aria-hidden="true" />
                     {rank.label}
                   </label>
                 </div>

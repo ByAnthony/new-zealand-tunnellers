@@ -2,31 +2,49 @@
 
 .filters {
   input[type="checkbox"] {
-    -webkit-appearance: none;
-    appearance: none;
-    position: relative;
-    margin: 0 7px 0;
+    position: absolute;
+    left: 7px;
     width: variables.$xs-margin;
     height: variables.$xs-margin;
+    margin: 0;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  .checkbox {
+    position: relative;
+    display: inline-block;
+    flex: 0 0 variables.$xs-margin;
+    width: variables.$xs-margin;
+    height: variables.$xs-margin;
+    box-sizing: border-box;
+    margin: 0 7px;
     background: variables.$primary-medium-color;
     border: 1px solid variables.$primary-light-color;
     border-radius: 4px;
     cursor: pointer;
   }
 
-  input[type="checkbox"]:checked {
+  input[type="checkbox"]:checked + .checkbox {
     border: 1px solid variables.$secondary-color;
     background-color: variables.$secondary-color;
   }
 
-  input[type="checkbox"]:checked::after {
-    content: "✔";
-    font-size: 0.7rem;
-    color: variables.$primary-dark-color;
+  input[type="checkbox"]:checked + .checkbox::after {
+    content: "";
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    width: 3px;
+    height: 7px;
+    border-right: 2px solid variables.$primary-dark-color;
+    border-bottom: 2px solid variables.$primary-dark-color;
+    transform: translate(-50%, -60%) rotate(40deg);
+  }
+
+  input[type="checkbox"]:focus-visible + .checkbox {
+    outline: 2px solid variables.$secondary-color;
+    outline-offset: 2px;
   }
 
   .select {
@@ -48,6 +66,7 @@
   }
 
   label {
+    position: relative;
     display: flex;
     align-items: center;
     padding-bottom: 9px;

@@ -118,5 +118,6 @@ export default defineConfig([
     "**/coverage/lcov-report/**",
     "**/*.min.js",
     "**/*.bundle.js",
+    "**/test-results/**",
   ]),
 ]);
