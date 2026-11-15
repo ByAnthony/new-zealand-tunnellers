@@ -134,6 +134,37 @@ test("filters appear in URL after filtering", async ({ page }) => {
   await expect(page).toHaveURL(/detachment=/);
 });
 
+test("custom checkbox indicator reflects its checked state", async ({
+  page,
+}) => {
+  await page.goto("/tunnellers/");
+
+  const checkbox = page.getByRole("checkbox", {
+    name: "7th Reinforcements",
+  });
+  const indicator = checkbox.locator("xpath=following-sibling::span[1]");
+
+  await expect(checkbox).not.toBeChecked();
+  await expect(indicator).toBeVisible();
+  await expect(indicator).toHaveCSS("background-color", "rgb(44, 46, 47)");
+
+  await indicator.click();
+
+  await expect(checkbox).toBeChecked();
+  await expect(indicator).toHaveCSS("background-color", "rgb(153, 131, 100)");
+  const checkmarkStyles = await indicator.evaluate((element) => {
+    const checkmark = window.getComputedStyle(element, "::after");
+    return {
+      content: checkmark.content,
+      borderRightStyle: checkmark.borderRightStyle,
+      borderBottomStyle: checkmark.borderBottomStyle,
+    };
+  });
+  expect(checkmarkStyles.content).not.toBe("none");
+  expect(checkmarkStyles.borderRightStyle).toBe("solid");
+  expect(checkmarkStyles.borderBottomStyle).toBe("solid");
+});
+
 test("marital status filter updates and clears the URL", async ({ page }) => {
   await page.goto("/tunnellers/");
 
