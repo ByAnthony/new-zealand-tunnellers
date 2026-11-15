@@ -1,6 +1,13 @@
-import { test, expect } from "@playwright/test";
+import { expect, test, type Page } from "@playwright/test";
 
 import { makeMessagesTranslator } from "@/test-utils/getMessageFromMessages";
+
+async function clickCheckbox(page: Page, name: string) {
+  await page
+    .getByRole("checkbox", { name })
+    .locator("xpath=following-sibling::span[1]")
+    .click();
+}
 
 test("can change page and click on a name", async ({ page }) => {
   await page.goto("/tunnellers/?page=36");
@@ -36,7 +43,7 @@ test("can filter and adjust pagination", async ({ page }) => {
     page.getByRole("button", { name: "Go to next page" }),
   ).toBeDisabled();
 
-  await page.getByLabel("7th Reinforcements").click();
+  await clickCheckbox(page, "7th Reinforcements");
   await expect(page.getByText("31 results")).toBeVisible();
 
   await expect(
@@ -74,7 +81,7 @@ test("can reset filters and adjust pagination", async ({ page }) => {
     page.getByRole("button", { name: "Go to next page" }),
   ).toBeVisible();
 
-  await page.getByLabel("1st Reinforcements").click();
+  await clickCheckbox(page, "1st Reinforcements");
   await expect(page.getByText("103 results")).toBeVisible();
   await expect(
     page.getByRole("button", { name: "Reset filters" }),
@@ -128,7 +135,7 @@ test("can navigate using pagination buttons", async ({ page }) => {
 test("filters appear in URL after filtering", async ({ page }) => {
   await page.goto("/tunnellers/");
 
-  await page.getByLabel("7th Reinforcements").click();
+  await clickCheckbox(page, "7th Reinforcements");
   await expect(page.getByText("31 results")).toBeVisible();
 
   await expect(page).toHaveURL(/detachment=/);
@@ -137,15 +144,15 @@ test("filters appear in URL after filtering", async ({ page }) => {
 test("marital status filter updates and clears the URL", async ({ page }) => {
   await page.goto("/tunnellers/");
 
-  await page.getByLabel("Single").click();
+  await clickCheckbox(page, "Single");
   await expect(page.getByText("612 results")).toBeVisible();
   await expect(page).toHaveURL(/marital-status=single/);
 
-  await page.getByLabel("Single").click();
+  await clickCheckbox(page, "Single");
   await expect(page.getByText("936 results")).toBeVisible();
   await expect(page).not.toHaveURL(/marital-status=/);
 
-  await page.getByLabel("Single").click();
+  await clickCheckbox(page, "Single");
   await expect(page.getByText("612 results")).toBeVisible();
   await expect(page).toHaveURL(/marital-status=single/);
 
@@ -158,7 +165,7 @@ test("filters persist when switching language", async ({ page }) => {
   const translate = makeMessagesTranslator("en");
   await page.goto("/tunnellers/");
 
-  await page.getByLabel("7th Reinforcements").click();
+  await clickCheckbox(page, "7th Reinforcements");
   await expect(page.getByText("31 results")).toBeVisible();
   await expect(page).toHaveURL(/detachment=/);
 
@@ -184,7 +191,7 @@ test("navigating directly to a filtered URL applies filters", async ({
   page,
 }) => {
   await page.goto("/tunnellers/");
-  await page.getByLabel("7th Reinforcements").click();
+  await clickCheckbox(page, "7th Reinforcements");
   await expect(page.getByText("31 results")).toBeVisible();
   await expect(page).toHaveURL(/detachment=/);
   const filteredUrl = page.url();
@@ -199,7 +206,7 @@ test("navigating directly to a filtered URL applies filters", async ({
 test("back link from profile restores filters", async ({ page }) => {
   await page.goto("/tunnellers/");
 
-  await page.getByLabel("7th Reinforcements").click();
+  await clickCheckbox(page, "7th Reinforcements");
   await expect(page.getByText("31 results")).toBeVisible();
   await expect(page).toHaveURL(/detachment=/);
 
@@ -248,7 +255,7 @@ test("filter button shows badge after selecting a filter on mobile", async ({
   await page.goto("/tunnellers/");
 
   await page.getByRole("button", { name: "Filters" }).click();
-  await page.getByLabel("1st Reinforcements").click();
+  await clickCheckbox(page, "1st Reinforcements");
   await page.getByRole("button", { name: "Done" }).click();
 
   const filterButton = page.getByRole("button", { name: /Filters/ });
@@ -263,8 +270,8 @@ test("filter button badge count increases with multiple active filters on mobile
   await page.goto("/tunnellers/");
 
   await page.getByRole("button", { name: "Filters" }).click();
-  await page.getByLabel("1st Reinforcements").click();
-  await page.getByLabel("Army Pay Corps").click();
+  await clickCheckbox(page, "1st Reinforcements");
+  await clickCheckbox(page, "Army Pay Corps");
   await page.getByRole("button", { name: "Done" }).click();
 
   const filterButton = page.getByRole("button", { name: /Filters/ });
@@ -278,7 +285,7 @@ test("filter button badge disappears after reset on mobile", async ({
   await page.goto("/tunnellers/");
 
   await page.getByRole("button", { name: "Filters" }).click();
-  await page.getByLabel("1st Reinforcements").click();
+  await clickCheckbox(page, "1st Reinforcements");
   await page.getByRole("button", { name: "Done" }).click();
 
   await expect(
