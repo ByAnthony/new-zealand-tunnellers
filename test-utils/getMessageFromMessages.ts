@@ -1,5 +1,5 @@
-import enMessages from "../messages/en.json";
-import frMessages from "../messages/fr.json";
+import enMessages from "@/messages/en.json";
+import frMessages from "@/messages/fr.json";
 
 const MESSAGE_BY_LOCALE = {
   en: enMessages,

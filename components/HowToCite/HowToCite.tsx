@@ -4,17 +4,17 @@ import Image from "next/image";
 import { useLocale } from "next-intl";
 import { Fragment, useMemo, useRef, useSyncExternalStore } from "react";
 
-import type { Summary } from "@/types/tunneller";
-import { bookTitle } from "@/utils/helpers/books/basePathUtil";
-
-import STYLES from "./HowToCite.module.scss";
 import {
   buildCitationTitle,
   buildCitationUrl,
   formatCitationDate,
   formatBookSubpath,
   getCitationAvailableAtLabel,
-} from "./utils/citationFormatters";
+} from "@/components/HowToCite/utils/citationFormatters";
+import type { Summary } from "@/types/tunneller";
+import { bookTitle } from "@/utils/helpers/books/basePathUtil";
+
+import STYLES from "./HowToCite.module.scss";
 
 type Props = {
   tunnellerSlug?: string;

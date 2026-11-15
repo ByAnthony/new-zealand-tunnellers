@@ -1,12 +1,11 @@
-import { AboutUsArticle } from "@/types/article";
-
 import {
   mockSectionOne,
   mockSectionTwo,
   mockSectionThree,
   mockTitle,
   mockTopImage,
-} from "./mockArticle";
+} from "@/test-utils/mocks/mockArticle";
+import { AboutUsArticle } from "@/types/article";
 
 export const mockAboutUs: AboutUsArticle = {
   id: "my-awesome-article",

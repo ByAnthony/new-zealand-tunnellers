@@ -4,11 +4,15 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { RefObject } from "react";
 
+import {
+  dateToDay,
+  dayToParam,
+  paramToDay,
+  toSlug,
+} from "@/components/WorksMap/utils/mapParams";
 import { CaveData } from "@/utils/database/queries/cavesQuery";
 import { SubwayData } from "@/utils/database/queries/subwaysQuery";
 import { WorkData } from "@/utils/database/queries/worksQuery";
-
-import { dateToDay, dayToParam, paramToDay, toSlug } from "../utils/mapParams";
 
 type InitialView = {
   lat: number;

@@ -4,6 +4,31 @@ import isEqual from "lodash/isEqual";
 import { useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
+import {
+  getUniqueCorps,
+  getUniqueCorpsEn,
+} from "@/components/Roll/utils/corpsUtils";
+import {
+  getUniqueDetachments,
+  getUniqueDetachmentsEn,
+} from "@/components/Roll/utils/detachmentUtils";
+import {
+  getUniqueMaritalStatuses,
+  getUniqueMaritalStatusesEn,
+} from "@/components/Roll/utils/maritalStatusUtils";
+import {
+  getUniqueOccupationCategories,
+  getUniqueOccupationCategoriesEn,
+} from "@/components/Roll/utils/occupationCategoryUtils";
+import {
+  getSortedRanks,
+  getUniqueRanks,
+  getUniqueRanksEn,
+} from "@/components/Roll/utils/rankUtils";
+import {
+  getUniqueBirthYears,
+  getUniqueDeathYears,
+} from "@/components/Roll/utils/yearsUtils";
 import { Tunneller } from "@/types/tunnellers";
 import {
   type FilterLookups,
@@ -12,26 +37,6 @@ import {
   filtersToSearchParams,
   searchParamsToFilters,
 } from "@/utils/helpers/rollParams";
-
-import { getUniqueCorps, getUniqueCorpsEn } from "../utils/corpsUtils";
-import {
-  getUniqueDetachments,
-  getUniqueDetachmentsEn,
-} from "../utils/detachmentUtils";
-import {
-  getUniqueMaritalStatuses,
-  getUniqueMaritalStatusesEn,
-} from "../utils/maritalStatusUtils";
-import {
-  getUniqueOccupationCategories,
-  getUniqueOccupationCategoriesEn,
-} from "../utils/occupationCategoryUtils";
-import {
-  getSortedRanks,
-  getUniqueRanks,
-  getUniqueRanksEn,
-} from "../utils/rankUtils";
-import { getUniqueBirthYears, getUniqueDeathYears } from "../utils/yearsUtils";
 
 const ROLL_QUERY_PARAMS = [
   "page",

@@ -6,11 +6,11 @@ import { usePathname } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 
+import { NavigationDialog } from "@/components/Menu/NavigationDialog/NavigationDialog";
 import { Tunneller } from "@/types/tunnellers";
 import { displayBiographyDates } from "@/utils/helpers/roll";
 
 import STYLES from "./Menu.module.scss";
-import { NavigationDialog } from "./NavigationDialog/NavigationDialog";
 
 const MENU_TOGGLE_ANIMATION_MS = 1000;
 const NAVIGATION_COVER_DELAY_MS = 500;

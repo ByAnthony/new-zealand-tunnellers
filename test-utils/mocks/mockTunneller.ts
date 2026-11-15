@@ -1,3 +1,4 @@
+import { mockFrontEvents } from "@/test-utils/mocks/mockFrontEvents";
 import {
   ArmyExperience,
   Birth,
@@ -29,8 +30,7 @@ import {
   Training,
   Transport,
   TunnellerProfile,
-} from "../../types/tunneller";
-import { mockFrontEvents } from "./mockFrontEvents";
+} from "@/types/tunneller";
 
 // Summary
 export const mockSummary: Summary = {

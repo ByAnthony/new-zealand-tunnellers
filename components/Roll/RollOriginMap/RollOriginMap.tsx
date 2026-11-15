@@ -10,19 +10,19 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Dialog } from "@/components/Dialog/Dialog";
 import { MapPageSpacer } from "@/components/MapPageSpacer/MapPageSpacer";
 import { RollFilter } from "@/components/Roll/RollFilter/RollFilter";
-import { Tunneller } from "@/types/tunnellers";
-import { Filters } from "@/utils/helpers/rollParams";
-
 import {
   getOriginMarkerRadius,
   getOriginMarkerStyle,
   getOriginMapSummary,
   OriginMarker,
-} from "./originMapMarkers";
-import { RollOriginDrawer } from "./RollOriginDrawer";
+} from "@/components/Roll/RollOriginMap/originMapMarkers";
+import { RollOriginDrawer } from "@/components/Roll/RollOriginMap/RollOriginDrawer";
+import { RollOriginMapControls } from "@/components/Roll/RollOriginMap/RollOriginMapControls";
+import { useOriginDrawer } from "@/components/Roll/RollOriginMap/useOriginDrawer";
+import { Tunneller } from "@/types/tunnellers";
+import { Filters } from "@/utils/helpers/rollParams";
+
 import STYLES from "./RollOriginMap.module.scss";
-import { RollOriginMapControls } from "./RollOriginMapControls";
-import { useOriginDrawer } from "./useOriginDrawer";
 
 type Props = {
   tunnellers: Record<string, Tunneller[]>;

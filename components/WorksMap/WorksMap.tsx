@@ -5,6 +5,30 @@ import L from "leaflet";
 import { useEffect, useRef, useState, useCallback, useMemo } from "react";
 
 import { MapPageSpacer } from "@/components/MapPageSpacer/MapPageSpacer";
+import { useWorksMapDerivedState } from "@/components/WorksMap/hooks/useWorksMapDerivedState";
+import { useWorksMapSelectionState } from "@/components/WorksMap/hooks/useWorksMapSelectionState";
+import { useWorksMapUrlState } from "@/components/WorksMap/hooks/useWorksMapUrlState";
+import { InfoBar } from "@/components/WorksMap/InfoBar/InfoBar";
+import { MapControls } from "@/components/WorksMap/MapControls/MapControls";
+import {
+  collectCategories,
+  getWorkCategories,
+  isWorkVisible,
+} from "@/components/WorksMap/utils/filterUtils";
+import {
+  buildCavePolygonLayers,
+  buildFrontLineLayers,
+  buildPointWorkMarkers,
+  buildSubwayPolylineLayers,
+  buildWorkPolylineLayers,
+} from "@/components/WorksMap/utils/layerBuilders";
+import { dateToDay, toSlug } from "@/components/WorksMap/utils/mapParams";
+import {
+  CATEGORY_COLORS,
+  MARKER_COLOR_ACTIVE,
+  createWorkIcon,
+} from "@/components/WorksMap/utils/markerIcons";
+import { MAP_PERIODS } from "@/components/WorksMap/utils/periods";
 import { CaveData, CavePathPoint } from "@/utils/database/queries/cavesQuery";
 import {
   FrontLineData,
@@ -16,30 +40,6 @@ import {
 } from "@/utils/database/queries/subwaysQuery";
 import { WorkData, WorkPathPoint } from "@/utils/database/queries/worksQuery";
 
-import { useWorksMapDerivedState } from "./hooks/useWorksMapDerivedState";
-import { useWorksMapSelectionState } from "./hooks/useWorksMapSelectionState";
-import { useWorksMapUrlState } from "./hooks/useWorksMapUrlState";
-import { InfoBar } from "./InfoBar/InfoBar";
-import { MapControls } from "./MapControls/MapControls";
-import {
-  collectCategories,
-  getWorkCategories,
-  isWorkVisible,
-} from "./utils/filterUtils";
-import {
-  buildCavePolygonLayers,
-  buildFrontLineLayers,
-  buildPointWorkMarkers,
-  buildSubwayPolylineLayers,
-  buildWorkPolylineLayers,
-} from "./utils/layerBuilders";
-import { dateToDay, toSlug } from "./utils/mapParams";
-import {
-  CATEGORY_COLORS,
-  MARKER_COLOR_ACTIVE,
-  createWorkIcon,
-} from "./utils/markerIcons";
-import { MAP_PERIODS } from "./utils/periods";
 import STYLES from "./WorksMap.module.scss";
 
 // Fix Leaflet default marker icons in Next.js
