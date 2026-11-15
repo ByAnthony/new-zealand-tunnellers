@@ -3,10 +3,8 @@ import { expect, test, type Page } from "@playwright/test";
 import { makeMessagesTranslator } from "@/test-utils/getMessageFromMessages";
 
 async function clickCheckbox(page: Page, name: string) {
-  await page
-    .getByRole("checkbox", { name })
-    .locator("xpath=following-sibling::span[1]")
-    .click();
+  const checkbox = page.getByRole("checkbox", { name });
+  await page.locator("label").filter({ has: checkbox }).click();
 }
 
 test("can change page and click on a name", async ({ page }) => {
