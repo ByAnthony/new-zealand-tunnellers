@@ -21,7 +21,7 @@
     ]
   },
   "engines": {
-    "node": "24.22.1",
+    "node": "24.22.3",
     "npm": "11.19.1"
   },
   "dependencies": {
@@ -32,11 +32,11 @@
     "leaflet.markercluster": "1.5.3",
     "lodash": "4.18.1",
     "mysql2": "3.24.6",
-    "newrelic": "14.12.0",
+    "newrelic": "14.13.0",
     "next": "16.4.6",
-    "next-intl": "4.14.9",
+    "next-intl": "4.15.1",
     "nodemon": "3.1.14",
-    "prettier": "3.9.10",
+    "prettier": "3.10.1",
     "rc-slider": "11.1.9",
     "react": "19.3.1",
     "react-dom": "19.3.1",
@@ -46,16 +46,16 @@
     "rehype-raw": "^7.0.0",
     "remark-gfm": "4.0.1",
     "remark-remove-comments": "1.1.1",
-    "sass": "1.108.1",
+    "sass": "1.108.2",
     "sharp": "0.35.5",
     "ts-node": "10.9.2",
     "unist-util-visit": "5.2.0"
   },
   "devDependencies": {
-    "@eslint-react/eslint-plugin": "5.28.8",
+    "@eslint-react/eslint-plugin": "5.30.3",
     "@eslint/js": "10.0.1",
     "@next/eslint-plugin-next": "16.4.6",
-    "@playwright/test": "1.65.0",
+    "@playwright/test": "1.65.1",
     "@testing-library/jest-dom": "7.0.1",
     "@testing-library/react": "16.3.3",
     "@types/jest": "30.0.0",
@@ -64,8 +64,8 @@
     "@types/node": "24.19.2",
     "@types/react": "19.3.0",
     "@types/react-dom": "19.3.0",
-    "baseline-browser-mapping": "2.11.35",
-    "eslint": "10.14.0",
+    "baseline-browser-mapping": "2.11.38",
+    "eslint": "10.15.0",
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-import-x": "4.18.1",
     "eslint-plugin-react-hooks": "7.1.1",
@@ -73,8 +73,8 @@
     "husky": "9.1.7",
     "jest": "30.5.2",
     "jest-environment-jsdom": "30.5.2",
-    "lint-staged": "17.6.0",
+    "lint-staged": "17.6.1",
     "typescript": "6.0.3",
-    "typescript-eslint": "8.72.2"
+    "typescript-eslint": "8.73.0"
   }
 }
