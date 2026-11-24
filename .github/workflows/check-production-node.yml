@@ -22,6 +22,7 @@ jobs:
           SERVER_DIR: ${{ secrets.SERVER_DIR }}
         run: |
           expected="v$(tr -d '\r\n' < .nvmrc)"
+          expected_npm="$(node -p "require('./package.json').engines.npm")"
 
           mkdir -p ~/.ssh
           printf '%s' "$SSH_PRIVATE_KEY" > ~/.ssh/deploy.key
@@ -30,12 +31,36 @@ jobs:
           versions="$(ssh -T -i ~/.ssh/deploy.key -p 5022 \
             -o StrictHostKeyChecking=accept-new \
             "$SSH_USER@$SSH_HOST" \
-            'for node in nodevenv/'"$SERVER_DIR"'/*/bin/node; do [ -x "$node" ] && "$node" --version; done')"
+            'for node in nodevenv/'"$SERVER_DIR"'/*/bin/node; do
+              [ -x "$node" ] || continue
+              node_version="$("$node" --version)"
+              bin="${node%/*}"
+              npm="$bin/npm"
+              if [ ! -x "$npm" ]; then
+                printf "%s npm-not-found\n" "$node_version"
+                continue
+              fi
+              npm_version="$(PATH="$bin:$PATH" "$npm" --version)" || npm_version="npm-error"
+              printf "%s %s\n" "$node_version" "$npm_version"
+            done')"
 
-          printf 'Available production Node versions:\n%s\n' "$versions"
-          printf '%s\n' "$versions" | grep -Fx "$expected" >/dev/null || {
-            echo ".nvmrc expects $expected"
+          printf 'Available production Node/npm versions:\n%s\n' "$versions"
+          production_npm="$(printf '%s\n' "$versions" | awk -v expected="$expected" '$1 == expected { print $2; found=1; exit } END { if (!found) exit 1 }')" || {
+            echo ".nvmrc expects $expected, but that Node version is not available"
             exit 1
           }
 
-          echo "Expected Node version is available: $expected"
+          case "$production_npm" in
+            npm-not-found|npm-error|"")
+              echo "Could not determine npm version for production Node $expected"
+              exit 1
+              ;;
+          esac
+
+          [ "$production_npm" = "$expected_npm" ] || {
+            echo "package.json expects npm $expected_npm, but production Node $expected has npm $production_npm"
+            exit 1
+          }
+
+          echo "Production Node $expected has npm $production_npm"
+          echo "Production Node \`$expected\` has npm \`$production_npm\`." >> "$GITHUB_STEP_SUMMARY"
