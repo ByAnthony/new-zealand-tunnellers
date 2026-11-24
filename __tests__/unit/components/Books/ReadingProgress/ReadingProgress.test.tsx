@@ -9,19 +9,35 @@ jest.mock("next/navigation", () => ({
 
 const mockGetChapterProgress = jest.fn();
 const mockSaveChapterProgress = jest.fn();
+let animationFrameCallbacks: Array<(timestamp: number) => void> = [];
 
 jest.mock("@/utils/helpers/books/chapterProgressUtil", () => ({
   getChapterProgress: (...args: unknown[]) => mockGetChapterProgress(...args),
   saveChapterProgress: (...args: unknown[]) => mockSaveChapterProgress(...args),
 }));
 
+const flushAnimationFrames = () =>
+  act(() => {
+    const callbacks = animationFrameCallbacks;
+    animationFrameCallbacks = [];
+    callbacks.forEach((callback) => callback(0));
+  });
+
 describe("ReadingProgress", () => {
   const scrollListeners: Function[] = [];
 
   beforeEach(() => {
+    animationFrameCallbacks = [];
     scrollListeners.length = 0;
     mockSaveChapterProgress.mockClear();
     mockGetChapterProgress.mockReturnValue(0);
+    jest
+      .spyOn(window, "requestAnimationFrame")
+      .mockImplementation((callback) => {
+        animationFrameCallbacks.push(callback);
+        return animationFrameCallbacks.length;
+      });
+    jest.spyOn(window, "cancelAnimationFrame").mockImplementation(() => {});
     jest
       .spyOn(window, "addEventListener")
       .mockImplementation((event, listener) => {
@@ -60,6 +76,7 @@ describe("ReadingProgress", () => {
     jest.spyOn(document, "querySelector").mockReturnValue(mockButton);
 
     render(<ReadingProgress />);
+    flushAnimationFrames();
 
     expect(screen.getByRole("progressbar")).toBeInTheDocument();
     expect(screen.getByRole("progressbar")).toHaveAttribute(
@@ -197,6 +214,7 @@ describe("ReadingProgress", () => {
     act(() => {
       observerCallback?.();
     });
+    flushAnimationFrames();
 
     expect(screen.getByRole("progressbar")).toBeInTheDocument();
     expect(mockObserver.disconnect).toHaveBeenCalled();
