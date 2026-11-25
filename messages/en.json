@@ -35,6 +35,8 @@
   },
   "footer": {
     "scrollToTop": "Go back to the top of the page",
+    "switchToFrench": "Switch language to French",
+    "switchToEnglish": "Switch language to English",
     "artoisUniversityAria": "Go to The Artois University website",
     "artoisUniversityAlt": "Artois University homepage",
     "irsemAria": "Go to The Institute for Strategic Research website",

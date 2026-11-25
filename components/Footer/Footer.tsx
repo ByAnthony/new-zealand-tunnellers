@@ -15,6 +15,12 @@ export function Footer() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const normalizedPathname = pathname.replace(/\/$/, "");
+  const targetLocale = locale === "en" ? "fr" : "en";
+  const pathnameWithoutLocale =
+    locale === "fr" ? pathname.replace(/^\/fr(?=\/|$)/, "") || "/" : pathname;
+  const languageHref =
+    `${targetLocale === "fr" ? "/fr" : ""}${pathnameWithoutLocale}` +
+    (searchParams.size > 0 ? `?${searchParams}` : "");
   const isWorksMap = normalizedPathname.endsWith("/history/tunnellers-works");
   const isRollOriginMap =
     normalizedPathname.endsWith("/tunnellers") &&
@@ -43,18 +49,31 @@ export function Footer() {
               {tNav("book")}
             </Link>
           </div>
-          <div className={STYLES["map-link"]}>
+        </div>
+        <div className={STYLES.secondary}>
+          <div className={`${STYLES["map-link"]} ${STYLES["secondary-link"]}`}>
             <Link href={`${localePrefix}/about-us/`}>{tNav("aboutUs")}</Link>
           </div>
+          <div className={`${STYLES["map-link"]} ${STYLES["secondary-link"]}`}>
+            <Link
+              href={languageHref}
+              lang={targetLocale}
+              aria-label={t(
+                targetLocale === "fr" ? "switchToFrench" : "switchToEnglish",
+              )}
+            >
+              {targetLocale === "fr" ? "Français" : "English"}
+            </Link>
+          </div>
+          <button
+            type="button"
+            className={STYLES["scroll-top"]}
+            onClick={handleClick}
+            aria-label={t("scrollToTop")}
+          >
+            &uarr;
+          </button>
         </div>
-        <button
-          type="button"
-          className={STYLES["scroll-top"]}
-          onClick={handleClick}
-          aria-label={t("scrollToTop")}
-        >
-          &uarr;
-        </button>
       </div>
       <div className={STYLES.support}>
         <div>
