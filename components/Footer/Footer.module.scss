@@ -30,7 +30,7 @@
       padding-top: variables.$m-margin;
       padding-bottom: variables.$m-margin;
       display: grid;
-      grid-template-columns: minmax(0, 1fr) auto auto;
+      grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
       gap: variables.$m-margin;
       align-items: start;
     }
@@ -95,6 +95,7 @@
         flex-direction: column;
         gap: variables.$s-margin;
         align-items: flex-end;
+        justify-self: center;
       }
 
       @include variables.desktop {
@@ -110,8 +111,7 @@
 
     @include variables.tablet {
       .scroll-top {
-        padding: 4px 14px;
-        font-size: 1.5rem;
+        justify-self: end;
       }
     }
   }
