@@ -51,19 +51,25 @@ export function Footer() {
           </div>
         </div>
         <div className={STYLES.secondary}>
-          <div className={`${STYLES["map-link"]} ${STYLES["secondary-link"]}`}>
-            <Link href={`${localePrefix}/about-us/`}>{tNav("aboutUs")}</Link>
-          </div>
-          <div className={`${STYLES["map-link"]} ${STYLES["secondary-link"]}`}>
-            <Link
-              href={languageHref}
-              lang={targetLocale}
-              aria-label={t(
-                targetLocale === "fr" ? "switchToFrench" : "switchToEnglish",
-              )}
+          <div className={STYLES["secondary-links"]}>
+            <div
+              className={`${STYLES["map-link"]} ${STYLES["secondary-link"]}`}
             >
-              {targetLocale === "fr" ? "Français" : "English"}
-            </Link>
+              <Link href={`${localePrefix}/about-us/`}>{tNav("aboutUs")}</Link>
+            </div>
+            <div
+              className={`${STYLES["map-link"]} ${STYLES["secondary-link"]}`}
+            >
+              <Link
+                href={languageHref}
+                lang={targetLocale}
+                aria-label={t(
+                  targetLocale === "fr" ? "switchToFrench" : "switchToEnglish",
+                )}
+              >
+                {targetLocale === "fr" ? "Français" : "English"}
+              </Link>
+            </div>
           </div>
           <button
             type="button"

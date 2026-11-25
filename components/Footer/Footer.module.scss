@@ -83,6 +83,19 @@
       }
     }
 
+    .secondary-links {
+      display: flex;
+      flex-direction: column;
+      gap: variables.$s-margin;
+      align-items: flex-end;
+
+      @include variables.tablet {
+        flex-direction: row;
+        gap: variables.$base-margin;
+        align-items: center;
+      }
+    }
+
     .secondary-link a {
       font-size: 0.875rem;
     }
