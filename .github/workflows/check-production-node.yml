@@ -14,53 +14,69 @@ jobs:
     steps:
       - uses: actions/checkout@v7.0.1
 
-      - name: Compare production Node version
+      - name: Check available Node and npm versions
         env:
           SSH_HOST: ${{ secrets.SERVER }}
           SSH_USER: ${{ secrets.USERNAME }}
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           SERVER_DIR: ${{ secrets.SERVER_DIR }}
         run: |
-          expected="v$(tr -d '\r\n' < .nvmrc)"
-          expected_npm="$(node -p "require('./package.json').engines.npm")"
+          configured_node="$(tr -d '\r\n' < .nvmrc)"
+          configured_npm="$(node -p "require('./package.json').engines.npm")"
+          node_major="${configured_node%%.*}"
 
           mkdir -p ~/.ssh
           printf '%s' "$SSH_PRIVATE_KEY" > ~/.ssh/deploy.key
           chmod 600 ~/.ssh/deploy.key
 
-          versions="$(ssh -T -i ~/.ssh/deploy.key -p 5022 \
+          available_nodes="$(ssh -T -i ~/.ssh/deploy.key -p 5022 \
             -o StrictHostKeyChecking=accept-new \
             "$SSH_USER@$SSH_HOST" \
             'for node in nodevenv/'"$SERVER_DIR"'/*/bin/node; do
               [ -x "$node" ] || continue
-              node_version="$("$node" --version)"
-              bin="${node%/*}"
-              npm="$bin/npm"
-              if [ ! -x "$npm" ]; then
-                printf "%s npm-not-found\n" "$node_version"
-                continue
-              fi
-              npm_version="$(PATH="$bin:$PATH" "$npm" --version)" || npm_version="npm-error"
-              printf "%s %s\n" "$node_version" "$npm_version"
+              "$node" --version
             done')"
 
-          printf 'Available production Node/npm versions:\n%s\n' "$versions"
-          production_npm="$(printf '%s\n' "$versions" | awk -v expected="$expected" '$1 == expected { print $2; found=1; exit } END { if (!found) exit 1 }')" || {
-            echo ".nvmrc expects $expected, but that Node version is not available"
+          latest_host_node="$(printf '%s\n' "$available_nodes" |
+            sed 's/^v//' |
+            awk -F. -v major="$node_major" '$1 == major' |
+            sort -V |
+            tail -n 1)"
+
+          [ -n "$latest_host_node" ] || {
+            echo "The web host has no Node $node_major version available"
             exit 1
           }
 
-          case "$production_npm" in
-            npm-not-found|npm-error|"")
-              echo "Could not determine npm version for production Node $expected"
-              exit 1
-              ;;
-          esac
+          latest_npm="$(curl --fail --silent --show-error \
+            https://registry.npmjs.org/npm/latest |
+            node -p "JSON.parse(require('fs').readFileSync(0, 'utf8')).version")"
 
-          [ "$production_npm" = "$expected_npm" ] || {
-            echo "package.json expects npm $expected_npm, but production Node $expected has npm $production_npm"
-            exit 1
-          }
+          printf 'Available Node versions from web host:\n%s\n' "$available_nodes"
+          printf 'Configured Node: %s\n' "$configured_node"
+          printf 'Latest Node %s available from web host: %s\n' "$node_major" "$latest_host_node"
+          printf 'Configured npm: %s\n' "$configured_npm"
+          printf 'Latest npm: %s\n' "$latest_npm"
 
-          echo "Production Node $expected has npm $production_npm"
-          echo "Production Node \`$expected\` has npm \`$production_npm\`." >> "$GITHUB_STEP_SUMMARY"
+          outdated=false
+
+          if [ "$configured_node" != "$latest_host_node" ]; then
+            echo "Node update available: $configured_node -> $latest_host_node"
+            outdated=true
+          fi
+
+          if [ "$configured_npm" != "$latest_npm" ]; then
+            echo "npm update available: $configured_npm -> $latest_npm"
+            outdated=true
+          fi
+
+          {
+            echo "## Runtime version check"
+            echo
+            echo "| Runtime | Configured | Latest available |"
+            echo "| --- | --- | --- |"
+            echo "| Node $node_major (web host) | \`$configured_node\` | \`$latest_host_node\` |"
+            echo "| npm (registry) | \`$configured_npm\` | \`$latest_npm\` |"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          [ "$outdated" = false ]
