@@ -15,6 +15,12 @@ export function Footer() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const normalizedPathname = pathname.replace(/\/$/, "");
+  const targetLocale = locale === "en" ? "fr" : "en";
+  const pathnameWithoutLocale =
+    locale === "fr" ? pathname.replace(/^\/fr(?=\/|$)/, "") || "/" : pathname;
+  const languageHref =
+    `${targetLocale === "fr" ? "/fr" : ""}${pathnameWithoutLocale}` +
+    (searchParams.size > 0 ? `?${searchParams}` : "");
   const isWorksMap = normalizedPathname.endsWith("/history/tunnellers-works");
   const isRollOriginMap =
     normalizedPathname.endsWith("/tunnellers") &&
@@ -30,21 +36,40 @@ export function Footer() {
     <footer className={STYLES.footer}>
       <div className={STYLES.map}>
         <div className={STYLES.links}>
-          <div className={STYLES["map-link"]}>
-            <Link href={`${localePrefix}/#history`}>{tNav("history")}</Link>
+          <div className={STYLES["primary-links"]}>
+            <div className={STYLES["map-link"]}>
+              <Link href={`${localePrefix}/#history`}>{tNav("history")}</Link>
+            </div>
+            <div className={STYLES["map-link"]}>
+              <Link href={`${localePrefix}/tunnellers/`}>
+                {tNav("tunnellers")}
+              </Link>
+            </div>
+            <div className={STYLES["map-link"]}>
+              <Link href={`${localePrefix}/kiwis-dig-tunnels-too`}>
+                {tNav("book")}
+              </Link>
+            </div>
           </div>
-          <div className={STYLES["map-link"]}>
-            <Link href={`${localePrefix}/tunnellers/`}>
-              {tNav("tunnellers")}
-            </Link>
-          </div>
-          <div className={STYLES["map-link"]}>
-            <Link href={`${localePrefix}/kiwis-dig-tunnels-too`}>
-              {tNav("book")}
-            </Link>
-          </div>
-          <div className={STYLES["map-link"]}>
-            <Link href={`${localePrefix}/about-us/`}>{tNav("aboutUs")}</Link>
+          <div className={STYLES["secondary-links"]}>
+            <div
+              className={`${STYLES["map-link"]} ${STYLES["secondary-link"]}`}
+            >
+              <Link href={`${localePrefix}/about-us/`}>{tNav("aboutUs")}</Link>
+            </div>
+            <div
+              className={`${STYLES["map-link"]} ${STYLES["secondary-link"]}`}
+            >
+              <Link
+                href={languageHref}
+                lang={targetLocale}
+                aria-label={t(
+                  targetLocale === "fr" ? "switchToFrench" : "switchToEnglish",
+                )}
+              >
+                {targetLocale === "fr" ? "Français" : "English"}
+              </Link>
+            </div>
           </div>
         </div>
         <button
