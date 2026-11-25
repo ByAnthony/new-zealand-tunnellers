@@ -81,6 +81,12 @@
         gap: variables.$base-margin;
         align-items: center;
       }
+
+      @include variables.desktop {
+        flex-direction: row;
+        gap: variables.$base-margin;
+        align-items: center;
+      }
     }
 
     .secondary-links {
@@ -90,6 +96,12 @@
       align-items: flex-end;
 
       @include variables.tablet {
+        flex-direction: row;
+        gap: variables.$base-margin;
+        align-items: center;
+      }
+
+      @include variables.desktop {
         flex-direction: row;
         gap: variables.$base-margin;
         align-items: center;
