@@ -36,21 +36,21 @@ export function Footer() {
     <footer className={STYLES.footer}>
       <div className={STYLES.map}>
         <div className={STYLES.links}>
-          <div className={STYLES["map-link"]}>
-            <Link href={`${localePrefix}/#history`}>{tNav("history")}</Link>
+          <div className={STYLES["primary-links"]}>
+            <div className={STYLES["map-link"]}>
+              <Link href={`${localePrefix}/#history`}>{tNav("history")}</Link>
+            </div>
+            <div className={STYLES["map-link"]}>
+              <Link href={`${localePrefix}/tunnellers/`}>
+                {tNav("tunnellers")}
+              </Link>
+            </div>
+            <div className={STYLES["map-link"]}>
+              <Link href={`${localePrefix}/kiwis-dig-tunnels-too`}>
+                {tNav("book")}
+              </Link>
+            </div>
           </div>
-          <div className={STYLES["map-link"]}>
-            <Link href={`${localePrefix}/tunnellers/`}>
-              {tNav("tunnellers")}
-            </Link>
-          </div>
-          <div className={STYLES["map-link"]}>
-            <Link href={`${localePrefix}/kiwis-dig-tunnels-too`}>
-              {tNav("book")}
-            </Link>
-          </div>
-        </div>
-        <div className={STYLES.secondary}>
           <div className={STYLES["secondary-links"]}>
             <div
               className={`${STYLES["map-link"]} ${STYLES["secondary-link"]}`}
@@ -71,15 +71,15 @@ export function Footer() {
               </Link>
             </div>
           </div>
-          <button
-            type="button"
-            className={STYLES["scroll-top"]}
-            onClick={handleClick}
-            aria-label={t("scrollToTop")}
-          >
-            &uarr;
-          </button>
         </div>
+        <button
+          type="button"
+          className={STYLES["scroll-top"]}
+          onClick={handleClick}
+          aria-label={t("scrollToTop")}
+        >
+          &uarr;
+        </button>
       </div>
       <div className={STYLES.support}>
         <div>
