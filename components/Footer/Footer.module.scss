@@ -40,11 +40,6 @@
       flex-direction: column;
       gap: variables.$s-margin;
 
-      @include variables.tablet {
-        flex-direction: row;
-        gap: variables.$base-margin;
-      }
-
       @include variables.desktop {
         flex-direction: row;
         gap: variables.$l-margin;
@@ -76,12 +71,6 @@
       gap: variables.$s-margin;
       align-items: flex-end;
 
-      @include variables.tablet {
-        flex-direction: row;
-        gap: variables.$base-margin;
-        align-items: center;
-      }
-
       @include variables.desktop {
         flex-direction: row;
         gap: variables.$base-margin;
@@ -91,15 +80,8 @@
 
     .secondary-links {
       display: flex;
-      flex-direction: column;
-      gap: variables.$s-margin;
+      gap: variables.$xxs-margin;
       align-items: flex-end;
-
-      @include variables.tablet {
-        flex-direction: row;
-        gap: variables.$base-margin;
-        align-items: center;
-      }
 
       @include variables.desktop {
         flex-direction: row;
