@@ -197,8 +197,3 @@ touch ~/${folder-where-your-application-lives}/tmp/restart.txt
 ```
 
 This restarts the application after a new rollout.
-
-## Runtime updates
-
-See the [runtime update guide](./runtime-updates.md) for automated Node and npm
-updates and the manual Node major-version upgrade procedure.
