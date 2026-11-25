@@ -29,6 +29,10 @@
     @include variables.tablet {
       padding-top: variables.$m-margin;
       padding-bottom: variables.$m-margin;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto auto;
+      gap: variables.$m-margin;
+      align-items: start;
     }
 
     @include variables.desktop {
@@ -71,6 +75,10 @@
       gap: variables.$s-margin;
       align-items: flex-end;
 
+      @include variables.tablet {
+        display: contents;
+      }
+
       @include variables.desktop {
         flex-direction: row;
         gap: variables.$base-margin;
@@ -83,6 +91,12 @@
       gap: variables.$xxs-margin;
       align-items: flex-end;
 
+      @include variables.tablet {
+        flex-direction: column;
+        gap: variables.$s-margin;
+        align-items: flex-end;
+      }
+
       @include variables.desktop {
         flex-direction: row;
         gap: variables.$base-margin;
@@ -91,7 +105,14 @@
     }
 
     .secondary-link a {
-      font-size: 0.875rem;
+      font-size: 0.8rem;
+    }
+
+    @include variables.tablet {
+      .scroll-top {
+        padding: 4px 14px;
+        font-size: 1.5rem;
+      }
     }
   }
 
