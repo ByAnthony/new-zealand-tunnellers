@@ -65,8 +65,16 @@ jobs:
           }
 
           latest_npm="$(curl --fail --silent --show-error \
-            https://registry.npmjs.org/npm/latest |
-            node -p "JSON.parse(require('fs').readFileSync(0, 'utf8')).version")"
+            https://nodejs.org/dist/index.json |
+            node -e '
+              const version = `v${process.argv[1]}`;
+              const release = JSON.parse(require("fs").readFileSync(0, "utf8"))
+                .find((entry) => entry.version === version);
+              if (!release?.npm) {
+                throw new Error(`No npm version published for Node ${version}`);
+              }
+              process.stdout.write(release.npm);
+            ' "$latest_node")"
 
           if [ "$configured_node" = "$latest_node" ] && [ "$configured_npm" = "$latest_npm" ]; then
             update_available=false
@@ -85,7 +93,7 @@ jobs:
           printf 'Latest Node %s available from web host: %s\n' "$node_major" "$latest_node"
           printf 'Latest Node available from web host: %s\n' "$latest_major_node"
           printf 'Configured npm: %s\n' "$configured_npm"
-          printf 'Latest npm: %s\n' "$latest_npm"
+          printf 'npm bundled with Node %s: %s\n' "$latest_node" "$latest_npm"
 
           {
             echo "update-available=$update_available"
@@ -102,8 +110,8 @@ jobs:
             echo
             echo "| Runtime | Configured | Latest available |"
             echo "| --- | --- | --- |"
-            echo "| Node $node_major (web host) | \`$configured_node\` | \`$latest_node\` |"
-            echo "| npm (registry) | \`$configured_npm\` | \`$latest_npm\` |"
+            echo "| Node $node_major (N0C) | \`$configured_node\` | \`$latest_node\` |"
+            echo "| npm (Node.js distribution) | \`$configured_npm\` | \`$latest_npm\` |"
             if [ "$major_update_available" = true ]; then
               echo
               echo "> [!WARNING]"
@@ -150,7 +158,7 @@ jobs:
             | Node | `${{ needs.check-versions.outputs.configured-node }}` | `${{ needs.check-versions.outputs.latest-node }}` |
             | npm | `${{ needs.check-versions.outputs.configured-npm }}` | `${{ needs.check-versions.outputs.latest-npm }}` |
 
-            Node availability is sourced from the web host. npm availability is sourced from the npm registry.
+            Node.js availability is sourced from N0C. npm is sourced from the official Node.js distribution metadata for the selected Node.js version.
 
   create-major-update-issue:
     needs: check-versions

@@ -4,8 +4,8 @@
 
 [`check-production-node.yml`](../.github/workflows/check-production-node.yml) runs every Monday at 09:00 UTC and can be run manually. It checks:
 
-- the newest Node.js version made available by N0C within the project's configured Node.js major version;
-- the latest npm version published to the npm registry.
+- the newest Node.js version made available by N0C within the project's configured Node.js major version; and
+- the npm version bundled with that exact Node.js version in the [official Node.js distribution index](https://nodejs.org/dist/index.json).
 
 When an update is available, the workflow creates or updates the `chore/update-node-and-npm` pull request. It updates `.nvmrc` and the `engines` fields in `package.json`, regenerates `package-lock.json`, and validates it with `npm ci`.
 
