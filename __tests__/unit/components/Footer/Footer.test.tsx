@@ -33,6 +33,17 @@ describe("Footer", () => {
     expect(global.scrollTo).toHaveBeenCalledWith(0, 0);
   });
 
+  test("links to the equivalent page in the other language", () => {
+    mockUsePathname.mockReturnValue("/history/example/");
+    mockUseSearchParams.mockReturnValue(new URLSearchParams("view=list"));
+
+    render(component);
+
+    expect(
+      screen.getByRole("link", { name: "Switch language to French" }),
+    ).toHaveAttribute("href", "/fr/history/example/?view=list");
+  });
+
   test("does not render on the works map", () => {
     mockUsePathname.mockReturnValue("/history/tunnellers-works");
 

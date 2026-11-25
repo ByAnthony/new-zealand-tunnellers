@@ -27,23 +27,32 @@
     border-bottom: 1px solid variables.$primary-light-color;
 
     @include variables.tablet {
-      padding-top: variables.$m-margin;
-      padding-bottom: variables.$m-margin;
+      align-items: center;
     }
 
     @include variables.desktop {
       padding-top: variables.$base-margin;
+      column-gap: variables.$base-margin;
     }
 
     .links {
-      display: inline-flex;
+      display: flex;
+      flex: 1;
       flex-direction: column;
       gap: variables.$s-margin;
+      justify-content: space-between;
 
-      @include variables.tablet {
+      @include variables.desktop {
         flex-direction: row;
+        align-items: center;
         gap: variables.$base-margin;
       }
+    }
+
+    .primary-links {
+      display: flex;
+      flex-direction: column;
+      gap: variables.$s-margin;
 
       @include variables.desktop {
         flex-direction: row;
@@ -68,6 +77,22 @@
           color: variables.$secondary-color;
         }
       }
+    }
+
+    .secondary-links {
+      display: flex;
+      justify-content: flex-start;
+      gap: variables.$m-margin;
+      align-items: center;
+
+      @include variables.desktop {
+        gap: variables.$base-margin;
+        align-items: center;
+      }
+    }
+
+    .secondary-link a {
+      font-size: 0.8rem;
     }
   }
 

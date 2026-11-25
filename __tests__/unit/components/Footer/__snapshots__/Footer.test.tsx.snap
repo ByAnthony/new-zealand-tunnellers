@@ -12,40 +12,59 @@ exports[`Footer matches the snapshot 1`] = `
         class="links"
       >
         <div
-          class="map-link"
+          class="primary-links"
         >
-          <a
-            href="/#history"
+          <div
+            class="map-link"
           >
-            History
-          </a>
+            <a
+              href="/#history"
+            >
+              History
+            </a>
+          </div>
+          <div
+            class="map-link"
+          >
+            <a
+              href="/tunnellers/"
+            >
+              Tunnellers
+            </a>
+          </div>
+          <div
+            class="map-link"
+          >
+            <a
+              href="/kiwis-dig-tunnels-too"
+            >
+              Kiwis Dig Tunnels Too
+            </a>
+          </div>
         </div>
         <div
-          class="map-link"
+          class="secondary-links"
         >
-          <a
-            href="/tunnellers/"
+          <div
+            class="map-link secondary-link"
           >
-            Tunnellers
-          </a>
-        </div>
-        <div
-          class="map-link"
-        >
-          <a
-            href="/kiwis-dig-tunnels-too"
+            <a
+              href="/about-us/"
+            >
+              About Us
+            </a>
+          </div>
+          <div
+            class="map-link secondary-link"
           >
-            Kiwis Dig Tunnels Too
-          </a>
-        </div>
-        <div
-          class="map-link"
-        >
-          <a
-            href="/about-us/"
-          >
-            About Us
-          </a>
+            <a
+              aria-label="Switch language to French"
+              href="/fr/"
+              lang="fr"
+            >
+              Français
+            </a>
+          </div>
         </div>
       </div>
       <button

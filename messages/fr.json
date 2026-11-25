@@ -35,6 +35,8 @@
   },
   "footer": {
     "scrollToTop": "Retourner en haut de la page",
+    "switchToFrench": "Passer au français",
+    "switchToEnglish": "Passer à l’anglais",
     "artoisUniversityAria": "Aller sur le site de l'Université d'Artois",
     "artoisUniversityAlt": "Page d'accueil de l'Université d'Artois",
     "irsemAria": "Aller sur le site de l'Institut de Recherche Stratégique de l'École Militaire",
