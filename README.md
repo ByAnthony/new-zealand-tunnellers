@@ -17,25 +17,11 @@ The project is dedicated to a New Zealand special military unit who fought in Fr
 
 This project is built using **Next.js**, **MariaDB**, **Typescript**, **Sass** and **next-intl**. Testing is performed using **React Testing Library** and **Playwright**. Deployment is managed through **GitHub Actions**. The web hosting server is controlled by **N0C**.
 
-### Runtime updates
-
-Node and npm runtime versions are monitored weekly by GitHub Actions:
-
-- **Node:** checks the newest version made available by the production web host,
-  within the project’s current Node major version.
-- **npm:** checks the latest version published to the npm registry.
-
-When an update is found, the workflow creates or updates a
-`chore/update-node-and-npm` pull request. It updates `.nvmrc` and
-`package.json`, regenerates `package-lock.json`, and validates it with
-`npm ci`.
-
-Review and merge the generated PR as usual.
-
 ## Documentation
 
 - [**Database**](./docs/database.md) — stores and serves structured data for the web application
 - [**Testing**](./docs/testing.md) — test structure, tools, and instructions
 - [**Deployment**](./docs/deployment.md) — production deployment through N0C
+- [**Runtime updates**](./docs/runtime-updates.md) — automated Node and npm updates, and Node major-version upgrades
 - [**Caching**](./docs/caching.md) — cache lifetimes, deployment behaviour, and refreshing content
 - [**Dependencies**](./docs/dependencies.md) — external npm packages and their purpose

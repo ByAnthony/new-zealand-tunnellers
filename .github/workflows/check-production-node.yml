@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: write
+  issues: write
   pull-requests: write
 
 jobs:
@@ -18,6 +19,8 @@ jobs:
       configured-npm: ${{ steps.versions.outputs.configured-npm }}
       latest-node: ${{ steps.versions.outputs.latest-node }}
       latest-npm: ${{ steps.versions.outputs.latest-npm }}
+      major-update-available: ${{ steps.versions.outputs.major-update-available }}
+      latest-major-node: ${{ steps.versions.outputs.latest-major-node }}
     steps:
       - uses: actions/checkout@v7.0.1
 
@@ -51,6 +54,11 @@ jobs:
             sort -V |
             tail -n 1)"
 
+          latest_major_node="$(printf '%s\n' "$available_nodes" |
+            sed 's/^v//' |
+            sort -V |
+            tail -n 1)"
+
           [ -n "$latest_node" ] || {
             echo "The web host has no Node $node_major version available"
             exit 1
@@ -66,9 +74,16 @@ jobs:
             update_available=true
           fi
 
+          if [ "${latest_major_node%%.*}" -gt "$node_major" ]; then
+            major_update_available=true
+          else
+            major_update_available=false
+          fi
+
           printf 'Available Node versions from web host:\n%s\n' "$available_nodes"
           printf 'Configured Node: %s\n' "$configured_node"
           printf 'Latest Node %s available from web host: %s\n' "$node_major" "$latest_node"
+          printf 'Latest Node available from web host: %s\n' "$latest_major_node"
           printf 'Configured npm: %s\n' "$configured_npm"
           printf 'Latest npm: %s\n' "$latest_npm"
 
@@ -78,6 +93,8 @@ jobs:
             echo "configured-npm=$configured_npm"
             echo "latest-node=$latest_node"
             echo "latest-npm=$latest_npm"
+            echo "major-update-available=$major_update_available"
+            echo "latest-major-node=$latest_major_node"
           } >> "$GITHUB_OUTPUT"
 
           {
@@ -87,6 +104,11 @@ jobs:
             echo "| --- | --- | --- |"
             echo "| Node $node_major (web host) | \`$configured_node\` | \`$latest_node\` |"
             echo "| npm (registry) | \`$configured_npm\` | \`$latest_npm\` |"
+            if [ "$major_update_available" = true ]; then
+              echo
+              echo "> [!WARNING]"
+              echo "> Node major update available: \`$configured_node\` -> \`$latest_major_node\`. Follow the [major-version update procedure](../docs/runtime-updates.md#node-major-version-updates)."
+            fi
           } >> "$GITHUB_STEP_SUMMARY"
 
   create-update-pr:
@@ -129,3 +151,28 @@ jobs:
             | npm | `${{ needs.check-versions.outputs.configured-npm }}` | `${{ needs.check-versions.outputs.latest-npm }}` |
 
             Node availability is sourced from the web host. npm availability is sourced from the npm registry.
+
+  create-major-update-issue:
+    needs: check-versions
+    if: needs.check-versions.outputs.major-update-available == 'true'
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      LATEST_NODE: ${{ needs.check-versions.outputs.latest-major-node }}
+    steps:
+      - name: Create issue when one does not already exist
+        run: |
+          title="chore: upgrade Node to $LATEST_NODE"
+          existing_issue="$(gh issue list \
+            --repo "$GITHUB_REPOSITORY" \
+            --state open \
+            --search "\"$title\" in:title" \
+            --json number \
+            --jq '.[0].number')"
+
+          [ -n "$existing_issue" ] && exit 0
+
+          gh issue create \
+            --repo "$GITHUB_REPOSITORY" \
+            --title "$title" \
+            --body "A newer Node major version is available from N0C. Follow the [major-version update procedure](https://github.com/$GITHUB_REPOSITORY/blob/main/docs/runtime-updates.md#node-major-version-updates)."
