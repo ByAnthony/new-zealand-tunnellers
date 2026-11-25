@@ -40,37 +40,41 @@ jobs:
           printf '%s' "$SSH_PRIVATE_KEY" > ~/.ssh/deploy.key
           chmod 600 ~/.ssh/deploy.key
 
-          available_runtime_pairs="$(ssh -T -i ~/.ssh/deploy.key -p 5022 \
+          available_nodes="$(ssh -T -i ~/.ssh/deploy.key -p 5022 \
             -o StrictHostKeyChecking=accept-new \
             "$SSH_USER@$SSH_HOST" \
             'for node in nodevenv/'"$SERVER_DIR"'/*/bin/node; do
               [ -x "$node" ] || continue
-              bin="${node%/*}"
-              npm="$bin/npm"
-              [ -x "$npm" ] || continue
-              node_version="$("$node" --version)"
-              npm_version="$(PATH="$bin:$PATH" "$npm" --version)" || continue
-              printf "%s %s\n" "$node_version" "$npm_version"
+              "$node" --version
             done')"
 
-          latest_runtime_pair="$(printf '%s\n' "$available_runtime_pairs" |
-            awk -v major="$node_major" '$1 ~ "^v" major "\\."' |
-            sort -V -k1,1 |
+          latest_node="$(printf '%s\n' "$available_nodes" |
+            sed 's/^v//' |
+            awk -F. -v major="$node_major" '$1 == major' |
+            sort -V |
             tail -n 1)"
-          latest_node="${latest_runtime_pair%% *}"
-          latest_node="${latest_node#v}"
-          latest_npm="${latest_runtime_pair#* }"
 
-          latest_major_node="$(printf '%s\n' "$available_runtime_pairs" |
-            sort -V -k1,1 |
+          latest_major_node="$(printf '%s\n' "$available_nodes" |
+            sed 's/^v//' |
+            sort -V |
             tail -n 1)"
-          latest_major_node="${latest_major_node%% *}"
-          latest_major_node="${latest_major_node#v}"
 
           [ -n "$latest_node" ] || {
             echo "The web host has no Node $node_major version available"
             exit 1
           }
+
+          latest_npm="$(curl --fail --silent --show-error \
+            https://nodejs.org/dist/index.json |
+            node -e '
+              const version = `v${process.argv[1]}`;
+              const release = JSON.parse(require("fs").readFileSync(0, "utf8"))
+                .find((entry) => entry.version === version);
+              if (!release?.npm) {
+                throw new Error(`No npm version published for Node ${version}`);
+              }
+              process.stdout.write(release.npm);
+            ' "$latest_node")"
 
           if [ "$configured_node" = "$latest_node" ] && [ "$configured_npm" = "$latest_npm" ]; then
             update_available=false
@@ -84,11 +88,12 @@ jobs:
             major_update_available=false
           fi
 
-          printf 'Available Node/npm versions from web host:\n%s\n' "$available_runtime_pairs"
+          printf 'Available Node versions from web host:\n%s\n' "$available_nodes"
           printf 'Configured Node: %s\n' "$configured_node"
-          printf 'Latest Node/npm pair available from web host: %s / %s\n' "$latest_node" "$latest_npm"
+          printf 'Latest Node %s available from web host: %s\n' "$node_major" "$latest_node"
           printf 'Latest Node available from web host: %s\n' "$latest_major_node"
           printf 'Configured npm: %s\n' "$configured_npm"
+          printf 'npm bundled with Node %s: %s\n' "$latest_node" "$latest_npm"
 
           {
             echo "update-available=$update_available"
@@ -106,7 +111,7 @@ jobs:
             echo "| Runtime | Configured | Latest available |"
             echo "| --- | --- | --- |"
             echo "| Node $node_major (N0C) | \`$configured_node\` | \`$latest_node\` |"
-            echo "| npm (paired with Node) | \`$configured_npm\` | \`$latest_npm\` |"
+            echo "| npm (Node.js distribution) | \`$configured_npm\` | \`$latest_npm\` |"
             if [ "$major_update_available" = true ]; then
               echo
               echo "> [!WARNING]"
@@ -153,7 +158,7 @@ jobs:
             | Node | `${{ needs.check-versions.outputs.configured-node }}` | `${{ needs.check-versions.outputs.latest-node }}` |
             | npm | `${{ needs.check-versions.outputs.configured-npm }}` | `${{ needs.check-versions.outputs.latest-npm }}` |
 
-            Node.js and npm versions are sourced as a matched runtime pair from N0C.
+            Node.js availability is sourced from N0C. npm is sourced from the official Node.js distribution metadata for the selected Node.js version.
 
   create-major-update-issue:
     needs: check-versions
