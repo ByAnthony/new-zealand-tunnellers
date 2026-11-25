@@ -82,7 +82,7 @@
     .secondary-links {
       display: flex;
       justify-content: flex-start;
-      gap: variables.$s-margin;
+      gap: variables.$m-margin;
       align-items: center;
 
       @include variables.desktop {
