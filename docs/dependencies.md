@@ -16,6 +16,7 @@ This document outlines the dependencies used in the New Zealand Tunnellers proje
 - **`mysql2`**: Fast MySQL driver for Node.js with Promise support;
 - **`ts-node`**: TypeScript execution environment for Node.js;
 - **`cross-env`**: Cross-platform environment variable setting.
+- **`newrelic`**: Application performance monitoring and server-side error reporting.
 
 ### UI Components & Styling
 
@@ -71,6 +72,7 @@ This document outlines the dependencies used in the New Zealand Tunnellers proje
 - **`typescript`**: TypeScript compiler for static type checking.
 - **`@types/jest`**: Type definitions for Jest testing framework;
 - **`@types/lodash`**: Type definitions for Lodash utility library;
+- **`@types/newrelic`**: Type definitions for the New Relic Node.js agent;
 - **`@types/node`**: Type definitions for Node.js runtime. **Keep in sync with `.nvmrc` version**;
 - **`@types/react`**: Type definitions for React library;
 - **`@types/react-dom`**: Type definitions for React DOM.
