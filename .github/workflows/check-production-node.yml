@@ -40,33 +40,37 @@ jobs:
           printf '%s' "$SSH_PRIVATE_KEY" > ~/.ssh/deploy.key
           chmod 600 ~/.ssh/deploy.key
 
-          available_nodes="$(ssh -T -i ~/.ssh/deploy.key -p 5022 \
+          available_runtime_pairs="$(ssh -T -i ~/.ssh/deploy.key -p 5022 \
             -o StrictHostKeyChecking=accept-new \
             "$SSH_USER@$SSH_HOST" \
             'for node in nodevenv/'"$SERVER_DIR"'/*/bin/node; do
               [ -x "$node" ] || continue
-              "$node" --version
+              bin="${node%/*}"
+              npm="$bin/npm"
+              [ -x "$npm" ] || continue
+              node_version="$("$node" --version)"
+              npm_version="$(PATH="$bin:$PATH" "$npm" --version)" || continue
+              printf "%s %s\n" "$node_version" "$npm_version"
             done')"
 
-          latest_node="$(printf '%s\n' "$available_nodes" |
-            sed 's/^v//' |
-            awk -F. -v major="$node_major" '$1 == major' |
-            sort -V |
+          latest_runtime_pair="$(printf '%s\n' "$available_runtime_pairs" |
+            awk -v major="$node_major" '$1 ~ "^v" major "\\."' |
+            sort -V -k1,1 |
             tail -n 1)"
+          latest_node="${latest_runtime_pair%% *}"
+          latest_node="${latest_node#v}"
+          latest_npm="${latest_runtime_pair#* }"
 
-          latest_major_node="$(printf '%s\n' "$available_nodes" |
-            sed 's/^v//' |
-            sort -V |
+          latest_major_node="$(printf '%s\n' "$available_runtime_pairs" |
+            sort -V -k1,1 |
             tail -n 1)"
+          latest_major_node="${latest_major_node%% *}"
+          latest_major_node="${latest_major_node#v}"
 
           [ -n "$latest_node" ] || {
             echo "The web host has no Node $node_major version available"
             exit 1
           }
-
-          latest_npm="$(curl --fail --silent --show-error \
-            https://registry.npmjs.org/npm/latest |
-            node -p "JSON.parse(require('fs').readFileSync(0, 'utf8')).version")"
 
           if [ "$configured_node" = "$latest_node" ] && [ "$configured_npm" = "$latest_npm" ]; then
             update_available=false
@@ -80,12 +84,11 @@ jobs:
             major_update_available=false
           fi
 
-          printf 'Available Node versions from web host:\n%s\n' "$available_nodes"
+          printf 'Available Node/npm versions from web host:\n%s\n' "$available_runtime_pairs"
           printf 'Configured Node: %s\n' "$configured_node"
-          printf 'Latest Node %s available from web host: %s\n' "$node_major" "$latest_node"
+          printf 'Latest Node/npm pair available from web host: %s / %s\n' "$latest_node" "$latest_npm"
           printf 'Latest Node available from web host: %s\n' "$latest_major_node"
           printf 'Configured npm: %s\n' "$configured_npm"
-          printf 'Latest npm: %s\n' "$latest_npm"
 
           {
             echo "update-available=$update_available"
@@ -102,8 +105,8 @@ jobs:
             echo
             echo "| Runtime | Configured | Latest available |"
             echo "| --- | --- | --- |"
-            echo "| Node $node_major (web host) | \`$configured_node\` | \`$latest_node\` |"
-            echo "| npm (registry) | \`$configured_npm\` | \`$latest_npm\` |"
+            echo "| Node $node_major (N0C) | \`$configured_node\` | \`$latest_node\` |"
+            echo "| npm (paired with Node) | \`$configured_npm\` | \`$latest_npm\` |"
             if [ "$major_update_available" = true ]; then
               echo
               echo "> [!WARNING]"
@@ -150,7 +153,7 @@ jobs:
             | Node | `${{ needs.check-versions.outputs.configured-node }}` | `${{ needs.check-versions.outputs.latest-node }}` |
             | npm | `${{ needs.check-versions.outputs.configured-npm }}` | `${{ needs.check-versions.outputs.latest-npm }}` |
 
-            Node availability is sourced from the web host. npm availability is sourced from the npm registry.
+            Node.js and npm versions are sourced as a matched runtime pair from N0C.
 
   create-major-update-issue:
     needs: check-versions
