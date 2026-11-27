@@ -46,11 +46,7 @@ export const ReadingProgress = () => {
 
       window.addEventListener("scroll", update, { passive: true });
       window.addEventListener("resize", update);
-      if (hasSavedPosition) {
-        restoreFrame = window.requestAnimationFrame(update);
-      } else {
-        update();
-      }
+      restoreFrame = window.requestAnimationFrame(update);
 
       cleanup = () => {
         window.removeEventListener("scroll", update);

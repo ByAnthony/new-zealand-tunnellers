@@ -15,12 +15,14 @@ export const ChapterProgressRing = ({ pathname }: Props) => {
 
   useEffect(() => {
     // Reading localStorage must happen after hydration
-    // eslint-disable-next-line @eslint-react/set-state-in-effect
     const handleUpdate = () => setProgress(getChapterProgress(pathname));
-    handleUpdate();
+    const frame = window.requestAnimationFrame(handleUpdate);
     window.addEventListener("pageshow", handleUpdate);
 
-    return () => window.removeEventListener("pageshow", handleUpdate);
+    return () => {
+      window.cancelAnimationFrame(frame);
+      window.removeEventListener("pageshow", handleUpdate);
+    };
   }, [pathname]);
 
   const isComplete = progress === 100;
